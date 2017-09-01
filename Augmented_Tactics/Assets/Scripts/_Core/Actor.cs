@@ -6,6 +6,8 @@ public class Actor : MonoBehaviour {
 
     protected float health_current;
     protected float health_max;
+    protected float mana_current;
+    protected float mana_max;
     protected float move_speed;
     protected float armor_class;
 
@@ -32,6 +34,11 @@ public class Actor : MonoBehaviour {
     /// </summary>
     /// <param name="damage">Damage the Actor will take as a float</param>
     public void TakeDamage(float damage)
+    {
+
+    }
+
+    public void HealHealth(float heal)
     {
 
     }
