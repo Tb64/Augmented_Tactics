@@ -49,6 +49,11 @@ public class TileMap : MonoBehaviour {
             }
 
         }
+
+        tiles[2, 3] = 2;
+        tiles[2, 4] = 2;
+        tiles[2, 5] = 2;
+        tiles[3, 3] = 2;
     }
 
     void GenerateMapVisual()
@@ -79,7 +84,8 @@ public class TileMap : MonoBehaviour {
     float costToEnterTile(int x, int y)
     {
        TileType tt = tileTypes[tiles[x, y]];
-        return tt.movementCost;
+
+       return tt.movementCost;
         
     }
 
@@ -131,8 +137,9 @@ public class TileMap : MonoBehaviour {
 
             foreach (Node v in u.neighbors)
             {
-                float alt = dist[u] + u.DistanceTo(v);
-                if( alt < dist[v])
+                //float alt = dist[u] + u.DistanceTo(v);
+                float alt = dist[u] + costToEnterTile(v.x,v.y);
+                if ( alt < dist[v])
                 {
                     dist[v] = alt;
                     prev[v] = u;
