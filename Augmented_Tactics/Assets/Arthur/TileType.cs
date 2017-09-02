@@ -8,4 +8,5 @@ public class TileType{
     public string name;
     public GameObject tileVisualPrefab;
 
+    public float movementCost = 1;
 }
