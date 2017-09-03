@@ -23,7 +23,7 @@ public class TileMap : MonoBehaviour {
         //setup selectedUnit vars
 
         selectedUnit.GetComponent<Unit>().tileX = (int)selectedUnit.transform.position.x;
-        selectedUnit.GetComponent<Unit>().tileX = (int)selectedUnit.transform.position.y;
+        selectedUnit.GetComponent<Unit>().tileY = (int)selectedUnit.transform.position.y;
         selectedUnit.GetComponent<Unit>().map = this;
 
         GenerateMapData();
@@ -81,17 +81,41 @@ public class TileMap : MonoBehaviour {
     }
 
 
-    float costToEnterTile(int x, int y)
+    float costToEnterTile(int sourceX, int sourceY,int targetX, int targetY)
     {
-       TileType tt = tileTypes[tiles[x, y]];
+       TileType tt = tileTypes[tiles[targetX, targetY]];
 
-       return tt.movementCost;
+        if(UnitCanEnterTile(targetX,targetY) == false)
+        {
+            return Mathf.Infinity;
+        }
+
+        float cost = tt.movementCost;
+        if(sourceX != targetX && sourceY != targetY){
+            //moving diagonally
+            cost += 0.001f;// done to prefer straight lines over diagonal lines
+        }
+
+
+       return cost;
         
+    }
+
+    public bool UnitCanEnterTile(int x, int y)
+    {
+        //could test units movement type(walk,fly,run etc..)
+
+        return tileTypes[tiles[x,y]].isWalkable;
     }
 
     public void GeneratePathTo(int x, int y)
     {
         selectedUnit.GetComponent<Unit>().currentPath = null;
+
+        if(UnitCanEnterTile(x,y) == false)
+        {//tile is not walkable
+            return;
+        }
 
         Dictionary<Node, float> dist = new Dictionary<Node, float>();
         Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
@@ -138,7 +162,7 @@ public class TileMap : MonoBehaviour {
             foreach (Node v in u.neighbors)
             {
                 //float alt = dist[u] + u.DistanceTo(v);
-                float alt = dist[u] + costToEnterTile(v.x,v.y);
+                float alt = dist[u] + costToEnterTile(u.x,u.y,v.x,v.y);
                 if ( alt < dist[v])
                 {
                     dist[v] = alt;
@@ -191,17 +215,51 @@ public class TileMap : MonoBehaviour {
             for(int y = 0; y < mapSizeY; y++)
             {
                 
-                //graph[x, y].neighbors.Add(graph[x-1,y]);
+                //4 way movement
 
-                if (x > 0)
+                //if (x > 0)
+                //{
+                //    graph[x, y].neighbors.Add(graph[x - 1, y]);
+                //}
+                //if (x < mapSizeX - 1)
+                //{
+                //    graph[x, y].neighbors.Add(graph[x + 1, y]);
+                //}
+                //if (y > 0)
+                //{
+                //    graph[x, y].neighbors.Add(graph[x, y - 1]);
+                //}
+                //if (y < mapSizeY - 1)
+                //{
+                //    graph[x, y].neighbors.Add(graph[x, y + 1]);
+                //}
+
+                //8 way movement
+                if (x > 0) //try moving left
                 {
                     graph[x, y].neighbors.Add(graph[x - 1, y]);
+                    if (y > 0)
+                    {
+                        graph[x, y].neighbors.Add(graph[x - 1, y - 1]);
+                    }
+                    if (y < mapSizeY - 1)
+                    {
+                        graph[x, y].neighbors.Add(graph[x - 1, y + 1]);
+                    }
                 }
-                if (x < mapSizeX - 1)
+                if (x < mapSizeX - 1) // try moving right
                 {
                     graph[x, y].neighbors.Add(graph[x + 1, y]);
+                    if (y > 0)
+                    {
+                        graph[x, y].neighbors.Add(graph[x + 1, y - 1]);
+                    }
+                    if (y < mapSizeY - 1)
+                    {
+                        graph[x, y].neighbors.Add(graph[x + 1, y + 1]);
+                    }
                 }
-                if (y > 0)
+                if (y > 0) // try moving up/down
                 {
                     graph[x, y].neighbors.Add(graph[x, y - 1]);
                 }
