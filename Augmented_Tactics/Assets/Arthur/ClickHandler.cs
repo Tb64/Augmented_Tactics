@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClickableTile : MonoBehaviour {
+public class ClickHandler : MonoBehaviour {
 
     public int tileX;
     public int tileY;
@@ -11,7 +11,7 @@ public class ClickableTile : MonoBehaviour {
    public void OnMouseUp()
     {
         Debug.Log("click");
-        map.GeneratePathTo(tileX, tileY);
+        map.MoveSelectedUnitTo(tileX, tileY);
     }
 }
 
