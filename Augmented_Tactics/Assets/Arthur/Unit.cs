@@ -8,7 +8,6 @@ public class Unit : MonoBehaviour {
     public int tileY;
     public TileMap map;
     public float speed;
-    
 
     public List<Node> currentPath = null;
 
