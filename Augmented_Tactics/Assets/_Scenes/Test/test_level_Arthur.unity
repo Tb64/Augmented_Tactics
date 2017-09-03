@@ -199,7 +199,7 @@ GameObject:
   - component: {fileID: 360526181}
   - component: {fileID: 360526180}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Unit Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -390,12 +390,18 @@ MonoBehaviour:
   - name: Grassland
     tileVisualPrefab: {fileID: 1438121318134902, guid: 05a4a37325752dc40bd9a5f47e192c9e,
       type: 2}
+    isWalkable: 1
+    movementCost: 1
   - name: Swamp
     tileVisualPrefab: {fileID: 1768632797848804, guid: 171f526bfa5b09a48b489560245b5ab3,
       type: 2}
+    isWalkable: 1
+    movementCost: 1
   - name: Mountain
     tileVisualPrefab: {fileID: 1695574381886728, guid: d30688ddb0cee6b48ba0392c38e42af7,
       type: 2}
+    isWalkable: 1
+    movementCost: 1
 --- !u!4 &1699726992
 Transform:
   m_ObjectHideFlags: 0
@@ -452,4 +458,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileX: 0
   tileY: 0
-  map: {fileID: 0}
+  map: {fileID: 1699726991}
