@@ -6,12 +6,21 @@ public class ClickableTile : MonoBehaviour {
 
     public int tileX;
     public int tileY;
+    public int tileClass;
     public TileMap map;
 
-   public void OnMouseUp()
+    public TileType tileTypes;
+
+
+    public void OnMouseUp()
     {
         Debug.Log("click");
         map.GeneratePathTo(tileX, tileY);
+    }
+
+    public GameObject GetGameObject()
+    {
+        return gameObject;
     }
 }
 

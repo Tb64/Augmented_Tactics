@@ -49,10 +49,27 @@ public class Unit : MonoBehaviour {
             AdvancePathing();
         }
         //move unit to next tile
-        transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
+        MoveController(transform, map.TileCoordToWorldCoord(tileX, tileZ), speed);
+        //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
+
 
     }
 
+    bool MoveController(Transform origin, Vector3 targetPos, float speed)
+    {
+        float step = speed * Time.deltaTime;
+        origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
+
+        Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
+        newDir = new Vector3(newDir.x , origin.position.y, newDir.z);
+
+
+        newDir = new Vector3(targetPos.x , origin.position.y, targetPos.z);
+        origin.transform.LookAt(newDir);
+        if (Vector3.Distance(origin.position, targetPos) < 0.001f)
+            return true;
+        return false;
+    }
     void AdvancePathing()
     {
 
