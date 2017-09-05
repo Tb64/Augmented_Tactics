@@ -15,31 +15,39 @@ public class Unit : MonoBehaviour {
 
     void Update()
     {
-        if(currentPath != null)
+
+
+        drawDebugLines();
+        moveUnit();
+        
+    }
+
+    void drawDebugLines()
+    {
+        if (currentPath != null)
         {
             int currNode = 0;
-            
-            while( currNode < currentPath.Count - 1 )
+
+            while (currNode < currentPath.Count - 1)
             {
                 Vector3 start = map.TileCoordToWorldCoord(currentPath[currNode].x, currentPath[currNode].z) +
-                    new Vector3(0 , 1f, 0);
-                Vector3 end = map.TileCoordToWorldCoord(currentPath[currNode+1].x, currentPath[currNode+1].z) +
+                    new Vector3(0, 1f, 0);
+                Vector3 end = map.TileCoordToWorldCoord(currentPath[currNode + 1].x, currentPath[currNode + 1].z) +
                     new Vector3(0, 1f, 0);
 
-                Debug.DrawLine(start, end,Color.red);
+                Debug.DrawLine(start, end, Color.red);
 
                 currNode++;
             }
         }
-        //MoveNextTile();
-        //step = speed * Time.deltaTime;
-        //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileY), step);
-        //transform.position = Vector3.Lerp(transform.position, new Vector3(3,3), step);
+    }
 
-      
+    void moveUnit()
+    {
         if (Vector3.Distance(transform.position, map.TileCoordToWorldCoord(tileX, tileZ)) < 0.1f)
+        {
             AdvancePathing();
-
+        }
         //move unit to next tile
         MoveController(transform, map.TileCoordToWorldCoord(tileX, tileZ), speed);
         //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
@@ -62,7 +70,6 @@ public class Unit : MonoBehaviour {
             return true;
         return false;
     }
-
     void AdvancePathing()
     {
 
@@ -96,5 +103,11 @@ public class Unit : MonoBehaviour {
         
         //Reset available movement points.
         remainingMovement = moveDistance;
+    }
+
+
+    private void OnMouseOver()
+    {
+        //hightlight player when mouse is hovering over
     }
 }

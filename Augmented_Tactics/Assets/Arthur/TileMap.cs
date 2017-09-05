@@ -22,6 +22,7 @@ public class TileMap : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        
         //setup selectedUnit vars
 
         selectedUnit.GetComponent<Unit>().tileX = (int)selectedUnit.transform.position.x;
@@ -236,52 +237,18 @@ public class TileMap : MonoBehaviour {
         {
             for(int z = 0; z < mapSizeZ; z++)
             {
-                
+
                 //4 way movement
 
-                //if (x > 0)
-                //{
-                //    graph[x, y].neighbors.Add(graph[x - 1, y]);
-                //}
-                //if (x < mapSizeX - 1)
-                //{
-                //    graph[x, y].neighbors.Add(graph[x + 1, y]);
-                //}
-                //if (y > 0)
-                //{
-                //    graph[x, y].neighbors.Add(graph[x, y - 1]);
-                //}
-                //if (y < mapSizeY - 1)
-                //{
-                //    graph[x, y].neighbors.Add(graph[x, y + 1]);
-                //}
-
-                //8 way movement
-                if (x > 0) //try moving left
+                if (x > 0)
                 {
                     graph[x, z].neighbors.Add(graph[x - 1, z]);
-                    if (z > 0)
-                    {
-                        graph[x, z].neighbors.Add(graph[x - 1, z - 1]);
-                    }
-                    if (z < mapSizeZ - 1)
-                    {
-                        graph[x, z].neighbors.Add(graph[x - 1, z + 1]);
-                    }
                 }
-                if (x < mapSizeX - 1) // try moving right
+                if (x < mapSizeX - 1)
                 {
                     graph[x, z].neighbors.Add(graph[x + 1, z]);
-                    if (z > 0)
-                    {
-                        graph[x, z].neighbors.Add(graph[x + 1, z - 1]);
-                    }
-                    if (z < mapSizeZ - 1)
-                    {
-                        graph[x, z].neighbors.Add(graph[x + 1, z + 1]);
-                    }
                 }
-                if (z > 0) // try moving up/down
+                if (z > 0)
                 {
                     graph[x, z].neighbors.Add(graph[x, z - 1]);
                 }
@@ -289,6 +256,40 @@ public class TileMap : MonoBehaviour {
                 {
                     graph[x, z].neighbors.Add(graph[x, z + 1]);
                 }
+
+                //8 way movement
+                //if (x > 0) //try moving left
+                //{
+                //    graph[x, z].neighbors.Add(graph[x - 1, z]);
+                //    if (z > 0)
+                //    {
+                //        graph[x, z].neighbors.Add(graph[x - 1, z - 1]);
+                //    }
+                //    if (z < mapSizeZ - 1)
+                //    {
+                //        graph[x, z].neighbors.Add(graph[x - 1, z + 1]);
+                //    }
+                //}
+                //if (x < mapSizeX - 1) // try moving right
+                //{
+                //    graph[x, z].neighbors.Add(graph[x + 1, z]);
+                //    if (z > 0)
+                //    {
+                //        graph[x, z].neighbors.Add(graph[x + 1, z - 1]);
+                //    }
+                //    if (z < mapSizeZ - 1)
+                //    {
+                //        graph[x, z].neighbors.Add(graph[x + 1, z + 1]);
+                //    }
+                //}
+                //if (z > 0) // try moving up/down
+                //{
+                //    graph[x, z].neighbors.Add(graph[x, z - 1]);
+                //}
+                //if (z < mapSizeZ - 1)
+                //{
+                //    graph[x, z].neighbors.Add(graph[x, z + 1]);
+                //}
             }
         }
     }
