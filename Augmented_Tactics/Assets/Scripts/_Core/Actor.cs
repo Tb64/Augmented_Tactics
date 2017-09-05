@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.AI;
 
 public class Actor : MonoBehaviour {
 
@@ -19,9 +21,12 @@ public class Actor : MonoBehaviour {
     protected int wisdom;           //measuring perception and insight (Resistance/Healing)
     protected int charisma;         //measuring force of personality (Buffs and Debuffs)
 
+
     // Use this for initialization
-    void Start () {
-		
+    void Start ()
+    {
+        
+        		
 	}
 	
 	// Update is called once per frame
