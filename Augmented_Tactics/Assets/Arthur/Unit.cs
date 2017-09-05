@@ -5,10 +5,10 @@ using UnityEngine;
 public class Unit : MonoBehaviour {
 
     public int tileX;
-    public int tileY;
+    public int tileZ;
     public TileMap map;
     public float speed;
-    public int moveSpeed;
+    public int moveDistance;
     float step;
     float remainingMovement;
     public List<Node> currentPath = null;
@@ -21,10 +21,10 @@ public class Unit : MonoBehaviour {
             
             while( currNode < currentPath.Count - 1 )
             {
-                Vector3 start = map.TileCoordToWorldCoord(currentPath[currNode].x, currentPath[currNode].y) +
-                    new Vector3(0,0,-1f);
-                Vector3 end = map.TileCoordToWorldCoord(currentPath[currNode+1].x, currentPath[currNode+1].y) +
-                    new Vector3(0, 0, -1f);
+                Vector3 start = map.TileCoordToWorldCoord(currentPath[currNode].x, currentPath[currNode].z) +
+                    new Vector3(0 , 1f, 0);
+                Vector3 end = map.TileCoordToWorldCoord(currentPath[currNode+1].x, currentPath[currNode+1].z) +
+                    new Vector3(0, 1f, 0);
 
                 Debug.DrawLine(start, end,Color.red);
 
@@ -37,11 +37,11 @@ public class Unit : MonoBehaviour {
         //transform.position = Vector3.Lerp(transform.position, new Vector3(3,3), step);
 
       
-        if (Vector3.Distance(transform.position, map.TileCoordToWorldCoord(tileX, tileY)) < 0.1f)
+        if (Vector3.Distance(transform.position, map.TileCoordToWorldCoord(tileX, tileZ)) < 0.1f)
             AdvancePathing();
 
         //move unit to next tile
-        transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileY), speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
 
     }
 
@@ -58,11 +58,11 @@ public class Unit : MonoBehaviour {
 
 
         // Get cost from current tile to next tile
-        remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].y, currentPath[1].x, currentPath[1].y);
+        remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].z, currentPath[1].x, currentPath[1].z);
 
         // Move us to the next tile in the sequence
         tileX = currentPath[1].x;
-        tileY = currentPath[1].y;
+        tileZ = currentPath[1].z;
 
         // Remove the old "current" tile from the pathfinding list
         currentPath.RemoveAt(0);
@@ -76,13 +76,8 @@ public class Unit : MonoBehaviour {
 
     public void NextTurn()
     {
-        // Make sure to wrap-up any outstanding movement left over.
-        //while (currentPath != null && remainingMovement > 0)
-        //{
-        //    AdvancePathing();
-        //}
-
-        // Reset our available movement points.
-        remainingMovement = moveSpeed;
+        
+        //Reset available movement points.
+        remainingMovement = moveDistance;
     }
 }

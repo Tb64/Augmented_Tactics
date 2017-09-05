@@ -14,8 +14,8 @@ public class TileMap : MonoBehaviour {
     Node[,] graph;
     
 
-    int mapSizeX = 64;
-    int mapSizeY = 64;
+    int mapSizeX = 16;
+    int mapSizeZ = 16;
 
 
     // Use this for initialization
@@ -23,7 +23,7 @@ public class TileMap : MonoBehaviour {
         //setup selectedUnit vars
 
         selectedUnit.GetComponent<Unit>().tileX = (int)selectedUnit.transform.position.x;
-        selectedUnit.GetComponent<Unit>().tileY = (int)selectedUnit.transform.position.y;
+        selectedUnit.GetComponent<Unit>().tileZ = (int)selectedUnit.transform.position.z;
         selectedUnit.GetComponent<Unit>().map = this;
 
         GenerateMapData();
@@ -38,14 +38,14 @@ public class TileMap : MonoBehaviour {
     void GenerateMapData()
     {
         //allocate tiles
-        tiles = new int[mapSizeX, mapSizeY];
+        tiles = new int[mapSizeX, mapSizeZ];
 
         //init tiles
         for (int x = 0; x < mapSizeX; x++)
         {
-            for (int y = 0; y < mapSizeY; y++)
+            for (int z = 0; z < mapSizeZ; z++)
             {
-                tiles[x, y] = 0;
+                tiles[x, z] = 0;
             }
 
         }
@@ -60,38 +60,38 @@ public class TileMap : MonoBehaviour {
     {
         for (int x = 0; x < mapSizeX; x++)
         {
-            for (int y = 0; y < mapSizeY; y++)
+            for (int z = 0; z < mapSizeZ; z++)
             {
-                TileType tt = tileTypes[tiles[x, y]];
+                TileType tt = tileTypes[tiles[x, z]];
 
-                GameObject go = (GameObject)Instantiate(tt.tileVisualPrefab, new Vector3(x, y, 0), Quaternion.identity);
-
+                GameObject go = (GameObject)Instantiate(tt.tileVisualPrefab, new Vector3(x, 0, z), Quaternion.identity);
+                go.transform.parent = transform;
                 ClickableTile ct = go.GetComponent<ClickableTile>();
                 ct.tileX = x;
-                ct.tileY = y;
+                ct.tileY = z;
                 ct.map = this;
             }
 
         }
     }
 
-    public Vector3 TileCoordToWorldCoord(int x, int y)
+    public Vector3 TileCoordToWorldCoord(int x, int z)
     {
-        return new Vector3(x, y, 0);
+        return new Vector3(x, 0, z);
     }
 
 
-    public float costToEnterTile(int sourceX, int sourceY,int targetX, int targetY)
+    public float costToEnterTile(int sourceX, int sourceY,int targetX, int targetZ)
     {
-       TileType tt = tileTypes[tiles[targetX, targetY]];
+       TileType tt = tileTypes[tiles[targetX, targetZ]];
 
-        if(UnitCanEnterTile(targetX,targetY) == false)
+        if(UnitCanEnterTile(targetX,targetZ) == false)
         {
             return Mathf.Infinity;
         }
 
         float cost = tt.movementCost;
-        if(sourceX != targetX && sourceY != targetY){
+        if(sourceX != targetX && sourceY != targetZ){
             //moving diagonally
             cost += 0.001f;// done to prefer straight lines over diagonal lines
         }
@@ -101,18 +101,18 @@ public class TileMap : MonoBehaviour {
         
     }
 
-    public bool UnitCanEnterTile(int x, int y)
+    public bool UnitCanEnterTile(int x, int z)
     {
         //could test units movement type(walk,fly,run etc..)
 
-        return tileTypes[tiles[x,y]].isWalkable;
+        return tileTypes[tiles[x,z]].isWalkable;
     }
 
-    public void GeneratePathTo(int x, int y)
+    public void GeneratePathTo(int x, int z)
     {
         selectedUnit.GetComponent<Unit>().currentPath = null;
 
-        if(UnitCanEnterTile(x,y) == false)
+        if(UnitCanEnterTile(x,z) == false)
         {//tile is not walkable
             return;
         }
@@ -120,12 +120,12 @@ public class TileMap : MonoBehaviour {
         Dictionary<Node, float> dist = new Dictionary<Node, float>();
         Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
 
-        Unit uXY = selectedUnit.GetComponent<Unit>();
+        Unit uXZ = selectedUnit.GetComponent<Unit>();
 
         List<Node> unvisited = new List<Node>();
 
-        Node source = graph[uXY.tileX,uXY.tileY];
-        Node target = graph[x,y];
+        Node source = graph[uXZ.tileX,uXZ.tileZ];
+        Node target = graph[x,z];
         dist[source] = 0;
         prev[source] = null;
         
@@ -162,7 +162,7 @@ public class TileMap : MonoBehaviour {
             foreach (Node v in u.neighbors)
             {
                 //float alt = dist[u] + u.DistanceTo(v);
-                float alt = dist[u] + costToEnterTile(u.x,u.y,v.x,v.y);
+                float alt = dist[u] + costToEnterTile(u.x,u.z,v.x,v.z);
                 if ( alt < dist[v])
                 {
                     dist[v] = alt;
@@ -197,22 +197,22 @@ public class TileMap : MonoBehaviour {
     void generatePathFindingGraph()
     {
         //init array
-        graph = new Node[mapSizeX,mapSizeY];
+        graph = new Node[mapSizeX,mapSizeZ];
 
         //init a node for each index in array
         for (int x = 0; x < mapSizeX; x++)
         {
-            for (int y = 0; y < mapSizeY; y++)
+            for (int Z = 0; Z < mapSizeZ; Z++)
             {
-                graph[x, y] = new Node();
+                graph[x, Z] = new Node();
 
-                graph[x, y].x = x;
-                graph[x, y].y = y;
+                graph[x, Z].x = x;
+                graph[x, Z].z = Z;
             }
         }
                 for (int x = 0; x < mapSizeX; x++)
         {
-            for(int y = 0; y < mapSizeY; y++)
+            for(int z = 0; z < mapSizeZ; z++)
             {
                 
                 //4 way movement
@@ -237,35 +237,35 @@ public class TileMap : MonoBehaviour {
                 //8 way movement
                 if (x > 0) //try moving left
                 {
-                    graph[x, y].neighbors.Add(graph[x - 1, y]);
-                    if (y > 0)
+                    graph[x, z].neighbors.Add(graph[x - 1, z]);
+                    if (z > 0)
                     {
-                        graph[x, y].neighbors.Add(graph[x - 1, y - 1]);
+                        graph[x, z].neighbors.Add(graph[x - 1, z - 1]);
                     }
-                    if (y < mapSizeY - 1)
+                    if (z < mapSizeZ - 1)
                     {
-                        graph[x, y].neighbors.Add(graph[x - 1, y + 1]);
+                        graph[x, z].neighbors.Add(graph[x - 1, z + 1]);
                     }
                 }
                 if (x < mapSizeX - 1) // try moving right
                 {
-                    graph[x, y].neighbors.Add(graph[x + 1, y]);
-                    if (y > 0)
+                    graph[x, z].neighbors.Add(graph[x + 1, z]);
+                    if (z > 0)
                     {
-                        graph[x, y].neighbors.Add(graph[x + 1, y - 1]);
+                        graph[x, z].neighbors.Add(graph[x + 1, z - 1]);
                     }
-                    if (y < mapSizeY - 1)
+                    if (z < mapSizeZ - 1)
                     {
-                        graph[x, y].neighbors.Add(graph[x + 1, y + 1]);
+                        graph[x, z].neighbors.Add(graph[x + 1, z + 1]);
                     }
                 }
-                if (y > 0) // try moving up/down
+                if (z > 0) // try moving up/down
                 {
-                    graph[x, y].neighbors.Add(graph[x, y - 1]);
+                    graph[x, z].neighbors.Add(graph[x, z - 1]);
                 }
-                if (y < mapSizeY - 1)
+                if (z < mapSizeZ - 1)
                 {
-                    graph[x, y].neighbors.Add(graph[x, y + 1]);
+                    graph[x, z].neighbors.Add(graph[x, z + 1]);
                 }
             }
         }
