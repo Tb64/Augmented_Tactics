@@ -8,7 +8,9 @@ public class Unit : MonoBehaviour {
     public int tileY;
     public TileMap map;
     public float speed;
-
+    public int moveSpeed;
+    float step;
+    float remainingMovement;
     public List<Node> currentPath = null;
 
     void Update()
@@ -29,38 +31,58 @@ public class Unit : MonoBehaviour {
                 currNode++;
             }
         }
-        MoveNextTile();
+        //MoveNextTile();
+        //step = speed * Time.deltaTime;
+        //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileY), step);
+        //transform.position = Vector3.Lerp(transform.position, new Vector3(3,3), step);
+
+      
+        if (Vector3.Distance(transform.position, map.TileCoordToWorldCoord(tileX, tileY)) < 0.1f)
+            AdvancePathing();
+
+        //move unit to next tile
+        transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileY), speed * Time.deltaTime);
+
     }
 
-    public void MoveNextTile()
-    {//remove old current/first node from path
+
+    void AdvancePathing()
+    {
+
+       
         if (currentPath == null)
-        {
             return;
-        }
+
+        if (remainingMovement <= 0)
+            return;
+
+
+        // Get cost from current tile to next tile
+        remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].y, currentPath[1].x, currentPath[1].y);
+
+        // Move us to the next tile in the sequence
+        tileX = currentPath[1].x;
+        tileY = currentPath[1].y;
+
+        // Remove the old "current" tile from the pathfinding list
         currentPath.RemoveAt(0);
-        //Grab new first node and move to that position
-        tileX = currentPath[0].x;
-        tileY = currentPath[0].y;
 
-
-        Vector3 target = map.TileCoordToWorldCoord(currentPath[0].x, currentPath[0].y);
-
-        Debug.Log("X " + currentPath[0].x + "y " + currentPath[0].y);
-
-        float step = speed * Time.deltaTime;
-
-        while (transform.position != target)
+        if (currentPath.Count == 1)
         {
-            step = speed * Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, target, step);
-        }
-            
-        if(currentPath.Count == 1)
-        {// target is at end of path(player is standing on it)
+            //stading on same tile clicked on
             currentPath = null;
-
         }
     }
 
+    public void NextTurn()
+    {
+        // Make sure to wrap-up any outstanding movement left over.
+        //while (currentPath != null && remainingMovement > 0)
+        //{
+        //    AdvancePathing();
+        //}
+
+        // Reset our available movement points.
+        remainingMovement = moveSpeed;
+    }
 }

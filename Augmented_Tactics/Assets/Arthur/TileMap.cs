@@ -81,7 +81,7 @@ public class TileMap : MonoBehaviour {
     }
 
 
-    float costToEnterTile(int sourceX, int sourceY,int targetX, int targetY)
+    public float costToEnterTile(int sourceX, int sourceY,int targetX, int targetY)
     {
        TileType tt = tileTypes[tiles[targetX, targetY]];
 
