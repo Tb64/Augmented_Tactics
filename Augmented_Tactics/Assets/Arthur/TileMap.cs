@@ -7,7 +7,9 @@ using System.Linq;
 public class TileMap : MonoBehaviour {
 
     public GameObject selectedUnit;
-    public TileType[] tileTypes;
+    public TileType[] tileTypes;            //This seems stupid it should be stored in the tile
+
+    public bool codeGenerateMap = true;
 
 
     int[,] tiles;
@@ -26,14 +28,34 @@ public class TileMap : MonoBehaviour {
         selectedUnit.GetComponent<Unit>().tileZ = (int)selectedUnit.transform.position.z;
         selectedUnit.GetComponent<Unit>().map = this;
 
-        GenerateMapData();
+        if(codeGenerateMap)
+        {
+            GenerateMapData();
+            GenerateMapVisual();
+        }
+        else
+        {
+            LoadTileData();
+        }
+
+
         generatePathFindingGraph();
-        GenerateMapVisual();
-       
-        
+
+
     }
 
-   
+    void LoadTileData()
+    {
+        tiles = new int[mapSizeX, mapSizeZ];
+        ClickableTile[] loadedTiles = GetComponentsInChildren<ClickableTile>();
+
+        foreach (ClickableTile ctTile in loadedTiles)
+        {
+            ctTile.map = this;
+            tiles[ctTile.tileX, ctTile.tileY] = ctTile.tileClass;
+        }
+
+    }
 
     void GenerateMapData()
     {
@@ -50,10 +72,10 @@ public class TileMap : MonoBehaviour {
 
         }
 
-        tiles[2, 3] = 2;
-        tiles[2, 4] = 2;
-        tiles[2, 5] = 2;
-        tiles[3, 3] = 2;
+        //tiles[2, 3] = 2;
+        //tiles[2, 4] = 2;
+        //tiles[2, 5] = 2;
+        //tiles[3, 3] = 2;
     }
 
     void GenerateMapVisual()
