@@ -72,15 +72,13 @@ public class Unit : MonoBehaviour {
     void AdvancePathing()
     {
 
-       
         if (currentPath == null)
             return;
 
         if (remainingMovement <= 0)
             return;
 
-
-        // Get cost from current tile to next tile
+        //Get cost from current tile to next tile
         remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].z, currentPath[1].x, currentPath[1].z);
 
         // Move us to the next tile in the sequence

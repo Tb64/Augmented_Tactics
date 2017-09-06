@@ -12,6 +12,22 @@ public class PlayerControlled : Actor
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        drawDebugLines();
+
+        moveUnit();
+    }
+
+
+    void turnControl()
+    {
+        if (GetComponent<StateMachine>().checkTurn() == true)
+        {//player turn
+
+        }
+        else
+        {//enemy turn
+
+        }
+    }
+
 }

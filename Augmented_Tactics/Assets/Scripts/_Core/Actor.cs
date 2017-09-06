@@ -41,8 +41,10 @@ public class Actor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+
+        drawDebugLines();
+        moveUnit();
+    }
 
     /// <summary>
     /// The method to damage an Actor
@@ -63,7 +65,7 @@ public class Actor : MonoBehaviour {
 
     //Added by Arthur===========================================
     //Draws pathing lines
-    void drawDebugLines()
+    public void drawDebugLines()
     {
         if (currentPath != null)
         {
@@ -83,7 +85,7 @@ public class Actor : MonoBehaviour {
         }
     }
 
-    void moveUnit()
+    public void moveUnit()
     {
         if (Vector3.Distance(transform.position, map.TileCoordToWorldCoord(tileX, tileZ)) < 0.1f)
         {
@@ -111,14 +113,11 @@ public class Actor : MonoBehaviour {
     }
     void AdvancePathing()
     {
-
-
         if (currentPath == null)
             return;
 
         if (remainingMovement <= 0)
             return;
-
 
         // Get cost from current tile to next tile
         remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].z, currentPath[1].x, currentPath[1].z);
@@ -139,7 +138,6 @@ public class Actor : MonoBehaviour {
 
     public void NextTurn()
     {
-
         //Reset available movement points.
         remainingMovement = moveDistance;
     }
