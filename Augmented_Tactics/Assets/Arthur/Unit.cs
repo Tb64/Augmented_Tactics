@@ -52,7 +52,6 @@ public class Unit : MonoBehaviour {
         MoveController(transform, map.TileCoordToWorldCoord(tileX, tileZ), speed);
         //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
 
-
     }
 
     bool MoveController(Transform origin, Vector3 targetPos, float speed)
