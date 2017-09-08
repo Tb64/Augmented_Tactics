@@ -25,9 +25,9 @@ public class TileMap : MonoBehaviour {
         
         //setup selectedUnit vars
 
-        selectedUnit.GetComponent<Unit>().tileX = (int)selectedUnit.transform.position.x;
-        selectedUnit.GetComponent<Unit>().tileZ = (int)selectedUnit.transform.position.z;
-        selectedUnit.GetComponent<Unit>().map = this;
+        selectedUnit.GetComponent<Actor>().tileX = (int)selectedUnit.transform.position.x;
+        selectedUnit.GetComponent<Actor>().tileZ = (int)selectedUnit.transform.position.z;
+        selectedUnit.GetComponent<Actor>().map = this;
 
         if(codeGenerateMap)
         {
@@ -133,7 +133,7 @@ public class TileMap : MonoBehaviour {
 
     public void GeneratePathTo(int x, int z)
     {
-        selectedUnit.GetComponent<Unit>().currentPath = null;
+        selectedUnit.GetComponent<Actor>().currentPath = null;
 
         if(UnitCanEnterTile(x,z) == false)
         {//tile is not walkable
@@ -143,7 +143,7 @@ public class TileMap : MonoBehaviour {
         Dictionary<Node, float> dist = new Dictionary<Node, float>();
         Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
 
-        Unit uXZ = selectedUnit.GetComponent<Unit>();
+        Actor uXZ = selectedUnit.GetComponent<Actor>();
 
         List<Node> unvisited = new List<Node>();
 
@@ -214,7 +214,7 @@ public class TileMap : MonoBehaviour {
 
         
         currentPath.Reverse(); //inverts the path
-        selectedUnit.GetComponent<Unit>().currentPath = currentPath;
+        selectedUnit.GetComponent<Actor>().currentPath = currentPath;
     }
 
     void generatePathFindingGraph()
@@ -257,7 +257,7 @@ public class TileMap : MonoBehaviour {
                     graph[x, z].neighbors.Add(graph[x, z + 1]);
                 }
 
-                //8 way movement
+                //8 way movement=============================================================
                 //if (x > 0) //try moving left
                 //{
                 //    graph[x, z].neighbors.Add(graph[x - 1, z]);
@@ -290,6 +290,7 @@ public class TileMap : MonoBehaviour {
                 //{
                 //    graph[x, z].neighbors.Add(graph[x, z + 1]);
                 //}
+                //===========================================================================
             }
         }
     }
