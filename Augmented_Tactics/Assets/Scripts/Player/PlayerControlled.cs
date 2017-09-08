@@ -5,24 +5,29 @@ using UnityEngine;
 public class PlayerControlled : Actor
 {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    public GameObject SM;
+
+    // Use this for initialization
+    void Start ()
+    {
+        SM = GameObject.FindWithTag("GameController");
+        
+    }
 	
 	// Update is called once per frame
 	void Update () {
         drawDebugLines();
-
         moveUnit();
+        //turnControl();
     }
 
 
     void turnControl()
     {
-        if (GetComponent<StateMachine>().checkTurn() == true)
+        if (SM.GetComponent<StateMachine>().checkTurn() == true)
         {//player turn
-
+            
+            SM.GetComponent<StateMachine>().setTurn();
         }
         else
         {//enemy turn

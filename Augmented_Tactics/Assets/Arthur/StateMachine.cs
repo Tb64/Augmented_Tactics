@@ -7,16 +7,21 @@ public class StateMachine : MonoBehaviour {
     private bool playerTurn;
     private bool enemyTurn;
 
-	public void setTurn()
+
+
+    void Start()
+    {
+        playerTurn = true;
+    }
+
+    public void setTurn()
     {
         if (playerTurn == true)
         {
             playerTurn = false;
-            enemyTurn = true;
         }
         else
         {
-            enemyTurn = false;
             playerTurn = true;
         }
     }
