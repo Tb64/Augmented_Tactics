@@ -52,7 +52,6 @@ public class Unit : MonoBehaviour {
         MoveController(transform, map.TileCoordToWorldCoord(tileX, tileZ), speed);
         //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
 
-
     }
 
     bool MoveController(Transform origin, Vector3 targetPos, float speed)
@@ -73,15 +72,13 @@ public class Unit : MonoBehaviour {
     void AdvancePathing()
     {
 
-       
         if (currentPath == null)
             return;
 
         if (remainingMovement <= 0)
             return;
 
-
-        // Get cost from current tile to next tile
+        //Get cost from current tile to next tile
         remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].z, currentPath[1].x, currentPath[1].z);
 
         // Move us to the next tile in the sequence
