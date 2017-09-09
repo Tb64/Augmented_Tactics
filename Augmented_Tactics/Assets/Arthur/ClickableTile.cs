@@ -5,18 +5,33 @@ using UnityEngine;
 public class ClickableTile : MonoBehaviour {
 
     public int tileX;
-    public int tileY;
+    public int tileZ;
     public int tileClass;
     public TileMap map;
 
     public TileType tileTypes;
 
+    public bool occupied;
+   
+
+
+    private void Start()
+    {
+        occupied = false;
+    }
+
+    private void Update()
+    {
+        
+    }
 
     public void OnMouseUp()
     {
         Debug.Log("click");
-        map.GeneratePathTo(tileX, tileY);
+        map.GeneratePathTo(tileX, tileZ);
     }
+
+
 
     public GameObject GetGameObject()
     {

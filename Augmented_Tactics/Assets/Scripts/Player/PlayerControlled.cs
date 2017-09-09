@@ -11,7 +11,7 @@ public class PlayerControlled : Actor
     void Start ()
     {
         SM = GameObject.FindWithTag("GameController");
-        
+       // GameObject.FindWithTag("Map").GetComponent<TileMap>().Players.Add(this.GetComponent<Actor>());
     }
 	
 	// Update is called once per frame

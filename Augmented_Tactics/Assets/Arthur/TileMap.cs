@@ -12,6 +12,17 @@ public class TileMap : MonoBehaviour {
     public bool codeGenerateMap = true;
 
 
+    public class Location
+    {
+        public int coordX;
+        public int coordZ;
+    }
+    
+
+    public List<Location> Players;
+   
+
+
     int[,] tiles;
     Node[,] graph;
     
@@ -39,9 +50,7 @@ public class TileMap : MonoBehaviour {
             LoadTileData();
         }
 
-
         generatePathFindingGraph();
-
 
     }
 
@@ -53,7 +62,7 @@ public class TileMap : MonoBehaviour {
         foreach (ClickableTile ctTile in loadedTiles)
         {
             ctTile.map = this;
-            tiles[ctTile.tileX, ctTile.tileY] = ctTile.tileClass;
+            tiles[ctTile.tileX, ctTile.tileZ] = ctTile.tileClass;
         }
 
     }
@@ -91,7 +100,7 @@ public class TileMap : MonoBehaviour {
                 go.transform.parent = transform;
                 ClickableTile ct = go.GetComponent<ClickableTile>();
                 ct.tileX = x;
-                ct.tileY = z;
+                ct.tileZ = z;
                 ct.map = this;
             }
 

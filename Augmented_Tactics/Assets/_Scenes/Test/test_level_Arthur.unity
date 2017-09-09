@@ -195,7 +195,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 186764683}
-  - component: {fileID: 186764682}
   m_Layer: 0
   m_Name: Unit (1)
   m_TagString: Untagged
@@ -203,23 +202,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &186764682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 186764681}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ca453905109f9442bec030a05e0fefd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tileX: 0
-  tileZ: 0
-  map: {fileID: 0}
-  speed: 0
-  moveDistance: 0
-  SM: {fileID: 0}
 --- !u!4 &186764683
 Transform:
   m_ObjectHideFlags: 0
@@ -889,7 +871,7 @@ GameObject:
   - component: {fileID: 1699726991}
   m_Layer: 0
   m_Name: Map
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1085,6 +1067,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileX: 0
   tileZ: 0
+  index: 0
   map: {fileID: 0}
   speed: 8
   moveDistance: 10
