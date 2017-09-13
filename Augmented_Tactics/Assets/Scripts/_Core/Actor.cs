@@ -24,18 +24,27 @@ public class Actor : MonoBehaviour {
     //Added by arthur ==========================
     public int tileX;
     public int tileZ;
+    public int index;
     public TileMap map;
     public float speed;
     public int moveDistance;
     float step;
     float remainingMovement;
     public List<Node> currentPath = null;
+    static public int numberOfActors = 0;
     //===========================================
 
     // Use this for initialization
     void Start ()
     {
+
+       
         
+
+        if (map == null)
+        {
+            map = GameObject.Find("map").GetComponent<TileMap>();
+        }
         		
 	}
 	
@@ -44,6 +53,7 @@ public class Actor : MonoBehaviour {
 
         drawDebugLines();
         moveUnit();
+
     }
 
     /// <summary>
@@ -131,15 +141,47 @@ public class Actor : MonoBehaviour {
 
         if (currentPath.Count == 1)
         {
-            //stading on same tile clicked on
+            //standing on same tile clicked on
             currentPath = null;
         }
     }
 
     public void NextTurn()
     {
+        Debug.Log("next turn" + numberOfActors);
+
+        //foreach (Actor player in GameObject.FindWithTag("Map").GetComponent<TileMap>().Players)
+        //{
+        //    player.tileX = tileX;
+        //    player.tileZ = tileZ;
+
+        //}
+        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
+
+        if(GO == null)
+        {
+            return;
+        }
+
+        for (int index = 0; index < numberOfActors; index++)
+        {
+            //GO.Players[index] = new TileMap.Location();
+            //Debug.Log("test" + index + "tileX " + tileX);
+            
+            GO.Players[index].coordX = tileX;
+            GO.Players[index].coordZ = tileZ;
+        }
+
+        GO.Players[index].coordX = 0;
+        GO.Players[index].coordZ = 0;
+
+        for (int index = 0; index < numberOfActors; index++)
+        {
+            Debug.Log("x " + GO.Players[index].coordX + "z " + GO.Players[index].coordZ);
+        }
         //Reset available movement points.
         remainingMovement = moveDistance;
+
     }
 
 
