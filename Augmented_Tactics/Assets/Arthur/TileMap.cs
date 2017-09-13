@@ -16,10 +16,16 @@ public class TileMap : MonoBehaviour {
     {
         public int coordX;
         public int coordZ;
-    }
-    
 
-    public List<Location> Players;
+        public Location()
+        {
+            coordX = 0;
+            coordZ = 0;
+        }
+    }
+
+
+    public Location[] Players;
    
 
 
@@ -33,7 +39,13 @@ public class TileMap : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        
+
+        Players = new Location[20];
+        for (int index = 0; index < Players.Length; index++)
+        {
+            Players[index] = new Location();
+        }
+        //Players = null;
         //setup selectedUnit vars
 
         selectedUnit.GetComponent<Actor>().tileX = (int)selectedUnit.transform.position.x;

@@ -38,7 +38,7 @@ public class Actor : MonoBehaviour {
     void Start ()
     {
 
-        numberOfActors++;
+       
         
 
         if (map == null)
@@ -148,7 +148,7 @@ public class Actor : MonoBehaviour {
 
     public void NextTurn()
     {
-        Debug.Log("next turn");
+        Debug.Log("next turn" + numberOfActors);
 
         //foreach (Actor player in GameObject.FindWithTag("Map").GetComponent<TileMap>().Players)
         //{
@@ -156,17 +156,28 @@ public class Actor : MonoBehaviour {
         //    player.tileZ = tileZ;
 
         //}
-
-        for (int index = 0; index < numberOfActors; index++)
-        {
-            GameObject.FindWithTag("Map").GetComponent<TileMap>().Players[index].coordX = tileX;
-        }
-
         TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
 
+        if(GO == null)
+        {
+            return;
+        }
+
         for (int index = 0; index < numberOfActors; index++)
         {
-            Debug.Log("index" + index + "x"+ GO.Players[index].coordX + "z" +GO.Players[index].coordZ);
+            //GO.Players[index] = new TileMap.Location();
+            //Debug.Log("test" + index + "tileX " + tileX);
+            
+            GO.Players[index].coordX = tileX;
+            GO.Players[index].coordZ = tileZ;
+        }
+
+        GO.Players[index].coordX = 0;
+        GO.Players[index].coordZ = 0;
+
+        for (int index = 0; index < numberOfActors; index++)
+        {
+            Debug.Log("x " + GO.Players[index].coordX + "z " + GO.Players[index].coordZ);
         }
         //Reset available movement points.
         remainingMovement = moveDistance;
