@@ -10,12 +10,18 @@ public class PlayerControlled : Actor
     // Use this for initialization
     void Start ()
     {
+
         SM = GameObject.FindWithTag("GameController");
-        
+       // GameObject.FindWithTag("Map").GetComponent<TileMap>().Players.Add(this.GetComponent<Actor>());
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    void OnEnable()
+    {
+        numberOfActors++;
+    }
+
+    // Update is called once per frame
+    void Update () {
         drawDebugLines();
         moveUnit();
         //turnControl();
