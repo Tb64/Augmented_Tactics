@@ -13,8 +13,6 @@ public class ClickableTile : MonoBehaviour {
 
     public bool occupied;
    
-
-
     private void Start()
     {
         occupied = false;
