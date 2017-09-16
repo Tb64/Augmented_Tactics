@@ -106,7 +106,7 @@ public class Actor : MonoBehaviour {
         if (Vector3.Distance(transform.position, map.TileCoordToWorldCoord(tileX, tileZ)) < 0.1f)
         {
             AdvancePathing();
-            Debug.Log("X " + tileX + "Y " + tileZ + "name" + gameObject.name);
+            //Debug.Log("X " + tileX + "Y " + tileZ + "name" + gameObject.name);
         }
         //move unit to next tile
         //Debug.Log("X " + tileX + "Y " + tileZ + "name" + gameObject.name);
@@ -140,8 +140,8 @@ public class Actor : MonoBehaviour {
 
         // Get cost from current tile to next tile
         remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].z, currentPath[1].x, currentPath[1].z);
-        Debug.Log("X0 " + currentPath[0].x + "Z0 " + currentPath[0].z + "X1 " +
-            currentPath[1].x + "Z1 " + currentPath[1].z+ "Name " + gameObject.name );
+        //Debug.Log("X0 " + currentPath[0].x + "Z0 " + currentPath[0].z + "X1 " +
+        //  currentPath[1].x + "Z1 " + currentPath[1].z+ "Name " + gameObject.name );
         // Move us to the next tile in the sequence
         tileX = currentPath[1].x;
         tileZ = currentPath[1].z;
