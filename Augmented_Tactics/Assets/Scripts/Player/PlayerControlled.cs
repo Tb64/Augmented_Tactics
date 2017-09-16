@@ -10,7 +10,7 @@ public class PlayerControlled : Actor
     // Use this for initialization
     void Start ()
     {
-
+        anim = GetComponentInChildren<Animator>();
         SM = GameObject.FindWithTag("GameController");
        // GameObject.FindWithTag("Map").GetComponent<TileMap>().Players.Add(this.GetComponent<Actor>());
     }

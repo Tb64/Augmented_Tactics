@@ -14,7 +14,7 @@ public class Enemy : Actor
 	void Update () {
 		
 	}
-
+    /*
     public Location findNearestPlayer() {
         Location nearest = Players[0] ;
         float currentNearest = 10000000;
@@ -28,4 +28,5 @@ public class Enemy : Actor
         }
         return nearest;
     }
+    */
 }

@@ -6,6 +6,8 @@ using UnityEngine.AI;
 
 public class Actor : MonoBehaviour {
 
+    protected Animator anim;
+
     protected float health_current;
     protected float health_max;
     protected float mana_current;
@@ -37,7 +39,7 @@ public class Actor : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        
+        anim = GetComponentInChildren<Animator>();
         if (map == null)
         {
             map = GameObject.Find("map").GetComponent<TileMap>();
@@ -117,7 +119,17 @@ public class Actor : MonoBehaviour {
 
     bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
-        float step = speed * Time.deltaTime;
+        float scaleDist = 1f;
+        if(currentPath != null && (currentPath.Count <= 2 || remainingMovement <= 1))
+        {
+            scaleDist = Vector3.Distance(origin.position, targetPos);
+            scaleDist = Mathf.Clamp01(scaleDist * 1f);
+        }
+        if (remainingMovement == 0 || currentPath == null)
+            scaleDist = 0f;
+        if(anim != null)
+            anim.SetFloat("Speed",scaleDist);
+        float step = speed * Time.deltaTime * scaleDist;
         origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
 
         Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);

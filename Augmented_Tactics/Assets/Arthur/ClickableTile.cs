@@ -18,6 +18,8 @@ public class ClickableTile : MonoBehaviour {
     private void Start()
     {
         occupied = false;
+        tileX = (int)transform.position.x;
+        tileZ = (int)transform.position.z;
     }
 
     private void Update()
