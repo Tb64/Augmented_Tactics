@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BasicAttack : Ability {
 
+    public int range = 1;
     public float damage;
     public string abilityName;
 

@@ -37,10 +37,7 @@ public class Actor : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-
-       
         
-
         if (map == null)
         {
             map = GameObject.Find("map").GetComponent<TileMap>();
@@ -60,18 +57,30 @@ public class Actor : MonoBehaviour {
     /// The method to damage an Actor
     /// </summary>
     /// <param name="damage">Damage the Actor will take as a float</param>
-    /// 
+    
+    public virtual void TakeDamage(float damage)
+    {
+        health_current -= damage;
+        if(health_current <= 0)
+        {
+            health_current = 0;
+            OnDeath();
+        }
+    }
 
-    public void TakeDamage(float damage)
+    public virtual void HealHealth(float heal)
+    {
+        health_current += heal;
+        if(health_current > health_max)
+        {
+            health_current = health_max;
+        }
+    }
+
+    public virtual void OnDeath()
     {
 
     }
-
-    public void HealHealth(float heal)
-    {
-
-    }
-
 
     //Added by Arthur===========================================
     //Draws pathing lines
