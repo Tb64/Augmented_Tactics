@@ -8,7 +8,7 @@ public class ClickableTile : MonoBehaviour {
     public int tileZ;
     public int tileClass;
     public TileMap map;
-    private Color originalColor;
+    private Color32 originalColor;
     float delay = .2f;
     float deltaTime;
 
@@ -49,7 +49,7 @@ public class ClickableTile : MonoBehaviour {
     public void OnMouseEnter()
     {
         originalColor = gameObject.GetComponent<MeshRenderer>().material.color;
-        gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color(0f,248f,43f,255f));
+        gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color32(150,248,43,255));
         
     }
 
