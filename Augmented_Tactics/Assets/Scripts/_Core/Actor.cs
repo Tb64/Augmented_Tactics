@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Actor : MonoBehaviour {
 
@@ -34,26 +35,36 @@ public class Actor : MonoBehaviour {
     float remainingMovement;
     public List<Node> currentPath = null;
     static public int numberOfActors = 0;
+    float delay = .2f;
+    float deltaTime;
     //===========================================
 
     // Use this for initialization
-    void Start ()
+    public virtual void Start ()
     {
         anim = GetComponentInChildren<Animator>();
+       
+        
+
         if (map == null)
         {
-            map = GameObject.Find("map").GetComponent<TileMap>();
+            map = GameObject.Find("Map").GetComponent<TileMap>();
         }
-        		
+       
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    public virtual void Update () {
+
+        deltaTime += Time.deltaTime;
 
         drawDebugLines();
+
         moveUnit();
 
     }
+
+
 
     /// <summary>
     /// The method to damage an Actor
@@ -111,8 +122,10 @@ public class Actor : MonoBehaviour {
         if (Vector3.Distance(transform.position, map.TileCoordToWorldCoord(tileX, tileZ)) < 0.1f)
         {
             AdvancePathing();
+            //Debug.Log("X " + tileX + "Y " + tileZ + "name" + gameObject.name);
         }
         //move unit to next tile
+        //Debug.Log("X " + tileX + "Y " + tileZ + "name" + gameObject.name);
         MoveController(transform, map.TileCoordToWorldCoord(tileX, tileZ), speed);
         //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
     }
@@ -142,6 +155,7 @@ public class Actor : MonoBehaviour {
             return true;
         return false;
     }
+
     void AdvancePathing()
     {
         if (currentPath == null)
@@ -152,7 +166,8 @@ public class Actor : MonoBehaviour {
 
         // Get cost from current tile to next tile
         remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].z, currentPath[1].x, currentPath[1].z);
-
+        //Debug.Log("X0 " + currentPath[0].x + "Z0 " + currentPath[0].z + "X1 " +
+        //  currentPath[1].x + "Z1 " + currentPath[1].z+ "Name " + gameObject.name );
         // Move us to the next tile in the sequence
         tileX = currentPath[1].x;
         tileZ = currentPath[1].z;
@@ -184,6 +199,9 @@ public class Actor : MonoBehaviour {
             return;
         }
 
+        GO.Players[index].coordX = tileX;
+        GO.Players[index].coordZ = tileZ;
+
         for (int index = 0; index < numberOfActors; index++)
         {
             //GO.Players[index] = new TileMap.Location();
@@ -193,18 +211,13 @@ public class Actor : MonoBehaviour {
             GO.Players[index].coordZ = tileZ;
         }
 
-        GO.Players[index].coordX = 0;
-        GO.Players[index].coordZ = 0;
-
-        for (int index = 0; index < numberOfActors; index++)
-        {
-            Debug.Log("x " + GO.Players[index].coordX + "z " + GO.Players[index].coordZ);
-        }
+        
         //Reset available movement points.
         remainingMovement = moveDistance;
 
     }
 
+    
 
     private void OnMouseOver()
     {
@@ -212,6 +225,20 @@ public class Actor : MonoBehaviour {
     }
     //========================================================
 
+    private void OnMouseUp()
+    {
+        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
+        //Button button = GameObject.FindWithTag("Button").GetComponent<Button>();
+       
+        //double click detection
+        if (deltaTime < delay)
+        {
+            GO.selectedUnit = gameObject;
+            remainingMovement = moveDistance;
+            // button.onClick.AddListener
 
+        }
+        deltaTime = 0;
+    }
 
 }

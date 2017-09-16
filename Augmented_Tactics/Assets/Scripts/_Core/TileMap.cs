@@ -27,12 +27,9 @@ public class TileMap : MonoBehaviour {
 
     public Location[] Players;
    
-
-
     int[,] tiles;
     Node[,] graph;
     
-
     int mapSizeX = 16;
     int mapSizeZ = 16;
 
