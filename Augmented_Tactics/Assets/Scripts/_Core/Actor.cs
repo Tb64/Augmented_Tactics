@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Actor : MonoBehaviour {
 
@@ -128,6 +129,7 @@ public class Actor : MonoBehaviour {
             return true;
         return false;
     }
+
     void AdvancePathing()
     {
         if (currentPath == null)
@@ -189,6 +191,7 @@ public class Actor : MonoBehaviour {
 
     }
 
+    
 
     private void OnMouseOver()
     {
@@ -199,12 +202,15 @@ public class Actor : MonoBehaviour {
     private void OnMouseUp()
     {
         TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-
+        //Button button = GameObject.FindWithTag("Button").GetComponent<Button>();
+       
+        //double click detection
         if (deltaTime < delay)
         {
             GO.selectedUnit = gameObject;
+            remainingMovement = moveDistance;
+            // button.onClick.AddListener
 
-            Debug.Log("Double Click!");
         }
         deltaTime = 0;
     }

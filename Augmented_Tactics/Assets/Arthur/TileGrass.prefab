@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 65339486017742762}
   - component: {fileID: 23847228135960778}
   - component: {fileID: 114084332903537400}
+  - component: {fileID: 114648870902086132}
   m_Layer: 0
   m_Name: TileGrass
   m_TagString: Untagged
@@ -106,5 +107,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileX: 0
-  tileY: 0
+  tileZ: 0
+  tileClass: 0
   map: {fileID: 0}
+  tileTypes:
+    name: 
+    tileVisualPrefab: {fileID: 0}
+    isWalkable: 1
+    movementCost: 1
+  occupied: 0
+--- !u!114 &114648870902086132
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1438121318134902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 786aad20ab5f0594da17cd5bd783f78b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
