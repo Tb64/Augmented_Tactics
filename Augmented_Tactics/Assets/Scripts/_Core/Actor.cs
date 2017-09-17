@@ -37,11 +37,16 @@ public class Actor : MonoBehaviour {
     static public int numberOfActors = 0;
     float delay = .3f;
     float deltaTime;
+    Vector3[] position;
+    LineRenderer path;
     //===========================================
 
     // Use this for initialization
     public virtual void Start ()
     {
+        
+        path = GameObject.Find("Path").GetComponent<LineRenderer>();
+
         deltaTime = 0;
         if(GameObject.FindWithTag("GameController") == null)
         {
@@ -91,10 +96,11 @@ public class Actor : MonoBehaviour {
     //Draws pathing lines
     public void drawDebugLines()
     {
+
         if (currentPath != null)
         {
             int currNode = 0;
-
+            Vector3[] position = new Vector3[currentPath.Count];
             while (currNode < currentPath.Count - 1)
             {
                 Vector3 start = map.TileCoordToWorldCoord(currentPath[currNode].x, currentPath[currNode].z) +
@@ -103,9 +109,24 @@ public class Actor : MonoBehaviour {
                     new Vector3(0, 1f, 0);
 
                 Debug.DrawLine(start, end, Color.red);
+                
 
+                path.positionCount = currentPath.Count - 1;
+
+                position[currNode] = start;
+                
+                
+                path.SetPositions(position);
+                
                 currNode++;
+                if (currNode  == currentPath.Count - 2)
+                {
+                    position[currNode] = end;
+                    Debug.Log(" last vertex" + position[currNode]);
+                }
+
             }
+
         }
     }
 
@@ -206,14 +227,26 @@ public class Actor : MonoBehaviour {
 
     }
 
-    
+    public void OnMouseOver()
+    {
+        
+
+    }
 
     private void OnMouseEnter()
     {
         TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
+        if (currentPath != null)
+        {
+            position = new Vector3[currentPath.Count];
+        }
+        path.SetPositions(position);
     }
-    
 
+    private void OnMouseExit()
+    {
+        path.positionCount = 0;
+    }
     private void OnMouseUp()
     {
         TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();

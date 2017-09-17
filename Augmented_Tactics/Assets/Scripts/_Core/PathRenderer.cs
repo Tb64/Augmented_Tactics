@@ -6,7 +6,7 @@ public class PathRenderer : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+       GameObject path = GameObject.Find("Path");
 	}
 	
 	// Update is called once per frame

@@ -62,6 +62,11 @@ public class ClickableTile : MonoBehaviour {
         gameObject.GetComponent<MeshRenderer>().material.color = originalColor;
     }
 
+    public void OnMouseOver()
+    {
+        map.GeneratePathTo(tileX, tileZ);
+    }
+
     public GameObject GetGameObject()
     {
         return gameObject;
