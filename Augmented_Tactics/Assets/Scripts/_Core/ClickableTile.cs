@@ -22,7 +22,7 @@ public class ClickableTile : MonoBehaviour {
         deltaTime = 0;
         
     }
-
+   
     private void Update()
     {
         deltaTime += Time.deltaTime;

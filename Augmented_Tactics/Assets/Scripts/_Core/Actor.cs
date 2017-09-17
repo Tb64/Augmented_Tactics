@@ -229,4 +229,15 @@ public class Actor : MonoBehaviour {
         deltaTime = 0;
     }
 
+    public float GetHealthPercent()
+    {
+        float hpPercent = health_current / health_max;
+        if (hpPercent <= 0f)
+            return 0f;
+        else if (hpPercent >= 1f)
+            return 1f;
+
+        return hpPercent;
+    }
+
 }
