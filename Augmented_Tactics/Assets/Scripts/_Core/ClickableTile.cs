@@ -30,24 +30,27 @@ public class ClickableTile : MonoBehaviour {
 
     public void OnMouseUp()
     {
-       //single click
-        map.GeneratePathTo(tileX, tileZ);
-        PlayerControlled Unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<PlayerControlled>();
+        //single click
 
+        //Generates a path to clicked tile
+        map.GeneratePathTo(tileX, tileZ);
+
+        Actor Unit;    
+        Unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
+        
         //check for double click
         if (deltaTime < delay)
         {
             //double click
             Unit.NextTurn();
             Debug.Log("Double Click!");
-            
-
         }
-        deltaTime = 0;
+        deltaTime = 0; // resets delta time for double click detection
     }
 
     public void OnMouseEnter()
     {
+        //highlights block that mouse hovers over
         originalColor = gameObject.GetComponent<MeshRenderer>().material.color;
         gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color32(150,248,43,255));
         
@@ -55,6 +58,7 @@ public class ClickableTile : MonoBehaviour {
 
     public void OnMouseExit()
     {
+        //resets block back to original color after mouse pointer exits
         gameObject.GetComponent<MeshRenderer>().material.color = originalColor;
     }
 

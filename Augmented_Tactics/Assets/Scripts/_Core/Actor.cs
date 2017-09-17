@@ -26,14 +26,16 @@ public class Actor : MonoBehaviour {
     public int tileX;
     public int tileZ;
     public int index;
+    protected bool enemyTurn;
     public TileMap map;
+    public StateMachine SM;
     public float speed;
     public int moveDistance;
     float step;
     float remainingMovement;
     public List<Node> currentPath = null;
     static public int numberOfActors = 0;
-    float delay = .2f;
+    float delay = .3f;
     float deltaTime;
     //===========================================
 
@@ -41,7 +43,13 @@ public class Actor : MonoBehaviour {
     public virtual void Start ()
     {
         deltaTime = 0;
-        
+        if(GameObject.FindWithTag("GameController") == null)
+        {
+            Debug.Log("Missing state machine");
+            return;
+        }
+        SM = GameObject.FindWithTag("GameController").GetComponent<StateMachine>();
+
         if (map == null)
         {
             map = GameObject.Find("Map").GetComponent<TileMap>();
@@ -54,9 +62,9 @@ public class Actor : MonoBehaviour {
 
         deltaTime += Time.deltaTime;
 
-        drawDebugLines();
+        //drawDebugLines();
 
-        moveUnit();
+        //moveUnit();
 
     }
 
@@ -137,6 +145,12 @@ public class Actor : MonoBehaviour {
 
         if (remainingMovement <= 0)
             return;
+        
+        if (enemyTurn == true)
+        {
+            return;
+        }
+       
 
         // Get cost from current tile to next tile
         remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].z, currentPath[1].x, currentPath[1].z);
