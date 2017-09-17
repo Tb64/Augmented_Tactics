@@ -189,6 +189,7 @@ public class Actor : MonoBehaviour {
 
         GO.Players[index].coordX = tileX;
         GO.Players[index].coordZ = tileZ;
+        GO.Players[index].coords = new Vector3(tileX, 0, tileZ);
 
         for (int index = 0; index < numberOfActors; index++)
         {
@@ -207,11 +208,11 @@ public class Actor : MonoBehaviour {
 
     
 
-    private void OnMouseOver()
+    private void OnMouseEnter()
     {
-        //hightlight player when mouse is hovering over
+        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
     }
-    //========================================================
+    
 
     private void OnMouseUp()
     {
