@@ -26,22 +26,35 @@ public class Actor : MonoBehaviour {
     public int tileX;
     public int tileZ;
     public int index;
+    protected bool enemyTurn;
     public TileMap map;
+    public StateMachine SM;
     public float speed;
     public int moveDistance;
     float step;
     float remainingMovement;
     public List<Node> currentPath = null;
     static public int numberOfActors = 0;
-    float delay = .2f;
+    float delay = .3f;
     float deltaTime;
+    Vector3[] position;
+    LineRenderer path;
     //===========================================
 
     // Use this for initialization
     public virtual void Start ()
     {
-        deltaTime = 0;
         
+        path = GameObject.Find("Path").GetComponent<LineRenderer>();
+
+        deltaTime = 0;
+        if(GameObject.FindWithTag("GameController") == null)
+        {
+            Debug.Log("Missing state machine");
+            return;
+        }
+        SM = GameObject.FindWithTag("GameController").GetComponent<StateMachine>();
+
         if (map == null)
         {
             map = GameObject.Find("Map").GetComponent<TileMap>();
@@ -54,9 +67,9 @@ public class Actor : MonoBehaviour {
 
         deltaTime += Time.deltaTime;
 
-        drawDebugLines();
+        //drawDebugLines();
 
-        moveUnit();
+        //moveUnit();
 
     }
 
@@ -83,21 +96,39 @@ public class Actor : MonoBehaviour {
     //Draws pathing lines
     public void drawDebugLines()
     {
+
         if (currentPath != null)
         {
             int currNode = 0;
-
+            Vector3[] position = new Vector3[currentPath.Count];
+            Vector3 end = new Vector3();
             while (currNode < currentPath.Count - 1)
             {
                 Vector3 start = map.TileCoordToWorldCoord(currentPath[currNode].x, currentPath[currNode].z) +
                     new Vector3(0, 1f, 0);
-                Vector3 end = map.TileCoordToWorldCoord(currentPath[currNode + 1].x, currentPath[currNode + 1].z) +
+                end = map.TileCoordToWorldCoord(currentPath[currNode + 1].x, currentPath[currNode + 1].z) +
                     new Vector3(0, 1f, 0);
 
                 Debug.DrawLine(start, end, Color.red);
+                
 
+                path.positionCount = currentPath.Count - 1;
+
+                position[currNode] = start;
+                
+                
+                path.SetPositions(position);
+                
                 currNode++;
+                
+                if (currNode  == currentPath.Count - 1)
+                {
+                    position[currNode] = end;
+                    Debug.Log(" last vertex" + position[currNode]);
+                }
+                
             }
+            
         }
     }
 
@@ -137,6 +168,12 @@ public class Actor : MonoBehaviour {
 
         if (remainingMovement <= 0)
             return;
+        
+        if (enemyTurn == true)
+        {
+            return;
+        }
+       
 
         // Get cost from current tile to next tile
         remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].z, currentPath[1].x, currentPath[1].z);
@@ -148,6 +185,7 @@ public class Actor : MonoBehaviour {
 
         // Remove the old "current" tile from the pathfinding list
         currentPath.RemoveAt(0);
+        
 
         if (currentPath.Count == 1)
         {
@@ -175,6 +213,7 @@ public class Actor : MonoBehaviour {
 
         GO.Players[index].coordX = tileX;
         GO.Players[index].coordZ = tileZ;
+        GO.Players[index].coords = new Vector3(tileX, 0, tileZ);
 
         for (int index = 0; index < numberOfActors; index++)
         {
@@ -191,14 +230,26 @@ public class Actor : MonoBehaviour {
 
     }
 
-    
-
-    private void OnMouseOver()
+    public void OnMouseOver()
     {
-        //hightlight player when mouse is hovering over
-    }
-    //========================================================
+        
 
+    }
+
+    private void OnMouseEnter()
+    {
+        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
+        if (currentPath != null)
+        {
+            position = new Vector3[currentPath.Count];
+        }
+        path.SetPositions(position);
+    }
+
+    private void OnMouseExit()
+    {
+        path.positionCount = 0;
+    }
     private void OnMouseUp()
     {
         TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
@@ -213,6 +264,17 @@ public class Actor : MonoBehaviour {
 
         }
         deltaTime = 0;
+    }
+
+    public float GetHealthPercent()
+    {
+        float hpPercent = health_current / health_max;
+        if (hpPercent <= 0f)
+            return 0f;
+        else if (hpPercent >= 1f)
+            return 1f;
+
+        return hpPercent;
     }
 
 }

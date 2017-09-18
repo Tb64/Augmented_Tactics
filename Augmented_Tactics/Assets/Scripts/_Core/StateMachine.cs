@@ -5,10 +5,7 @@ using UnityEngine;
 public class StateMachine : MonoBehaviour {
 
     private bool playerTurn;
-    private bool enemyTurn;
-
-
-
+    
     void Start()
     {
         playerTurn = true;

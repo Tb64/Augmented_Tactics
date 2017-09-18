@@ -16,11 +16,13 @@ public class TileMap : MonoBehaviour {
     {
         public int coordX;
         public int coordZ;
+        public Vector3 coords = new Vector3();
 
         public Location()
         {
             coordX = 0;
             coordZ = 0;
+            
         }
     }
 
