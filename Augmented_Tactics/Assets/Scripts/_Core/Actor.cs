@@ -101,11 +101,12 @@ public class Actor : MonoBehaviour {
         {
             int currNode = 0;
             Vector3[] position = new Vector3[currentPath.Count];
+            Vector3 end = new Vector3();
             while (currNode < currentPath.Count - 1)
             {
                 Vector3 start = map.TileCoordToWorldCoord(currentPath[currNode].x, currentPath[currNode].z) +
                     new Vector3(0, 1f, 0);
-                Vector3 end = map.TileCoordToWorldCoord(currentPath[currNode + 1].x, currentPath[currNode + 1].z) +
+                end = map.TileCoordToWorldCoord(currentPath[currNode + 1].x, currentPath[currNode + 1].z) +
                     new Vector3(0, 1f, 0);
 
                 Debug.DrawLine(start, end, Color.red);
@@ -119,14 +120,15 @@ public class Actor : MonoBehaviour {
                 path.SetPositions(position);
                 
                 currNode++;
-                if (currNode  == currentPath.Count - 2)
+                
+                if (currNode  == currentPath.Count - 1)
                 {
                     position[currNode] = end;
                     Debug.Log(" last vertex" + position[currNode]);
                 }
-
+                
             }
-
+            
         }
     }
 
@@ -183,6 +185,7 @@ public class Actor : MonoBehaviour {
 
         // Remove the old "current" tile from the pathfinding list
         currentPath.RemoveAt(0);
+        
 
         if (currentPath.Count == 1)
         {
