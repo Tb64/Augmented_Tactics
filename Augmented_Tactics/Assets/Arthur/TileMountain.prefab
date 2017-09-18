@@ -102,9 +102,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1695574381886728}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8fa72b7c4cd66c4c913e5d68cd0a99e, type: 3}
+  m_Script: {fileID: 11500000, guid: 41e39cc8b9609bb4288f40f430f6874c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tileX: 0
-  tileY: 0
+  tileZ: 0
+  tileClass: 0
   map: {fileID: 0}
+  tileTypes:
+    name: 
+    tileVisualPrefab: {fileID: 0}
+    isWalkable: 1
+    movementCost: 1
+  occupied: 0

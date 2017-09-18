@@ -46,8 +46,13 @@ public class Actor : MonoBehaviour {
     // Use this for initialization
     public virtual void Start ()
     {
+<<<<<<< HEAD
         anim = GetComponentInChildren<Animator>();
-        path = GetComponentInChildren<LineRenderer>();
+       
+        
+=======
+        
+        path = GameObject.Find("Path").GetComponent<LineRenderer>();
 
         deltaTime = 0;
         if(GameObject.FindWithTag("GameController") == null)
@@ -56,6 +61,7 @@ public class Actor : MonoBehaviour {
             return;
         }
         SM = GameObject.FindWithTag("GameController").GetComponent<StateMachine>();
+>>>>>>> master
 
         if (map == null)
         {
@@ -125,22 +131,22 @@ public class Actor : MonoBehaviour {
 
                 Debug.DrawLine(start, end, Color.red);
                 
-                if(path != null)
-                    path.positionCount = currentPath.Count - 1;
-                
+
+                path.positionCount = currentPath.Count - 1;
+
                 position[currNode] = start;
                 
                 
                 path.SetPositions(position);
                 
+                currNode++;
                 
-                if (currNode  == currentPath.Count)
+                if (currNode  == currentPath.Count - 1)
                 {
                     position[currNode] = end;
                     Debug.Log(" last vertex" + position[currNode]);
                 }
-                currNode++;
-
+                
             }
             
         }
@@ -162,18 +168,15 @@ public class Actor : MonoBehaviour {
     bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
         float scaleDist = 1f;
-
-        if (Vector3.Distance(origin.position, targetPos) < 0.01f)
+        if(currentPath != null && (currentPath.Count <= 2 || remainingMovement <= 1))
         {
-            scaleDist = 0f;
-            if (anim != null)
-                anim.SetFloat("Speed", scaleDist);
-            return true;
+            scaleDist = Vector3.Distance(origin.position, targetPos);
+            scaleDist = Mathf.Clamp01(scaleDist * 1f);
         }
-
-        if (anim != null)
+        if (remainingMovement == 0 || currentPath == null)
+            scaleDist = 0f;
+        if(anim != null)
             anim.SetFloat("Speed",scaleDist);
-
         float step = speed * Time.deltaTime * scaleDist;
         origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
 
@@ -183,8 +186,8 @@ public class Actor : MonoBehaviour {
 
         newDir = new Vector3(targetPos.x, origin.position.y, targetPos.z);
         origin.transform.LookAt(newDir);
-
-
+        if (Vector3.Distance(origin.position, targetPos) < 0.001f)
+            return true;
         return false;
     }
 
@@ -205,7 +208,7 @@ public class Actor : MonoBehaviour {
         // Get cost from current tile to next tile
         remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].z, currentPath[1].x, currentPath[1].z);
         //Debug.Log("X0 " + currentPath[0].x + "Z0 " + currentPath[0].z + "X1 " +
-        //  currentPath[1].x + "Z1 " + currentPath[1].z+ " Name " + gameObject.name );
+        //  currentPath[1].x + "Z1 " + currentPath[1].z+ "Name " + gameObject.name );
         // Move us to the next tile in the sequence
         tileX = currentPath[1].x;
         tileZ = currentPath[1].z;
@@ -265,12 +268,12 @@ public class Actor : MonoBehaviour {
 
     private void OnMouseEnter()
     {
-        //TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-        //if (currentPath != null)
-        //{
-        //    position = new Vector3[currentPath.Count];
-        //    path.SetPositions(position);
-        //}
+        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
+        if (currentPath != null)
+        {
+            position = new Vector3[currentPath.Count];
+        }
+        path.SetPositions(position);
     }
 
     private void OnMouseExit()

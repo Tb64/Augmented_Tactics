@@ -12,6 +12,11 @@ public class Enemy : Actor
 	
 	// Update is called once per frame
 	void Update () {
+<<<<<<< HEAD
+		
+	}
+    /*
+=======
         base.Update();
 
         turnControl();
@@ -28,7 +33,8 @@ public class Enemy : Actor
         }
 
     }
-    /*
+
+>>>>>>> master
     //public Location findNearestPlayer() {
     //    Location nearest = Players[0] ;
     //    float currentNearest = 10000000;
