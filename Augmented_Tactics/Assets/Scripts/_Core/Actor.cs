@@ -102,7 +102,7 @@ public class Actor : MonoBehaviour {
             int currNode = 0;
             Vector3[] position = new Vector3[currentPath.Count];
             Vector3 end = new Vector3();
-            while (currNode < currentPath.Count - 1)
+            while (currNode < currentPath.Count - 1 && currentPath.Count < moveDistance + 2)
             {
                 Vector3 start = map.TileCoordToWorldCoord(currentPath[currNode].x, currentPath[currNode].z) +
                     new Vector3(0, 1f, 0);
@@ -242,8 +242,9 @@ public class Actor : MonoBehaviour {
         if (currentPath != null)
         {
             position = new Vector3[currentPath.Count];
+            path.SetPositions(position);
         }
-        path.SetPositions(position);
+        
     }
 
     private void OnMouseExit()
