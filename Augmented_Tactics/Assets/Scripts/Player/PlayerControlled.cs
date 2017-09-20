@@ -6,11 +6,12 @@ public class PlayerControlled : Actor
 {
 
     public GameObject SM;
+    
 
     // Use this for initialization
     void Start ()
     {
-
+        base.Start();
         SM = GameObject.FindWithTag("GameController");
        // GameObject.FindWithTag("Map").GetComponent<TileMap>().Players.Add(this.GetComponent<Actor>());
     }
@@ -20,12 +21,16 @@ public class PlayerControlled : Actor
         numberOfActors++;
     }
 
+
+    
     // Update is called once per frame
     void Update () {
-        drawDebugLines();
-        moveUnit();
+        base.Update();
+        //drawDebugLines();
+        //moveUnit();
         //turnControl();
     }
+
 
 
     void turnControl()

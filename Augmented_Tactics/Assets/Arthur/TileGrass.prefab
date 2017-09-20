@@ -106,5 +106,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileX: 0
-  tileY: 0
+  tileZ: 0
+  tileClass: 0
   map: {fileID: 0}
+  tileTypes:
+    name: 
+    tileVisualPrefab: {fileID: 0}
+    isWalkable: 1
+    movementCost: 1
+  occupied: 0
