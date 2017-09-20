@@ -183,8 +183,8 @@ GameObject:
   - component: {fileID: 186764683}
   - component: {fileID: 186764682}
   m_Layer: 0
-  m_Name: Unit (1)
-  m_TagString: Untagged
+  m_Name: Enemy
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -197,15 +197,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 186764681}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ca453905109f9442bec030a05e0fefd, type: 3}
+  m_Script: {fileID: 11500000, guid: ac10400435898224f8480b0f9ee63999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tileX: 0
   tileZ: 0
+  index: 0
   map: {fileID: 0}
   speed: 0
   moveDistance: 0
-  SM: {fileID: 0}
 --- !u!4 &186764683
 Transform:
   m_ObjectHideFlags: 0
@@ -1038,7 +1038,7 @@ GameObject:
   - component: {fileID: 1974423994}
   m_Layer: 0
   m_Name: Actor
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1071,6 +1071,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileX: 0
   tileZ: 0
+  index: 0
   map: {fileID: 0}
   speed: 8
   moveDistance: 10
