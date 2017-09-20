@@ -24,6 +24,8 @@ public class Actor : MonoBehaviour {
     protected int wisdom;           //measuring perception and insight (Resistance/Healing)
     protected int charisma;         //measuring force of personality (Buffs and Debuffs)
 
+    protected Ability[] abilitySet;
+
     //Added by arthur ==========================
     public int tileX;
     public int tileZ;
