@@ -7,28 +7,14 @@ public class Enemy : Actor
     private GameObject[] userTeam;
 	// Use this for initialization
 	void Start () {
-        base.Start();
+<<<<<<< HEAD
         userTeam = GameObject.FindGameObjectsWithTag("Player");
-    }
+	}
 	
 	// Update is called once per frame
 	void Update () {
-        base.Update();
-
-        turnControl();
-    }
-
-    void turnControl()
-    {
-
-        //true player turn ,false enemy turn
-        if (SM.GetComponent<StateMachine>().checkTurn() == false)
-        {
-            drawDebugLines();
-            moveUnit();
-        }
-
-    }
+		
+	}
     public class Location
     {
         public int coordX;
@@ -48,11 +34,9 @@ public class Enemy : Actor
 
     void enemyTurn()
     {
-        GameObject target = findWeakestPlayer();
-        //    if (target == findWeakestPlayer())
+        GameObject target = findNearestPlayer();
+    //    if (target == findWeakestPlayer())
       //      Attack(target);
-        else if (Vector2.Distance(new Vector2((float)target.GetComponent<Actor>().tileX, (float)target.GetComponent<Actor>().tileZ), new Vector2(tileX, tileZ)) > moveDistance)
-            target = findNearestPlayer();
     }
     private GameObject findNearestPlayer()
     {
@@ -87,7 +71,29 @@ public class Enemy : Actor
             }
         }
         return weakest;
+=======
+        base.Start();
+    }
+	
+	// Update is called once per frame
+	void Update () {
+        base.Update();
+
+        turnControl();
+    }
+
+    void turnControl()
+    {
+
+        //true player turn ,false enemy turn
+        if (SM.GetComponent<StateMachine>().checkTurn() == false)
+        {
+            drawDebugLines();
+            moveUnit();
+        }
 
     }
- 
+>>>>>>> master
+
+    }
 }
