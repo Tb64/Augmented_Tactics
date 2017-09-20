@@ -7,13 +7,28 @@ public class Enemy : Actor
     private GameObject[] userTeam;
 	// Use this for initialization
 	void Start () {
+	base.Start()
         userTeam = GameObject.FindGameObjectsWithTag("Player");
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        base.Update();
+
+        turnControl();
+    }
+
+    void turnControl()
+    {
+
+        //true player turn ,false enemy turn
+        if (SM.GetComponent<StateMachine>().checkTurn() == false)
+        {
+            drawDebugLines();
+            moveUnit();
+        }
+
+    }
     public class Location
     {
         public int coordX;

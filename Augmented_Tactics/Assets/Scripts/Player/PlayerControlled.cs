@@ -5,14 +5,14 @@ using UnityEngine;
 public class PlayerControlled : Actor
 {
 
-    public GameObject SM;
+   
     
 
     // Use this for initialization
     void Start ()
     {
         base.Start();
-        SM = GameObject.FindWithTag("GameController");
+        
        // GameObject.FindWithTag("Map").GetComponent<TileMap>().Players.Add(this.GetComponent<Actor>());
     }
 
@@ -26,8 +26,9 @@ public class PlayerControlled : Actor
     // Update is called once per frame
     void Update () {
         base.Update();
-        //drawDebugLines();
-        //moveUnit();
+
+        turnControl();
+        
         //turnControl();
     }
 
@@ -35,15 +36,17 @@ public class PlayerControlled : Actor
 
     void turnControl()
     {
-        if (SM.GetComponent<StateMachine>().checkTurn() == true)
-        {//player turn
-            
-            SM.GetComponent<StateMachine>().setTurn();
-        }
-        else
-        {//enemy turn
 
+        //true player turn ,false enemy turn
+        if (SM.GetComponent<StateMachine>().checkTurn() == true)
+        {
+            drawDebugLines();
+            moveUnit();
         }
+
     }
+
+
+
 
 }
