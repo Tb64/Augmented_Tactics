@@ -11,6 +11,7 @@ public class Enemy : Actor
     }
 	
 	// Update is called once per frame
+
 	void Update () {
         base.Update();
 
@@ -20,7 +21,7 @@ public class Enemy : Actor
     void turnControl()
     {
 
-        //true player turn ,false enemy turn
+        //true player turn, false enemy turn
         if (SM.GetComponent<StateMachine>().checkTurn() == false)
         {
             drawDebugLines();
@@ -29,10 +30,11 @@ public class Enemy : Actor
 
     }
 
-    //public Location findNearestPlayer() {
-    //    Location nearest = Players[0] ;
+    //public Location findNearestPlayer()
+    //{
+    //    Location nearest = Players[0];
     //    float currentNearest = 10000000;
-    //    foreach(Object player in Players)
+    //    foreach (Object player in Players)
     //    {
     //        Vector2 playerLocation = new Vector2((float)player.X, (float)player.Z));
     //        Vector2 enemyLocation = new Vector2(tileX, tileZ);

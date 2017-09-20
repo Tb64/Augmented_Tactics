@@ -37,6 +37,7 @@ public class Actor : MonoBehaviour {
     static public int numberOfActors = 0;
     float delay = .3f;
     float deltaTime;
+    int numOfMoves;
     Vector3[] position;
     LineRenderer path;
     //===========================================
@@ -44,7 +45,8 @@ public class Actor : MonoBehaviour {
     // Use this for initialization
     public virtual void Start ()
     {
-        
+        numOfMoves = 1;
+
         path = GameObject.Find("Path").GetComponent<LineRenderer>();
 
         deltaTime = 0;
@@ -205,8 +207,8 @@ public class Actor : MonoBehaviour {
 
         //}
         TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-
-        if(GO == null)
+        
+        if (GO == null)
         {
             return;
         }
@@ -224,9 +226,14 @@ public class Actor : MonoBehaviour {
             GO.Players[index].coordZ = tileZ;
         }
 
-        
+
         //Reset available movement points.
-        remainingMovement = moveDistance;
+
+        if (numOfMoves != 0)
+        {
+            numOfMoves--;
+            remainingMovement = moveDistance;
+        }
 
     }
 
@@ -241,6 +248,7 @@ public class Actor : MonoBehaviour {
         TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
         if (currentPath != null)
         {
+   
             position = new Vector3[currentPath.Count];
             path.SetPositions(position);
         }
@@ -255,12 +263,13 @@ public class Actor : MonoBehaviour {
     {
         TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
         //Button button = GameObject.FindWithTag("Button").GetComponent<Button>();
-       
+
+
         //double click detection
         if (deltaTime < delay)
         {
             GO.selectedUnit = gameObject;
-            remainingMovement = moveDistance;
+            //remainingMovement = moveDistance;
             // button.onClick.AddListener
 
         }
