@@ -33,7 +33,6 @@ public class Enemy : Actor
     {
         public int coordX;
         public int coordZ;
-
         public Location()
         {
             coordX = 0;
