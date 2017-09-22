@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class Actor : MonoBehaviour {
 
+    protected Animator anim;
+
     protected float health_current;
     protected float health_max;
     protected float mana_current;
@@ -21,6 +23,8 @@ public class Actor : MonoBehaviour {
     protected int intelligence;     //measuring reasoning and memory (Magic Damage)
     protected int wisdom;           //measuring perception and insight (Resistance/Healing)
     protected int charisma;         //measuring force of personality (Buffs and Debuffs)
+
+    protected Ability[] abilitySet;
 
     //Added by arthur ==========================
     public int tileX;
@@ -44,8 +48,8 @@ public class Actor : MonoBehaviour {
     // Use this for initialization
     public virtual void Start ()
     {
-        
-        path = GameObject.Find("Path").GetComponent<LineRenderer>();
+        anim = GetComponentInChildren<Animator>();
+        path = GetComponentInChildren<LineRenderer>();
 
         deltaTime = 0;
         if(GameObject.FindWithTag("GameController") == null)
@@ -79,18 +83,30 @@ public class Actor : MonoBehaviour {
     /// The method to damage an Actor
     /// </summary>
     /// <param name="damage">Damage the Actor will take as a float</param>
-    /// 
+    
+    public virtual void TakeDamage(float damage)
+    {
+        health_current -= damage;
+        if(health_current <= 0)
+        {
+            health_current = 0;
+            OnDeath();
+        }
+    }
 
-    public void TakeDamage(float damage)
+    public virtual void HealHealth(float heal)
+    {
+        health_current += heal;
+        if(health_current > health_max)
+        {
+            health_current = health_max;
+        }
+    }
+
+    public virtual void OnDeath()
     {
 
     }
-
-    public void HealHealth(float heal)
-    {
-
-    }
-
 
     //Added by Arthur===========================================
     //Draws pathing lines
@@ -111,22 +127,22 @@ public class Actor : MonoBehaviour {
 
                 Debug.DrawLine(start, end, Color.red);
                 
-
-                path.positionCount = currentPath.Count - 1;
-
+                if(path != null)
+                    path.positionCount = currentPath.Count - 1;
+                
                 position[currNode] = start;
                 
                 
                 path.SetPositions(position);
                 
-                currNode++;
                 
-                if (currNode  == currentPath.Count - 1)
+                if (currNode  == currentPath.Count)
                 {
                     position[currNode] = end;
                     Debug.Log(" last vertex" + position[currNode]);
                 }
-                
+                currNode++;
+
             }
             
         }
@@ -147,7 +163,20 @@ public class Actor : MonoBehaviour {
 
     bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
-        float step = speed * Time.deltaTime;
+        float scaleDist = 1f;
+
+        if (Vector3.Distance(origin.position, targetPos) < 0.01f)
+        {
+            scaleDist = 0f;
+            if (anim != null)
+                anim.SetFloat("Speed", scaleDist);
+            return true;
+        }
+
+        if (anim != null)
+            anim.SetFloat("Speed",scaleDist);
+
+        float step = speed * Time.deltaTime * scaleDist;
         origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
 
         Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
@@ -156,8 +185,8 @@ public class Actor : MonoBehaviour {
 
         newDir = new Vector3(targetPos.x, origin.position.y, targetPos.z);
         origin.transform.LookAt(newDir);
-        if (Vector3.Distance(origin.position, targetPos) < 0.001f)
-            return true;
+
+
         return false;
     }
 
@@ -178,7 +207,7 @@ public class Actor : MonoBehaviour {
         // Get cost from current tile to next tile
         remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].z, currentPath[1].x, currentPath[1].z);
         //Debug.Log("X0 " + currentPath[0].x + "Z0 " + currentPath[0].z + "X1 " +
-        //  currentPath[1].x + "Z1 " + currentPath[1].z+ "Name " + gameObject.name );
+        //  currentPath[1].x + "Z1 " + currentPath[1].z+ " Name " + gameObject.name );
         // Move us to the next tile in the sequence
         tileX = currentPath[1].x;
         tileZ = currentPath[1].z;
@@ -238,12 +267,12 @@ public class Actor : MonoBehaviour {
 
     private void OnMouseEnter()
     {
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-        if (currentPath != null)
-        {
-            position = new Vector3[currentPath.Count];
-        }
-        path.SetPositions(position);
+        //TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
+        //if (currentPath != null)
+        //{
+        //    position = new Vector3[currentPath.Count];
+        //    path.SetPositions(position);
+        //}
     }
 
     private void OnMouseExit()

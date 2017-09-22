@@ -147,7 +147,8 @@ public class TileMap : MonoBehaviour {
     public bool UnitCanEnterTile(int x, int z)
     {
         //could test units movement type(walk,fly,run etc..)
-
+        //Debug.Log(string.Format("Pos=({0},{1}) IsWalkable={2} Name={3} ID={4}",
+        //    x,z, tileTypes[tiles[x, z]].isWalkable, tileTypes[tiles[x, z]].name, tiles[x, z]));
         return tileTypes[tiles[x,z]].isWalkable;
     }
 

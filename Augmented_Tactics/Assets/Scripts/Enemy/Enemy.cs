@@ -7,7 +7,7 @@ public class Enemy : Actor
     private GameObject[] userTeam;
 	// Use this for initialization
 	void Start () {
-        base.Start();
+	base.Start();
         userTeam = GameObject.FindGameObjectsWithTag("Player");
     }
 	
