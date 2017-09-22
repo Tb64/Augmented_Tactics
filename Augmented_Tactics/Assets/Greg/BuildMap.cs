@@ -3,11 +3,47 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [ExecuteInEditMode]
-[RequireComponent(typeof(MeshFilter))]
-[RequireComponent(typeof(MeshRenderer))]
-[RequireComponent(typeof(MeshCollider))]
 
-public class buildMap : MonoBehaviour {
+public class BuildMap : MonoBehaviour{
+    //reference tile prefab
+    public GameObject tile;
+    //scale for tile size
+    float tileSize = 1.0f;
+    //map start position information
+    Quaternion rotation;
+    Vector3 seed;
+    //simple rectangle map dimensions
+    int xSize = 50;
+    int zSize = 50;
+    public List<GameObject> tiles;
+    void Start(){
+        Debug.Log("Start");
+        rotation = Camera.main.transform.localRotation;
+        seed = Camera.main.transform.forward * 5;
+        buildArea(xSize, zSize);
+    }
+
+    void buildArea(int xSize, int zSize){
+        //offset from seed location
+        int xIndex = 0;
+        int zIndex = 0;
+        Vector3 offset;
+        //count to store tile objects
+        int count = 0;
+        //instantiates objects, offsets them, and gives then a position
+        for (; xIndex < xSize; xIndex++){
+            for (; zIndex < zSize; zIndex++){
+                Debug.Log("Object being created.");
+                offset = new Vector3(xIndex, 0, zIndex);
+                tiles[count] = (GameObject)Instantiate(tile, seed + offset, rotation);
+                //GameObject tileInstance = (GameObject)Instantiate(tile, seed + offset, rotation);
+                tiles[count].GetComponent<TileData>().position = offset;
+                count++;
+                Debug.Log("Object Created");
+            }
+        }
+    }
+    /*
     //tile size
     float tileSize = 1.0f;
     //size refers to size of map, pos refers to coords
@@ -69,5 +105,5 @@ public class buildMap : MonoBehaviour {
             }
             xPos++;
         }
-    }
+    }*/
 }
