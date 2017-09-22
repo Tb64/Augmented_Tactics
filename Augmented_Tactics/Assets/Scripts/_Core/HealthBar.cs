@@ -11,7 +11,6 @@ public class HealthBar : MonoBehaviour
     void Start()
     {
         healthPercent = gameObject.GetComponentInParent<Actor>().GetHealthPercent();
-
     }
 
 // Update is called once per frame

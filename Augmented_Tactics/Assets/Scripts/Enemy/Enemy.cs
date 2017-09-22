@@ -7,7 +7,7 @@ public class Enemy : Actor
     private GameObject[] userTeam;
 	// Use this for initialization
 	void Start () {
-	base.Start()
+        base.Start();
         userTeam = GameObject.FindGameObjectsWithTag("Player");
     }
 	
@@ -40,6 +40,7 @@ public class Enemy : Actor
             coordX = 0;
             coordZ = 0;
         }
+
         public Location(int X, int Z)
         {
             coordX = X;
@@ -53,6 +54,7 @@ public class Enemy : Actor
     //    if (target == findWeakestPlayer())
       //      Attack(target);
     }
+
     private GameObject findNearestPlayer()
     {
         GameObject nearest = userTeam[0] ;

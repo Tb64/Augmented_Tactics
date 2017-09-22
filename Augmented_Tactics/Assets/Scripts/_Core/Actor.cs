@@ -37,7 +37,7 @@ public class Actor : MonoBehaviour {
     static public int numberOfActors = 0;
     float delay = .3f;
     float deltaTime;
-    int numOfMoves;
+    protected int numOfMoves;
     Vector3[] position;
     LineRenderer path;
     //===========================================
@@ -47,8 +47,11 @@ public class Actor : MonoBehaviour {
     {
         numOfMoves = 1;
 
-        path = GameObject.Find("Path").GetComponent<LineRenderer>();
 
+        if (GameObject.Find("Path").GetComponent<LineRenderer>() != null)
+        {
+            path = GameObject.Find("Path").GetComponent<LineRenderer>();
+        }
         deltaTime = 0;
         if(GameObject.FindWithTag("GameController") == null)
         {
@@ -75,8 +78,6 @@ public class Actor : MonoBehaviour {
 
     }
 
-
-
     /// <summary>
     /// The method to damage an Actor
     /// </summary>
@@ -92,6 +93,7 @@ public class Actor : MonoBehaviour {
     {
 
     }
+
 
 
     //Added by Arthur===========================================
@@ -126,7 +128,7 @@ public class Actor : MonoBehaviour {
                 if (currNode  == currentPath.Count - 1)
                 {
                     position[currNode] = end;
-                    Debug.Log(" last vertex" + position[currNode]);
+                    //Debug.Log(" last vertex" + position[currNode]);
                 }
                 
             }
@@ -194,6 +196,11 @@ public class Actor : MonoBehaviour {
             //standing on same tile clicked on
             currentPath = null;
         }
+
+       if(currentPath == null)
+        {
+            GameObject.FindWithTag("Map").GetComponent<TileMap>().getMapArray()[tileX, tileZ].occupied = true;
+        }
     }
 
     public void NextTurn()
@@ -204,8 +211,8 @@ public class Actor : MonoBehaviour {
         //{
         //    player.tileX = tileX;
         //    player.tileZ = tileZ;
-
         //}
+
         TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
         
         if (GO == null)
@@ -217,6 +224,10 @@ public class Actor : MonoBehaviour {
         GO.Players[index].coordZ = tileZ;
         GO.Players[index].coords = new Vector3(tileX, 0, tileZ);
 
+        
+
+
+       
         for (int index = 0; index < numberOfActors; index++)
         {
             //GO.Players[index] = new TileMap.Location();
@@ -228,13 +239,19 @@ public class Actor : MonoBehaviour {
 
 
         //Reset available movement points.
+        
 
         if (numOfMoves != 0)
         {
             numOfMoves--;
             remainingMovement = moveDistance;
         }
+        
+    }
 
+    public void setMoves()
+    {
+        numOfMoves = 1;
     }
 
     public void OnMouseOver()
@@ -257,6 +274,7 @@ public class Actor : MonoBehaviour {
 
     private void OnMouseExit()
     {
+        
         path.positionCount = 0;
     }
     private void OnMouseUp()
