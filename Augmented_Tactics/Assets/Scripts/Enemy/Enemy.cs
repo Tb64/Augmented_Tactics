@@ -7,12 +7,11 @@ public class Enemy : Actor
     private GameObject[] userTeam;
 	// Use this for initialization
 	void Start () {
-        base.Start();
+	base.Start();
         userTeam = GameObject.FindGameObjectsWithTag("Player");
     }
 	
 	// Update is called once per frame
-
 	void Update () {
         base.Update();
 
@@ -22,7 +21,7 @@ public class Enemy : Actor
     void turnControl()
     {
 
-        //true player turn, false enemy turn
+        //true player turn ,false enemy turn
         if (SM.GetComponent<StateMachine>().checkTurn() == false)
         {
             drawDebugLines();
@@ -34,13 +33,11 @@ public class Enemy : Actor
     {
         public int coordX;
         public int coordZ;
-
         public Location()
         {
             coordX = 0;
             coordZ = 0;
         }
-
         public Location(int X, int Z)
         {
             coordX = X;
@@ -54,7 +51,6 @@ public class Enemy : Actor
     //    if (target == findWeakestPlayer())
       //      Attack(target);
     }
-
     private GameObject findNearestPlayer()
     {
         GameObject nearest = userTeam[0] ;
