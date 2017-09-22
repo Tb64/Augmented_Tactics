@@ -11,11 +11,13 @@ public class TileMap : MonoBehaviour {
 
     public bool codeGenerateMap = true;
 
+    public ClickableTile[,] map;
 
     public class Location
     {
         public int coordX;
         public int coordZ;
+
         public Vector3 coords = new Vector3();
 
         public Location()
@@ -26,7 +28,6 @@ public class TileMap : MonoBehaviour {
         }
     }
 
-
     public Location[] Players;
    
     int[,] tiles;
@@ -35,15 +36,19 @@ public class TileMap : MonoBehaviour {
     int mapSizeX = 16;
     int mapSizeZ = 16;
 
+    
 
     // Use this for initialization
+
     void Start() {
+        map = new ClickableTile[mapSizeX, mapSizeZ];
 
         Players = new Location[20];
         for (int index = 0; index < Players.Length; index++)
         {
             Players[index] = new Location();
         }
+
         //Players = null;
         //setup selectedUnit vars
 
@@ -64,19 +69,22 @@ public class TileMap : MonoBehaviour {
         generatePathFindingGraph();
 
     }
-
+    
     void LoadTileData()
     {
         tiles = new int[mapSizeX, mapSizeZ];
-        ClickableTile[] loadedTiles = GetComponentsInChildren<ClickableTile>();
 
+        ClickableTile[] loadedTiles = GetComponentsInChildren<ClickableTile>();
+        
         foreach (ClickableTile ctTile in loadedTiles)
         {
             ctTile.map = this;
             tiles[ctTile.tileX, ctTile.tileZ] = ctTile.tileClass;
         }
-
+        
     }
+
+
 
     void GenerateMapData()
     {
@@ -89,6 +97,7 @@ public class TileMap : MonoBehaviour {
             for (int z = 0; z < mapSizeZ; z++)
             {
                 tiles[x, z] = 0;
+                
             }
 
         }
@@ -113,8 +122,10 @@ public class TileMap : MonoBehaviour {
                 ct.tileX = x;
                 ct.tileZ = z;
                 ct.map = this;
-            }
+                map[x, z] = ct;
 
+            }
+            
         }
     }
 
@@ -138,8 +149,7 @@ public class TileMap : MonoBehaviour {
             //moving diagonally
             cost += 0.001f;// done to prefer straight lines over diagonal lines
         }
-
-
+        
        return cost;
         
     }
@@ -147,16 +157,17 @@ public class TileMap : MonoBehaviour {
     public bool UnitCanEnterTile(int x, int z)
     {
         //could test units movement type(walk,fly,run etc..)
-        //Debug.Log(string.Format("Pos=({0},{1}) IsWalkable={2} Name={3} ID={4}",
-        //    x,z, tileTypes[tiles[x, z]].isWalkable, tileTypes[tiles[x, z]].name, tiles[x, z]));
-        return tileTypes[tiles[x,z]].isWalkable;
+
+        return map[x,z].tileTypes.isWalkable && map[x, z].occupied == false;
     }
 
     public void GeneratePathTo(int x, int z)
     {
+
         selectedUnit.GetComponent<Actor>().currentPath = null;
 
-        if(UnitCanEnterTile(x,z) == false)
+       
+        if (UnitCanEnterTile(x,z) == false || map[x,z].occupied == true)
         {//tile is not walkable
             return;
         }
@@ -234,6 +245,7 @@ public class TileMap : MonoBehaviour {
         }
 
         
+
         currentPath.Reverse(); //inverts the path
         selectedUnit.GetComponent<Actor>().currentPath = currentPath;
     }
@@ -249,7 +261,6 @@ public class TileMap : MonoBehaviour {
             for (int Z = 0; Z < mapSizeZ; Z++)
             {
                 graph[x, Z] = new Node();
-
                 graph[x, Z].x = x;
                 graph[x, Z].z = Z;
             }
@@ -314,6 +325,11 @@ public class TileMap : MonoBehaviour {
                 //===========================================================================
             }
         }
+    }
+
+    public ClickableTile[,] getMapArray()
+    {
+        return map;
     }
 
 }
