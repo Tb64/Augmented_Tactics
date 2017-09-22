@@ -16,6 +16,9 @@ public class StateMachine : MonoBehaviour {
         if (playerTurn == true)
         {
             playerTurn = false;
+            Actor Unit;
+            Unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
+            Unit.setMoves();
         }
         else
         {
@@ -23,6 +26,7 @@ public class StateMachine : MonoBehaviour {
         }
     }
    
+
 
     public bool checkTurn()
     {
