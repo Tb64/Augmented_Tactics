@@ -44,11 +44,6 @@ public class PlayerControlled : Actor
             moveUnit();
         }
 
-        if (SM.checkTurn() == false)
-        {
-            numOfMoves = 1;
-        }
-
     }
 
 
