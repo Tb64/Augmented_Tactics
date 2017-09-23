@@ -33,8 +33,8 @@ public class TileMap : MonoBehaviour {
     int[,] tiles;
     Node[,] graph;
     
-    int mapSizeX = 16;
-    int mapSizeZ = 16;
+    public int mapSizeX = 16;
+    public int mapSizeZ = 16;
 
     
 
@@ -73,6 +73,7 @@ public class TileMap : MonoBehaviour {
     void LoadTileData()
     {
         tiles = new int[mapSizeX, mapSizeZ];
+        map = new ClickableTile[mapSizeX, mapSizeZ];
 
         ClickableTile[] loadedTiles = GetComponentsInChildren<ClickableTile>();
         
@@ -80,6 +81,7 @@ public class TileMap : MonoBehaviour {
         {
             ctTile.map = this;
             tiles[ctTile.tileX, ctTile.tileZ] = ctTile.tileClass;
+            map[ctTile.tileX, ctTile.tileZ] = ctTile;
         }
         
     }
@@ -157,7 +159,6 @@ public class TileMap : MonoBehaviour {
     public bool UnitCanEnterTile(int x, int z)
     {
         //could test units movement type(walk,fly,run etc..)
-
         return map[x,z].tileTypes.isWalkable && map[x, z].occupied == false;
     }
 
