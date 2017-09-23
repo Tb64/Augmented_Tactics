@@ -8,15 +8,24 @@ public class CameraControls : MonoBehaviour {
     //speed of rotation/translation, could divide into x and y
     float speedRotation = 200;
     float speedTranslation = 10;
+    float speedZoom = 0.5f;
     public char cam = '0';
     // Update is called once per frame
-    private void Update () {
+    private void Update()
+    {
         //zoom with FoV alterations (no clipping but messes with ui)
-        if (Input.GetAxis("Mouse ScrollWheel") > 0){
+        /*if (Input.GetAxis("Mouse ScrollWheel") > 0){
             Camera.main.fieldOfView--;
         }
         if (Input.GetAxis("Mouse ScrollWheel") < 0){
             Camera.main.fieldOfView++;
+        }*/
+        //zoom by moving camera
+        if (Input.GetAxis("Mouse ScrollWheel") > 0){
+            Camera.main.GetComponent<Transform>().position = Camera.main.GetComponent<Transform>().position + (Camera.main.GetComponent<Transform>().forward * speedZoom);
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") < 0){
+            Camera.main.GetComponent<Transform>().position = Camera.main.GetComponent<Transform>().position - (Camera.main.GetComponent<Transform>().forward * speedZoom);
         }
     }
     private void OnMouseDrag(){
