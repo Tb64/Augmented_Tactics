@@ -24,6 +24,7 @@ public class Enemy : Actor
         //true player turn ,false enemy turn
         if (SM.GetComponent<StateMachine>().checkTurn() == false)
         {
+            enemyTurn();
             drawDebugLines();
             moveUnit();
         }
@@ -48,11 +49,28 @@ public class Enemy : Actor
 
     void enemyTurn()
     {
-        GameObject target = findWeakestPlayer();
-        //    if (target == findWeakestPlayer())
-      //      Attack(target);
-        else if (Vector2.Distance(new Vector2((float)target.GetComponent<Actor>().tileX, (float)target.GetComponent<Actor>().tileZ), new Vector2(tileX, tileZ)) > moveDistance)
+        map.selectedUnit = gameObject;
+        if (GetHealthPercent() < findNearestPlayer().GetComponent<Actor>().GetHealthPercent())
+            HealHealth(100);
+        GameObject target = findNearestPlayer();
+       if (target == findWeakestPlayer())
+        {
+            map.GeneratePathTo(target.GetComponent<Actor>().tileX, target.GetComponent<Actor>().tileZ);
+            if (Vector2.Distance(new Vector2((float)target.GetComponent<Actor>().tileX, (float)target.GetComponent<Actor>().tileZ), new Vector2(tileX, tileZ)) <= 1)
+            {
+                Attack(target);
+            }
+            NextTurn();
+            return;
+        }
+        else if (Vector2.Distance(new Vector2((float)target.GetComponent<Actor>().tileX, (float)target.GetComponent<Actor>().tileZ), new Vector2(tileX, tileZ)) > moveDistance && Vector2.Distance(new Vector2((float)target.GetComponent<Actor>().tileX, (float)target.GetComponent<Actor>().tileZ), new Vector2(tileX, tileZ)) > Vector2.Distance(new Vector2((float)findNearestPlayer().GetComponent<Actor>().tileX, (float)findNearestPlayer().GetComponent<Actor>().tileZ), new Vector2(tileX, tileZ)))
             target = findNearestPlayer();
+        //Debug.Log(target.name+" "+ target.GetComponent<Actor>().tileX+" "+ target.GetComponent<Actor>().tileZ);
+        map.GeneratePathTo(target.GetComponent<Actor>().tileX, target.GetComponent<Actor>().tileZ);
+        //after moving, if enemy is in range attack
+        if (Vector2.Distance(new Vector2((float)target.GetComponent<Actor>().tileX, (float)target.GetComponent<Actor>().tileZ), new Vector2(tileX, tileZ)) < 1)
+            Attack(target);
+        NextTurn();
     }
     private GameObject findNearestPlayer()
     {
@@ -63,8 +81,6 @@ public class Enemy : Actor
             Vector2 playerLocation = new Vector2((float)user.GetComponent<Actor>().tileX, (float)user.GetComponent<Actor>().tileZ);
             Vector2 enemyLocation = new Vector2(tileX, tileZ);
             float distanceFromPlayer = Vector2.Distance(playerLocation, enemyLocation);
-            /*if (distanceFromPlayer <= 1) attack if player is in range
-                Attack(user);*/
             if (distanceFromPlayer < currentNearest)
             {
                 nearest = user;
@@ -77,16 +93,24 @@ public class Enemy : Actor
     private GameObject findWeakestPlayer()
     {
         GameObject weakest = userTeam[0];
-        float lowestHealth = userTeam[0].GetComponent<Enemy>().health_current; //until we figure out how health and damage work
+        float lowestHealth = userTeam[0].GetComponent<Actor>().GetHealthPercent();
         foreach (GameObject user in userTeam)
         {
-            if( user.GetComponent<Enemy>().health_current < lowestHealth)
+            if( user.GetComponent<Actor>().GetHealthPercent() < lowestHealth)
             {
                 weakest = user;
-                lowestHealth = user.GetComponent<Enemy>().health_current; 
+                lowestHealth = user.GetComponent<Actor>().GetHealthPercent(); 
             }
         }
         return weakest;
+
+    }
+/// <summary>
+/// //////////////////////// where to add attacking
+/// </summary>
+/// <param name="target"></param>
+    void Attack(GameObject target)
+    {
 
     }
  
