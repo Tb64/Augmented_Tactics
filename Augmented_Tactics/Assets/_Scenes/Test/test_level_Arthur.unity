@@ -325,6 +325,8 @@ MonoBehaviour:
   SM: {fileID: 0}
   speed: 3
   moveDistance: 7
+  remainingMovement: 0
+  numOfMoves: 0
 --- !u!1 &392709761
 GameObject:
   m_ObjectHideFlags: 0
@@ -1307,6 +1309,8 @@ MonoBehaviour:
   SM: {fileID: 0}
   speed: 3
   moveDistance: 10
+  remainingMovement: 0
+  numOfMoves: 0
 --- !u!65 &1974423995
 BoxCollider:
   m_ObjectHideFlags: 0

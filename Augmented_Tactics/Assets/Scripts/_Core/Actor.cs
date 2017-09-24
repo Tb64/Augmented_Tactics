@@ -44,7 +44,7 @@ public class Actor : MonoBehaviour {
     static public int numberOfActors = 0;
     float delay = .3f;
     float deltaTime;
-    protected int numOfMoves;
+    public int numOfMoves;
     Vector3[] position;
     LineRenderer path;
     //===========================================
@@ -210,20 +210,19 @@ public class Actor : MonoBehaviour {
 
     public void moveUnit()
     {
-        //if(currentPath == null)
-        //{
-        //    remainingMovement = 0;
-        //}
+
 
         if (Vector3.Distance(transform.position, map.TileCoordToWorldCoord(tileX, tileZ)) < 0.1f)
         {
             AdvancePathing();
             //Debug.Log("X " + tileX + "Y " + tileZ + "name" + gameObject.name);
+            
         }
         //move unit to next tile
-        //Debug.Log("X " + tileX + "Y " + tileZ + "name" + gameObject.name);
+        
         MoveController(transform, map.TileCoordToWorldCoord(tileX, tileZ), speed);
         //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
+
     }
 
     bool MoveController(Transform origin, Vector3 targetPos, float speed)
@@ -295,14 +294,7 @@ public class Actor : MonoBehaviour {
 
     public void NextTurn()
     {
-        Debug.Log("next turn" + numberOfActors);
-
-        //foreach (Actor player in GameObject.FindWithTag("Map").GetComponent<TileMap>().Players)
-        //{
-        //    player.tileX = tileX;
-        //    player.tileZ = tileZ;
-        //}
-
+        
         TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
         
         if (GO == null)

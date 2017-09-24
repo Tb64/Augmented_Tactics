@@ -31,20 +31,26 @@ public class StateMachine : MonoBehaviour {
 
         if (playerTurn == true)
         {
-            playerTurn = false;
-            Actor Unit;
-            Unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
-            //Unit.setMoves(1);
+            //enemy turn
 
+            playerTurn = false;
+            
+            Debug.Log("ENEMY TURN");
             GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Enemy Turn";
+
             GO.selectedUnit = enemy;
-            enemy.GetComponent<Actor>().setMovement(enemy.GetComponent<Actor>().moveDistance);
+            GO.selectedUnit.GetComponent<Actor>().setMoves(1);
         }
         else
         {
+            //player turn
+            Debug.Log("PLAYER TURN");
             playerTurn = true;
             GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Player Turn";
+
             GO.selectedUnit = player;
+            GO.selectedUnit.GetComponent<Actor>().setMoves(1);
+
         }
     }
    

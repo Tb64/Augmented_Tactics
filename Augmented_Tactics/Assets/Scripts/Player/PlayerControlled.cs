@@ -43,6 +43,12 @@ public class PlayerControlled : Actor
             
             drawDebugLines();
             moveUnit();
+
+            if(currentPath == null)
+            {
+                remainingMovement = 0;
+            }
+
         }
 
     }
