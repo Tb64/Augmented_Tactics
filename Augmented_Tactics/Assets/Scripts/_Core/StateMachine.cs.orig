@@ -32,12 +32,15 @@ public class StateMachine : MonoBehaviour {
         if (playerTurn == true)
         {
             playerTurn = false;
+<<<<<<< HEAD
             Actor Unit;
             Unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
             Unit.setMoves();
 
             GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Enemy Turn";
             GO.selectedUnit = enemy;
+=======
+>>>>>>> master
         }
         else
         {
@@ -47,7 +50,6 @@ public class StateMachine : MonoBehaviour {
         }
     }
    
-
 
     public bool checkTurn()
     {
