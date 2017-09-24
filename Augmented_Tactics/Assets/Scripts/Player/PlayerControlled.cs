@@ -5,9 +5,6 @@ using UnityEngine;
 public class PlayerControlled : Actor
 {
 
-   
-    
-
     // Use this for initialization
     void Start ()
     {

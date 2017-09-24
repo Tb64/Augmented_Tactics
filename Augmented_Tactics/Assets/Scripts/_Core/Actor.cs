@@ -60,6 +60,7 @@ public class Actor : MonoBehaviour {
     {
         numOfMoves = 1;
         anim = GetComponentInChildren<Animator>();
+        
 
         if (GameObject.Find("Path").GetComponent<LineRenderer>() != null)
         {
@@ -76,10 +77,24 @@ public class Actor : MonoBehaviour {
 
         if (map == null)
         {
-            map = GameObject.Find("Map").GetComponent<TileMap>();
+            return;
         }
-       
-	}
+        //map = GameObject.Find("Map").GetComponent<TileMap>();
+
+        //map.getMapArray()[tileX, tileZ].occupied = true;
+        //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
+    }
+
+    private void Awake()
+    {
+        map = GameObject.Find("Map").GetComponent<TileMap>();
+        if (map.getMapArray() != null)
+        {
+            map.getMapArray()[tileX, tileZ].occupied = true;
+            Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
+        }
+        
+    }
 
     // Update is called once per frame
     public virtual void Update () {

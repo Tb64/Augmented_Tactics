@@ -58,6 +58,7 @@ public class TileMap : MonoBehaviour {
 
         if(codeGenerateMap)
         {
+           
             GenerateMapData();
             GenerateMapVisual();
         }
@@ -86,8 +87,6 @@ public class TileMap : MonoBehaviour {
         
     }
 
-
-
     void GenerateMapData()
     {
         //allocate tiles
@@ -104,14 +103,11 @@ public class TileMap : MonoBehaviour {
 
         }
 
-        //tiles[2, 3] = 2;
-        //tiles[2, 4] = 2;
-        //tiles[2, 5] = 2;
-        //tiles[3, 3] = 2;
     }
 
     void GenerateMapVisual()
     {
+        
         for (int x = 0; x < mapSizeX; x++)
         {
             for (int z = 0; z < mapSizeZ; z++)
