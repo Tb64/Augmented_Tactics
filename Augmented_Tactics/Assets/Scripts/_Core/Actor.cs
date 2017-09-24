@@ -7,6 +7,14 @@ using UnityEngine.UI;
 
 public class Actor : MonoBehaviour {
 
+    /******************
+     *  Variables
+     ******************/
+
+    #region Variables
+
+    protected Animator anim;
+
     protected float health_current;
     protected float health_max;
     protected float mana_current;
@@ -26,7 +34,6 @@ public class Actor : MonoBehaviour {
     public int tileX;
     public int tileZ;
     public int index;
-    protected bool enemyTurn;
     public TileMap map;
     public StateMachine SM;
     public float speed;
@@ -41,17 +48,24 @@ public class Actor : MonoBehaviour {
     Vector3[] position;
     LineRenderer path;
     //===========================================
+    #endregion
 
+
+    /******************
+     *  Events
+     ******************/
+    #region Events
     // Use this for initialization
     public virtual void Start ()
     {
         numOfMoves = 1;
-
+        anim = GetComponentInChildren<Animator>();
 
         if (GameObject.Find("Path").GetComponent<LineRenderer>() != null)
         {
             path = GameObject.Find("Path").GetComponent<LineRenderer>();
         }
+
         deltaTime = 0;
         if(GameObject.FindWithTag("GameController") == null)
         {
@@ -78,23 +92,78 @@ public class Actor : MonoBehaviour {
 
     }
 
+    public void OnMouseOver()
+    {
+
+
+    }
+
+    private void OnMouseEnter()
+    {
+        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
+        if (currentPath != null)
+        {
+
+            position = new Vector3[currentPath.Count];
+            path.SetPositions(position);
+        }
+
+    }
+
+    private void OnMouseExit()
+    {
+
+        path.positionCount = 0;
+    }
+    private void OnMouseUp()
+    {
+        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
+        //Button button = GameObject.FindWithTag("Button").GetComponent<Button>();
+
+
+        //double click detection
+        if (deltaTime < delay)
+        {
+            GO.selectedUnit = gameObject;
+            //remainingMovement = moveDistance;
+            // button.onClick.AddListener
+
+        }
+        deltaTime = 0;
+    }
+
+    #endregion
+
+
     /// <summary>
     /// The method to damage an Actor
     /// </summary>
     /// <param name="damage">Damage the Actor will take as a float</param>
     /// 
 
-    public void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage)
+    {
+        health_current -= damage;
+        if (health_current <= 0)
+        {
+            health_current = 0;
+            OnDeath();
+        }
+    }
+
+    public virtual void HealHealth(float heal)
+    {
+        health_current += heal;
+        if (health_current > health_max)
+        {
+            health_current = health_max;
+        }
+    }
+
+    public virtual void OnDeath()
     {
 
     }
-
-    public void HealHealth(float heal)
-    {
-
-    }
-
-
 
     //Added by Arthur===========================================
     //Draws pathing lines
@@ -151,7 +220,21 @@ public class Actor : MonoBehaviour {
 
     bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
-        float step = speed * Time.deltaTime;
+        float scaleDist = 1f;
+
+        if (Vector3.Distance(origin.position, targetPos) < 0.01f)
+        {
+            origin.position = targetPos;
+            scaleDist = 0f;
+            if (anim != null)
+                anim.SetFloat("Speed", scaleDist);
+            return true;
+        }
+
+        if (anim != null)
+            anim.SetFloat("Speed", scaleDist);
+
+        float step = speed * Time.deltaTime * scaleDist;
         origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
 
         Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
@@ -160,8 +243,8 @@ public class Actor : MonoBehaviour {
 
         newDir = new Vector3(targetPos.x, origin.position.y, targetPos.z);
         origin.transform.LookAt(newDir);
-        if (Vector3.Distance(origin.position, targetPos) < 0.001f)
-            return true;
+
+
         return false;
     }
 
@@ -173,11 +256,7 @@ public class Actor : MonoBehaviour {
         if (remainingMovement <= 0)
             return;
         
-        if (enemyTurn == true)
-        {
-            return;
-        }
-       
+               
 
         // Get cost from current tile to next tile
         remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].z, currentPath[1].x, currentPath[1].z);
@@ -249,50 +328,18 @@ public class Actor : MonoBehaviour {
         
     }
 
+    /******************
+    *  Set/Gets
+    ******************/
+
+    #region SetGets
+
     public void setMoves()
     {
         numOfMoves = 1;
     }
 
-    public void OnMouseOver()
-    {
-        
 
-    }
-
-    private void OnMouseEnter()
-    {
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-        if (currentPath != null)
-        {
-   
-            position = new Vector3[currentPath.Count];
-            path.SetPositions(position);
-        }
-        
-    }
-
-    private void OnMouseExit()
-    {
-        
-        path.positionCount = 0;
-    }
-    private void OnMouseUp()
-    {
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-        //Button button = GameObject.FindWithTag("Button").GetComponent<Button>();
-
-
-        //double click detection
-        if (deltaTime < delay)
-        {
-            GO.selectedUnit = gameObject;
-            //remainingMovement = moveDistance;
-            // button.onClick.AddListener
-
-        }
-        deltaTime = 0;
-    }
 
     public float GetHealthPercent()
     {
@@ -305,4 +352,5 @@ public class Actor : MonoBehaviour {
         return hpPercent;
     }
 
+    #endregion
 }

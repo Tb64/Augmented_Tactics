@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StateMachine : MonoBehaviour {
 
@@ -13,16 +14,36 @@ public class StateMachine : MonoBehaviour {
 
     public void setTurn()
     {
+        if (GameObject.FindWithTag("Map").GetComponent<TileMap>() == null)
+        {
+            return;
+        }
+        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
+        
+        if (GameObject.FindWithTag("Player") == null || GameObject.FindWithTag("Enemy") == null)
+        {
+            return;
+        }
+        
+        //Change to arrays in future to hold multiple players/enemies
+        GameObject player = GameObject.FindWithTag("Player");
+        GameObject enemy = GameObject.FindWithTag("Enemy");
+
         if (playerTurn == true)
         {
             playerTurn = false;
             Actor Unit;
             Unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
             Unit.setMoves();
+
+            GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Enemy Turn";
+            GO.selectedUnit = enemy;
         }
         else
         {
             playerTurn = true;
+            GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Player Turn";
+            GO.selectedUnit = player;
         }
     }
    

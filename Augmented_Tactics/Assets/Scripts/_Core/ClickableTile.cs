@@ -16,15 +16,11 @@ public class ClickableTile : MonoBehaviour {
 
     public bool occupied;
    
-    public bool isOccupied()
-    {
-        return occupied;
-    }
-
     private void Start()
     {
         occupied = false;
         deltaTime = 0;
+        
     }
    
     private void Update()
@@ -37,10 +33,8 @@ public class ClickableTile : MonoBehaviour {
         //single click
 
         //Generates a path to clicked tile
-
         map.GeneratePathTo(tileX, tileZ);
-        
-        
+
         Actor Unit;    
         Unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
         
