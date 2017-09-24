@@ -26,7 +26,6 @@ public class Actor : MonoBehaviour {
     public int tileX;
     public int tileZ;
     public int index;
-    protected bool enemyTurn;
     public TileMap map;
     public StateMachine SM;
     public float speed;
@@ -52,6 +51,7 @@ public class Actor : MonoBehaviour {
         {
             path = GameObject.Find("Path").GetComponent<LineRenderer>();
         }
+
         deltaTime = 0;
         if(GameObject.FindWithTag("GameController") == null)
         {
@@ -173,11 +173,7 @@ public class Actor : MonoBehaviour {
         if (remainingMovement <= 0)
             return;
         
-        if (enemyTurn == true)
-        {
-            return;
-        }
-       
+               
 
         // Get cost from current tile to next tile
         remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].z, currentPath[1].x, currentPath[1].z);
