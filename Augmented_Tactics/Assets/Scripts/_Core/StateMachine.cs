@@ -34,10 +34,11 @@ public class StateMachine : MonoBehaviour {
             playerTurn = false;
             Actor Unit;
             Unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
-            Unit.setMoves();
+            //Unit.setMoves(1);
 
             GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Enemy Turn";
             GO.selectedUnit = enemy;
+            enemy.GetComponent<Actor>().setMovement(enemy.GetComponent<Actor>().moveDistance);
         }
         else
         {

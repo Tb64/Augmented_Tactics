@@ -324,7 +324,7 @@ MonoBehaviour:
   map: {fileID: 0}
   SM: {fileID: 0}
   speed: 3
-  moveDistance: 2
+  moveDistance: 7
 --- !u!1 &392709761
 GameObject:
   m_ObjectHideFlags: 0
@@ -1241,6 +1241,8 @@ MonoBehaviour:
     isWalkable: 0
     movementCost: 1
   codeGenerateMap: 1
+  mapSizeX: 16
+  mapSizeZ: 16
 --- !u!4 &1699726992
 Transform:
   m_ObjectHideFlags: 0
@@ -1304,7 +1306,7 @@ MonoBehaviour:
   map: {fileID: 0}
   SM: {fileID: 0}
   speed: 3
-  moveDistance: 5
+  moveDistance: 10
 --- !u!65 &1974423995
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -64,6 +64,11 @@ public class ClickableTile : MonoBehaviour {
 
     public void OnMouseOver()
     {
+       
+        if(GameObject.FindWithTag("Player").GetComponent<Actor>().getMoves() == 0)
+        {
+            return;
+        }
         map.GeneratePathTo(tileX, tileZ);
     }
 

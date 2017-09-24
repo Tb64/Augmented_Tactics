@@ -39,7 +39,7 @@ public class Actor : MonoBehaviour {
     public float speed;
     public int moveDistance;
     float step;
-    float remainingMovement;
+    public float remainingMovement;
     public List<Node> currentPath = null;
     static public int numberOfActors = 0;
     float delay = .3f;
@@ -112,8 +112,10 @@ public class Actor : MonoBehaviour {
 
     private void OnMouseExit()
     {
-
+                
         path.positionCount = 0;
+        
+        
     }
     private void OnMouseUp()
     {
@@ -125,7 +127,7 @@ public class Actor : MonoBehaviour {
         if (deltaTime < delay)
         {
             GO.selectedUnit = gameObject;
-            //remainingMovement = moveDistance;
+            
             // button.onClick.AddListener
 
         }
@@ -165,7 +167,6 @@ public class Actor : MonoBehaviour {
 
     }
 
-    //Added by Arthur===========================================
     //Draws pathing lines
     public void drawDebugLines()
     {
@@ -198,6 +199,8 @@ public class Actor : MonoBehaviour {
                 {
                     position[currNode] = end;
                     //Debug.Log(" last vertex" + position[currNode]);
+
+
                 }
                 
             }
@@ -207,6 +210,11 @@ public class Actor : MonoBehaviour {
 
     public void moveUnit()
     {
+        //if(currentPath == null)
+        //{
+        //    remainingMovement = 0;
+        //}
+
         if (Vector3.Distance(transform.position, map.TileCoordToWorldCoord(tileX, tileZ)) < 0.1f)
         {
             AdvancePathing();
@@ -251,23 +259,26 @@ public class Actor : MonoBehaviour {
     void AdvancePathing()
     {
         if (currentPath == null)
+        {
             return;
+        }
 
         if (remainingMovement <= 0)
+        {
             return;
-        
+        }
                
 
         // Get cost from current tile to next tile
         remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].z, currentPath[1].x, currentPath[1].z);
-        //Debug.Log("X0 " + currentPath[0].x + "Z0 " + currentPath[0].z + "X1 " +
-        //  currentPath[1].x + "Z1 " + currentPath[1].z+ "Name " + gameObject.name );
+        
         // Move us to the next tile in the sequence
         tileX = currentPath[1].x;
         tileZ = currentPath[1].z;
 
         // Remove the old "current" tile from the pathfinding list
         currentPath.RemoveAt(0);
+
         
 
         if (currentPath.Count == 1)
@@ -302,10 +313,6 @@ public class Actor : MonoBehaviour {
         GO.Players[index].coordX = tileX;
         GO.Players[index].coordZ = tileZ;
         GO.Players[index].coords = new Vector3(tileX, 0, tileZ);
-
-        
-
-
        
         for (int index = 0; index < numberOfActors; index++)
         {
@@ -316,10 +323,8 @@ public class Actor : MonoBehaviour {
             GO.Players[index].coordZ = tileZ;
         }
 
-
         //Reset available movement points.
         
-
         if (numOfMoves != 0)
         {
             numOfMoves--;
@@ -334,12 +339,20 @@ public class Actor : MonoBehaviour {
 
     #region SetGets
 
-    public void setMoves()
+    public void setMoves(int moves)
     {
-        numOfMoves = 1;
+        numOfMoves = moves;
     }
 
+    public int getMoves()
+    {
+        return numOfMoves;
+    }
 
+    public void setMovement(int movesLeft)
+    {
+        remainingMovement = movesLeft;
+    }
 
     public float GetHealthPercent()
     {

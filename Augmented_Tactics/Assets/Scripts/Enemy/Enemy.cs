@@ -49,7 +49,7 @@ public class Enemy : Actor
 
     void enemyTurn()
     {
-        map.selectedUnit = gameObject;
+        //map.selectedUnit = gameObject;
         if (GetHealthPercent() < findNearestPlayer().GetComponent<Actor>().GetHealthPercent())
             HealHealth(100);
         GameObject target = findNearestPlayer();
