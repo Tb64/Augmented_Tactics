@@ -6,6 +6,7 @@ public class Ability : MonoBehaviour
 {
     public int range;
     public Animator anim;
+    public string abilityName;
 
     public virtual void Initialize()
     {
