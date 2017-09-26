@@ -36487,6 +36487,8 @@ MonoBehaviour:
     isWalkable: 0
     movementCost: 1
   codeGenerateMap: 1
+  mapSizeX: 16
+  mapSizeZ: 16
 --- !u!4 &1095836353
 Transform:
   m_ObjectHideFlags: 0
@@ -37370,6 +37372,22 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1135698264}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1136828861 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1408290578757428, guid: 1089caf5f4193b64fbd5cd0f7bc7ed27,
+    type: 2}
+  m_PrefabInternal: {fileID: 1282067780}
+--- !u!114 &1136828863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1136828861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64d360df2c6268948a333224a3f4a30c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1138130295
 GameObject:
   m_ObjectHideFlags: 0
@@ -43174,7 +43192,42 @@ Prefab:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114001645831964588, guid: 1089caf5f4193b64fbd5cd0f7bc7ed27,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114001645831964588, guid: 1089caf5f4193b64fbd5cd0f7bc7ed27,
+        type: 2}
+      propertyPath: m_Type
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114001645831964588, guid: 1089caf5f4193b64fbd5cd0f7bc7ed27,
+        type: 2}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114001645831964588, guid: 1089caf5f4193b64fbd5cd0f7bc7ed27,
+        type: 2}
+      propertyPath: m_FillMethod
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114001645831964588, guid: 1089caf5f4193b64fbd5cd0f7bc7ed27,
+        type: 2}
+      propertyPath: m_PreserveAspect
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114001645831964588, guid: 1089caf5f4193b64fbd5cd0f7bc7ed27,
+        type: 2}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1468338902842248, guid: 1089caf5f4193b64fbd5cd0f7bc7ed27, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114787402403387606, guid: 1089caf5f4193b64fbd5cd0f7bc7ed27, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 1089caf5f4193b64fbd5cd0f7bc7ed27, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1283915345
@@ -54610,6 +54663,8 @@ MonoBehaviour:
     isWalkable: 0
     movementCost: 1
   codeGenerateMap: 0
+  mapSizeX: 16
+  mapSizeZ: 16
 --- !u!4 &1646164081
 Transform:
   m_ObjectHideFlags: 0
@@ -55828,6 +55883,8 @@ MonoBehaviour:
     isWalkable: 0
     movementCost: 1
   codeGenerateMap: 0
+  mapSizeX: 16
+  mapSizeZ: 16
 --- !u!4 &1667980578
 Transform:
   m_ObjectHideFlags: 0

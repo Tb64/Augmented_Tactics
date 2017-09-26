@@ -10,14 +10,14 @@ public class HealthBar : MonoBehaviour
      
     void Start()
     {
-        healthPercent = gameObject.GetComponentInParent<Actor>().GetHealthPercent();
-
+        
     }
-
+// Edited by ivan
 // Update is called once per frame
     void Update()
     {
-        //transform.localScale = new Vector3(healthPercent, 1f, 1f);
+        transform.localScale = new Vector3(
+            (gameObject.GetComponentInParent<Actor>().GetHealthPercent()/100.0f), 1f, 1f);
     }
 
 }
