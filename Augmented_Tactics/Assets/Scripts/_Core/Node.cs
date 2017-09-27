@@ -6,8 +6,8 @@ public class Node {
 
     
         public List<Node> neighbors;
-        public int x;
-        public int z;
+  
+        public Vector3 coords;
 
         public Node()
         {
@@ -16,7 +16,8 @@ public class Node {
         }
         public float DistanceTo(Node n)
         {
-            return Vector2.Distance(new Vector2(x, z), new Vector2(n.x, n.z));
+            return Vector3.Distance(new Vector2(coords.x, coords.z),
+                new Vector2(n.coords.x, n.coords.z));
         }
 
     

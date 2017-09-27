@@ -4,31 +4,85 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour {
 
+    #region variables
     private TileMap map;
+    private Actor unit;
+    public List<Node> currentPath = null;
+
+    #endregion
+
+
+
 
     private void Start()
     {
+        initialize();
+
+    }
+
+    void initialize()
+    {
+        //use this to initialize vars, avoids clutter in start
+
+        unit = map.getSelectedUnit().GetComponent<Actor>();
+
         if (map == null)
         {
+            Debug.LogError("Missing map, make sure to include map in level hierarchy");
             return;
         }
         //grabs tilemap from the scene and stores it in map
         map = GameObject.FindGameObjectWithTag("Map").GetComponent<TileMap>();
+    }
 
+    //Draws pathing lines
+    public void drawDebugLines()
+    {
+
+        if (currentPath != null)
+        {
+            //begin at 0
+            int currNode = 0;
+
+            Vector3[] position = new Vector3[currentPath.Count];
+
+            Vector3 end = new Vector3();
+
+            while (currNode < currentPath.Count - 1 && currentPath.Count < unit.getMoveDistance() + 2)
+            {
+                Vector3 start = map.TileCoordToWorldCoord(currentPath[currNode].x, currentPath[currNode].z) +
+                    new Vector3(0, 1f, 0);
+                end = map.TileCoordToWorldCoord(currentPath[currNode + 1].x, currentPath[currNode + 1].z) +
+                    new Vector3(0, 1f, 0);
+
+                Debug.DrawLine(start, end, Color.red);
+
+                path.positionCount = currentPath.Count - 1;
+                position[currNode] = start;
+                path.SetPositions(position);
+                currNode++;
+
+                if (currNode == currentPath.Count - 1)
+                {
+                    position[currNode] = end;
+                }
+
+            }
+        }
     }
 
 
     public float costToEnterTile(Vector3 source, Vector3 target)
     {
-        TileType tt = tileTypes[tiles[target.x, target.z]];
+        TileType type = tileTypes[tiles[target.x, target.z]];
 
         if (UnitCanEnterTile(targetX, targetZ) == false)
         {
             return Mathf.Infinity;
         }
 
-        float cost = tt.movementCost;
-        if (sourceX != targetX && sourceY != targetZ)
+        float cost = type.movementCost;
+        if (source.x != target.x && source.z != target.z)
         {
             //moving diagonally
             cost += 0.001f;// done to prefer straight lines over diagonal lines

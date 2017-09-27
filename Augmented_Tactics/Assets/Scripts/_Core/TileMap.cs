@@ -6,7 +6,7 @@ using System.Linq;
 
 public class TileMap : MonoBehaviour {
 
-    public GameObject selectedUnit;
+    private GameObject selectedUnit;
     public TileType[] tileTypes;            //This seems stupid it should be stored in the tile
 
     public bool codeGenerateMap = true;
@@ -165,7 +165,7 @@ public class TileMap : MonoBehaviour {
 
         selectedUnit.GetComponent<Actor>().currentPath = null;
         
-        if (UnitCanEnterTile(x,z) == false || map[x,z].occupied == true)
+        if (UnitCanEnterTile(x,z) == false || map[x,z].isOccupied() == true)
         {//tile is not walkable
             return;
         }
@@ -385,5 +385,14 @@ public class TileMap : MonoBehaviour {
         return map;
     }
 
+    public void setSelectedUnit(GameObject unit)
+    {
+        selectedUnit = unit;
+    }
+
+    public GameObject getSelectedUnit()
+    {
+        return selectedUnit;
+    }
     #endregion
 }
