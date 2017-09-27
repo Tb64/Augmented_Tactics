@@ -31,22 +31,19 @@ public class Actor : MonoBehaviour {
     protected int charisma;         //measuring force of personality (Buffs and Debuffs)
 
     //Added by arthur ==========================
+    
+    private StateMachine SM;
+    Vector3[] position;
+    private TileMap map;
     public int tileX;
     public int tileZ;
     public int index;
-    public TileMap map;
-    public StateMachine SM;
-    public float speed;
-    public int moveDistance;
-    float step;
-    public float remainingMovement;
-    public List<Node> currentPath = null;
+    private float speed;
+    private int moveDistance;
+    private float remainingMovement;
     static public int numberOfActors = 0;
-    float delay = .3f;
-    float deltaTime;
-    public int numOfMoves;
-    Vector3[] position;
-    LineRenderer path;
+    private int numOfMoves;
+    
     //===========================================
     #endregion
 
@@ -58,76 +55,56 @@ public class Actor : MonoBehaviour {
     // Use this for initialization
     public virtual void Start ()
     {
-        numOfMoves = 1;
-        anim = GetComponentInChildren<Animator>();
-        
-
-        if (GameObject.Find("Path").GetComponent<LineRenderer>() != null)
-        {
-            path = GameObject.Find("Path").GetComponent<LineRenderer>();
-        }
-
-        deltaTime = 0;
-        if(GameObject.FindWithTag("GameController") == null)
-        {
-            Debug.Log("Missing state machine");
-            return;
-        }
-        SM = GameObject.FindWithTag("GameController").GetComponent<StateMachine>();
-
-        map = GameObject.Find("Map").GetComponent<TileMap>();
+                
+        initialize();
        
     }
 
    
+    public void initialize()
+    {
+        numOfMoves = 1;
+
+        speed = 
+        //number of tiles
+        moveDistance = 4;
+
+        anim = GetComponentInChildren<Animator>();
+
+        if (GameObject.FindWithTag("GameController") == null)
+        {
+            Debug.LogError("Missing GameController, make sure to include in level hierarchy");
+            return;
+        }
+        SM = GameObject.FindWithTag("GameController").GetComponent<StateMachine>();
+
+        if(GameObject.Find("Map").GetComponent<TileMap>() == null)
+        {
+            Debug.LogError("Missing map, make sure to include in level hierarchy");
+        }
+        map = GameObject.Find("Map").GetComponent<TileMap>();
+
+    }
+
+
     // Update is called once per frame
     public virtual void Update () {
 
-        deltaTime += Time.deltaTime;
-
-        //drawDebugLines();
-
-        //moveUnit();
 
     }
 
-    public void OnMouseOver()
-    {
-
-
-    }
-
-    private void OnMouseEnter()
-    {
-        
-
-    }
-
-    private void OnMouseExit()
-    {
-                
-        path.positionCount = 0;
-        
-        
-    }
+    
     private void OnMouseUp()
     {
-
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
         if (currentPath != null)
         {
             position = new Vector3[currentPath.Count];
             path.SetPositions(position);
         }
         
-
-        //double click detection
-        if (deltaTime < delay)
-        {
-            //sets gameobject in tilemap to object clicked on
-            GO.selectedUnit = gameObject;  
-        }
-        deltaTime = 0;
+        //sets gameobject in tilemap to object clicked on
+        map.setSelectedUnit(gameObject);  
+      
     }
 
     #endregion
@@ -162,40 +139,6 @@ public class Actor : MonoBehaviour {
     {
 
     }
-
-    //Draws pathing lines
-    public void drawDebugLines()
-    {
-
-        if (currentPath != null)
-        {
-            int currNode = 0;
-            Vector3[] position = new Vector3[currentPath.Count];
-            Vector3 end = new Vector3();
-            while (currNode < currentPath.Count - 1 && currentPath.Count < moveDistance + 2)
-            {
-                Vector3 start = map.TileCoordToWorldCoord(currentPath[currNode].x, currentPath[currNode].z) +
-                    new Vector3(0, 1f, 0);
-                end = map.TileCoordToWorldCoord(currentPath[currNode + 1].x, currentPath[currNode + 1].z) +
-                    new Vector3(0, 1f, 0);
-
-                Debug.DrawLine(start, end, Color.red);
-             
-                path.positionCount = currentPath.Count - 1;
-                position[currNode] = start;
-                path.SetPositions(position);
-                currNode++;
-                
-                if (currNode  == currentPath.Count - 1)
-                {
-                    position[currNode] = end;
-                }
-      
-            }
-        }
-    }
-
-    
 
     bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
@@ -232,24 +175,18 @@ public class Actor : MonoBehaviour {
     public void NextTurn()
     {
         
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-        
-        if (GO == null)
-        {
-            return;
-        }
 
-        GO.Players[index].coordX = tileX;
-        GO.Players[index].coordZ = tileZ;
-        GO.Players[index].coords = new Vector3(tileX, 0, tileZ);
+        map.Players[index].coordX = tileX;
+        map.Players[index].coordZ = tileZ;
+        map.Players[index].coords = new Vector3(tileX, 0, tileZ);
        
         for (int index = 0; index < numberOfActors; index++)
         {
             //GO.Players[index] = new TileMap.Location();
             //Debug.Log("test" + index + "tileX " + tileX);
             
-            GO.Players[index].coordX = tileX;
-            GO.Players[index].coordZ = tileZ;
+            map.Players[index].coordX = tileX;
+            map.Players[index].coordZ = tileZ;
         }
 
         //Reset available movement points.
@@ -276,6 +213,11 @@ public class Actor : MonoBehaviour {
     public int getMoves()
     {
         return numOfMoves;
+    }
+
+    public int getMoveDistance()
+    {
+        return moveDistance;
     }
 
     public void setMovement(int movesLeft)

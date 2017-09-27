@@ -6,39 +6,32 @@ using System.Linq;
 
 public class TileMap : MonoBehaviour {
 
-    public GameObject selectedUnit;
+    private GameObject selectedUnit;
     public TileType[] tileTypes;            //This seems stupid it should be stored in the tile
-
+    public ClickableTile[,] map;
     public bool codeGenerateMap = true;
 
-    public ClickableTile[,] map;
+    int[,] tiles;
+
+
 
     public class Location
     {
-        public int coordX;
-        public int coordZ;
-
+     
         public Vector3 coords = new Vector3();
-
-        public Location()
-        {
-            coordX = 0;
-            coordZ = 0;
-        }
     }
 
     public Location[] Players;
-   
-    int[,] tiles;
-    Node[,] graph;
+
     
+
     public int mapSizeX = 16;
     public int mapSizeZ = 16;
 
     // Use this for initialization
 
     void Start() {
-        map = new ClickableTile[mapSizeX, mapSizeZ];
+        
         Players = new Location[20];
 
         for (int index = 0; index < Players.Length; index++)
@@ -51,7 +44,7 @@ public class TileMap : MonoBehaviour {
 
         selectedUnit.GetComponent<Actor>().tileX = (int)selectedUnit.transform.position.x;
         selectedUnit.GetComponent<Actor>().tileZ = (int)selectedUnit.transform.position.z;
-        selectedUnit.GetComponent<Actor>().map = this;
+        //selectedUnit.GetComponent<Actor>().map = this;
 
         if(codeGenerateMap)
         {
@@ -165,7 +158,7 @@ public class TileMap : MonoBehaviour {
 
         selectedUnit.GetComponent<Actor>().currentPath = null;
         
-        if (UnitCanEnterTile(x,z) == false || map[x,z].occupied == true)
+        if (UnitCanEnterTile(x,z) == false || map[x,z].isOccupied() == true)
         {//tile is not walkable
             return;
         }
@@ -385,5 +378,14 @@ public class TileMap : MonoBehaviour {
         return map;
     }
 
+    public void setSelectedUnit(GameObject unit)
+    {
+        selectedUnit = unit;
+    }
+
+    public GameObject getSelectedUnit()
+    {
+        return selectedUnit;
+    }
     #endregion
 }

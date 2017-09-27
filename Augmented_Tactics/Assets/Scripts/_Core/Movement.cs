@@ -4,31 +4,97 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour {
 
+    #region variables
     private TileMap map;
+    public ClickableTile[,] genMap;
+    private Actor unit;
+    public List<Node> currentPath = null;
+    LineRenderer path;
+    
+
+    #endregion
+
+
+
 
     private void Start()
     {
+        initialize();
+
+    }
+
+    void initialize()
+    {
+        //use this to initialize vars, avoids clutter in start
+        genMap = new ClickableTile[map.mapSizeX, map.mapSizeZ];
+        unit = map.getSelectedUnit().GetComponent<Actor>();
+
         if (map == null)
         {
+            Debug.LogError("Missing map, make sure to include map in level hierarchy");
             return;
         }
         //grabs tilemap from the scene and stores it in map
         map = GameObject.FindGameObjectWithTag("Map").GetComponent<TileMap>();
 
+        if (GameObject.Find("Path").GetComponent<LineRenderer>() == null)
+        {
+            Debug.LogError("Missing path, make sure to include in level hierarchy");
+            return;
+        }
+        path = GameObject.Find("Path").GetComponent<LineRenderer>();
+    }
+
+    //Draws pathing lines
+    public void drawDebugLines()
+    {
+
+        if (currentPath != null)
+        {
+            //begin at 0
+            int currNode = 0;
+
+            Vector3[] position = new Vector3[currentPath.Count];
+            Vector3 start = new Vector3();
+            Vector3 end = new Vector3();
+
+            while (currNode < currentPath.Count - 1 && currentPath.Count < unit.getMoveDistance() + 2)
+            {
+                //starting vector
+                start = currentPath[currNode].coords + new Vector3(0, 1f, 0);
+                //ending vector(next in array)
+                end = currentPath[currNode + 1].coords + new Vector3(0, 1f, 0);
+                
+                //draws lines in scene view to visualize path
+                Debug.DrawLine(start, end, Color.red);
+
+                path.positionCount = currentPath.Count - 1;
+                position[currNode] = start;
+                path.SetPositions(position);
+                currNode++;
+
+                if (currNode == currentPath.Count - 1)
+                {
+                    position[currNode] = end;
+                }
+
+            }
+        }
     }
 
 
     public float costToEnterTile(Vector3 source, Vector3 target)
     {
-        TileType tt = tileTypes[tiles[target.x, target.z]];
-
-        if (UnitCanEnterTile(targetX, targetZ) == false)
+        TileType type = tileTypes[tiles[target.x, target.z]];
+        
+        
+        if (UnitCanEnterTile(source.x, target.z) == false)
         {
             return Mathf.Infinity;
         }
 
-        float cost = tt.movementCost;
-        if (sourceX != targetX && sourceY != targetZ)
+        float cost = type.movementCost;
+        if (source.x != target.x && source.z != target.z)
         {
             //moving diagonally
             cost += 0.001f;// done to prefer straight lines over diagonal lines
@@ -42,21 +108,24 @@ public class Movement : MonoBehaviour {
     public bool UnitCanEnterTile(int x, int z)
     {
         //could test units movement type(walk,fly,run etc..)
-        return map[x, z].tileTypes.isWalkable && map[x, z].isOccupied() == false;
+        return genMap[x, z].tileTypes.isWalkable && genMap[x, z].isOccupied() == false;
     }
 
     public void GeneratePathTo(Vector3 coords)
     {
         Actor player = GameObject.FindWithTag("Player").GetComponent<Actor>();
         Actor enemy = GameObject.FindWithTag("Enemy").GetComponent<Actor>();
+        List<Node> currentPath = new List<Node>();
 
-        map[enemy.tileX, enemy.tileZ].setOccupied();
-        map[player.tileX, player.tileZ].setOccupied();
+        int x = (int)coords.x;
+        int z = (int)coords.z;
 
+        genMap[enemy.tileX, enemy.tileZ].setOccupied();
+        genMap[player.tileX, player.tileZ].setOccupied();
 
-        selectedUnit.GetComponent<Actor>().currentPath = null;
+        currentPath = null;
 
-        if (UnitCanEnterTile(x, z) == false || map[x, z].occupied == true)
+        if (UnitCanEnterTile(x, z) == false || genMap[x, z].isOccupied() == true)
         {//tile is not walkable
             return;
         }
@@ -64,11 +133,9 @@ public class Movement : MonoBehaviour {
         Dictionary<Node, float> dist = new Dictionary<Node, float>();
         Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
 
-        Actor uXZ = selectedUnit.GetComponent<Actor>();
-
         List<Node> unvisited = new List<Node>();
 
-        Node source = graph[uXZ.tileX, uXZ.tileZ];
+        Node source = graph[unit.tileX, unit.tileZ];
         Node target = graph[x, z];
         dist[source] = 0;
         prev[source] = null;
@@ -106,7 +173,7 @@ public class Movement : MonoBehaviour {
             foreach (Node v in u.neighbors)
             {
                 //float alt = dist[u] + u.DistanceTo(v);
-                float alt = dist[u] + costToEnterTile(u.x, u.z, v.x, v.z);
+                float alt = dist[u] + costToEnterTile(u.coords, v.coords);
                 if (alt < dist[v])
                 {
                     dist[v] = alt;
@@ -122,7 +189,6 @@ public class Movement : MonoBehaviour {
             return;
         }
 
-        List<Node> currentPath = new List<Node>();
         Node curr = target;
 
 
@@ -136,6 +202,11 @@ public class Movement : MonoBehaviour {
 
 
         currentPath.Reverse(); //inverts the path
-        selectedUnit.GetComponent<Actor>().currentPath = currentPath;
+       // selectedUnit.GetComponent<Actor>().currentPath = currentPath;
+    }
+
+    private void OnMouseExit()
+    {
+        path.positionCount = 0;
     }
 }
