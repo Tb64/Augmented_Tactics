@@ -31,14 +31,14 @@ public class Actor : MonoBehaviour {
     protected int charisma;         //measuring force of personality (Buffs and Debuffs)
 
     //Added by arthur ==========================
-    private TileMap map;
+    
     private StateMachine SM;
     Vector3[] position;
-    LineRenderer path;
+    private TileMap map;
     public int tileX;
     public int tileZ;
     public int index;
-    public float speed;
+    private float speed;
     private int moveDistance;
     private float remainingMovement;
     static public int numberOfActors = 0;
@@ -65,17 +65,11 @@ public class Actor : MonoBehaviour {
     {
         numOfMoves = 1;
 
+        speed = 
         //number of tiles
         moveDistance = 4;
 
         anim = GetComponentInChildren<Animator>();
-
-        if (GameObject.Find("Path").GetComponent<LineRenderer>() == null)
-        {
-            Debug.LogError("Missing path, make sure to include in level hierarchy");
-            return;
-        }
-        path = GameObject.Find("Path").GetComponent<LineRenderer>();
 
         if (GameObject.FindWithTag("GameController") == null)
         {
@@ -99,10 +93,7 @@ public class Actor : MonoBehaviour {
 
     }
 
-    private void OnMouseExit()
-    {     
-        path.positionCount = 0;
-    }
+    
     private void OnMouseUp()
     {
         if (currentPath != null)
