@@ -24,7 +24,6 @@ public class TileMap : MonoBehaviour {
         {
             coordX = 0;
             coordZ = 0;
-            
         }
     }
 
@@ -36,14 +35,12 @@ public class TileMap : MonoBehaviour {
     public int mapSizeX = 16;
     public int mapSizeZ = 16;
 
-    
-
     // Use this for initialization
 
     void Start() {
         map = new ClickableTile[mapSizeX, mapSizeZ];
-
         Players = new Location[20];
+
         for (int index = 0; index < Players.Length; index++)
         {
             Players[index] = new Location();
@@ -58,7 +55,6 @@ public class TileMap : MonoBehaviour {
 
         if(codeGenerateMap)
         {
-           
             GenerateMapData();
             GenerateMapVisual();
         }
@@ -155,15 +151,20 @@ public class TileMap : MonoBehaviour {
     public bool UnitCanEnterTile(int x, int z)
     {
         //could test units movement type(walk,fly,run etc..)
-        return map[x,z].tileTypes.isWalkable && map[x, z].occupied == false;
+        return map[x,z].tileTypes.isWalkable && map[x, z].isOccupied() == false;
     }
 
     public void GeneratePathTo(int x, int z)
     {
+        Actor player = GameObject.FindWithTag("Player").GetComponent<Actor>();
+        Actor enemy = GameObject.FindWithTag("Enemy").GetComponent<Actor>();
+
+        map[enemy.tileX, enemy.tileZ].setOccupied();
+        map[player.tileX, player.tileZ].setOccupied();
+
 
         selectedUnit.GetComponent<Actor>().currentPath = null;
-
-       
+        
         if (UnitCanEnterTile(x,z) == false || map[x,z].occupied == true)
         {//tile is not walkable
             return;
@@ -324,9 +325,65 @@ public class TileMap : MonoBehaviour {
         }
     }
 
+
+    void AdvancePathing()
+    {
+        if (currentPath == null)
+        {
+            return;
+        }
+
+        if (remainingMovement <= 0)
+        {
+            return;
+        }
+
+        //remove occupied somewhere here
+
+        // Get cost from current tile to next tile
+
+        remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].z, currentPath[1].x, currentPath[1].z);
+
+        // Move us to the next tile in the sequence
+        tileX = currentPath[1].x;
+        tileZ = currentPath[1].z;
+
+        // Remove the old "current" tile from the pathfinding list
+        currentPath.RemoveAt(0);
+
+        if (currentPath.Count == 1)
+        {
+            //standing on same tile clicked on
+            currentPath = null;
+        }
+
+        if (currentPath == null)
+        {
+            GameObject.FindWithTag("Map").GetComponent<TileMap>().getMapArray()[tileX, tileZ].occupied = true;
+        }
+    }
+
+    public void moveUnit()
+    {
+        if (Vector3.Distance(transform.position, map.TileCoordToWorldCoord(tileX, tileZ)) < 0.1f)
+        {
+            AdvancePathing();
+            //Debug.Log("X " + tileX + "Y " + tileZ + "name" + gameObject.name);
+
+        }
+        //move unit to next tile
+
+        MoveController(transform, map.TileCoordToWorldCoord(tileX, tileZ), speed);
+        //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
+
+    }
+
+
+    #region setGets
     public ClickableTile[,] getMapArray()
     {
         return map;
     }
 
+    #endregion
 }

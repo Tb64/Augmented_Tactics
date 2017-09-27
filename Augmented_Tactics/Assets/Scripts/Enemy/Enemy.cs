@@ -53,17 +53,39 @@ public class Enemy : Actor
         if (GetHealthPercent() < findNearestPlayer().GetComponent<Actor>().GetHealthPercent())
             HealHealth(100);
         GameObject target = findNearestPlayer();
-       if (target == findWeakestPlayer())
+        Actor targetCoords = target.GetComponent<Actor>();
+        if(target == null)
         {
-            map.GeneratePathTo(target.GetComponent<Actor>().tileX, target.GetComponent<Actor>().tileZ);
-            if (Vector2.Distance(new Vector2((float)target.GetComponent<Actor>().tileX, (float)target.GetComponent<Actor>().tileZ), new Vector2(tileX, tileZ)) <= 1)
+            target = gameObject;
+        }
+        if(map == null)
+        {
+            map = GameObject.Find("Map").GetComponent<TileMap>();
+        }
+
+
+        Vector2 targetPosition = new Vector2((float)targetCoords.tileX, (float)targetCoords.tileZ);
+        Vector2 currentPosition = new Vector2((float)tileX, (float)tileZ);
+        float distanceToTarget = Vector2.Distance(targetPosition, currentPosition);
+
+        if (target == findWeakestPlayer())
+        {
+
+            map.GeneratePathTo(targetCoords.tileX, targetCoords.tileZ);
+            if (Vector2.Distance(targetPosition, currentPosition) <= 1)
             {
                 Attack(target);
             }
             NextTurn();
             return;
         }
-        else if (Vector2.Distance(new Vector2((float)target.GetComponent<Actor>().tileX, (float)target.GetComponent<Actor>().tileZ), new Vector2(tileX, tileZ)) > moveDistance && Vector2.Distance(new Vector2((float)target.GetComponent<Actor>().tileX, (float)target.GetComponent<Actor>().tileZ), new Vector2(tileX, tileZ)) > Vector2.Distance(new Vector2((float)findNearestPlayer().GetComponent<Actor>().tileX, (float)findNearestPlayer().GetComponent<Actor>().tileZ), new Vector2(tileX, tileZ)))
+
+        
+
+        else if (distanceToTarget > moveDistance && distanceToTarget > 
+            Vector2.Distance(new Vector2((float)findNearestPlayer().GetComponent<Actor>().tileX, 
+            (float)findNearestPlayer().GetComponent<Actor>().tileZ), new Vector2(tileX, tileZ)))
+
             target = findNearestPlayer();
         //Debug.Log(target.name+" "+ target.GetComponent<Actor>().tileX+" "+ target.GetComponent<Actor>().tileZ);
         map.GeneratePathTo(target.GetComponent<Actor>().tileX, target.GetComponent<Actor>().tileZ);

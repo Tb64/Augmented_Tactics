@@ -6,18 +6,34 @@ public class ClickableTile : MonoBehaviour {
 
     public int tileX;
     public int tileZ;
+
+    //holds player x,y,z coords
+    Vector3 playerCoords;
+    
+    //true if an actor is standing on the tile
+    private bool occupied;
+
+
     public int tileClass;
     public TileMap map;
+
+    //used to store original color of tile on mouseOver
     private Color32 originalColor;
-    float delay = .2f;
+
+    //delay between 2 clicks
+    float delay = .3f;
+    
+
+
     float deltaTime;
 
     public TileType tileTypes;
 
-    public bool occupied;
+    
    
     private void Start()
     {
+        //sets each tile to not occupied by default
         occupied = false;
         deltaTime = 0;
         
@@ -28,13 +44,14 @@ public class ClickableTile : MonoBehaviour {
         deltaTime += Time.deltaTime;
     }
 
+    #region mouseEvents
     public void OnMouseUp()
     {
         //single click
 
         //Generates a path to clicked tile
         map.GeneratePathTo(tileX, tileZ);
-
+        Debug.Log("click");
         Actor Unit;    
         Unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
         
@@ -61,20 +78,24 @@ public class ClickableTile : MonoBehaviour {
         //resets block back to original color after mouse pointer exits
         gameObject.GetComponent<MeshRenderer>().material.color = originalColor;
     }
+    #endregion
+    #region setGets
 
-    public void OnMouseOver()
-    {
-       
-        if(GameObject.FindWithTag("Player").GetComponent<Actor>().getMoves() == 0)
-        {
-            return;
-        }
-        map.GeneratePathTo(tileX, tileZ);
-    }
-
+    //returns current gameobject
     public GameObject GetGameObject()
     {
         return gameObject;
     }
+    //sets the tile to occupied
+    public void setOccupied()
+    {
+        occupied = true;
+    }
+    //returns whether tile is occupied or not
+    public bool isOccupied()
+    {
+        return occupied;
+    }
+    #endregion
 }
 

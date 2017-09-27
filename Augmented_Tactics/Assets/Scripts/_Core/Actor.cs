@@ -75,27 +75,11 @@ public class Actor : MonoBehaviour {
         }
         SM = GameObject.FindWithTag("GameController").GetComponent<StateMachine>();
 
-        if (map == null)
-        {
-            return;
-        }
-        //map = GameObject.Find("Map").GetComponent<TileMap>();
-
-        //map.getMapArray()[tileX, tileZ].occupied = true;
-        //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
-    }
-
-    private void Awake()
-    {
         map = GameObject.Find("Map").GetComponent<TileMap>();
-        if (map.getMapArray() != null)
-        {
-            map.getMapArray()[tileX, tileZ].occupied = true;
-            Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
-        }
-        
+       
     }
 
+   
     // Update is called once per frame
     public virtual void Update () {
 
@@ -115,13 +99,7 @@ public class Actor : MonoBehaviour {
 
     private void OnMouseEnter()
     {
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-        if (currentPath != null)
-        {
-
-            position = new Vector3[currentPath.Count];
-            path.SetPositions(position);
-        }
+        
 
     }
 
@@ -134,17 +112,20 @@ public class Actor : MonoBehaviour {
     }
     private void OnMouseUp()
     {
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-        //Button button = GameObject.FindWithTag("Button").GetComponent<Button>();
 
+        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
+        if (currentPath != null)
+        {
+            position = new Vector3[currentPath.Count];
+            path.SetPositions(position);
+        }
+        
 
         //double click detection
         if (deltaTime < delay)
         {
-            GO.selectedUnit = gameObject;
-            
-            // button.onClick.AddListener
-
+            //sets gameobject in tilemap to object clicked on
+            GO.selectedUnit = gameObject;  
         }
         deltaTime = 0;
     }
@@ -199,46 +180,22 @@ public class Actor : MonoBehaviour {
                     new Vector3(0, 1f, 0);
 
                 Debug.DrawLine(start, end, Color.red);
-                
-
+             
                 path.positionCount = currentPath.Count - 1;
-
                 position[currNode] = start;
-                
-                
                 path.SetPositions(position);
-                
                 currNode++;
                 
                 if (currNode  == currentPath.Count - 1)
                 {
                     position[currNode] = end;
-                    //Debug.Log(" last vertex" + position[currNode]);
-
-
                 }
-                
+      
             }
-            
         }
     }
 
-    public void moveUnit()
-    {
-
-
-        if (Vector3.Distance(transform.position, map.TileCoordToWorldCoord(tileX, tileZ)) < 0.1f)
-        {
-            AdvancePathing();
-            //Debug.Log("X " + tileX + "Y " + tileZ + "name" + gameObject.name);
-            
-        }
-        //move unit to next tile
-        
-        MoveController(transform, map.TileCoordToWorldCoord(tileX, tileZ), speed);
-        //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
-
-    }
+    
 
     bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
@@ -270,42 +227,7 @@ public class Actor : MonoBehaviour {
         return false;
     }
 
-    void AdvancePathing()
-    {
-        if (currentPath == null)
-        {
-            return;
-        }
-
-        if (remainingMovement <= 0)
-        {
-            return;
-        }
-               
-
-        // Get cost from current tile to next tile
-        remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].z, currentPath[1].x, currentPath[1].z);
-        
-        // Move us to the next tile in the sequence
-        tileX = currentPath[1].x;
-        tileZ = currentPath[1].z;
-
-        // Remove the old "current" tile from the pathfinding list
-        currentPath.RemoveAt(0);
-
-        
-
-        if (currentPath.Count == 1)
-        {
-            //standing on same tile clicked on
-            currentPath = null;
-        }
-
-       if(currentPath == null)
-        {
-            GameObject.FindWithTag("Map").GetComponent<TileMap>().getMapArray()[tileX, tileZ].occupied = true;
-        }
-    }
+    
 
     public void NextTurn()
     {
