@@ -54,6 +54,10 @@ namespace GoogleARCore.HelloAR
 
         private List<TrackedPlane> m_allPlanes = new List<TrackedPlane>();
 
+        //added by Tuan
+
+        private bool hasSpawned = false;
+
         private Color[] m_planeColors = new Color[] {
             new Color(1.0f, 1.0f, 1.0f),
             new Color(0.956f, 0.262f, 0.211f),
@@ -78,7 +82,7 @@ namespace GoogleARCore.HelloAR
         public void Update()
         {
             _QuitOnConnectionErrors();
-
+            
             // The tracking state must be FrameTrackingState.Tracking in order to access the Frame.
             if (Frame.TrackingState != FrameTrackingState.Tracking)
             {
@@ -88,6 +92,10 @@ namespace GoogleARCore.HelloAR
             }
 
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
+
+            if (hasSpawned)
+                return;
+
             Frame.GetNewPlanes(ref m_newPlanes);
 
             // Iterate over planes found in this frame and instantiate corresponding GameObjects to visualize them.
@@ -148,6 +156,8 @@ namespace GoogleARCore.HelloAR
                 // Use a plane attachment component to maintain Andy's y-offset from the plane
                 // (occurs after anchor updates).
                 andyObject.GetComponent<PlaneAttachment>().Attach(hit.Plane);
+                hasSpawned = true;
+                gameObject.SetActive(false);
             }
         }
 

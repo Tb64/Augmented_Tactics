@@ -49,26 +49,40 @@ public class Enemy : Actor
 
     void enemyTurn()
     {
+
+
         map.selectedUnit = gameObject;
         if (GetHealthPercent() < findNearestPlayer().GetComponent<Actor>().GetHealthPercent())
             HealHealth(100);
         GameObject target = findNearestPlayer();
-       if (target == findWeakestPlayer())
+
+        float targetX = (float)target.GetComponent<Actor>().tileX;
+        float targetZ = (float)target.GetComponent<Actor>().tileZ;
+
+        Vector2 targetPos = new Vector2(targetX, targetZ);
+        Vector2 currentPos = new Vector2((float)tileX, (float)tileZ);
+
+        if (target == findWeakestPlayer())
         {
             map.GeneratePathTo(target.GetComponent<Actor>().tileX, target.GetComponent<Actor>().tileZ);
-            if (Vector2.Distance(new Vector2((float)target.GetComponent<Actor>().tileX, (float)target.GetComponent<Actor>().tileZ), new Vector2(tileX, tileZ)) <= 1)
+            if (Vector2.Distance(targetPos, new Vector2(tileX, tileZ)) <= 1)
             {
                 Attack(target);
             }
             NextTurn();
             return;
         }
+        else if (Vector2.Distance(targetPos, currentPos) > moveDistance && Vector2.Distance(targetPos, currentPos) > Vector2.Distance(targetPos, currentPos))
+            target = findNearestPlayer();
+
+        /*
         else if (Vector2.Distance(new Vector2((float)target.GetComponent<Actor>().tileX, (float)target.GetComponent<Actor>().tileZ), new Vector2(tileX, tileZ)) > moveDistance && Vector2.Distance(new Vector2((float)target.GetComponent<Actor>().tileX, (float)target.GetComponent<Actor>().tileZ), new Vector2(tileX, tileZ)) > Vector2.Distance(new Vector2((float)findNearestPlayer().GetComponent<Actor>().tileX, (float)findNearestPlayer().GetComponent<Actor>().tileZ), new Vector2(tileX, tileZ)))
             target = findNearestPlayer();
+         */
         //Debug.Log(target.name+" "+ target.GetComponent<Actor>().tileX+" "+ target.GetComponent<Actor>().tileZ);
         map.GeneratePathTo(target.GetComponent<Actor>().tileX, target.GetComponent<Actor>().tileZ);
         //after moving, if enemy is in range attack
-        if (Vector2.Distance(new Vector2((float)target.GetComponent<Actor>().tileX, (float)target.GetComponent<Actor>().tileZ), new Vector2(tileX, tileZ)) < 1)
+        if (Vector2.Distance(targetPos, new Vector2(tileX, tileZ)) < 1)
             Attack(target);
         NextTurn();
     }
