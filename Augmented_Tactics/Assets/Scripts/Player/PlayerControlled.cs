@@ -9,7 +9,7 @@ public class PlayerControlled : Actor
     void Start ()
     {
         base.Start();
-        
+        abilitySet = new BasicAttack[4];
        // GameObject.FindWithTag("Map").GetComponent<TileMap>().Players.Add(this.GetComponent<Actor>());
     }
 
@@ -25,8 +25,6 @@ public class PlayerControlled : Actor
         base.Update();
 
         turnControl();
-        
-        //turnControl();
     }
 
 
@@ -49,8 +47,4 @@ public class PlayerControlled : Actor
         }
 
     }
-
-
-
-
 }

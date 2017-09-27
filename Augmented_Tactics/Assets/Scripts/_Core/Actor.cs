@@ -30,6 +30,8 @@ public class Actor : MonoBehaviour {
     protected int wisdom;           //measuring perception and insight (Resistance/Healing)
     protected int charisma;         //measuring force of personality (Buffs and Debuffs)
 
+    public Ability[] abilitySet;
+
     //Added by arthur ==========================
     
     private StateMachine SM;
@@ -52,6 +54,7 @@ public class Actor : MonoBehaviour {
      *  Events
      ******************/
     #region Events
+
     // Use this for initialization
     public virtual void Start ()
     {
@@ -234,6 +237,16 @@ public class Actor : MonoBehaviour {
             return 1f;
 
         return hpPercent;
+    }
+
+    public float GetHealthCurrent()
+    {
+        return health_current;
+    }
+
+    public float GetHeathMax()
+    {
+        return health_max;
     }
 
     #endregion
