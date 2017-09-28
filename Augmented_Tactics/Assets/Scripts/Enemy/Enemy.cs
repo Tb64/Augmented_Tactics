@@ -5,15 +5,32 @@ using UnityEngine;
 public class Enemy : Actor
 {
     private GameObject[] userTeam;
-	// Use this for initialization
-	void Start () {
+
+    public static int enemyNum;
+    public static Actor[] enemyList;
+    // Use this for initialization
+    void Start () {
 	    base.Start();
+
+
+        if (enemyNum == null)
+            enemyNum = 0;
+        if (enemyList == null)
+            enemyList = new Actor[15];
+        enemyList[enemyNum] = this;
+        Debug.Log("Player added: " + enemyNum + ") " + enemyList[enemyNum]);
+        enemyNum++;
+
+        abilitySet = new BasicAttack[4];  //test
+
         userTeam = GameObject.FindGameObjectsWithTag("Player");
     }
 	
 	// Update is called once per frame
 	void Update () {
         base.Update();
+
+
 
         turnControl();
     }
@@ -53,7 +70,8 @@ public class Enemy : Actor
         if (GetHealthPercent() < findNearestPlayer().GetComponent<Actor>().GetHealthPercent())
             HealHealth(100);
         GameObject target = findNearestPlayer();
-       if (target == findWeakestPlayer())
+
+        if (target == findWeakestPlayer())
         {
             map.GeneratePathTo(target.GetComponent<Actor>().tileX, target.GetComponent<Actor>().tileZ);
             if (Vector2.Distance(new Vector2((float)target.GetComponent<Actor>().tileX, (float)target.GetComponent<Actor>().tileZ), new Vector2(tileX, tileZ)) <= 1)
@@ -111,7 +129,7 @@ public class Enemy : Actor
 /// <param name="target"></param>
     void Attack(GameObject target)
     {
-
+        abilitySet[0].UseSkill(target); //test
     }
  
 }

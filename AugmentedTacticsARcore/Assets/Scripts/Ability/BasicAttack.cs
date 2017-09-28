@@ -1,0 +1,34 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BasicAttack : Ability {
+
+    public float damage;
+
+    public BasicAttack()
+    {
+        Initialize();
+    }
+
+    public override void Initialize()
+    {
+        range = 1;
+        abilityName = "BasicAttack";
+        base.Initialize();
+        anim = GetComponentInChildren<Animator>();
+    }
+
+    public override void UseSkill(GameObject target)
+    {
+        if (SkillInRange(transform.position, target.transform.position) == false)
+            return;
+        if(target.tag == "Player" || target.tag == "Enemy")
+        {
+            if (anim != null)
+                anim.SetTrigger("MeleeAttack");
+
+            target.GetComponent<Actor>().TakeDamage(damage);
+        }
+    }
+}

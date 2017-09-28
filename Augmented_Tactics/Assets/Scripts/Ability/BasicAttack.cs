@@ -17,7 +17,11 @@ public class BasicAttack : Ability {
     public override void UseSkill(GameObject target)
     {
         if (SkillInRange(transform.position, target.transform.position) == false)
+        {
+            Debug.Log("Ability out of range. Range is " + range);
             return;
+        }
+
         if(target.tag == "Player" || target.tag == "Enemy")
         {
             if (anim != null)
