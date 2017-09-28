@@ -18,7 +18,7 @@ public class Enemy : Actor
         if (enemyList == null)
             enemyList = new Actor[15];
         enemyList[enemyNum] = this;
-        Debug.Log("Player added: " + enemyNum + ") " + enemyList[enemyNum]);
+        Debug.Log("Enemy added: " + enemyNum + ") " + enemyList[enemyNum]);
         enemyNum++;
 
         abilitySet = new BasicAttack[4];  //test
