@@ -9,7 +9,6 @@ public class ClickableTile : MonoBehaviour {
     public int tileClass;
     public TileMap map;
     private Color32 originalColor;
-    float delay = .2f;
     float deltaTime;
 
     public TileType tileTypes;
@@ -18,14 +17,14 @@ public class ClickableTile : MonoBehaviour {
    
     private void Start()
     {
+        //sets clickable tile to false as its initialized
         occupied = false;
-        deltaTime = 0;
-        
+             
     }
    
     private void Update()
     {
-        deltaTime += Time.deltaTime;
+     
     }
 
     public void OnMouseUp()
@@ -35,17 +34,11 @@ public class ClickableTile : MonoBehaviour {
         //Generates a path to clicked tile
         map.GeneratePathTo(tileX, tileZ);
 
-        Actor Unit;    
+        Actor Unit;  
         Unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
         
-        //check for double click
-        if (deltaTime < delay)
-        {
-            //double click
-            Unit.NextTurn();
-            Debug.Log("Double Click!");
-        }
-        deltaTime = 0; // resets delta time for double click detection
+        Unit.NextTurn();
+                
     }
 
     public void OnMouseEnter()
@@ -62,15 +55,7 @@ public class ClickableTile : MonoBehaviour {
         gameObject.GetComponent<MeshRenderer>().material.color = originalColor;
     }
 
-    public void OnMouseOver()
-    {
-       
-        if(GameObject.FindWithTag("Player").GetComponent<Actor>().getMoves() == 0)
-        {
-            return;
-        }
-        map.GeneratePathTo(tileX, tileZ);
-    }
+    
 
     public GameObject GetGameObject()
     {

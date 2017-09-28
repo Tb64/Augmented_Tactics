@@ -37,9 +37,9 @@ public class Actor : MonoBehaviour {
     public TileMap map;
     public StateMachine SM;
     public float speed;
-    public int moveDistance;
+    private int moveDistance;
     float step;
-    public float remainingMovement;
+    private float remainingMovement;
     public List<Node> currentPath = null;
     static public int numberOfActors = 0;
     float delay = .3f;
@@ -150,7 +150,6 @@ public class Actor : MonoBehaviour {
     }
 
     #endregion
-
 
     /// <summary>
     /// The method to damage an Actor
@@ -324,8 +323,7 @@ public class Actor : MonoBehaviour {
         for (int index = 0; index < numberOfActors; index++)
         {
             //GO.Players[index] = new TileMap.Location();
-            //Debug.Log("test" + index + "tileX " + tileX);
-            
+                        
             GO.Players[index].coordX = tileX;
             GO.Players[index].coordZ = tileZ;
         }
@@ -354,6 +352,21 @@ public class Actor : MonoBehaviour {
     public int getMoves()
     {
         return numOfMoves;
+    }
+
+    public void setMoveDistance(int distance)
+    {
+        moveDistance = distance;
+    }
+
+    public float getRemainingMovement()
+    {
+        return remainingMovement;
+    }
+
+    public int getMoveDistance()
+    {
+        return moveDistance;
     }
 
     public void setMovement(int movesLeft)
