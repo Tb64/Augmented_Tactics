@@ -6,15 +6,31 @@ public class Enemy : Actor
 {
     private GameObject[] userTeam;
     //private int callControl = 0;
-	// Use this for initialization
-	void Start () {
+    public static int enemyNum;
+    public static Actor[] enemyList;
+    // Use this for initialization
+    void Start () {
 	    base.Start();
+
+
+        if (enemyNum == null)
+            enemyNum = 0;
+        if (enemyList == null)
+            enemyList = new Actor[15];
+        enemyList[enemyNum] = this;
+        Debug.Log("Player added: " + enemyNum + ") " + enemyList[enemyNum]);
+        enemyNum++;
+
+        abilitySet = new BasicAttack[4];  //test
+
         userTeam = GameObject.FindGameObjectsWithTag("Player");
     }
 	
 	// Update is called once per frame
 	void Update () {
         base.Update();
+
+
 
         turnControl();
     }
@@ -131,7 +147,7 @@ public class Enemy : Actor
 /// <param name="target"></param>
     void Attack(Actor target)
     {
-
+        abilitySet[0].UseSkill(target); //test
     }
  
 }
