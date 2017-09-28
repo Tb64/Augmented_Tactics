@@ -5,13 +5,22 @@ using UnityEngine;
 public class PlayerControlled : Actor
 {
 
-   
-    
+
+    public static int playerNum;
+    public static Actor[] playerList;
 
     // Use this for initialization
     void Start ()
     {
         base.Start();
+        if (playerNum == null)
+            playerNum = 0;
+        if (playerList == null)
+            playerList = new Actor[4];
+        playerList[playerNum] = this;
+        Debug.Log("Player added: " + playerNum + ") " + playerList[playerNum]);
+        playerNum++;
+
         abilitySet = new BasicAttack[4];
        // GameObject.FindWithTag("Map").GetComponent<TileMap>().Players.Add(this.GetComponent<Actor>());
     }
