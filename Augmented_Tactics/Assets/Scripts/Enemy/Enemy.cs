@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : Actor
 {
     private GameObject[] userTeam;
-    private int callControl = 0;
+    //private int callControl = 0;
 	// Use this for initialization
 	void Start () {
 	    base.Start();
@@ -25,15 +25,15 @@ public class Enemy : Actor
         //true player turn ,false enemy turn
         if (SM.GetComponent<StateMachine>().checkTurn() == false)
         {
-            if (callControl == 0)
-            {
+           // if (callControl == 0)
+            //{
                 enemyTurn();
-                callControl++;
-            }
+                //callControl++;
+            //}
             drawDebugLines();
             moveUnit();
         }
-        /*else
+       /* else
         {
             callControl = 0;
         }*/
