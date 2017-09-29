@@ -51,7 +51,6 @@ public class TileMap : MonoBehaviour {
     {
         map = new ClickableTile[mapSizeX, mapSizeZ];
 
-
         if (GameObject.Find("Path").GetComponent<LineRenderer>() == null)
         {
             Debug.LogError("Null reference, missing path object, add in scene hierarchy");
@@ -209,6 +208,7 @@ public class TileMap : MonoBehaviour {
         {
             if(v != source)
             {
+                Debug.Log("test");
                 dist[v] = Mathf.Infinity;
                 prev[v] = null;
             }
@@ -264,7 +264,7 @@ public class TileMap : MonoBehaviour {
             currentPath.Add(curr);
             curr = prev[curr];
         }
-
+       
         currentPath.Reverse(); //inverts the path
     }
 
@@ -283,7 +283,8 @@ public class TileMap : MonoBehaviour {
                 graph[x, Z].z = Z;
             }
         }
-                for (int x = 0; x < mapSizeX; x++)
+
+        for (int x = 0; x < mapSizeX; x++)
         {
             for(int z = 0; z < mapSizeZ; z++)
             {
@@ -307,6 +308,7 @@ public class TileMap : MonoBehaviour {
                     graph[x, z].neighbors.Add(graph[x, z + 1]);
                 }
 
+                #region 8wayMovement
                 //8 way movement=============================================================
                 //if (x > 0) //try moving left
                 //{
@@ -341,6 +343,7 @@ public class TileMap : MonoBehaviour {
                 //    graph[x, z].neighbors.Add(graph[x, z + 1]);
                 //}
                 //===========================================================================
+                #endregion
             }
         }
     }
@@ -370,7 +373,7 @@ public class TileMap : MonoBehaviour {
         {
             return;
         }
-
+        
         //Actor runs out of movement points
         if (unit.getRemainingMovement() <= 0)
         {
@@ -407,6 +410,7 @@ public class TileMap : MonoBehaviour {
 
     public void drawDebugLines()
     {
+        
         if (unit.getCurrentPath() != null)
         {
             int currNode = 0;
@@ -414,6 +418,7 @@ public class TileMap : MonoBehaviour {
             Vector3 start = new Vector3();
             Vector3 end = new Vector3();
 
+            
             while (currNode < unit.getCurrentPath().Count - 1 &&
                 unit.getCurrentPath().Count < unit.getMoveDistance() + 2)
             {

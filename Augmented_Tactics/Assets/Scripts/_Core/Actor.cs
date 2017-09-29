@@ -41,12 +41,9 @@ public class Actor : MonoBehaviour {
     public StateMachine SM;
     public float speed;
     public int moveDistance;
-    float step;
     private float remainingMovement;
     private List<Node> currentPath = null;
     static public int numberOfActors = 0;
-    float delay = .3f;
-    float deltaTime;
     public int numOfMoves;
 
 
@@ -58,7 +55,6 @@ public class Actor : MonoBehaviour {
      *  Events
      ******************/
 
-
     #region events
     public virtual void Start ()
     {
@@ -68,13 +64,8 @@ public class Actor : MonoBehaviour {
     
     public virtual void Update()
     {
-
-        deltaTime += Time.deltaTime;
-
         //drawDebugLines();
-
         //moveUnit();
-
     }
 
     private void Awake()
@@ -104,7 +95,6 @@ public class Actor : MonoBehaviour {
     {
         //number of moves each actor can make per turn
         numOfMoves = 1;
-        deltaTime = 0;
         anim = GetComponentInChildren<Animator>();
         
         if (GameObject.FindWithTag("GameController") == null)
@@ -123,9 +113,7 @@ public class Actor : MonoBehaviour {
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
     }
-
-
-    
+        
     public bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
         float scaleDist = 1f;
@@ -155,11 +143,7 @@ public class Actor : MonoBehaviour {
 
         return false;
     }
-
-    
-
-  
-
+        
     /// <summary>
     /// The method to damage an Actor
     /// </summary>
