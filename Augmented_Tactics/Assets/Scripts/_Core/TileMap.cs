@@ -6,11 +6,13 @@ using System.Linq;
 
 public class TileMap : MonoBehaviour {
 
+
+    #region variables
     public GameObject selectedUnit;
     public TileType[] tileTypes;            //This seems stupid it should be stored in the tile
     float remainingMovement;
     public bool codeGenerateMap = true;
-
+    LineRenderer path;
     public ClickableTile[,] map;
     private Actor unit;
     public class Location
@@ -27,7 +29,7 @@ public class TileMap : MonoBehaviour {
             
         }
     }
-
+    Vector3[] position;
     public Location[] Players;
    
     int[,] tiles;
@@ -35,33 +37,46 @@ public class TileMap : MonoBehaviour {
     
     public int mapSizeX = 16;
     public int mapSizeZ = 16;
-
+    #endregion
     // Use this for initialization
 
     void Start() {
 
         initialize();
-
+    
     }
 
+    //use this function to initializes variables
     void initialize()
     {
         map = new ClickableTile[mapSizeX, mapSizeZ];
 
+
+        if (GameObject.Find("Path").GetComponent<LineRenderer>() == null)
+        {
+            Debug.LogError("Null reference, missing path object, add in scene hierarchy");
+            return;
+        }
+        path = GameObject.Find("Path").GetComponent<LineRenderer>();
+
+        //number of players in the map
         Players = new Location[20];
+        
+        //initialize players array
         for (int index = 0; index < Players.Length; index++)
         {
             Players[index] = new Location();
         }
 
-        //Players = null;
-        //setup selectedUnit vars
 
+        //sets unit to the selected unit in the map
         unit = selectedUnit.GetComponent<Actor>();
-        Vector3 coordinates = new Vector3();
 
+        Vector3 coordinates = new Vector3();
+        //initializes coordinates vector to selected units transform
         coordinates.x = (int)selectedUnit.transform.position.x;
         coordinates.z = (int)selectedUnit.transform.position.z;
+        //passes coordinates vector to unit to set units coords
         unit.setCoords(coordinates);
 
         selectedUnit.GetComponent<Actor>().tileX = (int)selectedUnit.transform.position.x;
@@ -181,11 +196,11 @@ public class TileMap : MonoBehaviour {
         Dictionary<Node, float> dist = new Dictionary<Node, float>();
         Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
 
-        Actor uXZ = selectedUnit.GetComponent<Actor>();
+       // Actor uXZ = selectedUnit.GetComponent<Actor>();
 
         List<Node> unvisited = new List<Node>();
 
-        Node source = graph[uXZ.tileX,uXZ.tileZ];
+        Node source = graph[unit.tileX,unit.tileZ];
         Node target = graph[x,z];
         dist[source] = 0;
         prev[source] = null;
@@ -332,19 +347,16 @@ public class TileMap : MonoBehaviour {
 
     #region Movement
 
-
-
-
     public void moveUnit()
     {
         
         if (Vector3.Distance(transform.position, TileCoordToWorldCoord(unit.tileX, unit.tileZ)) < 0.1f)
         {
             AdvancePathing();
-            //Debug.Log("X " + tileX + "Y " + tileZ + "name" + gameObject.name);
+            
         }
+        
         //move unit to next tile
-
         unit.MoveController(transform, TileCoordToWorldCoord(unit.tileX, unit.tileZ), unit.getSpeed());
         //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
 
@@ -352,11 +364,14 @@ public class TileMap : MonoBehaviour {
 
     void AdvancePathing()
     {
+
+        //Unit doesn't move if there is no path
         if (unit.getCurrentPath() == null)
         {
             return;
         }
 
+        //Actor runs out of movement points
         if (unit.getRemainingMovement() <= 0)
         {
             return;
@@ -365,9 +380,10 @@ public class TileMap : MonoBehaviour {
         remainingMovement = unit.getRemainingMovement();
 
         // Get cost from current tile to next tile
-        remainingMovement -= costToEnterTile(unit.getCurrentPath()[0].x, unit.getCurrentPath()[0].z, unit.getCurrentPath()[1].x, unit.getCurrentPath()[1].z);
+        remainingMovement -= costToEnterTile(unit.getCurrentPath()[0].x, unit.getCurrentPath()[0].z,
+            unit.getCurrentPath()[1].x, unit.getCurrentPath()[1].z);
 
-        // Move us to the next tile in the sequence
+        // Move to the next tile in the sequence
         unit.tileX = unit.getCurrentPath()[1].x;
         unit.tileZ = unit.getCurrentPath()[1].z;
 
@@ -382,18 +398,72 @@ public class TileMap : MonoBehaviour {
             unit.setPathNull();
         }
 
+        //checks if path is null, then sets tile under actor to occupied
         if (unit.getCurrentPath() == null)
         {
-            GameObject.FindWithTag("Map").GetComponent<TileMap>().getMapArray()[unit.tileX, unit.tileZ].occupied = true;
+            map[unit.tileX, unit.tileZ].occupied = true;
         }
     }
 
+    public void drawDebugLines()
+    {
+        if (unit.getCurrentPath() != null)
+        {
+            int currNode = 0;
+            Vector3[] position = new Vector3[unit.getCurrentPath().Count];
+            Vector3 start = new Vector3();
+            Vector3 end = new Vector3();
+
+            while (currNode < unit.getCurrentPath().Count - 1 &&
+                unit.getCurrentPath().Count < unit.getMoveDistance() + 2)
+            {
+                start = TileCoordToWorldCoord(unit.getCurrentPath()[currNode].x, unit.getCurrentPath()[currNode].z) +
+                    new Vector3(0, 1f, 0);
+                end = TileCoordToWorldCoord(unit.getCurrentPath()[currNode + 1].x, unit.getCurrentPath()[currNode + 1].z) +
+                    new Vector3(0, 1f, 0);
+
+                Debug.DrawLine(start, end, Color.red);
+
+                path.positionCount = unit.getCurrentPath().Count - 1;
+
+                position[currNode] = start;
+
+                path.SetPositions(position);
+
+                currNode++;
+
+                if (currNode == unit.getCurrentPath().Count - 1)
+                {
+                    position[currNode] = end;
+                }
+            }
+        }
+    }
 
     #endregion
 
+    #region mouseEvents
+    private void OnMouseEnter()
+    {
+        if (unit.getCurrentPath() != null)
+        {
+
+            position = new Vector3[unit.getCurrentPath().Count];
+            path.SetPositions(position);
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        path.positionCount = 0;
+    }
+
+    #endregion
+
+    #region setGets
     public ClickableTile[,] getMapArray()
     {
         return map;
     }
-
+    #endregion
 }

@@ -43,7 +43,7 @@ public class Enemy : Actor
         if (SM.GetComponent<StateMachine>().checkTurn() == false)
         {
             enemyTurn();
-            drawDebugLines();
+            map.drawDebugLines();
             map.moveUnit();
         }
 

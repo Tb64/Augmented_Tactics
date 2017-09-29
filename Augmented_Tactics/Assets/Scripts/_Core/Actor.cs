@@ -48,8 +48,8 @@ public class Actor : MonoBehaviour {
     float delay = .3f;
     float deltaTime;
     public int numOfMoves;
-    Vector3[] position;
-    LineRenderer path;
+
+
     //===========================================
     #endregion
 
@@ -57,29 +57,59 @@ public class Actor : MonoBehaviour {
     /******************
      *  Events
      ******************/
-    #region Events
 
-    // Use this for initialization
+
+    #region events
     public virtual void Start ()
     {
         Initialize();
     }
 
-    private void Initialize()
+    
+    public virtual void Update()
     {
-        numOfMoves = 1;
-        anim = GetComponentInChildren<Animator>();
 
+        deltaTime += Time.deltaTime;
 
-        if (GameObject.Find("Path").GetComponent<LineRenderer>() != null)
+        //drawDebugLines();
+
+        //moveUnit();
+
+    }
+
+    private void Awake()
+    {
+        map = GameObject.Find("Map").GetComponent<TileMap>();
+        if (map.getMapArray() != null)
         {
-            path = GameObject.Find("Path").GetComponent<LineRenderer>();
+            map.getMapArray()[tileX, tileZ].occupied = true;
+            Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
         }
 
+    }
+    #endregion
+
+    #region mouseEvents
+
+    private void OnMouseUp()
+    {
+        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
+        GO.selectedUnit = gameObject;
+    }
+    
+    #endregion
+
+
+    private void Initialize()
+    {
+        //number of moves each actor can make per turn
+        numOfMoves = 1;
         deltaTime = 0;
+        anim = GetComponentInChildren<Animator>();
+        
         if (GameObject.FindWithTag("GameController") == null)
         {
-            Debug.Log("Missing state machine");
+            Debug.LogError("Missing Game Controller, add in scene hierarchy");
             return;
         }
         SM = GameObject.FindWithTag("GameController").GetComponent<StateMachine>();
@@ -95,45 +125,7 @@ public class Actor : MonoBehaviour {
     }
 
 
-    private void Awake()
-    {
-        map = GameObject.Find("Map").GetComponent<TileMap>();
-        if (map.getMapArray() != null)
-        {
-            map.getMapArray()[tileX, tileZ].occupied = true;
-            Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
-        }
-        
-    }
-
-    // Update is called once per frame
-    public virtual void Update () {
-
-        deltaTime += Time.deltaTime;
-
-        //drawDebugLines();
-
-        //moveUnit();
-
-    }
-
-    public void OnMouseOver()
-    {
-
-
-    }
-
-    private void OnMouseEnter()
-    {
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-        if (currentPath != null)
-        {
-
-            position = new Vector3[currentPath.Count];
-            path.SetPositions(position);
-        }
-
-    }
+    
     public bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
         float scaleDist = 1f;
@@ -164,18 +156,9 @@ public class Actor : MonoBehaviour {
         return false;
     }
 
-    private void OnMouseExit()
-    {         
-        path.positionCount = 0; 
-    }
+    
 
-    private void OnMouseUp()
-    {
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-        GO.selectedUnit = gameObject;
-    }
-
-    #endregion
+  
 
     /// <summary>
     /// The method to damage an Actor
@@ -183,6 +166,7 @@ public class Actor : MonoBehaviour {
     /// <param name="damage">Damage the Actor will take as a float</param>
     /// 
 
+    #region damage/heal functions
     public virtual void TakeDamage(float damage)
     {
         health_current -= damage;
@@ -206,42 +190,8 @@ public class Actor : MonoBehaviour {
     {
 
     }
-
-    //Draws pathing lines
-    public void drawDebugLines()
-    {
-        if (currentPath != null)
-        {
-            int currNode = 0;
-            Vector3[] position = new Vector3[currentPath.Count];
-            Vector3 end = new Vector3();
-            while (currNode < currentPath.Count - 1 && currentPath.Count < moveDistance + 2)
-            {
-                Vector3 start = map.TileCoordToWorldCoord(currentPath[currNode].x, currentPath[currNode].z) +
-                    new Vector3(0, 1f, 0);
-                end = map.TileCoordToWorldCoord(currentPath[currNode + 1].x, currentPath[currNode + 1].z) +
-                    new Vector3(0, 1f, 0);
-
-                Debug.DrawLine(start, end, Color.red);
-               
-                path.positionCount = currentPath.Count - 1;
-
-                position[currNode] = start;
-                
-                path.SetPositions(position);
-                
-                currNode++;
-                
-                if (currNode  == currentPath.Count - 1)
-                {
-                    position[currNode] = end;
-                }         
-            } 
-        }
-    }
-
-        
-
+    #endregion
+    
     public void NextTurn()
     {
         
