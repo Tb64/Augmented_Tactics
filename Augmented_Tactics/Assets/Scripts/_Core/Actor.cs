@@ -40,10 +40,10 @@ public class Actor : MonoBehaviour {
     public TileMap map;
     public StateMachine SM;
     public float speed;
-    protected int moveDistance;
+    public int moveDistance;
     float step;
     private float remainingMovement;
-    public List<Node> currentPath = null;
+    private List<Node> currentPath = null;
     static public int numberOfActors = 0;
     float delay = .3f;
     float deltaTime;
@@ -134,6 +134,35 @@ public class Actor : MonoBehaviour {
         }
 
     }
+    public bool MoveController(Transform origin, Vector3 targetPos, float speed)
+    {
+        float scaleDist = 1f;
+
+        if (Vector3.Distance(origin.position, targetPos) < 0.01f)
+        {
+            origin.position = targetPos;
+            scaleDist = 0f;
+            if (anim != null)
+                anim.SetFloat("Speed", scaleDist);
+            return true;
+        }
+
+        if (anim != null)
+            anim.SetFloat("Speed", scaleDist);
+
+        float step = speed * Time.deltaTime * scaleDist;
+        origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
+
+        Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
+        newDir = new Vector3(newDir.x, origin.position.y, newDir.z);
+
+
+        newDir = new Vector3(targetPos.x, origin.position.y, targetPos.z);
+        origin.transform.LookAt(newDir);
+
+
+        return false;
+    }
 
     private void OnMouseExit()
     {         
@@ -211,39 +240,7 @@ public class Actor : MonoBehaviour {
         }
     }
 
-    
-
-    bool MoveController(Transform origin, Vector3 targetPos, float speed)
-    {
-        float scaleDist = 1f;
-
-        if (Vector3.Distance(origin.position, targetPos) < 0.01f)
-        {
-            origin.position = targetPos;
-            scaleDist = 0f;
-            if (anim != null)
-                anim.SetFloat("Speed", scaleDist);
-            return true;
-        }
-
-        if (anim != null)
-            anim.SetFloat("Speed", scaleDist);
-
-        float step = speed * Time.deltaTime * scaleDist;
-        origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
-
-        Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
-        newDir = new Vector3(newDir.x, origin.position.y, newDir.z);
-
-
-        newDir = new Vector3(targetPos.x, origin.position.y, targetPos.z);
-        origin.transform.LookAt(newDir);
-
-
-        return false;
-    }
-
-    
+        
 
     public void NextTurn()
     {
@@ -284,10 +281,31 @@ public class Actor : MonoBehaviour {
     ******************/
 
     #region SetGets
+  
+    
+    public List<Node> getCurrentPath()
+    {
+        return currentPath;
+    }
+
+    public void setPathNull()
+    {
+        currentPath = null;
+    }
 
     public void setCoords(Vector3 coordinates)
     {
         coords = coordinates;
+    }
+
+    public void setSpeed(int num)
+    {
+        speed = num;
+    }
+
+    public float getSpeed()
+    {
+        return speed;
     }
 
     public void setMoves(int moves)

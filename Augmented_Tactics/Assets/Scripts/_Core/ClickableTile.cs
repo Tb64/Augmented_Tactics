@@ -29,7 +29,7 @@ public class ClickableTile : MonoBehaviour {
     public void OnMouseUp()
     {
         //single click
-
+        Debug.Log("Click");
         //Generates a path to clicked tile
         map.GeneratePathTo(tileX, tileZ);
 
@@ -37,7 +37,6 @@ public class ClickableTile : MonoBehaviour {
         Unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
         
         Unit.NextTurn();
-                
     }
 
     public void OnMouseEnter()
@@ -45,7 +44,6 @@ public class ClickableTile : MonoBehaviour {
         //highlights block that mouse hovers over
         originalColor = gameObject.GetComponent<MeshRenderer>().material.color;
         gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color32(150,248,43,255));
-        
     }
 
     public void OnMouseExit()
@@ -54,11 +52,12 @@ public class ClickableTile : MonoBehaviour {
         gameObject.GetComponent<MeshRenderer>().material.color = originalColor;
     }
 
-    
-
     public GameObject GetGameObject()
     {
         return gameObject;
     }
+
+   
+
 }
 

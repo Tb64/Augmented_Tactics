@@ -48,7 +48,7 @@ public class PlayerControlled : Actor
         if (SM.GetComponent<StateMachine>().checkTurn() == true)
         {
             drawDebugLines();
-            moveUnit();
+            map.moveUnit();
         }
 
     }

@@ -8,6 +8,7 @@ public class Enemy : Actor
 
     public static int enemyNum;
     public static Actor[] enemyList;
+    
     // Use this for initialization
     void Start () {
 	    base.Start();
@@ -43,7 +44,7 @@ public class Enemy : Actor
         {
             enemyTurn();
             drawDebugLines();
-            moveUnit();
+            map.moveUnit();
         }
 
     }

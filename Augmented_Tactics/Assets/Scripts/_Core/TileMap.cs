@@ -8,7 +8,7 @@ public class TileMap : MonoBehaviour {
 
     public GameObject selectedUnit;
     public TileType[] tileTypes;            //This seems stupid it should be stored in the tile
-
+    float remainingMovement;
     public bool codeGenerateMap = true;
 
     public ClickableTile[,] map;
@@ -58,9 +58,15 @@ public class TileMap : MonoBehaviour {
         //setup selectedUnit vars
 
         unit = selectedUnit.GetComponent<Actor>();
+        Vector3 coordinates = new Vector3();
+
+        coordinates.x = (int)selectedUnit.transform.position.x;
+        coordinates.z = (int)selectedUnit.transform.position.z;
+        unit.setCoords(coordinates);
 
         selectedUnit.GetComponent<Actor>().tileX = (int)selectedUnit.transform.position.x;
         selectedUnit.GetComponent<Actor>().tileZ = (int)selectedUnit.transform.position.z;
+        
         selectedUnit.GetComponent<Actor>().map = this;
 
         if (codeGenerateMap)
@@ -165,9 +171,8 @@ public class TileMap : MonoBehaviour {
     public void GeneratePathTo(int x, int z)
     {
 
-        selectedUnit.GetComponent<Actor>().currentPath = null;
+        unit.setPathNull();
 
-       
         if (UnitCanEnterTile(x,z) == false || map[x,z].occupied == true)
         {//tile is not walkable
             return;
@@ -237,18 +242,15 @@ public class TileMap : MonoBehaviour {
         List<Node> currentPath = new List<Node>();
         Node curr = target;
 
-
         //step through prev chain and add it to path
-        while(curr != null)
+
+        while (curr != null)
         {
             currentPath.Add(curr);
             curr = prev[curr];
         }
 
-        
-
         currentPath.Reverse(); //inverts the path
-        selectedUnit.GetComponent<Actor>().currentPath = currentPath;
     }
 
     void generatePathFindingGraph()
@@ -330,6 +332,9 @@ public class TileMap : MonoBehaviour {
 
     #region Movement
 
+
+
+
     public void moveUnit()
     {
         
@@ -340,45 +345,46 @@ public class TileMap : MonoBehaviour {
         }
         //move unit to next tile
 
-        MoveController(transform, TileCoordToWorldCoord(tileX, tileZ), speed);
+        unit.MoveController(transform, TileCoordToWorldCoord(unit.tileX, unit.tileZ), unit.getSpeed());
         //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
 
     }
 
     void AdvancePathing()
     {
-        if (currentPath == null)
+        if (unit.getCurrentPath() == null)
         {
             return;
         }
 
-        if (remainingMovement <= 0)
+        if (unit.getRemainingMovement() <= 0)
         {
             return;
         }
 
+        remainingMovement = unit.getRemainingMovement();
 
         // Get cost from current tile to next tile
-        remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].z, currentPath[1].x, currentPath[1].z);
+        remainingMovement -= costToEnterTile(unit.getCurrentPath()[0].x, unit.getCurrentPath()[0].z, unit.getCurrentPath()[1].x, unit.getCurrentPath()[1].z);
 
         // Move us to the next tile in the sequence
-        tileX = currentPath[1].x;
-        tileZ = currentPath[1].z;
+        unit.tileX = unit.getCurrentPath()[1].x;
+        unit.tileZ = unit.getCurrentPath()[1].z;
 
         // Remove the old "current" tile from the pathfinding list
-        currentPath.RemoveAt(0);
+        unit.getCurrentPath().RemoveAt(0);
 
 
 
-        if (currentPath.Count == 1)
+        if (unit.getCurrentPath().Count == 1)
         {
             //standing on same tile clicked on
-            currentPath = null;
+            unit.setPathNull();
         }
 
-        if (currentPath == null)
+        if (unit.getCurrentPath() == null)
         {
-            GameObject.FindWithTag("Map").GetComponent<TileMap>().getMapArray()[tileX, tileZ].occupied = true;
+            GameObject.FindWithTag("Map").GetComponent<TileMap>().getMapArray()[unit.tileX, unit.tileZ].occupied = true;
         }
     }
 

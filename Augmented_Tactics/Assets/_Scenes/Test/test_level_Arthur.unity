@@ -318,15 +318,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac10400435898224f8480b0f9ee63999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abilitySet: []
   tileX: 0
   tileZ: 8
   index: 0
   map: {fileID: 0}
   SM: {fileID: 0}
   speed: 3
-  moveDistance: 7
-  remainingMovement: 0
-  numOfMoves: 0
+  moveDistance: 0
+  numOfMoves: 1
 --- !u!1 &392709761
 GameObject:
   m_ObjectHideFlags: 0
@@ -1302,14 +1302,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca453905109f9442bec030a05e0fefd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abilitySet: []
   tileX: 1
   tileZ: 1
   index: 0
   map: {fileID: 0}
   SM: {fileID: 0}
   speed: 3
-  moveDistance: 10
-  remainingMovement: 0
+  moveDistance: 5
   numOfMoves: 0
 --- !u!65 &1974423995
 BoxCollider:
