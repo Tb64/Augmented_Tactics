@@ -19,7 +19,6 @@ public class ClickableTile : MonoBehaviour {
     {
         //sets clickable tile to false as its initialized
         occupied = false;
-             
     }
    
     private void Update()
