@@ -39,7 +39,7 @@ public class Actor : MonoBehaviour {
     public TileMap map;
     public StateMachine SM;
     public float speed;
-    private int moveDistance;
+    protected int moveDistance;
     float step;
     private float remainingMovement;
     public List<Node> currentPath = null;
@@ -340,6 +340,8 @@ public class Actor : MonoBehaviour {
         }
         
     }
+
+
 
     /******************
     *  Set/Gets
