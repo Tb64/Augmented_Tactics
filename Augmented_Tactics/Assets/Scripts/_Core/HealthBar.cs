@@ -5,21 +5,24 @@ using UnityEngine;
 public class HealthBar : MonoBehaviour
 {
 
-    private float healthPercent;
-
+    public Actor unit;
      
     void Start()
     {
         
     }
+
 // Edited by ivan
-// Update is called once per frame
     void Update()
-    {
-        transform.localScale = new Vector3(
-            (gameObject.GetComponentInParent<Actor>().GetHealthPercent()/100.0f), 1f, 1f);
+    {        
+        //transform.localScale = new Vector3(
+        //    (gameObject.GetComponentInParent<Actor>().GetHealthPercent()/100.0f), 1f, 1f)    
     }
 
+    public void UpdateUIHealth(float amount)
+    {
+        transform.localScale = new Vector3((amount), 1f, 1f);
+    }
 }
 
     
