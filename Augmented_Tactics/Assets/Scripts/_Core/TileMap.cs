@@ -266,7 +266,7 @@ public class TileMap : MonoBehaviour {
             curr = prev[curr];
         }
        
-        //currentPath.Reverse(); //inverts the path
+        currentPath.Reverse(); //inverts the path
         unit.setCurrentPath(currentPath);
     }
 
@@ -387,6 +387,8 @@ public class TileMap : MonoBehaviour {
         // Get cost from current tile to next tile
         remainingMovement -= costToEnterTile(unit.getCurrentPath()[0].x, unit.getCurrentPath()[0].z,
             unit.getCurrentPath()[1].x, unit.getCurrentPath()[1].z);
+
+        unit.setRemainingMovement(remainingMovement);
 
         // Move to the next tile in the sequence
         unit.tileX = unit.getCurrentPath()[1].x;

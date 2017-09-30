@@ -41,7 +41,7 @@ public class Actor : MonoBehaviour {
     public StateMachine SM;
     public float speed;
     public int moveDistance;
-    private float remainingMovement;
+    public float remainingMovement;
     private List<Node> currentPath = null;
     static public int numberOfActors = 0;
     public int numOfMoves;
@@ -84,8 +84,8 @@ public class Actor : MonoBehaviour {
 
     private void OnMouseUp()
     {
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-        GO.selectedUnit = gameObject;
+       // TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
+       // GO.selectedUnit = gameObject;
     }
     
     #endregion
@@ -139,7 +139,6 @@ public class Actor : MonoBehaviour {
 
         newDir = new Vector3(targetPos.x, origin.position.y, targetPos.z);
         origin.transform.LookAt(newDir);
-
 
         return false;
     }
@@ -260,6 +259,10 @@ public class Actor : MonoBehaviour {
     public void setMoveDistance(int distance)
     {
         moveDistance = distance;
+    }
+    public void setRemainingMovement(float movement)
+    {
+        remainingMovement = movement;
     }
 
     public float getRemainingMovement()
