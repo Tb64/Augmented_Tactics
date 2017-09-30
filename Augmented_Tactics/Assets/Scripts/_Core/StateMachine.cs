@@ -10,6 +10,7 @@ public class StateMachine : MonoBehaviour {
     void Start()
     {
         playerTurn = true;
+        TurnBehavoir.Initialize(playerTurn);
     }
 
     public void setTurn()
@@ -34,7 +35,7 @@ public class StateMachine : MonoBehaviour {
             //enemy turn
 
             playerTurn = false;
-            
+            TurnBehavoir.newTurn(playerTurn);
             Debug.Log("ENEMY TURN");
             GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Enemy Turn";
 
@@ -46,6 +47,7 @@ public class StateMachine : MonoBehaviour {
             //player turn
             Debug.Log("PLAYER TURN");
             playerTurn = true;
+            TurnBehavoir.newTurn(playerTurn);
             GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Player Turn";
 
             GO.selectedUnit = player;

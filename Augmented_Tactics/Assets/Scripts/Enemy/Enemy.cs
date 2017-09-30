@@ -18,9 +18,9 @@ public class Enemy : Actor
     public Vector3 getPlayerPosition() { return playerPosition; }
     public void setPlayerPosition(Vector3 pPosition) { playerPosition = pPosition; }
     public Vector3 getEnemyPosition() { return enemyPosition; }
-    public void setEnemyPosition(Vector3 ePosition) { enemyPosition = ePosition; } 
+    public void setEnemyPosition(Vector3 ePosition) { enemyPosition = ePosition; }
 
-
+    private Actor currentTarget;
 
     // Use this for initialization
     void Start () {
@@ -32,7 +32,7 @@ public class Enemy : Actor
         if (enemyList == null)
             enemyList = new Actor[15];
         enemyList[enemyNum] = this;
-        Debug.Log("Player added: " + enemyNum + ") " + enemyList[enemyNum]);
+        Debug.Log("Enemy added: " + enemyNum + ") " + enemyList[enemyNum]);
         enemyNum++;
 
         abilitySet = new BasicAttack[4];  //test
@@ -91,8 +91,10 @@ public class Enemy : Actor
         }
     }
 
-    void enemyTurn()
+    public override void EnemyTurnStart()
     {
+        base.EnemyTurnStart();
+
         map.selectedUnit = gameObject;
         nearest = findNearestPlayer().GetComponent<Actor>();
         weakest = findWeakestPlayer().GetComponent<Actor>();
@@ -101,12 +103,17 @@ public class Enemy : Actor
         //Debug.Log(nearest.tileX + " " + nearest.tileZ+ " " + weakest.tileX + " "+ weakest.tileZ);
         Actor target = nearest;
         enemyPosition = new Vector3((float)tileX, 0, (float)tileZ);
-        playerPosition = new Vector3((float)target.tileX, 0,(float)target.tileZ);
+        playerPosition = new Vector3((float)target.tileX, 0, (float)target.tileZ);
         float distanceToNearest = Vector3.Distance(playerPosition, enemyPosition);
         if (target != weakest)
             target = findTarget(weakest, distanceToNearest);
         Debug.Log("found target");
-        moveEnemy(target);
+        currentTarget = target;
+    }
+
+    void enemyTurn()
+    {
+        moveEnemy(currentTarget);
     }
     private GameObject findNearestPlayer()
     {
