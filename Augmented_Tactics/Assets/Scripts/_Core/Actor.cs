@@ -71,6 +71,9 @@ public class Actor : MonoBehaviour {
 
     private void Awake()
     {
+
+        tileX = (int)transform.position.x;
+        tileZ = (int)transform.position.z;
         map = GameObject.Find("Map").GetComponent<TileMap>();
         if (map.getMapArray() != null)
         {
@@ -98,7 +101,7 @@ public class Actor : MonoBehaviour {
     private void Initialize()
     {
         //number of moves each actor can make per turn
-        numOfMoves = 1;
+        numOfMoves = 2;
         anim = GetComponentInChildren<Animator>();
         
         if (GameObject.FindWithTag("GameController") == null)
