@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class TurnBehavoir : MonoBehaviour {
 
-    static bool isPlayerTurn;
-    static int numberOfTurns;
+    private static bool isPlayerTurn;
+    private static int numberOfTurns;
 
     private static bool firstRun = true;
 
@@ -83,4 +83,31 @@ public class TurnBehavoir : MonoBehaviour {
         isPlayerTurn = playerTurn;
         newTurn();
     }
+
+    /******************
+     *  Set/Gets
+     ******************/
+
+    #region SetGet
+
+    /// <summary>
+    /// Returns the current number of turns passed
+    /// </summary>
+    /// <returns>current turn number as int</returns>
+    public static int GetTurnNumber()
+    {
+        return numberOfTurns;
+    }
+
+    /// <summary>
+    /// Returns true if it is the player's turn
+    /// </summary>
+    /// <returns>player turn as bool</returns>
+    public static bool IsPlayerTurn()
+    {
+        return isPlayerTurn;
+    }
+
+
+    #endregion
 }
