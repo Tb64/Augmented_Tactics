@@ -30,7 +30,9 @@ public class TileMap : MonoBehaviour {
         }
     }
     Vector3[] position;
+    Vector3 tileCoords = new Vector3();
     public Location[] Players;
+    bool canMove;
    
     int[,] tiles;
     Node[,] graph;
@@ -50,7 +52,7 @@ public class TileMap : MonoBehaviour {
     void initialize()
     {
         map = new ClickableTile[mapSizeX, mapSizeZ];
-
+        canMove = false;
         if (GameObject.Find("Path").GetComponent<LineRenderer>() == null)
         {
             Debug.LogError("Null reference, missing path object, add in scene hierarchy");
@@ -70,8 +72,8 @@ public class TileMap : MonoBehaviour {
 
         //sets unit to the selected unit in the map
         unit = selectedUnit.GetComponent<Actor>();
-
         Vector3 coordinates = new Vector3();
+
         //initializes coordinates vector to selected units transform
         coordinates.x = (int)selectedUnit.transform.position.x;
         coordinates.z = (int)selectedUnit.transform.position.z;
@@ -185,6 +187,14 @@ public class TileMap : MonoBehaviour {
     public void GeneratePathTo(int x, int z)
     {
 
+        unit = selectedUnit.GetComponent<Actor>();
+        Vector3 coordinates = new Vector3();
+        
+        //initializes coordinates vector to selected units transform
+        coordinates.x = (int)selectedUnit.transform.position.x;
+        coordinates.z = (int)selectedUnit.transform.position.z;
+        //passes coordinates vector to unit to set units coords
+        unit.setCoords(coordinates);
         unit.setPathNull();
 
         if (UnitCanEnterTile(x,z) == false || map[x,z].occupied == true)
@@ -195,7 +205,7 @@ public class TileMap : MonoBehaviour {
         Dictionary<Node, float> dist = new Dictionary<Node, float>();
         Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
 
-       // Actor uXZ = selectedUnit.GetComponent<Actor>();
+        //Actor uXZ = selectedUnit.GetComponent<Actor>();
 
         List<Node> unvisited = new List<Node>();
 
@@ -208,7 +218,6 @@ public class TileMap : MonoBehaviour {
         {
             if(v != source)
             {
-                Debug.Log("test");
                 dist[v] = Mathf.Infinity;
                 prev[v] = null;
             }
@@ -354,7 +363,7 @@ public class TileMap : MonoBehaviour {
 
     public void moveUnit()
     {
-        
+        bool endOfTurn;
         if (Vector3.Distance(unit.transform.position, TileCoordToWorldCoord(unit.tileX, unit.tileZ)) < 0.1f)
         {
             AdvancePathing();
@@ -362,8 +371,12 @@ public class TileMap : MonoBehaviour {
         }
         
         //move unit to next tile
-        unit.MoveController(unit.transform, TileCoordToWorldCoord(unit.tileX, unit.tileZ), unit.getSpeed());
+        endOfTurn = unit.MoveController(unit.transform, TileCoordToWorldCoord(unit.tileX, unit.tileZ), unit.getSpeed());
         //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
+        if(endOfTurn == true)
+        {
+            unit.setRemainingMovement(0);
+        }
 
     }
 
@@ -375,7 +388,12 @@ public class TileMap : MonoBehaviour {
         {
             return;
         }
-        
+
+        if (unit.getCanMove() == false)
+        {
+            return;
+        }
+
         //Actor runs out of movement points
         if (unit.getRemainingMovement() <= 0)
         {
@@ -449,9 +467,17 @@ public class TileMap : MonoBehaviour {
         }
     }
 
+
+    public void moveActor(GameObject actor, Vector3 target)
+    {
+        selectedUnit = actor;
+        GeneratePathTo((int)target.x, (int)target.z);
+    }
+
     #endregion
 
     #region mouseEvents
+
     private void OnMouseEnter()
     {
         if (unit.getCurrentPath() != null)
@@ -470,6 +496,12 @@ public class TileMap : MonoBehaviour {
     #endregion
 
     #region setGets
+    public void setTileCoords(int tileX, int TileZ)
+    {
+        tileCoords.x = tileX;
+        tileCoords.z = TileZ;
+    }
+
     public ClickableTile[,] getMapArray()
     {
         return map;

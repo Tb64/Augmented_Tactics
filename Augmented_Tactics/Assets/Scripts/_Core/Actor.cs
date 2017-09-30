@@ -45,6 +45,7 @@ public class Actor : MonoBehaviour {
     private List<Node> currentPath = null;
     static public int numberOfActors = 0;
     public int numOfMoves;
+    private bool canMove;
 
 
     //===========================================
@@ -177,7 +178,7 @@ public class Actor : MonoBehaviour {
     
     public void NextTurn()
     {
-        
+        canMove = true;
         TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
         
         if (GO == null)
@@ -260,6 +261,7 @@ public class Actor : MonoBehaviour {
     {
         moveDistance = distance;
     }
+
     public void setRemainingMovement(float movement)
     {
         remainingMovement = movement;
@@ -301,5 +303,14 @@ public class Actor : MonoBehaviour {
         return health_max;
     }
 
+    public void setCanMove(bool trueFalse)
+    {
+        canMove = trueFalse;
+    }
+
+    public bool getCanMove()
+    {
+        return canMove;
+    }
     #endregion
 }
