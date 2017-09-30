@@ -255,6 +255,7 @@ public class TileMap : MonoBehaviour {
         }
 
         List<Node> currentPath = new List<Node>();
+
         Node curr = target;
 
         //step through prev chain and add it to path
@@ -266,6 +267,7 @@ public class TileMap : MonoBehaviour {
         }
        
         currentPath.Reverse(); //inverts the path
+        unit.setCurrentPath(currentPath);
     }
 
     void generatePathFindingGraph()

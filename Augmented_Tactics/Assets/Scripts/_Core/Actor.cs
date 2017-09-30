@@ -222,6 +222,11 @@ public class Actor : MonoBehaviour {
         return currentPath;
     }
 
+    public void setCurrentPath(List<Node> path)
+    {
+        currentPath = path;
+    }
+
     public void setPathNull()
     {
         currentPath = null;
