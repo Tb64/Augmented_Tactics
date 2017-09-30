@@ -299,13 +299,13 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 186764681}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 7.2}
+  m_LocalPosition: {x: 0, y: 0, z: 8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1184080822}
   - {fileID: 2104324100}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!114 &186764684
 MonoBehaviour:
@@ -318,13 +318,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac10400435898224f8480b0f9ee63999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abilitySet: []
   tileX: 0
   tileZ: 8
   index: 0
   map: {fileID: 0}
   SM: {fileID: 0}
   speed: 3
-  moveDistance: 2
+  moveDistance: 0
+  remainingMovement: 0
+  numOfMoves: 1
 --- !u!1 &392709761
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,7 +415,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
 --- !u!1001 &551872137
 Prefab:
@@ -451,7 +454,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400050, guid: ba24e610e0a338545b447ff44a3cf1cc, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9500000, guid: ba24e610e0a338545b447ff44a3cf1cc, type: 3}
       propertyPath: m_Controller
@@ -536,12 +539,12 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: 
+      - m_Target: {fileID: 1974423994}
+        m_MethodName: NextTurn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -642,7 +645,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1184080821
 Prefab:
@@ -837,7 +840,7 @@ RectTransform:
   - {fileID: 1252583423}
   - {fileID: 884232209}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1011,7 +1014,7 @@ Prefab:
     - target: {fileID: 224157353372744280, guid: 1089caf5f4193b64fbd5cd0f7bc7ed27,
         type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224157353372744280, guid: 1089caf5f4193b64fbd5cd0f7bc7ed27,
         type: 2}
@@ -1191,11 +1194,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1573820524}
---- !u!4 &1677105462 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4204074003407632, guid: abb6d30487afac94fb8fc8606353106b,
-    type: 2}
-  m_PrefabInternal: {fileID: 2041794128}
 --- !u!1 &1699726990
 GameObject:
   m_ObjectHideFlags: 0
@@ -1241,6 +1239,8 @@ MonoBehaviour:
     isWalkable: 0
     movementCost: 1
   codeGenerateMap: 1
+  mapSizeX: 16
+  mapSizeZ: 16
 --- !u!4 &1699726992
 Transform:
   m_ObjectHideFlags: 0
@@ -1252,7 +1252,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1974423992
 GameObject:
@@ -1281,11 +1281,10 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1677105462}
   - {fileID: 1280356213}
   - {fileID: 1377878717}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1974423994
 MonoBehaviour:
@@ -1298,13 +1297,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca453905109f9442bec030a05e0fefd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  abilitySet: []
   tileX: 1
   tileZ: 1
   index: 0
   map: {fileID: 0}
   SM: {fileID: 0}
   speed: 3
-  moveDistance: 5
+  moveDistance: 10
+  remainingMovement: 0
+  numOfMoves: 0
 --- !u!65 &1974423995
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1344,7 +1346,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2005337663
 MonoBehaviour:
@@ -1362,7 +1364,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1974423993}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4204074003407632, guid: abb6d30487afac94fb8fc8606353106b, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1394,11 +1396,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4204074003407632, guid: abb6d30487afac94fb8fc8606353106b, type: 2}
       propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1339713752788166, guid: abb6d30487afac94fb8fc8606353106b, type: 2}
-      propertyPath: m_IsActive
-      value: 1
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: abb6d30487afac94fb8fc8606353106b, type: 2}

@@ -47,8 +47,8 @@ public class PlayerControlled : Actor
         //true player turn ,false enemy turn
         if (SM.GetComponent<StateMachine>().checkTurn() == true)
         {
-            drawDebugLines();
-            moveUnit();
+            map.drawDebugLines();
+            map.moveUnit();
         }
 
     }
