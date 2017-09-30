@@ -32,9 +32,11 @@ public class ClickableTile : MonoBehaviour {
         Debug.Log("Click");
         //Generates a path to clicked tile
         map.GeneratePathTo(tileX, tileZ);
-        //map.setTileCoords(tileX, tileZ);
-        Actor Unit;  
-        Unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
+
+        //GameObject Unit;
+        //Unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit;
+        //map.moveActor(Unit, new Vector3(5, 0, 5));
+
         
         //Unit.NextTurn();
     }

@@ -472,6 +472,7 @@ public class TileMap : MonoBehaviour {
     {
         selectedUnit = actor;
         GeneratePathTo((int)target.x, (int)target.z);
+        actor.GetComponent<Actor>().NextTurn();
     }
 
     #endregion

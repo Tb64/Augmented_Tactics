@@ -85,8 +85,11 @@ public class Actor : MonoBehaviour {
 
     private void OnMouseUp()
     {
-       // TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-       // GO.selectedUnit = gameObject;
+        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
+        if (gameObject.tag == "Player")
+        {
+            GO.selectedUnit = gameObject;
+        }
     }
     
     #endregion
