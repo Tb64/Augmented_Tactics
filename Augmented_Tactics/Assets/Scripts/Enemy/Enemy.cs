@@ -64,8 +64,8 @@ public class Enemy : Actor
                 enemyTurn();
                 //callControl++;
             //}
-            drawDebugLines();
-            moveUnit();
+            map.drawDebugLines();
+            map.moveUnit();
         }
        /* else
         {

@@ -9,7 +9,6 @@ public class ClickableTile : MonoBehaviour {
     public int tileClass;
     public TileMap map;
     private Color32 originalColor;
-    float delay = .2f;
     float deltaTime;
 
     public TileType tileTypes;
@@ -18,34 +17,28 @@ public class ClickableTile : MonoBehaviour {
    
     private void Start()
     {
+        //sets clickable tile to false as its initialized
         occupied = false;
-        deltaTime = 0;
-        
     }
    
     private void Update()
     {
-        deltaTime += Time.deltaTime;
+     
     }
 
     public void OnMouseUp()
     {
         //single click
-
+        Debug.Log("Click");
         //Generates a path to clicked tile
         map.GeneratePathTo(tileX, tileZ);
 
-        Actor Unit;    
-        Unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
+        //GameObject Unit;
+        //Unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit;
+        //map.moveActor(Unit, new Vector3(5, 0, 5));
+
         
-        //check for double click
-        if (deltaTime < delay)
-        {
-            //double click
-            Unit.NextTurn();
-            Debug.Log("Double Click!");
-        }
-        deltaTime = 0; // resets delta time for double click detection
+        //Unit.NextTurn();
     }
 
     public void OnMouseEnter()
@@ -53,7 +46,6 @@ public class ClickableTile : MonoBehaviour {
         //highlights block that mouse hovers over
         originalColor = gameObject.GetComponent<MeshRenderer>().material.color;
         gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color32(150,248,43,255));
-        
     }
 
     public void OnMouseExit()
@@ -62,14 +54,12 @@ public class ClickableTile : MonoBehaviour {
         gameObject.GetComponent<MeshRenderer>().material.color = originalColor;
     }
 
-    public void OnMouseOver()
-    {
-        map.GeneratePathTo(tileX, tileZ);
-    }
-
     public GameObject GetGameObject()
     {
         return gameObject;
     }
+
+   
+
 }
 
