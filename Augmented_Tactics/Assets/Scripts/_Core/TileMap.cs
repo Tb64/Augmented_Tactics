@@ -51,6 +51,7 @@ public class TileMap : MonoBehaviour {
     //use this function to initializes variables
     void initialize()
     {
+        
         map = new ClickableTile[mapSizeX, mapSizeZ];
         canMove = false;
         if (GameObject.Find("Path").GetComponent<LineRenderer>() == null)
@@ -194,7 +195,7 @@ public class TileMap : MonoBehaviour {
         coordinates.x = (int)selectedUnit.transform.position.x;
         coordinates.z = (int)selectedUnit.transform.position.z;
         //passes coordinates vector to unit to set units coords
-        unit.setCoords(coordinates);
+        unit.setCoords(coordinates); 
         unit.setPathNull();
 
         if (UnitCanEnterTile(x,z) == false || map[x,z].occupied == true)
@@ -373,9 +374,17 @@ public class TileMap : MonoBehaviour {
         //move unit to next tile
         endOfTurn = unit.MoveController(unit.transform, TileCoordToWorldCoord(unit.tileX, unit.tileZ), unit.getSpeed());
         //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
-        if(endOfTurn == true)
+
+
+        if (endOfTurn == true) //Anything that happens at end of Actor movement
         {
-            unit.setRemainingMovement(0);
+            unit.setRemainingMovement(0); // clears remaining movement of Actor at end of move
+
+            if (unit.getCurrentPath() == null)
+            {
+                path.positionCount = 0; //clears line renderer
+            }
+            
         }
 
     }
@@ -436,7 +445,7 @@ public class TileMap : MonoBehaviour {
         if (unit.getCurrentPath() != null)
         {
             int currNode = 0;
-            Vector3[] position = new Vector3[unit.getCurrentPath().Count];
+            Vector3[] position = new Vector3[unit.getCurrentPath().Count+1];
             Vector3 start = new Vector3();
             Vector3 end = new Vector3();
 
@@ -451,18 +460,22 @@ public class TileMap : MonoBehaviour {
 
                 Debug.DrawLine(start, end, Color.red);
 
-                path.positionCount = unit.getCurrentPath().Count - 1;
+                path.positionCount = unit.getCurrentPath().Count + 1;
 
                 position[currNode] = start;
 
                 path.SetPositions(position);
 
                 currNode++;
-
                 if (currNode == unit.getCurrentPath().Count - 1)
                 {
+                    Debug.Log("current node " + currNode);
                     position[currNode] = end;
+                    path.SetPositions(position);
+                    position[currNode + 1] = end - new Vector3(0, .5f, 0);
+                    path.SetPositions(position);
                 }
+                
             }
         }
     }
@@ -501,6 +514,10 @@ public class TileMap : MonoBehaviour {
     {
         tileCoords.x = tileX;
         tileCoords.z = TileZ;
+    }
+    public LineRenderer getLinePath()
+    {
+        return path;
     }
 
     public ClickableTile[,] getMapArray()
