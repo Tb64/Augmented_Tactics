@@ -266,7 +266,7 @@ public class TileMap : MonoBehaviour {
             curr = prev[curr];
         }
        
-        currentPath.Reverse(); //inverts the path
+        //currentPath.Reverse(); //inverts the path
         unit.setCurrentPath(currentPath);
     }
 
@@ -355,14 +355,14 @@ public class TileMap : MonoBehaviour {
     public void moveUnit()
     {
         
-        if (Vector3.Distance(transform.position, TileCoordToWorldCoord(unit.tileX, unit.tileZ)) < 0.1f)
+        if (Vector3.Distance(unit.transform.position, TileCoordToWorldCoord(unit.tileX, unit.tileZ)) < 0.1f)
         {
             AdvancePathing();
             
         }
         
         //move unit to next tile
-        unit.MoveController(transform, TileCoordToWorldCoord(unit.tileX, unit.tileZ), unit.getSpeed());
+        unit.MoveController(unit.transform, TileCoordToWorldCoord(unit.tileX, unit.tileZ), unit.getSpeed());
         //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
 
     }
