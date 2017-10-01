@@ -5,7 +5,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class Actor : MonoBehaviour {
+public class Actor : TurnBehavoir
+{
 
     /******************
      *  Variables
