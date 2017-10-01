@@ -27,6 +27,11 @@ public class Enemy : Actor
 	    base.Start();
 
 
+        if(map == null)
+        {
+            map = GameObject.Find("Map").GetComponent<TileMap>();
+        }
+
         if (enemyNum == null)
             enemyNum = 0;
         if (enemyList == null)
@@ -48,9 +53,6 @@ public class Enemy : Actor
 	// Update is called once per frame
 	void Update () {
         base.Update();
-
-
-
         turnControl();
     }
 
