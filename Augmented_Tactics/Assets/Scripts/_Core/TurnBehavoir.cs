@@ -31,10 +31,11 @@ public class TurnBehavoir : MonoBehaviour {
         Initialize();
     }
 
-    public virtual void LateUpdate()
+    public virtual void FixedUpdate()
     {
         if(firstRun)
         {
+            Debug.Log("FixedUpdate");
             TurnStart();
             if (isPlayerTurn)
                 PlayerTurnStart();
@@ -57,7 +58,7 @@ public class TurnBehavoir : MonoBehaviour {
     /// </summary>
     public virtual void PlayerTurnStart()
     {
-
+        Debug.Log("PlayerTurnStart");
     }
 
     /// <summary>
@@ -68,20 +69,25 @@ public class TurnBehavoir : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Toggles isPlayerTurn and triggers newTurn event for actors.
+    /// </summary>
     public static void newTurn()
     {
+        isPlayerTurn = !isPlayerTurn;
         firstRun = true;
         numberOfTurns++;
     }
 
     /// <summary>
-    /// Sets the turn, if player's turn set true
+    /// Sets the turn, if player's turn set true.  Also trigger newturn event for actors.
     /// </summary>
     /// <param name="playerTurn">true = Player Turn / false = Enemy Turn</param>
     public static void newTurn(bool playerTurn)
     {
         isPlayerTurn = playerTurn;
-        newTurn();
+        firstRun = true;
+        numberOfTurns++;
     }
 
     /******************
