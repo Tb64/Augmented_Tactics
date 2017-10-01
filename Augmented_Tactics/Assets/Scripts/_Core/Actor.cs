@@ -47,6 +47,7 @@ public class Actor : TurnBehavoir
     static public int numberOfActors = 0;
     public int numOfMoves;
     private bool canMove;
+    private bool moveClicked;
 
 
     //===========================================
@@ -87,13 +88,13 @@ public class Actor : TurnBehavoir
 
     #region mouseEvents
 
-    private void OnMouseUp()
+    public void OnMouseUP()
     {
         TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-        if (gameObject.tag == "Player")
-        {
-            GO.selectedUnit = gameObject;
-        }
+        
+        Debug.Log("click test");
+        GO.selectedUnit = gameObject;
+       
     }
     
     #endregion
@@ -186,11 +187,12 @@ public class Actor : TurnBehavoir
     public void NextTurn()
     {
         canMove = true;
+        moveClicked = true;
         TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
         
         if (GO == null)
         {
-            return;
+            return ;
         }
 
         GO.Players[index].coordX = tileX;
@@ -198,16 +200,14 @@ public class Actor : TurnBehavoir
         GO.Players[index].coords = new Vector3(tileX, 0, tileZ);
        
         for (int index = 0; index < numberOfActors; index++)
-        {
-            //GO.Players[index] = new TileMap.Location();
-                        
+        {                        
             GO.Players[index].coordX = tileX;
             GO.Players[index].coordZ = tileZ;
         }
 
         //Reset available movement points.
         
-        if (numOfMoves != 0)
+        if (numOfMoves != 0 && currentPath != null )
         {
             numOfMoves--;
             remainingMovement = moveDistance;
@@ -325,4 +325,14 @@ public class Actor : TurnBehavoir
         return numberOfActors;
     }
     #endregion
+
+    public bool getMoveClicked()
+    {
+        return moveClicked;
+    }
+
+    public void setMoveClicked(bool tf)
+    {
+        moveClicked = tf;
+    }
 }
