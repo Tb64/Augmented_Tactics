@@ -14,7 +14,7 @@ public class StateMachine : MonoBehaviour {
     {
 
         player = GameObject.FindGameObjectsWithTag("Player");
-        enemy = GameObject.FindGameObjectsWithTag("Player");
+        enemy = GameObject.FindGameObjectsWithTag("Enemy");
         playerTurn = true;
         firstTurn = true;
         TurnBehavoir.Initialize(playerTurn);

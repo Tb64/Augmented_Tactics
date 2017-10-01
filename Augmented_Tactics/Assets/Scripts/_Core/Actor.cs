@@ -99,7 +99,7 @@ public class Actor : TurnBehavoir
 
     private void OnMouseOver()
     {
-        Debug.Log("drag test");
+       
     }
 
     #endregion
