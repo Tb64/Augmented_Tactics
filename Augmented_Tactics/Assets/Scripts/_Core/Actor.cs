@@ -88,15 +88,20 @@ public class Actor : TurnBehavoir
 
     #region mouseEvents
 
-    public void OnMouseUP()
+
+    public void OnMouseUp()
     {
         TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-        
+
         Debug.Log("click test");
         GO.selectedUnit = gameObject;
-       
     }
-    
+
+    private void OnMouseOver()
+    {
+        Debug.Log("drag test");
+    }
+
     #endregion
 
 
