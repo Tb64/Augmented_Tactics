@@ -37,7 +37,6 @@ public class StateMachine : MonoBehaviour {
         {
             playerTurn = false;
             firstTurn = false;
-            Debug.Log("sadsa");
             map.getMapArray()[enemy.GetComponent<Actor>().tileX, 
                 enemy.GetComponent<Actor>().tileZ].setOccupiedTrue();
             map.getMapArray()[player.GetComponent<Actor>().tileX, 
@@ -78,7 +77,7 @@ public class StateMachine : MonoBehaviour {
         }
     }
    
-
+    //true player false enemy
     public bool checkTurn()
     {
         return playerTurn;

@@ -12,14 +12,15 @@ public class ClickableTile : MonoBehaviour {
     private Color32 originalColor;
     Actor unit;
     public bool occupied;
+    StateMachine controller;
 
-   
+
 
     private void Start()
     {
         
         unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
-
+        controller = GameObject.Find("GameController").GetComponent<StateMachine>();
         //sets clickable tile to false as its initialized
         occupied = false;
     }
@@ -34,7 +35,7 @@ public class ClickableTile : MonoBehaviour {
         //single click
         Debug.Log("Click");
         //Generates a path to clicked tile
-        if (map.getEndOfMove() == true)
+        if (map.getEndOfMove() == true && controller.checkTurn() == false)
         {
             map.GeneratePathTo(tileX, tileZ);
         }
