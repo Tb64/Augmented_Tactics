@@ -6,10 +6,13 @@ using UnityEngine.UI;
 public class StateMachine : MonoBehaviour {
 
     private bool playerTurn;
+    private bool firstTurn;
     
     void Start()
     {
+
         playerTurn = true;
+        firstTurn = true;
         TurnBehavoir.Initialize(playerTurn);
     }
 
@@ -19,51 +22,71 @@ public class StateMachine : MonoBehaviour {
         {
             return;
         }
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-        
+        TileMap map = GameObject.FindWithTag("Map").GetComponent<TileMap>();
+        Actor unit = map.selectedUnit.GetComponent<Actor>();
+
         if (GameObject.FindWithTag("Player") == null || GameObject.FindWithTag("Enemy") == null)
         {
             return;
+        } 
+
+        if (firstTurn == true)
+        {
+            playerTurn = false;
+            firstTurn = false;
+            
         }
-        
+
         //Change to arrays in future to hold multiple players/enemies
         GameObject player = GameObject.FindWithTag("Player");
         GameObject enemy = GameObject.FindWithTag("Enemy");
 
         if (playerTurn == true)
         {
-            //enemy turn
+            //Player turn
+            changeTurn(false);
+           
+            Debug.Log("PLAYER TURN");
 
-            playerTurn = false;
-            TurnBehavoir.newTurn(playerTurn);
-            Debug.Log("ENEMY TURN");
-            GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Enemy Turn";
+            GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Player Turn";
+        
+            map.selectedUnit = player;
+            map.selectedUnit.GetComponent<Actor>().setMoves(1);
+            map.getMapArray()[unit.tileX, unit.tileZ].setOccupiedTrue();
 
-            GO.selectedUnit = enemy;
-            GO.selectedUnit.GetComponent<Actor>().setMoves(1);
+            
         }
         else
         {
-            //player turn
-            Debug.Log("PLAYER TURN");
-            playerTurn = true;
-            TurnBehavoir.newTurn(playerTurn);
-            GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Player Turn";
+            //enemy turn
+            changeTurn(true);
+                        
+            Debug.Log("ENEMY TURN");
+            GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Enemy Turn";
 
-            GO.selectedUnit = player;
-            GO.selectedUnit.GetComponent<Actor>().setMoves(1);
-
+            map.selectedUnit = enemy;
+            map.selectedUnit.GetComponent<Actor>().setMoves(1);
+            map.getMapArray()[unit.tileX, unit.tileZ].setOccupiedTrue();
         }
     }
    
+    //true player false enemy
 
+    void changeTurn(bool tf)
+    {
+        playerTurn = tf;
+        TurnBehavoir.newTurn(playerTurn);
+    }
 
     public bool checkTurn()
     {
         return playerTurn;
     }
 
-	void Update () {
-		
-	}
+    public bool getFirstTurn()
+    {
+        return firstTurn;
+    }
+
+
 }

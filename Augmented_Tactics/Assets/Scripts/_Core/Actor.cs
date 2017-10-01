@@ -58,31 +58,31 @@ public class Actor : TurnBehavoir
      ******************/
 
     #region events
-    public virtual void Start ()
+    public virtual void Start()
     {
-        Initialize();
+        Init();
+        
     }
 
-    
+
+
+    private void Awake()
+    {
+        
+    }
+
+    public override void TurnStart()
+    {
+        
+    }
+
     public virtual void Update()
     {
         //drawDebugLines();
         //moveUnit();
     }
 
-    private void Awake()
-    {
 
-        tileX = (int)transform.position.x;
-        tileZ = (int)transform.position.z;
-        map = GameObject.Find("Map").GetComponent<TileMap>();
-        if (map.getMapArray() != null)
-        {
-            map.getMapArray()[tileX, tileZ].occupied = true;
-            Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
-        }
-
-    }
     #endregion
 
     #region mouseEvents
@@ -99,7 +99,7 @@ public class Actor : TurnBehavoir
     #endregion
 
 
-    private void Initialize()
+    private void Init()
     {
         //number of moves each actor can make per turn
         numOfMoves = 2;
@@ -116,7 +116,7 @@ public class Actor : TurnBehavoir
         {
             return;
         }
-        //map = GameObject.Find("Map").GetComponent<TileMap>();
+        map = GameObject.Find("Map").GetComponent<TileMap>();
 
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
@@ -318,6 +318,11 @@ public class Actor : TurnBehavoir
     public bool getCanMove()
     {
         return canMove;
+    }
+
+    public int getNumofActors()
+    {
+        return numberOfActors;
     }
     #endregion
 }

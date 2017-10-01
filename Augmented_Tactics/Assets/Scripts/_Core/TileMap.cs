@@ -32,8 +32,12 @@ public class TileMap : MonoBehaviour {
     Vector3[] position;
     Vector3 tileCoords = new Vector3();
     public Location[] Players;
+
+    Vector3 tempCoords = new Vector3();
+
     bool canMove;
-   
+    bool endOfMove;
+
     int[,] tiles;
     Node[,] graph;
     
@@ -85,6 +89,12 @@ public class TileMap : MonoBehaviour {
         selectedUnit.GetComponent<Actor>().tileZ = (int)selectedUnit.transform.position.z;
         
         selectedUnit.GetComponent<Actor>().map = this;
+
+
+        Actor player = GameObject.FindWithTag("Player").GetComponent<Actor>();
+        Actor enemy = GameObject.FindWithTag("Enemy").GetComponent<Actor>();
+
+
 
         if (codeGenerateMap)
         {
@@ -149,6 +159,7 @@ public class TileMap : MonoBehaviour {
                 ct.tileZ = z;
                 ct.map = this;
                 map[x, z] = ct;
+                
 
             }
             
@@ -364,7 +375,7 @@ public class TileMap : MonoBehaviour {
 
     public void moveUnit()
     {
-        bool endOfTurn;
+        
         if (Vector3.Distance(unit.transform.position, TileCoordToWorldCoord(unit.tileX, unit.tileZ)) < 0.1f)
         {
             AdvancePathing();
@@ -372,11 +383,11 @@ public class TileMap : MonoBehaviour {
         }
         
         //move unit to next tile
-        endOfTurn = unit.MoveController(unit.transform, TileCoordToWorldCoord(unit.tileX, unit.tileZ), unit.getSpeed());
+        endOfMove = unit.MoveController(unit.transform, TileCoordToWorldCoord(unit.tileX, unit.tileZ), unit.getSpeed());
         //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
 
 
-        if (endOfTurn == true) //Anything that happens at end of Actor movement
+        if (endOfMove == true) //Anything that happens at end of Actor movement
         {
             unit.setRemainingMovement(0); // clears remaining movement of Actor at end of move
 
@@ -420,7 +431,7 @@ public class TileMap : MonoBehaviour {
         // Move to the next tile in the sequence
         unit.tileX = unit.getCurrentPath()[1].x;
         unit.tileZ = unit.getCurrentPath()[1].z;
-
+        map[unit.getCurrentPath()[0].x,unit.getCurrentPath()[0].z].setOccupiedFalse();
         // Remove the old "current" tile from the pathfinding list
         unit.getCurrentPath().RemoveAt(0);
 
@@ -469,12 +480,14 @@ public class TileMap : MonoBehaviour {
                 currNode++;
                 if (currNode == unit.getCurrentPath().Count - 1)
                 {
-                    Debug.Log("current node " + currNode);
+                    //sets the last vector
                     position[currNode] = end;
-                    path.SetPositions(position);
+                    //points the line into the tile
                     position[currNode + 1] = end - new Vector3(0, .5f, 0);
                     path.SetPositions(position);
                 }
+
+               
                 
             }
         }
@@ -523,6 +536,21 @@ public class TileMap : MonoBehaviour {
     public ClickableTile[,] getMapArray()
     {
         return map;
+    }
+    
+    public bool getEndOfMove()
+    {
+        return endOfMove;
+    }
+
+    public void setTempCoords(int x, int z)
+    {
+        tempCoords.x = x;
+        tempCoords.z = z;
+    }
+    public Vector3 getTempCoords()
+    {
+        return tempCoords;
     }
     #endregion
 }
