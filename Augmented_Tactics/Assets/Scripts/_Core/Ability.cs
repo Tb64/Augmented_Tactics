@@ -8,9 +8,11 @@ public class Ability : MonoBehaviour
     public Animator anim;
     public string abilityName;
 
-    public virtual void Initialize()
-    {
+    protected GameObject parent;
 
+    public virtual void Initialize(GameObject obj)
+    {
+        parent = obj;
     }
 
     public virtual void UseSkill(GameObject target)

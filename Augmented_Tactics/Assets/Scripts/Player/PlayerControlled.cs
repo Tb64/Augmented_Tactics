@@ -8,7 +8,7 @@ public class PlayerControlled : Actor
 
     public static int playerNum;
     public static Actor[] playerList;
-
+    private int playerID;
     // Use this for initialization
     void Start ()
     {
@@ -18,6 +18,7 @@ public class PlayerControlled : Actor
         if (playerList == null)
             playerList = new Actor[4];
         playerList[playerNum] = this;
+        playerID = playerNum;
         Debug.Log("Player added: " + playerNum + ") " + playerList[playerNum]);
         playerNum++;
 
@@ -51,5 +52,15 @@ public class PlayerControlled : Actor
             map.moveUnit();
         }
 
+    }
+
+
+
+
+
+
+    public int GetID()
+    {
+        return playerID;
     }
 }

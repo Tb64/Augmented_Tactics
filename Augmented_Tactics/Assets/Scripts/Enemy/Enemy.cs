@@ -6,8 +6,7 @@ public class Enemy : Actor
 {
     private GameObject[] userTeam;
     //private int callControl = 0;
-    public static int enemyNum;
-    public static Actor[] enemyList;
+    private int enemyID;
     private Actor nearest, weakest;
     private Vector3 playerPosition, enemyPosition;
     //private float distanceToNearest, distanceToWeakest;
@@ -21,7 +20,8 @@ public class Enemy : Actor
     public void setEnemyPosition(Vector3 ePosition) { enemyPosition = ePosition; }
 
     private Actor currentTarget;
-
+    public static int enemyNum;
+    public static Actor[] enemyList;
     // Use this for initialization
     void Start () {
 	    base.Start();
@@ -32,13 +32,14 @@ public class Enemy : Actor
         if (enemyList == null)
             enemyList = new Actor[15];
         enemyList[enemyNum] = this;
+        enemyID = enemyNum;
         Debug.Log("Enemy added: " + enemyNum + ") " + enemyList[enemyNum]);
         enemyNum++;
 
         abilitySet = new BasicAttack[4];  //test
         for (int i = 0; i <4; i++)
         {
-            abilitySet[i] = new BasicAttack();
+            abilitySet[i] = new BasicAttack(gameObject);
         }
 
         userTeam = GameObject.FindGameObjectsWithTag("Player");
@@ -107,7 +108,7 @@ public class Enemy : Actor
         float distanceToNearest = Vector3.Distance(playerPosition, enemyPosition);
         if (target != weakest)
             target = findTarget(weakest, distanceToNearest);
-        Debug.Log("found target");
+        Debug.Log("Found Target = " + target.name + " at " + target.transform.position);
         currentTarget = target;
     }
 
@@ -186,5 +187,10 @@ public class Enemy : Actor
         Debug.Log("target = " +target.gameObject+ "\n" + abilitySet[0].abilityName);
         abilitySet[0].UseSkill(target.gameObject); //test
     }
- 
+
+
+    public int GetID()
+    {
+        return enemyID;
+    }
 }

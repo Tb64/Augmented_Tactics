@@ -68,14 +68,18 @@ public class TurnBehavoir : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Toggles isPlayerTurn and triggers newTurn event for actors.
+    /// </summary>
     public static void newTurn()
     {
+        isPlayerTurn = !isPlayerTurn;
         firstRun = true;
         numberOfTurns++;
     }
 
     /// <summary>
-    /// Sets the turn, if player's turn set true
+    /// Sets the turn, if player's turn set true.  Also trigger newturn event for actors.
     /// </summary>
     /// <param name="playerTurn">true = Player Turn / false = Enemy Turn</param>
     public static void newTurn(bool playerTurn)

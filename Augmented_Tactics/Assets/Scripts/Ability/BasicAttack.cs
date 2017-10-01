@@ -4,14 +4,22 @@ using UnityEngine;
 
 public class BasicAttack : Ability {
 
-    public int range = 1;
     public float damage = 10f;
-    public string abilityName = "Basic Attack";
 
-    public override void Initialize()
+    
+
+    public BasicAttack(GameObject obj)
     {
-        base.Initialize();
-        anim = GetComponentInChildren<Animator>();
+        Initialize(obj);
+    }
+
+    public override void Initialize(GameObject obj)
+    {
+        base.Initialize(obj);
+        Debug.Log(parent.name);
+        anim = parent.GetComponentInChildren<Animator>();
+        range = 1;
+        abilityName = "Basic Attack";
     }
 
     public override void UseSkill(GameObject target)
