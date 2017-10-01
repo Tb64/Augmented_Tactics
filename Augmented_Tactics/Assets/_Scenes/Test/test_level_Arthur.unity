@@ -325,7 +325,7 @@ MonoBehaviour:
   map: {fileID: 0}
   SM: {fileID: 0}
   speed: 3
-  moveDistance: 5
+  moveDistance: 7
   remainingMovement: 0
   numOfMoves: 1
 --- !u!1 &392709761
@@ -1187,7 +1187,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: End Turn
+  m_Text: Player Turn
 --- !u!222 &1573820527
 CanvasRenderer:
   m_ObjectHideFlags: 0

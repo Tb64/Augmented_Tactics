@@ -10,12 +10,16 @@ public class ClickableTile : MonoBehaviour {
     public TileMap map;
     public TileType tileTypes;
     private Color32 originalColor;
+    Actor unit;
     public bool occupied;
 
    
 
     private void Start()
     {
+        
+        unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
+
         //sets clickable tile to false as its initialized
         occupied = false;
     }
@@ -30,10 +34,11 @@ public class ClickableTile : MonoBehaviour {
         //single click
         Debug.Log("Click");
         //Generates a path to clicked tile
-        map.GeneratePathTo(tileX, tileZ);
-
-        //GameObject Unit;
-        //Unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit;
+        if (map.getEndOfMove() == true)
+        {
+            map.GeneratePathTo(tileX, tileZ);
+        }
+       
         //map.moveActor(Unit, new Vector3(5, 0, 5));
 
         
@@ -45,6 +50,8 @@ public class ClickableTile : MonoBehaviour {
         //highlights block that mouse hovers over
         originalColor = gameObject.GetComponent<MeshRenderer>().material.color;
         gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color32(150,248,43,255));
+
+    
     }
 
     public void OnMouseExit()
@@ -58,7 +65,13 @@ public class ClickableTile : MonoBehaviour {
         return gameObject;
     }
 
-   
-
+    public void setOccupiedTrue()
+    {
+        occupied = true;
+    }
+    public void setOccupiedFalse()
+    {
+        occupied = false;
+    }
 }
 
