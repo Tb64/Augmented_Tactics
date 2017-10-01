@@ -38,13 +38,25 @@ public class BasicAttack : Ability {
                 return;
             }
             if (anim != null)
+            {
+                rotateAtObj(target);
                 anim.SetTrigger("MeleeAttack");
-
+            }
             target.GetComponent<Actor>().TakeDamage(damage);
         }
         else
         {
             Debug.Log("Target is not an Actor");
         }
+    }
+
+    private void rotateAtObj(GameObject target)
+    {
+        Vector3 newDir = Vector3.RotateTowards(parent.transform.forward, target.transform.position, 1f, 0f);
+        newDir = new Vector3(newDir.x, parent.transform.position.y, newDir.z);
+
+
+        newDir = new Vector3(target.transform.position.x, parent.transform.position.y, target.transform.position.z);
+        parent.transform.LookAt(newDir);
     }
 }
