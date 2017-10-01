@@ -29,14 +29,14 @@ public class BasicAttack : Ability {
 			Debug.Log("Target is null.");
 			return;
 		}
-        if (SkillInRange(transform.position, target.transform.position) == false)
-        {
-            Debug.Log("Ability out of range. Range is " + range);
-            return;
-        }
 
         if(target.tag == "Player" || target.tag == "Enemy")
         {
+            if (SkillInRange(parent, target) == false)
+            {
+                Debug.Log("Ability out of range. Range is " + range);
+                return;
+            }
             if (anim != null)
                 anim.SetTrigger("MeleeAttack");
 

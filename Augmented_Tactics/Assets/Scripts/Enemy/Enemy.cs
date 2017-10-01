@@ -105,9 +105,10 @@ public class Enemy : Actor
             HealHealth(100);    // just a filler #
         //Debug.Log(nearest.tileX + " " + nearest.tileZ+ " " + weakest.tileX + " "+ weakest.tileZ);
         Actor target = nearest;
-        enemyPosition = new Vector3((float)tileX, 0, (float)tileZ);
-        playerPosition = new Vector3((float)target.tileX, 0, (float)target.tileZ);
+        enemyPosition = new Vector3((float)tileX, 0f, (float)tileZ);
+        playerPosition = new Vector3((float)target.tileX, 0f, (float)target.tileZ);
         float distanceToNearest = Vector3.Distance(playerPosition, enemyPosition);
+        Debug.Log("1Dist = " + distanceToNearest + " " + enemyPosition + playerPosition);
         if (target != weakest)
             target = findTarget(weakest, distanceToNearest);
         Debug.Log("Found Target = " + target.name + " at " + target.transform.position);
@@ -126,9 +127,10 @@ public class Enemy : Actor
         {
             Actor player = user.GetComponent<Actor>();
             //^^not 100% on this due to GetComponent being called up to 10 times. Might build array differently later: Andrew
-            playerPosition = new Vector3(player.tileX, player.tileZ, 0);
-            enemyPosition = new Vector3(tileX, tileZ, 0);
+            enemyPosition = new Vector3((float)tileX, 0f, (float)tileZ);
+            playerPosition = new Vector3((float)player.tileX, 0f, (float)player.tileZ);
             float distanceFromPlayer = Vector3.Distance(playerPosition, enemyPosition);
+            Debug.Log("2Dist = " + distanceFromPlayer + " " + enemyPosition + playerPosition);
             if (distanceFromPlayer < currentNearest)
             {
                 nearest = user;
@@ -156,6 +158,7 @@ public class Enemy : Actor
         map.GeneratePathTo(target.tileX, target.tileZ);
         /*Debug.Log(target.name+" "+ target.GetComponent<Actor>().tileX+" "+ target.GetComponent<Actor>().tileZ);
         //after moving, if enemy is in range attack*/
+        Debug.Log("Dist = " + Vector3.Distance(enemyPosition, playerPosition) + " " + enemyPosition + playerPosition);
         if (Vector3.Distance(enemyPosition, playerPosition) <= 1)
             Attack(target);
         NextTurn();
@@ -180,6 +183,8 @@ public class Enemy : Actor
         return weakest;
 
     }
+
+
 /// <summary>
 /// //////////////////////// where to add attacking
 /// </summary>
