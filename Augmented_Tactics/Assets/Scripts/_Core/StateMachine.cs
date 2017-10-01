@@ -28,46 +28,39 @@ public class StateMachine : MonoBehaviour {
         if (GameObject.FindWithTag("Player") == null || GameObject.FindWithTag("Enemy") == null)
         {
             return;
-        }
-
-        GameObject player = GameObject.FindWithTag("Player");
-        GameObject enemy = GameObject.FindWithTag("Enemy");
+        } 
 
         if (firstTurn == true)
         {
             playerTurn = false;
             firstTurn = false;
-            map.getMapArray()[enemy.GetComponent<Actor>().tileX, 
-                enemy.GetComponent<Actor>().tileZ].setOccupiedTrue();
-            map.getMapArray()[player.GetComponent<Actor>().tileX, 
-                player.GetComponent<Actor>().tileZ].setOccupiedTrue();
+            
         }
 
         //Change to arrays in future to hold multiple players/enemies
-
+        GameObject player = GameObject.FindWithTag("Player");
+        GameObject enemy = GameObject.FindWithTag("Enemy");
 
         if (playerTurn == true)
         {
-            
             //Player turn
+            changeTurn(false);
+           
             Debug.Log("PLAYER TURN");
 
             GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Player Turn";
-            TurnBehavoir.newTurn(playerTurn);
-           
+        
             map.selectedUnit = player;
             map.selectedUnit.GetComponent<Actor>().setMoves(1);
             map.getMapArray()[unit.tileX, unit.tileZ].setOccupiedTrue();
 
-            playerTurn = false;
+            
         }
         else
         {
             //enemy turn
-            
-            playerTurn = true;
-            TurnBehavoir.newTurn(playerTurn);
-            
+            changeTurn(true);
+                        
             Debug.Log("ENEMY TURN");
             GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Enemy Turn";
 
@@ -78,12 +71,22 @@ public class StateMachine : MonoBehaviour {
     }
    
     //true player false enemy
+
+    void changeTurn(bool tf)
+    {
+        playerTurn = tf;
+        TurnBehavoir.newTurn(playerTurn);
+    }
+
     public bool checkTurn()
     {
         return playerTurn;
     }
 
-	void Update () {
-		
-	}
+    public bool getFirstTurn()
+    {
+        return firstTurn;
+    }
+
+
 }

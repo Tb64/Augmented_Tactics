@@ -13,12 +13,13 @@ public class ClickableTile : MonoBehaviour {
     Actor unit;
     public bool occupied;
     StateMachine controller;
-
-
+    Actor player;
+    Actor enemy;
 
     private void Start()
     {
-        
+        player = GameObject.FindWithTag("Player").GetComponent<Actor>();
+        enemy = GameObject.FindWithTag("Enemy").GetComponent<Actor>();
         unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
         controller = GameObject.Find("GameController").GetComponent<StateMachine>();
         //sets clickable tile to false as its initialized
@@ -35,6 +36,17 @@ public class ClickableTile : MonoBehaviour {
         //single click
         Debug.Log("Click");
         //Generates a path to clicked tile
+
+        bool firstClick = true;
+        if(controller.getFirstTurn() == true && firstClick == true)
+        {//Only runs on the first click of the scene
+            map.getMapArray()[enemy.GetComponent<Actor>().tileX,
+                enemy.GetComponent<Actor>().tileZ].setOccupiedTrue();
+            map.getMapArray()[player.GetComponent<Actor>().tileX,
+                player.GetComponent<Actor>().tileZ].setOccupiedTrue();
+            firstClick = false;
+        }
+
         if (map.getEndOfMove() == true && controller.checkTurn() == false)
         {
             map.GeneratePathTo(tileX, tileZ);
