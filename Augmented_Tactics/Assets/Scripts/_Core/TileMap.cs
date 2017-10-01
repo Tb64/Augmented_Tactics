@@ -149,6 +149,7 @@ public class TileMap : MonoBehaviour {
                 ct.tileZ = z;
                 ct.map = this;
                 map[x, z] = ct;
+                
 
             }
             

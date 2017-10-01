@@ -71,7 +71,7 @@ public class Actor : MonoBehaviour {
 
     private void Awake()
     {
-
+        
         tileX = (int)transform.position.x;
         tileZ = (int)transform.position.z;
         map = GameObject.Find("Map").GetComponent<TileMap>();
@@ -82,6 +82,8 @@ public class Actor : MonoBehaviour {
         }
 
     }
+
+
     #endregion
 
     #region mouseEvents
@@ -115,7 +117,7 @@ public class Actor : MonoBehaviour {
         {
             return;
         }
-        //map = GameObject.Find("Map").GetComponent<TileMap>();
+        map = GameObject.Find("Map").GetComponent<TileMap>();
 
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);

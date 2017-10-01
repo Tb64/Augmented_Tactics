@@ -8,13 +8,12 @@ public class ClickableTile : MonoBehaviour {
     public int tileZ;
     public int tileClass;
     public TileMap map;
-    private Color32 originalColor;
-    float deltaTime;
-
     public TileType tileTypes;
-
+    private Color32 originalColor;
     public bool occupied;
+
    
+
     private void Start()
     {
         //sets clickable tile to false as its initialized
