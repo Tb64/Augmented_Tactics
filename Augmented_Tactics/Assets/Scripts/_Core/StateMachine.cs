@@ -45,7 +45,7 @@ public class StateMachine : MonoBehaviour {
         GameObject player = GameObject.FindWithTag("Player");
         GameObject enemy = GameObject.FindWithTag("Enemy");
 
-        if (playerTurn == false)
+        if (playerTurn == false) //if it is enemy's turn aka false, we switch it to players turn aka true
         {
             //Player turn
             changeTurn(true);
@@ -60,7 +60,7 @@ public class StateMachine : MonoBehaviour {
 
             
         }
-        else
+        else    //if it is player's turn aka true, we switch to enemy turn aka false
         {
             //enemy turn
             changeTurn(false);
