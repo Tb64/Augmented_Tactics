@@ -38,7 +38,8 @@ public class ClickableTile : MonoBehaviour {
         //Generates a path to clicked tile
 
         bool firstClick = true;
-        if(controller.getFirstTurn() == true && firstClick == true)
+
+        if (controller.getFirstTurn() == true && firstClick == true)
         {//Only runs on the first click of the scene
             map.getMapArray()[enemy.GetComponent<Actor>().tileX,
                 enemy.GetComponent<Actor>().tileZ].setOccupiedTrue();
@@ -47,7 +48,7 @@ public class ClickableTile : MonoBehaviour {
             firstClick = false;
         }
 
-        if (map.getEndOfMove() == true && controller.checkTurn() == false)
+        if (map.getEndOfMove() == true)
         {
             map.GeneratePathTo(tileX, tileZ);
         }
