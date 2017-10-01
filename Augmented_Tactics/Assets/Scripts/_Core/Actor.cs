@@ -72,10 +72,6 @@ public class Actor : TurnBehavoir
         
     }
 
-    public override void TurnStart()
-    {
-        
-    }
 
     public virtual void Update()
     {
@@ -156,14 +152,15 @@ public class Actor : TurnBehavoir
 
         return false;
     }
-        
+
+
+
+    #region damage/heal functions
+
     /// <summary>
     /// The method to damage an Actor
     /// </summary>
     /// <param name="damage">Damage the Actor will take as a float</param>
-    /// 
-
-    #region damage/heal functions
     public virtual void TakeDamage(float damage)
     {
         health_current -= damage;
@@ -172,6 +169,8 @@ public class Actor : TurnBehavoir
             health_current = 0;
             OnDeath();
         }
+
+        Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
     }
 
     public virtual void HealHealth(float heal)
@@ -228,6 +227,10 @@ public class Actor : TurnBehavoir
 
     #region SetGets
   
+    public Vector3 getMapPosition()
+    {
+        return new Vector3((float)tileX, 0f, (float)tileZ);
+    }
     
     public List<Node> getCurrentPath()
     {
@@ -254,6 +257,7 @@ public class Actor : TurnBehavoir
         speed = num;
     }
 
+    
     public float getSpeed()
     {
         return speed;
@@ -329,7 +333,7 @@ public class Actor : TurnBehavoir
     {
         return numberOfActors;
     }
-    #endregion
+
 
     public bool getMoveClicked()
     {
@@ -340,4 +344,7 @@ public class Actor : TurnBehavoir
     {
         moveClicked = tf;
     }
+
+
+    #endregion
 }

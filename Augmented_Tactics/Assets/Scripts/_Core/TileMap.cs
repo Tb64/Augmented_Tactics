@@ -211,6 +211,7 @@ public class TileMap : MonoBehaviour {
 
         if (UnitCanEnterTile(x,z) == false || map[x,z].occupied == true)
         {//tile is not walkable
+            //Debug.Log("Unable to generate path");
             return;
         }
 
@@ -375,27 +376,32 @@ public class TileMap : MonoBehaviour {
 
     public void moveUnit()
     {
-        
-        if (Vector3.Distance(unit.transform.position, TileCoordToWorldCoord(unit.tileX, unit.tileZ)) < 0.1f)
+        moveUnit(unit);
+    }
+
+    public void moveUnit(Actor unitObj)
+    {
+
+        if (Vector3.Distance(unitObj.transform.position, TileCoordToWorldCoord(unitObj.tileX, unitObj.tileZ)) < 0.1f)
         {
             AdvancePathing();
-            
+
         }
-        
+
         //move unit to next tile
-        endOfMove = unit.MoveController(unit.transform, TileCoordToWorldCoord(unit.tileX, unit.tileZ), unit.getSpeed());
+        endOfMove = unitObj.MoveController(unit.transform, TileCoordToWorldCoord(unitObj.tileX, unitObj.tileZ), unitObj.getSpeed());
         //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
 
 
         if (endOfMove == true) //Anything that happens at end of Actor movement
         {
-            unit.setRemainingMovement(0); // clears remaining movement of Actor at end of move
+            unitObj.setRemainingMovement(0); // clears remaining movement of Actor at end of move
 
-            if (unit.getCurrentPath() == null)
+            if (unitObj.getCurrentPath() == null)
             {
                 path.positionCount = 0; //clears line renderer
             }
-            
+
         }
 
     }

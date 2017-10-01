@@ -31,10 +31,11 @@ public class TurnBehavoir : MonoBehaviour {
         Initialize();
     }
 
-    public virtual void LateUpdate()
+    public virtual void FixedUpdate()
     {
         if(firstRun)
         {
+            Debug.Log("FixedUpdate");
             TurnStart();
             if (isPlayerTurn)
                 PlayerTurnStart();
@@ -57,7 +58,7 @@ public class TurnBehavoir : MonoBehaviour {
     /// </summary>
     public virtual void PlayerTurnStart()
     {
-
+        Debug.Log("PlayerTurnStart");
     }
 
     /// <summary>
@@ -85,7 +86,8 @@ public class TurnBehavoir : MonoBehaviour {
     public static void newTurn(bool playerTurn)
     {
         isPlayerTurn = playerTurn;
-        newTurn();
+        firstRun = true;
+        numberOfTurns++;
     }
 
     /******************
