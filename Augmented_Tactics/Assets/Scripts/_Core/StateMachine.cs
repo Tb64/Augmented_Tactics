@@ -34,21 +34,21 @@ public class StateMachine : MonoBehaviour {
             return;
         } 
 
-        if (firstTurn == true)
-        {
-            playerTurn = false;
-            firstTurn = false;
+        //if (firstTurn == true)
+        //{
+        //    playerTurn = false;
+        //    firstTurn = false;
             
-        }
+        //}
 
         //Change to arrays in future to hold multiple players/enemies
         GameObject player = GameObject.FindWithTag("Player");
         GameObject enemy = GameObject.FindWithTag("Enemy");
 
-        if (playerTurn == true)
+        if (playerTurn == false)
         {
             //Player turn
-            changeTurn(false);
+            changeTurn(true);
            
             Debug.Log("PLAYER TURN");
 
@@ -63,7 +63,7 @@ public class StateMachine : MonoBehaviour {
         else
         {
             //enemy turn
-            changeTurn(true);
+            changeTurn(false);
                         
             Debug.Log("ENEMY TURN");
             GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Enemy Turn";
