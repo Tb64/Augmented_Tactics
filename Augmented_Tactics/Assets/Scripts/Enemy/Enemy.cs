@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Enemy : Actor
 {
-    private GameObject[] userTeam;
+    private Actor[] userTeam;
     //private int callControl = 0;
     public static int enemyNum;
     public static Actor[] enemyList;
@@ -41,7 +41,15 @@ public class Enemy : Actor
             abilitySet[i] = new BasicAttack();
         }
 
-        userTeam = GameObject.FindGameObjectsWithTag("Player");
+        GameObject[] tempTeam = GameObject.FindGameObjectsWithTag("Player");
+        if (tempTeam != null)
+        {
+            userTeam = new Actor[tempTeam.Length];
+            for (int i = 0; i < tempTeam.Length; i++)
+                userTeam[i] = tempTeam[i].GetComponent<Actor>();
+        }
+        
+          //team set to Actors instead of GameObjects  
     }
 	
 	// Update is called once per frame
@@ -93,30 +101,30 @@ public class Enemy : Actor
 
     void enemyTurn()
     {
-        map.selectedUnit = gameObject;
+       // map.selectedUnit = gameObject;
         nearest = findNearestPlayer().GetComponent<Actor>();
         weakest = findWeakestPlayer().GetComponent<Actor>();
-        if (GetHealthPercent() < nearest.GetHealthPercent())
-            HealHealth(100);    // just a filler #
+        enemyPosition = new Vector3((float)tileX, 0, (float)tileZ);
+        playerPosition = new Vector3((float)nearest.tileX, 0, (float)nearest.tileZ);
+        float distanceToNearest = Vector3.Distance(playerPosition, enemyPosition);
+        reactToProximity(distanceToNearest);
         //Debug.Log(nearest.tileX + " " + nearest.tileZ+ " " + weakest.tileX + " "+ weakest.tileZ);
         Actor target = nearest;
-        enemyPosition = new Vector3((float)tileX, 0, (float)tileZ);
-        playerPosition = new Vector3((float)target.tileX, 0,(float)target.tileZ);
-        float distanceToNearest = Vector3.Distance(playerPosition, enemyPosition);
+        
         if (target != weakest)
             target = findTarget(weakest, distanceToNearest);
-        Debug.Log("found target");
+        //Debug.Log("found target");
         moveEnemy(target);
     }
-    private GameObject findNearestPlayer()
+    private Actor findNearestPlayer()
     {
-        GameObject nearest = userTeam[0] ;
+        Actor nearest = userTeam[0] ;
         float currentNearest = 10000000;
-        foreach(GameObject user in userTeam)
+        foreach(Actor user in userTeam)
         {
-            Actor player = user.GetComponent<Actor>();
+            //Actor player = user.GetComponent<Actor>();
             //^^not 100% on this due to GetComponent being called up to 10 times. Might build array differently later: Andrew
-            playerPosition = new Vector3(player.tileX, player.tileZ, 0);
+            playerPosition = new Vector3(user.tileX, user.tileZ, 0);
             enemyPosition = new Vector3(tileX, tileZ, 0);
             float distanceFromPlayer = Vector3.Distance(playerPosition, enemyPosition);
             if (distanceFromPlayer < currentNearest)
@@ -127,7 +135,21 @@ public class Enemy : Actor
         }
         return nearest;
     }
-
+    private bool reactToProximity(float distanceToNearest)
+    {
+        if (distanceToNearest <= 1)
+        {
+            Attack(nearest);
+            return true;
+        }
+        else if (GetHealthPercent() < nearest.GetHealthPercent() && distanceToNearest < moveDistance)
+        {
+            HealHealth(100);    // just a filler #
+            return true;
+        }
+        else    
+            return false;
+    }
     private Actor findTarget(Actor target, float distanceToNearest)
     {
         Vector3 weakestPosition = new Vector3((float)weakest.tileX, 0, (float)weakest.tileZ);
@@ -152,15 +174,15 @@ public class Enemy : Actor
         return true;
     }
 
-    private GameObject findWeakestPlayer()
+    private Actor findWeakestPlayer()
     {
-        GameObject weakest = userTeam[0];
+        Actor weakest = userTeam[0];
         float lowestHealth = userTeam[0].GetComponent<Actor>().GetHealthPercent();
-        foreach (GameObject user in userTeam)
+        foreach (Actor user in userTeam)
         {
-            Actor player = user.GetComponent<Actor>();
+            //Actor player = user.GetComponent<Actor>();
             //same as findNearest.
-            float playerHealth = player.GetHealthPercent();
+            float playerHealth = user.GetHealthPercent();
             if ( playerHealth < lowestHealth)
             {
                 weakest = user;
