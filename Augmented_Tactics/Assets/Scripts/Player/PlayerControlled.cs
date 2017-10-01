@@ -23,7 +23,13 @@ public class PlayerControlled : Actor
         playerNum++;
 
         abilitySet = new BasicAttack[4];
-       // GameObject.FindWithTag("Map").GetComponent<TileMap>().Players.Add(this.GetComponent<Actor>());
+        // GameObject.FindWithTag("Map").GetComponent<TileMap>().Players.Add(this.GetComponent<Actor>());
+
+        if (map == null)
+        {
+            map = GameObject.Find("Map").GetComponent<TileMap>();
+        }
+
     }
 
     void OnEnable()
@@ -31,8 +37,14 @@ public class PlayerControlled : Actor
         numberOfActors++;
     }
 
+    public void OnMouseUp()
+    {
+        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
 
-    
+        Debug.Log("click test");
+        GO.selectedUnit = gameObject;
+    }
+
     // Update is called once per frame
     void Update () {
         base.Update();

@@ -7,10 +7,14 @@ public class StateMachine : MonoBehaviour {
 
     private bool playerTurn;
     private bool firstTurn;
-    
+    GameObject[] player = new GameObject[10];
+    GameObject[] enemy = new GameObject[20];
+
     void Start()
     {
 
+        player = GameObject.FindGameObjectsWithTag("Player");
+        enemy = GameObject.FindGameObjectsWithTag("Player");
         playerTurn = true;
         firstTurn = true;
         TurnBehavoir.Initialize(playerTurn);
