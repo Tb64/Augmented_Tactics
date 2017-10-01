@@ -48,9 +48,11 @@ public class ClickableTile : MonoBehaviour {
             firstClick = false;
         }
 
-        if (map.getEndOfMove() == true)
+        if (map.getEndOfMove() == true && unit.getMoveClicked() == true)
         {
             map.GeneratePathTo(tileX, tileZ);
+            unit.NextTurn();
+            unit.setMoveClicked(false);
         }
        
         //map.moveActor(Unit, new Vector3(5, 0, 5));
