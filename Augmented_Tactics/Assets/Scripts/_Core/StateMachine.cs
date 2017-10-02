@@ -54,7 +54,7 @@ public class StateMachine : MonoBehaviour {
 
             GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Player Turn";
         
-            map.selectedUnit = player;
+            //map.selectedUnit = player;
             map.selectedUnit.GetComponent<Actor>().setMoves(1);
             map.getMapArray()[unit.tileX, unit.tileZ].setOccupiedTrue();
 
