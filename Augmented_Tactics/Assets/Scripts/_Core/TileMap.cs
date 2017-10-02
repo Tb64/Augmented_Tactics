@@ -381,7 +381,6 @@ public class TileMap : MonoBehaviour {
 
     public void moveUnit(Actor unitObj)
     {
-
         if (Vector3.Distance(unitObj.transform.position, TileCoordToWorldCoord(unitObj.tileX, unitObj.tileZ)) < 0.1f)
         {
             AdvancePathing();
@@ -492,9 +491,6 @@ public class TileMap : MonoBehaviour {
                     position[currNode + 1] = end - new Vector3(0, .5f, 0);
                     path.SetPositions(position);
                 }
-
-               
-                
             }
         }
     }
@@ -505,6 +501,7 @@ public class TileMap : MonoBehaviour {
         selectedUnit = actor;
         GeneratePathTo((int)target.x, (int)target.z);
         actor.GetComponent<Actor>().NextTurn();
+        moveUnit();
     }
 
     #endregion

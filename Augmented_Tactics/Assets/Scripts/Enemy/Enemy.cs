@@ -192,9 +192,9 @@ public class Enemy : Actor
         if (Mathf.Abs(output.x) > Mathf.Abs(output.z))
         {
             if (output.x > 0)
-                output = new Vector3(0f, 0f, 1f);
+                output = new Vector3(1f, 0f, 0f);
             else
-                output = new Vector3(0f, 0f, -1f);
+                output = new Vector3(-1f, 0f, 0f);
         }
         else
         {
@@ -205,7 +205,7 @@ public class Enemy : Actor
         }
         //Debug.Log("Delta "+ output + mapPos);
         output = mapPos + output;
-        Debug.Log("Delta " + output + mapPos);
+        //Debug.Log("Delta " + output + mapPos);
         return output;
     }
 
