@@ -18,7 +18,9 @@ public class Enemy : Actor
     public Vector3 getPlayerPosition() { return playerPosition; }
     public void setPlayerPosition(Vector3 pPosition) { playerPosition = pPosition; }
     public Vector3 getEnemyPosition() { return enemyPosition; }
-    public void setEnemyPosition(Vector3 ePosition) { enemyPosition = ePosition; } 
+    public void setEnemyPosition(Vector3 ePosition) { enemyPosition = ePosition; }
+    //enemies will control the health bars above your head 
+    protected HealthBar UIHealth;
 
 
 
@@ -26,13 +28,14 @@ public class Enemy : Actor
     void Start () {
 	    base.Start();
 
+        UIHealth = this.GetComponentInChildren<HealthBar>();
 
         if (enemyNum == null)
             enemyNum = 0;
         if (enemyList == null)
             enemyList = new Actor[15];
         enemyList[enemyNum] = this;
-        Debug.Log("Player added: " + enemyNum + ") " + enemyList[enemyNum]);
+        Debug.Log("Enemy added: " + enemyNum + ") " + enemyList[enemyNum]);
         enemyNum++;
 
         abilitySet = new BasicAttack[4];  //test
@@ -53,6 +56,12 @@ public class Enemy : Actor
         turnControl();
     }
 
+    public virtual void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
+        if (UIHealth != null)
+            UIHealth.UpdateUIHealth(GetHealthPercent(), false);
+    }
     void turnControl()
     {
 

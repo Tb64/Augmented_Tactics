@@ -14,8 +14,7 @@ public class Actor : MonoBehaviour {
     #region Variables
 
     protected Animator anim;
-    protected HealthBar UIHealth;
-    public GameObject UIHealthobj;
+    //protected HealthBar UIHealth;
 
     protected float health_current;
     protected float health_max;
@@ -63,12 +62,14 @@ public class Actor : MonoBehaviour {
     // Use this for initialization
     public virtual void Start ()
     {
-        //GameObject UIHealthobj = GameObject.Find("/Actor1/HealthBar/HealthBackground/CurrentHealth");
         health_current = 100;
         health_max = 100;
+        /*
+        GameObject UIHealthobj = GameObject.Find("CurrentHealth");        
         if (UIHealthobj != null)
-            UIHealth = UIHealthobj.GetComponent<HealthBar>();
-        
+            UIHealth = UIHealthobj.GetComponent<HealthBar>();*/
+        //UIHealth = this.GetComponentInChildren<HealthBar>();
+
         numOfMoves = 1;
         anim = GetComponentInChildren<Animator>();
 
@@ -155,9 +156,9 @@ public class Actor : MonoBehaviour {
     public virtual void TakeDamage(float damage)
     {
         health_current -= damage;
-        if (UIHealth != null)
-            UIHealth.UpdateUIHealth(GetHealthPercent());
-        
+        //if (UIHealth != null)
+        //    UIHealth.UpdateUIHealth(GetHealthPercent());
+
         if (health_current <= 0)
         {
             health_current = 0;
@@ -176,8 +177,7 @@ public class Actor : MonoBehaviour {
 
     public virtual void OnDeath()
     {
-        if (UIHealth != null)
-            UIHealth.UpdateUIHealth(0.0f);
+        
     }
 
     //Added by Arthur===========================================

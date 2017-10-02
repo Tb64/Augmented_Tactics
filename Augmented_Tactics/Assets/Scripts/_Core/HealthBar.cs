@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class HealthBar : MonoBehaviour
 {
 
-    public Actor unit;
-     
+    private Image bar;
+         
     void Start()
     {
-        
+        bar = this.GetComponent<Image>();
     }
 
 // Edited by ivan
@@ -19,9 +20,15 @@ public class HealthBar : MonoBehaviour
         //    (gameObject.GetComponentInParent<Actor>().GetHealthPercent()/100.0f), 1f, 1f)    
     }
 
-    public void UpdateUIHealth(float amount)
+    public void UpdateUIHealth(float amount, bool isPlayer)
     {
-        transform.localScale = new Vector3((amount), 1f, 1f);
+        if (PlayerControlled.playerList != null && isPlayer)
+            foreach (Actor a in PlayerControlled.playerList)
+                bar.fillAmount = amount;
+
+        if (Enemy.enemyList!=null && !isPlayer)
+            foreach (Actor a in Enemy.enemyList)
+                transform.localScale = new Vector3((amount), 1f, 1f);
     }
 }
 
