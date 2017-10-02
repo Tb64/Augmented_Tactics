@@ -53,8 +53,9 @@ public class StateMachine : MonoBehaviour {
             Debug.Log("PLAYER TURN");
 
             GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Player Turn";
-        
-            //map.selectedUnit = player;
+
+            unit = player.GetComponent<Actor>();
+            map.selectedUnit = player;
             map.selectedUnit.GetComponent<Actor>().setMoves(1);
             map.getMapArray()[unit.tileX, unit.tileZ].setOccupiedTrue();
 
@@ -68,6 +69,7 @@ public class StateMachine : MonoBehaviour {
             Debug.Log("ENEMY TURN");
             GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Enemy Turn";
 
+            unit = enemy.GetComponent<Actor>();
             map.selectedUnit = enemy;
             map.selectedUnit.GetComponent<Actor>().setMoves(1);
             map.getMapArray()[unit.tileX, unit.tileZ].setOccupiedTrue();
