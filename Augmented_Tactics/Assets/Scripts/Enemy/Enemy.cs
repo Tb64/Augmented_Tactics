@@ -6,6 +6,7 @@ public class Enemy : Actor
 {
     private Actor[] userTeam;
     //private int callControl = 0;
+    private int enemyID;
     public static int enemyNum;
     public static Actor[] enemyList;
     private Actor nearest, weakest;
@@ -18,27 +19,34 @@ public class Enemy : Actor
     public Vector3 getPlayerPosition() { return playerPosition; }
     public void setPlayerPosition(Vector3 pPosition) { playerPosition = pPosition; }
     public Vector3 getEnemyPosition() { return enemyPosition; }
-    public void setEnemyPosition(Vector3 ePosition) { enemyPosition = ePosition; } 
+    public void setEnemyPosition(Vector3 ePosition) { enemyPosition = ePosition; }
 
-
-
+    private Actor currentTarget;
+    public static int enemyNum;
+    public static Actor[] enemyList;
     // Use this for initialization
     void Start () {
 	    base.Start();
 
+
+        if(map == null)
+        {
+            map = GameObject.Find("Map").GetComponent<TileMap>();
+        }
 
         if (enemyNum == null)
             enemyNum = 0;
         if (enemyList == null)
             enemyList = new Actor[15];
         enemyList[enemyNum] = this;
-        Debug.Log("Player added: " + enemyNum + ") " + enemyList[enemyNum]);
+        enemyID = enemyNum;
+        Debug.Log("Enemy added: " + enemyNum + ") " + enemyList[enemyNum]);
         enemyNum++;
 
         abilitySet = new BasicAttack[4];  //test
         for (int i = 0; i <4; i++)
         {
-            abilitySet[i] = new BasicAttack();
+            abilitySet[i] = new BasicAttack(gameObject);
         }
 
         GameObject[] tempTeam = GameObject.FindGameObjectsWithTag("Player");
@@ -55,10 +63,13 @@ public class Enemy : Actor
 	// Update is called once per frame
 	void Update () {
         base.Update();
-
-
-
         turnControl();
+    }
+
+    public override void FixedUpdate()
+    {
+        
+        base.FixedUpdate();
     }
 
     void turnControl()
@@ -67,13 +78,18 @@ public class Enemy : Actor
         //true player turn ,false enemy turn
         if (SM.GetComponent<StateMachine>().checkTurn() == false)
         {
+            //Debug.Log("Oh hey its the enemy's turn");
            // if (callControl == 0)
             //{
                 enemyTurn();
                 //callControl++;
             //}
-            drawDebugLines();
-            moveUnit();
+            map.drawDebugLines();
+            //map.moveUnit();
+            //if (currentTarget != null)
+            //    map.moveActor(gameObject, currentTarget.getMapPosition());
+            //else
+            //    EnemyTurnStart();
         }
        /* else
         {
@@ -87,24 +103,15 @@ public class Enemy : Actor
         public int coordX;
         public int coordZ;
 
-        public Location()
-        {
-            coordX = 0;
-            coordZ = 0;
-        }
-        public Location(int X, int Z)
-        {
-            coordX = X;
-            coordZ = Z;
-        }
-    }
-
-    void enemyTurn()
+    public override void EnemyTurnStart()
     {
+        Debug.Log("1EnemyTurnStart");
+        base.EnemyTurnStart();
+
        // map.selectedUnit = gameObject;
         nearest = findNearestPlayer().GetComponent<Actor>();
         weakest = findWeakestPlayer().GetComponent<Actor>();
-        enemyPosition = new Vector3((float)tileX, 0, (float)tileZ);
+        enemyPosition = new Vector3((float)tileX, 0f, (float)tileZ);
         playerPosition = new Vector3((float)nearest.tileX, 0, (float)nearest.tileZ);
         float distanceToNearest = Vector3.Distance(playerPosition, enemyPosition);
         reactToProximity(distanceToNearest);
@@ -113,8 +120,16 @@ public class Enemy : Actor
         
         if (target != weakest)
             target = findTarget(weakest, distanceToNearest);
-        //Debug.Log("found target");
-        moveEnemy(target);
+        Debug.Log("Found Target = " + target.name + " at " + target.transform.position);
+        currentTarget = target;
+
+        NextTurn();
+        setMoves(1);
+    }
+
+    void enemyTurn()
+    {
+        moveEnemy(currentTarget);
     }
     private Actor findNearestPlayer()
     {
@@ -125,8 +140,9 @@ public class Enemy : Actor
             //Actor player = user.GetComponent<Actor>();
             //^^not 100% on this due to GetComponent being called up to 10 times. Might build array differently later: Andrew
             playerPosition = new Vector3(user.tileX, user.tileZ, 0);
-            enemyPosition = new Vector3(tileX, tileZ, 0);
+            playerPosition = new Vector3((float)player.tileX, 0f, (float)player.tileZ);
             float distanceFromPlayer = Vector3.Distance(playerPosition, enemyPosition);
+            Debug.Log("2Dist = " + distanceFromPlayer + " " + enemyPosition + playerPosition);
             if (distanceFromPlayer < currentNearest)
             {
                 nearest = user;
@@ -165,9 +181,12 @@ public class Enemy : Actor
     {
         if (target == null)
             return false;
-        map.GeneratePathTo(target.tileX, target.tileZ);
-        /*Debug.Log(target.name+" "+ target.GetComponent<Actor>().tileX+" "+ target.GetComponent<Actor>().tileZ);
-        //after moving, if enemy is in range attack*/
+
+        Vector3 movingTo = PosCloseTo(target.getMapPosition());
+        map.moveActor(gameObject, movingTo);
+        //Debug.Log(target.name+" "+ " " + getMapPosition() + movingTo);
+        //after moving, if enemy is in range attack
+        //Debug.Log("Dist = " + Vector3.Distance(enemyPosition, playerPosition) + " " + getMapPosition() + movingTo);
         if (Vector3.Distance(enemyPosition, playerPosition) <= 1)
             Attack(target);
         NextTurn();
@@ -192,6 +211,32 @@ public class Enemy : Actor
         return weakest;
 
     }
+
+    private Vector3 PosCloseTo(Vector3 mapPos)
+    {
+        Vector3 output = getMapPosition() - mapPos;
+        output = output.normalized;
+        if (Mathf.Abs(output.x) > Mathf.Abs(output.z))
+        {
+            if (output.x > 0)
+                output = new Vector3(0f, 0f, 1f);
+            else
+                output = new Vector3(0f, 0f, -1f);
+        }
+        else
+        {
+            if(output.z > 0)
+                output = new Vector3(0f, 0f, 1f);
+            else
+                output = new Vector3(0f, 0f, -1f);
+        }
+        //Debug.Log("Delta "+ output + mapPos);
+        output = mapPos + output;
+        Debug.Log("Delta " + output + mapPos);
+        return output;
+    }
+
+
 /// <summary>
 /// //////////////////////// where to add attacking
 /// </summary>
@@ -201,5 +246,10 @@ public class Enemy : Actor
         Debug.Log("target = " +target.gameObject+ "\n" + abilitySet[0].abilityName);
         abilitySet[0].UseSkill(target.gameObject); //test
     }
- 
+
+
+    public int GetID()
+    {
+        return enemyID;
+    }
 }
