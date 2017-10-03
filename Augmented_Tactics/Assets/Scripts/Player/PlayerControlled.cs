@@ -8,9 +8,13 @@ public class PlayerControlled : Actor
     public int playerID;
     public static int playerNum;
     public static Actor[] playerList;
+<<<<<<< HEAD
     //player controlled characters will control ui elements on screen
     protected static HealthBar[] UIHealth;
 
+=======
+    private int playerID;
+>>>>>>> master
     // Use this for initialization
     void Start ()
     {
@@ -35,7 +39,13 @@ public class PlayerControlled : Actor
         playerNum++;
 
         abilitySet = new BasicAttack[4];
-       // GameObject.FindWithTag("Map").GetComponent<TileMap>().Players.Add(this.GetComponent<Actor>());
+        // GameObject.FindWithTag("Map").GetComponent<TileMap>().Players.Add(this.GetComponent<Actor>());
+
+        if (map == null)
+        {
+            map = GameObject.Find("Map").GetComponent<TileMap>();
+        }
+
     }
 
     void OnEnable()
@@ -43,6 +53,7 @@ public class PlayerControlled : Actor
         numberOfActors++;
     }
 
+<<<<<<< HEAD
     public virtual void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
@@ -52,6 +63,15 @@ public class PlayerControlled : Actor
     }
 
 
+=======
+    public void OnMouseUp()
+    {
+        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
+
+        Debug.Log("click test");
+        GO.selectedUnit = gameObject;
+    }
+>>>>>>> master
 
     // Update is called once per frame
     void Update () {
@@ -68,10 +88,21 @@ public class PlayerControlled : Actor
         //true player turn ,false enemy turn
         if (SM.GetComponent<StateMachine>().checkTurn() == true)
         {
-            drawDebugLines();
-            moveUnit();
+            map.drawDebugLines();
+            map.moveUnit();
         }
 
+
+    }
+
+
+
+
+
+
+    public int GetID()
+    {
+        return playerID;
     }
 
     void assignHealthBars()
