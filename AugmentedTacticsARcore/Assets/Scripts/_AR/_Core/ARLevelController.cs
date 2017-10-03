@@ -145,19 +145,24 @@ namespace GoogleARCore.HelloAR
 
                 // Intanstiate an Andy Android object as a child of the anchor; it's transform will now benefit
                 // from the anchor's tracking.
-                var andyObject = Instantiate(m_andyAndroidPrefab, hit.Point, Quaternion.identity,
-                    anchor.transform);
+                if (GameObject.Find("GraveyardLevel") == null)
+                {
+                    var andyObject = Instantiate(m_andyAndroidPrefab, hit.Point, Quaternion.identity,
+                        anchor.transform);
 
-                // Andy should look at the camera but still be flush with the plane.
-                andyObject.transform.LookAt(m_firstPersonCamera.transform);
-                andyObject.transform.rotation = Quaternion.Euler(0.0f,
-                    0.0f, andyObject.transform.rotation.z);
+                    // Andy should look at the camera but still be flush with the plane.
+                    andyObject.transform.LookAt(m_firstPersonCamera.transform);
+                    andyObject.transform.rotation = Quaternion.Euler(0.0f,
+                        0.0f, andyObject.transform.rotation.z);
 
-                // Use a plane attachment component to maintain Andy's y-offset from the plane
-                // (occurs after anchor updates).
-                andyObject.GetComponent<PlaneAttachment>().Attach(hit.Plane);
-                hasSpawned = true;
-                gameObject.SetActive(false);
+                    // Use a plane attachment component to maintain Andy's y-offset from the plane
+                    // (occurs after anchor updates).
+                    // andyObject.GetComponent<PlaneAttachment>().Attach(hit.Plane);
+                    hasSpawned = true;
+                    //gameObject.SetActive(false);
+                }
+                    
+                
             }
         }
 
