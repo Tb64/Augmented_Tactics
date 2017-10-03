@@ -19,7 +19,7 @@ public class Enemy : Actor
     public void setPlayerPosition(Vector3 pPosition) { playerPosition = pPosition; }
     public Vector3 getEnemyPosition() { return enemyPosition; }
     public void setEnemyPosition(Vector3 ePosition) { enemyPosition = ePosition; }
-    //enemies will control the health bars above your head 
+    //enemies will control the health bars above enemy's head 
     protected HealthBar UIHealth;
 
 

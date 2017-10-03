@@ -9,26 +9,26 @@ public class PlayerControlled : Actor
     public static int playerNum;
     public static Actor[] playerList;
     //player controlled characters will control ui elements on screen
-    protected HealthBar[] UIHealth;
+    protected static HealthBar[] UIHealth;
 
     // Use this for initialization
     void Start ()
     {
         base.Start();
-
-        //UIHealth = GameObject.Find("Player1Health").GetComponent<HealthBar>();
-        GameObject[] temp = GameObject.FindGameObjectsWithTag("HealthBar");
-        int i = 0;
-        while (temp[i] != null)
-        {
-            UIHealth[i] = temp[i].GetComponent<HealthBar>();
-            i++;
-        }
-
+        
         if (playerNum == null)
             playerNum = 0;
         if (playerList == null)
             playerList = new Actor[4];
+        //populate list of healthbars. This way each health bar is assigned to one player controlled character
+        if (UIHealth == null)
+        {
+            UIHealth = new HealthBar[4];
+            GameObject[] temp = GameObject.FindGameObjectsWithTag("HealthBar");
+            for(int i=0; i<temp.Length; i++)
+                if(temp[i]!=null)
+                    UIHealth[i] = temp[i].GetComponent<HealthBar>();
+        }
         playerList[playerNum] = this;
         playerID = playerNum;
         Debug.Log("Player added: " + playerNum + ") " + playerList[playerNum]);
@@ -46,16 +46,9 @@ public class PlayerControlled : Actor
     public virtual void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
+        Debug.Log(this.playerID);
         if (UIHealth != null)
-        {
-            int i = 0;
-            while (UIHealth[i] != null)
-            {
-                UIHealth[0].UpdateUIHealth(GetHealthPercent(), true);
-                i++;
-            }
-                //UIHealth.UpdateUIHealth(GetHealthPercent(), true);
-        }
+            UIHealth[this.playerID].UpdateUIHealth(GetHealthPercent(), true);
     }
 
 
@@ -79,5 +72,10 @@ public class PlayerControlled : Actor
             moveUnit();
         }
 
+    }
+
+    void assignHealthBars()
+    {
+        
     }
 }
