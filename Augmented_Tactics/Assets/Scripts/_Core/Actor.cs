@@ -48,7 +48,7 @@ public class Actor : TurnBehavoir
     public int numOfMoves;
     private bool canMove;
     private bool moveClicked;
-
+ 
 
     //===========================================
     #endregion
@@ -62,7 +62,7 @@ public class Actor : TurnBehavoir
     public virtual void Start()
     {
         Init();
-        
+       
     }
 
 
@@ -98,6 +98,7 @@ public class Actor : TurnBehavoir
        
     }
 
+    
     #endregion
 
 
