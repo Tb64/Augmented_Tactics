@@ -7,14 +7,16 @@ using UnityEngine.UI;
 public class CameraControls : MonoBehaviour {
     bool AREnabled = false;
     bool flagDistance = false;
-    //speed of rotation/translation, could divide into x and y
+    //speed of rotation/zoom, could divide into x and y
     float speedRotation = 200;
+    float speedTouch = 0.05f;
     float speedZoom = 0.5f;
+    //distance between camera and map foruse in translation
     float distance;
     public char cam = '0';
     // Update is called once per frame
     private void Update(){
-
+        Pan();
         if(!AREnabled)
             Zoom();
     }
@@ -23,15 +25,17 @@ public class CameraControls : MonoBehaviour {
         switch (cam){
             //pan map across camera
             case '1':
+                /*
+                //mouse controls for panning
                 if (!flagDistance){
-                    //Attempt to find a way to have the map stay where it is when panning
-                    //Find exact distance between the camera and map
+                    //Find exact distance between the camera and map so map stays stationary when grabbed initially
                     distance = (Camera.main.GetComponent<Transform>().position - this.transform.position).magnitude;
                     flagDistance = true;
                 }
                 Vector3 mousePos = new Vector3(Input.mousePosition.x,Input.mousePosition.y, distance);
                 Vector3 mapPos = Camera.main.ScreenToWorldPoint(mousePos);
                 transform.position = mapPos;
+                */
                 break;
             //rotate object in front of camera, disable lines with yRotation to disable tilt
             default:
@@ -49,6 +53,7 @@ public class CameraControls : MonoBehaviour {
         }
     }
     private void OnMouseUp(){
+        //allow distance to be updated again
         flagDistance = false;
     }
     private void Zoom(){
@@ -66,7 +71,15 @@ public class CameraControls : MonoBehaviour {
         }
         if (Input.GetAxis("Mouse ScrollWheel") < 0)
         {
-            Camera.main.GetComponent<Transform>().position = Camera.main.GetComponent<Transform>().position - (Camera.main.GetComponent<Transform>().forward * speedZoom);
+            Camera.main.GetComponent<Transform>().position = Camera.main.transform.position - (Camera.main.GetComponent<Transform>().forward * speedZoom);
+        }
+    }
+    private void Pan(){
+        if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Moved){
+            //movement of finger per update
+            Vector3 deltaTouchPos = Input.GetTouch(0).deltaPosition;
+            transform.TransformDirection(Camera.main.transform.forward);
+            transform.Translate(deltaTouchPos.x * speedTouch, deltaTouchPos.y *speedTouch, 0);
         }
     }
     public void ToggleClicked(){
