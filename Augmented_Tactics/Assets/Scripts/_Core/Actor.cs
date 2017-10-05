@@ -125,6 +125,13 @@ public class Actor : TurnBehavoir
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
     }
         
+    /// <summary>
+    /// Controls the physical and animation of moving the actor.  Does not generate path.
+    /// </summary>
+    /// <param name="origin">The object you want to move</param>
+    /// <param name="targetPos">The World position of the move</param>
+    /// <param name="speed">The speed of the move</param>
+    /// <returns>False if the move is not done, true if the move is done.</returns>
     public bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
         float scaleDist = 1f;

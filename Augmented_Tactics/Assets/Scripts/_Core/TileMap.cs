@@ -374,14 +374,22 @@ public class TileMap : MonoBehaviour {
 
     #region Movement
 
-    public void moveUnit()
+    /// <summary>
+    /// Generates path and moves the actor the map currently has selected.
+    /// </summary>
+    /// <returns>False = move not finished.  True = move finished.</returns>
+    public bool moveUnit()
     {
-        moveUnit(unit);
+        return moveUnit(unit);
     }
 
-    public void moveUnit(Actor unitObj)
+    /// <summary>
+    /// Generates path and moves the actor.  Location is not set in the function.
+    /// </summary>
+    /// <param name="unitObj">The actor you want to move</param>
+    /// <returns>False = move not finished.  True = move finished.</returns>
+    public bool moveUnit(Actor unitObj)
     {
-
         if (Vector3.Distance(unitObj.transform.position, TileCoordToWorldCoord(unitObj.tileX, unitObj.tileZ)) < 0.1f)
         {
             AdvancePathing();
@@ -403,6 +411,8 @@ public class TileMap : MonoBehaviour {
             }
 
         }
+
+        return endOfMove;
 
     }
 
@@ -492,19 +502,22 @@ public class TileMap : MonoBehaviour {
                     position[currNode + 1] = end - new Vector3(0, .5f, 0);
                     path.SetPositions(position);
                 }
-
-               
-                
             }
         }
     }
 
-
-    public void moveActor(GameObject actor, Vector3 target)
+    /// <summary>
+    /// Move the selected actor to selected map position (map coords).
+    /// </summary>
+    /// <param name="actor">The actor you want to move</param>
+    /// <param name="target">The map position you want to move to</param>
+    /// <returns>False = move not finished.  True = move finished.</returns>
+    public bool moveActor(GameObject actor, Vector3 target)
     {
         selectedUnit = actor;
         GeneratePathTo((int)target.x, (int)target.z);
         actor.GetComponent<Actor>().NextTurn();
+        return moveUnit();
     }
 
     #endregion
