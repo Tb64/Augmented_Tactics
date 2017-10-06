@@ -8,7 +8,7 @@ public class PlayerControlled : Actor
 
     public static int playerNum;
     public static Actor[] playerList;
-
+    private int playerID;
     // Use this for initialization
     void Start ()
     {
@@ -18,11 +18,18 @@ public class PlayerControlled : Actor
         if (playerList == null)
             playerList = new Actor[4];
         playerList[playerNum] = this;
+        playerID = playerNum;
         Debug.Log("Player added: " + playerNum + ") " + playerList[playerNum]);
         playerNum++;
 
         abilitySet = new BasicAttack[4];
-       // GameObject.FindWithTag("Map").GetComponent<TileMap>().Players.Add(this.GetComponent<Actor>());
+        // GameObject.FindWithTag("Map").GetComponent<TileMap>().Players.Add(this.GetComponent<Actor>());
+
+        if (map == null)
+        {
+            map = GameObject.Find("Map").GetComponent<TileMap>();
+        }
+
     }
 
     void OnEnable()
@@ -30,8 +37,14 @@ public class PlayerControlled : Actor
         numberOfActors++;
     }
 
+    public void OnMouseUp()
+    {
+        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
 
-    
+        Debug.Log("click test");
+        GO.selectedUnit = gameObject;
+    }
+
     // Update is called once per frame
     void Update () {
         base.Update();
@@ -47,9 +60,20 @@ public class PlayerControlled : Actor
         //true player turn ,false enemy turn
         if (SM.GetComponent<StateMachine>().checkTurn() == true)
         {
-            drawDebugLines();
-            moveUnit();
+            map.drawDebugLines();
+            map.moveUnit();
         }
 
+
+    }
+
+
+
+
+
+
+    public int GetID()
+    {
+        return playerID;
     }
 }
