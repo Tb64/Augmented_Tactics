@@ -16,7 +16,8 @@ public class CameraMovement : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        camMovement();
+        //camMovement();
+        camMovementNoPan();
 	}
 
     private void Start()
@@ -53,6 +54,45 @@ public class CameraMovement : MonoBehaviour {
         }
         //Move camera left
         if (Input.GetKey("a") || Input.mousePosition.x <= panBorderThickness)
+        {
+            position.x -= panSpeed * Time.deltaTime;
+        }
+
+        //gets input from mouse scroll wheel
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        position.y -= scroll * scrollSpeed * 100f * Time.deltaTime;
+
+        //limits how far the camera can move in x,y,z axis
+        position.x = Mathf.Clamp(position.x, -panLimit.x, panLimit.x);
+        position.y = Mathf.Clamp(position.y, minY, maxY);
+        position.z = Mathf.Clamp(position.z, -panLimit.y, panLimit.y);
+
+        //updates position of camera
+        transform.position = position;
+    }
+    void camMovementNoPan()
+    {
+        position = transform.position;
+
+        //movement works with wasd keys
+
+        //Move camera up
+        if (Input.GetKey("w"))
+        {
+            position.z += panSpeed * Time.deltaTime;
+        }
+        //Move camera down
+        if (Input.GetKey("s"))
+        {
+            position.z -= panSpeed * Time.deltaTime;
+        }
+        //Move camera right
+        if (Input.GetKey("d"))
+        {
+            position.x += panSpeed * Time.deltaTime;
+        }
+        //Move camera left
+        if (Input.GetKey("a"))
         {
             position.x -= panSpeed * Time.deltaTime;
         }
