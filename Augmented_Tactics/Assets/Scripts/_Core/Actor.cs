@@ -392,30 +392,69 @@ public class Actor : TurnBehavoir
         health_max = health;
     }
 
+    public void setMaxMana(int mana)
+    {
+        mana_max = mana;
+    }
+
     public void setStrength(int str)
     {
         strength = str;
     }
+
+    public int getStrength()
+    {
+        return strength;
+    }
+
     public void setDexterity(int dex)
     {
         dexterity = dex;
     }
+
+    public int getDexterity()
+    {
+        return dexterity;
+    }
+
     public void setConstitution(int con)
     {
         constitution = con;
     }
+
+    public int getConstitution()
+    {
+        return constitution;
+    }
+
     public void setIntelligence(int intel)
     {
         intelligence = intel;
     }
+    
+    public int getIntelligence()
+    {
+        return intelligence; 
+    }
+
     public void setWisdom(int wis)
     {
         wisdom = wis;
     }
+
+    public int getWisdom()
+    {
+        return wisdom;
+    }
+
     public void setCharisma(int cha)
     {
         charisma = cha;
     }
 
+    public int getCharisma()
+    {
+        return charisma;
+    }
     #endregion
 }
