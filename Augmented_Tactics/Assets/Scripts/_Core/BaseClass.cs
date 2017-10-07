@@ -8,6 +8,7 @@ public class BaseClass : MonoBehaviour {
 
     private int skillPoints;
     private int experience;
+    private int playerLevel;
 
     //Stat gains;
     private int strengthGain;
@@ -17,17 +18,10 @@ public class BaseClass : MonoBehaviour {
     private int wisdomGain;
     private int charismaGain;
 
-
-	// Use this for initialization
 	void Start () {
         initializeBaseStats();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
 
     void initializeBaseStats()
     {
@@ -43,6 +37,7 @@ public class BaseClass : MonoBehaviour {
 
         skillPoints = 1;
         experience = 0;
+        playerLevel = 1;
 
         //default values for stat gains;
         strengthGain = 1;
@@ -65,6 +60,89 @@ public class BaseClass : MonoBehaviour {
         skillPoints++;
     }
 
+    void checkLevel()
+    {
+
+        if (experience >= 355000 && playerLevel < 20)
+        {
+            levelUp();
+        }
+        else if (experience >= 305000 && playerLevel < 19)
+        {
+            levelUp();
+        }
+        else if (experience >= 265000 && playerLevel < 18)
+        {
+            levelUp();
+        }
+        else if (experience >= 225000 && playerLevel < 17)
+        {
+            levelUp();
+        }
+        else if (experience >= 195000 && playerLevel < 16)
+        {
+            levelUp();
+        }
+        else if (experience >= 165000 && playerLevel < 15)
+        {
+            levelUp();
+        }
+        else if (experience >= 140000 && playerLevel < 14)
+        {
+            levelUp();
+        }
+        else if (experience >= 120000 && playerLevel < 13)
+        {
+            levelUp();
+        }
+        else if (experience >= 100000 && playerLevel < 12)
+        {
+            levelUp();
+        }
+        else if (experience >= 85000 && playerLevel < 11)
+        {
+            levelUp();
+        }
+        else if (experience >= 64000 && playerLevel < 10)
+        {
+            levelUp();
+        }
+        else if (experience >= 48000 && playerLevel < 9)
+        {
+            levelUp();
+        }
+        else if (experience >= 34000 && playerLevel < 8)
+        {
+            levelUp();
+        }
+        else if (experience >= 23000 && playerLevel < 7)
+        {
+            levelUp();
+        }
+        else if (experience >= 14000 && playerLevel < 6)
+        {
+            levelUp();
+        }
+        else if (experience >= 6500 && playerLevel < 5)
+        {
+            levelUp();
+        }
+        else if (experience >= 2700 && playerLevel < 4)
+        {
+            levelUp();
+        }
+        else if (experience >= 900 && playerLevel < 3)
+        {
+            levelUp();
+        }
+        else if (experience >= 300 && playerLevel < 2)
+        {
+            levelUp();
+        }
+       
+
+    }
+
     #region set/gets
 
     public int getSkillPoints()
@@ -74,6 +152,7 @@ public class BaseClass : MonoBehaviour {
     public void setExperience(int xp)
     {
         experience += xp;
+        checkLevel();
     }
     public int getExperience()
     {
