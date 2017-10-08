@@ -25,6 +25,14 @@ public class BaseClass : MonoBehaviour {
 
     void initializeBaseStats()
     {
+        player = GetComponentInParent<Actor>();
+
+        player.abilitySet = new BasicAttack[4];  
+        for (int i = 0; i < 4; i++)
+        {
+            player.abilitySet[i] = new BasicAttack(gameObject);
+        }
+
         player.setStrength(10);
         player.setDexterity(10);
         player.setConstitution(10);
@@ -59,6 +67,13 @@ public class BaseClass : MonoBehaviour {
 
         skillPoints++;
     }
+
+    void loadChar(string charName)
+    {
+
+    }
+
+
 
     void checkLevel()
     {
