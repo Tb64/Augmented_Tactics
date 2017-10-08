@@ -125,6 +125,8 @@ public class Enemy : Actor
 
     void enemyTurn()
     {
+        //update position
+        
         bool finishedMove = moveEnemy(currentTarget);
         if (finishedMove)   //finished move
         {
@@ -148,7 +150,7 @@ public class Enemy : Actor
             enemyPosition = new Vector3((float)tileX, 0f, (float)tileZ);
             playerPosition = new Vector3((float)user.tileX, 0f, (float)user.tileZ);
             float distanceFromPlayer = Vector3.Distance(playerPosition, enemyPosition);
-            Debug.Log("2Dist = " + distanceFromPlayer + " " + enemyPosition + playerPosition);
+            //Debug.Log("Dist = " + distanceFromPlayer + " " + enemyPosition + playerPosition);
             if (distanceFromPlayer < currentNearest)
             {
                 nearest = user;
@@ -256,9 +258,10 @@ public class Enemy : Actor
     /// <param name="target"></param>
     void Attack(Actor target)
     {
-        if (!(Vector3.Distance(enemyPosition, playerPosition) <= 1))
+        float dist = Vector3.Distance(getMapPosition(), target.getMapPosition());
+        if (!(dist <= 1))
             return;
-        Debug.Log("target = " + target.gameObject + "\n" + abilitySet[0].abilityName);
+        //Debug.Log("target = " + target.gameObject + " skill = " + abilitySet[0].abilityName + " range = " + dist);
         abilitySet[0].UseSkill(target.gameObject); //test
     }
 
