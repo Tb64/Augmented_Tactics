@@ -17,7 +17,7 @@ public class Actor : TurnBehavoir
     protected Animator anim;
 
     protected float health_current;
-    protected float health_max;
+    public float health_max; // temporary for debugging purposes(should be protected)
     protected float mana_current;
     protected float mana_max;
     protected float move_speed;
@@ -48,7 +48,8 @@ public class Actor : TurnBehavoir
     public int numOfMoves;
     private bool canMove;
     private bool moveClicked;
-
+    NavMeshAgent playerAgent;
+    private Animator playerAnim;
 
     //===========================================
     #endregion
@@ -62,26 +63,35 @@ public class Actor : TurnBehavoir
     public virtual void Start()
     {
         Init();
-        
+       
     }
-
-
 
     private void Awake()
     {
         
     }
 
-
     public virtual void Update()
     {
-        //drawDebugLines();
-        //moveUnit();
-    }
 
+        //drawDebugLines();
+
+        //moveUnit();
+
+
+
+        if (playerAgent == null) //bandaid fix, needs to be removed
+        {
+            return;
+        }
+        clickToMove();
+        anim.SetFloat("Speed", playerAgent.velocity.magnitude);
+       
+    }
 
     #endregion
 
+    
     #region mouseEvents
 
 
@@ -93,20 +103,15 @@ public class Actor : TurnBehavoir
         GO.selectedUnit = gameObject;
     }
 
-    private void OnMouseOver()
-    {
-        Debug.Log("drag test");
-    }
-
     #endregion
-
-
+        
     private void Init()
     {
         //number of moves each actor can make per turn
         numOfMoves = 2;
         anim = GetComponentInChildren<Animator>();
-        
+        playerAgent = GetComponent<NavMeshAgent>();
+
         if (GameObject.FindWithTag("GameController") == null)
         {
             Debug.LogError("Missing Game Controller, add in scene hierarchy");
@@ -123,7 +128,7 @@ public class Actor : TurnBehavoir
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
     }
-        
+
     /// <summary>
     /// Controls the physical and animation of moving the actor.  Does not generate path.
     /// </summary>
@@ -131,6 +136,7 @@ public class Actor : TurnBehavoir
     /// <param name="targetPos">The World position of the move</param>
     /// <param name="speed">The speed of the move</param>
     /// <returns>False if the move is not done, true if the move is done.</returns>
+
     public bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
         float scaleDist = 1f;
@@ -144,6 +150,7 @@ public class Actor : TurnBehavoir
             return true;
         }
 
+
         if (anim != null)
             anim.SetFloat("Speed", scaleDist);
 
@@ -153,7 +160,6 @@ public class Actor : TurnBehavoir
         Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
         newDir = new Vector3(newDir.x, origin.position.y, newDir.z);
 
-
         newDir = new Vector3(targetPos.x, origin.position.y, targetPos.z);
         origin.transform.LookAt(newDir);
 
@@ -161,6 +167,35 @@ public class Actor : TurnBehavoir
     }
 
 
+
+    void clickToMove()
+    {
+        if (Input.GetMouseButtonDown(0) &&
+            !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        {
+            GetInteraction();
+        }
+    }
+
+    void GetInteraction()
+    {
+        Ray interactionRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit interactionInfo;
+        if (Physics.Raycast(interactionRay, out interactionInfo, Mathf.Infinity))
+        {
+            GameObject interactedObject = interactionInfo.collider.gameObject;
+            if (interactedObject.tag == "Interactable")
+            {
+                Debug.Log("Interactable object");
+            }
+            else
+            {
+                //move our player to the point
+
+                playerAgent.destination = interactionInfo.point;
+            }
+        }
+    }
 
     #region damage/heal functions
 
@@ -225,8 +260,6 @@ public class Actor : TurnBehavoir
         }
         
     }
-
-
 
     /******************
     *  Set/Gets
@@ -352,6 +385,76 @@ public class Actor : TurnBehavoir
         moveClicked = tf;
     }
 
+    //=======Stat Set/Gets===========//
 
+    public void setMaxHealth(int health)
+    {
+        health_max = health;
+    }
+
+    public void setMaxMana(int mana)
+    {
+        mana_max = mana;
+    }
+
+    public void setStrength(int str)
+    {
+        strength = str;
+    }
+
+    public int getStrength()
+    {
+        return strength;
+    }
+
+    public void setDexterity(int dex)
+    {
+        dexterity = dex;
+    }
+
+    public int getDexterity()
+    {
+        return dexterity;
+    }
+
+    public void setConstitution(int con)
+    {
+        constitution = con;
+    }
+
+    public int getConstitution()
+    {
+        return constitution;
+    }
+
+    public void setIntelligence(int intel)
+    {
+        intelligence = intel;
+    }
+    
+    public int getIntelligence()
+    {
+        return intelligence; 
+    }
+
+    public void setWisdom(int wis)
+    {
+        wisdom = wis;
+    }
+
+    public int getWisdom()
+    {
+        return wisdom;
+    }
+
+    public void setCharisma(int cha)
+    {
+        charisma = cha;
+    }
+
+    public int getCharisma()
+    {
+        return charisma;
+    }
     #endregion
 }
