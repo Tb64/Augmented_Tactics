@@ -17,7 +17,7 @@ public class Actor : TurnBehavoir
     protected Animator anim;
 
     protected float health_current;
-    protected float health_max;
+    public float health_max; // temporary for debugging purposes(should be protected)
     protected float mana_current;
     protected float mana_max;
     protected float move_speed;
@@ -80,12 +80,12 @@ public class Actor : TurnBehavoir
 
 
 
-        //if (playerAgent == null) //bandaid fix, needs to be removed
-        //{
-        //    return;
-        //}
-            clickToMove();
-            anim.SetFloat("Speed", playerAgent.velocity.magnitude);
+        if (playerAgent == null) //bandaid fix, needs to be removed
+        {
+            return;
+        }
+        clickToMove();
+        anim.SetFloat("Speed", playerAgent.velocity.magnitude);
        
     }
 
