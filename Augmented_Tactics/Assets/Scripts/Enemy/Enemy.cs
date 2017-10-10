@@ -39,6 +39,7 @@ public class Enemy : Actor
             enemyList = new Actor[15];
         enemyList[enemyNum] = this;
         enemyID = enemyNum;
+        health_current = 100;
         Debug.Log("Enemy added: " + enemyNum + ") " + enemyList[enemyNum]);
         enemyNum++;
 

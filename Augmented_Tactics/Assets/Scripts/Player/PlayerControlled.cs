@@ -19,6 +19,7 @@ public class PlayerControlled : Actor
             playerList = new Actor[4];
         playerList[playerNum] = this;
         playerID = playerNum;
+        health_current = 100;
         Debug.Log("Player added: " + playerNum + ") " + playerList[playerNum]);
         playerNum++;
 
