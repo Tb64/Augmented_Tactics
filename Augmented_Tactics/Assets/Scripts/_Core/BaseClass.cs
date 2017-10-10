@@ -5,6 +5,8 @@ using UnityEngine;
 public class BaseClass : MonoBehaviour {
 
     private Actor player;
+    protected BaseClass[] jobs;
+    string job;
 
     private int skillPoints;
     private int experience;
@@ -26,6 +28,16 @@ public class BaseClass : MonoBehaviour {
     void initializeBaseStats()
     {
         player = GetComponentInParent<Actor>();
+
+        //0 - Knight
+        //1 - 
+        //2 - 
+        //3 - 
+        //4 - 
+        //5 - 
+        //6 - 
+
+        jobs = new BaseClass[6]; //Array to hold 7 different class types
 
         player.abilitySet = new BasicAttack[4];  
         for (int i = 0; i < 4; i++)
@@ -73,8 +85,20 @@ public class BaseClass : MonoBehaviour {
 
     }
 
+    public BaseClass[] getJobs()
+    {
+        return jobs;
+    }
 
+    public void setJobName(string name)
+    {
+        job = name;
+    }
 
+    public string getJobName()
+    {
+        return job;
+    }
     void checkLevel()
     {
 
