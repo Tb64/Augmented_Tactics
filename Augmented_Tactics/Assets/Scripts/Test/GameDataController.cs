@@ -30,4 +30,9 @@ public class GameDataController : MonoBehaviour {
         }
     }
 
+    public bool saveData()
+    {
+
+    }
+
 }
