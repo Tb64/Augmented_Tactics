@@ -42,6 +42,7 @@ public class BasicAttack : Ability {
             }
             if (anim != null)
             {
+                Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}",abilityName, parent.name, target.name));
                 rotateAtObj(target);
                 anim.SetTrigger("MeleeAttack");
             }

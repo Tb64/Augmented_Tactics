@@ -30,7 +30,7 @@ public class Ability
         Vector3 start = new Vector3((float)startObj.GetComponent<Actor>().tileX, 0f, (float)startObj.GetComponent<Actor>().tileZ);
         Vector3 end = new Vector3((float)endObj.GetComponent<Actor>().tileX, 0f, (float)endObj.GetComponent<Actor>().tileZ);
 
-        Debug.Log("Skill:Find Range " + start + end);
+        //Debug.Log("Skill:Find Range " + start + end);
         return (Vector3.Distance(start, end) <= (float)range);
     }
 }
