@@ -5,12 +5,12 @@ using UnityEngine;
 public class RangeHighlight : MonoBehaviour {
 
     public GameObject hightlightObj;
-
     public int range;
+    private TileMap map;
 	// Use this for initialization
 	void Start () {
+        map = GameObject.Find("Map").GetComponent<TileMap>();
         RangeMarker_On(transform.position,3);
-
     }
 	
 	// Update is called once per frame
@@ -30,11 +30,11 @@ public class RangeHighlight : MonoBehaviour {
                 GameObject obj;
                 if (spawnPosition1 != spawnPosition2)
                 {
-                    obj = Instantiate(hightlightObj, spawnPosition2, hightlightObj.transform.rotation);
+                    obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition2), hightlightObj.transform.rotation);
                     obj.transform.parent = gameObject.transform;
                 }
 
-                obj = Instantiate(hightlightObj, spawnPosition1, hightlightObj.transform.rotation);
+                obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition1), hightlightObj.transform.rotation);
                 obj.transform.parent = gameObject.transform;
             }
             rangeDelta--;
@@ -43,6 +43,10 @@ public class RangeHighlight : MonoBehaviour {
 
     void RangeMarker_Off()
     {
-        Destroy(gameObject);
+        Transform[] children = GetComponentsInChildren<Transform>();
+        foreach(Transform child in children)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }
