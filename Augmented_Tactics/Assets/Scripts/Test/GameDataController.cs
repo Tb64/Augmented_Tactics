@@ -2,37 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-public class GameDataController : MonoBehaviour {
-    private string fileName = "data.json";
-    // Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-    public GameData loadGameData()
+public class GameDataController {
+    //private string fileName = "data.json";
+    string filePath = Path.Combine(Application.streamingAssetsPath, "data.json");
+    public List<PlayerData> loadPlayerData()
     {
-        string filePath = Path.Combine(Application.streamingAssetsPath, fileName);
         if (File.Exists(filePath))
         {
             string jsonData= File.ReadAllText(filePath);
-            GameData loadedData = JsonUtility.FromJson<GameData>(jsonData);
-            return loadedData;
+            return JsonUtility.FromJson<List<PlayerData>>(jsonData);
+            //return loadedData;
         }
         else
         {
-            Debug.LogError("Can't Load Game Data");
+            Debug.LogError("Can't Find Game Data");
             return null;
         }
     }
 
-    public bool saveData()
+    public void savePlayerData(List<PlayerData> playerData)
     {
-
+        if (File.Exists(filePath))
+        {
+            string jsonData = JsonUtility.ToJson(playerData);
+            File.WriteAllText(filePath, jsonData);
+            return;
+        }
+        else
+        {
+            File.Create(filePath);
+            string jsonData = JsonUtility.ToJson(playerData);
+            File.WriteAllText(filePath, jsonData);
+            return;
+        }
     }
 
 }
