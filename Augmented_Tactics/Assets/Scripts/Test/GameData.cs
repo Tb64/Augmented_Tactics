@@ -2,43 +2,62 @@
 using System.Collections.Generic;
 using UnityEngine;
 [System.Serializable]
-public class GameData
-{
-    private KeyValuePair<string, float>[] numberData = {new KeyValuePair<string, float>("Health", 0),
-    new KeyValuePair<string, float>("Mana", 0), new KeyValuePair<string, float>("Experience", 0),
-    new KeyValuePair<string, float>("Level",0 ),new KeyValuePair<string, float>("Strength",0),
-    new KeyValuePair<string, float>("Dexterity",0), new KeyValuePair<string, float>("Constitution",0),
-    new KeyValuePair<string, float>("Intelligence",0), new KeyValuePair<string, float>("Wisdom",0),
-    new KeyValuePair<string, float>("Charisma",0), new KeyValuePair<string, float>("Acrobatics",0),
-    new KeyValuePair<string, float>("Athletics",0), new KeyValuePair<string, float>("Stealth",0),
-    new KeyValuePair<string, float>("Agility",0), new KeyValuePair<string, float>("Armor Class",0),
-    new KeyValuePair<string, float>("Speed",0), new KeyValuePair<string, float>("Medicine",0)};
-
-    private KeyValuePair<string, string>[] stringData = {new KeyValuePair<string, string>("Name", null),
-    new KeyValuePair<string, string>("Class", null)};
-
-    public KeyValuePair<string, float>[] getNumberData(){return numberData;}
-    public KeyValuePair<string, string>[] getStringData() {return stringData; }
-   
-    //All of this code seems unncecessary now so I left it
-    /*public float getValueByKey(string key)
+public class GameData{
+    private static List<PlayerData> allPlayers;
+    private static bool loaded = false;
+    public GameData()
     {
-        float value = this.Contains(key);
-        if(/*number or string data has key)
+        if (!loaded)
         {
-
+            loaded = true;
+            allPlayers = retrieveData();
         }
-        return value;
+    }
+     
+    /*public List<PlayerData> getAllPlayers()
+    {
+        return allPlayers;
+    }*/
+    public PlayerData findPlayer(string name)
+    {
+        foreach (PlayerData player in allPlayers)
+        {
+            if(player.getPlayerName() == name)
+            {
+                return player;
+            }
+        }
+        Debug.LogError("Player " + name + " does not exist!");
+        return null;
     }
 
-    public float Contains(string key)
+    public bool savePlayer(PlayerData newStats)
     {
-        float value;
-        foreach(KeyValuePair<string, float> stats in numberData)
+        int playerIndex = 0;
+        foreach (PlayerData stats in allPlayers)
         {
-            
+            if (stats.getPlayerName().Equals(newStats.getPlayerName()))
+            {
+                allPlayers[playerIndex] = newStats;
+                sendData();
+                return true;
+            }
+            playerIndex++;
         }
-        return value;
-    }*/
+        Debug.LogError("Unable to save");
+        return false;
+    }
+    private static List<PlayerData> retrieveData()
+    {
+        GameDataController game = new GameDataController();
+        List<PlayerData> data = game.loadPlayerData();
+        return data;
+    }
+
+    private static void sendData()
+    {
+        GameDataController game = new GameDataController();
+        game.savePlayerData(allPlayers);
+    }
 
 }
