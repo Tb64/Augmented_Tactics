@@ -5,6 +5,7 @@ using UnityEngine;
 public class BaseClass : MonoBehaviour {
 
     private Actor player;
+    private GameData savedPlayerData = new GameData();
 
     private int skillPoints;
     private int experience;
@@ -68,9 +69,50 @@ public class BaseClass : MonoBehaviour {
         skillPoints++;
     }
 
-    void loadChar(string charName)
+    bool loadChar(string charName)
     {
+        PlayerData character = savedPlayerData.findPlayer(charName);
+        if (character == null)
+        {
+            //Debug.LogError("Character " + " does not exist!");
+            return false;
+        }
+        else
+        {
+            setExperience((int)character.getStatByKey("Experience"));
+            skillPoints = (int)character.getStatByKey("Skill Points");
+            playerLevel = (int)character.getStatByKey("Level");
+            player.setDexterity((int)character.getStatByKey("Dexterity"));
+            player.setIntelligence((int)character.getStatByKey("Intelligence"));
+            player.setCharisma((int)character.getStatByKey("Charisma"));
+            player.setConstitution((int)character.getStatByKey("Constitution"));
+            player.setSpeed((int)character.getStatByKey("Speed"));
+            player.setStrength((int)character.getStatByKey("Strength"));
+            player.setWisdom((int)character.getStatByKey("Wisdom"));
+            player.setArmorClass(character.getStatByKey("Armor Class"));
+            player.setHealthCurrent((int)character.getStatByKey("Health"));
+            player.setManaCurrent((character.getStatByKey("Mana")));
+            return true;
+        }
+    }
 
+    private bool saveChar()
+    {
+        PlayerData newData = new PlayerData();
+        newData.setStatbyKey("Experience", getExperience());
+        newData.setStatbyKey("Skill Points",getSkillPoints());
+        newData.setStatbyKey("Player Level", playerLevel);
+        newData.setStatbyKey("Dexterity",player.getDexterity());
+        newData.setStatbyKey("Intelligence", player.getIntelligence());
+        newData.setStatbyKey("Charisma", player.getCharisma());
+        newData.setStatbyKey("Constitution", player.getConstitution());
+        newData.setStatbyKey("Speed", player.getSpeed());
+        newData.setStatbyKey("Strength", player.getStrength());
+        newData.setStatbyKey("Wisdom", player.getWisdom());
+        newData.setStatbyKey("Armor Class", player.getArmorClass());
+        newData.setStatbyKey("Health", player.GetHealthCurrent());
+        newData.setStatbyKey("Mana", player.getManaCurrent());
+        return savedPlayerData.savePlayer(newData);
     }
 
 
