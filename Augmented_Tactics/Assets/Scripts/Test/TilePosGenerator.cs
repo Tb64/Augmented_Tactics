@@ -10,8 +10,8 @@ public class TilePosGenerator : MonoBehaviour {
 
         for(int index = 0; index < tiles.Length; index++)
         {
-            tiles[index].tileX = (int)tiles[index].transform.position.x;
-            tiles[index].tileZ = (int)tiles[index].transform.position.z;
+            tiles[index].tileX = (int)tiles[index].transform.localPosition.x;
+            tiles[index].tileZ = (int)tiles[index].transform.localPosition.z;
         }
 		
 	}
