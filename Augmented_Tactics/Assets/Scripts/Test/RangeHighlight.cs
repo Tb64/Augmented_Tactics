@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class RangeHighlight : MonoBehaviour {
 
-    public GameObject hightlightObj;
+    public static GameObject hightlightObj;
     public int range;
     private TileMap map;
 	// Use this for initialization
 	void Start () {
         map = GameObject.Find("Map").GetComponent<TileMap>();
-        RangeMarker_On(transform.position,3);
+        //RangeMarker_On(transform.position,3);
     }
 	
 	// Update is called once per frame
@@ -18,8 +18,9 @@ public class RangeHighlight : MonoBehaviour {
 		
 	}
 
-    void RangeMarker_On(Vector3 positionInput, int range)
+    public void Marker_On(Vector3 positionInput, int range)
     {
+        TileMap map = GameObject.Find("Map").GetComponent<TileMap>();
         int rangeDelta = range;
         for (int x = 0; x <= range; x++)
         {

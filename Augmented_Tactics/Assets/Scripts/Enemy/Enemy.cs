@@ -219,7 +219,6 @@ public class Enemy : Actor
             }
         }
         return weakest;
-
     }
 
     /// <summary>
