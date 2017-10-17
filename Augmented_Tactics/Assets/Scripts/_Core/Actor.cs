@@ -355,9 +355,24 @@ public class Actor : TurnBehavoir
         return health_current;
     }
 
+    public void setHealthCurrent(int health)
+    {
+        health_current = health;
+    }
+
     public float GetHeathMax()
     {
         return health_max;
+    }
+
+    public float getManaCurrent()
+    {
+        return mana_current;
+    }
+
+    public void setManaCurrent(float mana)
+    {
+        mana_current = mana;
     }
 
     public void setCanMove(bool trueFalse)
@@ -365,6 +380,15 @@ public class Actor : TurnBehavoir
         canMove = trueFalse;
     }
 
+    public void setArmorClass(float aClass)
+    {
+        armor_class = aClass;
+    }
+
+    public float getArmorClass()
+    {
+        return armor_class;
+    }
     public bool getCanMove()
     {
         return canMove;
