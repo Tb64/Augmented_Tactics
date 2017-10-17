@@ -20,7 +20,7 @@ public class BaseClass : MonoBehaviour {
     private int wisdomGain;
     private int charismaGain;
 
-	void Start () {
+	public virtual void Start () {
         initializeBaseStats();
 	}
 	
@@ -36,8 +36,13 @@ public class BaseClass : MonoBehaviour {
         //4 - 
         //5 - 
         //6 - 
-
-        jobs = new BaseClass[6]; //Array to hold 7 different class types
+        jobs = new BaseClass[6];
+        //Array to hold 7 different class types
+        for (int index = 0; index < jobs.Length; index++)
+        {
+            jobs[index] = new BaseClass(); 
+        }
+        
 
         player.abilitySet = new BasicAttack[4];  
         for (int i = 0; i < 4; i++)
@@ -45,14 +50,15 @@ public class BaseClass : MonoBehaviour {
             player.abilitySet[i] = new BasicAttack(gameObject);
         }
 
-        player.setStrength(10);
-        player.setDexterity(10);
-        player.setConstitution(10);
-        player.setIntelligence(10);
-        player.setWisdom(10);
-        player.setCharisma(10);
+        player.setStrength(10 + strengthGain);
+        player.setDexterity(10 + dexterityGain);
+        player.setConstitution(10 + constitutionGain);
+        player.setIntelligence(10 + intelligenceGain);
+        player.setWisdom(10 + wisdomGain);
+        player.setCharisma(10 + charismaGain);
 
         player.setMaxHealth(10 * player.getConstitution());
+        player.setHealthCurrent(player.getMaxHealth());
         player.setMaxMana(10 * player.getIntelligence());
 
         skillPoints = 1;
@@ -182,6 +188,7 @@ public class BaseClass : MonoBehaviour {
 
     }
 
+
     #region set/gets
 
     public int getSkillPoints()
@@ -232,6 +239,7 @@ public class BaseClass : MonoBehaviour {
         charismaGain = gain;
     }
 
+    
     #endregion
 
 }

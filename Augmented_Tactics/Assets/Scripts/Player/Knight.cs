@@ -8,6 +8,7 @@ public class Knight : BaseClass {
 
     void Start()
     {
+        base.Start();
         initKnightStats();
     }
 
@@ -24,7 +25,7 @@ public class Knight : BaseClass {
         jobs[0].setCharismaGain(5);
 
         //initialize base stats
-
+       
 
     }
 

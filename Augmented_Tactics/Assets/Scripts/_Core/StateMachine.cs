@@ -57,7 +57,9 @@ public class StateMachine : MonoBehaviour {
             unit = player.GetComponent<Actor>();
             map.selectedUnit = player;
             map.selectedUnit.GetComponent<Actor>().setMoves(1);
-            map.getMapArray()[unit.tileX, unit.tileZ].setOccupiedTrue();
+            map.getMapArray()[(int)unit.getCoords().x,
+                (int)unit.getCoords().y, 
+                (int)unit.getCoords().z].setOccupiedTrue();
 
             
         }
@@ -72,7 +74,7 @@ public class StateMachine : MonoBehaviour {
             unit = enemy.GetComponent<Actor>();
             map.selectedUnit = enemy;
             map.selectedUnit.GetComponent<Actor>().setMoves(1);
-            map.getMapArray()[unit.tileX, unit.tileZ].setOccupiedTrue();
+            map.getMapArray()[(int)unit.getCoords().x, (int)unit.getCoords().y,(int)unit.getCoords().z].setOccupiedTrue();
         }
     }
    
