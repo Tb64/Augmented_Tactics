@@ -15,16 +15,16 @@ public class HealthBar : MonoBehaviour
     void Start()
     {
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
-        healthPercent = 100;//gameObject.GetComponentInParent<Actor>().GetHealthPercent(); need to set starting %
+        /* Needs to start AFTER all actors loaded
+        healthPercent = 100;//gameObject.GetComponentInParent<Actor>().GetHealthPercent(); later will fetch from actor
         enemyBars = new Image[Enemy.enemyNum];
         playerBars = new Image[PlayerControlled.playerNum];
         GameObject[] tempUIObjects = GameObject.FindGameObjectsWithTag("UIHealthBar");
-        Image[] tempUIHealthBars = new Image[tempUIObjects.Length];
 
-        //all UI health bars are in tempUIObjects, just assign each image component in those ojects as a healthbar
-        Debug.Log(message: tempUIHealthBars.Length + " " + PlayerControlled.playerNum);
+        //all UI health bars are in tempUIObjects, assign each image component in those ojects as a healthbar
+        Debug.Log(message: tempUIObjects.Length + " " + PlayerControlled.playerNum);
         if (PlayerControlled.playerNum != 0)
-            for (int i = 0; i < tempUIHealthBars.Length; i++)
+            for (int i = 0; i < tempUIObjects.Length; i++)
                 playerBars[i] = tempUIObjects[i].GetComponent<Image>();
         Debug.Log(Enemy.enemyNum);
         if (Enemy.enemyNum != 0)
@@ -39,6 +39,7 @@ public class HealthBar : MonoBehaviour
 
         //enemyBars[i] = Enemy.enemyList[i].GetComponentInChildren<Image>();
         //will be a problem if we have multiple images. Can seach all components of type image then filter by tag
+        */
     }
 
 // Update is called once per frame
