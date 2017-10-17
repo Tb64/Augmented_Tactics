@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
-    public Image[] AbilityImages;
-    public Text[] AbilityText;
-    private RangeHighlight rangeMarker;
+    public const int MODE_SELECT_UNIT = 0;
+    public const int MODE_SELECT_TARGET = 1;
+    public const int MODE_SELECT_LOCATION = 2;
 
     private static Actor selectedUnit;
     private static GameObject targetUnit;
@@ -16,12 +16,18 @@ public class GameController : MonoBehaviour {
     private static Image[] abilityImages;
     private static Text[] abilityText;
 
+    public Image[] AbilityImages;
+    public Text[] AbilityText;
+    private RangeHighlight rangeMarker;
+
     private int currentAbility = 0;
     private static bool abilityMode = false;
+    private int currentMode = MODE_SELECT_UNIT;
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         GameObject mapObj = GameObject.FindGameObjectWithTag("Map");
-        if(mapObj != null)
+        if (mapObj != null)
         {
             map = mapObj.GetComponent<TileMap>();
         }
@@ -39,15 +45,94 @@ public class GameController : MonoBehaviour {
 
     }
 
-    private void ClickEvent()
+    //private void ClickEvent()
+    //{
+    //    if(Input.anyKey && abilityMode)
+    //    {
+    //        Debug.Log("Setting ability target");
+    //        if(targetUnit != null)
+    //            selectedUnit.abilitySet[currentAbility].UseSkill(targetUnit);
+    //        rangeMarker.Marker_Off();
+    //        abilityMode = false;
+    //    }
+    //}
+
+    void ClickEvent()
     {
-        if(Input.anyKey && abilityMode)
+        if (Input.GetMouseButtonDown(0) &&
+            !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
-            Debug.Log("Setting ability target");
-            if(targetUnit != null)
-                selectedUnit.abilitySet[currentAbility].UseSkill(targetUnit);
-            rangeMarker.Marker_Off();
-            abilityMode = false;
+            switch (currentMode)
+            {
+                case MODE_SELECT_UNIT:
+                    SelectUnit();
+                    break;
+
+                case MODE_SELECT_LOCATION:
+                    SelectLocation();
+                    break;
+
+                case MODE_SELECT_TARGET:
+                    SelectTarget();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+    GameObject RayCaster()
+    {
+        GameObject interactedObject;
+        Ray interactionRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit interactionInfo;
+        if (Physics.Raycast(interactionRay, out interactionInfo, Mathf.Infinity))
+        {
+            interactedObject = interactionInfo.collider.gameObject;
+            return interactedObject;
+        }
+
+        return null;
+    }
+
+    void SelectUnit()
+    {
+        GameObject interactedObject = RayCaster();
+        if (interactedObject != null && interactedObject.tag == "Player")
+        {
+            Debug.Log("Selected Player: " + interactedObject.name);
+            selectedUnit = interactedObject.GetComponent<Actor>();
+        }
+
+
+    }
+
+    void SelectTarget()
+    {
+        Ray interactionRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit interactionInfo;
+        if (Physics.Raycast(interactionRay, out interactionInfo, Mathf.Infinity))
+        {
+            GameObject interactedObject = interactionInfo.collider.gameObject;
+            if (interactedObject.tag == "Enemy")
+            {
+                Debug.Log("Selected Enemy: " + interactedObject.name);
+            }
+        }
+    }
+
+    void SelectLocation()
+    {
+        Ray interactionRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit interactionInfo;
+        if (Physics.Raycast(interactionRay, out interactionInfo, Mathf.Infinity))
+        {
+            GameObject interactedObject = interactionInfo.collider.gameObject;
+            if (interactedObject.tag == "Tile")
+            {
+                Debug.Log("Selected Tile: " + interactedObject.name);
+            }
         }
     }
 
