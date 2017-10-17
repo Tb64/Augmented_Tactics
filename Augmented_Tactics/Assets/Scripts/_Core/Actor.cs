@@ -109,6 +109,7 @@ public class Actor : TurnBehavoir
     {
         //number of moves each actor can make per turn
         numOfMoves = 2;
+        health_current = 100;
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
 
@@ -211,7 +212,7 @@ public class Actor : TurnBehavoir
             health_current = 0;
             OnDeath();
         }
-
+        HealthBar.UpdateHealth();
         Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
     }
 
