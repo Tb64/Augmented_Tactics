@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class RangeHighlight : MonoBehaviour {
 
-    public static GameObject hightlightObj;
+    public GameObject hightlightObj;
     public int range;
     private TileMap map;
 	// Use this for initialization
 	void Start () {
         map = GameObject.Find("Map").GetComponent<TileMap>();
-        //RangeMarker_On(transform.position,3);
+        //Marker_On(transform.position,3);
     }
 	
 	// Update is called once per frame
@@ -31,23 +31,29 @@ public class RangeHighlight : MonoBehaviour {
                 GameObject obj;
                 if (spawnPosition1 != spawnPosition2)
                 {
-                    obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition2), hightlightObj.transform.rotation);
+                    if(map.UnitCanEnterTile((int)spawnPosition2.x, (int)spawnPosition2.z))
+                    {
+                        obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition2), hightlightObj.transform.rotation);
+                        obj.transform.parent = gameObject.transform;
+                    }
+                }
+                if (map.UnitCanEnterTile((int)spawnPosition1.x, (int)spawnPosition1.z))
+                {
+                    obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition1), hightlightObj.transform.rotation);
                     obj.transform.parent = gameObject.transform;
                 }
-
-                obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition1), hightlightObj.transform.rotation);
-                obj.transform.parent = gameObject.transform;
             }
             rangeDelta--;
         }
     }
 
-    void RangeMarker_Off()
+    public void Marker_Off()
     {
         Transform[] children = GetComponentsInChildren<Transform>();
         foreach(Transform child in children)
         {
-            Destroy(child.gameObject);
+            if(child.name.Contains("Cube"))
+                Destroy(child.gameObject);
         }
     }
 }

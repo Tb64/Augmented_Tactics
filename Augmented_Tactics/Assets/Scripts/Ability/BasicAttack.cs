@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BasicAttack : Ability {
 
@@ -22,6 +23,9 @@ public class BasicAttack : Ability {
         anim = parent.GetComponentInChildren<Animator>();
         range = 1;
         abilityName = "Basic Attack";
+        abilityImage = Resources.Load <Sprite>("sword") ;
+        if (abilityImage == null)
+            Debug.Log("Unable to load image");
         //Debug.Log("Adding " + abilityName + " to " + parent.name);
     }
 

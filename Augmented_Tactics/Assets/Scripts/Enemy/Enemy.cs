@@ -66,12 +66,6 @@ public class Enemy : Actor
         turnControl();
     }
 
-    public override void FixedUpdate()
-    {
-
-        base.FixedUpdate();
-    }
-
     void turnControl()
     {
 
@@ -199,7 +193,7 @@ public class Enemy : Actor
         //Debug.Log("Dist = " + Vector3.Distance(enemyPosition, playerPosition) + " " + getMapPosition() + movingTo);
         if (Vector3.Distance(enemyPosition, playerPosition) <= 1)
             Attack(target);
-        NextTurn();
+        //NextTurn();
         return isFinshed;
     }
 

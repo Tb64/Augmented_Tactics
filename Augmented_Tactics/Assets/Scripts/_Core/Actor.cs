@@ -52,6 +52,8 @@ public class Actor : TurnBehavoir
     private Animator playerAnim;
 
     //===========================================
+
+    protected RangeHighlight rangeMarker;
     #endregion
 
 
@@ -101,6 +103,7 @@ public class Actor : TurnBehavoir
 
         Debug.Log("click test");
         GO.selectedUnit = gameObject;
+        GameController.NewSelectedUnit();
     }
 
     #endregion
@@ -111,6 +114,9 @@ public class Actor : TurnBehavoir
         numOfMoves = 2;
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
+        GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
+        if (rangeMarkerObj != null)
+            rangeMarker = rangeMarkerObj.GetComponent<RangeHighlight>();
 
         if (GameObject.FindWithTag("GameController") == null)
         {
@@ -124,7 +130,6 @@ public class Actor : TurnBehavoir
             return;
         }
         map = GameObject.Find("Map").GetComponent<TileMap>();
-
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
     }
@@ -162,7 +167,7 @@ public class Actor : TurnBehavoir
 
         newDir = new Vector3(targetPos.x, origin.position.y, targetPos.z);
         origin.transform.LookAt(newDir);
-
+        rangeMarker.Marker_Off();
         return false;
     }
 
@@ -258,7 +263,8 @@ public class Actor : TurnBehavoir
             numOfMoves--;
             remainingMovement = moveDistance;
         }
-        
+
+
     }
 
     /******************
