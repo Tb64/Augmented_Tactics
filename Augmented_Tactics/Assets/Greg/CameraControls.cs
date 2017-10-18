@@ -24,8 +24,7 @@ public class CameraControls : MonoBehaviour {
         //switch in case of potential additional cameras in future
         switch (cam){
             //pan map across camera
-            case '1':
-                /*
+            default:
                 //mouse controls for panning
                 if (!flagDistance){
                     //Find exact distance between the camera and map so map stays stationary when grabbed initially
@@ -35,10 +34,9 @@ public class CameraControls : MonoBehaviour {
                 Vector3 mousePos = new Vector3(Input.mousePosition.x,Input.mousePosition.y, distance);
                 Vector3 mapPos = Camera.main.ScreenToWorldPoint(mousePos);
                 transform.position = mapPos;
-                */
                 break;
             //rotate object in front of camera, disable lines with yRotation to disable tilt
-            default:
+            case '1':
                 float xRotation = Input.GetAxis("Mouse X") * speedRotation * Mathf.Deg2Rad;
                 float yRotation = Input.GetAxis("Mouse Y") * speedRotation * Mathf.Deg2Rad;
                 //Current configuration rotates map along y axis with left/right movement

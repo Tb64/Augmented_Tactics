@@ -5,21 +5,33 @@ using UnityEngine;
 [ExecuteInEditMode]
 
 public class BuildMap : MonoBehaviour{
+
+    //merging variables
+    public GameObject selectedUnit;
+    public TileType[] tileTypes;            //This seems stupid it should be stored in the tile
+    float remainingMovement;
+    public bool codeGenerateMap = true;
+    LineRenderer path;
+    //public ClickableTile[,] map;
+    public ClickableTile[] map;
+    private Actor unit;
+    
     //reference tile prefab
     public GameObject tile;
     //scale for tile size
     float tileSize = 1.0f;
     //map start position information
     Quaternion rotation;
-    Vector3 seed;
+    public GameObject mapSeed;
     //simple rectangle map dimensions
-    int xSize = 50;
-    int zSize = 50;
+    int xSize = 5;
+    int zSize = 5;
     public List<GameObject> tiles;
     void Start(){
         Debug.Log("Start");
-        rotation = Camera.main.transform.localRotation;
-        seed = Camera.main.transform.forward * 5;
+        //rotation = Camera.main.transform.localRotation;
+        rotation = new Quaternion(0, 0, 0, 0);
+        mapSeed.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 5;
         buildArea(xSize, zSize);
     }
 
@@ -27,15 +39,18 @@ public class BuildMap : MonoBehaviour{
         //offset from seed location
         int xIndex = 0;
         int zIndex = 0;
-        Vector3 offset;
+        Vector3 offset, temp;
         //count to store tile objects
         int count = 0;
         //instantiates objects, offsets them, and gives then a position
         for (; xIndex < xSize; xIndex++){
             for (; zIndex < zSize; zIndex++){
                 Debug.Log("Object being created.");
+                
                 offset = new Vector3(xIndex, 0, zIndex);
-                tiles[count] = (GameObject)Instantiate(tile, seed + offset, rotation);
+                temp = mapSeed.transform.position + offset;
+                tiles[count] = (GameObject)Instantiate(tile, temp, rotation);
+                tiles[count].transform.SetParent(tiles[0].transform);
                 //GameObject tileInstance = (GameObject)Instantiate(tile, seed + offset, rotation);
                 tiles[count].GetComponent<TileData>().position = offset;
                 count++;
