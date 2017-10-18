@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class Actor : TurnBehavior
+public class Actor : MonoBehaviour
 {
 
     /******************
@@ -53,6 +53,8 @@ public class Actor : TurnBehavior
     private Animator playerAnim;
 
     //===========================================
+
+    protected RangeHighlight rangeMarker;
     #endregion
 
 
@@ -69,8 +71,10 @@ public class Actor : TurnBehavior
 
     private void Awake()
     {
-        TurnBehavior.OnUnitSpawn += this.PlayerSpawnActions;
-        
+        TurnBehaviour.OnUnitSpawn += this.PlayerSpawnActions;
+        TurnBehaviour.OnTurnStart += this.ActorTurnStart;
+
+
     }
     
     public virtual void Update()
@@ -91,9 +95,20 @@ public class Actor : TurnBehavior
        
     }
 
+    public virtual void OnDestroy()
+    {
+        TurnBehaviour.OnUnitSpawn -= this.PlayerSpawnActions;
+        TurnBehaviour.OnTurnStart -= this.ActorTurnStart;
+    }
+
+    public virtual void ActorTurnStart()
+    {
+
+    }
+
     #endregion
 
-    
+
     #region mouseEvents
 
 
@@ -103,6 +118,7 @@ public class Actor : TurnBehavior
 
         Debug.Log("click test");
         GO.selectedUnit = gameObject;
+        GameController.NewSelectedUnit();
     }
 
     #endregion
@@ -113,6 +129,9 @@ public class Actor : TurnBehavior
         numOfMoves = 2;
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
+        GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
+        if (rangeMarkerObj != null)
+            rangeMarker = rangeMarkerObj.GetComponent<RangeHighlight>();
 
         if (GameObject.FindWithTag("GameController") == null)
         {
@@ -126,7 +145,6 @@ public class Actor : TurnBehavior
             return;
         }
         map = GameObject.Find("Map").GetComponent<TileMap>();
-
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
     }
@@ -172,7 +190,7 @@ public class Actor : TurnBehavior
 
         newDir = new Vector3(targetPos.x, origin.position.y, targetPos.z);
         origin.transform.LookAt(newDir);
-
+        rangeMarker.Marker_Off();
         return false;
     }
 
@@ -270,7 +288,7 @@ public class Actor : TurnBehavior
             remainingMovement = moveDistance;
         }
 
-        
+
 
 
     }

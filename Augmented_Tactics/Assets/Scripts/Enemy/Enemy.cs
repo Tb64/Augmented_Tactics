@@ -26,7 +26,7 @@ public class Enemy : Actor
     void Start()
     {
         base.Start();
-        TurnBehavior.OnEnemyTurnStart += this.EnemyTurnStartActions;
+        TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStartActions;
 
         if (map == null)
         {
@@ -66,10 +66,9 @@ public class Enemy : Actor
         turnControl();
     }
 
-    public override void FixedUpdate()
+    public void OnDestroy()
     {
-
-        base.FixedUpdate();
+        TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStartActions;
     }
 
     void turnControl()
@@ -81,7 +80,7 @@ public class Enemy : Actor
             //Debug.Log("Oh hey its the enemy's turn");
             // if (callControl == 0)
             //{
-            EnemyTurnStartActions();
+            enemyTurn();
             //callControl++;
             //}
             map.drawDebugLines();
@@ -98,10 +97,10 @@ public class Enemy : Actor
 
 
     }
-    public void EnemyTurnStartActions()
+    public virtual void EnemyTurnStartActions()
     {
         Debug.Log("1EnemyTurnStart");
-        base.EnemyTurnStart();
+        //base.EnemyTurnStart();
 
         map.selectedUnit = gameObject;
         nearest = findNearestPlayer();
@@ -120,7 +119,6 @@ public class Enemy : Actor
 
         NextTurn();
         setMoves(1);
-        enemyTurn();
     }
     
 
@@ -200,7 +198,7 @@ public class Enemy : Actor
         //Debug.Log("Dist = " + Vector3.Distance(enemyPosition, playerPosition) + " " + getMapPosition() + movingTo);
         if (Vector3.Distance(enemyPosition, playerPosition) <= 1)
             Attack(target);
-        NextTurn();
+        //NextTurn();
         return isFinshed;
     }
 
@@ -220,7 +218,6 @@ public class Enemy : Actor
             }
         }
         return weakest;
-
     }
 
     /// <summary>

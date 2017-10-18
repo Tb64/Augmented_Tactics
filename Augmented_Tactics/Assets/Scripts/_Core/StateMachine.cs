@@ -12,6 +12,8 @@ public class StateMachine : MonoBehaviour {
     private static bool firstRun = true;
     private static int numberOfTurns;
 
+    private bool hasRunOnce = false;    
+
     void Start()
     {
         TurnBehavior.OnGameStart += this.GameStartActions;
@@ -101,13 +103,23 @@ public class StateMachine : MonoBehaviour {
             map.getMapArray()[unit.tileX, unit.tileZ].setOccupiedTrue();
         }
     }
+
+    void EventTrigger()
+    {
+        if(!hasRunOnce) //runs only once per turn
+        {
+            //trigger TurnStart event
+            //trigger Player Turn Start event
+            //trigger Enemy Turn Start event
+        }
+    }
    
     //true player false enemy
 
     void changeTurn(bool tf)
     {
         playerTurn = tf;
-        TurnBehavior.TurnEnd(tf);
+        TurnBehaviour.NextTurnEventTrigger(tf);
     }
 
     public bool checkTurn()

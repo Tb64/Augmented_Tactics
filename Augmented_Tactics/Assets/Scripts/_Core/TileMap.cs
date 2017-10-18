@@ -585,5 +585,11 @@ public class TileMap : MonoBehaviour {
     {
         return tempCoords;
     }
+
+    public ClickableTile GetTileAt(Vector3 mapPos)
+    {
+        ClickableTile tile = map[(int)mapPos.x,(int)mapPos.y];
+        return tile;
+    }
     #endregion
 }

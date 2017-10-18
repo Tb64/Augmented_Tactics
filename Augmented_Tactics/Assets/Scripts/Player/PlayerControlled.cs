@@ -13,17 +13,24 @@ public class PlayerControlled : Actor
     void Start ()
     {
         base.Start();
+
+        TurnBehaviour.OnPlayerTurnStart += this.OnPlayerTurnStart;
+
         if (playerNum == null)
             playerNum = 0;
         if (playerList == null)
             playerList = new Actor[4];
         playerList[playerNum] = this;
         playerID = playerNum;
-        TurnBehavior.NewPlayerAdded();
+        TurnBehaviour.NewPlayerAdded();
        // Debug.Log("Player added: " + playerNum + ") " + playerList[playerNum]);
         playerNum++;
 
-        abilitySet = new BasicAttack[4];
+        abilitySet = new BasicAttack[4];  //test
+        for (int i = 0; i < 4; i++)
+        {
+            abilitySet[i] = new BasicAttack(gameObject);
+        }
         // GameObject.FindWithTag("Map").GetComponent<TileMap>().Players.Add(this.GetComponent<Actor>());
 
         if (map == null)
@@ -33,6 +40,17 @@ public class PlayerControlled : Actor
 
     }
 
+    public virtual void OnPlayerTurnStart()
+    {
+
+    }
+
+    public void OnDestroy()
+    {
+        base.OnDestroy();
+        TurnBehaviour.OnPlayerTurnStart -= this.OnPlayerTurnStart;
+    }
+
     void OnEnable()
     {
         numberOfActors++;
@@ -40,6 +58,7 @@ public class PlayerControlled : Actor
 
     public void OnMouseUp()
     {
+        base.OnMouseUp();
         TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
 
         Debug.Log("click test");
@@ -68,7 +87,12 @@ public class PlayerControlled : Actor
 
     }
 
-
+    public void MoveSelected()
+    {
+        NextTurn();
+        if(numOfMoves != 0)
+            rangeMarker.Marker_On(getMapPosition(), this.moveDistance);
+    }
 
 
 
