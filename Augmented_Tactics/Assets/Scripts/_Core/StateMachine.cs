@@ -9,15 +9,43 @@ public class StateMachine : MonoBehaviour {
     private bool firstTurn;
     GameObject[] player = new GameObject[10];
     GameObject[] enemy = new GameObject[20];
+    private static bool firstRun = true;
+    private static int numberOfTurns;
 
     void Start()
     {
-
+        TurnBehavior.OnGameStart += this.GameStartActions;
+        TurnBehavior.OnTurnStart += this.TurnStartActions;
+        TurnBehavior.OnTurnEnd += this.TurnEndActions;
+        TurnBehavior.GStart();
         player = GameObject.FindGameObjectsWithTag("Player");
         enemy = GameObject.FindGameObjectsWithTag("Enemy");
         playerTurn = true;
         firstTurn = true;
-        TurnBehavoir.Initialize(playerTurn);
+        TurnBehavior.Initialize(playerTurn);
+        
+    }
+
+    // Game Start Event - Put any actions you want when game starts in here
+    public void GameStartActions()
+    {
+        Debug.Log("GAME STARTED");
+
+    }
+    // Turn Start Event - Put any actions you want when a turn starts in here
+    public void TurnStartActions()
+    {
+        Debug.Log("Turn STARTED");
+
+    }
+    // Turn End Event - Put any actions you want when a turn Ends in here
+    public void TurnEndActions(bool playerturn)
+    {
+        bool PT = playerturn;
+        Debug.Log("Turn ENDED");
+        playerturn = !playerturn;
+        firstRun = true;
+        numberOfTurns++;
     }
 
     public void setTurn()
@@ -81,7 +109,7 @@ public class StateMachine : MonoBehaviour {
     void changeTurn(bool tf)
     {
         playerTurn = tf;
-        TurnBehavoir.newTurn(playerTurn);
+        TurnBehavior.TurnEnd(tf);
     }
 
     public bool checkTurn()
