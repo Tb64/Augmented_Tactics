@@ -5,7 +5,7 @@ using UnityEngine;
 public class BaseClass : MonoBehaviour {
 
     private Actor player;
-    private GameData savedPlayerData = new GameData();
+    private GameData savedPlayerData = new GameData(); // for saving progress
 
     private int skillPoints;
     private int experience;
@@ -21,8 +21,22 @@ public class BaseClass : MonoBehaviour {
 
 	void Start () {
         initializeBaseStats();
-	}
-	
+
+        loadChar("Doogy");
+        /*if (loadChar("Doogy"))
+        {
+            Debug.Log("Successful Load!!");
+            Debug.Log(player.getCharisma());
+            //levelUp();
+            Debug.Log(player.getStrength());
+            //levelUp(); 
+        }
+        /*levelUp();
+        levelUp();
+        saveChar("Doogy");
+        Debug.Log("Successful Save");*/
+    }
+
 
     void initializeBaseStats()
     {
@@ -74,7 +88,7 @@ public class BaseClass : MonoBehaviour {
         PlayerData character = savedPlayerData.findPlayer(charName);
         if (character == null)
         {
-            //Debug.LogError("Character " + " does not exist!");
+            Debug.LogError("Character " + " does not exist!");
             return false;
         }
         else
@@ -96,9 +110,9 @@ public class BaseClass : MonoBehaviour {
         }
     }
 
-    private bool saveChar()
+    private bool saveChar(string charName)
     {
-        PlayerData newData = new PlayerData();
+        PlayerData newData = new PlayerData(charName);
         newData.setStatbyKey("Experience", getExperience());
         newData.setStatbyKey("Skill Points",getSkillPoints());
         newData.setStatbyKey("Player Level", playerLevel);

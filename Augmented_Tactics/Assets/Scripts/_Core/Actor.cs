@@ -15,6 +15,7 @@ public class Actor : TurnBehavoir
     #region Variables
 
     protected Animator anim;
+    protected string actorName;
 
     protected float health_current;
     public float health_max; // temporary for debugging purposes(should be protected)
@@ -411,6 +412,15 @@ public class Actor : TurnBehavoir
 
     //=======Stat Set/Gets===========//
 
+    public void setActorName(string name)
+    {
+        actorName = name;
+    }
+    
+    public string getActorName()
+    {
+        return actorName;
+    }
     public void setMaxHealth(int health)
     {
         health_max = health;

@@ -4,7 +4,7 @@ using UnityEngine;
 using System.IO;
 public class GameDataController {
     //private string fileName = "data.json";
-    string filePath = Path.Combine(Application.streamingAssetsPath, "data.json");
+    string filePath = Path.Combine(Application.streamingAssetsPath, "Saves\\data.json");
     public List<PlayerData> loadPlayerData()
     {
         if (File.Exists(filePath))

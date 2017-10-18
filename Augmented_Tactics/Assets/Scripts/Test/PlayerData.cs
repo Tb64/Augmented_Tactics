@@ -4,6 +4,10 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData
 {
+    public PlayerData(string name)
+    {
+        playerName = name;
+    }
     private string playerName;
     public void setPlayerName(string name) { playerName = name; }
     public string getPlayerName() { return playerName; }
@@ -15,7 +19,8 @@ public class PlayerData
     new KeyValuePair<string, float>("Intelligence",0), new KeyValuePair<string, float>("Wisdom",0),
     new KeyValuePair<string, float>("Charisma",0), new KeyValuePair<string, float>("Stealth",0),
     new KeyValuePair<string, float>("Armor Class",0), new KeyValuePair<string, float>("Speed",0),
-    new KeyValuePair<string, float>("Skill Points",0), new KeyValuePair<string, float>("Class", 0)};
+    new KeyValuePair<string, float>("Skill Points",0), new KeyValuePair<string, float>("Class", 0),
+    new KeyValuePair<string, float>("Player Level",0)};
     
     //private KeyValuePair<string, string>[] stringData;
 
