@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class Actor : TurnBehavoir
+public class Actor : TurnBehavior
 {
 
     /******************
@@ -70,9 +71,10 @@ public class Actor : TurnBehavoir
 
     private void Awake()
     {
+        TurnBehavior.OnUnitSpawn += this.PlayerSpawnActions;
         
     }
-
+    
     public virtual void Update()
     {
 
@@ -134,6 +136,15 @@ public class Actor : TurnBehavoir
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
     }
 
+    //Player Spawn Event - Put any actions you want done upon player spawn in here
+    public void PlayerSpawnActions()
+    {
+        Debug.Log("PLAYER SPAWNED");
+    }
+    
+
+
+
     /// <summary>
     /// Controls the physical and animation of moving the actor.  Does not generate path.
     /// </summary>
@@ -161,7 +172,6 @@ public class Actor : TurnBehavoir
 
         float step = speed * Time.deltaTime * scaleDist;
         origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
-
         Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
         newDir = new Vector3(newDir.x, origin.position.y, newDir.z);
 
@@ -198,6 +208,7 @@ public class Actor : TurnBehavoir
                 //move our player to the point
 
                 playerAgent.destination = interactionInfo.point;
+                
             }
         }
     }
@@ -263,6 +274,8 @@ public class Actor : TurnBehavoir
             numOfMoves--;
             remainingMovement = moveDistance;
         }
+
+
 
 
     }
@@ -415,6 +428,13 @@ public class Actor : TurnBehavoir
         moveClicked = tf;
     }
 
+    //justin added v
+    public bool getCurrentTurn()
+    {
+        return TurnBehavior.IsPlayerTurn();
+    }
+    //justin added ^
+    
     //=======Stat Set/Gets===========//
 
     public void setMaxHealth(int health)
