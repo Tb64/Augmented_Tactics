@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class Actor : TurnBehavior
+public class Actor : MonoBehaviour
 {
 
     /******************
@@ -71,8 +71,10 @@ public class Actor : TurnBehavior
 
     private void Awake()
     {
-        TurnBehavior.OnUnitSpawn += this.PlayerSpawnActions;
-        
+        TurnBehaviour.OnUnitSpawn += this.PlayerSpawnActions;
+        TurnBehaviour.OnTurnStart += this.ActorTurnStart;
+
+
     }
     
     public virtual void Update()
@@ -93,9 +95,20 @@ public class Actor : TurnBehavior
        
     }
 
+    public virtual void OnDestroy()
+    {
+        TurnBehaviour.OnUnitSpawn -= this.PlayerSpawnActions;
+        TurnBehaviour.OnTurnStart -= this.ActorTurnStart;
+    }
+
+    public virtual void ActorTurnStart()
+    {
+
+    }
+
     #endregion
 
-    
+
     #region mouseEvents
 
 

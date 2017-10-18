@@ -26,7 +26,7 @@ public class Enemy : Actor
     void Start()
     {
         base.Start();
-        TurnBehavior.OnEnemyTurnStart += this.EnemyTurnStartActions;
+        TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStartActions;
 
         if (map == null)
         {
@@ -66,6 +66,11 @@ public class Enemy : Actor
         turnControl();
     }
 
+    public void OnDestroy()
+    {
+        TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStartActions;
+    }
+
     void turnControl()
     {
 
@@ -75,7 +80,7 @@ public class Enemy : Actor
             //Debug.Log("Oh hey its the enemy's turn");
             // if (callControl == 0)
             //{
-            EnemyTurnStartActions();
+            enemyTurn();
             //callControl++;
             //}
             map.drawDebugLines();
@@ -92,10 +97,10 @@ public class Enemy : Actor
 
 
     }
-    public void EnemyTurnStartActions()
+    public virtual void EnemyTurnStartActions()
     {
         Debug.Log("1EnemyTurnStart");
-        base.EnemyTurnStart();
+        //base.EnemyTurnStart();
 
         map.selectedUnit = gameObject;
         nearest = findNearestPlayer();
@@ -114,7 +119,6 @@ public class Enemy : Actor
 
         NextTurn();
         setMoves(1);
-        enemyTurn();
     }
     
 

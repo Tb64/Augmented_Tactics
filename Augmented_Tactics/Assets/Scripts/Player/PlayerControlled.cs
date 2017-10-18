@@ -13,13 +13,16 @@ public class PlayerControlled : Actor
     void Start ()
     {
         base.Start();
+
+        TurnBehaviour.OnPlayerTurnStart += this.OnPlayerTurnStart;
+
         if (playerNum == null)
             playerNum = 0;
         if (playerList == null)
             playerList = new Actor[4];
         playerList[playerNum] = this;
         playerID = playerNum;
-        TurnBehavior.NewPlayerAdded();
+        TurnBehaviour.NewPlayerAdded();
        // Debug.Log("Player added: " + playerNum + ") " + playerList[playerNum]);
         playerNum++;
 
@@ -35,6 +38,17 @@ public class PlayerControlled : Actor
             map = GameObject.Find("Map").GetComponent<TileMap>();
         }
 
+    }
+
+    public virtual void OnPlayerTurnStart()
+    {
+
+    }
+
+    public void OnDestroy()
+    {
+        base.OnDestroy();
+        TurnBehaviour.OnPlayerTurnStart -= this.OnPlayerTurnStart;
     }
 
     void OnEnable()
