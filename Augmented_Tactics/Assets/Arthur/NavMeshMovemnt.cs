@@ -6,18 +6,25 @@ using UnityEngine.AI;
 public class NavMeshMovemnt : MonoBehaviour {
 
     NavMeshAgent playerAgent;
+    private Animator playerAnim;
 
     // Use this for initialization
     void Start () {
-        playerAgent = GetComponent<NavMeshAgent>();
+        initialize();
+
     }
 	
 	// Update is called once per frame
 	void Update () {
         clickToMove();
-	}
+        playerAnim.SetFloat("Speed", playerAgent.velocity.magnitude);
+    }
 
-
+    void initialize()
+    {
+        playerAgent = GetComponent<NavMeshAgent>();
+        playerAnim = gameObject.GetComponentInChildren<Animator>();
+    }
 
     void clickToMove()
     {
@@ -42,6 +49,10 @@ public class NavMeshMovemnt : MonoBehaviour {
             else
             {
                 //move our player to the point
+
+               
+
+
                 playerAgent.destination = interactionInfo.point;
             }
         }

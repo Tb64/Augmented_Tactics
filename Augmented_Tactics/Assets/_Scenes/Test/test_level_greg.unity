@@ -677,6 +677,7 @@ GameObject:
   m_Component:
   - component: {fileID: 987697259}
   - component: {fileID: 987697258}
+  - component: {fileID: 987697260}
   m_Layer: 0
   m_Name: mapSeed
   m_TagString: Untagged
@@ -695,7 +696,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dedb5cb5bed59e499d86a0b3b001053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedUnit: {fileID: 0}
+  tileTypes: []
+  codeGenerateMap: 1
+  map: []
   tile: {fileID: 0}
+  mapSeed: {fileID: 0}
   tiles: []
 --- !u!4 &987697259
 Transform:
@@ -704,12 +710,30 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 987697257}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.22518653, y: -0.5746584, z: -3.037981}
+  m_LocalPosition: {x: -2.73423, y: 2.886909, z: -6.2755723}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &987697260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 987697257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dedb5cb5bed59e499d86a0b3b001053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedUnit: {fileID: 1627834629}
+  tileTypes: []
+  codeGenerateMap: 1
+  map: []
+  tile: {fileID: 1352326590}
+  mapSeed: {fileID: 987697257}
+  tiles: []
 --- !u!1 &1198457749
 GameObject:
   m_ObjectHideFlags: 0
@@ -738,22 +762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedUnit: {fileID: 0}
-  tileTypes:
-  - name: Grassland
-    tileVisualPrefab: {fileID: 1438121318134902, guid: 05a4a37325752dc40bd9a5f47e192c9e,
-      type: 2}
-    isWalkable: 1
-    movementCost: 1
-  - name: Swamp
-    tileVisualPrefab: {fileID: 1768632797848804, guid: 171f526bfa5b09a48b489560245b5ab3,
-      type: 2}
-    isWalkable: 1
-    movementCost: 1
-  - name: Mountain
-    tileVisualPrefab: {fileID: 1695574381886728, guid: d30688ddb0cee6b48ba0392c38e42af7,
-      type: 2}
-    isWalkable: 0
-    movementCost: 1
+  tileTypes: []
   codeGenerateMap: 1
   mapSizeX: 16
   mapSizeZ: 16
@@ -1445,7 +1454,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dedb5cb5bed59e499d86a0b3b001053, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedUnit: {fileID: 0}
+  tileTypes: []
+  codeGenerateMap: 1
+  map: []
   tile: {fileID: 0}
+  mapSeed: {fileID: 0}
   tiles: []
 --- !u!1 &1577700903
 GameObject:
@@ -1623,13 +1637,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca453905109f9442bec030a05e0fefd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileX: 1
-  tileZ: 1
+  tileX: 0
+  tileZ: 0
   index: 0
   map: {fileID: 0}
   SM: {fileID: 0}
-  speed: 3
-  moveDistance: 10
+  speed: 0
+  moveDistance: 0
   remainingMovement: 0
   numOfMoves: 0
 --- !u!65 &1627834631
@@ -1688,14 +1702,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileX: 0
-  tileZ: 8
+  tileZ: 0
   index: 0
   map: {fileID: 0}
   SM: {fileID: 0}
-  speed: 3
-  moveDistance: 7
+  speed: 0
+  moveDistance: 0
   remainingMovement: 0
-  numOfMoves: 1
+  numOfMoves: 0
 --- !u!65 &1673850454
 BoxCollider:
   m_ObjectHideFlags: 0
