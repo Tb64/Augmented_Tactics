@@ -140,12 +140,14 @@ public class TurnBehavior : MonoBehaviour{
         if (OnTurnStart != null)
             OnTurnStart();
     }
-    //calls Turn End Event
     public static void TurnEnd(bool turn)
     {
+        bool PT = turn;
+        //PT = !PT;
         if (OnTurnEnd != null)
-            OnTurnEnd(turn);
+            OnTurnEnd(PT);
     }
+    
     //calls Player Turn Start Event
     public static void PTurnStart()
     {

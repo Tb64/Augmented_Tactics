@@ -26,7 +26,7 @@ public class Enemy : Actor
     void Start()
     {
         base.Start();
-
+        TurnBehavior.OnEnemyTurnStart += this.EnemyTurnStartActions;
 
         if (map == null)
         {
@@ -81,7 +81,7 @@ public class Enemy : Actor
             //Debug.Log("Oh hey its the enemy's turn");
             // if (callControl == 0)
             //{
-            enemyTurn();
+            EnemyTurnStartActions();
             //callControl++;
             //}
             map.drawDebugLines();
@@ -98,8 +98,7 @@ public class Enemy : Actor
 
 
     }
-
-    public override void EnemyTurnStart()
+    public void EnemyTurnStartActions()
     {
         Debug.Log("1EnemyTurnStart");
         base.EnemyTurnStart();
@@ -121,7 +120,9 @@ public class Enemy : Actor
 
         NextTurn();
         setMoves(1);
+        enemyTurn();
     }
+    
 
     void enemyTurn()
     {

@@ -41,9 +41,7 @@ public class StateMachine : MonoBehaviour {
     // Turn End Event - Put any actions you want when a turn Ends in here
     public void TurnEndActions(bool playerturn)
     {
-        bool PT = playerturn;
         Debug.Log("Turn ENDED");
-        playerturn = !playerturn;
         firstRun = true;
         numberOfTurns++;
     }
