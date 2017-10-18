@@ -89,5 +89,11 @@ public class ClickableTile : MonoBehaviour {
     {
         occupied = false;
     }
+
+    public Vector3 getMapPosition()
+    {
+        Vector3 output = new Vector3(tileX, 0f, tileZ);
+        return output;
+    }
 }
 
