@@ -168,7 +168,16 @@ public class TileMap : MonoBehaviour {
 
     public Vector3 TileCoordToWorldCoord(int x, int z)
     {
+        //Vector3 output = map[x, z].GetGameObject().transform.position;
+        //return output;
         return new Vector3(x, 0, z);
+    }
+
+    public Vector3 TileCoordToWorldCoord(Vector3 input)
+    {
+        //Vector3 output = map[(int)input.x, (int)input.z].GetGameObject().transform.position;
+        //return output;
+        return new Vector3(input.x, 0f, input.z);
     }
 
     public float costToEnterTile(int sourceX, int sourceY,int targetX, int targetZ)
