@@ -5,8 +5,7 @@ using UnityEngine;
 public class BaseClass : MonoBehaviour {
 
     private Actor player;
-    protected BaseClass[] jobs;
-    string job;
+    private GameData savedPlayerData = new GameData();
 
     private int skillPoints;
     private int experience;
@@ -20,7 +19,7 @@ public class BaseClass : MonoBehaviour {
     private int wisdomGain;
     private int charismaGain;
 
-	public virtual void Start () {
+	void Start () {
         initializeBaseStats();
 	}
 	
@@ -29,36 +28,20 @@ public class BaseClass : MonoBehaviour {
     {
         player = GetComponentInParent<Actor>();
 
-        //0 - Knight
-        //1 - 
-        //2 - 
-        //3 - 
-        //4 - 
-        //5 - 
-        //6 - 
-        jobs = new BaseClass[6];
-        //Array to hold 7 different class types
-        for (int index = 0; index < jobs.Length; index++)
-        {
-            jobs[index] = new BaseClass(); 
-        }
-        
-
         player.abilitySet = new BasicAttack[4];  
         for (int i = 0; i < 4; i++)
         {
             player.abilitySet[i] = new BasicAttack(gameObject);
         }
 
-        player.setStrength(10 + strengthGain);
-        player.setDexterity(10 + dexterityGain);
-        player.setConstitution(10 + constitutionGain);
-        player.setIntelligence(10 + intelligenceGain);
-        player.setWisdom(10 + wisdomGain);
-        player.setCharisma(10 + charismaGain);
+        player.setStrength(10);
+        player.setDexterity(10);
+        player.setConstitution(10);
+        player.setIntelligence(10);
+        player.setWisdom(10);
+        player.setCharisma(10);
 
         player.setMaxHealth(10 * player.getConstitution());
-        player.setHealthCurrent(player.getMaxHealth());
         player.setMaxMana(10 * player.getIntelligence());
 
         skillPoints = 1;
@@ -86,25 +69,54 @@ public class BaseClass : MonoBehaviour {
         skillPoints++;
     }
 
-    void loadChar(string charName)
+    bool loadChar(string charName)
     {
-
+        PlayerData character = savedPlayerData.findPlayer(charName);
+        if (character == null)
+        {
+            //Debug.LogError("Character " + " does not exist!");
+            return false;
+        }
+        else
+        {
+            setExperience((int)character.getStatByKey("Experience"));
+            skillPoints = (int)character.getStatByKey("Skill Points");
+            playerLevel = (int)character.getStatByKey("Level");
+            player.setDexterity((int)character.getStatByKey("Dexterity"));
+            player.setIntelligence((int)character.getStatByKey("Intelligence"));
+            player.setCharisma((int)character.getStatByKey("Charisma"));
+            player.setConstitution((int)character.getStatByKey("Constitution"));
+            player.setSpeed((int)character.getStatByKey("Speed"));
+            player.setStrength((int)character.getStatByKey("Strength"));
+            player.setWisdom((int)character.getStatByKey("Wisdom"));
+            player.setArmorClass(character.getStatByKey("Armor Class"));
+            player.setHealthCurrent((int)character.getStatByKey("Health"));
+            player.setManaCurrent((character.getStatByKey("Mana")));
+            return true;
+        }
     }
 
-    public BaseClass[] getJobs()
+    private bool saveChar()
     {
-        return jobs;
+        PlayerData newData = new PlayerData();
+        newData.setStatbyKey("Experience", getExperience());
+        newData.setStatbyKey("Skill Points",getSkillPoints());
+        newData.setStatbyKey("Player Level", playerLevel);
+        newData.setStatbyKey("Dexterity",player.getDexterity());
+        newData.setStatbyKey("Intelligence", player.getIntelligence());
+        newData.setStatbyKey("Charisma", player.getCharisma());
+        newData.setStatbyKey("Constitution", player.getConstitution());
+        newData.setStatbyKey("Speed", player.getSpeed());
+        newData.setStatbyKey("Strength", player.getStrength());
+        newData.setStatbyKey("Wisdom", player.getWisdom());
+        newData.setStatbyKey("Armor Class", player.getArmorClass());
+        newData.setStatbyKey("Health", player.GetHealthCurrent());
+        newData.setStatbyKey("Mana", player.getManaCurrent());
+        return savedPlayerData.savePlayer(newData);
     }
 
-    public void setJobName(string name)
-    {
-        job = name;
-    }
 
-    public string getJobName()
-    {
-        return job;
-    }
+
     void checkLevel()
     {
 
@@ -188,7 +200,6 @@ public class BaseClass : MonoBehaviour {
 
     }
 
-
     #region set/gets
 
     public int getSkillPoints()
@@ -239,7 +250,6 @@ public class BaseClass : MonoBehaviour {
         charismaGain = gain;
     }
 
-    
     #endregion
 
 }
