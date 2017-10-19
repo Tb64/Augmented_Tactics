@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class Actor : TurnBehavoir
+public class Actor : MonoBehaviour
 {
 
     /******************
@@ -53,6 +54,8 @@ public class Actor : TurnBehavoir
     private Animator playerAnim;
 
     //===========================================
+
+    protected RangeHighlight rangeMarker;
     #endregion
 
 
@@ -69,9 +72,12 @@ public class Actor : TurnBehavoir
 
     private void Awake()
     {
-        
-    }
+        TurnBehaviour.OnUnitSpawn += this.PlayerSpawnActions;
+        TurnBehaviour.OnTurnStart += this.ActorTurnStart;
 
+
+    }
+    
     public virtual void Update()
     {
 
@@ -90,9 +96,20 @@ public class Actor : TurnBehavoir
        
     }
 
+    public virtual void OnDestroy()
+    {
+        TurnBehaviour.OnUnitSpawn -= this.PlayerSpawnActions;
+        TurnBehaviour.OnTurnStart -= this.ActorTurnStart;
+    }
+
+    public virtual void ActorTurnStart()
+    {
+
+    }
+
     #endregion
 
-    
+
     #region mouseEvents
 
 
@@ -102,6 +119,7 @@ public class Actor : TurnBehavoir
 
         Debug.Log("click test");
         GO.selectedUnit = gameObject;
+        GameController.NewSelectedUnit();
     }
 
     #endregion
@@ -112,6 +130,9 @@ public class Actor : TurnBehavoir
         numOfMoves = 2;
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
+        GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
+        if (rangeMarkerObj != null)
+            rangeMarker = rangeMarkerObj.GetComponent<RangeHighlight>();
 
         if (GameObject.FindWithTag("GameController") == null)
         {
@@ -125,10 +146,18 @@ public class Actor : TurnBehavoir
             return;
         }
         map = GameObject.Find("Map").GetComponent<TileMap>();
-
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
     }
+
+    //Player Spawn Event - Put any actions you want done upon player spawn in here
+    public void PlayerSpawnActions()
+    {
+        Debug.Log("PLAYER SPAWNED");
+    }
+    
+
+
 
     /// <summary>
     /// Controls the physical and animation of moving the actor.  Does not generate path.
@@ -157,13 +186,12 @@ public class Actor : TurnBehavoir
 
         float step = speed * Time.deltaTime * scaleDist;
         origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
-
         Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
         newDir = new Vector3(newDir.x, origin.position.y, newDir.z);
 
         newDir = new Vector3(targetPos.x, origin.position.y, targetPos.z);
         origin.transform.LookAt(newDir);
-
+        rangeMarker.Marker_Off();
         return false;
     }
 
@@ -194,6 +222,7 @@ public class Actor : TurnBehavoir
                 //move our player to the point
 
                 playerAgent.destination = interactionInfo.point;
+                
             }
         }
     }
@@ -259,7 +288,10 @@ public class Actor : TurnBehavoir
             numOfMoves--;
             remainingMovement = moveDistance;
         }
-        
+
+
+
+
     }
 
     /******************
@@ -410,6 +442,13 @@ public class Actor : TurnBehavoir
         moveClicked = tf;
     }
 
+    //justin added v
+    public bool getCurrentTurn()
+    {
+        return TurnBehavior.IsPlayerTurn();
+    }
+    //justin added ^
+    
     //=======Stat Set/Gets===========//
 
     public void setActorName(string name)
