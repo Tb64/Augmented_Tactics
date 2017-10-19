@@ -62,7 +62,6 @@ public class Actor : TurnBehavoir
     public virtual void Start()
     {
         Init();
-       
     }
 
     private void Awake()
@@ -134,6 +133,7 @@ public class Actor : TurnBehavoir
     {
         float scaleDist = 1f;
         float dist = Vector3.Distance(origin.position, targetPos);
+
         if (dist < 0.26f) //old dist .01
         {
             origin.position = targetPos;
@@ -143,12 +143,11 @@ public class Actor : TurnBehavoir
             return true;
         }
 
-       
         float step = speed * Time.deltaTime * scaleDist;
 
         if (playerAgent != null)
         {
-            Debug.Log("dist = " + dist + " target position = " + targetPos);
+            //Debug.Log("dist = " + dist + " target position = " + targetPos);
             playerAgent.destination = targetPos;
         }
         else
@@ -244,8 +243,6 @@ public class Actor : TurnBehavoir
             return ;
         }
 
-        
-      
         //Reset available movement points.
         
         if (numOfMoves != 0 && currentPath != null )

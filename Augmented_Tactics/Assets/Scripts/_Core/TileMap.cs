@@ -192,7 +192,7 @@ public class TileMap : MonoBehaviour {
     public bool UnitCanEnterTile(Vector3 coords)
     {
         //could test units movement type(walk,fly,run etc..)
-        return getTileAtCoord(coords).tileType.isWalkable && getTileAtCoord(coords).occupied == false;
+        return getTileAtCoord(coords).tileType.isWalkable && getTileAtCoord(coords).isOccupied() == false;
     }
 
     public void GeneratePathTo(Vector3 targetCoords)
@@ -207,7 +207,7 @@ public class TileMap : MonoBehaviour {
         unit.setCoords(coordinates); 
         unit.setPathNull();
 
-        if (UnitCanEnterTile(targetCoords) == false || getTileAtCoord(targetCoords).occupied == true)
+        if (UnitCanEnterTile(targetCoords) == false || getTileAtCoord(targetCoords).isOccupied() == true)
         {//tile is not walkable
             //Debug.Log("Unable to generate path");
             return;
@@ -311,8 +311,7 @@ public class TileMap : MonoBehaviour {
             }
         }
 
-    
-
+ 
         for (int x = 0; x < mapSizeX; x++)
         {
             for (int y = 0; y < mapSizeY; y++)
@@ -453,9 +452,12 @@ public class TileMap : MonoBehaviour {
         // Move to the next tile in the sequence
         unit.tileX = (int)unit.getCurrentPath()[1].coords.x;
         unit.tileZ = (int)unit.getCurrentPath()[1].coords.z;
+        unit.setCoords(unit.getCurrentPath()[1].coords);
+
         map[(int)unit.getCurrentPath()[0].coords.x,
             (int)unit.getCurrentPath()[0].coords.y,
             (int)unit.getCurrentPath()[0].coords.z].setOccupiedFalse();
+
         // Remove the old "current" tile from the pathfinding list
         unit.getCurrentPath().RemoveAt(0);
 
@@ -468,7 +470,9 @@ public class TileMap : MonoBehaviour {
         //checks if path is null, then sets tile under actor to occupied
         if (unit.getCurrentPath() == null)
         {
-            map[(int)unit.getCoords().x,(int)unit.getCoords().y ,(int)unit.getCoords().z].occupied = true;
+            getTileAtCoord(unit.getCoords()).setOccupiedTrue();
+            //map[(int)unit.getCoords().x, (int)unit.getCoords().y, (int)unit.getCoords().z].setOccupiedTrue();
+            Debug.Log("unit coords : " + unit.getCoords());
         }
     }
 
@@ -482,7 +486,6 @@ public class TileMap : MonoBehaviour {
             Vector3 start = new Vector3();
             Vector3 end = new Vector3();
 
-            
             while (currNode < unit.getCurrentPath().Count - 1 &&
                 unit.getCurrentPath().Count < unit.getMoveDistance() + 2)
             {

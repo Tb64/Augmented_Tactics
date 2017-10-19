@@ -80,11 +80,19 @@ public class ClickableTile : MonoBehaviour {
 
     public void setOccupiedTrue()
     {
+        Debug.Log("Occupied is true at " + coords);
         occupied = true;
     }
     public void setOccupiedFalse()
     {
+        Debug.Log("Occupied is false at " + coords);
+
         occupied = false;
+    }
+
+    public bool isOccupied()
+    {
+        return occupied;
     }
 }
 
