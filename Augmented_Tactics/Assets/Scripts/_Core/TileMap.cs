@@ -17,13 +17,9 @@ public class TileMap : MonoBehaviour {
     
     Vector3[] position;
     Vector3 tileCoords = new Vector3();
-<<<<<<< HEAD
+
     
-=======
-    public Location[] Players;
 
-
->>>>>>> master
     Vector3 tempCoords = new Vector3();
 
     bool canMove;
@@ -593,7 +589,7 @@ public class TileMap : MonoBehaviour {
 
     public ClickableTile GetTileAt(Vector3 mapPos)
     {
-        ClickableTile tile = map[(int)mapPos.x,(int)mapPos.y];
+        ClickableTile tile = map[(int)mapPos.x,(int)mapPos.y,(int)mapPos.z];
         return tile;
     }
     #endregion
