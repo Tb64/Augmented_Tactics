@@ -17,7 +17,13 @@ public class TileMap : MonoBehaviour {
     
     Vector3[] position;
     Vector3 tileCoords = new Vector3();
+<<<<<<< HEAD
     
+=======
+    public Location[] Players;
+
+
+>>>>>>> master
     Vector3 tempCoords = new Vector3();
 
     bool canMove;
@@ -33,11 +39,10 @@ public class TileMap : MonoBehaviour {
     // Use this for initialization
 
     void Start() {
-
         initialize();
-    
+        TurnBehavior.OnUnitMoved += this.PlayerMoveActions;
     }
-
+    
     //use this function to initializes variables
     void initialize()
     {
@@ -406,7 +411,7 @@ public class TileMap : MonoBehaviour {
         endOfMove = unitObj.MoveController(unit.transform, TileCoordToWorldCoord(unitObj.tileX, unitObj.tileZ), unitObj.getSpeed());
         //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
 
-
+        
         if (endOfMove == true) //Anything that happens at end of Actor movement
         {
             unitObj.setRemainingMovement(0); // clears remaining movement of Actor at end of move
@@ -420,6 +425,11 @@ public class TileMap : MonoBehaviour {
 
         return endOfMove;
 
+    }
+
+    public void PlayerMoveActions()
+    {
+        Debug.Log("PLAYER HAS MOVED");
     }
 
     void AdvancePathing()
@@ -579,6 +589,12 @@ public class TileMap : MonoBehaviour {
     public Vector3 getTempCoords()
     {
         return tempCoords;
+    }
+
+    public ClickableTile GetTileAt(Vector3 mapPos)
+    {
+        ClickableTile tile = map[(int)mapPos.x,(int)mapPos.y];
+        return tile;
     }
     #endregion
 }

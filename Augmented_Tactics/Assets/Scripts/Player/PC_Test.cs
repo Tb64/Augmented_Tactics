@@ -17,6 +17,7 @@ public class PC_Test : PlayerControlled
 
     // Use this for initialization
     void Start () {
+        base.Start();
         agent.updateRotation = false;
 
         inputHoldWait = new WaitForSeconds(inputHoldDelay);
@@ -26,8 +27,8 @@ public class PC_Test : PlayerControlled
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        base.Start();
+    }
 
     private void OnAnimatorMove()
     {

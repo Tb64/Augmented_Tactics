@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class Actor : TurnBehavoir
+public class Actor : MonoBehaviour
 {
 
     /******************
@@ -16,8 +17,8 @@ public class Actor : TurnBehavoir
 
     protected Animator anim;
 
-    public float health_current;    //temporary for debugging purposes(should be protected)
-    protected float health_max; 
+    protected float health_current;
+    public float health_max; // temporary for debugging purposes(should be protected)
     protected float mana_current;
     protected float mana_max;
     protected float move_speed;
@@ -52,7 +53,10 @@ public class Actor : TurnBehavoir
     private Animator playerAnim;
 
     //===========================================
+
+    protected RangeHighlight rangeMarker;
     #endregion
+
 
     /******************
      *  Events
@@ -62,27 +66,49 @@ public class Actor : TurnBehavoir
     public virtual void Start()
     {
         Init();
+       
     }
 
     private void Awake()
     {
-        
-    }
+        TurnBehaviour.OnUnitSpawn += this.PlayerSpawnActions;
+        TurnBehaviour.OnTurnStart += this.ActorTurnStart;
 
+
+    }
+    
     public virtual void Update()
     {
+
+        //drawDebugLines();
+
+        //moveUnit();
+
+
 
         if (playerAgent == null) //bandaid fix, needs to be removed
         {
             return;
         }
-        //clickToMove();
+        clickToMove();
         anim.SetFloat("Speed", playerAgent.velocity.magnitude);
        
     }
 
+    public virtual void OnDestroy()
+    {
+        TurnBehaviour.OnUnitSpawn -= this.PlayerSpawnActions;
+        TurnBehaviour.OnTurnStart -= this.ActorTurnStart;
+    }
+
+    public virtual void ActorTurnStart()
+    {
+
+    }
+
     #endregion
-        
+
+
     #region mouseEvents
 
 
@@ -92,6 +118,7 @@ public class Actor : TurnBehavoir
 
         Debug.Log("click test");
         GO.selectedUnit = gameObject;
+        GameController.NewSelectedUnit();
     }
 
     #endregion
@@ -102,13 +129,15 @@ public class Actor : TurnBehavoir
         numOfMoves = 2;
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
+        GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
+        if (rangeMarkerObj != null)
+            rangeMarker = rangeMarkerObj.GetComponent<RangeHighlight>();
 
         if (GameObject.FindWithTag("GameController") == null)
         {
             Debug.LogError("Missing Game Controller, add in scene hierarchy");
             return;
         }
-
         SM = GameObject.FindWithTag("GameController").GetComponent<StateMachine>();
 
         if (map == null)
@@ -116,10 +145,18 @@ public class Actor : TurnBehavoir
             return;
         }
         map = GameObject.Find("Map").GetComponent<TileMap>();
-
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
     }
+
+    //Player Spawn Event - Put any actions you want done upon player spawn in here
+    public void PlayerSpawnActions()
+    {
+        Debug.Log("PLAYER SPAWNED");
+    }
+    
+
+
 
     /// <summary>
     /// Controls the physical and animation of moving the actor.  Does not generate path.
@@ -132,39 +169,28 @@ public class Actor : TurnBehavoir
     public bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
         float scaleDist = 1f;
-        float dist = Vector3.Distance(origin.position, targetPos);
 
-        if (dist < 0.26f) //old dist .01
+        if (Vector3.Distance(origin.position, targetPos) < 0.01f)
         {
             origin.position = targetPos;
             scaleDist = 0f;
-            if (anim != null && playerAgent == null)
+            if (anim != null)
                 anim.SetFloat("Speed", scaleDist);
             return true;
         }
 
+
+        if (anim != null)
+            anim.SetFloat("Speed", scaleDist);
+
         float step = speed * Time.deltaTime * scaleDist;
+        origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
+        Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
+        newDir = new Vector3(newDir.x, origin.position.y, newDir.z);
 
-        if (playerAgent != null)
-        {
-            //Debug.Log("dist = " + dist + " target position = " + targetPos);
-            playerAgent.destination = targetPos;
-        }
-        else
-        {
-
-            if (anim != null)
-                anim.SetFloat("Speed", scaleDist);
-
-            origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
-            Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
-            newDir = new Vector3(newDir.x, origin.position.y, newDir.z);
-
-            newDir = new Vector3(targetPos.x, origin.position.y, targetPos.z);
-            origin.transform.LookAt(newDir);
-        }
-
-
+        newDir = new Vector3(targetPos.x, origin.position.y, targetPos.z);
+        origin.transform.LookAt(newDir);
+        rangeMarker.Marker_Off();
         return false;
     }
 
@@ -195,6 +221,7 @@ public class Actor : TurnBehavoir
                 //move our player to the point
 
                 playerAgent.destination = interactionInfo.point;
+                
             }
         }
     }
@@ -243,6 +270,16 @@ public class Actor : TurnBehavoir
             return ;
         }
 
+        GO.Players[index].coordX = tileX;
+        GO.Players[index].coordZ = tileZ;
+        GO.Players[index].coords = new Vector3(tileX, 0, tileZ);
+       
+        for (int index = 0; index < numberOfActors; index++)
+        {                        
+            GO.Players[index].coordX = tileX;
+            GO.Players[index].coordZ = tileZ;
+        }
+
         //Reset available movement points.
         
         if (numOfMoves != 0 && currentPath != null )
@@ -250,7 +287,10 @@ public class Actor : TurnBehavoir
             numOfMoves--;
             remainingMovement = moveDistance;
         }
-        
+
+
+
+
     }
 
     /******************
@@ -282,11 +322,6 @@ public class Actor : TurnBehavoir
     public void setCoords(Vector3 coordinates)
     {
         coords = coordinates;
-    }
-
-    public Vector3 getCoords()
-    {
-        return coords;
     }
 
     public void setSpeed(int num)
@@ -406,21 +441,18 @@ public class Actor : TurnBehavoir
         moveClicked = tf;
     }
 
+    //justin added v
+    public bool getCurrentTurn()
+    {
+        return TurnBehavior.IsPlayerTurn();
+    }
+    //justin added ^
+    
     //=======Stat Set/Gets===========//
 
     public void setMaxHealth(int health)
     {
         health_max = health;
-    }
-
-    public float getMaxHealth()
-    {
-        return health_max;
-    }
-
-    public void setHealthCurrent(float health)
-    {
-        health_current = health;
     }
 
     public void setMaxMana(int mana)
