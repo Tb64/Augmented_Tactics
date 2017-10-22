@@ -181,28 +181,39 @@ public class Actor : MonoBehaviour
     public bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
         float scaleDist = 1f;
-
-        if (Vector3.Distance(origin.position, targetPos) < 0.01f)
+        float dist = Vector3.Distance(origin.position, targetPos);
+        if (dist < 0.26f) //old dist .01
         {
             origin.position = targetPos;
             scaleDist = 0f;
-            if (anim != null)
+            if (anim != null && playerAgent == null)
                 anim.SetFloat("Speed", scaleDist);
             return true;
         }
 
 
-        if (anim != null)
-            anim.SetFloat("Speed", scaleDist);
-
         float step = speed * Time.deltaTime * scaleDist;
-        origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
-        Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
-        newDir = new Vector3(newDir.x, origin.position.y, newDir.z);
 
-        newDir = new Vector3(targetPos.x, origin.position.y, targetPos.z);
-        origin.transform.LookAt(newDir);
-        rangeMarker.Marker_Off();
+        if (playerAgent != null)
+        {
+            Debug.Log("dist = " + dist + " target position = " + targetPos);
+            playerAgent.destination = targetPos;
+        }
+        else
+        {
+
+            if (anim != null)
+                anim.SetFloat("Speed", scaleDist);
+
+            origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
+            Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
+            newDir = new Vector3(newDir.x, origin.position.y, newDir.z);
+
+            newDir = new Vector3(targetPos.x, origin.position.y, targetPos.z);
+            origin.transform.LookAt(newDir);
+        }
+
+
         return false;
     }
 
@@ -282,15 +293,15 @@ public class Actor : MonoBehaviour
             return ;
         }
 
-        GO.Players[index].coordX = tileX;
-        GO.Players[index].coordZ = tileZ;
-        GO.Players[index].coords = new Vector3(tileX, 0, tileZ);
+        //GO.Players[index].coordX = tileX;
+        //GO.Players[index].coordZ = tileZ;
+        //GO.Players[index].coords = new Vector3(tileX, 0, tileZ);
        
-        for (int index = 0; index < numberOfActors; index++)
-        {                        
-            GO.Players[index].coordX = tileX;
-            GO.Players[index].coordZ = tileZ;
-        }
+        //for (int index = 0; index < numberOfActors; index++)
+        //{                        
+        //    GO.Players[index].coordX = tileX;
+        //    GO.Players[index].coordZ = tileZ;
+        //}
 
         //Reset available movement points.
         
@@ -334,6 +345,11 @@ public class Actor : MonoBehaviour
     public void setCoords(Vector3 coordinates)
     {
         coords = coordinates;
+    }
+
+    public Vector3 getCoords()
+    {
+        return coords;
     }
 
     public void setSpeed(int num)
