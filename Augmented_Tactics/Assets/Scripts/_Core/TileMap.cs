@@ -18,8 +18,6 @@ public class TileMap : MonoBehaviour {
     Vector3[] position;
     Vector3 tileCoords = new Vector3();
 
-    
-
     Vector3 tempCoords = new Vector3();
 
     bool canMove;
@@ -97,7 +95,7 @@ public class TileMap : MonoBehaviour {
     {
         //tiles = new int[mapSizeX, mapSizeZ];
         map = new ClickableTile[mapSizeX, mapSizeY, mapSizeZ];
-
+        GetComponent<TilePosGenerator>().generatePositions();
         ClickableTile[] loadedTiles = GetComponentsInChildren<ClickableTile>();
         
         foreach (ClickableTile ctTile in loadedTiles)
@@ -110,7 +108,6 @@ public class TileMap : MonoBehaviour {
     }
 
     public ClickableTile getTileAtCoord(Vector3 coords) {
-
         return map[(int)coords.x, (int)coords.y, (int)coords.z];
     }
 
