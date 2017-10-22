@@ -5,11 +5,14 @@ using UnityEngine;
 public class BaseClass : MonoBehaviour {
 
     private Actor player;
-    private GameData savedPlayerData = new GameData();
+    private GameData savedPlayerData;
 
     private int skillPoints;
     private int experience;
     private int playerLevel;
+    private string className;
+
+    public BaseClass[] jobs;
 
     //Stat gains;
     private int strengthGain;
@@ -19,7 +22,7 @@ public class BaseClass : MonoBehaviour {
     private int wisdomGain;
     private int charismaGain;
 
-	void Start () {
+	public virtual void Start () {
         initializeBaseStats();
 	}
 	
@@ -32,6 +35,13 @@ public class BaseClass : MonoBehaviour {
         for (int i = 0; i < 4; i++)
         {
             player.abilitySet[i] = new BasicAttack(gameObject);
+        }
+
+        jobs = new BaseClass[7];
+
+        for (int index = 0; index < 7; index++)
+        {
+            jobs[index] = new BaseClass();
         }
 
         player.setStrength(10);
@@ -214,6 +224,11 @@ public class BaseClass : MonoBehaviour {
     public int getExperience()
     {
         return experience;
+    }
+
+    public void setJobName(string name)
+    {
+        className = name;
     }
 
     

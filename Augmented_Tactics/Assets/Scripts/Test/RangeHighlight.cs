@@ -31,13 +31,13 @@ public class RangeHighlight : MonoBehaviour {
                 GameObject obj;
                 if (spawnPosition1 != spawnPosition2)
                 {
-                    if(map.UnitCanEnterTile((int)spawnPosition2.x, (int)spawnPosition2.z))
+                    if(map.UnitCanEnterTile(spawnPosition2))
                     {
                         obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition2), hightlightObj.transform.rotation);
                         obj.transform.parent = gameObject.transform;
                     }
                 }
-                if (map.UnitCanEnterTile((int)spawnPosition1.x, (int)spawnPosition1.z))
+                if (map.UnitCanEnterTile(spawnPosition1))
                 {
                     obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition1), hightlightObj.transform.rotation);
                     obj.transform.parent = gameObject.transform;
