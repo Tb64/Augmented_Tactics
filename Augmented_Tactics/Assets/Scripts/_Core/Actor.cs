@@ -92,19 +92,8 @@ public class Actor : MonoBehaviour
     public virtual void Update()
     {
 
-        //drawDebugLines();
-
-        //moveUnit();
-
-
-
-        if (playerAgent == null) //bandaid fix, needs to be removed
-        {
-            return;
-        }
-        clickToMove();
         anim.SetFloat("Speed", playerAgent.velocity.magnitude);
-       
+        
     }
 
     public virtual void OnDestroy()
@@ -198,6 +187,7 @@ public class Actor : MonoBehaviour
         {
             Debug.Log("dist = " + dist + " target position = " + targetPos);
             playerAgent.destination = targetPos;
+            
         }
         else
         {
