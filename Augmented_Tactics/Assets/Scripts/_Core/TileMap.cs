@@ -34,7 +34,7 @@ public class TileMap : MonoBehaviour {
 
     void Start() {
         initialize();
-        TurnBehavior.OnUnitMoved += this.PlayerMoveActions;
+        TurnBehaviour.OnUnitMoved += this.PlayerMoveActions;
     }
     
     //use this function to initializes variables
@@ -380,12 +380,59 @@ public class TileMap : MonoBehaviour {
     #region Movement
 
     /// <summary>
+    /// DO NOT LOOP. Call this once to have the Actor move to Target.
+    /// </summary>
+    /// <param name="actor">The Actor you want to move</param>
+    /// <param name="target">The Map position you want to move to</param>
+    /// <returns></returns>
+    public void moveActorAsync(GameObject actor, Vector3 target)
+    {
+        StartCoroutine(MoveActorThread(actor, target));
+        return;
+    }
+
+    /// <summary>
+    /// MUST BE IN LOOP. Move the selected actor to selected map position (map coords).
+    /// </summary>
+    /// <param name="actor">The GameObject you want to move</param>
+    /// <param name="target">The map position you want to move to</param>
+    /// <returns>False = move not finished.  True = move finished.</returns>
+    public bool moveActor(GameObject actor, Vector3 target)
+    {
+        selectedUnit = actor;
+        GeneratePathTo(target);
+        actor.GetComponent<Actor>().NextTurn();
+        return moveUnit(actor);
+    }
+
+    /// <summary>
+    /// MUST BE IN LOOP. Move the selected actor to selected map position (map coords).
+    /// </summary>
+    /// <param name="actor">The actor you want to move</param>
+    /// <param name="target">The map position you want to move to</param>
+    /// <returns>False = move not finished.  True = move finished.</returns>
+    public bool moveActor(Actor actor, Vector3 target)
+    {
+        return moveActor(actor.gameObject, target);
+    }
+
+    /// <summary>
     /// Generates path and moves the actor the map currently has selected.
     /// </summary>
     /// <returns>False = move not finished.  True = move finished.</returns>
     public bool moveUnit()
     {
         return moveUnit(unit);
+    }
+
+    /// <summary>
+    /// Generates path and moves the actor.  Location is not set in the function.
+    /// </summary>
+    /// <param name="unit">GameObject of the Actor</param>
+    /// <returns>False = move not finished.  True = move finished.</returns>
+    public bool moveUnit(GameObject unit)
+    {
+        return moveUnit(unit.GetComponent<Actor>());
     }
 
     /// <summary>
@@ -518,18 +565,21 @@ public class TileMap : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// Move the selected actor to selected map position (map coords).
-    /// </summary>
-    /// <param name="actor">The actor you want to move</param>
-    /// <param name="target">The map position you want to move to</param>
-    /// <returns>False = move not finished.  True = move finished.</returns>
-    public bool moveActor(GameObject actor, Vector3 target)
+    private IEnumerator MoveActorThread(GameObject actor, Vector3 target)
     {
         selectedUnit = actor;
         GeneratePathTo(target);
-        actor.GetComponent<Actor>().NextTurn();
-        return moveUnit();
+
+        bool moveDone = moveUnit(actor);
+
+        do
+        {
+            moveDone = moveUnit(actor);
+            yield return null;
+        }
+        while (!moveDone);
+
+        TurnBehaviour.ActorHasJustMoved();
     }
 
     #endregion

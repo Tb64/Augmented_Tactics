@@ -6,6 +6,18 @@ using UnityEngine.EventSystems;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
+
+/*********************************
+The Actor class is the parent class
+of all battlefield objects. So this means
+that the Actor is the parent for
+BOTH PLAYERS AND ENEMYS on the field.
+THIS IS NOT JUST THE PLAYER CLASS
+PLAYER CLASS IS A CHILD OF THIS CLASS
+CALLED PlayerControlled
+*************************************/
+
+
 public class Actor : MonoBehaviour
 {
 
@@ -63,7 +75,7 @@ public class Actor : MonoBehaviour
      ******************/
 
     #region events
-    public virtual void Start()
+    public void Start()
     {
         Init();
        
@@ -71,28 +83,35 @@ public class Actor : MonoBehaviour
 
     private void Awake()
     {
-        TurnBehaviour.OnUnitSpawn += this.PlayerSpawnActions;
+        TurnBehaviour.OnUnitSpawn += this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart += this.ActorTurnStart;
-
+        TurnBehaviour.OnUnitMoved += this.ActorMoved;
 
     }
     
     public virtual void Update()
     {
-
-        anim.SetFloat("Speed", playerAgent.velocity.magnitude);
+        if (playerAgent != null)
+            anim.SetFloat("Speed", playerAgent.velocity.magnitude);
         
     }
 
     public virtual void OnDestroy()
     {
-        TurnBehaviour.OnUnitSpawn -= this.PlayerSpawnActions;
+        TurnBehaviour.OnUnitSpawn -= this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart -= this.ActorTurnStart;
+        TurnBehaviour.OnUnitMoved -= this.ActorMoved;
     }
 
     public virtual void ActorTurnStart()
     {
 
+    }
+
+    public virtual void ActorMoved()
+    {
+        if (rangeMarker != null)
+            rangeMarker.Marker_Off();
     }
 
     #endregion
@@ -112,9 +131,12 @@ public class Actor : MonoBehaviour
 
     #endregion
         
-    private void Init()
+    protected void Init()
     {
         //number of moves each actor can make per turn
+
+        health_current = health_max;
+
         numOfMoves = 2;
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
@@ -139,9 +161,9 @@ public class Actor : MonoBehaviour
     }
 
     //Player Spawn Event - Put any actions you want done upon player spawn in here
-    public void PlayerSpawnActions()
+    public void OnUnitSpawn()
     {
-        Debug.Log("PLAYER SPAWNED");
+        Debug.Log("UNIT SPAWNED");
     }
     
 
@@ -154,7 +176,6 @@ public class Actor : MonoBehaviour
     /// <param name="targetPos">The World position of the move</param>
     /// <param name="speed">The speed of the move</param>
     /// <returns>False if the move is not done, true if the move is done.</returns>
-
     public bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
         float scaleDist = 1f;
@@ -450,7 +471,7 @@ public class Actor : MonoBehaviour
     //justin added v
     public bool getCurrentTurn()
     {
-        return TurnBehavior.IsPlayerTurn();
+        return TurnBehaviour.IsPlayerTurn();
     }
     //justin added ^
     

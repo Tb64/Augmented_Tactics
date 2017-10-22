@@ -2,20 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*****************
+PlayerControlled
+This is the parent class 
+for all player controlled actors
+********************/
+
+
 public class PlayerControlled : Actor
 {
-
-
     public static int playerNum;
     public static Actor[] playerList;
     private int playerID;
     // Use this for initialization
-    void Start ()
+    new void Start ()
     {
-        base.Start();
+        base.Init();
 
         TurnBehaviour.OnPlayerTurnStart += this.OnPlayerTurnStart;
-
         if (playerNum == null)
             playerNum = 0;
         if (playerList == null)
@@ -40,15 +44,15 @@ public class PlayerControlled : Actor
 
     }
 
-    public virtual void OnPlayerTurnStart()
-    {
-
-    }
-
     public void OnDestroy()
     {
         base.OnDestroy();
         TurnBehaviour.OnPlayerTurnStart -= this.OnPlayerTurnStart;
+    }
+
+    public virtual void OnPlayerTurnStart()
+    {
+
     }
 
     void OnEnable()

@@ -20,6 +20,7 @@ public class RangeHighlight : MonoBehaviour {
 
     public void Marker_On(Vector3 positionInput, int range)
     {
+        Marker_Off();
         TileMap map = GameObject.Find("Map").GetComponent<TileMap>();
         int rangeDelta = range;
         for (int x = 0; x <= range; x++)

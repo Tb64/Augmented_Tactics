@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*****************
+Enemy
+This is the parent class of all enemies
+*****************/
+
 public class Enemy : Actor
 {
     private Actor[] userTeam;
@@ -23,9 +28,11 @@ public class Enemy : Actor
 
     private Actor currentTarget;
     // Use this for initialization
+    new
+    // Use this for initialization
     void Start()
     {
-        base.Start();
+        base.Init();
         TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStartActions;
 
         if (map == null)
@@ -33,8 +40,6 @@ public class Enemy : Actor
             map = GameObject.Find("Map").GetComponent<TileMap>();
         }
 
-        if (enemyNum == null)
-            enemyNum = 0;
         if (enemyList == null)
             enemyList = new Actor[15];
         enemyList[enemyNum] = this;
@@ -77,26 +82,14 @@ public class Enemy : Actor
         //true player turn ,false enemy turn
         if (SM.checkTurn() == false)
         {
-            //Debug.Log("Oh hey its the enemy's turn");
-            // if (callControl == 0)
-            //{
-            enemyTurn();
-            //callControl++;
-            //}
-            map.drawDebugLines();
-            //map.moveUnit();
-            //if (currentTarget != null)
-            //    map.moveActor(gameObject, currentTarget.getMapPosition());
-            //else
-            //    EnemyTurnStart();
+            //enemyTurn();
+            //map.drawDebugLines();
         }
-        /* else
-         {
-             callControl = 0;
-         }*/
+
 
 
     }
+
     public virtual void EnemyTurnStartActions()
     {
         Debug.Log("1EnemyTurnStart");
@@ -119,8 +112,23 @@ public class Enemy : Actor
 
         NextTurn();
         setMoves(1);
+
+        if (target == null)
+            return;
+
+        Vector3 movingTo = PosCloseTo(target.getMapPosition());
+        map.moveActorAsync(gameObject, movingTo);
+
+        //Attack(currentTarget);
     }
-    
+
+    public override void ActorMoved()
+    {
+        base.ActorMoved();
+        Attack(currentTarget);  //attack attempt after move is finished
+        SM.setTurn();           //after attacking the enemy will end its turn.
+    }
+
 
     void enemyTurn()
     {
