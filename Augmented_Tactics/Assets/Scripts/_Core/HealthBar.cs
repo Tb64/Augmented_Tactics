@@ -47,6 +47,7 @@ public class HealthBar : MonoBehaviour
     {
         transform.LookAt(mainCamera);
         //healthPercent = gameObject.GetComponentInParent<Actor>().GetHealthPercent();
+        //Debug.Log(healthPercent);
         //transform.localScale = new Vector3(healthPercent, 1f, 1f);
     }
 
