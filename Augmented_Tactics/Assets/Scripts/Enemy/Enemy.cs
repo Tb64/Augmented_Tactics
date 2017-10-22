@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*****************
+Enemy
+This is the parent class of all enemies
+*****************/
+
 public class Enemy : Actor
 {
     private Actor[] userTeam;

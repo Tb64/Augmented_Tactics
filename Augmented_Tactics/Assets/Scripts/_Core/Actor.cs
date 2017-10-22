@@ -6,6 +6,18 @@ using UnityEngine.EventSystems;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
+
+/*********************************
+The Actor class is the parent class
+of all battlefield objects. So this means
+that the Actor is the parent for
+BOTH PLAYERS AND ENEMYS on the field.
+THIS IS NOT JUST THE PLAYER CLASS
+PLAYER CLASS IS A CHILD OF THIS CLASS
+CALLED PlayerControlled
+*************************************/
+
+
 public class Actor : MonoBehaviour
 {
 
@@ -71,7 +83,7 @@ public class Actor : MonoBehaviour
 
     private void Awake()
     {
-        TurnBehaviour.OnUnitSpawn += this.PlayerSpawnActions;
+        TurnBehaviour.OnUnitSpawn += this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart += this.ActorTurnStart;
 
 
@@ -97,7 +109,7 @@ public class Actor : MonoBehaviour
 
     public virtual void OnDestroy()
     {
-        TurnBehaviour.OnUnitSpawn -= this.PlayerSpawnActions;
+        TurnBehaviour.OnUnitSpawn -= this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart -= this.ActorTurnStart;
     }
 
@@ -150,9 +162,9 @@ public class Actor : MonoBehaviour
     }
 
     //Player Spawn Event - Put any actions you want done upon player spawn in here
-    public void PlayerSpawnActions()
+    public void OnUnitSpawn()
     {
-        Debug.Log("PLAYER SPAWNED");
+        Debug.Log("UNIT SPAWNED");
     }
     
 

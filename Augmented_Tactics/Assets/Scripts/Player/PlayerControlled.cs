@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*****************
+PlayerControlled
+This is the parent class 
+for all player controlled actors
+********************/
+
+
 public class PlayerControlled : Actor
 {
 
