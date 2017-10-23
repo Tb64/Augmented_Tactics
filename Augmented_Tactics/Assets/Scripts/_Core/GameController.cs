@@ -139,7 +139,6 @@ public class GameController : MonoBehaviour
         {
             clickedTile = interactedObject.GetComponent<ClickableTile>();
             map.moveActor(selectedUnit.gameObject, clickedTile.getMapPosition());
-            //should be map.moveactorasync()
 
             Debug.Log("Selected Tile: " + interactedObject.name + " pos " + clickedTile.getMapPosition());
         }
@@ -200,11 +199,6 @@ public class GameController : MonoBehaviour
      *      UI      *
      ****************/
 
-    public void setMode(int mode)
-    {
-        currentMode = mode;
-    }
-    
     public static void SetAbilityButtons()
     {
         for (int index = 0; index < abilityImages.Length; index++)

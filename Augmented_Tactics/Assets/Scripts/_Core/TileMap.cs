@@ -194,7 +194,7 @@ public class TileMap : MonoBehaviour {
     }
 
     public void GeneratePathTo(Vector3 targetCoords)
-    {// add actor parameter and remove selected unit
+    {
         unit = selectedUnit.GetComponent<Actor>();
         Vector3 coordinates = new Vector3();
         
@@ -287,7 +287,6 @@ public class TileMap : MonoBehaviour {
        
         currentPath.Reverse(); //inverts the path
         unit.setCurrentPath(currentPath);
-        // return currentpath/maybe store into something
     }
 
     void generatePathFindingGraph()
@@ -443,8 +442,6 @@ public class TileMap : MonoBehaviour {
     /// <returns>False = move not finished.  True = move finished.</returns>
     public bool moveUnit(Actor unitObj)
     {
-
-        
         if (Vector3.Distance(unitObj.transform.position, TileCoordToWorldCoord(unitObj.tileX, unitObj.tileZ)) < 0.27f)
         {
             AdvancePathing();
@@ -477,7 +474,7 @@ public class TileMap : MonoBehaviour {
 
     void AdvancePathing()
     {
-        
+
         //Unit doesn't move if there is no path
         if (unit.getCurrentPath() == null)
         {
@@ -494,7 +491,7 @@ public class TileMap : MonoBehaviour {
         {
             return;
         }
-        Debug.Log("Advancing");
+
         remainingMovement = unit.getRemainingMovement();
 
         // Get cost from current tile to next tile

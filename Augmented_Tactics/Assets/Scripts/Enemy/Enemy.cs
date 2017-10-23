@@ -201,7 +201,7 @@ public class Enemy : Actor
 
         Vector3 movingTo = PosCloseTo(target.getMapPosition());
         bool isFinshed = map.moveActor(gameObject, movingTo);
-        Debug.Log(target.name+" "+ " " + getMapPosition() + movingTo);
+        //Debug.Log(target.name+" "+ " " + getMapPosition() + movingTo);
         //after moving, if enemy is in range attack
         //Debug.Log("Dist = " + Vector3.Distance(enemyPosition, playerPosition) + " " + getMapPosition() + movingTo);
         if (Vector3.Distance(enemyPosition, playerPosition) <= 1)
