@@ -199,6 +199,11 @@ public class GameController : MonoBehaviour
      *      UI      *
      ****************/
 
+    public void setMode(int mode)
+    {
+        currentMode = mode;
+    }
+
     public static void SetAbilityButtons()
     {
         for (int index = 0; index < abilityImages.Length; index++)
