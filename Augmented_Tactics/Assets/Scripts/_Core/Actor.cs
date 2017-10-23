@@ -124,7 +124,7 @@ public class Actor : MonoBehaviour
     {
         TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
 
-        Debug.Log("click test");
+        
         GO.selectedUnit = gameObject;
         GameController.NewSelectedUnit();
     }
@@ -194,7 +194,7 @@ public class Actor : MonoBehaviour
 
         if (playerAgent != null)
         {
-            Debug.Log("dist = " + dist + " target position = " + targetPos);
+            //Debug.Log("dist = " + dist + " target position = " + targetPos);
             playerAgent.destination = targetPos;
             
         }

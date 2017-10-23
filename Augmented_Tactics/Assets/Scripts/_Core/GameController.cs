@@ -134,11 +134,19 @@ public class GameController : MonoBehaviour
     void SelectMoveLocation()
     {
         GameObject interactedObject = RayCaster();
+        
+        
 
         if (interactedObject != null && interactedObject.name.Contains("Tile"))
         {
             clickedTile = interactedObject.GetComponent<ClickableTile>();
-            map.moveActor(selectedUnit.gameObject, clickedTile.getMapPosition());
+            //map.moveActor(selectedUnit.gameObject, clickedTile.getMapPosition());
+            Debug.Log("selected unit : " + selectedUnit + "coords : " + clickedTile.coords);
+            if (selectedUnit != null && clickedTile != null)
+            {
+                map.moveActorAsync(selectedUnit.gameObject, clickedTile.coords);
+            }
+            //should be move actor async
 
             Debug.Log("Selected Tile: " + interactedObject.name + " pos " + clickedTile.getMapPosition());
         }
@@ -202,6 +210,11 @@ public class GameController : MonoBehaviour
     public void setMode(int mode)
     {
         currentMode = mode;
+    }
+
+    public void setMove()
+    {
+        currentMode = MODE_MOVE;
     }
 
     public static void SetAbilityButtons()
