@@ -136,7 +136,7 @@ public class Actor : MonoBehaviour
         //number of moves each actor can make per turn
 
         health_current = health_max;
-
+        remainingMovement = moveDistance;
         numOfMoves = 2;
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
