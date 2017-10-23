@@ -10,6 +10,7 @@ public class BaseClass : MonoBehaviour {
     private int skillPoints;
     private int experience;
     private int playerLevel;
+    private bool JobActive;
     private string className;
 
     public BaseClass[] jobs;
@@ -44,6 +45,8 @@ public class BaseClass : MonoBehaviour {
             jobs[index] = new BaseClass();
         }
 
+        JobActive = false;
+
         player.setStrength(10);
         player.setDexterity(10);
         player.setConstitution(10);
@@ -67,69 +70,27 @@ public class BaseClass : MonoBehaviour {
         charismaGain = 1;
     }
 
-    void levelUp() //stat gains will be set by each class
+    /// <summary>
+    /// Sets the active job for the character. Takes one parameter
+    /// to the index of the job array
+    /// </summary>
+    /// <param name="index"></param>
+    void setActiveJob(int index)
     {
-        player.setStrength(player.getStrength() + strengthGain);
-        player.setDexterity(player.getDexterity() + dexterityGain);
-        player.setConstitution(player.getConstitution() + constitutionGain);
-        player.setIntelligence(player.getIntelligence() + intelligenceGain);
-        player.setWisdom(player.getWisdom() + wisdomGain);
-        player.setCharisma(player.getCharisma() + charismaGain);
-
-        skillPoints++;
-    }
-
-    bool loadChar(string charName)
-    {
-        PlayerData character = savedPlayerData.findPlayer(charName);
-        if (character == null)
+        
+        for (int jindex = 0; jindex < jobs.Length; jindex++)
         {
-            //Debug.LogError("Character " + " does not exist!");
-            return false;
+            jobs[jindex].JobActive = false;
         }
-        else
-        {
-            setExperience((int)character.getStatByKey("Experience"));
-            skillPoints = (int)character.getStatByKey("Skill Points");
-            playerLevel = (int)character.getStatByKey("Level");
-            player.setDexterity((int)character.getStatByKey("Dexterity"));
-            player.setIntelligence((int)character.getStatByKey("Intelligence"));
-            player.setCharisma((int)character.getStatByKey("Charisma"));
-            player.setConstitution((int)character.getStatByKey("Constitution"));
-            player.setSpeed((int)character.getStatByKey("Speed"));
-            player.setStrength((int)character.getStatByKey("Strength"));
-            player.setWisdom((int)character.getStatByKey("Wisdom"));
-            player.setArmorClass(character.getStatByKey("Armor Class"));
-            player.setHealthCurrent((int)character.getStatByKey("Health"));
-            player.setManaCurrent((character.getStatByKey("Mana")));
-            return true;
-        }
-    }
 
-    private bool saveChar()
-    {
-        PlayerData newData = new PlayerData();
-        newData.setStatbyKey("Experience", getExperience());
-        newData.setStatbyKey("Skill Points",getSkillPoints());
-        newData.setStatbyKey("Player Level", playerLevel);
-        newData.setStatbyKey("Dexterity",player.getDexterity());
-        newData.setStatbyKey("Intelligence", player.getIntelligence());
-        newData.setStatbyKey("Charisma", player.getCharisma());
-        newData.setStatbyKey("Constitution", player.getConstitution());
-        newData.setStatbyKey("Speed", player.getSpeed());
-        newData.setStatbyKey("Strength", player.getStrength());
-        newData.setStatbyKey("Wisdom", player.getWisdom());
-        newData.setStatbyKey("Armor Class", player.getArmorClass());
-        newData.setStatbyKey("Health", player.GetHealthCurrent());
-        newData.setStatbyKey("Mana", player.getManaCurrent());
-        return savedPlayerData.savePlayer(newData);
+        jobs[index].JobActive = true;
     }
 
 
 
-    void checkLevel()
+    void checkLevel()   //should be called everytime actor gains experience
     {
-
+        
         if (experience >= 355000 && playerLevel < 20)
         {
             levelUp();
@@ -206,9 +167,74 @@ public class BaseClass : MonoBehaviour {
         {
             levelUp();
         }
-       
+
 
     }
+
+
+
+    void levelUp() //stat gains will be set by each class
+    {
+        player.setStrength(player.getStrength() + strengthGain);
+        player.setDexterity(player.getDexterity() + dexterityGain);
+        player.setConstitution(player.getConstitution() + constitutionGain);
+        player.setIntelligence(player.getIntelligence() + intelligenceGain);
+        player.setWisdom(player.getWisdom() + wisdomGain);
+        player.setCharisma(player.getCharisma() + charismaGain);
+
+        skillPoints++;
+    }
+
+    #region loading/saving
+
+    bool loadChar(string charName)
+    {
+        PlayerData character = savedPlayerData.findPlayer(charName);
+        if (character == null)
+        {
+            //Debug.LogError("Character " + " does not exist!");
+            return false;
+        }
+        else
+        {
+            setExperience((int)character.getStatByKey("Experience"));
+            skillPoints = (int)character.getStatByKey("Skill Points");
+            playerLevel = (int)character.getStatByKey("Level");
+            player.setDexterity((int)character.getStatByKey("Dexterity"));
+            player.setIntelligence((int)character.getStatByKey("Intelligence"));
+            player.setCharisma((int)character.getStatByKey("Charisma"));
+            player.setConstitution((int)character.getStatByKey("Constitution"));
+            player.setSpeed((int)character.getStatByKey("Speed"));
+            player.setStrength((int)character.getStatByKey("Strength"));
+            player.setWisdom((int)character.getStatByKey("Wisdom"));
+            player.setArmorClass(character.getStatByKey("Armor Class"));
+            player.setHealthCurrent((int)character.getStatByKey("Health"));
+            player.setManaCurrent((character.getStatByKey("Mana")));
+            return true;
+        }
+    }
+
+    private bool saveChar()
+    {
+        PlayerData newData = new PlayerData();
+        newData.setStatbyKey("Experience", getExperience());
+        newData.setStatbyKey("Skill Points",getSkillPoints());
+        newData.setStatbyKey("Player Level", playerLevel);
+        newData.setStatbyKey("Dexterity",player.getDexterity());
+        newData.setStatbyKey("Intelligence", player.getIntelligence());
+        newData.setStatbyKey("Charisma", player.getCharisma());
+        newData.setStatbyKey("Constitution", player.getConstitution());
+        newData.setStatbyKey("Speed", player.getSpeed());
+        newData.setStatbyKey("Strength", player.getStrength());
+        newData.setStatbyKey("Wisdom", player.getWisdom());
+        newData.setStatbyKey("Armor Class", player.getArmorClass());
+        newData.setStatbyKey("Health", player.GetHealthCurrent());
+        newData.setStatbyKey("Mana", player.getManaCurrent());
+        return savedPlayerData.savePlayer(newData);
+    }
+
+    #endregion
+
 
     #region set/gets
 
