@@ -110,6 +110,7 @@ public class TurnBehaviour : MonoBehaviour
     //Called when a Move has finished
     public static void ActorHasJustMoved()
     {
+        Debug.Log("MoveFinished");
         if (OnUnitMoved != null)
             OnUnitMoved();
     }

@@ -33,6 +33,7 @@ public class GameController : MonoBehaviour
     {
         TurnBehaviour.OnTurnStart += this.TurnStart;
         TurnBehaviour.OnPlayerTurnStart += this.PlayerTurnStart;
+        TurnBehaviour.OnUnitSpawn += this.UnitSpawn;
         GameObject mapObj = GameObject.FindGameObjectWithTag("Map");
         if (mapObj != null)
         {
@@ -42,7 +43,7 @@ public class GameController : MonoBehaviour
         if (rangeMarkerObj != null)
             rangeMarker = rangeMarkerObj.GetComponent<RangeHighlight>();
 
-        if (PlayerControlled.playerList[0] != null)
+        if (PlayerControlled.playerList != null && PlayerControlled.playerList[0] != null)
         {
             selectedUnit = PlayerControlled.playerList[0];
             SetAbilityButtons();
@@ -52,10 +53,21 @@ public class GameController : MonoBehaviour
         abilityText = AbilityText;
     }
 
+    private void UnitSpawn()
+    {
+        if (selectedUnit == null && PlayerControlled.playerList != null && PlayerControlled.playerList[0] != null)
+        {
+            selectedUnit = PlayerControlled.playerList[0];
+            SetAbilityButtons();
+        }
+    }
+
+
     private void OnDestroy()
     {
         TurnBehaviour.OnTurnStart -= this.TurnStart;
         TurnBehaviour.OnPlayerTurnStart -= this.PlayerTurnStart;
+        TurnBehaviour.OnUnitSpawn -= this.UnitSpawn;
     }
 
     // Update is called once per frame
@@ -68,6 +80,7 @@ public class GameController : MonoBehaviour
     private void TurnStart()
     {
         targetObject = null;
+        rangeMarker.Marker_Off();
     }
 
     private void PlayerTurnStart()
@@ -148,10 +161,11 @@ public class GameController : MonoBehaviour
     {
         GameObject interactedObject = RayCaster();
 
-        if (interactedObject == null || 
-            !interactedObject.name.Contains("Tile") ||
-            interactedObject.tag != "Enemy" ||
-            interactedObject.tag != "Player")
+        if (interactedObject == null 
+        //    || !interactedObject.name.Contains("Tile") 
+        //    || interactedObject.tag != "Enemy" 
+        //    || interactedObject.tag != "Player"
+            )
             return;
 
         //if the same target is selected twice in a row do action
@@ -159,11 +173,13 @@ public class GameController : MonoBehaviour
         if( targetObject == null || targetObject != interactedObject)
         {
             targetObject = interactedObject;
+            Debug.Log("Initial Target selected, select again to confirm");
         }
         else if (targetObject == interactedObject)
         {
             selectedUnit.abilitySet[currentAbility].UseSkill(targetObject);
             currentMode = MODE_SELECT_UNIT;
+            Debug.Log("Using ability " + selectedUnit.abilitySet[currentAbility].abilityName);
         }
 
 
@@ -240,6 +256,7 @@ public class GameController : MonoBehaviour
     public void setMode(int mode)
     {
         currentMode = mode;
+        Debug.Log("Mode Changed to " + mode);
     }
 
     public static void SetAbilityButtons()
@@ -256,7 +273,7 @@ public class GameController : MonoBehaviour
     {
         //rangeMarker.Marker_On();
         currentAbility = abilityNum;
-        currentMode = MODE_SELECT_TARGET;
+        setMode(MODE_SELECT_TARGET);
         rangeMarker.Marker_On(selectedUnit.getMapPosition(), selectedUnit.abilitySet[currentAbility].range);
         //abilityMode = true;
     }

@@ -9,14 +9,26 @@ public class RangeHighlight : MonoBehaviour {
     private TileMap map;
 	// Use this for initialization
 	void Start () {
+        TurnBehaviour.OnUnitMoved += this.MoveFinished;
+
         map = GameObject.Find("Map").GetComponent<TileMap>();
         //Marker_On(transform.position,3);
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void OnDestroy()
+    {
+        TurnBehaviour.OnUnitMoved -= this.MoveFinished;
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
+
+    void MoveFinished()
+    {
+        Marker_Off();
+    }
 
     public void Marker_On(Vector3 positionInput, int range)
     {
@@ -48,9 +60,9 @@ public class RangeHighlight : MonoBehaviour {
         }
     }
 
-    public void Attack_Marker_On()
+    public void Attack_Marker_On(Vector3 position, int rangeMin, int rangeMax)
     {
-
+        Marker_Off();
     }
 
     public void Marker_Off()

@@ -579,6 +579,7 @@ public class TileMap : MonoBehaviour {
         }
         while (!moveDone);
 
+        Debug.Log("Moved " + actor.name + " to " + target);
         TurnBehaviour.ActorHasJustMoved();
     }
 
