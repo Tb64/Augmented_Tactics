@@ -64,17 +64,17 @@ public class TurnBehaviour : MonoBehaviour
 
 
 
-    //public static void Initialize()
-    //{
-    //    firstRun = true;
-    //    numberOfTurns = 0;
-    //}
+    public static void Initialize()
+    {
+        firstRun = true;
+        numberOfTurns = 0;
+    }
 
-    //public static void Initialize(bool playerTurn)
-    //{
-    //    isPlayerTurn = playerTurn;
-    //    Initialize();
-    //}
+    public static void Initialize(bool playerTurn)
+    {
+        isPlayerTurn = playerTurn;
+        Initialize();
+    }
 
     //public virtual void FixedUpdate()
     //{
@@ -105,6 +105,14 @@ public class TurnBehaviour : MonoBehaviour
     {
         if (OnGameStart != null)
             OnGameStart();
+    }
+
+    //Called when a Move has finished
+    public static void ActorHasJustMoved()
+    {
+        Debug.Log("MoveFinished");
+        if (OnUnitMoved != null)
+            OnUnitMoved();
     }
 
     //**************************

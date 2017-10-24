@@ -9,17 +9,30 @@ public class RangeHighlight : MonoBehaviour {
     private TileMap map;
 	// Use this for initialization
 	void Start () {
+        TurnBehaviour.OnUnitMoved += this.MoveFinished;
+
         map = GameObject.Find("Map").GetComponent<TileMap>();
         //Marker_On(transform.position,3);
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void OnDestroy()
+    {
+        TurnBehaviour.OnUnitMoved -= this.MoveFinished;
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 
+    void MoveFinished()
+    {
+        Marker_Off();
+    }
+
     public void Marker_On(Vector3 positionInput, int range)
     {
+        Marker_Off();
         TileMap map = GameObject.Find("Map").GetComponent<TileMap>();
         int rangeDelta = range;
         for (int x = 0; x <= range; x++)
@@ -31,13 +44,13 @@ public class RangeHighlight : MonoBehaviour {
                 GameObject obj;
                 if (spawnPosition1 != spawnPosition2)
                 {
-                    if(map.UnitCanEnterTile((int)spawnPosition2.x, (int)spawnPosition2.z))
+                    if(map.UnitCanEnterTile(spawnPosition2))
                     {
                         obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition2), hightlightObj.transform.rotation);
                         obj.transform.parent = gameObject.transform;
                     }
                 }
-                if (map.UnitCanEnterTile((int)spawnPosition1.x, (int)spawnPosition1.z))
+                if (map.UnitCanEnterTile(spawnPosition1))
                 {
                     obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition1), hightlightObj.transform.rotation);
                     obj.transform.parent = gameObject.transform;
@@ -45,6 +58,11 @@ public class RangeHighlight : MonoBehaviour {
             }
             rangeDelta--;
         }
+    }
+
+    public void Attack_Marker_On(Vector3 position, int rangeMin, int rangeMax)
+    {
+        Marker_Off();
     }
 
     public void Marker_Off()

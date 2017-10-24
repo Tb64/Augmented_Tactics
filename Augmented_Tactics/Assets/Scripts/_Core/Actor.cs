@@ -6,6 +6,18 @@ using UnityEngine.EventSystems;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
+
+/*********************************
+The Actor class is the parent class
+of all battlefield objects. So this means
+that the Actor is the parent for
+BOTH PLAYERS AND ENEMYS on the field.
+THIS IS NOT JUST THE PLAYER CLASS
+PLAYER CLASS IS A CHILD OF THIS CLASS
+CALLED PlayerControlled
+*************************************/
+
+
 public class Actor : MonoBehaviour
 {
 
@@ -64,7 +76,7 @@ public class Actor : MonoBehaviour
      ******************/
 
     #region events
-    public virtual void Start()
+    public void Start()
     {
         Init();
        
@@ -72,39 +84,35 @@ public class Actor : MonoBehaviour
 
     private void Awake()
     {
-        TurnBehaviour.OnUnitSpawn += this.PlayerSpawnActions;
+        TurnBehaviour.OnUnitSpawn += this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart += this.ActorTurnStart;
-
+        TurnBehaviour.OnUnitMoved += this.ActorMoved;
 
     }
     
     public virtual void Update()
     {
-
-        //drawDebugLines();
-
-        //moveUnit();
-
-
-
-        if (playerAgent == null) //bandaid fix, needs to be removed
-        {
-            return;
-        }
-        clickToMove();
-        anim.SetFloat("Speed", playerAgent.velocity.magnitude);
-       
+        if (playerAgent != null)
+            anim.SetFloat("Speed", playerAgent.velocity.magnitude);
+        
     }
 
     public virtual void OnDestroy()
     {
-        TurnBehaviour.OnUnitSpawn -= this.PlayerSpawnActions;
+        TurnBehaviour.OnUnitSpawn -= this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart -= this.ActorTurnStart;
+        TurnBehaviour.OnUnitMoved -= this.ActorMoved;
     }
 
     public virtual void ActorTurnStart()
     {
 
+    }
+
+    public virtual void ActorMoved()
+    {
+        if (rangeMarker != null)
+            rangeMarker.Marker_Off();
     }
 
     #endregion
@@ -119,14 +127,17 @@ public class Actor : MonoBehaviour
 
         Debug.Log("click test");
         GO.selectedUnit = gameObject;
-        GameController.NewSelectedUnit();
+        //GameController.NewSelectedUnit();
     }
 
     #endregion
         
-    private void Init()
+    protected void Init()
     {
         //number of moves each actor can make per turn
+
+        health_current = health_max;
+        remainingMovement = moveDistance;
         numOfMoves = 2;
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
@@ -151,9 +162,9 @@ public class Actor : MonoBehaviour
     }
 
     //Player Spawn Event - Put any actions you want done upon player spawn in here
-    public void PlayerSpawnActions()
+    public void OnUnitSpawn()
     {
-        Debug.Log("PLAYER SPAWNED");
+        Debug.Log("UNIT SPAWNED");
     }
     
 
@@ -166,32 +177,43 @@ public class Actor : MonoBehaviour
     /// <param name="targetPos">The World position of the move</param>
     /// <param name="speed">The speed of the move</param>
     /// <returns>False if the move is not done, true if the move is done.</returns>
-
     public bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
         float scaleDist = 1f;
-
-        if (Vector3.Distance(origin.position, targetPos) < 0.01f)
+        float dist = Vector3.Distance(origin.position, targetPos);
+        if (dist < 0.26f) //old dist .01
         {
             origin.position = targetPos;
             scaleDist = 0f;
-            if (anim != null)
+            if (anim != null && playerAgent == null)
                 anim.SetFloat("Speed", scaleDist);
             return true;
         }
 
 
-        if (anim != null)
-            anim.SetFloat("Speed", scaleDist);
-
         float step = speed * Time.deltaTime * scaleDist;
-        origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
-        Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
-        newDir = new Vector3(newDir.x, origin.position.y, newDir.z);
 
-        newDir = new Vector3(targetPos.x, origin.position.y, targetPos.z);
-        origin.transform.LookAt(newDir);
-        rangeMarker.Marker_Off();
+        if (playerAgent != null)
+        {
+            Debug.Log("dist = " + dist + " target position = " + targetPos);
+            playerAgent.destination = targetPos;
+            
+        }
+        else
+        {
+
+            if (anim != null)
+                anim.SetFloat("Speed", scaleDist);
+
+            origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
+            Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
+            newDir = new Vector3(newDir.x, origin.position.y, newDir.z);
+
+            newDir = new Vector3(targetPos.x, origin.position.y, targetPos.z);
+            origin.transform.LookAt(newDir);
+        }
+
+
         return false;
     }
 
@@ -271,15 +293,15 @@ public class Actor : MonoBehaviour
             return ;
         }
 
-        GO.Players[index].coordX = tileX;
-        GO.Players[index].coordZ = tileZ;
-        GO.Players[index].coords = new Vector3(tileX, 0, tileZ);
+        //GO.Players[index].coordX = tileX;
+        //GO.Players[index].coordZ = tileZ;
+        //GO.Players[index].coords = new Vector3(tileX, 0, tileZ);
        
-        for (int index = 0; index < numberOfActors; index++)
-        {                        
-            GO.Players[index].coordX = tileX;
-            GO.Players[index].coordZ = tileZ;
-        }
+        //for (int index = 0; index < numberOfActors; index++)
+        //{                        
+        //    GO.Players[index].coordX = tileX;
+        //    GO.Players[index].coordZ = tileZ;
+        //}
 
         //Reset available movement points.
         
@@ -323,6 +345,11 @@ public class Actor : MonoBehaviour
     public void setCoords(Vector3 coordinates)
     {
         coords = coordinates;
+    }
+
+    public Vector3 getCoords()
+    {
+        return coords;
     }
 
     public void setSpeed(int num)
@@ -445,7 +472,7 @@ public class Actor : MonoBehaviour
     //justin added v
     public bool getCurrentTurn()
     {
-        return TurnBehavior.IsPlayerTurn();
+        return TurnBehaviour.IsPlayerTurn();
     }
     //justin added ^
     

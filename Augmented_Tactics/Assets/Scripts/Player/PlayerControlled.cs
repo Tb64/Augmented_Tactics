@@ -2,27 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*****************
+PlayerControlled
+This is the parent class 
+for all player controlled actors
+********************/
+
+
 public class PlayerControlled : Actor
 {
-
-
     public static int playerNum;
     public static Actor[] playerList;
     private int playerID;
     // Use this for initialization
-    void Start ()
+    new void Start ()
     {
-        base.Start();
+        base.Init();
 
         TurnBehaviour.OnPlayerTurnStart += this.OnPlayerTurnStart;
-
         if (playerNum == null)
             playerNum = 0;
         if (playerList == null)
             playerList = new Actor[4];
         playerList[playerNum] = this;
         playerID = playerNum;
-        TurnBehaviour.NewPlayerAdded();
        // Debug.Log("Player added: " + playerNum + ") " + playerList[playerNum]);
         playerNum++;
 
@@ -38,10 +41,7 @@ public class PlayerControlled : Actor
             map = GameObject.Find("Map").GetComponent<TileMap>();
         }
 
-    }
-
-    public virtual void OnPlayerTurnStart()
-    {
+        TurnBehaviour.NewPlayerAdded();
 
     }
 
@@ -49,6 +49,11 @@ public class PlayerControlled : Actor
     {
         base.OnDestroy();
         TurnBehaviour.OnPlayerTurnStart -= this.OnPlayerTurnStart;
+    }
+
+    public virtual void OnPlayerTurnStart()
+    {
+
     }
 
     void OnEnable()

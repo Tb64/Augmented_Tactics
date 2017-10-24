@@ -7,12 +7,13 @@ public class HealthBar : MonoBehaviour
 
     private float healthPercent;
     private Transform mainCamera;
+    private Transform healthbar;
      
     void Start()
     {
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
         healthPercent = gameObject.GetComponentInParent<Actor>().GetHealthPercent();
-
+        healthbar = this.gameObject.transform.GetChild(0);
     }
 
 // Update is called once per frame
@@ -20,6 +21,7 @@ public class HealthBar : MonoBehaviour
     {
         transform.LookAt(mainCamera);
         //healthPercent = gameObject.GetComponentInParent<Actor>().GetHealthPercent();
+        //Debug.Log(healthPercent);
         //transform.localScale = new Vector3(healthPercent, 1f, 1f);
     }
 

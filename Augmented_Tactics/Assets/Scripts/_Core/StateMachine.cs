@@ -16,16 +16,23 @@ public class StateMachine : MonoBehaviour {
 
     void Start()
     {
-        TurnBehavior.OnGameStart += this.GameStartActions;
-        TurnBehavior.OnTurnStart += this.TurnStartActions;
-        TurnBehavior.OnTurnEnd += this.TurnEndActions;
-        TurnBehavior.GStart();
+        TurnBehaviour.OnGameStart += this.GameStartActions;
+        TurnBehaviour.OnTurnStart += this.TurnStartActions;
+        TurnBehaviour.OnTurnEnd += this.TurnEndActions;
+        TurnBehaviour.GStart();
         player = GameObject.FindGameObjectsWithTag("Player");
         enemy = GameObject.FindGameObjectsWithTag("Enemy");
         playerTurn = true;
         firstTurn = true;
-        TurnBehavior.Initialize(playerTurn);
+        TurnBehaviour.Initialize(playerTurn);
         
+    }
+
+    private void OnDestroy()
+    {
+        TurnBehaviour.OnGameStart -= this.GameStartActions;
+        TurnBehaviour.OnTurnStart -= this.TurnStartActions;
+        TurnBehaviour.OnTurnEnd -= this.TurnEndActions;
     }
 
     // Game Start Event - Put any actions you want when game starts in here
@@ -85,7 +92,9 @@ public class StateMachine : MonoBehaviour {
             unit = player.GetComponent<Actor>();
             map.selectedUnit = player;
             map.selectedUnit.GetComponent<Actor>().setMoves(1);
-            map.getMapArray()[unit.tileX, unit.tileZ].setOccupiedTrue();
+            map.getMapArray()[(int)unit.getCoords().x,
+                (int)unit.getCoords().y, 
+                (int)unit.getCoords().z].setOccupiedTrue();
 
             
         }
@@ -100,7 +109,7 @@ public class StateMachine : MonoBehaviour {
             unit = enemy.GetComponent<Actor>();
             map.selectedUnit = enemy;
             map.selectedUnit.GetComponent<Actor>().setMoves(1);
-            map.getMapArray()[unit.tileX, unit.tileZ].setOccupiedTrue();
+            map.getMapArray()[(int)unit.getCoords().x, (int)unit.getCoords().y,(int)unit.getCoords().z].setOccupiedTrue();
         }
     }
 

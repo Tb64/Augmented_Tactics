@@ -5,13 +5,14 @@ using UnityEngine;
 public class TilePosGenerator : MonoBehaviour {
 
 	// Use this for initialization
-	void Start () {
+	public void generatePositions() {
         ClickableTile[] tiles = GetComponentsInChildren<ClickableTile>();
 
         for(int index = 0; index < tiles.Length; index++)
         {
-            tiles[index].tileX = (int)tiles[index].transform.localPosition.x;
-            tiles[index].tileZ = (int)tiles[index].transform.localPosition.z;
+            tiles[index].coords.x = (int)tiles[index].transform.localPosition.x;
+            tiles[index].coords.y = (int)tiles[index].transform.localPosition.y;
+            tiles[index].coords.z = (int)tiles[index].transform.localPosition.z;
         }
 		
 	}
