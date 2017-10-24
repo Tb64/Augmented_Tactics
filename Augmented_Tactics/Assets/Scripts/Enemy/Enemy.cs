@@ -2,6 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*****************
+Enemy
+This is the parent class of all enemies
+*****************/
+
 public class Enemy : Actor
 {
     private Actor[] userTeam;
@@ -23,18 +28,18 @@ public class Enemy : Actor
 
     private Actor currentTarget;
     // Use this for initialization
+    new
+    // Use this for initialization
     void Start()
     {
-        base.Start();
-
+        base.Init();
+        TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStartActions;
 
         if (map == null)
         {
             map = GameObject.Find("Map").GetComponent<TileMap>();
         }
 
-        if (enemyNum == null)
-            enemyNum = 0;
         if (enemyList == null)
             enemyList = new Actor[15];
         enemyList[enemyNum] = this;
@@ -66,10 +71,9 @@ public class Enemy : Actor
         turnControl();
     }
 
-    public override void FixedUpdate()
+    public void OnDestroy()
     {
-
-        base.FixedUpdate();
+        TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStartActions;
     }
 
     void turnControl()
@@ -78,31 +82,18 @@ public class Enemy : Actor
         //true player turn ,false enemy turn
         if (SM.checkTurn() == false)
         {
-            //Debug.Log("Oh hey its the enemy's turn");
-            // if (callControl == 0)
-            //{
-            enemyTurn();
-            //callControl++;
-            //}
-            map.drawDebugLines();
-            //map.moveUnit();
-            //if (currentTarget != null)
-            //    map.moveActor(gameObject, currentTarget.getMapPosition());
-            //else
-            //    EnemyTurnStart();
+            //enemyTurn();
+            //map.drawDebugLines();
         }
-        /* else
-         {
-             callControl = 0;
-         }*/
+
 
 
     }
 
-    public override void EnemyTurnStart()
+    public virtual void EnemyTurnStartActions()
     {
         Debug.Log("1EnemyTurnStart");
-        base.EnemyTurnStart();
+        //base.EnemyTurnStart();
 
         map.selectedUnit = gameObject;
         nearest = findNearestPlayer();
@@ -121,7 +112,23 @@ public class Enemy : Actor
 
         NextTurn();
         setMoves(1);
+
+        if (target == null)
+            return;
+
+        Vector3 movingTo = PosCloseTo(target.getMapPosition());
+        map.moveActorAsync(gameObject, movingTo);
+
+        //Attack(currentTarget);
     }
+
+    public override void ActorMoved()
+    {
+        base.ActorMoved();
+        Attack(currentTarget);  //attack attempt after move is finished
+        SM.setTurn();           //after attacking the enemy will end its turn.
+    }
+
 
     void enemyTurn()
     {
@@ -199,7 +206,7 @@ public class Enemy : Actor
         //Debug.Log("Dist = " + Vector3.Distance(enemyPosition, playerPosition) + " " + getMapPosition() + movingTo);
         if (Vector3.Distance(enemyPosition, playerPosition) <= 1)
             Attack(target);
-        NextTurn();
+        //NextTurn();
         return isFinshed;
     }
 
@@ -219,7 +226,6 @@ public class Enemy : Actor
             }
         }
         return weakest;
-
     }
 
     /// <summary>

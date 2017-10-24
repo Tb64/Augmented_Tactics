@@ -17,97 +17,94 @@ public class Unit : MonoBehaviour {
     {
 
 
-        drawDebugLines();
-        moveUnit();
+        //drawDebugLines();
+        //moveUnit();
         
     }
 
-    void drawDebugLines()
-    {
-        if (currentPath != null)
-        {
-            int currNode = 0;
+    //void drawDebugLines()
+    //{
+    //    if (currentPath != null)
+    //    {
+    //        int currNode = 0;
 
-            while (currNode < currentPath.Count - 1)
-            {
-                Vector3 start = map.TileCoordToWorldCoord(currentPath[currNode].x, currentPath[currNode].z) +
-                    new Vector3(0, 1f, 0);
-                Vector3 end = map.TileCoordToWorldCoord(currentPath[currNode + 1].x, currentPath[currNode + 1].z) +
-                    new Vector3(0, 1f, 0);
+    //        while (currNode < currentPath.Count - 1)
+    //        {
+    //            Vector3 start = map.TileCoordToWorldCoord(currentPath[currNode].x, currentPath[currNode].z) +
+    //                new Vector3(0, 1f, 0);
+    //            Vector3 end = map.TileCoordToWorldCoord(currentPath[currNode + 1].x, currentPath[currNode + 1].z) +
+    //                new Vector3(0, 1f, 0);
 
-                Debug.DrawLine(start, end, Color.red);
+    //            Debug.DrawLine(start, end, Color.red);
 
-                currNode++;
-            }
-        }
-    }
+    //            currNode++;
+    //        }
+    //    }
+    //}
 
-    void moveUnit()
-    {
-        if (Vector3.Distance(transform.position, map.TileCoordToWorldCoord(tileX, tileZ)) < 0.1f)
-        {
-            AdvancePathing();
-        }
-        //move unit to next tile
-        MoveController(transform, map.TileCoordToWorldCoord(tileX, tileZ), speed);
-        //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
+    //void moveUnit()
+    //{
+    //    if (Vector3.Distance(transform.position, map.TileCoordToWorldCoord(tileX, tileZ)) < 0.1f)
+    //    {
+    //        AdvancePathing();
+    //    }
+    //    //move unit to next tile
+    //    MoveController(transform, map.TileCoordToWorldCoord(tileX, tileZ), speed);
+    //    //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
 
+    //}
 
-    }
+    //bool MoveController(Transform origin, Vector3 targetPos, float speed)
+    //{
+    //    float step = speed * Time.deltaTime;
+    //    origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
 
-    bool MoveController(Transform origin, Vector3 targetPos, float speed)
-    {
-        float step = speed * Time.deltaTime;
-        origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
-
-        Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
-        newDir = new Vector3(newDir.x , origin.position.y, newDir.z);
-
-
-        newDir = new Vector3(targetPos.x , origin.position.y, targetPos.z);
-        origin.transform.LookAt(newDir);
-        if (Vector3.Distance(origin.position, targetPos) < 0.001f)
-            return true;
-        return false;
-    }
-    void AdvancePathing()
-    {
-
-       
-        if (currentPath == null)
-            return;
-
-        if (remainingMovement <= 0)
-            return;
+    //    Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
+    //    newDir = new Vector3(newDir.x , origin.position.y, newDir.z);
 
 
-        // Get cost from current tile to next tile
-        remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].z, currentPath[1].x, currentPath[1].z);
+    //    newDir = new Vector3(targetPos.x , origin.position.y, targetPos.z);
+    //    origin.transform.LookAt(newDir);
+    //    if (Vector3.Distance(origin.position, targetPos) < 0.001f)
+    //        return true;
+    //    return false;
+    //}
+    //void AdvancePathing()
+    //{
 
-        // Move us to the next tile in the sequence
-        tileX = currentPath[1].x;
-        tileZ = currentPath[1].z;
+    //    if (currentPath == null)
+    //        return;
 
-        // Remove the old "current" tile from the pathfinding list
-        currentPath.RemoveAt(0);
+    //    if (remainingMovement <= 0)
+    //        return;
 
-        if (currentPath.Count == 1)
-        {
-            //stading on same tile clicked on
-            currentPath = null;
-        }
-    }
+    //    //Get cost from current tile to next tile
+    //    remainingMovement -= map.costToEnterTile(currentPath[0].x, currentPath[0].z, currentPath[1].x, currentPath[1].z);
 
-    public void NextTurn()
-    {
+    //    // Move us to the next tile in the sequence
+    //    tileX = currentPath[1].x;
+    //    tileZ = currentPath[1].z;
+
+    //    // Remove the old "current" tile from the pathfinding list
+    //    currentPath.RemoveAt(0);
+
+    //    if (currentPath.Count == 1)
+    //    {
+    //        //stading on same tile clicked on
+    //        currentPath = null;
+    //    }
+    //}
+
+    //public void NextTurn()
+    //{
         
-        //Reset available movement points.
-        remainingMovement = moveDistance;
-    }
+    //    //Reset available movement points.
+    //    remainingMovement = moveDistance;
+    //}
 
 
-    private void OnMouseOver()
-    {
-        //hightlight player when mouse is hovering over
-    }
+    //private void OnMouseOver()
+    //{
+    //    //hightlight player when mouse is hovering over
+    //}
 }

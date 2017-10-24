@@ -30,7 +30,11 @@ public class BuildMap : MonoBehaviour{
     void Start(){
         Debug.Log("Start");
         //rotation = Camera.main.transform.localRotation;
-        rotation = new Quaternion(0, 0, 0, 0);
+        rotation = Camera.main.transform.rotation;
+        //stop x,z rotation
+        rotation.x = 0;
+        rotation.z = 0;
+        tiles.Capacity = 25;
         mapSeed.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 5;
         buildArea(xSize, zSize);
     }
@@ -39,20 +43,28 @@ public class BuildMap : MonoBehaviour{
         //offset from seed location
         int xIndex = 0;
         int zIndex = 0;
-        Vector3 offset, temp;
+        Vector3 offsetX, offsetZ, temp, pos;
         //count to store tile objects
         int count = 0;
         //instantiates objects, offsets them, and gives then a position
         for (; xIndex < xSize; xIndex++){
             for (; zIndex < zSize; zIndex++){
                 Debug.Log("Object being created.");
-                
-                offset = new Vector3(xIndex, 0, zIndex);
-                temp = mapSeed.transform.position + offset;
-                tiles[count] = (GameObject)Instantiate(tile, temp, rotation);
-                tiles[count].transform.SetParent(tiles[0].transform);
+                offsetX = Camera.main.transform.right * xIndex;
+                offsetZ = Camera.main.transform.forward * zIndex;
+                temp = mapSeed.transform.position + offsetX + offsetZ;
+                tiles.Add((GameObject)Instantiate(tile, temp, rotation));
+                GameObject objTile = (GameObject)Instantiate(tile, temp, rotation);
+                objTile.transform.SetParent(tiles[0].transform);
+                pos = new Vector3(xIndex, 0, zIndex);
+                objTile.GetComponent<TileData>().position = pos;
+                tiles.Add(objTile);
+                //if (tiles[count] != tiles[0])
+                //    tiles[count].transform.position = tiles[0].transform.position +;
                 //GameObject tileInstance = (GameObject)Instantiate(tile, seed + offset, rotation);
-                tiles[count].GetComponent<TileData>().position = offset;
+                
+
+                
                 count++;
                 Debug.Log("Object Created");
             }

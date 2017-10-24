@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Ability 
 {
@@ -9,6 +10,7 @@ public class Ability
     public string abilityName;
 
     protected GameObject parent;
+    public Sprite abilityImage;
 
     public virtual void Initialize(GameObject obj)
     {

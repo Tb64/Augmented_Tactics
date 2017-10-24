@@ -1,11 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class Actor : TurnBehavoir
+
+/*********************************
+The Actor class is the parent class
+of all battlefield objects. So this means
+that the Actor is the parent for
+BOTH PLAYERS AND ENEMYS on the field.
+THIS IS NOT JUST THE PLAYER CLASS
+PLAYER CLASS IS A CHILD OF THIS CLASS
+CALLED PlayerControlled
+*************************************/
+
+
+public class Actor : MonoBehaviour
 {
 
     /******************
@@ -52,6 +65,8 @@ public class Actor : TurnBehavoir
     private Animator playerAnim;
 
     //===========================================
+
+    protected RangeHighlight rangeMarker;
     #endregion
 
 
@@ -60,7 +75,7 @@ public class Actor : TurnBehavoir
      ******************/
 
     #region events
-    public virtual void Start()
+    public void Start()
     {
         Init();
        
@@ -68,30 +83,40 @@ public class Actor : TurnBehavoir
 
     private void Awake()
     {
+        TurnBehaviour.OnUnitSpawn += this.OnUnitSpawn;
+        TurnBehaviour.OnTurnStart += this.ActorTurnStart;
+        TurnBehaviour.OnUnitMoved += this.ActorMoved;
+
+    }
+    
+    public virtual void Update()
+    {
+        if (playerAgent != null)
+            anim.SetFloat("Speed", playerAgent.velocity.magnitude);
         
     }
 
-    public virtual void Update()
+    public virtual void OnDestroy()
+    {
+        TurnBehaviour.OnUnitSpawn -= this.OnUnitSpawn;
+        TurnBehaviour.OnTurnStart -= this.ActorTurnStart;
+        TurnBehaviour.OnUnitMoved -= this.ActorMoved;
+    }
+
+    public virtual void ActorTurnStart()
     {
 
-        //drawDebugLines();
+    }
 
-        //moveUnit();
-
-
-
-        if (playerAgent == null) //bandaid fix, needs to be removed
-        {
-            return;
-        }
-        clickToMove();
-        anim.SetFloat("Speed", playerAgent.velocity.magnitude);
-       
+    public virtual void ActorMoved()
+    {
+        if (rangeMarker != null)
+            rangeMarker.Marker_Off();
     }
 
     #endregion
 
-    
+
     #region mouseEvents
 
 
@@ -101,16 +126,23 @@ public class Actor : TurnBehavoir
 
         Debug.Log("click test");
         GO.selectedUnit = gameObject;
+        //GameController.NewSelectedUnit();
     }
 
     #endregion
         
-    private void Init()
+    protected void Init()
     {
         //number of moves each actor can make per turn
+
+        health_current = health_max;
+        remainingMovement = moveDistance;
         numOfMoves = 2;
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
+        GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
+        if (rangeMarkerObj != null)
+            rangeMarker = rangeMarkerObj.GetComponent<RangeHighlight>();
 
         if (GameObject.FindWithTag("GameController") == null)
         {
@@ -124,10 +156,18 @@ public class Actor : TurnBehavoir
             return;
         }
         map = GameObject.Find("Map").GetComponent<TileMap>();
-
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
     }
+
+    //Player Spawn Event - Put any actions you want done upon player spawn in here
+    public void OnUnitSpawn()
+    {
+        Debug.Log("UNIT SPAWNED");
+    }
+    
+
+
 
     /// <summary>
     /// Controls the physical and animation of moving the actor.  Does not generate path.
@@ -136,32 +176,42 @@ public class Actor : TurnBehavoir
     /// <param name="targetPos">The World position of the move</param>
     /// <param name="speed">The speed of the move</param>
     /// <returns>False if the move is not done, true if the move is done.</returns>
-
     public bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
         float scaleDist = 1f;
-
-        if (Vector3.Distance(origin.position, targetPos) < 0.01f)
+        float dist = Vector3.Distance(origin.position, targetPos);
+        if (dist < 0.26f) //old dist .01
         {
             origin.position = targetPos;
             scaleDist = 0f;
-            if (anim != null)
+            if (anim != null && playerAgent == null)
                 anim.SetFloat("Speed", scaleDist);
             return true;
         }
 
 
-        if (anim != null)
-            anim.SetFloat("Speed", scaleDist);
-
         float step = speed * Time.deltaTime * scaleDist;
-        origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
 
-        Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
-        newDir = new Vector3(newDir.x, origin.position.y, newDir.z);
+        if (playerAgent != null)
+        {
+            Debug.Log("dist = " + dist + " target position = " + targetPos);
+            playerAgent.destination = targetPos;
+            
+        }
+        else
+        {
 
-        newDir = new Vector3(targetPos.x, origin.position.y, targetPos.z);
-        origin.transform.LookAt(newDir);
+            if (anim != null)
+                anim.SetFloat("Speed", scaleDist);
+
+            origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
+            Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
+            newDir = new Vector3(newDir.x, origin.position.y, newDir.z);
+
+            newDir = new Vector3(targetPos.x, origin.position.y, targetPos.z);
+            origin.transform.LookAt(newDir);
+        }
+
 
         return false;
     }
@@ -193,6 +243,7 @@ public class Actor : TurnBehavoir
                 //move our player to the point
 
                 playerAgent.destination = interactionInfo.point;
+                
             }
         }
     }
@@ -241,15 +292,15 @@ public class Actor : TurnBehavoir
             return ;
         }
 
-        GO.Players[index].coordX = tileX;
-        GO.Players[index].coordZ = tileZ;
-        GO.Players[index].coords = new Vector3(tileX, 0, tileZ);
+        //GO.Players[index].coordX = tileX;
+        //GO.Players[index].coordZ = tileZ;
+        //GO.Players[index].coords = new Vector3(tileX, 0, tileZ);
        
-        for (int index = 0; index < numberOfActors; index++)
-        {                        
-            GO.Players[index].coordX = tileX;
-            GO.Players[index].coordZ = tileZ;
-        }
+        //for (int index = 0; index < numberOfActors; index++)
+        //{                        
+        //    GO.Players[index].coordX = tileX;
+        //    GO.Players[index].coordZ = tileZ;
+        //}
 
         //Reset available movement points.
         
@@ -258,7 +309,10 @@ public class Actor : TurnBehavoir
             numOfMoves--;
             remainingMovement = moveDistance;
         }
-        
+
+
+
+
     }
 
     /******************
@@ -290,6 +344,11 @@ public class Actor : TurnBehavoir
     public void setCoords(Vector3 coordinates)
     {
         coords = coordinates;
+    }
+
+    public Vector3 getCoords()
+    {
+        return coords;
     }
 
     public void setSpeed(int num)
@@ -409,6 +468,13 @@ public class Actor : TurnBehavoir
         moveClicked = tf;
     }
 
+    //justin added v
+    public bool getCurrentTurn()
+    {
+        return TurnBehaviour.IsPlayerTurn();
+    }
+    //justin added ^
+    
     //=======Stat Set/Gets===========//
 
     public void setMaxHealth(int health)
