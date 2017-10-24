@@ -126,7 +126,7 @@ public class Actor : MonoBehaviour
 
         Debug.Log("click test");
         GO.selectedUnit = gameObject;
-        GameController.NewSelectedUnit();
+        //GameController.NewSelectedUnit();
     }
 
     #endregion
