@@ -48,6 +48,11 @@ public class RangeHighlight : MonoBehaviour {
         }
     }
 
+    public void Attack_Marker_On()
+    {
+
+    }
+
     public void Marker_Off()
     {
         Transform[] children = GetComponentsInChildren<Transform>();
