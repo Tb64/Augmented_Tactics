@@ -58,7 +58,7 @@ public class Actor : MonoBehaviour
     public int moveDistance;
     public float remainingMovement;
     public int numOfMoves;
-    private bool moveClicked;
+    
    
     //Misc vars
     static public int numberOfActors = 0;
@@ -414,17 +414,6 @@ public class Actor : MonoBehaviour
     public int getNumofActors()
     {
         return numberOfActors;
-    }
-
-
-    public bool getMoveClicked()
-    {
-        return moveClicked;
-    }
-
-    public void setMoveClicked(bool tf)
-    {
-        moveClicked = tf;
     }
 
     //justin added v
