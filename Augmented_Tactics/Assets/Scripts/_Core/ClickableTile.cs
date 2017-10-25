@@ -58,10 +58,10 @@ public class ClickableTile : MonoBehaviour {
         //    unit.NextTurn();
         //    unit.setMoveClicked(false);
         //}
-       
 
 
-    
+
+
     }
 
     public void OnMouseEnter()
@@ -96,6 +96,11 @@ public class ClickableTile : MonoBehaviour {
     public void setOccupiedFalse()
     {
         occupied = false;
+    }
+
+    public Vector3 getCoords()
+    {
+        return coords;
     }
 
     public Vector3 getMapPosition()

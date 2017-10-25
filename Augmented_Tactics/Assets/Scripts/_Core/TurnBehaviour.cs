@@ -110,6 +110,14 @@ public class TurnBehaviour : MonoBehaviour
     //Called when a Move has finished
     public static void ActorHasJustMoved()
     {
+        if (!isPlayerTurn)
+        {
+            EnemyHasJustMoved();
+        }
+        else
+        {
+            PlayerHasJustMoved();
+        }
         if (OnUnitMoved != null)
             OnUnitMoved();
     }

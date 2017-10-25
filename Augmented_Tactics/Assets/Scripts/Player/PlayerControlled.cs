@@ -73,7 +73,7 @@ public class PlayerControlled : Actor
     void Update () {
         base.Update();
 
-        turnControl();
+        //turnControl();
     }
 
 

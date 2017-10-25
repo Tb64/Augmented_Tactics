@@ -133,7 +133,7 @@ public class Actor : MonoBehaviour
         
     protected void Init()
     {
-        //number of moves each actor can make per turn
+        
 
         health_current = health_max;
         remainingMovement = moveDistance;
@@ -216,8 +216,6 @@ public class Actor : MonoBehaviour
         return false;
     }
 
-
-
     void clickToMove()
     {
         if (Input.GetMouseButtonDown(0) &&
@@ -241,7 +239,6 @@ public class Actor : MonoBehaviour
             else
             {
                 //move our player to the point
-
                 playerAgent.destination = interactionInfo.point;
                 
             }
@@ -289,7 +286,7 @@ public class Actor : MonoBehaviour
         
         if (GO == null)
         {
-            return ;
+            return;
         }
 
         //GO.Players[index].coordX = tileX;
@@ -309,10 +306,6 @@ public class Actor : MonoBehaviour
             numOfMoves--;
             remainingMovement = moveDistance;
         }
-
-
-
-
     }
 
     /******************
@@ -324,6 +317,7 @@ public class Actor : MonoBehaviour
     public Vector3 getMapPosition()
     {
         return new Vector3((float)tileX, 0f, (float)tileZ);
+       
     }
     
     public List<Node> getCurrentPath()

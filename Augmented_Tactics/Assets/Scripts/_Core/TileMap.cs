@@ -129,9 +129,7 @@ public class TileMap : MonoBehaviour {
                 //tiles[x, z] = 0;
                 
             }
-
         }
-
     }
 
     //void GenerateMapVisual()
@@ -317,7 +315,6 @@ public class TileMap : MonoBehaviour {
                 for (int z = 0; z < mapSizeZ; z++)
                 {
 
-                
                 //4 way movement
 
                 if (x > 0)
@@ -444,6 +441,7 @@ public class TileMap : MonoBehaviour {
     {
         if (Vector3.Distance(unitObj.transform.position, TileCoordToWorldCoord(unitObj.tileX, unitObj.tileZ)) < 0.27f)
         {
+     
             AdvancePathing();
         }
 
@@ -481,10 +479,10 @@ public class TileMap : MonoBehaviour {
             return;
         }
 
-        if (unit.getCanMove() == false)
-        {
-            return;
-        }
+        //if (unit.getCanMove() == false)
+        //{
+        //    return;
+        //}
 
         //Actor runs out of movement points
         if (unit.getRemainingMovement() <= 0)
@@ -509,8 +507,9 @@ public class TileMap : MonoBehaviour {
             (int)unit.getCurrentPath()[0].coords.z].setOccupiedFalse();
 
         // Remove the old "current" tile from the pathfinding list
+        
         unit.getCurrentPath().RemoveAt(0);
-
+        
         if (unit.getCurrentPath().Count == 1)
         {
             //standing on same tile clicked on
@@ -577,7 +576,7 @@ public class TileMap : MonoBehaviour {
             moveDone = moveUnit(actor);
             yield return null;
         }
-        while (!moveDone);
+        while (!moveDone); 
 
         TurnBehaviour.ActorHasJustMoved();
     }

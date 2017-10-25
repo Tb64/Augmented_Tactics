@@ -140,15 +140,11 @@ public class GameController : MonoBehaviour
         if (interactedObject != null && interactedObject.name.Contains("Tile"))
         {
             clickedTile = interactedObject.GetComponent<ClickableTile>();
-            //map.moveActor(selectedUnit.gameObject, clickedTile.getMapPosition());
-            Debug.Log("selected unit : " + selectedUnit + "coords : " + clickedTile.coords);
-            if (selectedUnit != null && clickedTile != null)
-            {
-                map.moveActorAsync(selectedUnit.gameObject, clickedTile.coords);
-            }
-            //should be move actor async
 
-            Debug.Log("Selected Tile: " + interactedObject.name + " pos " + clickedTile.getMapPosition());
+            Debug.Log("Selected Tile: " + interactedObject.name + " pos " + clickedTile.getCoords());
+            //map.moveActor(selectedUnit.gameObject, clickedTile.getCoords());
+            map.moveActorAsync(selectedUnit.gameObject, clickedTile.getCoords());
+            
         }
 
     }

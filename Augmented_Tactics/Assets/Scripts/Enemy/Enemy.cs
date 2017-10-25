@@ -34,6 +34,7 @@ public class Enemy : Actor
     {
         base.Init();
         TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStartActions;
+        TurnBehaviour.OnEnemyUnitMoved += this.EnemyMoved;
 
         if (map == null)
         {
@@ -73,6 +74,7 @@ public class Enemy : Actor
 
     public void OnDestroy()
     {
+        TurnBehaviour.OnEnemyUnitMoved -= this.EnemyMoved;
         TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStartActions;
     }
 
@@ -122,9 +124,8 @@ public class Enemy : Actor
         //Attack(currentTarget);
     }
 
-    public override void ActorMoved()
+    public void EnemyMoved()
     {
-        base.ActorMoved();
         Attack(currentTarget);  //attack attempt after move is finished
         SM.setTurn();           //after attacking the enemy will end its turn.
     }
