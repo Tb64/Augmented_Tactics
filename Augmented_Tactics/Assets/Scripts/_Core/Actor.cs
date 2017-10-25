@@ -124,7 +124,7 @@ public class Actor : MonoBehaviour
     {
         TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
 
-        Debug.Log("click test");
+        
         GO.selectedUnit = gameObject;
         //GameController.NewSelectedUnit();
     }
@@ -133,11 +133,11 @@ public class Actor : MonoBehaviour
         
     protected void Init()
     {
-        //number of moves each actor can make per turn
+        
 
         health_current = health_max;
         remainingMovement = moveDistance;
-        numOfMoves = 2;
+        numOfMoves = 1;
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
         GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
@@ -194,7 +194,7 @@ public class Actor : MonoBehaviour
 
         if (playerAgent != null)
         {
-            Debug.Log("dist = " + dist + " target position = " + targetPos);
+            //Debug.Log("dist = " + dist + " target position = " + targetPos);
             playerAgent.destination = targetPos;
             
         }
@@ -215,8 +215,6 @@ public class Actor : MonoBehaviour
 
         return false;
     }
-
-
 
     void clickToMove()
     {
@@ -241,7 +239,6 @@ public class Actor : MonoBehaviour
             else
             {
                 //move our player to the point
-
                 playerAgent.destination = interactionInfo.point;
                 
             }
@@ -289,7 +286,7 @@ public class Actor : MonoBehaviour
         
         if (GO == null)
         {
-            return ;
+            return;
         }
 
         //GO.Players[index].coordX = tileX;
@@ -306,13 +303,9 @@ public class Actor : MonoBehaviour
         
         if (numOfMoves != 0 && currentPath != null )
         {
-            numOfMoves--;
+           // numOfMoves--;
             remainingMovement = moveDistance;
         }
-
-
-
-
     }
 
     /******************
@@ -321,10 +314,11 @@ public class Actor : MonoBehaviour
 
     #region SetGets
   
-    public Vector3 getMapPosition()
-    {
-        return new Vector3((float)tileX, 0f, (float)tileZ);
-    }
+    //public Vector3 getMapPosition()
+    //{
+    //    return new Vector3((float)tileX, 0f, (float)tileZ);
+       
+    //}
     
     public List<Node> getCurrentPath()
     {
