@@ -62,7 +62,7 @@ public class Actor : MonoBehaviour
    
     //Misc vars
     static public int numberOfActors = 0;
-    public int index;
+    //public int index;
     public StateMachine SM;
     private Animator playerAnim;
     protected RangeHighlight rangeMarker;
