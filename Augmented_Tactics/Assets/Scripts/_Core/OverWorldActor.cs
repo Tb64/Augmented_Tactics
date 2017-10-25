@@ -10,13 +10,13 @@ public class OverWorldActor : MonoBehaviour
     private Animator playerAnim;
 
   
-    void Start()
+    public virtual void Start()
     {
         initialize();
     }
 
    
-    void Update()
+    public virtual void Update()
     {
         clickToMove();
     }
