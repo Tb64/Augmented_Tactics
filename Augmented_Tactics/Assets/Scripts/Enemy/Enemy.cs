@@ -112,7 +112,7 @@ public class Enemy : Actor
         Debug.Log("Found Target = " + target.name + " at " + target.transform.position);
         currentTarget = target;
 
-        NextTurn();
+        //NextTurn();
         setMoves(1);
 
         if (target == null)

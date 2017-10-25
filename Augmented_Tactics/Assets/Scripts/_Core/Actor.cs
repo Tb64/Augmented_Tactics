@@ -278,48 +278,20 @@ public class Actor : MonoBehaviour
     }
     #endregion
     
-    public void NextTurn()
-    {
-        canMove = true;
-        moveClicked = true;
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-        
-        if (GO == null)
-        {
-            return;
-        }
 
-        //GO.Players[index].coordX = tileX;
-        //GO.Players[index].coordZ = tileZ;
-        //GO.Players[index].coords = new Vector3(tileX, 0, tileZ);
-       
-        //for (int index = 0; index < numberOfActors; index++)
-        //{                        
-        //    GO.Players[index].coordX = tileX;
-        //    GO.Players[index].coordZ = tileZ;
-        //}
-
-        //Reset available movement points.
-        
-        if (numOfMoves != 0 && currentPath != null )
-        {
-           // numOfMoves--;
-            remainingMovement = moveDistance;
-        }
-    }
 
     /******************
     *  Set/Gets
     ******************/
 
     #region SetGets
-  
+
     //public Vector3 getMapPosition()
     //{
     //    return new Vector3((float)tileX, 0f, (float)tileZ);
-       
+
     //}
-    
+
     public List<Node> getCurrentPath()
     {
         return currentPath;

@@ -398,7 +398,7 @@ public class TileMap : MonoBehaviour {
     {
         selectedUnit = actor;
         GeneratePathTo(target);
-        actor.GetComponent<Actor>().NextTurn();
+        //actor.GetComponent<Actor>().NextTurn();
         return moveUnit(actor);
     }
 
