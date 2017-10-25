@@ -29,8 +29,8 @@ public class Actor : MonoBehaviour
 
     protected Animator anim;
 
-    protected float health_current;
-    public float health_max; // temporary for debugging purposes(should be protected)
+    public float health_current;    // temporary for debugging purposes(should be protected)
+    protected float health_max; 
     protected float mana_current;
     protected float mana_max;
     protected float move_speed;
@@ -46,27 +46,29 @@ public class Actor : MonoBehaviour
 
     public Ability[] abilitySet;
 
-    //Added by arthur ==========================
+
+    //Movement 
+    public TileMap map;
+    private Vector3 coords;
+    private List<Node> currentPath = null;
+    NavMeshAgent playerAgent;
     public int tileX;
     public int tileZ;
-    public int index;
-    private Vector3 coords;
-    public TileMap map;
-    public StateMachine SM;
     public float speed;
     public int moveDistance;
     public float remainingMovement;
-    private List<Node> currentPath = null;
-    static public int numberOfActors = 0;
     public int numOfMoves;
-    private bool canMove;
     private bool moveClicked;
-    NavMeshAgent playerAgent;
+   
+    //Misc vars
+    static public int numberOfActors = 0;
+    public int index;
+    public StateMachine SM;
     private Animator playerAnim;
-
-    //===========================================
-
     protected RangeHighlight rangeMarker;
+    
+
+
     #endregion
 
 
@@ -399,11 +401,6 @@ public class Actor : MonoBehaviour
         mana_current = mana;
     }
 
-    public void setCanMove(bool trueFalse)
-    {
-        canMove = trueFalse;
-    }
-
     public void setArmorClass(float aClass)
     {
         armor_class = aClass;
@@ -413,11 +410,7 @@ public class Actor : MonoBehaviour
     {
         return armor_class;
     }
-    public bool getCanMove()
-    {
-        return canMove;
-    }
-
+    
     public int getNumofActors()
     {
         return numberOfActors;
