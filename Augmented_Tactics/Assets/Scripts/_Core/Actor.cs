@@ -59,10 +59,8 @@ public class Actor : MonoBehaviour
     public float remainingMovement;
     public int numOfMoves;
     
-   
     //Misc vars
-    static public int numberOfActors = 0;
-    //public int index;
+    public static int numberOfActors = 0;
     public StateMachine SM;
     private Animator playerAnim;
     protected RangeHighlight rangeMarker;
