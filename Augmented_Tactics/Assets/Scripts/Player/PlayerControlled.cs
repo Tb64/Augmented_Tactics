@@ -26,7 +26,6 @@ public class PlayerControlled : Actor
             playerList = new Actor[4];
         playerList[playerNum] = this;
         playerID = playerNum;
-        TurnBehaviour.NewPlayerAdded();
        // Debug.Log("Player added: " + playerNum + ") " + playerList[playerNum]);
         playerNum++;
 
@@ -41,6 +40,8 @@ public class PlayerControlled : Actor
         {
             map = GameObject.Find("Map").GetComponent<TileMap>();
         }
+
+        TurnBehaviour.NewPlayerAdded();
 
     }
 
