@@ -137,7 +137,7 @@ public class Actor : MonoBehaviour
 
         health_current = health_max;
         remainingMovement = moveDistance;
-        numOfMoves = 2;
+        numOfMoves = 1;
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
         GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
@@ -303,7 +303,7 @@ public class Actor : MonoBehaviour
         
         if (numOfMoves != 0 && currentPath != null )
         {
-            numOfMoves--;
+           // numOfMoves--;
             remainingMovement = moveDistance;
         }
     }
@@ -314,11 +314,11 @@ public class Actor : MonoBehaviour
 
     #region SetGets
   
-    public Vector3 getMapPosition()
-    {
-        return new Vector3((float)tileX, 0f, (float)tileZ);
+    //public Vector3 getMapPosition()
+    //{
+    //    return new Vector3((float)tileX, 0f, (float)tileZ);
        
-    }
+    //}
     
     public List<Node> getCurrentPath()
     {

@@ -34,7 +34,7 @@ public class Enemy : Actor
     {
         base.Init();
         TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStartActions;
-        TurnBehaviour.OnEnemyUnitMoved += this.EnemyMoved;
+        TurnBehaviour.OnUnitMoved += this.EnemyMoved;
 
         if (map == null)
         {
@@ -74,7 +74,7 @@ public class Enemy : Actor
 
     public void OnDestroy()
     {
-        TurnBehaviour.OnEnemyUnitMoved -= this.EnemyMoved;
+        TurnBehaviour.OnUnitMoved -= this.EnemyMoved;
         TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStartActions;
     }
 
@@ -96,7 +96,7 @@ public class Enemy : Actor
     {
         Debug.Log("1EnemyTurnStart");
         //base.EnemyTurnStart();
-
+        remainingMovement = moveDistance;
         map.selectedUnit = gameObject;
         nearest = findNearestPlayer();
         weakest = findWeakestPlayer();
@@ -118,7 +118,7 @@ public class Enemy : Actor
         if (target == null)
             return;
 
-        Vector3 movingTo = PosCloseTo(target.getMapPosition());
+        Vector3 movingTo = PosCloseTo(target.getCoords());
         map.moveActorAsync(gameObject, movingTo);
 
         //Attack(currentTarget);
@@ -126,6 +126,11 @@ public class Enemy : Actor
 
     public void EnemyMoved()
     {
+        if (SM.checkTurn())
+        {
+            return;
+        }
+
         Attack(currentTarget);  //attack attempt after move is finished
         SM.setTurn();           //after attacking the enemy will end its turn.
     }
@@ -200,7 +205,7 @@ public class Enemy : Actor
         if (target == null)
             return false;
 
-        Vector3 movingTo = PosCloseTo(target.getMapPosition());
+        Vector3 movingTo = PosCloseTo(target.getCoords());
         bool isFinshed = map.moveActor(gameObject, movingTo);
         //Debug.Log(target.name+" "+ " " + getMapPosition() + movingTo);
         //after moving, if enemy is in range attack
@@ -236,7 +241,7 @@ public class Enemy : Actor
     /// <returns>Returns closest map/tile position to mapPos, that is not mapPos</returns>
     private Vector3 PosCloseTo(Vector3 mapPos)
     {
-        Vector3 output = getMapPosition() - mapPos;
+        Vector3 output = getCoords() - mapPos;
         output = output.normalized;
         if (Mathf.Abs(output.x) > Mathf.Abs(output.z))
         {
@@ -265,7 +270,7 @@ public class Enemy : Actor
     /// <param name="target"></param>
     void Attack(Actor target)
     {
-        float dist = Vector3.Distance(getMapPosition(), target.getMapPosition());
+        float dist = Vector3.Distance(getCoords(), target.getCoords());
         if (!(dist <= 1))
             return;
         //Debug.Log("target = " + target.gameObject + " skill = " + abilitySet[0].abilityName + " range = " + dist);
