@@ -3,38 +3,37 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
+// This class will handle loading of text
 public class Dialogue : MonoBehaviour {
 
-    //you are given a starting point for the conversation. You scan the first line and the npc will say somoething (response) and give a link
-    //the link will point to another point to another node, this node holds no response because 
-
+    [SerializeField]
+    private string fileName;
     private static string filepath = "Assets/Resources/Dialogue/";
     string[] lines;
 
 
     void Start()
     {
-        
-        
-    }
-
-    // Will be passed a while name, such as Scene2Dialogue 
-        public void Talk(string fileName)
-    {
         //open csv and get all in a tree
-        lines = System.IO.File.ReadAllText(filepath+fileName+".csv").Split('\n');
+        lines = System.IO.File.ReadAllText(filepath + fileName + ".csv").Split('\n');
         ConvNode startNode = new ConvNode();
         buildTree(startNode, 1);
 
         Debug.Log(startNode.links[0].links[0].reply);
     }
 
+    // Will be passed a while name, such as Scene2Dialogue1
+        public void Talk()
+    {
+        //Display text
+        //send a node to be read and recieve selection
+    }
+
     public void buildTree(ConvNode cNode, int currentLine)
     {
-        int j = 0;
-        int nextLine;
-        //break each element into its own slot in array
-        string[] linesData = lines[currentLine - 1].Trim().Split(',');
+        int nextLine, j = 0;
+        //break each element into array
+        string[] linesData = lines[currentLine - 1].Trim().Split(new char[] { ',', '#' });
 
         cNode.reply = linesData[j];
         j++;
