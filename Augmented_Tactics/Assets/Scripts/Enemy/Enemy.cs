@@ -112,7 +112,7 @@ public class Enemy : Actor
         Debug.Log("Found Target = " + target.name + " at " + target.transform.position);
         currentTarget = target;
 
-        NextTurn();
+   
         setMoves(1);
 
         if (target == null)
@@ -177,7 +177,7 @@ public class Enemy : Actor
     {
         if (distanceToNearest <= 1)
         {
-            Attack(nearest);
+            //Attack(nearest);
             return true;
         }
         else if (GetHealthPercent() < nearest.GetHealthPercent() && distanceToNearest < moveDistance)
@@ -210,8 +210,8 @@ public class Enemy : Actor
         //Debug.Log(target.name+" "+ " " + getMapPosition() + movingTo);
         //after moving, if enemy is in range attack
         //Debug.Log("Dist = " + Vector3.Distance(enemyPosition, playerPosition) + " " + getMapPosition() + movingTo);
-        if (Vector3.Distance(enemyPosition, playerPosition) <= 1)
-            Attack(target);
+        //if (Vector3.Distance(enemyPosition, playerPosition) <= 1)
+        //    Attack(target);
         //NextTurn();
         return isFinshed;
     }

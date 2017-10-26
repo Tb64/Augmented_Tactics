@@ -30,7 +30,7 @@ public class RangeHighlight : MonoBehaviour {
         Marker_Off();
     }
 
-    public void Marker_On(Vector3 positionInput, int range)
+    public void Move_Marker_On(Vector3 positionInput, int range)
     {
         Marker_Off();
         TileMap map = GameObject.Find("Map").GetComponent<TileMap>();
@@ -60,9 +60,31 @@ public class RangeHighlight : MonoBehaviour {
         }
     }
 
-    public void Attack_Marker_On(Vector3 position, int rangeMin, int rangeMax)
+    public void Attack_Marker_On(Vector3 positionInput, int rangeMin, int rangeMax)
     {
         Marker_Off();
+        GameObject obj;
+        TileMap map = GameObject.Find("Map").GetComponent<TileMap>();
+        int rangeDelta = rangeMax;
+        for (int x = rangeMin; x <= rangeMax; x++)
+        {
+            for (int z = -rangeDelta; z <= rangeDelta; z++)
+            {
+                Vector3 spawnPosition1 = new Vector3(positionInput.x + x, positionInput.y, positionInput.z + z);
+                Vector3 spawnPosition2 = new Vector3(positionInput.x - x, positionInput.y, positionInput.z + z);
+                if (spawnPosition1 != spawnPosition2)
+                {
+                    obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition2), hightlightObj.transform.rotation);
+                    obj.transform.parent = gameObject.transform;
+
+                }
+                obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition1), hightlightObj.transform.rotation);
+                obj.transform.parent = gameObject.transform;
+
+            }
+            rangeDelta--;
+
+        }
     }
 
     public void Marker_Off()

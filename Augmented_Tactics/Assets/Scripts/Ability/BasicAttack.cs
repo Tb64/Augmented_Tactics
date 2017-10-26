@@ -22,6 +22,7 @@ public class BasicAttack : Ability {
         base.Initialize(obj);
         anim = parent.GetComponentInChildren<Animator>();
         range = 1;
+        range_min = 0;
         abilityName = "Basic Attack";
         abilityImage = Resources.Load <Sprite>("sword") ;
         if (abilityImage == null)
