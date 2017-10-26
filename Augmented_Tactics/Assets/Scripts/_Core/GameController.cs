@@ -80,7 +80,10 @@ public class GameController : MonoBehaviour
     private void TurnStart()
     {
         targetObject = null;
-        rangeMarker.Marker_Off();
+        if (rangeMarker != null)
+        {
+            rangeMarker.Marker_Off();
+        }
     }
 
     private void PlayerTurnStart()
@@ -188,13 +191,17 @@ public class GameController : MonoBehaviour
     void SelectMoveLocation()
     {
         GameObject interactedObject = RayCaster();
+        
+        
 
         if (interactedObject != null && interactedObject.name.Contains("Tile"))
         {
             clickedTile = interactedObject.GetComponent<ClickableTile>();
-            map.moveActor(selectedUnit.gameObject, clickedTile.getMapPosition());
 
-            Debug.Log("Selected Tile: " + interactedObject.name + " pos " + clickedTile.getMapPosition());
+            Debug.Log("Selected Tile: " + interactedObject.name + " pos " + clickedTile.getCoords());
+            //map.moveActor(selectedUnit.gameObject, clickedTile.getCoords());
+            map.moveActorAsync(selectedUnit.gameObject, clickedTile.getCoords());
+            
         }
 
     }
@@ -253,12 +260,7 @@ public class GameController : MonoBehaviour
      *      UI      *
      ****************/
 
-    public void setMode(int mode)
-    {
-        currentMode = mode;
-        Debug.Log("Mode Changed to " + mode);
-    }
-
+   
     public static void SetAbilityButtons()
     {
         for (int index = 0; index < abilityImages.Length; index++)
@@ -274,13 +276,24 @@ public class GameController : MonoBehaviour
         //rangeMarker.Marker_On();
         currentAbility = abilityNum;
         setMode(MODE_SELECT_TARGET);
-        rangeMarker.Marker_On(selectedUnit.getMapPosition(), selectedUnit.abilitySet[currentAbility].range);
+        rangeMarker.Marker_On(selectedUnit.getCoords(), selectedUnit.abilitySet[currentAbility].range);
         //abilityMode = true;
     }
 
     /************
      *  Get/Set
      ************/
+
+    public void setMode(int mode)
+    {
+        currentMode = mode;
+        Debug.Log("Mode Changed to " + mode);
+    }
+
+    public void setMove()
+    {
+        currentMode = MODE_MOVE;
+    }
 
     Vector3 GetSelectedLocation(GameObject input)
     {
