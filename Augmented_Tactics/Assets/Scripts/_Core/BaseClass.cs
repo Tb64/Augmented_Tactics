@@ -5,7 +5,7 @@ using UnityEngine;
 public class BaseClass : MonoBehaviour {
 
     private Actor player;
-    private GameData savedPlayerData;
+    private GameData savedPlayerData = new GameData();    
 
     private int skillPoints;
     private int experience;
@@ -22,7 +22,7 @@ public class BaseClass : MonoBehaviour {
     private int wisdomGain;
     private int charismaGain;
 
-	public virtual void Start () {
+    public virtual void Start() {
         initializeBaseStats();
 
         loadChar("Doogy");
@@ -40,12 +40,11 @@ public class BaseClass : MonoBehaviour {
         Debug.Log("Successful Save");*/
     }
 
-
     void initializeBaseStats()
     {
         player = GetComponentInParent<Actor>();
 
-        player.abilitySet = new BasicAttack[4];  
+        player.abilitySet = new BasicAttack[4];
         for (int i = 0; i < 4; i++)
         {
             player.abilitySet[i] = new BasicAttack(gameObject);
@@ -124,9 +123,9 @@ public class BaseClass : MonoBehaviour {
     {
         PlayerData newData = new PlayerData(charName);
         newData.setStatbyKey("Experience", getExperience());
-        newData.setStatbyKey("Skill Points",getSkillPoints());
+        newData.setStatbyKey("Skill Points", getSkillPoints());
         newData.setStatbyKey("Player Level", playerLevel);
-        newData.setStatbyKey("Dexterity",player.getDexterity());
+        newData.setStatbyKey("Dexterity", player.getDexterity());
         newData.setStatbyKey("Intelligence", player.getIntelligence());
         newData.setStatbyKey("Charisma", player.getCharisma());
         newData.setStatbyKey("Constitution", player.getConstitution());
@@ -139,6 +138,10 @@ public class BaseClass : MonoBehaviour {
         return savedPlayerData.savePlayer(newData);
     }
 
+    private void triggerStatusEffect()
+    {
+
+    }
 
 
     void checkLevel()

@@ -266,7 +266,14 @@ public class Actor : MonoBehaviour
 
         Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
     }
-
+    public virtual void TakeDamage(float damage, string effectedStat, string statusType, char operation)
+    {
+        //handle duration
+        //handle effect based on stats etc
+        //get stat value from string
+        //StatusController.addStatus(new StatusEffect(duration, ));
+        TakeDamage(damage);
+    }
     public virtual void HealHealth(float heal)
     {
         health_current += heal;
