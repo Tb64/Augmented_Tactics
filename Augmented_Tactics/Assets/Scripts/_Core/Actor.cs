@@ -116,21 +116,6 @@ public class Actor : MonoBehaviour
 
     #endregion
 
-
-    #region mouseEvents
-
-
-    public void OnMouseUp()
-    {
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-
-        
-        GO.selectedUnit = gameObject;
-        //GameController.NewSelectedUnit();
-    }
-
-    #endregion
-        
     protected void Init()
     {
 
@@ -324,6 +309,10 @@ public class Actor : MonoBehaviour
         speed = num;
     }
 
+    public bool isIncapacitated()
+    {
+        return incapacitated;
+    }
     
     public float getSpeed()
     {
