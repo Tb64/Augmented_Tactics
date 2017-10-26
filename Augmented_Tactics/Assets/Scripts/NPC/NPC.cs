@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPC : Actor
+public class NPC : OverWorldActor
 {
 
 	// Use this for initialization

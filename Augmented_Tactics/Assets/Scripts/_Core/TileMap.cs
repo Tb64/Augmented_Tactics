@@ -69,8 +69,8 @@ public class TileMap : MonoBehaviour {
         //passes coordinates vector to unit to set units coords
         unit.setCoords(coordinates);
 
-        selectedUnit.GetComponent<Actor>().tileX = (int)selectedUnit.transform.position.x;
-        selectedUnit.GetComponent<Actor>().tileZ = (int)selectedUnit.transform.position.z;
+        //selectedUnit.GetComponent<Actor>().tileX = (int)selectedUnit.transform.position.x;
+        //selectedUnit.GetComponent<Actor>().tileZ = (int)selectedUnit.transform.position.z;
         
         selectedUnit.GetComponent<Actor>().map = this;
 
@@ -129,9 +129,7 @@ public class TileMap : MonoBehaviour {
                 //tiles[x, z] = 0;
                 
             }
-
         }
-
     }
 
     //void GenerateMapVisual()
@@ -165,7 +163,7 @@ public class TileMap : MonoBehaviour {
     {
         //Vector3 output = map[(int)input.x, (int)input.z].GetGameObject().transform.position;
         //return output;
-        return new Vector3(input.x, 0f, input.z);
+        return new Vector3(input.x, .5f, input.z);
     }
 
     public float costToEnterTile(Vector3 source, Vector3 target)
@@ -317,7 +315,6 @@ public class TileMap : MonoBehaviour {
                 for (int z = 0; z < mapSizeZ; z++)
                 {
 
-                
                 //4 way movement
 
                 if (x > 0)
@@ -401,7 +398,6 @@ public class TileMap : MonoBehaviour {
     {
         selectedUnit = actor;
         GeneratePathTo(target);
-        actor.GetComponent<Actor>().NextTurn();
         return moveUnit(actor);
     }
 
@@ -442,19 +438,20 @@ public class TileMap : MonoBehaviour {
     /// <returns>False = move not finished.  True = move finished.</returns>
     public bool moveUnit(Actor unitObj)
     {
-        if (Vector3.Distance(unitObj.transform.position, TileCoordToWorldCoord(unitObj.tileX, unitObj.tileZ)) < 0.27f)
+        if (Vector3.Distance(unitObj.transform.position, TileCoordToWorldCoord(unitObj.getCoords())) < 0.27f)
         {
+     
             AdvancePathing();
         }
 
         //move unit to next tile
-        endOfMove = unitObj.MoveController(unit.transform, TileCoordToWorldCoord(unitObj.tileX, unitObj.tileZ), unitObj.getSpeed());
-        //transform.position = Vector3.MoveTowards(transform.position, map.TileCoordToWorldCoord(tileX, tileZ), speed * Time.deltaTime);
-
+        endOfMove = unitObj.MoveController(unit.transform, TileCoordToWorldCoord(unitObj.getCoords()), unitObj.getSpeed());
+        Debug.Log("endOfMove: " + endOfMove);
         
         if (endOfMove == true) //Anything that happens at end of Actor movement
         {
             unitObj.setRemainingMovement(0); // clears remaining movement of Actor at end of move
+            unitObj.numOfMoves--;
 
             if (unitObj.getCurrentPath() == null)
             {
@@ -481,10 +478,10 @@ public class TileMap : MonoBehaviour {
             return;
         }
 
-        if (unit.getCanMove() == false)
-        {
-            return;
-        }
+        //if (unit.getCanMove() == false)
+        //{
+        //    return;
+        //}
 
         //Actor runs out of movement points
         if (unit.getRemainingMovement() <= 0)
@@ -509,8 +506,9 @@ public class TileMap : MonoBehaviour {
             (int)unit.getCurrentPath()[0].coords.z].setOccupiedFalse();
 
         // Remove the old "current" tile from the pathfinding list
+        
         unit.getCurrentPath().RemoveAt(0);
-
+        
         if (unit.getCurrentPath().Count == 1)
         {
             //standing on same tile clicked on
@@ -574,10 +572,11 @@ public class TileMap : MonoBehaviour {
 
         do
         {
+            Debug.Log("Move Done :" + moveDone);
             moveDone = moveUnit(actor);
             yield return null;
         }
-        while (!moveDone);
+        while (!moveDone); 
 
         Debug.Log("Moved " + actor.name + " to " + target);
         TurnBehaviour.ActorHasJustMoved();

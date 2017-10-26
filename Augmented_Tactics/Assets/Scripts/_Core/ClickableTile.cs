@@ -34,8 +34,8 @@ public class ClickableTile : MonoBehaviour {
 
     public void OnMouseUp()
     {
-        //single click
-        Debug.Log("Click");
+        
+      
         //Generates a path to clicked tile
 
         bool firstClick = true;
@@ -51,17 +51,17 @@ public class ClickableTile : MonoBehaviour {
             firstClick = false;
         }
 
-        if (map.getEndOfMove() == true && unit.getMoveClicked() == true)
-        {
-            map.GeneratePathTo(coords);
-            unit.NextTurn();
-            unit.setMoveClicked(false);
-        }
-       
-        //map.moveActor(Unit, new Vector3(5, 0, 5));
+        //if (map.getEndOfMove() == true && unit.getMoveClicked() == true)
+        //{
+        //    map.GeneratePathTo(coords);
 
-        
-        //Unit.NextTurn();
+        //    unit.NextTurn();
+        //    unit.setMoveClicked(false);
+        //}
+
+
+
+
     }
 
     public void OnMouseEnter()
@@ -96,6 +96,11 @@ public class ClickableTile : MonoBehaviour {
     public void setOccupiedFalse()
     {
         occupied = false;
+    }
+
+    public Vector3 getCoords()
+    {
+        return coords;
     }
 
     public Vector3 getMapPosition()
