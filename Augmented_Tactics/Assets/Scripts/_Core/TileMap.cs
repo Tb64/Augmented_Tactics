@@ -8,7 +8,6 @@ public class TileMap : MonoBehaviour {
 
     #region variables
     public GameObject selectedUnit;
-    public TileType[] tileTypes;            //This seems stupid it should be stored in the tile
     float remainingMovement;
     public bool codeGenerateMap = true;
     LineRenderer path;
@@ -604,10 +603,10 @@ public class TileMap : MonoBehaviour {
     #endregion
 
     #region setGets
-    public void setTileCoords(int tileX, int TileZ)
+    public void setTileCoords(int tileX, int tileZ)
     {
         tileCoords.x = tileX;
-        tileCoords.z = TileZ;
+        tileCoords.z = tileZ;
     }
     public LineRenderer getLinePath()
     {

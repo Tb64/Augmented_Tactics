@@ -64,8 +64,8 @@ public class Actor : MonoBehaviour
     public StateMachine SM;
     private Animator playerAnim;
     protected RangeHighlight rangeMarker;
-    
-
+    private bool incapacitated;
+    private bool dead;
 
     #endregion
 
@@ -133,8 +133,9 @@ public class Actor : MonoBehaviour
         
     protected void Init()
     {
-        
 
+        incapacitated = false; //determines whether actor is knocked out
+        dead = false;          //perma death
         health_current = health_max;
         remainingMovement = moveDistance;
         numOfMoves = 1;
@@ -274,7 +275,8 @@ public class Actor : MonoBehaviour
 
     public virtual void OnDeath()
     {
-
+        incapacitated = true;
+        anim.Play("HumanoidCrouchIdle");
     }
     #endregion
     
@@ -379,7 +381,7 @@ public class Actor : MonoBehaviour
         return health_current;
     }
 
-    public void setHealthCurrent(int health)
+    public void setHealthCurrent(float health)
     {
         health_current = health;
     }
@@ -428,9 +430,14 @@ public class Actor : MonoBehaviour
         health_max = health;
     }
 
-    public void setMaxMana(int mana)
+    public void setMaxMana(float mana)
     {
         mana_max = mana;
+    }
+
+    public float getMaxMana()
+    {
+        return mana_max;
     }
 
     public void setStrength(int str)
