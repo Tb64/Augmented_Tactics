@@ -6,6 +6,18 @@ using UnityEngine.EventSystems;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
+
+/*********************************
+The Actor class is the parent class
+of all battlefield objects. So this means
+that the Actor is the parent for
+BOTH PLAYERS AND ENEMYS on the field.
+THIS IS NOT JUST THE PLAYER CLASS
+PLAYER CLASS IS A CHILD OF THIS CLASS
+CALLED PlayerControlled
+*************************************/
+
+
 public class Actor : MonoBehaviour
 {
 
@@ -17,8 +29,8 @@ public class Actor : MonoBehaviour
 
     protected Animator anim;
 
-    protected float health_current;
-    public float health_max; // temporary for debugging purposes(should be protected)
+    public float health_current;    // temporary for debugging purposes(should be protected)
+    protected float health_max; 
     protected float mana_current;
     protected float mana_max;
     protected float move_speed;
@@ -34,27 +46,27 @@ public class Actor : MonoBehaviour
 
     public Ability[] abilitySet;
 
-    //Added by arthur ==========================
+
+    //Movement 
+    public TileMap map;
+    private Vector3 coords;
+    private List<Node> currentPath = null;
+    NavMeshAgent playerAgent;
     public int tileX;
     public int tileZ;
-    public int index;
-    private Vector3 coords;
-    public TileMap map;
-    public StateMachine SM;
     public float speed;
     public int moveDistance;
     public float remainingMovement;
-    private List<Node> currentPath = null;
-    static public int numberOfActors = 0;
     public int numOfMoves;
-    private bool canMove;
-    private bool moveClicked;
-    NavMeshAgent playerAgent;
+    
+    //Misc vars
+    public static int numberOfActors = 0;
+    public StateMachine SM;
     private Animator playerAnim;
-
-    //===========================================
-
     protected RangeHighlight rangeMarker;
+    
+
+
     #endregion
 
 
@@ -63,7 +75,7 @@ public class Actor : MonoBehaviour
      ******************/
 
     #region events
-    public virtual void Start()
+    public void Start()
     {
         Init();
        
@@ -71,28 +83,35 @@ public class Actor : MonoBehaviour
 
     private void Awake()
     {
-        TurnBehaviour.OnUnitSpawn += this.PlayerSpawnActions;
+        TurnBehaviour.OnUnitSpawn += this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart += this.ActorTurnStart;
-
+        TurnBehaviour.OnUnitMoved += this.ActorMoved;
 
     }
     
     public virtual void Update()
     {
-
-        anim.SetFloat("Speed", playerAgent.velocity.magnitude);
+        if (playerAgent != null)
+            anim.SetFloat("Speed", playerAgent.velocity.magnitude);
         
     }
 
     public virtual void OnDestroy()
     {
-        TurnBehaviour.OnUnitSpawn -= this.PlayerSpawnActions;
+        TurnBehaviour.OnUnitSpawn -= this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart -= this.ActorTurnStart;
+        TurnBehaviour.OnUnitMoved -= this.ActorMoved;
     }
 
     public virtual void ActorTurnStart()
     {
 
+    }
+
+    public virtual void ActorMoved()
+    {
+        if (rangeMarker != null)
+            rangeMarker.Marker_Off();
     }
 
     #endregion
@@ -105,18 +124,20 @@ public class Actor : MonoBehaviour
     {
         TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
 
-        Debug.Log("click test");
+        
         GO.selectedUnit = gameObject;
-        GameController.NewSelectedUnit();
+        //GameController.NewSelectedUnit();
     }
 
     #endregion
         
-    private void Init()
+    protected void Init()
     {
-        //number of moves each actor can make per turn
-        numOfMoves = 2;
-        health_current = 100;
+        
+
+        health_current = health_max;
+        remainingMovement = moveDistance;
+        numOfMoves = 1;
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
         GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
@@ -140,9 +161,9 @@ public class Actor : MonoBehaviour
     }
 
     //Player Spawn Event - Put any actions you want done upon player spawn in here
-    public void PlayerSpawnActions()
+    public void OnUnitSpawn()
     {
-        Debug.Log("PLAYER SPAWNED");
+        Debug.Log("UNIT SPAWNED");
     }
     
 
@@ -155,7 +176,6 @@ public class Actor : MonoBehaviour
     /// <param name="targetPos">The World position of the move</param>
     /// <param name="speed">The speed of the move</param>
     /// <returns>False if the move is not done, true if the move is done.</returns>
-
     public bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
         float scaleDist = 1f;
@@ -174,7 +194,7 @@ public class Actor : MonoBehaviour
 
         if (playerAgent != null)
         {
-            Debug.Log("dist = " + dist + " target position = " + targetPos);
+            //Debug.Log("dist = " + dist + " target position = " + targetPos);
             playerAgent.destination = targetPos;
             
         }
@@ -195,8 +215,6 @@ public class Actor : MonoBehaviour
 
         return false;
     }
-
-
 
     void clickToMove()
     {
@@ -221,7 +239,6 @@ public class Actor : MonoBehaviour
             else
             {
                 //move our player to the point
-
                 playerAgent.destination = interactionInfo.point;
                 
             }
@@ -242,7 +259,7 @@ public class Actor : MonoBehaviour
             health_current = 0;
             OnDeath();
         }
-        HealthBar.UpdateHealth();
+
         Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
     }
 
@@ -261,51 +278,20 @@ public class Actor : MonoBehaviour
     }
     #endregion
     
-    public void NextTurn()
-    {
-        canMove = true;
-        moveClicked = true;
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-        
-        if (GO == null)
-        {
-            return ;
-        }
 
-        //GO.Players[index].coordX = tileX;
-        //GO.Players[index].coordZ = tileZ;
-        //GO.Players[index].coords = new Vector3(tileX, 0, tileZ);
-       
-        //for (int index = 0; index < numberOfActors; index++)
-        //{                        
-        //    GO.Players[index].coordX = tileX;
-        //    GO.Players[index].coordZ = tileZ;
-        //}
-
-        //Reset available movement points.
-        
-        if (numOfMoves != 0 && currentPath != null )
-        {
-            numOfMoves--;
-            remainingMovement = moveDistance;
-        }
-
-
-
-
-    }
 
     /******************
     *  Set/Gets
     ******************/
 
     #region SetGets
-  
-    public Vector3 getMapPosition()
-    {
-        return new Vector3((float)tileX, 0f, (float)tileZ);
-    }
-    
+
+    //public Vector3 getMapPosition()
+    //{
+    //    return new Vector3((float)tileX, 0f, (float)tileZ);
+
+    //}
+
     public List<Node> getCurrentPath()
     {
         return currentPath;
@@ -413,11 +399,6 @@ public class Actor : MonoBehaviour
         mana_current = mana;
     }
 
-    public void setCanMove(bool trueFalse)
-    {
-        canMove = trueFalse;
-    }
-
     public void setArmorClass(float aClass)
     {
         armor_class = aClass;
@@ -427,31 +408,16 @@ public class Actor : MonoBehaviour
     {
         return armor_class;
     }
-    public bool getCanMove()
-    {
-        return canMove;
-    }
-
+    
     public int getNumofActors()
     {
         return numberOfActors;
     }
 
-
-    public bool getMoveClicked()
-    {
-        return moveClicked;
-    }
-
-    public void setMoveClicked(bool tf)
-    {
-        moveClicked = tf;
-    }
-
     //justin added v
     public bool getCurrentTurn()
     {
-        return TurnBehavior.IsPlayerTurn();
+        return TurnBehaviour.IsPlayerTurn();
     }
     //justin added ^
     

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Ability 
 {
     public int range;
+    public int range_min;
     public Animator anim;
     public string abilityName;
 
