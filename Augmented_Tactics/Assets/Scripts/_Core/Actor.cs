@@ -20,7 +20,6 @@ CALLED PlayerControlled
 
 public class Actor : MonoBehaviour
 {
-
     /******************
      *  Variables
      ******************/
@@ -46,14 +45,11 @@ public class Actor : MonoBehaviour
 
     public Ability[] abilitySet;
 
-
     //Movement 
     public TileMap map;
-    private Vector3 coords;
+    public Vector3 coords;
     private List<Node> currentPath = null;
     NavMeshAgent playerAgent;
-    public int tileX;
-    public int tileZ;
     public float speed;
     public int moveDistance;
     public float remainingMovement;
@@ -64,11 +60,11 @@ public class Actor : MonoBehaviour
     public StateMachine SM;
     private Animator playerAnim;
     protected RangeHighlight rangeMarker;
-    
-
+    private bool incapacitated;
+    private bool dead;
+    protected int deathTimer;
 
     #endregion
-
 
     /******************
      *  Events
@@ -78,7 +74,6 @@ public class Actor : MonoBehaviour
     public void Start()
     {
         Init();
-       
     }
 
     private void Awake()
@@ -86,14 +81,12 @@ public class Actor : MonoBehaviour
         TurnBehaviour.OnUnitSpawn += this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart += this.ActorTurnStart;
         TurnBehaviour.OnUnitMoved += this.ActorMoved;
-
     }
     
     public virtual void Update()
     {
         if (playerAgent != null)
             anim.SetFloat("Speed", playerAgent.velocity.magnitude);
-        
     }
 
     public virtual void OnDestroy()
@@ -105,7 +98,16 @@ public class Actor : MonoBehaviour
 
     public virtual void ActorTurnStart()
     {
-
+        remainingMovement = moveDistance;
+        if(incapacitated == true && deathTimer < 6)
+        {
+            deathTimer++;
+            Debug.Log("Death Timer : " + deathTimer);
+        }
+        if(deathTimer == 6)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public virtual void ActorMoved()
@@ -116,25 +118,10 @@ public class Actor : MonoBehaviour
 
     #endregion
 
-
-    #region mouseEvents
-
-
-    public void OnMouseUp()
-    {
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-
-        
-        GO.selectedUnit = gameObject;
-        //GameController.NewSelectedUnit();
-    }
-
-    #endregion
-        
     protected void Init()
     {
-        
-
+        incapacitated = false; //determines whether actor is knocked out
+        dead = false;          //perma death
         health_current = health_max;
         remainingMovement = moveDistance;
         numOfMoves = 1;
@@ -274,7 +261,8 @@ public class Actor : MonoBehaviour
 
     public virtual void OnDeath()
     {
-
+        incapacitated = true;
+        anim.Play("HumanoidCrouchIdle");
     }
     #endregion
     
@@ -285,12 +273,6 @@ public class Actor : MonoBehaviour
     ******************/
 
     #region SetGets
-
-    //public Vector3 getMapPosition()
-    //{
-    //    return new Vector3((float)tileX, 0f, (float)tileZ);
-
-    //}
 
     public List<Node> getCurrentPath()
     {
@@ -322,6 +304,10 @@ public class Actor : MonoBehaviour
         speed = num;
     }
 
+    public bool isIncapacitated()
+    {
+        return incapacitated;
+    }
     
     public float getSpeed()
     {
@@ -379,7 +365,7 @@ public class Actor : MonoBehaviour
         return health_current;
     }
 
-    public void setHealthCurrent(int health)
+    public void setHealthCurrent(float health)
     {
         health_current = health;
     }
@@ -428,9 +414,14 @@ public class Actor : MonoBehaviour
         health_max = health;
     }
 
-    public void setMaxMana(int mana)
+    public void setMaxMana(float mana)
     {
         mana_max = mana;
+    }
+
+    public float getMaxMana()
+    {
+        return mana_max;
     }
 
     public void setStrength(int str)

@@ -53,6 +53,9 @@ public class BaseClass : MonoBehaviour {
 
         player.setMaxHealth(10 * player.getConstitution());
         player.setMaxMana(10 * player.getIntelligence());
+        player.setHealthCurrent(player.GetHeathMax());
+        player.setManaCurrent(player.getMaxMana());
+
 
         skillPoints = 1;
         experience = 0;
