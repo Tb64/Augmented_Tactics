@@ -190,14 +190,16 @@ public class GameController : MonoBehaviour
             Debug.Log("Using ability " + selectedUnit.abilitySet[currentAbility].abilityName);
         }
 
-
     }
 
     void SelectMoveLocation()
     {
         GameObject interactedObject = RayCaster();
         
-        
+        if(selectedUnit.isIncapacitated() == true)
+        {
+            return;     //prevents unit from moving if incapacitated
+        }
 
         if (interactedObject != null && interactedObject.name.Contains("Tile"))
         {
@@ -208,6 +210,7 @@ public class GameController : MonoBehaviour
             map.moveActorAsync(selectedUnit.gameObject, clickedTile.getCoords());
             
         }
+
 
     }
 
