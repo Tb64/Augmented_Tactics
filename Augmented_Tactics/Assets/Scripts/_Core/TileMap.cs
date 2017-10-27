@@ -8,7 +8,6 @@ public class TileMap : MonoBehaviour {
 
     #region variables
     public GameObject selectedUnit;
-    public TileType[] tileTypes;            //This seems stupid it should be stored in the tile
     float remainingMovement;
     public bool codeGenerateMap = true;
     LineRenderer path;
@@ -509,8 +508,8 @@ public class TileMap : MonoBehaviour {
         unit.setRemainingMovement(remainingMovement);
 
         // Move to the next tile in the sequence
-        unit.tileX = (int)unit.getCurrentPath()[1].coords.x;
-        unit.tileZ = (int)unit.getCurrentPath()[1].coords.z;
+        //unit.tileX = (int)unit.getCurrentPath()[1].coords.x;
+        //unit.tileZ = (int)unit.getCurrentPath()[1].coords.z;
         unit.setCoords(unit.getCurrentPath()[1].coords);
 
         map[(int)unit.getCurrentPath()[0].coords.x,
@@ -616,10 +615,10 @@ public class TileMap : MonoBehaviour {
     #endregion
 
     #region setGets
-    public void setTileCoords(int tileX, int TileZ)
+    public void setTileCoords(int tileX, int tileZ)
     {
         tileCoords.x = tileX;
-        tileCoords.z = TileZ;
+        tileCoords.z = tileZ;
     }
     public LineRenderer getLinePath()
     {

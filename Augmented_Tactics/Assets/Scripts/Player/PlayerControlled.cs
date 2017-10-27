@@ -61,14 +61,6 @@ public class PlayerControlled : Actor
         numberOfActors++;
     }
 
-    public void OnMouseUp()
-    {
-        base.OnMouseUp();
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-
-        Debug.Log("click test");
-        GO.selectedUnit = gameObject;
-    }
 
     // Update is called once per frame
     void Update () {
@@ -101,9 +93,8 @@ public class PlayerControlled : Actor
 
     public void refresh()
     {
-        remainingMovement = moveDistance;
+       
     }
-
 
     public int GetID()
     {
