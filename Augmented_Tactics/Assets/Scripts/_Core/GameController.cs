@@ -206,6 +206,8 @@ public class GameController : MonoBehaviour
             Debug.Log("Selected Tile: " + interactedObject.name + " pos " + clickedTile.getCoords());
             //map.moveActor(selectedUnit.gameObject, clickedTile.getCoords());
             map.moveActorAsync(selectedUnit.gameObject, clickedTile.getCoords());
+
+            //selectedUnit.PlaySound("move");
             
         }
 
@@ -268,6 +270,8 @@ public class GameController : MonoBehaviour
    
     public static void SetAbilityButtons()
     {
+        if (abilityImages == null)
+            return;
         for (int index = 0; index < abilityImages.Length; index++)
         {
             //Debug.Log("Updating Ability Bar");

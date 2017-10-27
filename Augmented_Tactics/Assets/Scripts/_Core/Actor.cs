@@ -64,8 +64,20 @@ public class Actor : MonoBehaviour
     public StateMachine SM;
     private Animator playerAnim;
     protected RangeHighlight rangeMarker;
-    
 
+    //Audio clips
+
+    [System.Serializable]
+    public class AudioClips
+    {
+        public AudioClip Move;
+        public AudioClip Attack;
+        public AudioClip Damage;
+        public AudioClip Death;
+    }
+
+    public AudioClips soundFx;
+    protected AudioSource audio;
 
     #endregion
 
@@ -133,7 +145,7 @@ public class Actor : MonoBehaviour
         
     protected void Init()
     {
-        
+        audio = GetComponent<AudioSource>();
 
         health_current = health_max;
         remainingMovement = moveDistance;
@@ -216,6 +228,43 @@ public class Actor : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Plays an audioClip attached to actor.
+    /// </summary>
+    /// <param name="input">string of the soundFx var</param>
+    /// <returns>True = sucess, False = failed to play</returns>
+    public bool PlaySound(string input)
+    {
+        if (soundFx == null 
+            || soundFx.Move == null
+            || soundFx.Attack == null
+            || soundFx.Damage == null
+            || soundFx.Death == null
+            || audio == null)
+            return false;
+
+        switch (input.ToLower())
+        {
+            case "move":
+                audio.clip = soundFx.Move;
+                break;
+            case "attack":
+                audio.clip = soundFx.Attack;
+                break;
+            case "damage":
+                audio.clip = soundFx.Damage;
+                break;
+            case "death":
+                audio.clip = soundFx.Death;
+                break;
+            default:
+                return false;
+        }
+
+        audio.Play();
+        return true;
+    }
+
     void clickToMove()
     {
         if (Input.GetMouseButtonDown(0) &&
@@ -253,13 +302,15 @@ public class Actor : MonoBehaviour
     /// <param name="damage">Damage the Actor will take as a float</param>
     public virtual void TakeDamage(float damage)
     {
+
         health_current -= damage;
         if (health_current <= 0)
         {
             health_current = 0;
             OnDeath();
         }
-
+        anim.SetTrigger("Hit");
+        PlaySound("damage");
         Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
     }
 

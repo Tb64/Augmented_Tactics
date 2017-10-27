@@ -32,6 +32,13 @@ public class Enemy : Actor
     // Use this for initialization
     void Start()
     {
+        EnemyInitialize();
+
+        //team set to Actors instead of GameObjects  
+    }
+
+    public void EnemyInitialize()
+    {
         base.Init();
         TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStartActions;
         TurnBehaviour.OnUnitMoved += this.EnemyMoved;
@@ -61,8 +68,6 @@ public class Enemy : Actor
             for (int i = 0; i < tempTeam.Length; i++)
                 userTeam[i] = tempTeam[i].GetComponent<Actor>();
         }
-
-        //team set to Actors instead of GameObjects  
     }
 
     // Update is called once per frame

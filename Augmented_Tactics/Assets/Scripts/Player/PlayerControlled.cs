@@ -26,7 +26,7 @@ public class PlayerControlled : Actor
             playerList = new Actor[4];
         playerList[playerNum] = this;
         playerID = playerNum;
-       // Debug.Log("Player added: " + playerNum + ") " + playerList[playerNum]);
+        Debug.Log("Player added: " + playerNum + ") " + playerList[playerNum]);
         playerNum++;
 
         abilitySet = new BasicAttack[4];  //test
