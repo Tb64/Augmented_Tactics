@@ -58,6 +58,7 @@ public class Actor : MonoBehaviour
     //Misc vars
     public static int numberOfActors = 0;
     public StateMachine SM;
+    private AfterActionReport report;
     private Animator playerAnim;
     protected RangeHighlight rangeMarker;
     private bool incapacitated;
@@ -108,6 +109,12 @@ public class Actor : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+        
+        if(report != null)
+        {
+            report.battleOver();    //checks for win/lose conditions and loads hub
+        }
+
     }
 
     public virtual void ActorMoved()
@@ -120,11 +127,17 @@ public class Actor : MonoBehaviour
 
     protected void Init()
     {
+
+        if (GameObject.Find("SceneManager") != null)
+        {
+            report = GameObject.Find("SceneManager").GetComponent<AfterActionReport>();
+        }
+         
         incapacitated = false; //determines whether actor is knocked out
         dead = false;          //perma death
         health_current = health_max;
         remainingMovement = moveDistance;
-        numOfMoves = 1;
+        numOfMoves = 2;
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
         GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
@@ -307,6 +320,11 @@ public class Actor : MonoBehaviour
     public bool isIncapacitated()
     {
         return incapacitated;
+    }
+
+    public bool isDead()
+    {
+        return dead;
     }
     
     public float getSpeed()
