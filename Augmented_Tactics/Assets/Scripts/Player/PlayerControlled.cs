@@ -93,7 +93,7 @@ public class PlayerControlled : Actor
 
     public void refresh()
     {
-        remainingMovement = moveDistance;
+       
     }
 
 

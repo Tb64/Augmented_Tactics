@@ -496,8 +496,8 @@ public class TileMap : MonoBehaviour {
         unit.setRemainingMovement(remainingMovement);
 
         // Move to the next tile in the sequence
-        unit.tileX = (int)unit.getCurrentPath()[1].coords.x;
-        unit.tileZ = (int)unit.getCurrentPath()[1].coords.z;
+        //unit.tileX = (int)unit.getCurrentPath()[1].coords.x;
+        //unit.tileZ = (int)unit.getCurrentPath()[1].coords.z;
         unit.setCoords(unit.getCurrentPath()[1].coords);
 
         map[(int)unit.getCurrentPath()[0].coords.x,
