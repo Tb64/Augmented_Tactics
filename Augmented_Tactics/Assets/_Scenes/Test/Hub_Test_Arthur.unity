@@ -9916,6 +9916,52 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1001 &1289352881
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4149945257282026, guid: 2c04f0e94991aab4ba8e9de96446157c, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 10.51
+      objectReference: {fileID: 0}
+    - target: {fileID: 4149945257282026, guid: 2c04f0e94991aab4ba8e9de96446157c, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 4149945257282026, guid: 2c04f0e94991aab4ba8e9de96446157c, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -11.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 4149945257282026, guid: 2c04f0e94991aab4ba8e9de96446157c, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4149945257282026, guid: 2c04f0e94991aab4ba8e9de96446157c, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4149945257282026, guid: 2c04f0e94991aab4ba8e9de96446157c, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4149945257282026, guid: 2c04f0e94991aab4ba8e9de96446157c, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4149945257282026, guid: 2c04f0e94991aab4ba8e9de96446157c, type: 2}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1095838563260796, guid: 2c04f0e94991aab4ba8e9de96446157c, type: 2}
+      propertyPath: m_Name
+      value: SceneManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 2c04f0e94991aab4ba8e9de96446157c, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1325873010
 GameObject:
   m_ObjectHideFlags: 0
@@ -11229,6 +11275,7 @@ GameObject:
   - component: {fileID: 2035114072}
   - component: {fileID: 2035114070}
   - component: {fileID: 2035114071}
+  - component: {fileID: 2035114073}
   m_Layer: 0
   m_Name: Actor
   m_TagString: Player
@@ -11282,6 +11329,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2035114073
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2035114069}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2051273033
 GameObject:
   m_ObjectHideFlags: 0

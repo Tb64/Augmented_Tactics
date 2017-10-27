@@ -162,12 +162,16 @@ public class GameController : MonoBehaviour
                 selectedMarker.transform.position = selectedUnit.transform.position;// + new Vector3(0f,2f,0f);
         }
 
-
     }
 
     void SelectTarget()
     {
         GameObject interactedObject = RayCaster();
+
+        if (selectedUnit.isIncapacitated() == true)
+        {
+            return;     //prevents unit from selecting a target
+        }
 
         if (interactedObject == null 
         //    || !interactedObject.name.Contains("Tile") 
@@ -189,7 +193,6 @@ public class GameController : MonoBehaviour
             currentMode = MODE_SELECT_UNIT;
             Debug.Log("Using ability " + selectedUnit.abilitySet[currentAbility].abilityName);
         }
-
     }
 
     void SelectMoveLocation()
