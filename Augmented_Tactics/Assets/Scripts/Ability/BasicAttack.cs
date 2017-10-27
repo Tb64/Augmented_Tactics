@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class BasicAttack : Ability {
 
     public float damage = 10f;
-
     
     /// <summary>
     /// Constructor for Basic Attack, put in the gameobject of the object that basic attack will be added to.
@@ -63,7 +62,6 @@ public class BasicAttack : Ability {
     {
         Vector3 newDir = Vector3.RotateTowards(parent.transform.forward, target.transform.position, 1f, 0f);
         newDir = new Vector3(newDir.x, parent.transform.position.y, newDir.z);
-
 
         newDir = new Vector3(target.transform.position.x, parent.transform.position.y, target.transform.position.z);
         parent.transform.LookAt(newDir);

@@ -90,7 +90,11 @@ public class GameController : MonoBehaviour
 
     private void PlayerTurnStart()
     {
-
+        if (PlayerControlled.playerList != null && PlayerControlled.playerList[0] != null)
+        {
+            selectedUnit = PlayerControlled.playerList[0];
+            SetAbilityButtons();
+        }
     }
 
     //private void ClickEvent()

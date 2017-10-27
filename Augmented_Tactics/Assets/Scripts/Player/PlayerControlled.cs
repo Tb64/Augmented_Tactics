@@ -20,8 +20,7 @@ public class PlayerControlled : Actor
         base.Init();
 
         TurnBehaviour.OnPlayerTurnStart += this.OnPlayerTurnStart;
-        if (playerNum == null)
-            playerNum = 0;
+
         if (playerList == null)
             playerList = new Actor[4];
         playerList[playerNum] = this;

@@ -55,10 +55,12 @@ public class TurnBehaviour : MonoBehaviour
     public static void NextTurnEventTrigger(bool isPlayerTurn)
     {
         TurnStart();
+
         if (isPlayerTurn)
             PTurnStart();
         else
             ETurnStart();
+
         numberOfTurns++;
     }
 
