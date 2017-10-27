@@ -58,6 +58,8 @@ public class GameController : MonoBehaviour
         if (selectedUnit == null && PlayerControlled.playerList != null && PlayerControlled.playerList[0] != null)
         {
             selectedUnit = PlayerControlled.playerList[0];
+            if (selectedMarker != null)
+                selectedMarker.transform.position = selectedUnit.transform.position;
             SetAbilityButtons();
         }
     }
@@ -80,7 +82,10 @@ public class GameController : MonoBehaviour
     private void TurnStart()
     {
         targetObject = null;
-        rangeMarker.Marker_Off();
+        if (rangeMarker != null)
+        {
+            rangeMarker.Marker_Off();
+        }
     }
 
     private void PlayerTurnStart()
@@ -138,6 +143,8 @@ public class GameController : MonoBehaviour
         {
             interactedObject = interactionInfo.collider.gameObject;
             Debug.Log("Click event on: " + interactedObject.name);
+            if (selectedMarker != null)
+                selectedMarker.transform.position = interactedObject.transform.position;// + new Vector3(0f,2f,0f);
             return interactedObject;
         }
 
@@ -151,7 +158,8 @@ public class GameController : MonoBehaviour
         {
             Debug.Log("Selected Player: " + interactedObject.name);
             selectedUnit = interactedObject.GetComponent<Actor>();
-            selectedMarker.transform.position = selectedUnit.transform.position;// + new Vector3(0f,2f,0f);
+            if(selectedMarker != null)
+                selectedMarker.transform.position = selectedUnit.transform.position;// + new Vector3(0f,2f,0f);
         }
 
 
@@ -182,20 +190,27 @@ public class GameController : MonoBehaviour
             Debug.Log("Using ability " + selectedUnit.abilitySet[currentAbility].abilityName);
         }
 
-
     }
 
     void SelectMoveLocation()
     {
         GameObject interactedObject = RayCaster();
+        
+        if(selectedUnit.isIncapacitated() == true)
+        {
+            return;     //prevents unit from moving if incapacitated
+        }
 
         if (interactedObject != null && interactedObject.name.Contains("Tile"))
         {
             clickedTile = interactedObject.GetComponent<ClickableTile>();
-            map.moveActor(selectedUnit.gameObject, clickedTile.getMapPosition());
 
-            Debug.Log("Selected Tile: " + interactedObject.name + " pos " + clickedTile.getMapPosition());
+            Debug.Log("Selected Tile: " + interactedObject.name + " pos " + clickedTile.getCoords());
+            //map.moveActor(selectedUnit.gameObject, clickedTile.getCoords());
+            map.moveActorAsync(selectedUnit.gameObject, clickedTile.getCoords());
+            
         }
+
 
     }
 
@@ -253,12 +268,7 @@ public class GameController : MonoBehaviour
      *      UI      *
      ****************/
 
-    public void setMode(int mode)
-    {
-        currentMode = mode;
-        Debug.Log("Mode Changed to " + mode);
-    }
-
+   
     public static void SetAbilityButtons()
     {
         for (int index = 0; index < abilityImages.Length; index++)
@@ -274,13 +284,26 @@ public class GameController : MonoBehaviour
         //rangeMarker.Marker_On();
         currentAbility = abilityNum;
         setMode(MODE_SELECT_TARGET);
-        rangeMarker.Marker_On(selectedUnit.getMapPosition(), selectedUnit.abilitySet[currentAbility].range);
+        rangeMarker.Attack_Marker_On(selectedUnit.getCoords(), selectedUnit.abilitySet[currentAbility].range_min, selectedUnit.abilitySet[currentAbility].range);
         //abilityMode = true;
     }
 
     /************
      *  Get/Set
      ************/
+
+    public void setMode(int mode)
+    {
+        currentMode = mode;
+        Debug.Log("Mode Changed to " + mode);
+    }
+
+    public void setMove()
+    {
+        currentMode = MODE_MOVE;
+        if(rangeMarker != null)
+            rangeMarker.Move_Marker_On(selectedUnit.getCoords(), selectedUnit.moveDistance); ;
+    }
 
     Vector3 GetSelectedLocation(GameObject input)
     {

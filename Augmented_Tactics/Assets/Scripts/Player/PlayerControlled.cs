@@ -53,7 +53,7 @@ public class PlayerControlled : Actor
 
     public virtual void OnPlayerTurnStart()
     {
-
+        refresh();
     }
 
     void OnEnable()
@@ -61,14 +61,6 @@ public class PlayerControlled : Actor
         numberOfActors++;
     }
 
-    public void OnMouseUp()
-    {
-        base.OnMouseUp();
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-
-        Debug.Log("click test");
-        GO.selectedUnit = gameObject;
-    }
 
     // Update is called once per frame
     void Update () {
@@ -86,7 +78,7 @@ public class PlayerControlled : Actor
         if (SM.GetComponent<StateMachine>().checkTurn() == true)
         {
             map.drawDebugLines();
-            map.moveUnit();
+            //map.moveUnit();
         }
 
 
@@ -94,12 +86,15 @@ public class PlayerControlled : Actor
 
     public void MoveSelected()
     {
-        NextTurn();
+        
         if(numOfMoves != 0)
-            rangeMarker.Marker_On(getMapPosition(), this.moveDistance);
+            rangeMarker.Move_Marker_On(getCoords(), this.moveDistance);
     }
 
-
+    public void refresh()
+    {
+       
+    }
 
 
     public int GetID()

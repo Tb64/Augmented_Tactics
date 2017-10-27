@@ -20,7 +20,6 @@ CALLED PlayerControlled
 
 public class Actor : MonoBehaviour
 {
-
     /******************
      *  Variables
      ******************/
@@ -29,8 +28,8 @@ public class Actor : MonoBehaviour
 
     protected Animator anim;
 
-    protected float health_current;
-    public float health_max; // temporary for debugging purposes(should be protected)
+    public float health_current;    // temporary for debugging purposes(should be protected)
+    protected float health_max; 
     protected float mana_current;
     protected float mana_max;
     protected float move_speed;
@@ -46,29 +45,26 @@ public class Actor : MonoBehaviour
 
     public Ability[] abilitySet;
 
-    //Added by arthur ==========================
-    public int tileX;
-    public int tileZ;
-    public int index;
-    private Vector3 coords;
+    //Movement 
     public TileMap map;
-    public StateMachine SM;
+    public Vector3 coords;
+    private List<Node> currentPath = null;
+    NavMeshAgent playerAgent;
     public float speed;
     public int moveDistance;
     public float remainingMovement;
-    private List<Node> currentPath = null;
-    static public int numberOfActors = 0;
     public int numOfMoves;
-    private bool canMove;
-    private bool moveClicked;
-    NavMeshAgent playerAgent;
+    
+    //Misc vars
+    public static int numberOfActors = 0;
+    public StateMachine SM;
     private Animator playerAnim;
-
-    //===========================================
-
     protected RangeHighlight rangeMarker;
-    #endregion
+    private bool incapacitated;
+    private bool dead;
+    protected int deathTimer;
 
+    #endregion
 
     /******************
      *  Events
@@ -78,7 +74,6 @@ public class Actor : MonoBehaviour
     public void Start()
     {
         Init();
-       
     }
 
     private void Awake()
@@ -86,14 +81,12 @@ public class Actor : MonoBehaviour
         TurnBehaviour.OnUnitSpawn += this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart += this.ActorTurnStart;
         TurnBehaviour.OnUnitMoved += this.ActorMoved;
-
     }
     
     public virtual void Update()
     {
         if (playerAgent != null)
             anim.SetFloat("Speed", playerAgent.velocity.magnitude);
-        
     }
 
     public virtual void OnDestroy()
@@ -105,7 +98,16 @@ public class Actor : MonoBehaviour
 
     public virtual void ActorTurnStart()
     {
-
+        remainingMovement = moveDistance;
+        if(incapacitated == true && deathTimer < 6)
+        {
+            deathTimer++;
+            Debug.Log("Death Timer : " + deathTimer);
+        }
+        if(deathTimer == 6)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public virtual void ActorMoved()
@@ -116,28 +118,13 @@ public class Actor : MonoBehaviour
 
     #endregion
 
-
-    #region mouseEvents
-
-
-    public void OnMouseUp()
-    {
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-
-        Debug.Log("click test");
-        GO.selectedUnit = gameObject;
-        //GameController.NewSelectedUnit();
-    }
-
-    #endregion
-        
     protected void Init()
     {
-        //number of moves each actor can make per turn
-
+        incapacitated = false; //determines whether actor is knocked out
+        dead = false;          //perma death
         health_current = health_max;
         remainingMovement = moveDistance;
-        numOfMoves = 2;
+        numOfMoves = 1;
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
         GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
@@ -194,7 +181,7 @@ public class Actor : MonoBehaviour
 
         if (playerAgent != null)
         {
-            Debug.Log("dist = " + dist + " target position = " + targetPos);
+            //Debug.Log("dist = " + dist + " target position = " + targetPos);
             playerAgent.destination = targetPos;
             
         }
@@ -215,8 +202,6 @@ public class Actor : MonoBehaviour
 
         return false;
     }
-
-
 
     void clickToMove()
     {
@@ -241,7 +226,6 @@ public class Actor : MonoBehaviour
             else
             {
                 //move our player to the point
-
                 playerAgent.destination = interactionInfo.point;
                 
             }
@@ -277,55 +261,19 @@ public class Actor : MonoBehaviour
 
     public virtual void OnDeath()
     {
-
+        incapacitated = true;
+        anim.Play("HumanoidCrouchIdle");
     }
     #endregion
     
-    public void NextTurn()
-    {
-        canMove = true;
-        moveClicked = true;
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-        
-        if (GO == null)
-        {
-            return ;
-        }
 
-        //GO.Players[index].coordX = tileX;
-        //GO.Players[index].coordZ = tileZ;
-        //GO.Players[index].coords = new Vector3(tileX, 0, tileZ);
-       
-        //for (int index = 0; index < numberOfActors; index++)
-        //{                        
-        //    GO.Players[index].coordX = tileX;
-        //    GO.Players[index].coordZ = tileZ;
-        //}
-
-        //Reset available movement points.
-        
-        if (numOfMoves != 0 && currentPath != null )
-        {
-            numOfMoves--;
-            remainingMovement = moveDistance;
-        }
-
-
-
-
-    }
 
     /******************
     *  Set/Gets
     ******************/
 
     #region SetGets
-  
-    public Vector3 getMapPosition()
-    {
-        return new Vector3((float)tileX, 0f, (float)tileZ);
-    }
-    
+
     public List<Node> getCurrentPath()
     {
         return currentPath;
@@ -356,6 +304,10 @@ public class Actor : MonoBehaviour
         speed = num;
     }
 
+    public bool isIncapacitated()
+    {
+        return incapacitated;
+    }
     
     public float getSpeed()
     {
@@ -413,7 +365,7 @@ public class Actor : MonoBehaviour
         return health_current;
     }
 
-    public void setHealthCurrent(int health)
+    public void setHealthCurrent(float health)
     {
         health_current = health;
     }
@@ -433,11 +385,6 @@ public class Actor : MonoBehaviour
         mana_current = mana;
     }
 
-    public void setCanMove(bool trueFalse)
-    {
-        canMove = trueFalse;
-    }
-
     public void setArmorClass(float aClass)
     {
         armor_class = aClass;
@@ -447,25 +394,10 @@ public class Actor : MonoBehaviour
     {
         return armor_class;
     }
-    public bool getCanMove()
-    {
-        return canMove;
-    }
-
+    
     public int getNumofActors()
     {
         return numberOfActors;
-    }
-
-
-    public bool getMoveClicked()
-    {
-        return moveClicked;
-    }
-
-    public void setMoveClicked(bool tf)
-    {
-        moveClicked = tf;
     }
 
     //justin added v
@@ -482,9 +414,14 @@ public class Actor : MonoBehaviour
         health_max = health;
     }
 
-    public void setMaxMana(int mana)
+    public void setMaxMana(float mana)
     {
         mana_max = mana;
+    }
+
+    public float getMaxMana()
+    {
+        return mana_max;
     }
 
     public void setStrength(int str)

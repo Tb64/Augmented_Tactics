@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Ability 
 {
     public int range;
+    public int range_min;
     public Animator anim;
     public string abilityName;
 
@@ -29,8 +30,8 @@ public class Ability
 
     public bool SkillInRange(GameObject startObj, GameObject endObj)
     {
-        Vector3 start = new Vector3((float)startObj.GetComponent<Actor>().tileX, 0f, (float)startObj.GetComponent<Actor>().tileZ);
-        Vector3 end = new Vector3((float)endObj.GetComponent<Actor>().tileX, 0f, (float)endObj.GetComponent<Actor>().tileZ);
+        Vector3 start = startObj.GetComponent<Actor>().getCoords();
+        Vector3 end = endObj.GetComponent<Actor>().getCoords();
 
         //Debug.Log("Skill:Find Range " + start + end);
         return (Vector3.Distance(start, end) <= (float)range);
