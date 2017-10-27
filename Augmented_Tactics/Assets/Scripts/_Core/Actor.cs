@@ -91,7 +91,7 @@ public class Actor : MonoBehaviour
 
     private void Awake()
     {
-        TurnBehaviour.OnUnitSpawn += this.OnUnitSpawn;
+        //TurnBehaviour.OnUnitSpawn += this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart += this.ActorTurnStart;
         TurnBehaviour.OnUnitMoved += this.ActorMoved;
     }
@@ -104,7 +104,7 @@ public class Actor : MonoBehaviour
 
     public virtual void OnDestroy()
     {
-        TurnBehaviour.OnUnitSpawn -= this.OnUnitSpawn;
+        //TurnBehaviour.OnUnitSpawn -= this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart -= this.ActorTurnStart;
         TurnBehaviour.OnUnitMoved -= this.ActorMoved;
     }
@@ -305,14 +305,16 @@ public class Actor : MonoBehaviour
     {
 
         health_current -= damage;
+        Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
         if (health_current <= 0)
         {
             health_current = 0;
             OnDeath();
+            return;
         }
         anim.SetTrigger("Hit");
         PlaySound("damage");
-        Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
+        //Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
     }
 
     public virtual void HealHealth(float heal)
@@ -327,7 +329,8 @@ public class Actor : MonoBehaviour
     public virtual void OnDeath()
     {
         incapacitated = true;
-        anim.Play("HumanoidCrouchIdle");
+        anim.SetTrigger("Death");
+        PlaySound("death");
     }
     #endregion
     

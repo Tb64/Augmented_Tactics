@@ -19,6 +19,12 @@ public class PlayerControlled : Actor
     {
         base.Init();
 
+        PlayerInitialize();
+
+    }
+
+    public void PlayerInitialize()
+    {
         TurnBehaviour.OnPlayerTurnStart += this.OnPlayerTurnStart;
         if (playerNum == null)
             playerNum = 0;
@@ -42,7 +48,6 @@ public class PlayerControlled : Actor
         }
 
         TurnBehaviour.NewPlayerAdded();
-
     }
 
     public void OnDestroy()
