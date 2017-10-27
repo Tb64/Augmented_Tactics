@@ -19,6 +19,12 @@ public class PlayerControlled : Actor
     {
         base.Init();
 
+        PlayerInitialize();
+
+    }
+
+    public void PlayerInitialize()
+    {
         TurnBehaviour.OnPlayerTurnStart += this.OnPlayerTurnStart;
         if (playerNum == null)
             playerNum = 0;
@@ -26,7 +32,7 @@ public class PlayerControlled : Actor
             playerList = new Actor[4];
         playerList[playerNum] = this;
         playerID = playerNum;
-       // Debug.Log("Player added: " + playerNum + ") " + playerList[playerNum]);
+        Debug.Log("Player added: " + playerNum + ") " + playerList[playerNum]);
         playerNum++;
 
         abilitySet = new BasicAttack[4];  //test
@@ -42,7 +48,6 @@ public class PlayerControlled : Actor
         }
 
         TurnBehaviour.NewPlayerAdded();
-
     }
 
     public void OnDestroy()

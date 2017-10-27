@@ -383,8 +383,20 @@ public class TileMap : MonoBehaviour {
     /// <returns></returns>
     public void moveActorAsync(GameObject actor, Vector3 target)
     {
+        actor.GetComponent<Actor>().PlaySound("move");
         StartCoroutine(MoveActorThread(actor, target));
         return;
+    }
+
+    /// <summary>
+    /// DO NOT LOOP. Call this once to have the Actor move to Target.
+    /// </summary>
+    /// <param name="actor">The Actor you want to move</param>
+    /// <param name="target">The Map position you want to move to</param>
+    /// <returns></returns>
+    public void moveActorAsync(Actor actor, Vector3 target)
+    {
+        moveActorAsync(actor.gameObject, target);
     }
 
     /// <summary>
@@ -445,7 +457,7 @@ public class TileMap : MonoBehaviour {
 
         //move unit to next tile
         endOfMove = unitObj.MoveController(unit.transform, TileCoordToWorldCoord(unitObj.getCoords()), unitObj.getSpeed());
-        Debug.Log("endOfMove: " + endOfMove);
+        //Debug.Log("endOfMove: " + endOfMove);
         
         if (endOfMove == true) //Anything that happens at end of Actor movement
         {
@@ -571,7 +583,7 @@ public class TileMap : MonoBehaviour {
 
         do
         {
-            Debug.Log("Move Done :" + moveDone);
+            //Debug.Log("Move Done :" + moveDone);
             moveDone = moveUnit(actor);
             yield return null;
         }
