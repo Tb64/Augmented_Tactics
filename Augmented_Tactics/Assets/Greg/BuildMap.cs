@@ -34,8 +34,9 @@ public class BuildMap : MonoBehaviour{
         //stop x,z rotation
         rotation.x = 0;
         rotation.z = 0;
-        tiles.Capacity = 25;
-        mapSeed.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 5;
+        tile.transform.rotation = rotation;
+        //tiles.Capacity = 25;
+        tile.transform.position = Camera.main.transform.position + Camera.main.transform.forward * 5 * tileSize;
         buildArea(xSize, zSize);
     }
 
@@ -50,12 +51,14 @@ public class BuildMap : MonoBehaviour{
         for (; xIndex < xSize; xIndex++){
             for (; zIndex < zSize; zIndex++){
                 Debug.Log("Object being created.");
-                offsetX = Camera.main.transform.right * xIndex;
-                offsetZ = Camera.main.transform.forward * zIndex;
-                temp = mapSeed.transform.position + offsetX + offsetZ;
+                offsetX = tile.transform.right * xIndex * tileSize;
+                offsetX.y = 0;
+                offsetZ = tile.transform.forward * zIndex * tileSize;
+                offsetZ.y = 0;
+                temp = tile.transform.position + offsetX + offsetZ;
                 tiles.Add((GameObject)Instantiate(tile, temp, rotation));
                 GameObject objTile = (GameObject)Instantiate(tile, temp, rotation);
-                objTile.transform.SetParent(tiles[0].transform);
+                objTile.transform.SetParent(mapSeed.transform);
                 pos = new Vector3(xIndex, 0, zIndex);
                 objTile.GetComponent<TileData>().position = pos;
                 tiles.Add(objTile);
