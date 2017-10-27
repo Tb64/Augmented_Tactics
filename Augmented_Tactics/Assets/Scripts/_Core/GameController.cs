@@ -58,6 +58,8 @@ public class GameController : MonoBehaviour
         if (selectedUnit == null && PlayerControlled.playerList != null && PlayerControlled.playerList[0] != null)
         {
             selectedUnit = PlayerControlled.playerList[0];
+            if (selectedMarker != null)
+                selectedMarker.transform.position = selectedUnit.transform.position;
             SetAbilityButtons();
         }
     }
@@ -141,6 +143,8 @@ public class GameController : MonoBehaviour
         {
             interactedObject = interactionInfo.collider.gameObject;
             Debug.Log("Click event on: " + interactedObject.name);
+            if (selectedMarker != null)
+                selectedMarker.transform.position = interactedObject.transform.position;// + new Vector3(0f,2f,0f);
             return interactedObject;
         }
 
@@ -154,7 +158,8 @@ public class GameController : MonoBehaviour
         {
             Debug.Log("Selected Player: " + interactedObject.name);
             selectedUnit = interactedObject.GetComponent<Actor>();
-            selectedMarker.transform.position = selectedUnit.transform.position;// + new Vector3(0f,2f,0f);
+            if(selectedMarker != null)
+                selectedMarker.transform.position = selectedUnit.transform.position;// + new Vector3(0f,2f,0f);
         }
 
 
@@ -279,7 +284,7 @@ public class GameController : MonoBehaviour
         //rangeMarker.Marker_On();
         currentAbility = abilityNum;
         setMode(MODE_SELECT_TARGET);
-        rangeMarker.Marker_On(selectedUnit.getCoords(), selectedUnit.abilitySet[currentAbility].range);
+        rangeMarker.Attack_Marker_On(selectedUnit.getCoords(), selectedUnit.abilitySet[currentAbility].range_min, selectedUnit.abilitySet[currentAbility].range);
         //abilityMode = true;
     }
 
@@ -296,6 +301,8 @@ public class GameController : MonoBehaviour
     public void setMove()
     {
         currentMode = MODE_MOVE;
+        if(rangeMarker != null)
+            rangeMarker.Move_Marker_On(selectedUnit.getCoords(), selectedUnit.moveDistance); ;
     }
 
     Vector3 GetSelectedLocation(GameObject input)
