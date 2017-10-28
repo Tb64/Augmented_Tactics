@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 
 // This class will handle loading of text
 public class Dialogue : MonoBehaviour {
@@ -9,7 +10,9 @@ public class Dialogue : MonoBehaviour {
     [SerializeField]
     private string fileName;
     private static string filepath = "Assets/Resources/Dialogue/";
-    string[] lines;
+    private string[] lines;
+    private ConvNode currentNode;
+    public Text dialogueText;
 
 
     void Start()
@@ -18,23 +21,48 @@ public class Dialogue : MonoBehaviour {
         lines = System.IO.File.ReadAllText(filepath + fileName + ".csv").Split('\n');
         ConvNode startNode = new ConvNode();
         buildTree(startNode, 1);
+        currentNode = startNode;
 
-        Debug.Log(startNode.links[0].links[0].reply);
+        displayText();
     }
-
-    // Will be passed a while name, such as Scene2Dialogue1
-        public void Talk()
+    
+    public void displayText()
     {
-        //Display text
-        //send a node to be read and recieve selection
+        Debug.Log(currentNode.reply);
+        if (currentNode != null)
+        {
+            Debug.Log("worked");
+            dialogueText.text = currentNode.reply;
+        }
     }
 
+    public void displayPromts()
+    {
+
+    }
+
+    public void nextDialogue()
+    {
+
+        //will it branch? If no prompt then will not branch
+        /*if (currentNode.prompts[0] == null)
+        { 
+            currentNode = currentNode.links[0];
+            Debug.Log(currentNode.reply);
+            displayText();
+        }
+        else
+        {
+
+        }*/
+    }
+    
     public void buildTree(ConvNode cNode, int currentLine)
     {
         int nextLine, j = 0;
         //break each element into array
-        string[] linesData = lines[currentLine - 1].Trim().Split(new char[] { ',', '#' });
-
+        string[] linesData = lines[currentLine - 1].Trim().Split(',');
+        
         cNode.reply = linesData[j];
         j++;
         //while this index isn't out of array bounds, and there is a line number next that is parsed sucessfully
