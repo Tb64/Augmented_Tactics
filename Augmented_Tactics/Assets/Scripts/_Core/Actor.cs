@@ -304,6 +304,10 @@ public class Actor : MonoBehaviour
     /// <param name="damage">Damage the Actor will take as a float</param>
     public virtual void TakeDamage(float damage)
     {
+        if (gameObject.GetComponentInChildren<HealthBar>() != null)
+        {
+            gameObject.GetComponentInChildren<HealthBar>().updateHealth(GetHealthPercent());
+        }
 
         health_current -= damage;
         Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
