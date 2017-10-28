@@ -97,7 +97,7 @@ public class PlayerControlled : Actor
     public void MoveSelected()
     {
         
-        if(numOfMoves != 0)
+        if(numOfActions != 0)
             rangeMarker.Move_Marker_On(getCoords(), this.moveDistance);
     }
 
