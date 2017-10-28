@@ -59,11 +59,24 @@ public class Actor : MonoBehaviour
     //Misc vars
     public static int numberOfActors = 0;
     public StateMachine SM;
+    private AfterActionReport report;
     private Animator playerAnim;
     protected RangeHighlight rangeMarker;
     private bool incapacitated;
     private bool dead;
     protected int deathTimer;
+    //Audio clips
+
+    [System.Serializable]
+    public class AudioClips
+    {
+        public AudioClip Move;
+        public AudioClip Attack;
+        public AudioClip Damage;
+        public AudioClip Death;
+    }
+    public AudioClips soundFx;
+    protected AudioSource audio;
 
     #endregion
 
@@ -79,7 +92,7 @@ public class Actor : MonoBehaviour
 
     private void Awake()
     {
-        TurnBehaviour.OnUnitSpawn += this.OnUnitSpawn;
+        //TurnBehaviour.OnUnitSpawn += this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart += this.ActorTurnStart;
         TurnBehaviour.OnUnitMoved += this.ActorMoved;
     }
@@ -92,7 +105,7 @@ public class Actor : MonoBehaviour
 
     public virtual void OnDestroy()
     {
-        TurnBehaviour.OnUnitSpawn -= this.OnUnitSpawn;
+        //TurnBehaviour.OnUnitSpawn -= this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart -= this.ActorTurnStart;
         TurnBehaviour.OnUnitMoved -= this.ActorMoved;
     }
@@ -109,6 +122,12 @@ public class Actor : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+        
+        if(report != null)
+        {
+            report.battleOver();    //checks for win/lose conditions and loads hub
+        }
+
     }
 
     public virtual void ActorMoved()
@@ -121,11 +140,18 @@ public class Actor : MonoBehaviour
 
     protected void Init()
     {
+
+        audio = GetComponent<AudioSource>();
+        if (GameObject.Find("SceneManager") != null)
+        {
+            report = GameObject.Find("SceneManager").GetComponent<AfterActionReport>();
+        }
+         
         incapacitated = false; //determines whether actor is knocked out
         dead = false;          //perma death
         health_current = health_max;
         remainingMovement = moveDistance;
-        numOfMoves = 1;
+        numOfMoves = 2;
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
         GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
@@ -204,6 +230,43 @@ public class Actor : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Plays an audioClip attached to actor.
+    /// </summary>
+    /// <param name="input">string of the soundFx var</param>
+    /// <returns>True = sucess, False = failed to play</returns>
+    public bool PlaySound(string input)
+    {
+        if (soundFx == null 
+            || soundFx.Move == null
+            || soundFx.Attack == null
+            || soundFx.Damage == null
+            || soundFx.Death == null
+            || audio == null)
+            return false;
+
+        switch (input.ToLower())
+        {
+            case "move":
+                audio.clip = soundFx.Move;
+                break;
+            case "attack":
+                audio.clip = soundFx.Attack;
+                break;
+            case "damage":
+                audio.clip = soundFx.Damage;
+                break;
+            case "death":
+                audio.clip = soundFx.Death;
+                break;
+            default:
+                return false;
+        }
+
+        audio.Play();
+        return true;
+    }
+
     void clickToMove()
     {
         if (Input.GetMouseButtonDown(0) &&
@@ -241,14 +304,18 @@ public class Actor : MonoBehaviour
     /// <param name="damage">Damage the Actor will take as a float</param>
     public virtual void TakeDamage(float damage)
     {
+
         health_current -= damage;
+        Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
         if (health_current <= 0)
         {
             health_current = 0;
             OnDeath();
+            return;
         }
-
-        Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
+        anim.SetTrigger("Hit");
+        PlaySound("damage");
+        //Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
     }
     public virtual void TakeDamage(float damage, string effectedStat, string statusType, char operation)
     {
@@ -270,7 +337,8 @@ public class Actor : MonoBehaviour
     public virtual void OnDeath()
     {
         incapacitated = true;
-        anim.Play("HumanoidCrouchIdle");
+        anim.SetTrigger("Death");
+        PlaySound("death");
     }
     #endregion
     
@@ -315,6 +383,11 @@ public class Actor : MonoBehaviour
     public bool isIncapacitated()
     {
         return incapacitated;
+    }
+
+    public bool isDead()
+    {
+        return dead;
     }
     
     public float getSpeed()

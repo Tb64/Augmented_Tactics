@@ -23,6 +23,11 @@ public class Ability
 
     }
 
+    public virtual void UseSkillAsync(GameObject target)
+    {
+
+    }
+
     public bool SkillInRange(Vector3 start, Vector3 end)
     {
         return (Vector3.Distance(start, end) < (float)range);

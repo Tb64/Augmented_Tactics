@@ -28,12 +28,19 @@ public class GameController : MonoBehaviour
     private int currentAbility = 0;
     private static bool abilityMode = false;
     private int currentMode = MODE_SELECT_UNIT;
+
+    private void Awake()
+    {
+        Initialize();
+    }
+
     // Use this for initialization
-    void Start()
+    void Initialize()
     {
         TurnBehaviour.OnTurnStart += this.TurnStart;
         TurnBehaviour.OnPlayerTurnStart += this.PlayerTurnStart;
         TurnBehaviour.OnUnitSpawn += this.UnitSpawn;
+        currentMode = MODE_SELECT_UNIT;
         GameObject mapObj = GameObject.FindGameObjectWithTag("Map");
         if (mapObj != null)
         {
@@ -55,13 +62,7 @@ public class GameController : MonoBehaviour
 
     private void UnitSpawn()
     {
-        if (selectedUnit == null && PlayerControlled.playerList != null && PlayerControlled.playerList[0] != null)
-        {
-            selectedUnit = PlayerControlled.playerList[0];
-            if (selectedMarker != null)
-                selectedMarker.transform.position = selectedUnit.transform.position;
-            SetAbilityButtons();
-        }
+        SelectDefaultUnit();
     }
 
 
@@ -90,7 +91,7 @@ public class GameController : MonoBehaviour
 
     private void PlayerTurnStart()
     {
-
+        SelectDefaultUnit();
     }
 
     //private void ClickEvent()
@@ -158,16 +159,22 @@ public class GameController : MonoBehaviour
         {
             Debug.Log("Selected Player: " + interactedObject.name);
             selectedUnit = interactedObject.GetComponent<Actor>();
-            if(selectedMarker != null)
+            SetAbilityButtons();
+            if (selectedMarker != null)
                 selectedMarker.transform.position = selectedUnit.transform.position;// + new Vector3(0f,2f,0f);
         }
-
 
     }
 
     void SelectTarget()
     {
         GameObject interactedObject = RayCaster();
+
+        if (selectedUnit.isIncapacitated() == true)
+        {
+            Debug.Log("Unit is Incapacitated");
+            return;     //prevents unit from selecting a target
+        }
 
         if (interactedObject == null 
         //    || !interactedObject.name.Contains("Tile") 
@@ -187,9 +194,9 @@ public class GameController : MonoBehaviour
         {
             selectedUnit.abilitySet[currentAbility].UseSkill(targetObject);
             currentMode = MODE_SELECT_UNIT;
+            targetObject = null;
             Debug.Log("Using ability " + selectedUnit.abilitySet[currentAbility].abilityName);
         }
-
     }
 
     void SelectMoveLocation()
@@ -208,6 +215,8 @@ public class GameController : MonoBehaviour
             Debug.Log("Selected Tile: " + interactedObject.name + " pos " + clickedTile.getCoords());
             //map.moveActor(selectedUnit.gameObject, clickedTile.getCoords());
             map.moveActorAsync(selectedUnit.gameObject, clickedTile.getCoords());
+            setMode(MODE_SELECT_UNIT);
+            //selectedUnit.PlaySound("move");
             
         }
 
@@ -240,15 +249,17 @@ public class GameController : MonoBehaviour
     //    base.PlayerTurnStart();
     //}
 
-    public static void NewSelectedUnit()
+    public void SelectDefaultUnit()
     {
-        if (abilityMode)
+        Debug.Log("Selecting Default");
+        if (selectedUnit == null && PlayerControlled.playerList != null && PlayerControlled.playerList[0] != null)
         {
-            targetObject = map.selectedUnit;
-        }
-        else
-        {
-            selectedUnit = map.selectedUnit.GetComponent<Actor>();
+            selectedUnit = PlayerControlled.playerList[0];
+            //selectedUnit = PlayerControlled.playerObjs[0].GetComponent<Actor>();
+            //GameObject gObj = PlayerControlled.playerList[0].gameObject;
+            //selectedUnit = gObj.GetComponent<Actor>();
+            if (selectedMarker != null)
+                selectedMarker.transform.position = selectedUnit.transform.position;
             SetAbilityButtons();
         }
     }
@@ -271,6 +282,8 @@ public class GameController : MonoBehaviour
    
     public static void SetAbilityButtons()
     {
+        if (abilityImages == null || selectedUnit.abilitySet == null)
+            return;
         for (int index = 0; index < abilityImages.Length; index++)
         {
             //Debug.Log("Updating Ability Bar");
