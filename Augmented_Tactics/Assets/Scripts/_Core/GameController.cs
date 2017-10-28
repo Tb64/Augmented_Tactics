@@ -299,12 +299,18 @@ public class GameController : MonoBehaviour
 
     public void UseAbility(int abilityNum)
     {
+        if(selectedUnit.canAct() == false)
+        {
+            return;
+        }
+
         //rangeMarker.Marker_On();
         currentAbility = abilityNum;
         setMode(MODE_SELECT_TARGET);
         if (rangeMarker != null)
             rangeMarker.Attack_Marker_On(selectedUnit.getCoords(), selectedUnit.abilitySet[currentAbility].range_min, selectedUnit.abilitySet[currentAbility].range);
         //abilityMode = true;
+        selectedUnit.useAction();
     }
 
     /************
