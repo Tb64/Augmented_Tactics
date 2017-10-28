@@ -165,6 +165,19 @@ public class TileMap : MonoBehaviour {
         return new Vector3(input.x, .5f, input.z);
     }
 
+    public bool IsValidCoord(Vector3 input)
+    {
+        if (input.x < 0 || input.x > mapSizeX)
+            return false;
+        if (input.y < 0 || input.y > mapSizeY)
+            return false;
+        if (input.z < 0 || input.z > mapSizeZ)
+            return false;
+
+
+        return true;
+    }
+
     public float costToEnterTile(Vector3 source, Vector3 target)
     {
         TileType tt = getTileAtCoord(target).tileType;
@@ -186,6 +199,8 @@ public class TileMap : MonoBehaviour {
 
     public bool UnitCanEnterTile(Vector3 coords)
     {
+        if (!IsValidCoord(coords))
+            return false;
         //could test units movement type(walk,fly,run etc..)
         return getTileAtCoord(coords).tileType.isWalkable && getTileAtCoord(coords).isOccupied() == false;
     }

@@ -40,7 +40,7 @@ public class GameController : MonoBehaviour
         TurnBehaviour.OnTurnStart += this.TurnStart;
         TurnBehaviour.OnPlayerTurnStart += this.PlayerTurnStart;
         TurnBehaviour.OnUnitSpawn += this.UnitSpawn;
-
+        currentMode = MODE_SELECT_UNIT;
         GameObject mapObj = GameObject.FindGameObjectWithTag("Map");
         if (mapObj != null)
         {
@@ -215,7 +215,7 @@ public class GameController : MonoBehaviour
             Debug.Log("Selected Tile: " + interactedObject.name + " pos " + clickedTile.getCoords());
             //map.moveActor(selectedUnit.gameObject, clickedTile.getCoords());
             map.moveActorAsync(selectedUnit.gameObject, clickedTile.getCoords());
-
+            setMode(MODE_SELECT_UNIT);
             //selectedUnit.PlaySound("move");
             
         }
@@ -255,6 +255,9 @@ public class GameController : MonoBehaviour
         if (selectedUnit == null && PlayerControlled.playerList != null && PlayerControlled.playerList[0] != null)
         {
             selectedUnit = PlayerControlled.playerList[0];
+            //selectedUnit = PlayerControlled.playerObjs[0].GetComponent<Actor>();
+            //GameObject gObj = PlayerControlled.playerList[0].gameObject;
+            //selectedUnit = gObj.GetComponent<Actor>();
             if (selectedMarker != null)
                 selectedMarker.transform.position = selectedUnit.transform.position;
             SetAbilityButtons();
@@ -279,7 +282,7 @@ public class GameController : MonoBehaviour
    
     public static void SetAbilityButtons()
     {
-        if (abilityImages == null)
+        if (abilityImages == null || selectedUnit.abilitySet == null)
             return;
         for (int index = 0; index < abilityImages.Length; index++)
         {
