@@ -95,6 +95,12 @@ public class Enemy : Actor
 
     public virtual void EnemyTurnStartActions()
     {
+        if (GetHealthPercent() == 0f)
+        {
+            SM.setTurn();
+            return;
+        }
+
         Debug.Log("1EnemyTurnStart");
         //base.EnemyTurnStart();
         map.selectedUnit = gameObject;

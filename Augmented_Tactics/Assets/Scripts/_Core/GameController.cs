@@ -193,7 +193,11 @@ public class GameController : MonoBehaviour
         else if (targetObject == interactedObject)
         {
             selectedUnit.abilitySet[currentAbility].UseSkill(targetObject);
-            currentMode = MODE_SELECT_UNIT;
+            if (rangeMarker != null)
+            {
+                rangeMarker.Marker_Off();
+            }
+            setMode(MODE_SELECT_UNIT);
             targetObject = null;
             Debug.Log("Using ability " + selectedUnit.abilitySet[currentAbility].abilityName);
         }
@@ -215,6 +219,7 @@ public class GameController : MonoBehaviour
             Debug.Log("Selected Tile: " + interactedObject.name + " pos " + clickedTile.getCoords());
             //map.moveActor(selectedUnit.gameObject, clickedTile.getCoords());
             map.moveActorAsync(selectedUnit.gameObject, clickedTile.getCoords());
+
             setMode(MODE_SELECT_UNIT);
             //selectedUnit.PlaySound("move");
             
@@ -297,7 +302,8 @@ public class GameController : MonoBehaviour
         //rangeMarker.Marker_On();
         currentAbility = abilityNum;
         setMode(MODE_SELECT_TARGET);
-        rangeMarker.Attack_Marker_On(selectedUnit.getCoords(), selectedUnit.abilitySet[currentAbility].range_min, selectedUnit.abilitySet[currentAbility].range);
+        if (rangeMarker != null)
+            rangeMarker.Attack_Marker_On(selectedUnit.getCoords(), selectedUnit.abilitySet[currentAbility].range_min, selectedUnit.abilitySet[currentAbility].range);
         //abilityMode = true;
     }
 
@@ -315,7 +321,7 @@ public class GameController : MonoBehaviour
     {
         currentMode = MODE_MOVE;
         if(rangeMarker != null)
-            rangeMarker.Move_Marker_On(selectedUnit.getCoords(), selectedUnit.moveDistance); ;
+            rangeMarker.Move_Marker_On(selectedUnit.getCoords(), selectedUnit.moveDistance); 
     }
 
     Vector3 GetSelectedLocation(GameObject input)
