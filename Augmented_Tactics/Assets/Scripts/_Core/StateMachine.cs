@@ -69,13 +69,6 @@ public class StateMachine : MonoBehaviour {
             return;
         } 
 
-        //if (firstTurn == true)
-        //{
-        //    playerTurn = false;
-        //    firstTurn = false;
-            
-        //}
-
         //Change to arrays in future to hold multiple players/enemies
         GameObject player = GameObject.FindWithTag("Player");
         GameObject enemy = GameObject.FindWithTag("Enemy");
@@ -91,7 +84,7 @@ public class StateMachine : MonoBehaviour {
 
             unit = player.GetComponent<Actor>();
             map.selectedUnit = player;
-            map.selectedUnit.GetComponent<Actor>().setMoves(1);
+     
             map.getMapArray()[(int)unit.getCoords().x,
                 (int)unit.getCoords().y, 
                 (int)unit.getCoords().z].setOccupiedTrue();
@@ -108,7 +101,7 @@ public class StateMachine : MonoBehaviour {
 
             unit = enemy.GetComponent<Actor>();
             map.selectedUnit = enemy;
-            map.selectedUnit.GetComponent<Actor>().setMoves(1);
+           
             map.getMapArray()[(int)unit.getCoords().x, (int)unit.getCoords().y,(int)unit.getCoords().z].setOccupiedTrue();
         }
     }

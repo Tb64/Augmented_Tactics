@@ -13,21 +13,20 @@ public class PlayerControlled : Actor
 {
     public static int playerNum;
     public static Actor[] playerList;
+    public static GameObject[] playerObjs;
     private int playerID;
     // Use this for initialization
     new void Start ()
     {
         base.Init();
 
+        PlayerInitialize();
+
+    }
+
+    public void PlayerInitialize()
+    {
         TurnBehaviour.OnPlayerTurnStart += this.OnPlayerTurnStart;
-        if (playerNum == null)
-            playerNum = 0;
-        if (playerList == null)
-            playerList = new Actor[4];
-        playerList[playerNum] = this;
-        playerID = playerNum;
-       // Debug.Log("Player added: " + playerNum + ") " + playerList[playerNum]);
-        playerNum++;
 
         abilitySet = new BasicAttack[4];  //test
         for (int i = 0; i < 4; i++)
@@ -41,8 +40,19 @@ public class PlayerControlled : Actor
             map = GameObject.Find("Map").GetComponent<TileMap>();
         }
 
-        TurnBehaviour.NewPlayerAdded();
+        if (playerNum == null)
+            playerNum = 0;
+        if (playerList == null)
+            playerList = new Actor[4];
+        if (playerObjs == null)
+            playerObjs = new GameObject[4];
+        playerObjs[playerNum] = gameObject;
+        playerList[playerNum] = this;
+        playerID = playerNum;
+        Debug.Log("Player added: " + playerNum + ") " + playerList[playerNum]);
+        playerNum++;
 
+        TurnBehaviour.NewPlayerAdded();
     }
 
     public void OnDestroy()
@@ -61,14 +71,6 @@ public class PlayerControlled : Actor
         numberOfActors++;
     }
 
-    public void OnMouseUp()
-    {
-        base.OnMouseUp();
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-
-        Debug.Log("click test");
-        GO.selectedUnit = gameObject;
-    }
 
     // Update is called once per frame
     void Update () {
@@ -95,15 +97,14 @@ public class PlayerControlled : Actor
     public void MoveSelected()
     {
         
-        if(numOfMoves != 0)
+        if(numOfActions != 0)
             rangeMarker.Move_Marker_On(getCoords(), this.moveDistance);
     }
 
     public void refresh()
     {
-        remainingMovement = moveDistance;
+       
     }
-
 
     public int GetID()
     {

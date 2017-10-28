@@ -32,6 +32,13 @@ public class Enemy : Actor
     // Use this for initialization
     void Start()
     {
+        EnemyInitialize();
+
+        //team set to Actors instead of GameObjects  
+    }
+
+    public void EnemyInitialize()
+    {
         base.Init();
         TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStartActions;
         TurnBehaviour.OnUnitMoved += this.EnemyMoved;
@@ -61,8 +68,6 @@ public class Enemy : Actor
             for (int i = 0; i < tempTeam.Length; i++)
                 userTeam[i] = tempTeam[i].GetComponent<Actor>();
         }
-
-        //team set to Actors instead of GameObjects  
     }
 
     // Update is called once per frame
@@ -80,28 +85,23 @@ public class Enemy : Actor
 
     void turnControl()
     {
-
         //true player turn ,false enemy turn
         if (SM.checkTurn() == false)
         {
             //enemyTurn();
             //map.drawDebugLines();
         }
-
-
-
     }
 
     public virtual void EnemyTurnStartActions()
     {
         Debug.Log("1EnemyTurnStart");
         //base.EnemyTurnStart();
-        remainingMovement = moveDistance;
         map.selectedUnit = gameObject;
         nearest = findNearestPlayer();
         weakest = findWeakestPlayer();
-        enemyPosition = new Vector3((float)tileX, 0f, (float)tileZ);
-        playerPosition = new Vector3((float)nearest.tileX, 0, (float)nearest.tileZ);
+        enemyPosition = getCoords();
+        playerPosition = nearest.getCoords();
         float distanceToNearest = Vector3.Distance(playerPosition, enemyPosition);
         reactToProximity(distanceToNearest);
         //Debug.Log(nearest.tileX + " " + nearest.tileZ+ " " + weakest.tileX + " "+ weakest.tileZ);
@@ -113,7 +113,7 @@ public class Enemy : Actor
         currentTarget = target;
 
    
-        setMoves(1);
+        
 
         if (target == null)
             return;
@@ -160,8 +160,8 @@ public class Enemy : Actor
         {
             //Actor player = user.GetComponent<Actor>();
             //^^not 100% on this due to GetComponent being called up to 10 times. Might build array differently later: Andrew
-            enemyPosition = new Vector3((float)tileX, 0f, (float)tileZ);
-            playerPosition = new Vector3((float)user.tileX, 0f, (float)user.tileZ);
+            enemyPosition = getCoords();
+            playerPosition = user.getCoords();
             float distanceFromPlayer = Vector3.Distance(playerPosition, enemyPosition);
             //Debug.Log("Dist = " + distanceFromPlayer + " " + enemyPosition + playerPosition);
             if (distanceFromPlayer < currentNearest)
@@ -191,7 +191,7 @@ public class Enemy : Actor
 
     private Actor findTarget(Actor target, float distanceToNearest)
     {
-        Vector3 weakestPosition = new Vector3((float)weakest.tileX, 0, (float)weakest.tileZ);
+        Vector3 weakestPosition = weakest.getCoords();
         float distanceToWeakest = Vector3.Distance(weakestPosition, enemyPosition);
         if (distanceToWeakest > moveDistance && distanceToWeakest > 2 * distanceToNearest)
             target = nearest;

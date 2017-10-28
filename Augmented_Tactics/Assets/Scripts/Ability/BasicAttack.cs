@@ -50,6 +50,7 @@ public class BasicAttack : Ability {
                 Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}",abilityName, parent.name, target.name));
                 rotateAtObj(target);
                 anim.SetTrigger("MeleeAttack");
+                parent.GetComponent<Actor>().PlaySound("attack");
             }
             target.GetComponent<Actor>().TakeDamage(damage);
         }
