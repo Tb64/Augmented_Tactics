@@ -113,7 +113,7 @@ public class Enemy : Actor
         currentTarget = target;
 
    
-        setMoves(1);
+        
 
         if (target == null)
             return;
