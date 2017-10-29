@@ -477,7 +477,12 @@ public class TileMap : MonoBehaviour {
         if (endOfMove == true) //Anything that happens at end of Actor movement
         {
             unitObj.setRemainingMovement(0); // clears remaining movement of Actor at end of move
-            unitObj.numOfMoves--;
+            unitObj.useAction();
+            
+            if(unitObj.canAct() == true)
+            {
+                unitObj.setRemainingMovement(unitObj.getMoveDistance());
+            }
 
             if (unitObj.getCurrentPath() == null)
             {

@@ -54,7 +54,7 @@ public class Actor : MonoBehaviour
     public float speed;
     public int moveDistance;
     public float remainingMovement;
-    public int numOfMoves;
+    public int numOfActions;
     
     //Misc vars
     public static int numberOfActors = 0;
@@ -113,6 +113,7 @@ public class Actor : MonoBehaviour
     public virtual void ActorTurnStart()
     {
         remainingMovement = moveDistance;
+        setNumOfActions(2);
         if(incapacitated == true && deathTimer < 6)
         {
             deathTimer++;
@@ -151,7 +152,7 @@ public class Actor : MonoBehaviour
         dead = false;          //perma death
         health_current = health_max;
         remainingMovement = moveDistance;
-        numOfMoves = 2;
+        numOfActions = 2;
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
         GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
@@ -350,6 +351,33 @@ public class Actor : MonoBehaviour
 
     #region SetGets
 
+    public bool canAct()
+    {
+        if(numOfActions > 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public void useAction()
+    {
+        if(numOfActions < 0)
+        {
+            numOfActions = 0;
+        }
+
+        if (numOfActions > 0)
+        {
+            numOfActions--;
+        }
+    }
+
+    public int actionNumber()
+    {
+        return numOfActions;
+    }
+
     public List<Node> getCurrentPath()
     {
         return currentPath;
@@ -395,14 +423,14 @@ public class Actor : MonoBehaviour
         return speed;
     }
 
-    public void setMoves(int moves)
+    public void setNumOfActions(int moves)
     {
-        numOfMoves = moves;
+        numOfActions = moves;
     }
 
     public int getMoves()
     {
-        return numOfMoves;
+        return numOfActions;
     }
 
     public void setMoveDistance(int distance)
