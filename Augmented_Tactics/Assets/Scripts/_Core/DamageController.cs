@@ -7,7 +7,6 @@ public class DamageController : MonoBehaviour {
     private static FloatingDamage popupText;
     private static GameObject canvas;
     private static Transform mainCamera;
-    
 
     void Start()
     {
@@ -36,6 +35,7 @@ public class DamageController : MonoBehaviour {
         instance.transform.position = location.transform.position + new Vector3(0, 2, 0);
         
         instance.setText(text, color);
+        //instance.transform.LookAt(mainCamera);
     }
 
    

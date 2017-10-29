@@ -309,8 +309,11 @@ public class Actor : MonoBehaviour
             gameObject.GetComponentInChildren<HealthBar>().updateHealth(GetHealthPercent());
         }
 
-        DamageController.initializeText();
-        DamageController.createFloatingText(damage.ToString(), transform, new Color32(255,255,0,1));
+        if (GameObject.Find("damageNumber") != null)
+        {
+            DamageController.initializeText();
+            DamageController.createFloatingText(damage.ToString(), transform, new Color32(10, 10, 240, 0));
+        }
 
         health_current -= damage;
         Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
