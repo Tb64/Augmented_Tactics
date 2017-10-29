@@ -140,7 +140,7 @@ public class Actor : MonoBehaviour
 
     protected void Init()
     {
-
+        DamageController.initializeText();
         audio = GetComponent<AudioSource>();
         if (GameObject.Find("SceneManager") != null)
         {
@@ -309,6 +309,9 @@ public class Actor : MonoBehaviour
             gameObject.GetComponentInChildren<HealthBar>().updateHealth(GetHealthPercent());
         }
 
+        DamageController.initializeText();
+        DamageController.createFloatingText(damage.ToString(), transform, new Color32(255,255,0,1));
+
         health_current -= damage;
         Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
         if (health_current <= 0)
@@ -321,6 +324,8 @@ public class Actor : MonoBehaviour
         PlaySound("damage");
         //Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
     }
+
+    
 
     public virtual void HealHealth(float heal)
     {
