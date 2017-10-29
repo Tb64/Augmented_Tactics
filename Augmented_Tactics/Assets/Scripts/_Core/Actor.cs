@@ -27,7 +27,6 @@ public class Actor : MonoBehaviour
     #region Variables
 
     protected Animator anim;
-    protected string actorName;
 
     public float health_current;    // temporary for debugging purposes(should be protected)
     protected float health_max; 
@@ -101,6 +100,8 @@ public class Actor : MonoBehaviour
     {
         if (playerAgent != null)
             anim.SetFloat("Speed", playerAgent.velocity.magnitude);
+     
+       
     }
 
     public virtual void OnDestroy()
@@ -141,7 +142,7 @@ public class Actor : MonoBehaviour
 
     protected void Init()
     {
-
+        
         audio = GetComponent<AudioSource>();
         if (GameObject.Find("SceneManager") != null)
         {
@@ -305,6 +306,12 @@ public class Actor : MonoBehaviour
     /// <param name="damage">Damage the Actor will take as a float</param>
     public virtual void TakeDamage(float damage)
     {
+        if (gameObject.GetComponentInChildren<HealthBar>() != null)
+        {
+            gameObject.GetComponentInChildren<HealthBar>().updateHealth(GetHealthPercent());
+        }
+
+        damageNumber(damage, new Color(255, 0, 0, 1));
 
         health_current -= damage;
         Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
@@ -318,14 +325,25 @@ public class Actor : MonoBehaviour
         PlaySound("damage");
         //Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
     }
-    public virtual void TakeDamage(float damage, string effectedStat, string statusType, char operation)
+
+    /// <summary>
+    /// Spawns damage number over the actors head, first parameter is damage
+    /// and second is the color of the text
+    /// </summary>
+    /// <param name="damage"></param>
+    /// <param name="color"></param>
+    public void damageNumber(float damage, Color color)
     {
-        //handle duration
-        //handle effect based on stats etc
-        //get stat value from string
-        //StatusController.addStatus(new StatusEffect(duration, ));
-        TakeDamage(damage);
+        TextMesh text = Resources.Load<GameObject>("Damage").GetComponent<TextMesh>();
+        text.text = damage.ToString();
+        TextMesh instance = Instantiate(text);
+        instance.transform.SetParent(transform);
+        instance.transform.position = transform.position + new Vector3(UnityEngine.Random.Range(-.2f, .2f), 2, 0);
+        instance.color = color;
+        instance.gameObject.GetComponent<Rigidbody>().velocity = transform.up;
+        Destroy(instance.gameObject, 1);
     }
+
     public virtual void HealHealth(float heal)
     {
         health_current += heal;
@@ -333,6 +351,7 @@ public class Actor : MonoBehaviour
         {
             health_current = health_max;
         }
+        damageNumber(heal, new Color(0, 255, 0, 1));
     }
 
     public virtual void OnDeath()
@@ -518,15 +537,6 @@ public class Actor : MonoBehaviour
     
     //=======Stat Set/Gets===========//
 
-    public void setActorName(string name)
-    {
-        actorName = name;
-    }
-    
-    public string getActorName()
-    {
-        return actorName;
-    }
     public void setMaxHealth(int health)
     {
         health_max = health;
