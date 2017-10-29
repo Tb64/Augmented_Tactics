@@ -24,7 +24,7 @@ public class DamageController : MonoBehaviour {
         }
     }
 
-    public static void createFloatingText(string text, Transform location, Color32 color)
+    public static void createFloatingText(string text, Transform location, Color color)
     {
 
         FloatingDamage instance = Instantiate(popupText);

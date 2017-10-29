@@ -64,6 +64,7 @@ public class Actor : MonoBehaviour
     private bool incapacitated;
     private bool dead;
     protected int deathTimer;
+    float translation;
     //Audio clips
 
     [System.Serializable]
@@ -100,6 +101,8 @@ public class Actor : MonoBehaviour
     {
         if (playerAgent != null)
             anim.SetFloat("Speed", playerAgent.velocity.magnitude);
+       translation += Time.deltaTime * 10;
+       
     }
 
     public virtual void OnDestroy()
@@ -309,11 +312,13 @@ public class Actor : MonoBehaviour
             gameObject.GetComponentInChildren<HealthBar>().updateHealth(GetHealthPercent());
         }
 
-        if (GameObject.Find("damageNumber") != null)
-        {
-            DamageController.initializeText();
-            DamageController.createFloatingText(damage.ToString(), transform, new Color32(10, 10, 240, 0));
-        }
+        //if (GameObject.Find("damageNumber") != null)
+        //{
+        //    DamageController.initializeText();
+        //    DamageController.createFloatingText(damage.ToString(), transform, new Color(10, 10, 240, 0));
+        //}
+
+        damageNumber(damage, new Color(255, 0, 0, 1));
 
         health_current -= damage;
         Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
@@ -329,6 +334,17 @@ public class Actor : MonoBehaviour
     }
 
     
+    public void damageNumber(float damage, Color color)
+    {
+        TextMesh text = Resources.Load<GameObject>("Damage").GetComponent<TextMesh>();
+        text.text = damage.ToString();
+        TextMesh instance = Instantiate(text);
+        instance.transform.SetParent(transform);
+        instance.transform.position = transform.position + new Vector3(0, 2, 0);
+        instance.color = color;
+        instance.gameObject.GetComponent<Rigidbody>().velocity = transform.up;
+        Destroy(instance.gameObject, 1);
+    }
 
     public virtual void HealHealth(float heal)
     {
@@ -337,6 +353,7 @@ public class Actor : MonoBehaviour
         {
             health_current = health_max;
         }
+        damageNumber(heal, new Color(0, 255, 0, 1));
     }
 
     public virtual void OnDeath()

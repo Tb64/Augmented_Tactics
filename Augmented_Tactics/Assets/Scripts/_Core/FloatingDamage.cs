@@ -11,12 +11,12 @@ public class FloatingDamage : MonoBehaviour {
     
 	void OnEnable()
     {
-        AnimatorClipInfo[] clipInfo = animator.GetCurrentAnimatorClipInfo(0);
-        damageText = animator.GetComponent<Text>();
-        Destroy(gameObject, clipInfo[0].clip.length);
+       AnimatorClipInfo[] clipInfo = animator.GetCurrentAnimatorClipInfo(0);
+       damageText = animator.GetComponent<Text>();
+       Destroy(gameObject, clipInfo[0].clip.length);
     }
 
-    public void setText(string text, Color32 textColor)
+    public void setText(string text, Color textColor)
     {
         damageText.text = text;
         damageText.GetComponentInChildren<Text>().color = textColor;
