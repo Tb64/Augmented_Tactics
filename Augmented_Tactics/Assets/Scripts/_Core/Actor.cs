@@ -64,6 +64,7 @@ public class Actor : MonoBehaviour
     private bool incapacitated;
     private bool dead;
     protected int deathTimer;
+    private Transform mainCamera;
     //Audio clips
 
     [System.Serializable]
@@ -142,7 +143,7 @@ public class Actor : MonoBehaviour
 
     protected void Init()
     {
-        
+        mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
         audio = GetComponent<AudioSource>();
         if (GameObject.Find("SceneManager") != null)
         {

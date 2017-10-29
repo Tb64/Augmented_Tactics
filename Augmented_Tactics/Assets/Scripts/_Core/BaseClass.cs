@@ -12,8 +12,6 @@ public class BaseClass : MonoBehaviour {
     private int playerLevel;
     private string className;
 
-    public BaseClass[] jobs;
-
     //Stat gains;
     private int strengthGain;
     private int dexterityGain;
@@ -26,7 +24,6 @@ public class BaseClass : MonoBehaviour {
         initializeBaseStats();
 	}
 	
-
     void initializeBaseStats()
     {
         player = GetComponentInParent<Actor>();
@@ -36,14 +33,7 @@ public class BaseClass : MonoBehaviour {
         {
             player.abilitySet[i] = new BasicAttack(gameObject);
         }
-
-        jobs = new BaseClass[7];
-
-        for (int index = 0; index < 7; index++)
-        {
-            jobs[index] = new BaseClass();
-        }
-
+        
         player.setStrength(10);
         player.setDexterity(10);
         player.setConstitution(10);
@@ -55,7 +45,6 @@ public class BaseClass : MonoBehaviour {
         player.setMaxMana(10 * player.getIntelligence());
         player.setHealthCurrent(player.GetHeathMax());
         player.setManaCurrent(player.getMaxMana());
-
 
         skillPoints = 1;
         experience = 0;
@@ -210,7 +199,6 @@ public class BaseClass : MonoBehaviour {
             levelUp();
         }
        
-
     }
 
     #region set/gets
@@ -234,7 +222,6 @@ public class BaseClass : MonoBehaviour {
         className = name;
     }
 
-    
     //===============stat gains================//
 
     //the amount each stat will increase with each level + 1

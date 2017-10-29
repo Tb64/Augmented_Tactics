@@ -12,17 +12,17 @@ public class Knight : BaseClass {
         initKnightStats();
     }
 
-    void initKnightStats()
+    public void initKnightStats()
     {
         //initialize stat gains per level
         //jobs[0] is index for Knight class
-        jobs[0].setJobName("Knight");
-        jobs[0].setStrengthGain(5);
-        jobs[0].setDexterityGain(2);
-        jobs[0].setConstitutionGain(8);
-        jobs[0].setIntelligenceGain(2);
-        jobs[0].setWisdomGain(2);
-        jobs[0].setCharismaGain(5);
+        setJobName("Knight");
+        setStrengthGain(5);
+        setDexterityGain(2);
+        setConstitutionGain(8);
+        setIntelligenceGain(2);
+        setWisdomGain(2);
+        setCharismaGain(5);
 
         //initialize base stats
        

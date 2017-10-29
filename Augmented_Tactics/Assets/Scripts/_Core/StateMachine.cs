@@ -57,12 +57,18 @@ public class StateMachine : MonoBehaviour {
 
     public void setTurn()
     {
+
         if (GameObject.FindWithTag("Map").GetComponent<TileMap>() == null)
         {
             return;
         }
         TileMap map = GameObject.FindWithTag("Map").GetComponent<TileMap>();
         Actor unit = map.selectedUnit.GetComponent<Actor>();
+
+        if(map.getEndOfMove() == false)
+        {
+            return;
+        }
 
         if (GameObject.FindWithTag("Player") == null || GameObject.FindWithTag("Enemy") == null)
         {
