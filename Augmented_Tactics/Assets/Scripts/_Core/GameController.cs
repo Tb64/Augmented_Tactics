@@ -41,6 +41,7 @@ public class GameController : MonoBehaviour
         TurnBehaviour.OnPlayerTurnStart += this.PlayerTurnStart;
         TurnBehaviour.OnUnitSpawn += this.UnitSpawn;
         currentMode = MODE_SELECT_UNIT;
+        DamageController.initializeText();
         GameObject mapObj = GameObject.FindGameObjectWithTag("Map");
         if (mapObj != null)
         {
