@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class DialogueTrigger : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+    public string fileName;
+    public bool triggerOnlyOnce;
+    private bool hasTriggered = false;
+    private Dialogue dial = new Dialogue();
+
+    public void triggerDialogue() {
+        if (triggerOnlyOnce && !hasTriggered)
+        {
+            dial.startDialogue(fileName);
+            hasTriggered = true;
+        }
+        else if(!triggerOnlyOnce)
+        {
+            dial.startDialogue(fileName);
+        }
 	}
 }

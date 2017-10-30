@@ -4,59 +4,109 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
-// This class will handle loading of text
+// This class manages the dialougue. To use it, attach the DialogueTrigger class to something; set the file name in the trigger script component
+// and if it will activate only once. Ways of activating the script will vary. Clicking a button, timed event, any way to call the triggerDialogue method
 public class Dialogue : MonoBehaviour {
 
-    [SerializeField]
-    private string fileName;
     private static string filepath = "Assets/Resources/Dialogue/";
+    private string dialoguePanelLoc = "CanvasWip/DialoguePanel";
     private string[] lines;
-    private ConvNode currentNode;
-    public Text dialogueText;
-
+    private static ConvNode currentNode;
+    private static GameObject dialoguePanel;
+    private static GameObject[] buttonPrompts;
+    private static GameObject buttonNextDialogue;
+    private static Text[] textPrompts;
+    private static Text textDialogue;
 
     void Start()
     {
-        //open csv and get all in a tree
-        lines = System.IO.File.ReadAllText(filepath + fileName + ".csv").Split('\n');
-        ConvNode startNode = new ConvNode();
-        buildTree(startNode, 1);
-        currentNode = startNode;
+        //be sure the dialogue panel is active before the scene starts or it won't be able to find the objects
+        buttonPrompts = new GameObject[3];
+        textPrompts = new Text[3];
+        dialoguePanel = GameObject.Find(dialoguePanelLoc);
+        textDialogue = GameObject.Find(dialoguePanelLoc + "/DialogueText").GetComponent<Text>();
+        buttonNextDialogue = GameObject.Find(dialoguePanelLoc + "/NextDialogueButton");
+        for (int i = 0; i < 3; i++)
+        {
+            buttonPrompts[i] = GameObject.Find(dialoguePanelLoc + "/PromptButton" + i.ToString());
+            textPrompts[i] = GameObject.Find(dialoguePanelLoc + "/PromptButton" + i.ToString() + "/Text").GetComponent<Text>();
+            buttonPrompts[i].SetActive(false);
+        }
+        dialoguePanel.SetActive(false);
+    }
 
-        displayText();
+
+    public void startDialogue(string fileName)
+    {
+        //open csv and get all in a tree
+        try
+        {
+            lines = System.IO.File.ReadAllText(filepath + fileName + ".csv").Split('\n');
+            ConvNode startNode = new ConvNode();
+            buildTree(startNode, 1);
+            currentNode = startNode;
+            dialoguePanel.SetActive(true);
+            if (currentNode != null)
+                displayText();
+            else
+                Debug.Log("Current Node is null, something broke!");
+        }
+        catch (IOException e)
+        {
+            Debug.Log(e.ToString());
+        }        
     }
     
     public void displayText()
     {
-        Debug.Log(currentNode.reply);
         if (currentNode != null)
-        {
-            Debug.Log("worked");
-            dialogueText.text = currentNode.reply;
-        }
+            textDialogue.text = currentNode.reply;
     }
 
-    public void displayPromts()
+    public void promptSelection(int choice)
     {
-
+        currentNode = currentNode.links[choice];
+        for (int i = 0; i < 3; i++)
+            buttonPrompts[i].SetActive(false);
+        buttonNextDialogue.SetActive(true);
+        displayText();
     }
 
     public void nextDialogue()
     {
 
-        //will it branch? If no prompt then will not branch
-        /*if (currentNode.prompts[0] == null)
-        { 
-            currentNode = currentNode.links[0];
-            Debug.Log(currentNode.reply);
-            displayText();
-        }
-        else
+        //No prompts. Either continue to next node or end of convo
+        
+        if (currentNode != null && (currentNode.prompts[0] == null || currentNode.prompts[0] == ""))
         {
-
-        }*/
+            //if there is a link continue, else dialogue over
+            if (currentNode.links[0] != null)
+            {
+                currentNode = currentNode.links[0];
+                displayText();
+            }
+            else
+            {
+                dialoguePanel.SetActive(false);
+            }
+        }
+        else if (currentNode != null)
+        {
+            //else branch. show as many buttons as options
+            //activate buttons
+            buttonNextDialogue.SetActive(false);
+            for (int i = 0; i < 3; i++)
+            {
+                if (currentNode.prompts[i] != null)
+                {
+                    buttonPrompts[i].SetActive(true);
+                    textPrompts[i].text = currentNode.prompts[i];
+                }
+            }
+        }
     }
-    
+
+
     public void buildTree(ConvNode cNode, int currentLine)
     {
         int nextLine, j = 0;
@@ -66,7 +116,7 @@ public class Dialogue : MonoBehaviour {
         cNode.reply = linesData[j];
         j++;
         //while this index isn't out of array bounds, and there is a line number next that is parsed sucessfully
-        //expected to read a pattern of line number, then prompt
+        //expected to read a pattern of line number, then prompt. 
         while (j < linesData.Length && (System.Int32.TryParse(linesData[j], out nextLine)))
         {
             //j expected to be 1, 3, 5... j/2 will be 0, 1, 2
