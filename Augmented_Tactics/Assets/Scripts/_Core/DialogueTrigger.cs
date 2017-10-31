@@ -4,20 +4,21 @@ using UnityEngine;
 
 public class DialogueTrigger : MonoBehaviour {
 
-    public string fileName;
+    public TextAsset csvFile;
     public bool triggerOnlyOnce;
     private bool hasTriggered = false;
     private Dialogue dial = new Dialogue();
 
     public void triggerDialogue() {
-        if (triggerOnlyOnce && !hasTriggered)
-        {
-            dial.startDialogue(fileName);
-            hasTriggered = true;
-        }
-        else if(!triggerOnlyOnce)
-        {
-            dial.startDialogue(fileName);
-        }
+        if(csvFile!=null)
+            if (triggerOnlyOnce && !hasTriggered)
+            {
+                dial.startDialogue(csvFile.name);
+                hasTriggered = true;
+            }
+            else if(!triggerOnlyOnce)
+            {
+                dial.startDialogue(csvFile.name);
+            }
 	}
 }

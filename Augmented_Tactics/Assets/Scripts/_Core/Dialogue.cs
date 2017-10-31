@@ -4,12 +4,12 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
-// This class manages the dialougue. To use it, attach the DialogueTrigger class to something; set the file name in the trigger script component
+// This class manages the dialougue. To use it, attach the DialogueTrigger class to something; set the file in the trigger script component,
 // and if it will activate only once. Ways of activating the script will vary. Clicking a button, timed event, any way to call the triggerDialogue method
 public class Dialogue : MonoBehaviour {
 
     private static string filepath = "Assets/Resources/Dialogue/";
-    private string dialoguePanelLoc = "CanvasWip/DialoguePanel";
+    private string dialoguePanelLoc = "Canvas/DialoguePanel";
     private string[] lines;
     private static ConvNode currentNode;
     private static GameObject dialoguePanel;
