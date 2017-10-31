@@ -19,8 +19,8 @@ public class TileMap : MonoBehaviour {
 
     Vector3 tempCoords = new Vector3();
 
-    bool canMove;
-    bool endOfMove;
+    private bool canMove;
+    private bool endOfMove;
 
     //int[,] tiles;
     Node[,,] graph;
@@ -40,7 +40,7 @@ public class TileMap : MonoBehaviour {
     void initialize()
     {
         map = new ClickableTile[mapSizeX,mapSizeY,mapSizeZ];
-        canMove = false;
+        endOfMove = true;
         if (GameObject.Find("Path").GetComponent<LineRenderer>() == null)
         {
             Debug.LogError("Null reference, missing path object, add in scene hierarchy");

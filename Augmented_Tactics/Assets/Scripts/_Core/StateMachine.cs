@@ -65,10 +65,11 @@ public class StateMachine : MonoBehaviour {
         TileMap map = GameObject.FindWithTag("Map").GetComponent<TileMap>();
         Actor unit = map.selectedUnit.GetComponent<Actor>();
 
-        if(map.getEndOfMove() == false)
+        if (map.getEndOfMove() == false)
         {
-            return;
+           // return;
         }
+        GameObject.Find("EndTurn").GetComponent<Button>().interactable = true;
 
         if (GameObject.FindWithTag("Player") == null || GameObject.FindWithTag("Enemy") == null)
         {
@@ -84,8 +85,6 @@ public class StateMachine : MonoBehaviour {
             //Player turn
             changeTurn(true);
            
-            Debug.Log("PLAYER TURN");
-
             GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Player Turn";
 
             unit = player.GetComponent<Actor>();
@@ -102,13 +101,14 @@ public class StateMachine : MonoBehaviour {
             //enemy turn
             changeTurn(false);
                         
-            Debug.Log("ENEMY TURN");
             GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Enemy Turn";
 
             unit = enemy.GetComponent<Actor>();
             map.selectedUnit = enemy;
            
-            map.getMapArray()[(int)unit.getCoords().x, (int)unit.getCoords().y,(int)unit.getCoords().z].setOccupiedTrue();
+            map.getMapArray()[(int)unit.getCoords().x, 
+                (int)unit.getCoords().y,
+                (int)unit.getCoords().z].setOccupiedTrue();
         }
     }
 

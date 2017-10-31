@@ -8,9 +8,11 @@ public class HealthBar : MonoBehaviour
     private float healthPercent;
     private Transform mainCamera;
     private Transform healthbar;
+    TileMap map;
      
     void Start()
     {
+        map = GameObject.Find("Map").GetComponent<TileMap>();
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
         healthPercent = gameObject.GetComponentInParent<Actor>().GetHealthPercent();
         healthbar = this.gameObject.transform.GetChild(0);
@@ -29,9 +31,7 @@ public class HealthBar : MonoBehaviour
     void Update()
     {
         transform.LookAt(mainCamera);
-        //healthPercent = gameObject.GetComponentInParent<Actor>().GetHealthPercent();
-        //Debug.Log(healthPercent);
-        //transform.localScale = new Vector3(healthPercent, 1f, 1f);
+       
     }
 
 }

@@ -159,6 +159,7 @@ public class GameController : MonoBehaviour
         {
             Debug.Log("Selected Player: " + interactedObject.name);
             selectedUnit = interactedObject.GetComponent<Actor>();
+            map.selectedUnit = interactedObject;
             SetAbilityButtons();
             if (selectedMarker != null)
                 selectedMarker.transform.position = selectedUnit.transform.position;// + new Vector3(0f,2f,0f);
@@ -213,14 +214,13 @@ public class GameController : MonoBehaviour
             clickedTile = interactedObject.GetComponent<ClickableTile>();
 
             Debug.Log("Selected Tile: " + interactedObject.name + " pos " + clickedTile.getCoords());
-            //map.moveActor(selectedUnit.gameObject, clickedTile.getCoords());
+          
             map.moveActorAsync(selectedUnit.gameObject, clickedTile.getCoords());
-            setMode(MODE_SELECT_UNIT);
-            //selectedUnit.PlaySound("move");
             
+            //selectedUnit.PlaySound("move");
         }
 
-
+        setMode(MODE_SELECT_UNIT);
     }
 
     void SelectLocation()
