@@ -42,6 +42,15 @@ public class HealthBar : MonoBehaviour
         */
     }
 
+    public void updateHealth(float health)
+    {
+        if (gameObject.transform.childCount == 2)
+        {
+            gameObject.transform.GetChild(1).transform.localScale = new Vector3(health, 1f, 1f);
+        }
+    }
+        
+
 // Update is called once per frame
     void Update()
     {
