@@ -20,7 +20,7 @@ public class StatusController : MonoBehaviour {
     private void playerAdded()
     {
         players = PlayerControlled.playerList;
-        enemies = Enemy.enemyList;
+        enemies = EnemyController.enemyList;
     }
 
     public static void addStatus(StatusEffect status)

@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-public class GameDataController {
+public class GameDataController: MonoBehaviour
+{
     //private string fileName = "data.json";
-    string filePath = Path.Combine(Application.streamingAssetsPath, "Saves\\data.json");
+    private string filePath;
+    private void Start()
+    {
+        filePath = Path.Combine(Application.streamingAssetsPath, "Saves\\data.json");
+    }
     public List<PlayerData> loadPlayerData()
     {
         if (File.Exists(filePath))

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatusEffect {
-
+public class StatusEffect
+{
+        
         int duration;
         string effectedStat;
         float effect;
