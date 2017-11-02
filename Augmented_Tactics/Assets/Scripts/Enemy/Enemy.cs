@@ -100,7 +100,7 @@ public class Enemy : Actor
             return;
 
         Vector3 movingTo = PosCloseTo(target.getCoords());
-        Debug.Log(movingTo);
+        //Debug.Log(movingTo);
         map.moveActorAsync(gameObject, movingTo);
         //Attack(currentTarget);
     }
@@ -239,17 +239,37 @@ public class Enemy : Actor
         output = output.normalized;
         if (Mathf.Abs(output.x) > Mathf.Abs(output.z))
         {
-            if (output.x > 0)
+           // if (output.x > 0)
                 output = new Vector3(1f, 0f, 0f);
-            else
+            if (!map.UnitCanEnterTile(mapPos + output))
+            {
+                //  else
                 output = new Vector3(-1f, 0f, 0f);
+                if (!map.UnitCanEnterTile(mapPos + output))
+                {
+                    output = new Vector3(0f, 0f, 1f);
+                    if (!map.UnitCanEnterTile(mapPos + output))
+                    {
+                        output = new Vector3(0f, 0f, -1f);
+                    }
+                }
+            }
         }
         else
         {
-            if (output.z > 0)
-                output = new Vector3(0f, 0f, 1f);
-            else
+            output = new Vector3(0f, 0f, 1f);
+            if (!map.UnitCanEnterTile(mapPos + output))
+            {
                 output = new Vector3(0f, 0f, -1f);
+                if (!map.UnitCanEnterTile(mapPos + output))
+                {
+                    output = new Vector3(1f, 0f, 0f);
+                    if (!map.UnitCanEnterTile(mapPos + output))
+                    {
+                        output = new Vector3(-1f, 0f, 0f);
+                    }
+                }
+            }
         }
         //Debug.Log("Delta "+ output + mapPos);
         output = mapPos + output;

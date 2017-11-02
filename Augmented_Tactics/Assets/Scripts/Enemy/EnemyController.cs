@@ -67,7 +67,7 @@ public class EnemyController : MonoBehaviour
         for (int playerNum = 0; playerNum < tempPlayerTeam.Length; playerNum++ )
         {
             userTeam[playerNum] = tempPlayerTeam[playerNum].GetComponent<Actor>();
-            Debug.Log(userTeam[playerNum]);
+            //Debug.Log(userTeam[playerNum]);
         }
     }
 
@@ -111,7 +111,7 @@ public class EnemyController : MonoBehaviour
     }
     private void EnemyAction()
     {
-        Debug.Log("called " + EnemyController.enemyNum + " " + currentEnemy);
+        //Debug.Log("called " + EnemyController.enemyNum + " " + currentEnemy);
         if (enemyList == null || currentEnemy >= EnemyController.enemyNum || enemyList[currentEnemy] == null)
         {
             Debug.Log("No more enemies");
