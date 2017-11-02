@@ -96,4 +96,27 @@ public class RangeHighlight : MonoBehaviour {
                 Destroy(child.gameObject);
         }
     }
+    public bool IsValidPosition(Vector3 input)
+    {
+        int max_X = 1000;
+        int max_Y = 1000;
+        int max_Z = 1000;
+
+        if (map != null)
+        {
+            max_X = map.mapSizeX;
+            max_Y = map.mapSizeX;
+            max_Z = map.mapSizeZ;
+        }
+
+        if (input.x < 0)
+            return false;
+        if (input.y < 0)
+            return false;
+        if (input.z < 0)
+            return false;
+
+
+        return true;
+    }
 }
