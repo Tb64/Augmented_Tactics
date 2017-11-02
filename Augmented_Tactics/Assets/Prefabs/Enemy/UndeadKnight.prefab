@@ -780,8 +780,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4659960303157796}
+  - component: {fileID: 114543434993139730}
   - component: {fileID: 65045152334437160}
-  - component: {fileID: 114693985197935990}
+  - component: {fileID: 82254570847989848}
+  - component: {fileID: 195181532354254082}
   m_Layer: 0
   m_Name: UndeadKnight
   m_TagString: Enemy
@@ -1157,7 +1159,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1975540078351752}
   m_LocalRotation: {x: 0.000005854696, y: 0.00000019653575, z: -0.000003701511, w: 1}
-  m_LocalPosition: {x: 0.0000019073486, y: 0.49999738, z: -0.0000023841858}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4969592547579708}
@@ -1311,7 +1313,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1879806224656938}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 4, y: 0, z: 4}
+  m_LocalPosition: {x: 10, y: 0.5, z: 16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224835861179653398}
@@ -1679,12 +1681,12 @@ Rigidbody:
   m_GameObject: {fileID: 1975540078351752}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Drag: 1
+  m_AngularDrag: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 94
   m_CollisionDetection: 0
 --- !u!54 &54746775020932764
 Rigidbody:
@@ -1711,7 +1713,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 0.3, y: 1, z: 0.3}
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!65 &65045152334437160
 BoxCollider:
@@ -1723,8 +1725,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 1.5, z: 0}
+  m_Size: {x: 0.5, y: 1, z: 0.5}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!65 &65991259620917602
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1748,6 +1750,86 @@ ConstantForce:
   m_RelativeForce: {x: 0, y: 0, z: 0}
   m_Torque: {x: 0, y: 0, z: 0}
   m_RelativeTorque: {x: 0, y: 0, z: 0}
+--- !u!82 &82254570847989848
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1879806224656938}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 0.7
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95401379158655638
 Animator:
   serializedVersion: 3
@@ -1863,6 +1945,32 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114543434993139730
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1879806224656938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4f415d12d5992349bcc39640ab9206f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health_current: 50
+  map: {fileID: 0}
+  coords: {x: 0, y: 0, z: 0}
+  speed: 3
+  moveDistance: 7
+  remainingMovement: 0
+  numOfMoves: 1
+  SM: {fileID: 0}
+  soundFx:
+    Move: {fileID: 8300000, guid: f2805cf8feb6543ebb46819e457a3b62, type: 3}
+    Attack: {fileID: 8300000, guid: 1797a0705a56740219aec41079bd4753, type: 3}
+    Damage: {fileID: 8300000, guid: 4ebef63f832f54fd0b648ffae65569a6, type: 3}
+    Death: {fileID: 8300000, guid: e6a5b3076b9a54fd6a81865309cf176a, type: 3}
+  setHealth: 50
+  setMana: 10
 --- !u!114 &114548557430841114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1884,26 +1992,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114693985197935990
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1879806224656938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac10400435898224f8480b0f9ee63999, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tileX: 4
-  tileZ: 4
-  index: 0
-  map: {fileID: 0}
-  SM: {fileID: 0}
-  speed: 3
-  moveDistance: 7
-  remainingMovement: 0
-  numOfMoves: 1
 --- !u!137 &137385185482781680
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
@@ -2027,6 +2115,27 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.07668215, y: 0.20266843, z: 0.10606074}
     m_Extent: {x: 0.80979764, y: 0.7373841, z: 0.9799017}
   m_DirtyAABB: 0
+--- !u!195 &195181532354254082
+NavMeshAgent:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1879806224656938}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.3
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 500
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!222 &222451386499495992
 CanvasRenderer:
   m_ObjectHideFlags: 1

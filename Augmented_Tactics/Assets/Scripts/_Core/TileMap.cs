@@ -8,7 +8,6 @@ public class TileMap : MonoBehaviour {
 
     #region variables
     public GameObject selectedUnit;
-    public TileType[] tileTypes;            //This seems stupid it should be stored in the tile
     float remainingMovement;
     public bool codeGenerateMap = true;
     LineRenderer path;
@@ -166,6 +165,19 @@ public class TileMap : MonoBehaviour {
         return new Vector3(input.x, .5f, input.z);
     }
 
+    public bool IsValidCoord(Vector3 input)
+    {
+        if (input.x < 0 || input.x > mapSizeX)
+            return false;
+        if (input.y < 0 || input.y > mapSizeY)
+            return false;
+        if (input.z < 0 || input.z > mapSizeZ)
+            return false;
+
+
+        return true;
+    }
+
     public float costToEnterTile(Vector3 source, Vector3 target)
     {
         TileType tt = getTileAtCoord(target).tileType;
@@ -187,6 +199,8 @@ public class TileMap : MonoBehaviour {
 
     public bool UnitCanEnterTile(Vector3 coords)
     {
+        if (!IsValidCoord(coords))
+            return false;
         //could test units movement type(walk,fly,run etc..)
         return getTileAtCoord(coords).tileType.isWalkable && getTileAtCoord(coords).isOccupied() == false;
     }
@@ -384,8 +398,20 @@ public class TileMap : MonoBehaviour {
     /// <returns></returns>
     public void moveActorAsync(GameObject actor, Vector3 target)
     {
+        actor.GetComponent<Actor>().PlaySound("move");
         StartCoroutine(MoveActorThread(actor, target));
         return;
+    }
+
+    /// <summary>
+    /// DO NOT LOOP. Call this once to have the Actor move to Target.
+    /// </summary>
+    /// <param name="actor">The Actor you want to move</param>
+    /// <param name="target">The Map position you want to move to</param>
+    /// <returns></returns>
+    public void moveActorAsync(Actor actor, Vector3 target)
+    {
+        moveActorAsync(actor.gameObject, target);
     }
 
     /// <summary>
@@ -446,12 +472,17 @@ public class TileMap : MonoBehaviour {
 
         //move unit to next tile
         endOfMove = unitObj.MoveController(unit.transform, TileCoordToWorldCoord(unitObj.getCoords()), unitObj.getSpeed());
-        Debug.Log("endOfMove: " + endOfMove);
+        //Debug.Log("endOfMove: " + endOfMove);
         
         if (endOfMove == true) //Anything that happens at end of Actor movement
         {
             unitObj.setRemainingMovement(0); // clears remaining movement of Actor at end of move
-            unitObj.numOfMoves--;
+            unitObj.useAction();
+            
+            if(unitObj.canAct() == true)
+            {
+                unitObj.setRemainingMovement(unitObj.getMoveDistance());
+            }
 
             if (unitObj.getCurrentPath() == null)
             {
@@ -497,8 +528,8 @@ public class TileMap : MonoBehaviour {
         unit.setRemainingMovement(remainingMovement);
 
         // Move to the next tile in the sequence
-        unit.tileX = (int)unit.getCurrentPath()[1].coords.x;
-        unit.tileZ = (int)unit.getCurrentPath()[1].coords.z;
+        //unit.tileX = (int)unit.getCurrentPath()[1].coords.x;
+        //unit.tileZ = (int)unit.getCurrentPath()[1].coords.z;
         unit.setCoords(unit.getCurrentPath()[1].coords);
 
         map[(int)unit.getCurrentPath()[0].coords.x,
@@ -572,7 +603,7 @@ public class TileMap : MonoBehaviour {
 
         do
         {
-            Debug.Log("Move Done :" + moveDone);
+            //Debug.Log("Move Done :" + moveDone);
             moveDone = moveUnit(actor);
             yield return null;
         }
@@ -604,10 +635,10 @@ public class TileMap : MonoBehaviour {
     #endregion
 
     #region setGets
-    public void setTileCoords(int tileX, int TileZ)
+    public void setTileCoords(int tileX, int tileZ)
     {
         tileCoords.x = tileX;
-        tileCoords.z = TileZ;
+        tileCoords.z = tileZ;
     }
     public LineRenderer getLinePath()
     {

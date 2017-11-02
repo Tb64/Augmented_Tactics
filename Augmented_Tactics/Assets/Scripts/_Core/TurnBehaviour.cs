@@ -16,6 +16,12 @@ public class TurnBehaviour : MonoBehaviour
     public delegate void GameEventHandler();
     public static event GameEventHandler OnGameStart;
 
+    // For Handling Actor Events
+    public delegate void ActorEventHandler();
+    public static event ActorEventHandler OnActorSpawn;
+    public static event ActorEventHandler OnActorMoved;
+    public static event ActorEventHandler OnActorAttacked;
+
 
     //for Handling Player Events
     public delegate void PlayerEventHandler();
@@ -122,6 +128,12 @@ public class TurnBehaviour : MonoBehaviour
         }
         if (OnUnitMoved != null)
             OnUnitMoved();
+    }
+
+    public static void ActorHasAttacked()
+    {
+        if (OnActorAttacked != null)
+            OnActorAttacked();
     }
 
     //**************************

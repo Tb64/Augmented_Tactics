@@ -74,12 +74,17 @@ public class RangeHighlight : MonoBehaviour {
                 Vector3 spawnPosition2 = new Vector3(positionInput.x - x, positionInput.y, positionInput.z + z);
                 if (spawnPosition1 != spawnPosition2)
                 {
-                    obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition2), hightlightObj.transform.rotation);
-                    obj.transform.parent = gameObject.transform;
-
+                    if (map.IsValidCoord(spawnPosition2))
+                    {
+                        obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition2), hightlightObj.transform.rotation);
+                        obj.transform.parent = gameObject.transform;
+                    }
                 }
-                obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition1), hightlightObj.transform.rotation);
-                obj.transform.parent = gameObject.transform;
+                if (map.IsValidCoord(spawnPosition1))
+                {
+                    obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition1), hightlightObj.transform.rotation);
+                    obj.transform.parent = gameObject.transform;
+                }
 
             }
             rangeDelta--;

@@ -20,7 +20,6 @@ CALLED PlayerControlled
 
 public class Actor : MonoBehaviour
 {
-
     /******************
      *  Variables
      ******************/
@@ -46,29 +45,39 @@ public class Actor : MonoBehaviour
 
     public Ability[] abilitySet;
 
-
     //Movement 
     public TileMap map;
-    private Vector3 coords;
+    public Vector3 coords;
     private List<Node> currentPath = null;
     NavMeshAgent playerAgent;
-    public int tileX;
-    public int tileZ;
     public float speed;
     public int moveDistance;
     public float remainingMovement;
-    public int numOfMoves;
+    public int numOfActions;
     
     //Misc vars
     public static int numberOfActors = 0;
     public StateMachine SM;
+    private AfterActionReport report;
     private Animator playerAnim;
     protected RangeHighlight rangeMarker;
-    
+    private bool incapacitated;
+    private bool dead;
+    protected int deathTimer;
+    //Audio clips
 
+    [System.Serializable]
+    public class AudioClips
+    {
+        public AudioClip Move;
+        public AudioClip Attack;
+        public AudioClip Damage;
+        public AudioClip Death;
+    }
+    public AudioClips soundFx;
+    protected AudioSource audio;
 
     #endregion
-
 
     /******************
      *  Events
@@ -78,33 +87,48 @@ public class Actor : MonoBehaviour
     public void Start()
     {
         Init();
-       
     }
 
     private void Awake()
     {
-        TurnBehaviour.OnUnitSpawn += this.OnUnitSpawn;
+        //TurnBehaviour.OnUnitSpawn += this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart += this.ActorTurnStart;
         TurnBehaviour.OnUnitMoved += this.ActorMoved;
-
     }
     
     public virtual void Update()
     {
         if (playerAgent != null)
             anim.SetFloat("Speed", playerAgent.velocity.magnitude);
-        
+     
+       
     }
 
     public virtual void OnDestroy()
     {
-        TurnBehaviour.OnUnitSpawn -= this.OnUnitSpawn;
+        //TurnBehaviour.OnUnitSpawn -= this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart -= this.ActorTurnStart;
         TurnBehaviour.OnUnitMoved -= this.ActorMoved;
     }
 
     public virtual void ActorTurnStart()
     {
+        remainingMovement = moveDistance;
+        setNumOfActions(2);
+        if(incapacitated == true && deathTimer < 6)
+        {
+            deathTimer++;
+            Debug.Log("Death Timer : " + deathTimer);
+        }
+        if(deathTimer == 6)
+        {
+            gameObject.SetActive(false);
+        }
+        
+        if(report != null)
+        {
+            report.battleOver();    //checks for win/lose conditions and loads hub
+        }
 
     }
 
@@ -116,28 +140,20 @@ public class Actor : MonoBehaviour
 
     #endregion
 
-
-    #region mouseEvents
-
-
-    public void OnMouseUp()
-    {
-        TileMap GO = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-
-        
-        GO.selectedUnit = gameObject;
-        //GameController.NewSelectedUnit();
-    }
-
-    #endregion
-        
     protected void Init()
     {
         
-
+        audio = GetComponent<AudioSource>();
+        if (GameObject.Find("SceneManager") != null)
+        {
+            report = GameObject.Find("SceneManager").GetComponent<AfterActionReport>();
+        }
+         
+        incapacitated = false; //determines whether actor is knocked out
+        dead = false;          //perma death
         health_current = health_max;
         remainingMovement = moveDistance;
-        numOfMoves = 1;
+        numOfActions = 2;
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
         GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
@@ -216,6 +232,43 @@ public class Actor : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Plays an audioClip attached to actor.
+    /// </summary>
+    /// <param name="input">string of the soundFx var</param>
+    /// <returns>True = sucess, False = failed to play</returns>
+    public bool PlaySound(string input)
+    {
+        if (soundFx == null 
+            || soundFx.Move == null
+            || soundFx.Attack == null
+            || soundFx.Damage == null
+            || soundFx.Death == null
+            || audio == null)
+            return false;
+
+        switch (input.ToLower())
+        {
+            case "move":
+                audio.clip = soundFx.Move;
+                break;
+            case "attack":
+                audio.clip = soundFx.Attack;
+                break;
+            case "damage":
+                audio.clip = soundFx.Damage;
+                break;
+            case "death":
+                audio.clip = soundFx.Death;
+                break;
+            default:
+                return false;
+        }
+
+        audio.Play();
+        return true;
+    }
+
     void clickToMove()
     {
         if (Input.GetMouseButtonDown(0) &&
@@ -253,14 +306,42 @@ public class Actor : MonoBehaviour
     /// <param name="damage">Damage the Actor will take as a float</param>
     public virtual void TakeDamage(float damage)
     {
+        if (gameObject.GetComponentInChildren<HealthBar>() != null)
+        {
+            gameObject.GetComponentInChildren<HealthBar>().updateHealth(GetHealthPercent());
+        }
+
+        damageNumber(damage, new Color(255, 0, 0, 1));
+
         health_current -= damage;
+        Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
         if (health_current <= 0)
         {
             health_current = 0;
             OnDeath();
+            return;
         }
+        anim.SetTrigger("Hit");
+        PlaySound("damage");
+        //Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
+    }
 
-        Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
+    /// <summary>
+    /// Spawns damage number over the actors head, first parameter is damage
+    /// and second is the color of the text
+    /// </summary>
+    /// <param name="damage"></param>
+    /// <param name="color"></param>
+    public void damageNumber(float damage, Color color)
+    {
+        TextMesh text = Resources.Load<GameObject>("Damage").GetComponent<TextMesh>();
+        text.text = damage.ToString();
+        TextMesh instance = Instantiate(text);
+        instance.transform.SetParent(transform);
+        instance.transform.position = transform.position + new Vector3(UnityEngine.Random.Range(-.2f, .2f), 2, 0);
+        instance.color = color;
+        instance.gameObject.GetComponent<Rigidbody>().velocity = transform.up;
+        Destroy(instance.gameObject, 1);
     }
 
     public virtual void HealHealth(float heal)
@@ -270,11 +351,14 @@ public class Actor : MonoBehaviour
         {
             health_current = health_max;
         }
+        damageNumber(heal, new Color(0, 255, 0, 1));
     }
 
     public virtual void OnDeath()
     {
-
+        incapacitated = true;
+        anim.SetTrigger("Death");
+        PlaySound("death");
     }
     #endregion
     
@@ -286,11 +370,32 @@ public class Actor : MonoBehaviour
 
     #region SetGets
 
-    //public Vector3 getMapPosition()
-    //{
-    //    return new Vector3((float)tileX, 0f, (float)tileZ);
+    public bool canAct()
+    {
+        if(numOfActions > 0)
+        {
+            return true;
+        }
+        return false;
+    }
 
-    //}
+    public void useAction()
+    {
+        if(numOfActions < 0)
+        {
+            numOfActions = 0;
+        }
+
+        if (numOfActions > 0)
+        {
+            numOfActions--;
+        }
+    }
+
+    public int actionNumber()
+    {
+        return numOfActions;
+    }
 
     public List<Node> getCurrentPath()
     {
@@ -322,20 +427,29 @@ public class Actor : MonoBehaviour
         speed = num;
     }
 
+    public bool isIncapacitated()
+    {
+        return incapacitated;
+    }
+
+    public bool isDead()
+    {
+        return dead;
+    }
     
     public float getSpeed()
     {
         return speed;
     }
 
-    public void setMoves(int moves)
+    public void setNumOfActions(int moves)
     {
-        numOfMoves = moves;
+        numOfActions = moves;
     }
 
     public int getMoves()
     {
-        return numOfMoves;
+        return numOfActions;
     }
 
     public void setMoveDistance(int distance)
@@ -379,7 +493,7 @@ public class Actor : MonoBehaviour
         return health_current;
     }
 
-    public void setHealthCurrent(int health)
+    public void setHealthCurrent(float health)
     {
         health_current = health;
     }
@@ -428,9 +542,14 @@ public class Actor : MonoBehaviour
         health_max = health;
     }
 
-    public void setMaxMana(int mana)
+    public void setMaxMana(float mana)
     {
         mana_max = mana;
+    }
+
+    public float getMaxMana()
+    {
+        return mana_max;
     }
 
     public void setStrength(int str)
