@@ -5,7 +5,7 @@ using System.Linq;
 
 
 public class TileMap : MonoBehaviour {
-
+    //ignore this
     #region variables
     public GameObject selectedUnit;
     float remainingMovement;
