@@ -3,15 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 [System.Serializable]
 public class GameData{
-    private static List<PlayerData> allPlayers;
+    private static List<PlayerData> allPlayers = new List<PlayerData>();
     private static bool loaded = false;
     public GameData()
     {
-        if (!loaded)
+        /*if (!loaded)
         {
             loaded = true;
             allPlayers = retrieveData();
-        }
+        }*/
+
+        List<PlayerData> tempPlayers = allPlayers;
+        tempPlayers.Add(new PlayerData("Doogy"));
+        allPlayers = tempPlayers;
+
     }
      
     /*public List<PlayerData> getAllPlayers()
