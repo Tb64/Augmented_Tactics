@@ -20,6 +20,11 @@ public class Ability
 
     public virtual void UseSkill(GameObject target)
     {
+        
+    }
+
+    public virtual void UseSkillAsync(GameObject target)
+    {
 
     }
 
