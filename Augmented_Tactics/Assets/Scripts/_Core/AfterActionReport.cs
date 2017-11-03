@@ -54,7 +54,9 @@ public class AfterActionReport : MonoBehaviour {
     {
         if(win() == true || lose() == true)
         {
-            manager.loadHub();
+            
+            
+            //manager.loadHub();
         }
     }
 }

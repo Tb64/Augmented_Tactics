@@ -32,7 +32,8 @@ public class BasicAttack : Ability {
 
     public override void UseSkill(GameObject target)
     {
-		if(target == null)
+        base.UseSkill(target);
+        if (target == null)
 		{
 			Debug.Log("Target is null.");
 			return;

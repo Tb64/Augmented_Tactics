@@ -100,7 +100,7 @@ public class GameController : MonoBehaviour
     //    {
     //        Debug.Log("Setting ability target");
     //        if(targetUnit != null)
-    //            selectedUnit.abilitySet[currentAbility].UseSkill(targetUnit);
+    //           selectedUnit.abilitySet[currentAbility].UseSkill(targetUnit);
     //        rangeMarker.Marker_Off();
     //        abilityMode = false;
     //    }
@@ -159,7 +159,7 @@ public class GameController : MonoBehaviour
         {
             Debug.Log("Selected Player: " + interactedObject.name);
             selectedUnit = interactedObject.GetComponent<Actor>();
-            map.selectedUnit = interactedObject;
+            //map.selectedUnit = interactedObject;
             SetAbilityButtons();
             if (selectedMarker != null)
                 selectedMarker.transform.position = selectedUnit.transform.position;// + new Vector3(0f,2f,0f);
@@ -302,9 +302,10 @@ public class GameController : MonoBehaviour
         //rangeMarker.Marker_On();
         currentAbility = abilityNum;
         setMode(MODE_SELECT_TARGET);
-        rangeMarker.Attack_Marker_On(selectedUnit.getCoords(), selectedUnit.abilitySet[currentAbility].range_min, selectedUnit.abilitySet[currentAbility].range);
+        rangeMarker.Attack_Marker_On(selectedUnit.getCoords(), 
+            selectedUnit.abilitySet[currentAbility].range_min, 
+            selectedUnit.abilitySet[currentAbility].range);
         //abilityMode = true;
-        selectedUnit.useAction();
     }
 
     /************
@@ -324,6 +325,7 @@ public class GameController : MonoBehaviour
             rangeMarker.Move_Marker_On(selectedUnit.getCoords(), selectedUnit.moveDistance); ;
     }
 
+ 
     Vector3 GetSelectedLocation(GameObject input)
     {
         Vector3 output = new Vector3(-1,-1,-1);

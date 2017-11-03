@@ -20,7 +20,7 @@ public class Ability
 
     public virtual void UseSkill(GameObject target)
     {
-        
+        parent.GetComponent<Actor>().useAction();
     }
 
     public virtual void UseSkillAsync(GameObject target)

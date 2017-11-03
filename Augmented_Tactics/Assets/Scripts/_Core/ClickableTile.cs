@@ -21,7 +21,7 @@ public class ClickableTile : MonoBehaviour {
     {
         player = GameObject.FindWithTag("Player").GetComponent<Actor>();
         enemy = GameObject.FindWithTag("Enemy").GetComponent<Actor>();
-        unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
+        //unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
         controller = GameObject.Find("GameController").GetComponent<StateMachine>();
         //sets clickable tile to false as its initialized
         occupied = false;

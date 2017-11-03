@@ -88,7 +88,7 @@ public class StateMachine : MonoBehaviour {
             GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Player Turn";
 
             unit = player.GetComponent<Actor>();
-            map.selectedUnit = player;
+            //map.selectedUnit = player;
      
             map.getMapArray()[(int)unit.getCoords().x,
                 (int)unit.getCoords().y, 
@@ -104,7 +104,7 @@ public class StateMachine : MonoBehaviour {
             GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Enemy Turn";
 
             unit = enemy.GetComponent<Actor>();
-            map.selectedUnit = enemy;
+            //map.selectedUnit = enemy;
            
             map.getMapArray()[(int)unit.getCoords().x, 
                 (int)unit.getCoords().y,
