@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Ability 
+public class Ability : MonoBehaviour
 {
     public int range;
     public int range_min;
+    public float dwell_time;
     public Animator anim;
     public string abilityName;
 
@@ -20,12 +21,23 @@ public class Ability
 
     public virtual void UseSkill(GameObject target)
     {
-        
+        //return false;
+
     }
 
-    public virtual void UseSkillAsync(GameObject target)
+    /// <summary>
+    /// Use this method if you need to check Skill is sucessful (in range or valid target).
+    /// </summary>
+    /// <param name="target"></param>
+    /// <param name="isSuccessful"></param>
+    public virtual void UseSkill(GameObject target, out bool isSuccessful)
     {
+        isSuccessful =  false;
+    }
 
+    public virtual void UseSkillAsync(GameObject target, out bool isSuccessful)
+    {
+        isSuccessful = false;
     }
 
     public bool SkillInRange(Vector3 start, Vector3 end)
@@ -40,5 +52,16 @@ public class Ability
 
         //Debug.Log("Skill:Find Range " + start + end);
         return (Vector3.Distance(start, end) <= (float)range);
+    }
+
+    protected void DwellTime()
+    {
+        StartCoroutine(DwellTimeThread());
+    }
+
+    protected IEnumerator DwellTimeThread()
+    {
+        yield return new WaitForSeconds(this.dwell_time);
+        TurnBehaviour.ActorHasAttacked();
     }
 }

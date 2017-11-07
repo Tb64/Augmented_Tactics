@@ -22,6 +22,7 @@ public class BasicAttack : Ability {
         anim = parent.GetComponentInChildren<Animator>();
         range = 1;
         range_min = 0;
+        dwell_time = 1.0f;
         abilityName = "Basic Attack";
         abilityImage = Resources.Load <Sprite>("sword") ;
         if (abilityImage == null)
@@ -31,7 +32,16 @@ public class BasicAttack : Ability {
 
     public override void UseSkill(GameObject target)
     {
-		if(target == null)
+        bool blank;
+        base.UseSkill(target);
+        UseSkill(target,out blank);
+    }
+
+    public override void UseSkill(GameObject target, out bool isSuccessful)
+    {
+        isSuccessful = false;
+
+        if (target == null)
 		{
 			Debug.Log("Target is null.");
 			return;
@@ -52,6 +62,8 @@ public class BasicAttack : Ability {
                 parent.GetComponent<Actor>().PlaySound("attack");
             }
             target.GetComponent<Actor>().TakeDamage(damage);
+            isSuccessful = true;
+            DwellTime();
         }
         else
         {
