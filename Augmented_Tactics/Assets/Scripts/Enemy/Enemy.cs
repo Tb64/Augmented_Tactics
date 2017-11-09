@@ -237,7 +237,7 @@ public class Enemy : Actor
     {
         Vector3 output = getCoords() - mapPos;
         output = output.normalized;
-        if (Mathf.Abs(output.x) > Mathf.Abs(output.z))
+        if (Mathf.Abs(output.x) > Mathf.Abs(output.z)) //attempts to get to the closest available tile then checks all other close pos'
         {
            // if (output.x > 0)
                 output = new Vector3(1f, 0f, 0f);
