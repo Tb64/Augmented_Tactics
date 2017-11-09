@@ -308,7 +308,7 @@ public class GameController : MonoBehaviour
         currentAbility = abilityNum;
         setMode(MODE_SELECT_TARGET);
         if (rangeMarker != null)
-            rangeMarker.Attack_Marker_On(selectedUnit.getCoords(), selectedUnit.abilitySet[currentAbility].range_min, selectedUnit.abilitySet[currentAbility].range);
+            rangeMarker.Attack_Marker_On(selectedUnit.getCoords(), selectedUnit.abilitySet[currentAbility].range_min, selectedUnit.abilitySet[currentAbility].range_max);
         //abilityMode = true;
         selectedUnit.useAction();
     }

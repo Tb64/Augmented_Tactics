@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class Ability
 {
-    public int range;
+    public int range_max;
     public int range_min;
     public float dwell_time;
     public Animator anim;
@@ -43,7 +43,8 @@ public class Ability
 
     public bool SkillInRange(Vector3 start, Vector3 end)
     {
-        return (Vector3.Distance(start, end) < (float)range);
+        float distance = Vector3.Distance(start, end);
+        return (distance <= (float)range_max && distance >= (float)range_min );
     }
 
     public bool SkillInRange(GameObject startObj, GameObject endObj)
@@ -51,8 +52,16 @@ public class Ability
         Vector3 start = startObj.GetComponent<Actor>().getCoords();
         Vector3 end = endObj.GetComponent<Actor>().getCoords();
 
-        //Debug.Log("Skill:Find Range " + start + end);
-        return (Vector3.Distance(start, end) <= (float)range);
+        return SkillInRange(start, end);
+    }
+
+    protected void rotateAtObj(GameObject target)
+    {
+        Vector3 newDir = Vector3.RotateTowards(parent.transform.forward, target.transform.position, 1f, 0f);
+        newDir = new Vector3(newDir.x, parent.transform.position.y, newDir.z);
+
+        newDir = new Vector3(target.transform.position.x, parent.transform.position.y, target.transform.position.z);
+        parent.transform.LookAt(newDir);
     }
 
     protected void DwellTimeThread()

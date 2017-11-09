@@ -20,7 +20,7 @@ public class BasicAttack : Ability {
     {
         base.Initialize(obj);
         anim = parent.GetComponentInChildren<Animator>();
-        range = 1;
+        range_max = 1;
         range_min = 0;
         dwell_time = 1.0f;
         abilityName = "Basic Attack";
@@ -51,7 +51,7 @@ public class BasicAttack : Ability {
         {
             if (SkillInRange(parent, target) == false)
             {
-                Debug.Log("Ability out of range. Range is " + range);
+                Debug.Log("Ability out of range. Range is " + range_max);
                 return;
             }
             if (anim != null)
@@ -69,14 +69,5 @@ public class BasicAttack : Ability {
         {
             Debug.Log("Target is not an Actor");
         }
-    }
-
-    private void rotateAtObj(GameObject target)
-    {
-        Vector3 newDir = Vector3.RotateTowards(parent.transform.forward, target.transform.position, 1f, 0f);
-        newDir = new Vector3(newDir.x, parent.transform.position.y, newDir.z);
-
-        newDir = new Vector3(target.transform.position.x, parent.transform.position.y, target.transform.position.z);
-        parent.transform.LookAt(newDir);
     }
 }
