@@ -1,9 +1,10 @@
 ﻿using System.Collections;
+using System.Threading;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Ability : MonoBehaviour
+public class Ability
 {
     public int range;
     public int range_min;
@@ -54,14 +55,20 @@ public class Ability : MonoBehaviour
         return (Vector3.Distance(start, end) <= (float)range);
     }
 
-    protected void DwellTime()
+    protected void DwellTimeThread()
     {
-        StartCoroutine(DwellTimeThread());
+        int sleepMS = (int)this.dwell_time * 1000;
+        Thread.Sleep(sleepMS);
+        //yield return new WaitForSeconds(this.dwell_time);
+
+        Debug.Log("Attack dwell finished");
+        TurnBehaviour.ActorHasAttacked();
     }
 
-    protected IEnumerator DwellTimeThread()
+    protected void DwellTime()
     {
-        yield return new WaitForSeconds(this.dwell_time);
-        TurnBehaviour.ActorHasAttacked();
+        Thread dwellThread = new Thread(this.DwellTimeThread);
+        dwellThread.Start();
+        //StartCoroutine(DwellTimeThread());
     }
 }
