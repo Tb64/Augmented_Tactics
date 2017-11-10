@@ -398,6 +398,7 @@ public class TileMap : MonoBehaviour {
     /// <returns></returns>
     public void moveActorAsync(GameObject actor, Vector3 target)
     {
+        //justin set move string array here
         actor.GetComponent<Actor>().PlaySound("move");
         StartCoroutine(MoveActorThread(actor, target));
         return;
