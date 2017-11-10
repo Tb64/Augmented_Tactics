@@ -30,11 +30,13 @@ public class BasicAttack : Ability {
         //Debug.Log("Adding " + abilityName + " to " + parent.name);
     }
 
-    public override void UseSkill(GameObject target)
+    public override bool UseSkill(GameObject target)
     {
         bool blank;
         base.UseSkill(target);
         UseSkill(target,out blank);
+
+        return blank;
     }
 
     public override void UseSkill(GameObject target, out bool isSuccessful)

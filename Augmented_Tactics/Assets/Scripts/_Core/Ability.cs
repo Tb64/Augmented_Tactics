@@ -20,9 +20,9 @@ public class Ability
         parent = obj;
     }
 
-    public virtual void UseSkill(GameObject target)
+    public virtual bool UseSkill(GameObject target)
     {
-        //return false;
+        return false;
 
     }
 
