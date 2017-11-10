@@ -21,7 +21,7 @@ public class ClickableTile : MonoBehaviour {
     {
         player = GameObject.FindWithTag("Player").GetComponent<Actor>();
         enemy = GameObject.FindWithTag("Enemy").GetComponent<Actor>();
-        //unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
+        unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
         controller = GameObject.Find("GameController").GetComponent<StateMachine>();
         //sets clickable tile to false as its initialized
         occupied = false;
@@ -59,9 +59,6 @@ public class ClickableTile : MonoBehaviour {
         //    unit.setMoveClicked(false);
         //}
 
-
-
-
     }
 
     public void OnMouseEnter()
@@ -71,6 +68,11 @@ public class ClickableTile : MonoBehaviour {
         gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color32(150,248,43,255));
 
     
+    }
+
+    public void isOccupiedBy()
+    {
+        //should return what unit is standing on the tile
     }
 
     public void OnMouseExit()

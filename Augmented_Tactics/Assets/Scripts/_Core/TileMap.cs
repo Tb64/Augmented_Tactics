@@ -48,16 +48,6 @@ public class TileMap : MonoBehaviour {
         }
         path = GameObject.Find("Path").GetComponent<LineRenderer>();
 
-        ////number of players in the map
-        //Players = new Location[20];
-        
-        ////initialize players array
-        //for (int index = 0; index < Players.Length; index++)
-        //{
-        //    Players[index] = new Location();
-        //}
-
-
         //sets unit to the selected unit in the map
         unit = selectedUnit.GetComponent<Actor>();
         Vector3 coordinates = new Vector3();
@@ -75,7 +65,6 @@ public class TileMap : MonoBehaviour {
 
         Actor player = GameObject.FindWithTag("Player").GetComponent<Actor>();
         Actor enemy = GameObject.FindWithTag("Enemy").GetComponent<Actor>();
-
 
         if (codeGenerateMap)
         {
@@ -321,7 +310,6 @@ public class TileMap : MonoBehaviour {
             }
         }
 
- 
         for (int x = 0; x < mapSizeX; x++)
         {
             for (int y = 0; y < mapSizeY; y++)
@@ -499,6 +487,8 @@ public class TileMap : MonoBehaviour {
     {
         Debug.Log("PLAYER HAS MOVED");
     }
+
+
 
     void AdvancePathing()
     {

@@ -159,7 +159,7 @@ public class GameController : MonoBehaviour
         {
             Debug.Log("Selected Player: " + interactedObject.name);
             selectedUnit = interactedObject.GetComponent<Actor>();
-            //map.selectedUnit = interactedObject;
+            map.selectedUnit = interactedObject;
             SetAbilityButtons();
             if (selectedMarker != null)
                 selectedMarker.transform.position = selectedUnit.transform.position;// + new Vector3(0f,2f,0f);

@@ -68,8 +68,6 @@ public class TurnBehaviour : MonoBehaviour
         numberOfTurns++;
     }
 
-
-
     public static void Initialize()
     {
         firstRun = true;

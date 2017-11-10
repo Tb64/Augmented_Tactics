@@ -17,15 +17,15 @@ public class AfterActionReport : MonoBehaviour {
     public bool win()
     {
         int win = 0;
-        for(int index = 0; index < Enemy.enemyNum; index++)
+        for(int index = 0; index < EnemyController.enemyNum; index++)
         {
-            if(Enemy.enemyList[index].isIncapacitated() == true || Enemy.enemyList[index].isDead() == true)
+            if(EnemyController.enemyList[index].isIncapacitated() == true || EnemyController.enemyList[index].isDead() == true)
             {
                 win++;
             }
         }
 
-        if(win == Enemy.enemyNum)
+        if(win == EnemyController.enemyNum)
         {
             return true;
         }

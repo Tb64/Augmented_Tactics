@@ -5,12 +5,14 @@ using UnityEngine;
 public class BaseClass : MonoBehaviour {
 
     private Actor player;
-    private GameData savedPlayerData;
+    private GameData savedPlayerData = new GameData();    
 
     private int skillPoints;
     private int experience;
     private int playerLevel;
     private string className;
+
+    public BaseClass[] jobs;
 
     //Stat gains;
     private int strengthGain;
@@ -20,20 +22,41 @@ public class BaseClass : MonoBehaviour {
     private int wisdomGain;
     private int charismaGain;
 
-	public virtual void Start () {
+    public virtual void Start() {
         initializeBaseStats();
-	}
-	
+
+        loadChar("Doogy");
+        /*if (loadChar("Doogy"))
+        {
+            Debug.Log("Successful Load!!");
+            Debug.Log(player.getCharisma());
+            //levelUp();
+            Debug.Log(player.getStrength());
+            //levelUp(); 
+        }
+        /*levelUp();
+        levelUp();
+        saveChar("Doogy");
+        Debug.Log("Successful Save");*/
+    }
+
     void initializeBaseStats()
     {
         player = GetComponentInParent<Actor>();
 
-        player.abilitySet = new BasicAttack[4];  
+        player.abilitySet = new BasicAttack[4];
         for (int i = 0; i < 4; i++)
         {
             player.abilitySet[i] = new BasicAttack(gameObject);
         }
-        
+
+        jobs = new BaseClass[7];
+
+        for (int index = 0; index < 7; index++)
+        {
+            jobs[index] = new BaseClass();
+        }
+
         player.setStrength(10);
         player.setDexterity(10);
         player.setConstitution(10);
@@ -45,6 +68,7 @@ public class BaseClass : MonoBehaviour {
         player.setMaxMana(10 * player.getIntelligence());
         player.setHealthCurrent(player.GetHeathMax());
         player.setManaCurrent(player.getMaxMana());
+
 
         skillPoints = 1;
         experience = 0;
@@ -76,7 +100,7 @@ public class BaseClass : MonoBehaviour {
         PlayerData character = savedPlayerData.findPlayer(charName);
         if (character == null)
         {
-            //Debug.LogError("Character " + " does not exist!");
+            Debug.LogError("Character " + " does not exist!");
             return false;
         }
         else
@@ -98,13 +122,13 @@ public class BaseClass : MonoBehaviour {
         }
     }
 
-    private bool saveChar()
+    private bool saveChar(string charName)
     {
-        PlayerData newData = new PlayerData();
+        PlayerData newData = new PlayerData(charName);
         newData.setStatbyKey("Experience", getExperience());
-        newData.setStatbyKey("Skill Points",getSkillPoints());
+        newData.setStatbyKey("Skill Points", getSkillPoints());
         newData.setStatbyKey("Player Level", playerLevel);
-        newData.setStatbyKey("Dexterity",player.getDexterity());
+        newData.setStatbyKey("Dexterity", player.getDexterity());
         newData.setStatbyKey("Intelligence", player.getIntelligence());
         newData.setStatbyKey("Charisma", player.getCharisma());
         newData.setStatbyKey("Constitution", player.getConstitution());
@@ -117,6 +141,10 @@ public class BaseClass : MonoBehaviour {
         return savedPlayerData.savePlayer(newData);
     }
 
+    private void triggerStatusEffect()
+    {
+
+    }
 
 
     void checkLevel()
@@ -199,6 +227,7 @@ public class BaseClass : MonoBehaviour {
             levelUp();
         }
        
+
     }
 
     #region set/gets
@@ -222,6 +251,7 @@ public class BaseClass : MonoBehaviour {
         className = name;
     }
 
+    
     //===============stat gains================//
 
     //the amount each stat will increase with each level + 1
