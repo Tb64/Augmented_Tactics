@@ -106,6 +106,12 @@ public class PlayerControlled : Actor
        
     }
 
+    public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
+        HealthBarUIManager.updateHealth();
+    }
+
     public int GetID()
     {
         return playerID;
