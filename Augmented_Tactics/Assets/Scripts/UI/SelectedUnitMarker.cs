@@ -20,7 +20,7 @@ public class SelectedUnitMarker : MonoBehaviour {
 
         Debug.Log(" HELLO I AM A UNIT ATTACH LOL ^.^");
         DetachMarker();
-        transform.Find("Cube").GetComponent<MeshRenderer>().enabled = true;
+        transform.GetComponentInChildren<MeshRenderer>().enabled = true;
         transform.position = SelectedUnit.transform.position;
         transform.parent = SelectedUnit.transform;
     }
@@ -28,7 +28,7 @@ public class SelectedUnitMarker : MonoBehaviour {
     public void DetachMarker()
     {
         transform.parent = null;
-        transform.Find("Cube").GetComponent < MeshRenderer >().enabled = false;
+        transform.GetComponentInChildren < MeshRenderer >().enabled = false;
     }
 
 }

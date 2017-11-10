@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraMovement : MonoBehaviour
+public class CameraMovementMPE : MonoBehaviour
 {
 	private float m_CameraSpeed			= 0.0f;
 	private Vector3 m_CameraPosition	= new Vector3(0.0f, 0.0f, -2.5f);
