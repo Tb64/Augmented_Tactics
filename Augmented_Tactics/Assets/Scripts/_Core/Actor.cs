@@ -64,6 +64,7 @@ public class Actor : MonoBehaviour
     private bool incapacitated;
     private bool dead;
     protected int deathTimer;
+    private Transform mainCamera;
     //Audio clips
 
     [System.Serializable]
@@ -93,7 +94,7 @@ public class Actor : MonoBehaviour
 
     private void Awake()
     {
-        //TurnBehaviour.OnUnitSpawn += this.OnUnitSpawn;
+        TurnBehaviour.OnUnitSpawn += this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart += this.ActorTurnStart;
         TurnBehaviour.OnUnitMoved += this.ActorMoved;
     }
@@ -106,7 +107,7 @@ public class Actor : MonoBehaviour
 
     public virtual void OnDestroy()
     {
-        //TurnBehaviour.OnUnitSpawn -= this.OnUnitSpawn;
+        TurnBehaviour.OnUnitSpawn -= this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart -= this.ActorTurnStart;
         TurnBehaviour.OnUnitMoved -= this.ActorMoved;
     }
@@ -125,10 +126,10 @@ public class Actor : MonoBehaviour
             gameObject.SetActive(false);
         }
         
-        if(report != null)
-        {
-            report.battleOver();    //checks for win/lose conditions and loads hub
-        }
+        //if(report != null)
+        //{
+        //    report.BattleOver();    //checks for win/lose conditions and loads hub
+        //}
 
     }
 
@@ -142,7 +143,7 @@ public class Actor : MonoBehaviour
 
     protected void Init()
     {
-        
+        mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
         audio = GetComponent<AudioSource>();
         if (GameObject.Find("SceneManager") != null)
         {
@@ -151,6 +152,13 @@ public class Actor : MonoBehaviour
          
         incapacitated = false; //determines whether actor is knocked out
         dead = false;          //perma death
+
+        coords.x = transform.position.x;
+        coords.y = transform.position.y;
+        coords.z = transform.position.z;
+
+
+
         health_current = health_max;
         remainingMovement = moveDistance;
         numOfActions = 2;
@@ -184,11 +192,9 @@ public class Actor : MonoBehaviour
     //Player Spawn Event - Put any actions you want done upon player spawn in here
     public void OnUnitSpawn()
     {
-        Debug.Log("UNIT SPAWNED");
+        //map.GetTileAt(coords).setOccupiedTrue();
     }
     
-
-
 
     /// <summary>
     /// Controls the physical and animation of moving the actor.  Does not generate path.
@@ -326,10 +332,7 @@ public class Actor : MonoBehaviour
     /// <param name="damage">Damage the Actor will take as a float</param>
     public virtual void TakeDamage(float damage)
     {
-        if (gameObject.GetComponentInChildren<HealthBar>() != null)
-        {
-            gameObject.GetComponentInChildren<HealthBar>().updateHealth(GetHealthPercent());
-        }
+        
 
         damageNumber(damage, new Color(255, 0, 0, 1));
 
@@ -345,6 +348,10 @@ public class Actor : MonoBehaviour
         //justin set damage string array here
         PlaySound("damage");
         //Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
+        if (gameObject.GetComponentInChildren<HealthBar>() != null)
+        {
+            gameObject.GetComponentInChildren<HealthBar>().updateHealth(GetHealthPercent());
+        }
     }
 
     /// <summary>

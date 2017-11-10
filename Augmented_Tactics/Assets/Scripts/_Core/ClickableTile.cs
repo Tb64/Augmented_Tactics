@@ -68,9 +68,6 @@ public class ClickableTile : MonoBehaviour {
         //    unit.setMoveClicked(false);
         //}
 
-
-
-
     }
 
     public void OnMouseEnter()
@@ -80,6 +77,11 @@ public class ClickableTile : MonoBehaviour {
         gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color32(150,248,43,255));
 
     
+    }
+
+    public void isOccupiedBy()
+    {
+        //should return what unit is standing on the tile
     }
 
     public void OnMouseExit()

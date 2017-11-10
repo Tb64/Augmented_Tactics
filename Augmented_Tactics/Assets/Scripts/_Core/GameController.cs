@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour
     public Image[] AbilityImages;
     public Text[] AbilityText;
     private RangeHighlight rangeMarker;
+    private GameObject endOfBattleController;
 
     private int currentAbility = 0;
     private static bool abilityMode = false;
@@ -43,6 +44,7 @@ public class GameController : MonoBehaviour
         TurnBehaviour.OnUnitSpawn += this.UnitSpawn;
         currentMode = MODE_SELECT_UNIT;
         GameObject mapObj = GameObject.FindGameObjectWithTag("Map");
+        endOfBattleController = GameObject.Find("EndofBattleController");
         if (mapObj != null)
         {
             map = mapObj.GetComponent<TileMap>();
@@ -88,6 +90,7 @@ public class GameController : MonoBehaviour
         {
             rangeMarker.Marker_Off();
         }
+        endOfBattleController.GetComponent<AfterActionReport>().BattleOver();
     }
 
     private void PlayerTurnStart()
@@ -101,7 +104,7 @@ public class GameController : MonoBehaviour
     //    {
     //        Debug.Log("Setting ability target");
     //        if(targetUnit != null)
-    //            selectedUnit.abilitySet[currentAbility].UseSkill(targetUnit);
+    //           selectedUnit.abilitySet[currentAbility].UseSkill(targetUnit);
     //        rangeMarker.Marker_Off();
     //        abilityMode = false;
     //    }
@@ -160,6 +163,7 @@ public class GameController : MonoBehaviour
         {
             Debug.Log("Selected Player: " + interactedObject.name);
             selectedUnit = interactedObject.GetComponent<Actor>();
+            map.selectedUnit = interactedObject;
             SetAbilityButtons();
             if (selectedMarker != null)
                 selectedMarker.transform.position = selectedUnit.transform.position;// + new Vector3(0f,2f,0f);
@@ -223,15 +227,14 @@ public class GameController : MonoBehaviour
             clickedTile = interactedObject.GetComponent<ClickableTile>();
 
             Debug.Log("Selected Tile: " + interactedObject.name + " pos " + clickedTile.getCoords());
-            //map.moveActor(selectedUnit.gameObject, clickedTile.getCoords());
+          
             map.moveActorAsync(selectedUnit.gameObject, clickedTile.getCoords());
 
-            setMode(MODE_SELECT_UNIT);
-            //selectedUnit.PlaySound("move");
             
+            //selectedUnit.PlaySound("move");
         }
 
-
+        setMode(MODE_SELECT_UNIT);
     }
 
     void SelectLocation()
@@ -319,8 +322,8 @@ public class GameController : MonoBehaviour
         setMode(MODE_SELECT_TARGET);
         if (rangeMarker != null)
             rangeMarker.Attack_Marker_On(selectedUnit.getCoords(), selectedUnit.abilitySet[currentAbility].range_min, selectedUnit.abilitySet[currentAbility].range_max);
+        //selectedUnit.abilitySet[currentAbility].range); broken after merge, commented out in meantime -Arthur
         //abilityMode = true;
-        selectedUnit.useAction();
     }
 
     /************
@@ -340,6 +343,7 @@ public class GameController : MonoBehaviour
             rangeMarker.Move_Marker_On(selectedUnit.getCoords(), selectedUnit.moveDistance); 
     }
 
+ 
     Vector3 GetSelectedLocation(GameObject input)
     {
         Vector3 output = new Vector3(-1,-1,-1);

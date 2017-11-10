@@ -41,6 +41,7 @@ public class BasicAttack : Ability {
 
     public override void UseSkill(GameObject target, out bool isSuccessful)
     {
+        base.UseSkill(target);
         isSuccessful = false;
 
         if (target == null)
