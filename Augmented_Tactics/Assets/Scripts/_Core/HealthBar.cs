@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-
+    //will need to refactor this to be used on enemy healthbars later
     private float healthPercent;
     private Transform mainCamera;
     private static Image[] playerBars;
@@ -15,11 +15,11 @@ public class HealthBar : MonoBehaviour
      
     void Start()
     {
+        /*
         currentScale = transform.localScale;
-        mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
-        /* Needs to start AFTER all actors loaded
+        // Needs to start AFTER all actors loaded
         healthPercent = 100;//gameObject.GetComponentInParent<Actor>().GetHealthPercent(); later will fetch from actor
-        enemyBars = new Image[Enemy.enemyNum];
+        enemyBars = new Image[EnemyController.enemyNum];
         playerBars = new Image[PlayerControlled.playerNum];
         GameObject[] tempUIObjects = GameObject.FindGameObjectsWithTag("UIHealthBar");
 
@@ -38,10 +38,10 @@ public class HealthBar : MonoBehaviour
                 Debug.Log(message: "is healthbase null?" + healthBase == null);
                 healthBase.transform.parent = Enemy.enemyList[i].transform;
             }
-
+            */
         //enemyBars[i] = Enemy.enemyList[i].GetComponentInChildren<Image>();
         //will be a problem if we have multiple images. Can seach all components of type image then filter by tag
-        */
+        
     }
 
     public void updateHealth(float health)
@@ -62,7 +62,7 @@ public class HealthBar : MonoBehaviour
         transform.localScale = new Vector3(currentScale.x * healthPercent, currentScale.y, currentScale.z);
     }
 
-    public static void UpdateHealth()
+    public void UpdateHealth()
     {
 
         
