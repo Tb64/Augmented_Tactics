@@ -71,10 +71,12 @@ public class Actor : MonoBehaviour
     public class AudioClips
     {
         public AudioClip Move;
+
         public AudioClip Attack;
         public AudioClip Damage;
         public AudioClip Death;
     }
+
     public AudioClips soundFx;
     protected AudioSource audio;
 
@@ -101,8 +103,6 @@ public class Actor : MonoBehaviour
     {
         if (playerAgent != null)
             anim.SetFloat("Speed", playerAgent.velocity.magnitude);
-     
-       
     }
 
     public virtual void OnDestroy()
@@ -182,6 +182,11 @@ public class Actor : MonoBehaviour
         map = GameObject.Find("Map").GetComponent<TileMap>();
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
+
+        
+    
+
+
     }
 
     //Player Spawn Event - Put any actions you want done upon player spawn in here
@@ -245,21 +250,36 @@ public class Actor : MonoBehaviour
     /// <returns>True = sucess, False = failed to play</returns>
     public bool PlaySound(string input)
     {
-        if (soundFx == null 
+        if (soundFx == null
             || soundFx.Move == null
             || soundFx.Attack == null
             || soundFx.Damage == null
             || soundFx.Death == null
             || audio == null)
             return false;
+        //justin audio garbage - ignore until fixed
+        //   int n;
+        //   n = UnityEngine.Random.Range(1, 6);
+        //   int k;
+        //   k = UnityEngine.Random.Range(1,4);
+        //   bool t;
+        //   t = getCurrentTurn();
+
+
+
 
         switch (input.ToLower())
         {
+
             case "move":
                 audio.clip = soundFx.Move;
                 break;
             case "attack":
                 audio.clip = soundFx.Attack;
+
+               //justin audio stuff - ignore
+               //audio.clip = soundFx.PlayerAttackSounds[n-1];
+              
                 break;
             case "damage":
                 audio.clip = soundFx.Damage;
@@ -328,6 +348,7 @@ public class Actor : MonoBehaviour
             return;
         }
         anim.SetTrigger("Hit");
+        //justin set damage string array here
         PlaySound("damage");
         //Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
     }
@@ -363,6 +384,7 @@ public class Actor : MonoBehaviour
     public virtual void OnDeath()
     {
         incapacitated = true;
+        //justin set string death array here
         anim.SetTrigger("Death");
         PlaySound("death");
     }

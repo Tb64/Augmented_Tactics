@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class Dialogue : MonoBehaviour {
 
     private static string filepath = "Assets/Resources/Dialogue/";
-    private string dialoguePanelLoc = "Canvas/DialoguePanel";
+    private string dialoguePanelLoc = "UI/DialoguePanel";
     private string[] lines;
     private static ConvNode currentNode;
     private static GameObject dialoguePanel;
@@ -24,14 +24,47 @@ public class Dialogue : MonoBehaviour {
         buttonPrompts = new GameObject[3];
         textPrompts = new Text[3];
         dialoguePanel = GameObject.Find(dialoguePanelLoc);
-        textDialogue = GameObject.Find(dialoguePanelLoc + "/DialogueText").GetComponent<Text>();
+        Text[] textElems = dialoguePanel.GetComponentsInChildren<Text>();
+        if(textElems != null)
+            for (int i = 0; i < textElems.Length; i++)
+            {
+                switch (textElems[i].gameObject.name)
+                {
+                    case "DialogueText":
+                        textDialogue = textElems[i];
+                        break;
+                    case "NDArrow":
+                        //get the game object of text, then the gameobject parent
+                        buttonNextDialogue = textElems[i].gameObject.transform.parent.gameObject; 
+                        break;
+                    case "PBText0":
+                        buttonPrompts[0] = textElems[i].gameObject.transform.parent.gameObject;
+                        textPrompts[0] = textElems[i];
+                        buttonPrompts[0].SetActive(false);
+                        break;
+                    case "PBText1":
+                        buttonPrompts[1] = textElems[i].gameObject.transform.parent.gameObject;
+                        textPrompts[1] = textElems[i];
+                        buttonPrompts[1].SetActive(false);
+                        break;
+                    case "PBText2":
+                        buttonPrompts[2] = textElems[i].gameObject.transform.parent.gameObject;
+                        textPrompts[2] = textElems[i];
+                        buttonPrompts[2].SetActive(false);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        /*textDialogue = GameObject.Find(dialoguePanelLoc + "/DialogueText").GetComponent<Text>();
         buttonNextDialogue = GameObject.Find(dialoguePanelLoc + "/NextDialogueButton");
         for (int i = 0; i < 3; i++)
         {
             buttonPrompts[i] = GameObject.Find(dialoguePanelLoc + "/PromptButton" + i.ToString());
-            textPrompts[i] = GameObject.Find(dialoguePanelLoc + "/PromptButton" + i.ToString() + "/Text").GetComponent<Text>();
+            textPrompts[i] = GameObject.Find(dialoguePanelLoc + "/PromptButton" + i.ToString() + "/PB" + i.ToString() + "Text").GetComponent<Text>();
             buttonPrompts[i].SetActive(false);
-        }
+        }*/
+
         dialoguePanel.SetActive(false);
     }
 
