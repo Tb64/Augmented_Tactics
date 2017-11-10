@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     public const int MODE_ACTION            = 4;
 
     public GameObject selectedMarker;
+    public GameObject selectedUnitHighlight;
 
     private static Actor selectedUnit;
     private static Vector3 targetLocation;
@@ -162,7 +163,12 @@ public class GameController : MonoBehaviour
             SetAbilityButtons();
             if (selectedMarker != null)
                 selectedMarker.transform.position = selectedUnit.transform.position;// + new Vector3(0f,2f,0f);
+            if (selectedUnitHighlight != null)
+                selectedUnitHighlight.GetComponent<SelectedUnitMarker>().AttachMarker(selectedUnit);
+            else
+                Debug.Log("UNIT MARKER NOT ATTACHED");
         }
+
 
     }
 
@@ -265,6 +271,10 @@ public class GameController : MonoBehaviour
             //selectedUnit = gObj.GetComponent<Actor>();
             if (selectedMarker != null)
                 selectedMarker.transform.position = selectedUnit.transform.position;
+            //if (selectedUnitHighlight != null)
+            //    selectedUnitHighlight.GetComponent<SelectedUnitMarker>().AttachMarker(selectedUnit);
+
+
             SetAbilityButtons();
         }
     }
