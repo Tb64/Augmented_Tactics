@@ -13,7 +13,7 @@ public class HealthBarUIManager : MonoBehaviour {
         
     // this manager first gets all the health bars when a player controlled unit spawn and disables then
     // when a unit takes damage update all bars
-    void Start ()
+    void Awake ()
     {
         TurnBehaviour.OnUnitSpawn += onUnitSpawn;
     }
@@ -28,6 +28,8 @@ public class HealthBarUIManager : MonoBehaviour {
 
     public void onUnitSpawn()
     {
+        Debug.Log("called");
+        Debug.Log(numPlayers);
         if(numPlayers < PlayerControlled.playerNum)
             if (!ranAlready)
             {
