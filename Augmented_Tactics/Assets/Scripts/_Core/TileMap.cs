@@ -34,6 +34,7 @@ public class TileMap : MonoBehaviour {
     void Start() {
         initialize();
         TurnBehaviour.OnUnitMoved += this.PlayerMoveActions;
+        TurnBehaviour.OnUnitSpawn += this.UnitInit;
     }
     
     //use this function to initializes variables
@@ -77,6 +78,13 @@ public class TileMap : MonoBehaviour {
         }
 
         generatePathFindingGraph();
+    }
+
+    void UnitInit()
+    {
+        //sets unit position on the map
+
+
     }
 
     void LoadTileData()

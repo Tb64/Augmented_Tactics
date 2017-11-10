@@ -11,11 +11,13 @@ public class HealthBar : MonoBehaviour
     private static Image[] playerBars;
     private static Image[] enemyBars;
     private TileMap map;
+    private Vector3 currentScale;
     private const string filename = "UI/HealthBarBase";
      
     void Start()
     {
         map = GameObject.Find("Map").GetComponent<TileMap>();
+        currentScale = transform.localScale;
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
         /* Needs to start AFTER all actors loaded
         healthPercent = 100;//gameObject.GetComponentInParent<Actor>().GetHealthPercent(); later will fetch from actor

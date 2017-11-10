@@ -26,7 +26,16 @@ public class ClickableTile : MonoBehaviour {
         //sets clickable tile to false as its initialized
         occupied = false;
     }
-   
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("Collided with " + collision.gameObject.name);
+        if(collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
+        {
+            Debug.Log("Collison with actor.");
+        }
+    }
+
     private void Update()
     {
      
@@ -38,18 +47,18 @@ public class ClickableTile : MonoBehaviour {
       
         //Generates a path to clicked tile
 
-        bool firstClick = true;
+        //bool firstClick = true;
 
-        if (controller.getFirstTurn() == true && firstClick == true)
-        {//Only runs on the first click of the scene
-            map.getMapArray()[(int)enemy.GetComponent<Actor>().getCoords().x,
-                (int)enemy.GetComponent<Actor>().getCoords().y,
-                (int)enemy.GetComponent<Actor>().getCoords().z].setOccupiedTrue();
-            map.getMapArray()[(int)player.GetComponent<Actor>().getCoords().x,
-                (int)player.GetComponent<Actor>().getCoords().y,
-                (int)player.GetComponent<Actor>().getCoords().z].setOccupiedTrue();
-            firstClick = false;
-        }
+        //if (controller.getFirstTurn() == true && firstClick == true)
+        //{//Only runs on the first click of the scene
+        //    map.getMapArray()[(int)enemy.GetComponent<Actor>().getCoords().x,
+        //        (int)enemy.GetComponent<Actor>().getCoords().y,
+        //        (int)enemy.GetComponent<Actor>().getCoords().z].setOccupiedTrue();
+        //    map.getMapArray()[(int)player.GetComponent<Actor>().getCoords().x,
+        //        (int)player.GetComponent<Actor>().getCoords().y,
+        //        (int)player.GetComponent<Actor>().getCoords().z].setOccupiedTrue();
+        //    firstClick = false;
+        //}
 
         //if (map.getEndOfMove() == true && unit.getMoveClicked() == true)
         //{
