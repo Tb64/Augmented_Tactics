@@ -24,6 +24,7 @@ public class GameController : MonoBehaviour
     public Image[] AbilityImages;
     public Text[] AbilityText;
     private RangeHighlight rangeMarker;
+    private GameObject endOfBattleController;
 
     private int currentAbility = 0;
     private static bool abilityMode = false;
@@ -42,6 +43,7 @@ public class GameController : MonoBehaviour
         TurnBehaviour.OnUnitSpawn += this.UnitSpawn;
         currentMode = MODE_SELECT_UNIT;
         GameObject mapObj = GameObject.FindGameObjectWithTag("Map");
+        endOfBattleController = GameObject.Find("EndofBattleController");
         if (mapObj != null)
         {
             map = mapObj.GetComponent<TileMap>();
@@ -87,6 +89,7 @@ public class GameController : MonoBehaviour
         {
             rangeMarker.Marker_Off();
         }
+        endOfBattleController.GetComponent<AfterActionReport>().BattleOver();
     }
 
     private void PlayerTurnStart()
@@ -309,7 +312,7 @@ public class GameController : MonoBehaviour
         setMode(MODE_SELECT_TARGET);
         if (rangeMarker != null)
             rangeMarker.Attack_Marker_On(selectedUnit.getCoords(), selectedUnit.abilitySet[currentAbility].range_min, selectedUnit.abilitySet[currentAbility].range_max);
-            selectedUnit.abilitySet[currentAbility].range);
+        //selectedUnit.abilitySet[currentAbility].range); broken after merge, commented out in meantime -Arthur
         //abilityMode = true;
     }
 

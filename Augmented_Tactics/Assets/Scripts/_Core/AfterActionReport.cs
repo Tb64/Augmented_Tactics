@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class AfterActionReport : MonoBehaviour {
@@ -50,13 +51,22 @@ public class AfterActionReport : MonoBehaviour {
         return false;
     }
 
-    public void battleOver()
+    public void Restart()
+    {
+        manager.LoadLevel(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void Continue()
+    {
+
+    }
+
+    public void BattleOver()
     {
         if(win() == true || lose() == true)
         {
-            
-            
-            //manager.loadHub();
+            GameObject screen = transform.Find("EndofBattleScreen").gameObject;
+            screen.GetComponent<Canvas>().enabled = true;
         }
     }
 }

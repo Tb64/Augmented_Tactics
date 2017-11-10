@@ -34,7 +34,6 @@ public class TileMap : MonoBehaviour {
     void Start() {
         initialize();
         TurnBehaviour.OnUnitMoved += this.PlayerMoveActions;
-        TurnBehaviour.OnUnitSpawn += this.UnitInit;
     }
     
     //use this function to initializes variables
@@ -47,6 +46,7 @@ public class TileMap : MonoBehaviour {
             Debug.LogError("Null reference, missing path object, add in scene hierarchy");
             return;
         }
+
         path = GameObject.Find("Path").GetComponent<LineRenderer>();
 
         //sets unit to the selected unit in the map
@@ -78,13 +78,6 @@ public class TileMap : MonoBehaviour {
         }
 
         generatePathFindingGraph();
-    }
-
-    void UnitInit()
-    {
-        //sets unit position on the map
-
-
     }
 
     void LoadTileData()

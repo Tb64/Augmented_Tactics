@@ -126,10 +126,10 @@ public class Actor : MonoBehaviour
             gameObject.SetActive(false);
         }
         
-        if(report != null)
-        {
-            report.battleOver();    //checks for win/lose conditions and loads hub
-        }
+        //if(report != null)
+        //{
+        //    report.BattleOver();    //checks for win/lose conditions and loads hub
+        //}
 
     }
 
