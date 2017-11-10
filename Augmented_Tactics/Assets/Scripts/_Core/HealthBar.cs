@@ -17,8 +17,9 @@ public class HealthBar : MonoBehaviour
     void Start()
     {
         map = GameObject.Find("Map").GetComponent<TileMap>();
-        /*
+        mainCamera = GameObject.FindWithTag("MainCamera").transform;
         currentScale = transform.localScale;
+        /*
         // Needs to start AFTER all actors loaded
         healthPercent = 100;//gameObject.GetComponentInParent<Actor>().GetHealthPercent(); later will fetch from actor
         enemyBars = new Image[EnemyController.enemyNum];

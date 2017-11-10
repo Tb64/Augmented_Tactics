@@ -332,10 +332,7 @@ public class Actor : MonoBehaviour
     /// <param name="damage">Damage the Actor will take as a float</param>
     public virtual void TakeDamage(float damage)
     {
-        if (gameObject.GetComponentInChildren<HealthBar>() != null)
-        {
-            gameObject.GetComponentInChildren<HealthBar>().updateHealth(GetHealthPercent());
-        }
+        
 
         damageNumber(damage, new Color(255, 0, 0, 1));
 
@@ -351,6 +348,10 @@ public class Actor : MonoBehaviour
         //justin set damage string array here
         PlaySound("damage");
         //Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
+        if (gameObject.GetComponentInChildren<HealthBar>() != null)
+        {
+            gameObject.GetComponentInChildren<HealthBar>().updateHealth(GetHealthPercent());
+        }
     }
 
     /// <summary>
