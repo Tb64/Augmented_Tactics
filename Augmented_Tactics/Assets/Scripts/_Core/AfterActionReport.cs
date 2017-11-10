@@ -58,7 +58,7 @@ public class AfterActionReport : MonoBehaviour {
 
     public void Continue()
     {
-
+        manager.LoadHub();
     }
 
     public void BattleOver()

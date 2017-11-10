@@ -5,13 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneManagement : MonoBehaviour {
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            SceneManager.LoadScene(1);
-        }
-    }
+   
 
     public void LoadHub()
     {//loads main hub

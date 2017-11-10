@@ -187,7 +187,7 @@ public class Actor : MonoBehaviour
     //Player Spawn Event - Put any actions you want done upon player spawn in here
     public void OnUnitSpawn()
     {
-        map.GetTileAt(coords).setOccupiedTrue();
+        //map.GetTileAt(coords).setOccupiedTrue();
     }
     
 

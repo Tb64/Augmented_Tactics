@@ -48,10 +48,10 @@ public class HealthBar : MonoBehaviour
 
     public void updateHealth(float health)
     {
-        if (gameObject.transform.childCount == 2)
-        {
-            gameObject.transform.GetChild(1).transform.localScale = new Vector3(health, 1f, 1f);
-        }
+
+        transform.Find("CurrentHealth").transform.localScale = new Vector3(health, 1f, 1f);
+
+       
     }
         
 
