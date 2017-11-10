@@ -10,13 +10,16 @@ public class HealthBar : MonoBehaviour
     private Transform mainCamera;
     private static Image[] playerBars;
     private static Image[] enemyBars;
+    private TileMap map;
     private Vector3 currentScale;
     private const string filename = "UI/HealthBarBase";
      
     void Start()
     {
-        /*
+        map = GameObject.Find("Map").GetComponent<TileMap>();
+        mainCamera = GameObject.FindWithTag("MainCamera").transform;
         currentScale = transform.localScale;
+        /*
         // Needs to start AFTER all actors loaded
         healthPercent = 100;//gameObject.GetComponentInParent<Actor>().GetHealthPercent(); later will fetch from actor
         enemyBars = new Image[EnemyController.enemyNum];
@@ -46,10 +49,10 @@ public class HealthBar : MonoBehaviour
 
     public void updateHealth(float health)
     {
-        if (gameObject.transform.childCount == 2)
-        {
-            gameObject.transform.GetChild(1).transform.localScale = new Vector3(health, 1f, 1f);
-        }
+
+        transform.Find("CurrentHealth").transform.localScale = new Vector3(health, 1f, 1f);
+
+       
     }
         
 
@@ -57,9 +60,7 @@ public class HealthBar : MonoBehaviour
     void Update()
     {
         transform.LookAt(mainCamera);
-        healthPercent = gameObject.GetComponentInParent<Actor>().GetHealthPercent();
-        //Debug.Log(healthPercent);
-        transform.localScale = new Vector3(currentScale.x * healthPercent, currentScale.y, currentScale.z);
+       
     }
 
     public void UpdateHealth()

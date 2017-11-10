@@ -19,8 +19,8 @@ public class TileMap : MonoBehaviour {
 
     Vector3 tempCoords = new Vector3();
 
-    bool canMove;
-    bool endOfMove;
+    private bool canMove;
+    private bool endOfMove;
 
     //int[,] tiles;
     Node[,,] graph;
@@ -34,30 +34,20 @@ public class TileMap : MonoBehaviour {
     void Start() {
         initialize();
         TurnBehaviour.OnUnitMoved += this.PlayerMoveActions;
-        TurnBehaviour.OnUnitSpawn += this.UnitInit;
     }
     
     //use this function to initializes variables
     void initialize()
     {
         map = new ClickableTile[mapSizeX,mapSizeY,mapSizeZ];
-        canMove = false;
+        endOfMove = true;
         if (GameObject.Find("Path").GetComponent<LineRenderer>() == null)
         {
             Debug.LogError("Null reference, missing path object, add in scene hierarchy");
             return;
         }
+
         path = GameObject.Find("Path").GetComponent<LineRenderer>();
-
-        ////number of players in the map
-        //Players = new Location[20];
-        
-        ////initialize players array
-        //for (int index = 0; index < Players.Length; index++)
-        //{
-        //    Players[index] = new Location();
-        //}
-
 
         //sets unit to the selected unit in the map
         unit = selectedUnit.GetComponent<Actor>();
@@ -77,7 +67,6 @@ public class TileMap : MonoBehaviour {
         Actor player = GameObject.FindWithTag("Player").GetComponent<Actor>();
         Actor enemy = GameObject.FindWithTag("Enemy").GetComponent<Actor>();
 
-
         if (codeGenerateMap)
         {
             GenerateMapData();
@@ -89,13 +78,6 @@ public class TileMap : MonoBehaviour {
         }
 
         generatePathFindingGraph();
-    }
-
-    void UnitInit()
-    {
-        //sets unit position on the map
-
-
     }
 
     void LoadTileData()
@@ -329,7 +311,6 @@ public class TileMap : MonoBehaviour {
             }
         }
 
- 
         for (int x = 0; x < mapSizeX; x++)
         {
             for (int y = 0; y < mapSizeY; y++)
@@ -508,6 +489,8 @@ public class TileMap : MonoBehaviour {
     {
         Debug.Log("PLAYER HAS MOVED");
     }
+
+
 
     void AdvancePathing()
     {
