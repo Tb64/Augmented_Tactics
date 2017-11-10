@@ -10,11 +10,13 @@ public class HealthBar : MonoBehaviour
     private Transform mainCamera;
     private static Image[] playerBars;
     private static Image[] enemyBars;
+    private Vector3 currentScale;
     private const string filename = "UI/HealthBarBase";
      
     void Start()
     {
-        /*mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
+        /*
+        currentScale = transform.localScale;
         // Needs to start AFTER all actors loaded
         healthPercent = 100;//gameObject.GetComponentInParent<Actor>().GetHealthPercent(); later will fetch from actor
         enemyBars = new Image[EnemyController.enemyNum];
@@ -36,7 +38,7 @@ public class HealthBar : MonoBehaviour
                 Debug.Log(message: "is healthbase null?" + healthBase == null);
                 healthBase.transform.parent = Enemy.enemyList[i].transform;
             }
-        */
+            */
         //enemyBars[i] = Enemy.enemyList[i].GetComponentInChildren<Image>();
         //will be a problem if we have multiple images. Can seach all components of type image then filter by tag
         
@@ -55,9 +57,9 @@ public class HealthBar : MonoBehaviour
     void Update()
     {
         transform.LookAt(mainCamera);
-        //healthPercent = gameObject.GetComponentInParent<Actor>().GetHealthPercent();
+        healthPercent = gameObject.GetComponentInParent<Actor>().GetHealthPercent();
         //Debug.Log(healthPercent);
-        //transform.localScale = new Vector3(healthPercent, 1f, 1f);
+        transform.localScale = new Vector3(currentScale.x * healthPercent, currentScale.y, currentScale.z);
     }
 
     public void UpdateHealth()
