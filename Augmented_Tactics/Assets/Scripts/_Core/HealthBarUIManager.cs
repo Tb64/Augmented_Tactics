@@ -11,7 +11,7 @@ public class HealthBarUIManager : MonoBehaviour {
     private static int numPlayers = 0;
     private static bool ranAlready = false;
         
-    // this manager first gets all the health bars when a player controlled unit spawn and disables then
+    // this manager first gets all the health bars and disables them, enabling them 1 by one as player controlled units spawn
     // when a unit takes damage update all bars
     void Awake ()
     {
@@ -20,16 +20,13 @@ public class HealthBarUIManager : MonoBehaviour {
 
 	public static void updateHealth()
     {
+        //would be harder to tell which enemy in particular took damage. Just update all bars
         for (int i = 0; i < numPlayers; i++)
-        {
             playerHealthImg[i].fillAmount = PlayerControlled.playerList[i].GetHealthPercent();
-        }
     }
 
     public void onUnitSpawn()
     {
-        Debug.Log("called");
-        Debug.Log(numPlayers);
         if(numPlayers < PlayerControlled.playerNum)
             if (!ranAlready)
             {
@@ -55,14 +52,13 @@ public class HealthBarUIManager : MonoBehaviour {
     private void getBars(int arraySlot)
     {
         Image[] bars = barFolders[arraySlot].GetComponentsInChildren<Image>();
+        //Looks for all the images in the BarX game objects, finds the proper ones we will modify
         if (bars!=null)
             for (int i = 0; i < bars.Length; i++)
-            {
                 if (bars[i].name == ("HFront" + (arraySlot + 1).ToString()))
                     playerHealthImg[arraySlot] = bars[i];
-                if (bars[i].name == ("MFront" + (arraySlot + 1).ToString()))
+                else if (bars[i].name == ("MFront" + (arraySlot + 1).ToString()))
                     playerManaImg[arraySlot] = bars[i];
-            }
         barFolders[arraySlot].SetActive(false);
     }
 
@@ -70,7 +66,7 @@ public class HealthBarUIManager : MonoBehaviour {
     {
         GameObject[] tempObjs = GameObject.FindGameObjectsWithTag("UIHealthBar");
 
-        //making sure everything is in order and getting the proper health bars to modify
+        //making sure everything is in order to activate the proper bars
         if (tempObjs != null)
         {
             barFolders = new GameObject[tempObjs.Length];
