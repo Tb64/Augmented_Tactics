@@ -5,19 +5,24 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-
+    //will need to refactor this to be used on enemy healthbars later
     private float healthPercent;
     private Transform mainCamera;
     private static Image[] playerBars;
     private static Image[] enemyBars;
+    private TileMap map;
+    private Vector3 currentScale;
     private const string filename = "UI/HealthBarBase";
      
     void Start()
     {
-        mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
-        /* Needs to start AFTER all actors loaded
+        map = GameObject.Find("Map").GetComponent<TileMap>();
+        mainCamera = GameObject.FindWithTag("MainCamera").transform;
+        currentScale = transform.localScale;
+        /*
+        // Needs to start AFTER all actors loaded
         healthPercent = 100;//gameObject.GetComponentInParent<Actor>().GetHealthPercent(); later will fetch from actor
-        enemyBars = new Image[Enemy.enemyNum];
+        enemyBars = new Image[EnemyController.enemyNum];
         playerBars = new Image[PlayerControlled.playerNum];
         GameObject[] tempUIObjects = GameObject.FindGameObjectsWithTag("UIHealthBar");
 
@@ -36,18 +41,18 @@ public class HealthBar : MonoBehaviour
                 Debug.Log(message: "is healthbase null?" + healthBase == null);
                 healthBase.transform.parent = Enemy.enemyList[i].transform;
             }
-
+            */
         //enemyBars[i] = Enemy.enemyList[i].GetComponentInChildren<Image>();
         //will be a problem if we have multiple images. Can seach all components of type image then filter by tag
-        */
+        
     }
 
     public void updateHealth(float health)
     {
-        if (gameObject.transform.childCount == 2)
-        {
-            gameObject.transform.GetChild(1).transform.localScale = new Vector3(health, 1f, 1f);
-        }
+
+        transform.Find("CurrentHealth").transform.localScale = new Vector3(health, 1f, 1f);
+
+       
     }
         
 
@@ -55,12 +60,10 @@ public class HealthBar : MonoBehaviour
     void Update()
     {
         transform.LookAt(mainCamera);
-        //healthPercent = gameObject.GetComponentInParent<Actor>().GetHealthPercent();
-        //Debug.Log(healthPercent);
-        //transform.localScale = new Vector3(healthPercent, 1f, 1f);
+       
     }
 
-    public static void UpdateHealth()
+    public void UpdateHealth()
     {
 
         

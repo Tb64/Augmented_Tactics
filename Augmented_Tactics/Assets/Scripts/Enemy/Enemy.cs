@@ -79,6 +79,12 @@ public class Enemy : Actor
     public virtual void EnemyTurnStartActions()
     {
         Debug.Log("Enemy " + enemyID + " moving");
+        if (GetHealthPercent() == 0f)
+        {
+            SM.setTurn();
+            return;
+        }
+
         //base.EnemyTurnStart();
         map.selectedUnit = gameObject;
         nearest = findNearestPlayer();
@@ -93,14 +99,14 @@ public class Enemy : Actor
 
         if (target != weakest)
             target = findTarget(weakest, distanceToNearest);
-        Debug.Log("Found Target = " + target.name + " at " + target.transform.position);
+        //Debug.Log("Found Target = " + target.name + " at " + target.transform.position + target.getCoords());
         currentTarget = target;    
 
         if (target == null)
             return;
 
         Vector3 movingTo = PosCloseTo(target.getCoords());
-        //Debug.Log(movingTo);
+        //Debug.Log("Moving to " + movingTo);
         map.moveActorAsync(gameObject, movingTo);
         //Attack(currentTarget);
     }
@@ -200,7 +206,7 @@ public class Enemy : Actor
 
     private Actor findTarget(Actor target, float distanceToNearest)
     {
-        Debug.Log(target.coords);
+        //Debug.Log(target.coords);
         Vector3 weakestPosition = target.getCoords();
         float distanceToWeakest = Vector3.Distance(weakestPosition, enemyPosition);
         if (distanceToWeakest > moveDistance && distanceToWeakest > 2 * distanceToNearest)
@@ -271,7 +277,7 @@ public class Enemy : Actor
                 }
             }
         }
-        //Debug.Log("Delta "+ output + mapPos);
+        Debug.Log("Delta "+ output + mapPos);
         output = mapPos + output;
         //Debug.Log("Delta " + output + mapPos);
         return output;
