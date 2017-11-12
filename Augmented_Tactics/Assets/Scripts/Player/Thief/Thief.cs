@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Thief : MonoBehaviour {
+public class Thief : BaseClass {
 
 	// Use this for initialization
 	void Start () {
