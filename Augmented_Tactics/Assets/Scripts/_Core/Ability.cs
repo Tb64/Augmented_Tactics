@@ -22,6 +22,7 @@ public class Ability
 
     public virtual bool UseSkill(GameObject target)
     {
+        Debug.Log("test");
         parent.GetComponent<Actor>().useAction();
         return false;
 
