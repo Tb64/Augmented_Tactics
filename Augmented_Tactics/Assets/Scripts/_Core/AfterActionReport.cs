@@ -64,10 +64,10 @@ public class AfterActionReport : MonoBehaviour {
 
     public void DisplayExp()
     {
-        Text Exp1 = transform.Find("Exp1").gameObject.GetComponent<Text>();
-        Text Exp2 = transform.Find("Exp2").gameObject.GetComponent<Text>();
-        Text Exp3 = transform.Find("Exp3").gameObject.GetComponent<Text>();
-        Text Exp4 = transform.Find("Exp4").gameObject.GetComponent<Text>();
+        Text Exp1 = GameObject.Find("Exp1").gameObject.GetComponent<Text>();
+        Text Exp2 = GameObject.Find("Exp2").gameObject.GetComponent<Text>();
+        Text Exp3 = GameObject.Find("Exp3").gameObject.GetComponent<Text>();
+        Text Exp4 = GameObject.Find("Exp4").gameObject.GetComponent<Text>();
 
         int expTotal = 0;
 
@@ -78,13 +78,17 @@ public class AfterActionReport : MonoBehaviour {
 
         expTotal = (int)expTotal / 4;
 
-        for (int index = 0; index < EnemyController.enemyList.Length; index++)
+        for (int index = 0; index < PlayerControlled.playerList.Length; index++)
         {
             PlayerControlled.playerList[index].setExperience(expTotal);
         }
 
         Exp1.text = expTotal.ToString();
-                
+        Exp2.text = expTotal.ToString();
+        Exp3.text = expTotal.ToString();
+        Exp4.text = expTotal.ToString();
+
+
     }
 
     public void BattleOver()
