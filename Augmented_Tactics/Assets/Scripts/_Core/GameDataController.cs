@@ -4,19 +4,19 @@ using UnityEngine;
 using System.IO;
 public class GameDataController: MonoBehaviour
 {
-    //private string fileName = "data.json";
-    private string filePath;
+    private static string filePath;
+    private GameData gameData;
     private void Start()
     {
         filePath = Path.Combine(Application.streamingAssetsPath, "Saves\\data.json");
+        gameData = new GameData();
     }
-    public List<PlayerData> loadPlayerData()
+    public static List<PlayerData> loadPlayerData()
     {
-        if (File.Exists(filePath))
+        if (File.Exists(GameDataController.filePath))
         {
-            string jsonData= File.ReadAllText(filePath);
+            string jsonData= File.ReadAllText(GameDataController.filePath);
             return JsonUtility.FromJson<List<PlayerData>>(jsonData);
-            //return loadedData;
         }
         else
         {
@@ -25,19 +25,20 @@ public class GameDataController: MonoBehaviour
         }
     }
 
-    public void savePlayerData(List<PlayerData> playerData)
+    public static void savePlayerData(List<PlayerData> playerData)
     {
-        if (File.Exists(filePath))
+        Debug.Log(GameDataController.filePath);
+        if (File.Exists(GameDataController.filePath))
         {
             string jsonData = JsonUtility.ToJson(playerData);
-            File.WriteAllText(filePath, jsonData);
+            File.WriteAllText(GameDataController.filePath, jsonData);
             return;
         }
         else
         {
-            File.Create(filePath);
+            File.Create(GameDataController.filePath);
             string jsonData = JsonUtility.ToJson(playerData);
-            File.WriteAllText(filePath, jsonData);
+            File.WriteAllText(GameDataController.filePath, jsonData);
             return;
         }
     }
