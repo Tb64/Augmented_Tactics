@@ -22,6 +22,7 @@ public class Enemy : Actor
     public int getEnemyID(int id) { return enemyID; }
     public Actor getWeakest() { return weakest; }
     public void setWeakest(Actor weakestPlayer) { weakest = weakestPlayer; }
+    private int expGiven;
 
     private Actor currentTarget;
     // Use this for initialization
@@ -43,6 +44,7 @@ public class Enemy : Actor
     public void EnemyInitialize()
     {
         base.Init();
+        expGiven = 100;
         //TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStartActions;
         TurnBehaviour.OnUnitMoved += this.EnemyMoved;
 

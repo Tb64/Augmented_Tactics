@@ -22,7 +22,7 @@ public class Ability
 
     public virtual bool UseSkill(GameObject target)
     {
-        parent.GetComponent<Actor>().useAction();
+        
         return false;
 
     }
@@ -34,6 +34,7 @@ public class Ability
     /// <param name="isSuccessful"></param>
     public virtual void UseSkill(GameObject target, out bool isSuccessful)
     {
+        parent.GetComponent<Actor>().useAction();
         isSuccessful =  false;
     }
 
