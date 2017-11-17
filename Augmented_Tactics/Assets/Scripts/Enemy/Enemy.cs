@@ -44,7 +44,7 @@ public class Enemy : Actor
     public void EnemyInitialize()
     {
         base.Init();
-        expGiven = 100;
+        expGiven = 10;
         //TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStartActions;
         TurnBehaviour.OnUnitMoved += this.EnemyMoved;
 
@@ -66,7 +66,6 @@ public class Enemy : Actor
         base.Update();
         turnControl();
     }
-
 
     void turnControl()
     {
@@ -124,7 +123,7 @@ public class Enemy : Actor
         else
         {
             Attack(currentTarget);  //attack attempt after move is finished
-          //SM.setTurn();           //after attacking the enemy will end its turn.
+            //SM.setTurn();           //after attacking the enemy will end its turn.
             //Debug.Log("Called");
         }
     }
@@ -299,6 +298,10 @@ public class Enemy : Actor
         abilitySet[0].UseSkill(target.gameObject); //test
     }
 
+    public int getExpGiven()
+    {
+        return expGiven;
+    }
 
     public int GetID()
     {

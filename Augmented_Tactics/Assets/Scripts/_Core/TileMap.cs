@@ -159,12 +159,18 @@ public class TileMap : MonoBehaviour {
     {
         if (input.x < 0 || input.x > mapSizeX)
             return false;
+
         if (input.y < 0 || input.y > mapSizeY)
             return false;
+
         if (input.z < 0 || input.z > mapSizeZ)
             return false;
 
-
+        if ( getTileAtCoord(input) == null)
+        {
+            return false;
+        }
+ 
         return true;
     }
 
@@ -456,7 +462,6 @@ public class TileMap : MonoBehaviour {
     {
         if (Vector3.Distance(unitObj.transform.position, TileCoordToWorldCoord(unitObj.getCoords())) < 0.27f)
         {
-     
             AdvancePathing();
         }
 

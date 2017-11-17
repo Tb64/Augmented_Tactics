@@ -71,14 +71,14 @@ public class AfterActionReport : MonoBehaviour {
 
         int expTotal = 0;
 
-        for (int index = 0; index < EnemyController.enemyList.Length; index++)
+        for (int index = 0; index < EnemyController.enemyNum; index++)
         {
-            expTotal += EnemyController.enemyList[index].getExperience();
+            expTotal += EnemyController.enemyList[index].getExpGiven();
         }
 
         expTotal = (int)expTotal / 4;
 
-        for (int index = 0; index < PlayerControlled.playerList.Length; index++)
+        for (int index = 0; index < PlayerControlled.playerNum; index++)
         {
             PlayerControlled.playerList[index].setExperience(expTotal);
         }
@@ -87,7 +87,6 @@ public class AfterActionReport : MonoBehaviour {
         Exp2.text = expTotal.ToString();
         Exp3.text = expTotal.ToString();
         Exp4.text = expTotal.ToString();
-
 
     }
 
