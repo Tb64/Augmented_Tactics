@@ -354,6 +354,8 @@ public class Actor : MonoBehaviour
 
     public bool UseMana(float cost)
     {
+        if (cost == 0)
+            return true;
         if(this.mana_current >= cost)
         {
             this.mana_current -= cost;

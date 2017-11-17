@@ -6,7 +6,7 @@ public class Fire : Ability
 {
 
     float damage = 20f;
-    float manaCost = 10f;
+    
 
     public override void Initialize(GameObject obj)
     {
@@ -17,6 +17,7 @@ public class Fire : Ability
         anim = parent.GetComponentInChildren<Animator>();
         range_max = 10;
         range_min = 1;
+        manaCost = 5;
         dwell_time = 1.0f;
         abilityName = "Fire";
         abilityImage = Resources.Load<Sprite>("UI/Ability/Fire");
@@ -24,28 +25,13 @@ public class Fire : Ability
 
     public override bool UseSkill(GameObject target)
     {
-        base.UseSkill(target);
-
-        if (target == null)
+        if(!base.UseSkill(target))
+        {
             return false;
+        }
 
         if (target.tag == "Player" || target.tag == "Enemy")
         {
-            if (SkillInRange(parent, target) == false)
-            {
-                Debug.Log("Out of range.");
-                return false;
-            }
-            if (!actor.UseMana(manaCost))
-            {
-                Debug.Log("Not enough mana");
-                return false;
-            }
-            if (!actor.useAction())
-            {
-                Debug.Log("Not enough actions");
-                return false;
-            }
             if (anim != null)
             {
                 rotateAtObj(target);

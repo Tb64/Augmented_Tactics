@@ -41,27 +41,16 @@ public class BasicAttack : Ability {
 
     public override void UseSkill(GameObject target, out bool isSuccessful)
     {
-        base.UseSkill(target);
         isSuccessful = false;
-
-        if (target == null)
-		{
-			Debug.Log("Target is null.");
-			return;
-		}
+        bool canUse = base.UseSkill(target);
+        if(canUse)
+        {
+            return;
+        }
 
         if(target.tag == "Player" || target.tag == "Enemy")
         {
-            if (SkillInRange(parent, target) == false)
-            {
-                Debug.Log("Ability out of range. Range is " + range_max);
-                return;
-            }
-            if(!actor.useAction())
-            {
-                Debug.Log("Unit is out of actions!");
-                return;
-            }
+            
             if (anim != null)
             {
                 Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}",abilityName, parent.name, target.name));
