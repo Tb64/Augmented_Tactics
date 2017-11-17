@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class AfterActionReport : MonoBehaviour {
@@ -61,12 +62,41 @@ public class AfterActionReport : MonoBehaviour {
         manager.LoadHub();
     }
 
+    public void DisplayExp()
+    {
+        Text Exp1 = GameObject.Find("Exp1").gameObject.GetComponent<Text>();
+        Text Exp2 = GameObject.Find("Exp2").gameObject.GetComponent<Text>();
+        Text Exp3 = GameObject.Find("Exp3").gameObject.GetComponent<Text>();
+        Text Exp4 = GameObject.Find("Exp4").gameObject.GetComponent<Text>();
+
+        int expTotal = 0;
+
+        for (int index = 0; index < EnemyController.enemyNum; index++)
+        {
+            expTotal += EnemyController.enemyList[index].getExpGiven();
+        }
+
+        expTotal = (int)expTotal / 4;
+
+        for (int index = 0; index < PlayerControlled.playerNum; index++)
+        {
+            PlayerControlled.playerList[index].setExperience(expTotal);
+        }
+
+        Exp1.text = expTotal.ToString();
+        Exp2.text = expTotal.ToString();
+        Exp3.text = expTotal.ToString();
+        Exp4.text = expTotal.ToString();
+
+    }
+
     public void BattleOver()
     {
         if(win() == true || lose() == true)
         {
             GameObject screen = transform.Find("EndofBattleScreen").gameObject;
             screen.GetComponent<Canvas>().enabled = true;
+            DisplayExp();
         }
     }
 }
