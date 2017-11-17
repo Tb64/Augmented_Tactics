@@ -2,24 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatusEffect
+public class StatusEffect : MonoBehaviour
 {
-        
-        int duration;
-        string effectedStat;
-        float effect;
-        string effectType;
-        public StatusEffect(int dur, string stat, string type, float effect, string operation)
-        {
-            this.duration = dur;
-            this.effectedStat = stat;
-            this.effect = effect;
-            this.effectType = type;
-        }
-        public void decreaseTimeCounter()
-        {
-            duration--;
-        }
+
+    private void Start()
+    {
+        TurnBehaviour.OnTurnStart += this.decreaseTimeCounter;
+    }
+    public void OnDestroy()
+    {
+        TurnBehaviour.OnTurnStart -= this.decreaseTimeCounter;
+    }
+    int duration;
+    string effectedStat;
+    float effect;
+    string effectType;
+    Actor effectedPlayer;
+    bool isEnemy;
+    StateMachine SM;
+    public StatusEffect(int dur, string stat, string type, float effect, string operation, Actor effected, bool isEnemy, StateMachine SM)
+    {
+        this.duration = dur;
+        this.effectedStat = stat;
+        this.effect = effect;
+        this.effectType = type;
+        this.effectedPlayer = effected;
+        this.isEnemy = isEnemy;
+        this.SM = SM;
+    }
+    public void decreaseTimeCounter()
+    {
+        if(!isEnemy && SM.checkTurn() || isEnemy && !SM.checkTurn() )
+        duration--;
+    }
 
 
 }

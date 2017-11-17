@@ -25,7 +25,7 @@ public class BaseClass : MonoBehaviour {
     public virtual void Start() {
         initializeBaseStats();
 
-        loadChar("Doogy");
+        //loadChar("Doogy");
         /*if (loadChar("Doogy"))
         {
             Debug.Log("Successful Load!!");
