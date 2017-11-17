@@ -541,7 +541,7 @@ public class TileMap : MonoBehaviour {
         //checks if path is null, then sets tile under actor to occupied
         if (unit.getCurrentPath() == null)
         {
-            getTileAtCoord(unit.getCoords()).setOccupiedTrue();
+            //getTileAtCoord(unit.getCoords()).setOccupiedTrue();
             //map[(int)unit.getCoords().x, (int)unit.getCoords().y, (int)unit.getCoords().z].setOccupiedTrue();
             Debug.Log("unit coords : " + unit.getCoords());
         }
@@ -602,6 +602,7 @@ public class TileMap : MonoBehaviour {
         while (!moveDone); 
 
         Debug.Log("Moved " + actor.name + " to " + target);
+        getTileAtCoord(unit.getCoords()).setOccupiedTrue();
         TurnBehaviour.ActorHasJustMoved();
     }
 
@@ -652,6 +653,7 @@ public class TileMap : MonoBehaviour {
         tempCoords.x = x;
         tempCoords.z = z;
     }
+
     public Vector3 getTempCoords()
     {
         return tempCoords;
