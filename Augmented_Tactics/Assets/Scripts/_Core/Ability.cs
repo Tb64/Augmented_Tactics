@@ -9,21 +9,52 @@ public class Ability
     public int range_max;
     public int range_min;
     public float dwell_time;
+
+    public float manaCost = 0;
+
     public Animator anim;
     public string abilityName;
 
     protected GameObject parent;
+    protected Actor actor;
     public Sprite abilityImage;
 
     public virtual void Initialize(GameObject obj)
     {
         parent = obj;
+        actor = obj.GetComponent<Actor>();
     }
 
     public virtual bool UseSkill(GameObject target)
     {
-        parent.GetComponent<Actor>().useAction();
-        return false;
+        //parent.GetComponent<Actor>().useAction();
+
+        if (target == null)
+            return false;
+
+        if (!(target.tag == "Player" || target.tag == "Enemy"))
+        {
+            return false;
+        }
+
+
+        if (SkillInRange(parent, target) == false)
+        {
+            Debug.Log("Out of range.");
+            return false;
+        }
+        if(!actor.UseMana(manaCost))
+        {
+            Debug.Log("Out of mana");
+            return false;
+        }
+        if (!actor.useAction())
+        {
+            Debug.Log("Not enough actions");
+            return false;
+        }
+
+        return true;
 
     }
 

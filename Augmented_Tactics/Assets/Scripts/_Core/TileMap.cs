@@ -159,12 +159,18 @@ public class TileMap : MonoBehaviour {
     {
         if (input.x < 0 || input.x > mapSizeX)
             return false;
+
         if (input.y < 0 || input.y > mapSizeY)
             return false;
+
         if (input.z < 0 || input.z > mapSizeZ)
             return false;
 
-
+        if ( getTileAtCoord(input) == null)
+        {
+            return false;
+        }
+ 
         return true;
     }
 
@@ -456,7 +462,6 @@ public class TileMap : MonoBehaviour {
     {
         if (Vector3.Distance(unitObj.transform.position, TileCoordToWorldCoord(unitObj.getCoords())) < 0.27f)
         {
-     
             AdvancePathing();
         }
 
@@ -541,7 +546,7 @@ public class TileMap : MonoBehaviour {
         //checks if path is null, then sets tile under actor to occupied
         if (unit.getCurrentPath() == null)
         {
-            getTileAtCoord(unit.getCoords()).setOccupiedTrue();
+            //getTileAtCoord(unit.getCoords()).setOccupiedTrue();
             //map[(int)unit.getCoords().x, (int)unit.getCoords().y, (int)unit.getCoords().z].setOccupiedTrue();
             Debug.Log("unit coords : " + unit.getCoords());
         }
@@ -602,6 +607,7 @@ public class TileMap : MonoBehaviour {
         while (!moveDone); 
 
         Debug.Log("Moved " + actor.name + " to " + target);
+        getTileAtCoord(unit.getCoords()).setOccupiedTrue();
         TurnBehaviour.ActorHasJustMoved();
     }
 
@@ -652,6 +658,7 @@ public class TileMap : MonoBehaviour {
         tempCoords.x = x;
         tempCoords.z = z;
     }
+
     public Vector3 getTempCoords()
     {
         return tempCoords;
