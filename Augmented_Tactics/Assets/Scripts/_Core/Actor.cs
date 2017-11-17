@@ -44,6 +44,7 @@ public class Actor : MonoBehaviour
     protected int charisma;         //measuring force of personality (Buffs and Debuffs)
 
     public Ability[] abilitySet;
+    private int experience;
 
     //Movement 
     public TileMap map;
@@ -180,12 +181,9 @@ public class Actor : MonoBehaviour
             return;
         }
         map = GameObject.Find("Map").GetComponent<TileMap>();
+
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
-
-        
-    
-
 
     }
 
@@ -377,6 +375,7 @@ public class Actor : MonoBehaviour
         text.text = damage.ToString();
         TextMesh instance = Instantiate(text);
         instance.transform.SetParent(transform);
+        instance.transform.LookAt(GameObject.FindWithTag("MainCamera").transform);
         instance.transform.position = transform.position + new Vector3(UnityEngine.Random.Range(-.2f, .2f), 2, 0);
         instance.color = color;
         instance.gameObject.GetComponent<Rigidbody>().velocity = transform.up;
@@ -652,6 +651,16 @@ public class Actor : MonoBehaviour
     public int getCharisma()
     {
         return charisma;
+    }
+
+    public void setExperience(int xp)
+    {
+        experience = xp;
+    }
+
+    public int getExperience()
+    {
+        return experience;
     }
     #endregion
 }
