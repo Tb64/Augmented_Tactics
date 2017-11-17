@@ -3,29 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 [System.Serializable]
 public class GameData{
-    private static List<PlayerData> armyList = new List<PlayerData>();
+    public  List<PlayerData> armyList = new List<PlayerData>();
     private KeyValuePair<string,string>[] currentTeam = { new KeyValuePair<string, string>("Player0", ""),
     new KeyValuePair<string, string>("Player1", ""), new KeyValuePair<string, string>("Player2", ""),
     new KeyValuePair<string, string>("Player3", "")};
-    private static bool loaded = false;
+    public bool loaded = false;
     public GameData()
     {
-        /*if (!loaded)
-        {
-            loaded = true;
-            armyList = retrieveData();
-        }*/
-
-        List<PlayerData> tempPlayers = armyList;
+        //if (!loaded)
+        //{
+           // loaded = true;
+         //   armyList = retrieveData();
+       // }
+        //Debug.Log(armyList[0]);
+        /*List<PlayerData> tempPlayers = armyList;
         tempPlayers.Add(new PlayerData("Doogy"));
         tempPlayers.Add(new PlayerData("Testing"));
         tempPlayers.Add(new PlayerData("Saving"));
         tempPlayers.Add(new PlayerData("Loading"));
-        armyList = tempPlayers;
-        //Debug.Log("added all players");
-        sendData();
+        armyList = tempPlayers;*/
+        //Debug.Log("added all players")
+       // sendData();
 
     }
+    #region set/gets
     public PlayerData[] getCurrentTeam() 
     {
         PlayerData[] tempTeam = new PlayerData[4];
@@ -43,10 +44,16 @@ public class GameData{
         PlayerPrefs.SetString("Player2", teamNames[2]);
         PlayerPrefs.SetString("Player3", teamNames[3]);
     }
-    /*public List<PlayerData> getarmyList()
+    public List<PlayerData> getArmyList()
     {
         return armyList;
-    }*/
+    }
+    public void setArmyList(List<PlayerData> army)
+    {
+        armyList = army;
+    }
+    #endregion
+
     public PlayerData findPlayer(string name)
     {
         if (name == null)
@@ -84,17 +91,17 @@ public class GameData{
         return false;
     }
 
-    private static List<PlayerData> retrieveData()
+   /* private List<PlayerData> retrieveData()
     {
         //GameDataController game = new GameDataController();
         List<PlayerData> data = GameDataController.loadPlayerData();
         return data;
-    }
+    }*/
 
-    private static void sendData()
+    private  void sendData()
     {
        // GameDataController game = new GameDataController();
-        GameDataController.savePlayerData(armyList);
+        GameDataController.savePlayerData(this);
     }
 
 }

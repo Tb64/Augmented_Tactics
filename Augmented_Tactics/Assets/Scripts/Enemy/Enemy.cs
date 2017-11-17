@@ -84,7 +84,6 @@ public class Enemy : Actor
             SM.setTurn();
             return;
         }
-
         //base.EnemyTurnStart();
         map.selectedUnit = gameObject;
         nearest = findNearestPlayer();
@@ -93,7 +92,11 @@ public class Enemy : Actor
         enemyPosition = getCoords();
         playerPosition = weakest.getCoords();
         float distanceToNearest = Vector3.Distance(playerPosition, enemyPosition);
-        reactToProximity(distanceToNearest);
+        if (reactToProximity(distanceToNearest))
+        {
+            SM.setTurn();
+            return;
+        }
         //Debug.Log(nearest.tileX + " " + nearest.tileZ+ " " + weakest.tileX + " "+ weakest.tileZ);
         Actor target = nearest;
 
@@ -103,7 +106,11 @@ public class Enemy : Actor
         currentTarget = target;    
 
         if (target == null)
+        {
+            Debug.LogError("no player team");
             return;
+        }
+           
 
         Vector3 movingTo = PosCloseTo(target.getCoords());
         //Debug.Log("Moving to " + movingTo);
@@ -190,9 +197,11 @@ public class Enemy : Actor
 
     private bool reactToProximity(float distanceToNearest)
     {
-        if (distanceToNearest <= 1)
+        Debug.Log(distanceToNearest);
+        if (distanceToNearest <= 1.5)
         {
-            //Attack(nearest);
+            Debug.Log("Attempting Attack");
+            Attack(nearest);
             return true;
         }
         else if (GetHealthPercent() < nearest.GetHealthPercent() && distanceToNearest < moveDistance)
@@ -291,10 +300,11 @@ public class Enemy : Actor
     void Attack(Actor target)
     {
         float dist = Vector3.Distance(getCoords(), target.getCoords());
-        if (!(dist <= 1))
+        if (!(dist <= 1.5))
             return;
         //Debug.Log("target = " + target.gameObject + " skill = " + abilitySet[0].abilityName + " range = " + dist);
         abilitySet[0].UseSkill(target.gameObject); //test
+        //status change will occur here^^
     }
 
 

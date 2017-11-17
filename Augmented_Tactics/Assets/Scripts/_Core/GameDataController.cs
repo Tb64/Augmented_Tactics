@@ -2,21 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+
 public class GameDataController: MonoBehaviour
 {
-    private static string filePath;
+    private static string filePath; //add android path in future
     private GameData gameData;
     private void Start()
     {
-        filePath = Path.Combine(Application.streamingAssetsPath, "Saves\\data.json");
-        gameData = new GameData();
+        filePath = Application.dataPath + "/StreamingAssets\\Saves\\data.json";
+        gameData = loadPlayerData();
     }
-    public static List<PlayerData> loadPlayerData()
+    public static GameData loadPlayerData()
     {
+        
+        //Debug.Log(filePath);
         if (File.Exists(GameDataController.filePath))
         {
-            string jsonData= File.ReadAllText(GameDataController.filePath);
-            return JsonUtility.FromJson<List<PlayerData>>(jsonData);
+            string jsonData= File.ReadAllText(filePath);
+            return JsonUtility.FromJson<GameData>(jsonData);
         }
         else
         {
@@ -25,21 +28,26 @@ public class GameDataController: MonoBehaviour
         }
     }
 
-    public static void savePlayerData(List<PlayerData> playerData)
+    public static bool savePlayerData(GameData gameData)
     {
-        Debug.Log(GameDataController.filePath);
+        //Debug.Log(GameDataController.filePath);
+        if(filePath == null)
+        {
+            Debug.LogError("Can't Find Game Data");
+            return false;
+        }
         if (File.Exists(GameDataController.filePath))
         {
-            string jsonData = JsonUtility.ToJson(playerData);
+            string jsonData = JsonUtility.ToJson(gameData);
             File.WriteAllText(GameDataController.filePath, jsonData);
-            return;
+            return true;
         }
         else
         {
             File.Create(GameDataController.filePath);
-            string jsonData = JsonUtility.ToJson(playerData);
+            string jsonData = JsonUtility.ToJson(gameData);
             File.WriteAllText(GameDataController.filePath, jsonData);
-            return;
+            return true;
         }
     }
 
