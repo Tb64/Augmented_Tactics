@@ -13,16 +13,18 @@ public class Ability
     public string abilityName;
 
     protected GameObject parent;
+    protected Actor actor;
     public Sprite abilityImage;
 
     public virtual void Initialize(GameObject obj)
     {
         parent = obj;
+        actor = obj.GetComponent<Actor>();
     }
 
     public virtual bool UseSkill(GameObject target)
     {
-        parent.GetComponent<Actor>().useAction();
+        //parent.GetComponent<Actor>().useAction();
         return false;
 
     }
