@@ -19,8 +19,8 @@ public class TileMap : MonoBehaviour {
 
     Vector3 tempCoords = new Vector3();
 
-    bool canMove;
-    bool endOfMove;
+    private bool canMove;
+    private bool endOfMove;
 
     //int[,] tiles;
     Node[,,] graph;
@@ -34,30 +34,20 @@ public class TileMap : MonoBehaviour {
     void Start() {
         initialize();
         TurnBehaviour.OnUnitMoved += this.PlayerMoveActions;
-        TurnBehaviour.OnUnitSpawn += this.UnitInit;
     }
     
     //use this function to initializes variables
     void initialize()
     {
         map = new ClickableTile[mapSizeX,mapSizeY,mapSizeZ];
-        canMove = false;
+        endOfMove = true;
         if (GameObject.Find("Path").GetComponent<LineRenderer>() == null)
         {
             Debug.LogError("Null reference, missing path object, add in scene hierarchy");
             return;
         }
+
         path = GameObject.Find("Path").GetComponent<LineRenderer>();
-
-        ////number of players in the map
-        //Players = new Location[20];
-        
-        ////initialize players array
-        //for (int index = 0; index < Players.Length; index++)
-        //{
-        //    Players[index] = new Location();
-        //}
-
 
         //sets unit to the selected unit in the map
         unit = selectedUnit.GetComponent<Actor>();
@@ -77,7 +67,6 @@ public class TileMap : MonoBehaviour {
         Actor player = GameObject.FindWithTag("Player").GetComponent<Actor>();
         Actor enemy = GameObject.FindWithTag("Enemy").GetComponent<Actor>();
 
-
         if (codeGenerateMap)
         {
             GenerateMapData();
@@ -89,13 +78,6 @@ public class TileMap : MonoBehaviour {
         }
 
         generatePathFindingGraph();
-    }
-
-    void UnitInit()
-    {
-        //sets unit position on the map
-
-
     }
 
     void LoadTileData()
@@ -177,12 +159,18 @@ public class TileMap : MonoBehaviour {
     {
         if (input.x < 0 || input.x > mapSizeX)
             return false;
+
         if (input.y < 0 || input.y > mapSizeY)
             return false;
+
         if (input.z < 0 || input.z > mapSizeZ)
             return false;
 
-
+        if ( getTileAtCoord(input) == null)
+        {
+            return false;
+        }
+ 
         return true;
     }
 
@@ -329,7 +317,6 @@ public class TileMap : MonoBehaviour {
             }
         }
 
- 
         for (int x = 0; x < mapSizeX; x++)
         {
             for (int y = 0; y < mapSizeY; y++)
@@ -406,6 +393,7 @@ public class TileMap : MonoBehaviour {
     /// <returns></returns>
     public void moveActorAsync(GameObject actor, Vector3 target)
     {
+        //justin set move string array here
         actor.GetComponent<Actor>().PlaySound("move");
         StartCoroutine(MoveActorThread(actor, target));
         return;
@@ -474,7 +462,6 @@ public class TileMap : MonoBehaviour {
     {
         if (Vector3.Distance(unitObj.transform.position, TileCoordToWorldCoord(unitObj.getCoords())) < 0.27f)
         {
-     
             AdvancePathing();
         }
 
@@ -507,6 +494,8 @@ public class TileMap : MonoBehaviour {
     {
         Debug.Log("PLAYER HAS MOVED");
     }
+
+
 
     void AdvancePathing()
     {
@@ -557,7 +546,7 @@ public class TileMap : MonoBehaviour {
         //checks if path is null, then sets tile under actor to occupied
         if (unit.getCurrentPath() == null)
         {
-            getTileAtCoord(unit.getCoords()).setOccupiedTrue();
+            //getTileAtCoord(unit.getCoords()).setOccupiedTrue();
             //map[(int)unit.getCoords().x, (int)unit.getCoords().y, (int)unit.getCoords().z].setOccupiedTrue();
             Debug.Log("unit coords : " + unit.getCoords());
         }
@@ -618,6 +607,7 @@ public class TileMap : MonoBehaviour {
         while (!moveDone); 
 
         Debug.Log("Moved " + actor.name + " to " + target);
+        getTileAtCoord(unit.getCoords()).setOccupiedTrue();
         TurnBehaviour.ActorHasJustMoved();
     }
 
@@ -668,6 +658,7 @@ public class TileMap : MonoBehaviour {
         tempCoords.x = x;
         tempCoords.z = z;
     }
+
     public Vector3 getTempCoords()
     {
         return tempCoords;

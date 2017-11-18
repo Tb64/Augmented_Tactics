@@ -8,14 +8,21 @@ public class HealthBarUIManager : MonoBehaviour {
     private static GameObject[] barFolders;
     private static Image[] playerHealthImg;
     private static Image[] playerManaImg;
+    //One array for storing every player's actions. [numPlyaers][ActionImg]
+    private static Image[,] playerActionsMarker;
     private static int numPlayers = 0;
     private static bool ranAlready = false;
+    private const int MAXACTIONS = 2;
+    private static int availableActions;
         
     // this manager first gets all the health bars and disables them, enabling them 1 by one as player controlled units spawn
     // when a unit takes damage update all bars
     void Awake ()
     {
         TurnBehaviour.OnUnitSpawn += onUnitSpawn;
+        TurnBehaviour.OnUnitMoved += updateActions;
+        TurnBehaviour.OnPlayerAttack += updateActions;
+        TurnBehaviour.OnPlayerTurnStart += onPlayerTurnStart;
     }
 
 	public static void updateHealth()
@@ -25,8 +32,28 @@ public class HealthBarUIManager : MonoBehaviour {
             playerHealthImg[i].fillAmount = PlayerControlled.playerList[i].GetHealthPercent();
     }
 
-    public void onUnitSpawn()
+    private static void onPlayerTurnStart()
     {
+        //refresh movements
+        for (int i = 0; i < numPlayers; i++)
+            for (int j = 0; j < MAXACTIONS; j++)
+                playerActionsMarker[i,j].color = new Color32(255, 255, 255, 255);
+    }
+
+    private static void updateActions()
+    {
+        // if less than max actions then disable a amrker
+        for (int i = 0; i < numPlayers; i++)
+        {
+            availableActions = PlayerControlled.playerList[i].getMoves();
+            if(availableActions < MAXACTIONS)
+                playerActionsMarker[i, availableActions].color = new Color32(190, 100, 100, 255);
+        }
+    }
+
+    private void onUnitSpawn()
+    {
+        //if it was a play controlled that was just added, not an enemy.
         if(numPlayers < PlayerControlled.playerNum)
             if (!ranAlready)
             {
@@ -47,6 +74,8 @@ public class HealthBarUIManager : MonoBehaviour {
     public void OnDestroy()
     {
         TurnBehaviour.OnUnitSpawn -= onUnitSpawn;
+        TurnBehaviour.OnUnitMoved -= updateActions;
+        TurnBehaviour.OnPlayerAttack -= updateActions;
     }
 
     private void getBars(int arraySlot)
@@ -59,6 +88,10 @@ public class HealthBarUIManager : MonoBehaviour {
                     playerHealthImg[arraySlot] = bars[i];
                 else if (bars[i].name == ("MFront" + (arraySlot + 1).ToString()))
                     playerManaImg[arraySlot] = bars[i];
+                else if (bars[i].name == ("ActionMA" + (arraySlot + 1).ToString()))
+                    playerActionsMarker[arraySlot, 0] = bars[i];
+                else if (bars[i].name == ("ActionMB" + (arraySlot + 1).ToString()))
+                    playerActionsMarker[arraySlot, 1] = bars[i];
         barFolders[arraySlot].SetActive(false);
     }
 
@@ -68,7 +101,8 @@ public class HealthBarUIManager : MonoBehaviour {
 
         //making sure everything is in order to activate the proper bars
         if (tempObjs != null)
-        {
+        {            
+            playerActionsMarker = new Image[tempObjs.Length, MAXACTIONS];
             barFolders = new GameObject[tempObjs.Length];
             playerHealthImg = new Image[tempObjs.Length];
             playerManaImg = new Image[tempObjs.Length];

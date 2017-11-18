@@ -8,8 +8,8 @@ using UnityEngine.UI;
 // and if it will activate only once. Ways of activating the script will vary. Clicking a button, timed event, any way to call the triggerDialogue method
 public class Dialogue : MonoBehaviour {
 
-    private static string filepath = "Assets/Resources/Dialogue/";
-    private string dialoguePanelLoc = "UI/DialoguePanel";
+    private string filepath;
+    private string dialoguePanelLoc;
     private string[] lines;
     private static ConvNode currentNode;
     private static GameObject dialoguePanel;
@@ -21,6 +21,8 @@ public class Dialogue : MonoBehaviour {
     void Start()
     {
         //be sure the dialogue panel is active before the scene starts or it won't be able to find the objects
+        filepath = "Assets/Resources/Dialogue/";
+        dialoguePanelLoc = "UI/DialoguePanel";
         buttonPrompts = new GameObject[3];
         textPrompts = new Text[3];
         dialoguePanel = GameObject.Find(dialoguePanelLoc);

@@ -8,11 +8,11 @@ public class PlayerData
     {
         playerName = name;
     }
-    private string playerName;
+    public string playerName;
     public void setPlayerName(string name) { playerName = name; }
     public string getPlayerName() { return playerName; }
 
-    private KeyValuePair<string, float>[] numberData = {new KeyValuePair<string, float>("Health", 0),
+    public KeyValuePair<string, float>[] numberData = {new KeyValuePair<string, float>("Health", 0),
     new KeyValuePair<string, float>("Mana", 0), new KeyValuePair<string, float>("Experience", 0),
     new KeyValuePair<string, float>("Level",0 ),new KeyValuePair<string, float>("Strength",0),
     new KeyValuePair<string, float>("Dexterity",0), new KeyValuePair<string, float>("Constitution",0),
