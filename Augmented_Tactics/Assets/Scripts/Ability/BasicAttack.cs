@@ -24,7 +24,7 @@ public class BasicAttack : Ability {
         range_min = 0;
         dwell_time = 1.0f;
         abilityName = "Basic Attack";
-        abilityImage = Resources.Load <Sprite>("sword") ;
+        abilityImage = Resources.Load <Sprite>("UI/Ability/warriorSkill3") ;
         if (abilityImage == null)
             Debug.Log("Unable to load image");
         //Debug.Log("Adding " + abilityName + " to " + parent.name);
@@ -42,29 +42,26 @@ public class BasicAttack : Ability {
     public override void UseSkill(GameObject target, out bool isSuccessful)
     {
         isSuccessful = false;
-
-        if (target == null)
-		{
-			Debug.Log("Target is null.");
-			return;
-		}
+        bool canUse = base.UseSkill(target);
+        if(canUse)
+        {
+            return;
+        }
 
         if(target.tag == "Player" || target.tag == "Enemy")
         {
-            if (SkillInRange(parent, target) == false)
-            {
-                Debug.Log("Ability out of range. Range is " + range_max);
-                return;
-            }
+            
             if (anim != null)
             {
                 Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}",abilityName, parent.name, target.name));
                 rotateAtObj(target);
                 anim.SetTrigger("MeleeAttack");
+                //justin set attack string array choice hereS
                 parent.GetComponent<Actor>().PlaySound("attack");
             }
             target.GetComponent<Actor>().TakeDamage(damage);
             isSuccessful = true;
+            
             DwellTime();
         }
         else

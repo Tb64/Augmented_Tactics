@@ -85,10 +85,8 @@ public class RangeHighlight : MonoBehaviour {
                     obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition1), hightlightObj.transform.rotation);
                     obj.transform.parent = gameObject.transform;
                 }
-
             }
             rangeDelta--;
-
         }
     }
 
