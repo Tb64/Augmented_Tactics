@@ -6,8 +6,14 @@ public class DialogueTrigger : MonoBehaviour {
 
     public TextAsset csvFile;
     public bool triggerOnlyOnce;
-    private bool hasTriggered = false;
-    private Dialogue dial = new Dialogue();
+    private bool hasTriggered;
+    private Dialogue dial;
+
+    void Start()
+    {
+        hasTriggered = false;
+        dial = new Dialogue();
+    }
 
     public void triggerDialogue() {
         if(csvFile!=null)
