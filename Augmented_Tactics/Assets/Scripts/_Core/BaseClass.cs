@@ -5,7 +5,7 @@ using UnityEngine;
 public class BaseClass : MonoBehaviour {
 
     private Actor player;
-    private GameData savedPlayerData = new GameData();    
+    //private GameData savedPlayerData = new GameData();    
 
     private int skillPoints;
     private int experience;
@@ -24,20 +24,6 @@ public class BaseClass : MonoBehaviour {
 
     public virtual void Start() {
         initializeBaseStats();
-
-        //loadChar("Doogy");
-        /*if (loadChar("Doogy"))
-        {
-            Debug.Log("Successful Load!!");
-            Debug.Log(player.getCharisma());
-            //levelUp();
-            Debug.Log(player.getStrength());
-            //levelUp(); 
-        }
-        /*levelUp();
-        levelUp();
-        saveChar("Doogy");
-        Debug.Log("Successful Save");*/
     }
 
     void initializeBaseStats()
@@ -97,10 +83,10 @@ public class BaseClass : MonoBehaviour {
 
     bool loadChar(string charName)
     {
-        PlayerData character = savedPlayerData.findPlayer(charName);
+        PlayerData character = GameDataController.gameData.loadPlayer(charName);
         if (character == null)
         {
-            Debug.LogError("Character " + " does not exist!");
+            Debug.LogError("Character " +charName+ " does not exist!");
             return false;
         }
         else
@@ -138,12 +124,12 @@ public class BaseClass : MonoBehaviour {
         newData.setStatbyKey("Armor Class", player.getArmorClass());
         newData.setStatbyKey("Health", player.GetHealthCurrent());
         newData.setStatbyKey("Mana", player.getManaCurrent());
-        return savedPlayerData.savePlayer(newData);
+        return GameDataController.gameData.savePlayer(newData);
     }
 
     private void triggerStatusEffect()
     {
-
+        
     }
 
 
