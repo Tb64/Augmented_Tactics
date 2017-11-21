@@ -32,41 +32,30 @@ public class BasicAttack : Ability {
 
     public override bool UseSkill(GameObject target)
     {
-        bool blank;
-        base.UseSkill(target);
-        UseSkill(target,out blank);
-
-        return blank;
-    }
-
-    public override void UseSkill(GameObject target, out bool isSuccessful)
-    {
-        isSuccessful = false;
-        bool canUse = base.UseSkill(target);
-        if(canUse)
+        if(base.UseSkill(target))
         {
-            return;
-        }
-
-        if(target.tag == "Player" || target.tag == "Enemy")
-        {
-            
-            if (anim != null)
-            {
-                Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}",abilityName, parent.name, target.name));
-                rotateAtObj(target);
-                anim.SetTrigger("MeleeAttack");
-                //justin set attack string array choice hereS
-                parent.GetComponent<Actor>().PlaySound("attack");
-            }
-            target.GetComponent<Actor>().TakeDamage(damage);
-            isSuccessful = true;
-            
-            DwellTime();
+            Skill(target);
+            return true;
         }
         else
         {
-            Debug.Log("Target is not an Actor");
+            return false;
         }
+  
+    }
+
+    private void Skill(GameObject target)
+    {
+        if (anim != null)
+        {
+            Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, parent.name, target.name));
+            rotateAtObj(target);
+            anim.SetTrigger("MeleeAttack");
+            //justin set attack string array choice hereS
+            parent.GetComponent<Actor>().PlaySound("attack");
+        }
+        target.GetComponent<Actor>().TakeDamage(damage);
+
+        DwellTime.Attack(dwell_time);
     }
 }
