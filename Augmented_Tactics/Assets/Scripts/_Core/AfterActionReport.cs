@@ -64,12 +64,7 @@ public class AfterActionReport : MonoBehaviour {
 
     public void DisplayExp()
     {
-        bool 
-
-        if (runOnce == true)
-        {
-            return;
-        }
+       
 
         Text Exp1 = null;
         Text Exp2 = null;
@@ -148,7 +143,7 @@ public class AfterActionReport : MonoBehaviour {
             playerArray[index].gameObject.SetActive(false);
         }
 
-        runOnce = true;
+        
 
     }
 
