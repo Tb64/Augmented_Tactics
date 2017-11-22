@@ -32,10 +32,15 @@ public class TileMap : MonoBehaviour {
     // Use this for initialization
 
     void Start() {
+        
+    }
+
+    private void Awake()
+    {
         initialize();
         TurnBehaviour.OnUnitMoved += this.PlayerMoveActions;
     }
-    
+
     //use this function to initializes variables
     void initialize()
     {
@@ -50,19 +55,19 @@ public class TileMap : MonoBehaviour {
         path = GameObject.Find("Path").GetComponent<LineRenderer>();
 
         //sets unit to the selected unit in the map
-        unit = selectedUnit.GetComponent<Actor>();
+        //unit = selectedUnit.GetComponent<Actor>();
         Vector3 coordinates = new Vector3();
 
         //initializes coordinates vector to selected units transform
-        coordinates.x = (int)selectedUnit.transform.position.x;
-        coordinates.z = (int)selectedUnit.transform.position.z;
+        //coordinates.x = (int)selectedUnit.transform.position.x;
+        //coordinates.z = (int)selectedUnit.transform.position.z;
         //passes coordinates vector to unit to set units coords
-        unit.setCoords(coordinates);
+        //unit.setCoords(coordinates);
 
         //selectedUnit.GetComponent<Actor>().tileX = (int)selectedUnit.transform.position.x;
         //selectedUnit.GetComponent<Actor>().tileZ = (int)selectedUnit.transform.position.z;
         
-        selectedUnit.GetComponent<Actor>().map = this;
+        //selectedUnit.GetComponent<Actor>().map = this;
 
         Actor player = GameObject.FindWithTag("Player").GetComponent<Actor>();
         Actor enemy = GameObject.FindWithTag("Enemy").GetComponent<Actor>();
@@ -534,7 +539,7 @@ public class TileMap : MonoBehaviour {
             (int)unit.getCurrentPath()[0].coords.z].setOccupiedFalse();
 
         // Remove the old "current" tile from the pathfinding list
-        
+
         unit.getCurrentPath().RemoveAt(0);
         
         if (unit.getCurrentPath().Count == 1)
@@ -554,7 +559,11 @@ public class TileMap : MonoBehaviour {
 
     public void drawDebugLines()
     {
-        
+
+        if (unit == null)
+        {
+            return;
+        }
         if (unit.getCurrentPath() != null)
         {
             int currNode = 0;

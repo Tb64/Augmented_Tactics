@@ -12,7 +12,7 @@ public class ClickableTile : MonoBehaviour {
     public TileType tileType;
     private Color32 originalColor;
     Actor unit;
-    public bool occupied;
+    public bool occupied = false;
     StateMachine controller;
     Actor player;
     Actor enemy;
@@ -21,10 +21,8 @@ public class ClickableTile : MonoBehaviour {
     {
         player = GameObject.FindWithTag("Player").GetComponent<Actor>();
         enemy = GameObject.FindWithTag("Enemy").GetComponent<Actor>();
-        unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
+        //unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
         controller = GameObject.Find("GameController").GetComponent<StateMachine>();
-        //sets clickable tile to false as its initialized
-        occupied = false;
     }
 
     private void OnCollisionEnter(Collision collision)
