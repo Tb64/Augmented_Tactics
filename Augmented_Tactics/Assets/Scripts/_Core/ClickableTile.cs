@@ -41,43 +41,6 @@ public class ClickableTile : MonoBehaviour {
      
     }
 
-    public void OnMouseUp()
-    {
-        
-      
-        //Generates a path to clicked tile
-
-        //bool firstClick = true;
-
-        //if (controller.getFirstTurn() == true && firstClick == true)
-        //{//Only runs on the first click of the scene
-        //    map.getMapArray()[(int)enemy.GetComponent<Actor>().getCoords().x,
-        //        (int)enemy.GetComponent<Actor>().getCoords().y,
-        //        (int)enemy.GetComponent<Actor>().getCoords().z].setOccupiedTrue();
-        //    map.getMapArray()[(int)player.GetComponent<Actor>().getCoords().x,
-        //        (int)player.GetComponent<Actor>().getCoords().y,
-        //        (int)player.GetComponent<Actor>().getCoords().z].setOccupiedTrue();
-        //    firstClick = false;
-        //}
-
-        //if (map.getEndOfMove() == true && unit.getMoveClicked() == true)
-        //{
-        //    map.GeneratePathTo(coords);
-
-        //    unit.NextTurn();
-        //    unit.setMoveClicked(false);
-        //}
-
-    }
-
-    public void OnMouseEnter()
-    {
-        //highlights block that mouse hovers over
-        originalColor = gameObject.GetComponent<MeshRenderer>().material.color;
-        gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color32(150,248,43,255));
-
-    
-    }
 
     public void isOccupiedBy()
     {
