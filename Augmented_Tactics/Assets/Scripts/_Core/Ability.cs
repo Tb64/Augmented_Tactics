@@ -96,20 +96,20 @@ public class Ability
         parent.transform.LookAt(newDir);
     }
 
-    protected void DwellTimeThread()
-    {
-        int sleepMS = (int)this.dwell_time * 1000;
-        Thread.Sleep(sleepMS);
-        //yield return new WaitForSeconds(this.dwell_time);
+    //protected void DwellTimeThread()
+    //{
+    //    int sleepMS = (int)this.dwell_time * 1000;
+    //    Thread.Sleep(sleepMS);
+    //    //yield return new WaitForSeconds(this.dwell_time);
 
-        Debug.Log("Attack dwell finished");
-        TurnBehaviour.ActorHasAttacked();
-    }
+    //    Debug.Log("Attack dwell finished");
+    //    TurnBehaviour.ActorHasAttacked();
+    //}
 
-    protected void DwellTime()
-    {
-        Thread dwellThread = new Thread(this.DwellTimeThread);
-        dwellThread.Start();
-        //StartCoroutine(DwellTimeThread());
-    }
+    //protected void DwellTime()
+    //{
+    //    Thread dwellThread = new Thread(this.DwellTimeThread);
+    //    dwellThread.Start();
+    //    //StartCoroutine(DwellTimeThread());
+    //}
 }

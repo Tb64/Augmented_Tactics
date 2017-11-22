@@ -21,8 +21,16 @@ public class HealthBarUIManager : MonoBehaviour {
     {
         TurnBehaviour.OnUnitSpawn += onUnitSpawn;
         TurnBehaviour.OnUnitMoved += updateActions;
-        TurnBehaviour.OnPlayerAttack += updateActions;
+        TurnBehaviour.OnActorAttacked += updateActions;
         TurnBehaviour.OnPlayerTurnStart += onPlayerTurnStart;
+    }
+
+    void OnDestroy()
+    {
+        TurnBehaviour.OnUnitSpawn -= onUnitSpawn;
+        TurnBehaviour.OnUnitMoved -= updateActions;
+        TurnBehaviour.OnActorAttacked -= updateActions;
+        TurnBehaviour.OnPlayerTurnStart -= onPlayerTurnStart;
     }
 
     void dimOtherBars()
@@ -37,6 +45,7 @@ public class HealthBarUIManager : MonoBehaviour {
         for (int i = 0; i < numPlayers; i++)
             playerHealthImg[i].fillAmount = PlayerControlled.playerList[i].GetHealthPercent();
     }
+
 
     private static void onPlayerTurnStart()
     {
@@ -75,13 +84,6 @@ public class HealthBarUIManager : MonoBehaviour {
                     barFolders[numPlayers].SetActive(true);
                 numPlayers++;
             }
-    }
-
-    public void OnDestroy()
-    {
-        TurnBehaviour.OnUnitSpawn -= onUnitSpawn;
-        TurnBehaviour.OnUnitMoved -= updateActions;
-        TurnBehaviour.OnPlayerAttack -= updateActions;
     }
 
     private void getBars(int arraySlot)
