@@ -25,18 +25,20 @@ public class EnemyController : MonoBehaviour
 
     public void OnDestroy()
     {
-        TurnBehaviour.OnUnitMoved -= this.NextEnemy;
+        TurnBehaviour.OnUnitMoved -= this.EnemyUsedAction;
         TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStart;
         //TurnBehaviour.OnUnitMoved -= this.EnemyMoveFinished;
         TurnBehaviour.OnEnemyOutOfMoves -= this.EnemyMoveFinished;
+        TurnBehaviour.OnActorAttacked -= this.EnemyUsedAction;
     }
 
     public void EnemyInitialize()
     {
         enemyNum = 0;
         TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStart;
-        TurnBehaviour.OnUnitMoved += this.NextEnemy;
+        TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
         TurnBehaviour.OnEnemyOutOfMoves += this.EnemyMoveFinished;
+        TurnBehaviour.OnActorAttacked += this.EnemyUsedAction;
 
         if (map == null)
         {
@@ -121,7 +123,8 @@ public class EnemyController : MonoBehaviour
         if (currentEnemy != 0 && !map.getTileAtCoord(enemyList[currentEnemy - 1].getCoords()).isOccupied())
            Debug.LogError("TILE NOT SET TO OCCUPIED");
         enemyList[currentEnemy].EnemyTurnStartActions();
-        while (enemyList[currentEnemy].getMoves() != 0)
+        EnemyUsedAction();
+        /*while (enemyList[currentEnemy].getMoves() != 0)
         {
             while (enemyList[currentEnemy].reactToProximity(enemyList[currentEnemy].distanceToNearest))
             {
@@ -132,9 +135,26 @@ public class EnemyController : MonoBehaviour
                 }
             }
             enemyList[currentEnemy].nonProximityActions();
-        }
+        }*/
         //currentEnemy++;
         //TurnBehaviour.EnemyTurnFinished();
+    }
+
+    private void EnemyUsedAction()
+    {
+        if (SM.checkTurn())
+            return;
+        //Debug.Log("USED ACTION WORKING");
+        if (enemyList[currentEnemy].getMoves() == 0)
+        {
+            Debug.Log("Enemy " + currentEnemy + " out of moves");
+            NextEnemy();
+            return;
+        } 
+        if (enemyList[currentEnemy].reactToProximity(enemyList[currentEnemy].distanceToNearest))
+            return;
+        else
+            enemyList[currentEnemy].nonProximityActions();
     }
 
     private void NextEnemy()
