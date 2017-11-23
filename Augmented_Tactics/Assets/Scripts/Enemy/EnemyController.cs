@@ -25,17 +25,18 @@ public class EnemyController : MonoBehaviour
 
     public void OnDestroy()
     {
-        //TurnBehaviour.OnUnitMoved -= this.EnemyMoved;
+        TurnBehaviour.OnUnitMoved -= this.NextEnemy;
         TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStart;
-        TurnBehaviour.OnUnitMoved -= this.EnemyMoveFinished;
+        //TurnBehaviour.OnUnitMoved -= this.EnemyMoveFinished;
+        TurnBehaviour.OnEnemyOutOfMoves -= this.EnemyMoveFinished;
     }
 
     public void EnemyInitialize()
     {
         enemyNum = 0;
         TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStart;
-        TurnBehaviour.OnUnitMoved += this.EnemyMoveFinished;
-        //TurnBehaviour.OnUnitMoved += this.EnemyMoved;
+        TurnBehaviour.OnUnitMoved += this.NextEnemy;
+        TurnBehaviour.OnEnemyOutOfMoves += this.EnemyMoveFinished;
 
         if (map == null)
         {
@@ -104,9 +105,7 @@ public class EnemyController : MonoBehaviour
 
     public void EnemyMoveFinished()
     {
-        if (SM.checkTurn())
-            return;
-        Debug.Log("Enemy Fisnished Moving");
+        Debug.Log("Enemy " + (currentEnemy - 1) + " Fisnished Turn");
         EnemyAction();
     }
     private void EnemyAction()
@@ -119,11 +118,32 @@ public class EnemyController : MonoBehaviour
             SM.setTurn();
             return;
         }
+        if (currentEnemy != 0 && !map.getTileAtCoord(enemyList[currentEnemy - 1].getCoords()).isOccupied())
+           Debug.LogError("TILE NOT SET TO OCCUPIED");
         enemyList[currentEnemy].EnemyTurnStartActions();
-        currentEnemy++;
-        //EnemyAction();
+        while (enemyList[currentEnemy].getMoves() != 0)
+        {
+            while (enemyList[currentEnemy].reactToProximity(enemyList[currentEnemy].distanceToNearest))
+            {
+                if (enemyList[currentEnemy].getMoves() == 0)
+                {
+                    Debug.Log("Enemy " + currentEnemy + " out of moves");
+                    break;
+                }
+            }
+            enemyList[currentEnemy].nonProximityActions();
+        }
+        //currentEnemy++;
+        //TurnBehaviour.EnemyTurnFinished();
     }
 
+    private void NextEnemy()
+    {
+        if (SM.checkTurn() || enemyList[currentEnemy].getMoves() != 0)
+            return;
+        currentEnemy++;
+        TurnBehaviour.EnemyTurnFinished();
+    }
    /* private void EnemyMoved()
     {
         if (SM.checkTurn())

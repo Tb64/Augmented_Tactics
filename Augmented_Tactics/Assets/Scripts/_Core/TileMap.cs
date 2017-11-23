@@ -608,6 +608,7 @@ public class TileMap : MonoBehaviour {
 
         Debug.Log("Moved " + actor.name + " to " + target);
         getTileAtCoord(unit.getCoords()).setOccupiedTrue();
+        //yield return new WaitForSeconds(.01f);
         TurnBehaviour.ActorHasJustMoved();
     }
 
