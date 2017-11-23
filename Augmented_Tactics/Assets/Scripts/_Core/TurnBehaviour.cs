@@ -46,6 +46,7 @@ public class TurnBehaviour : MonoBehaviour
     public static event EnemyEventHandler OnEnemyUnitMoved;
     public static event EnemyEventHandler OnEnemyUnitAttack;
     public static event EnemyEventHandler OnEnemyUnitDestroy;
+    public static event EnemyEventHandler OnEnemyOutOfMoves;
 
     //for checking whose turn it is and total number of turns played
     private static bool isPlayerTurn;
@@ -228,6 +229,12 @@ public class TurnBehaviour : MonoBehaviour
     {
         if (OnEnemyUnitDestroy != null)
             OnEnemyUnitDestroy();
+    }
+    //enemy done moving trigger next enemy
+    public static void EnemyTurnFinished()
+    {
+        if (OnEnemyOutOfMoves != null)
+            OnEnemyOutOfMoves();
     }
 
 

@@ -10,30 +10,16 @@ public class GameData{
     public bool loaded = false;
     public GameData()
     {
-        //if (!loaded)
-        //{
-           // loaded = true;
-         //   armyList = retrieveData();
-       // }
-        //Debug.Log(armyList[0]);
-        /*List<PlayerData> tempPlayers = armyList;
-        tempPlayers.Add(new PlayerData("Doogy"));
-        tempPlayers.Add(new PlayerData("Testing"));
-        tempPlayers.Add(new PlayerData("Saving"));
-        tempPlayers.Add(new PlayerData("Loading"));
-        armyList = tempPlayers;*/
-        //Debug.Log("added all players")
-       // sendData();
-
+    
     }
     #region set/gets
     public PlayerData[] getCurrentTeam() 
     {
         PlayerData[] tempTeam = new PlayerData[4];
-        tempTeam[0] = findPlayer(PlayerPrefs.GetString("Player0"));
-        tempTeam[1] = findPlayer(PlayerPrefs.GetString("Player1"));
-        tempTeam[2] = findPlayer(PlayerPrefs.GetString("Player2"));
-        tempTeam[3] = findPlayer(PlayerPrefs.GetString("Player3"));
+        tempTeam[0] = loadPlayer(PlayerPrefs.GetString("Player0"));
+        tempTeam[1] = loadPlayer(PlayerPrefs.GetString("Player1"));
+        tempTeam[2] = loadPlayer(PlayerPrefs.GetString("Player2"));
+        tempTeam[3] = loadPlayer(PlayerPrefs.GetString("Player3"));
         return tempTeam;
         //no null checking. Must be checked when adding players to game
     }
@@ -53,8 +39,8 @@ public class GameData{
         armyList = army;
     }
     #endregion
-
-    public PlayerData findPlayer(string name)
+    #region baseFunctions
+    public PlayerData loadPlayer(string name)
     {
         if (name == null)
         {
@@ -98,10 +84,10 @@ public class GameData{
         return data;
     }*/
 
-    private  void sendData()
+    private void sendData()
     {
        // GameDataController game = new GameDataController();
         GameDataController.savePlayerData(this);
     }
-
+#endregion
 }
