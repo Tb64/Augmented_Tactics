@@ -12,7 +12,7 @@ public class ClickableTile : MonoBehaviour {
     public TileType tileType;
     private Color32 originalColor;
     Actor unit;
-    public bool occupied;
+    public bool occupied = false;
     StateMachine controller;
     Actor player;
     Actor enemy;
@@ -21,10 +21,17 @@ public class ClickableTile : MonoBehaviour {
     {
         player = GameObject.FindWithTag("Player").GetComponent<Actor>();
         enemy = GameObject.FindWithTag("Enemy").GetComponent<Actor>();
-        unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
+        //unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
         controller = GameObject.Find("GameController").GetComponent<StateMachine>();
-        //sets clickable tile to false as its initialized
-        occupied = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Collided with " + other.gameObject.name);
+        if (other.gameObject.tag == "Player" || other.gameObject.tag == "Enemy")
+        {
+            Debug.Log("Collison with actor.");
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -41,47 +48,34 @@ public class ClickableTile : MonoBehaviour {
      
     }
 
-    public void OnMouseUp()
+    /// <summary>
+    /// Will return GameObject occupuying the tiles. Only returns gameobject if tile
+    /// is currently occupied
+    /// </summary>
+    /// <returns></returns>
+    public GameObject isOccupiedBy()
     {
-        
-      
-        //Generates a path to clicked tile
+        if(occupied == true)
+        {
+            for(int index = 0; index < PlayerControlled.playerNum; index++)
+            {
+                if(coords == PlayerControlled.playerList[index].getCoords())
+                {
+                    return PlayerControlled.playerList[index].gameObject;
+                }
+            }
+            for (int index = 0; index < EnemyController.enemyNum; index++)
+            {
+                if (coords == EnemyController.enemyList[index].getCoords())
+                {
+                    return EnemyController.enemyList[index].gameObject;
+                }
+            }
 
-        //bool firstClick = true;
 
-        //if (controller.getFirstTurn() == true && firstClick == true)
-        //{//Only runs on the first click of the scene
-        //    map.getMapArray()[(int)enemy.GetComponent<Actor>().getCoords().x,
-        //        (int)enemy.GetComponent<Actor>().getCoords().y,
-        //        (int)enemy.GetComponent<Actor>().getCoords().z].setOccupiedTrue();
-        //    map.getMapArray()[(int)player.GetComponent<Actor>().getCoords().x,
-        //        (int)player.GetComponent<Actor>().getCoords().y,
-        //        (int)player.GetComponent<Actor>().getCoords().z].setOccupiedTrue();
-        //    firstClick = false;
-        //}
 
-        //if (map.getEndOfMove() == true && unit.getMoveClicked() == true)
-        //{
-        //    map.GeneratePathTo(coords);
-
-        //    unit.NextTurn();
-        //    unit.setMoveClicked(false);
-        //}
-
-    }
-
-    public void OnMouseEnter()
-    {
-        //highlights block that mouse hovers over
-        originalColor = gameObject.GetComponent<MeshRenderer>().material.color;
-        gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", new Color32(150,248,43,255));
-
-    
-    }
-
-    public void isOccupiedBy()
-    {
-        //should return what unit is standing on the tile
+        }
+        return null;
     }
 
     public void OnMouseExit()
