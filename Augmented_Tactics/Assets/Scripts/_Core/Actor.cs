@@ -182,7 +182,7 @@ public class Actor : MonoBehaviour
 
         if (map.IsValidCoord(coords) == true)
         {
-            Debug.Log("TESTTTTTTTTTTTTTTTT Coords: " + coords);
+            Debug.Log("Coords: " + coords);
             map.GetTileAt(coords).setOccupiedTrue();
             Debug.Log("Occupied = " + map.GetTileAt(coords).isOccupied());
         }

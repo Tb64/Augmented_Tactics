@@ -117,6 +117,14 @@ public class Enemy : Actor
         //Debug.Log("Moving to " + movingTo);
         map.moveActorAsync(gameObject, movingTo);
         //Attack(currentTarget);
+
+        if (map.IsValidCoord(coords) == true)
+        {
+            Debug.Log("Coords: " + coords);
+            map.GetTileAt(coords).setOccupiedTrue();
+            Debug.Log("Occupied = " + map.GetTileAt(coords).isOccupied());
+        }
+
     }
 
     public void EnemyMoved()
