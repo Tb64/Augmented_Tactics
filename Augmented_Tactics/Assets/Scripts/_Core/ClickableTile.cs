@@ -59,14 +59,14 @@ public class ClickableTile : MonoBehaviour {
         {
             for(int index = 0; index < PlayerControlled.playerNum; index++)
             {
-                if(transform.position == PlayerControlled.playerList[index].transform.position)
+                if(coords == PlayerControlled.playerList[index].getCoords())
                 {
                     return PlayerControlled.playerList[index].gameObject;
                 }
             }
             for (int index = 0; index < EnemyController.enemyNum; index++)
             {
-                if (transform.position == EnemyController.enemyList[index].transform.position)
+                if (coords == EnemyController.enemyList[index].getCoords())
                 {
                     return EnemyController.enemyList[index].gameObject;
                 }
