@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BaseClass : MonoBehaviour {
 
-    private Actor player;
+    protected Actor player;
     private GameData savedPlayerData = new GameData();    
 
     private int skillPoints;
@@ -44,7 +44,7 @@ public class BaseClass : MonoBehaviour {
     {
         player = GetComponentInParent<Actor>();
 
-        player.abilitySet = new BasicAttack[4];
+        player.abilitySet = new Ability[4];
         for (int i = 0; i < 4; i++)
         {
             player.abilitySet[i] = new BasicAttack(gameObject);

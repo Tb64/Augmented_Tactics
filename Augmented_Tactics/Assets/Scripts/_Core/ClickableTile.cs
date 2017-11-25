@@ -53,7 +53,7 @@ public class ClickableTile : MonoBehaviour {
     /// is currently occupied
     /// </summary>
     /// <returns></returns>
-    public GameObject isOccupiedBy()
+    public GameObject IsOccupiedBy()
     {
         if(occupied == true)
         {

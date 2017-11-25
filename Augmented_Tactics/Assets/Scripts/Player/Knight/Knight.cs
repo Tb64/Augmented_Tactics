@@ -25,7 +25,7 @@ public class Knight : BaseClass {
         setCharismaGain(5);
 
         //initialize base stats
-       
+        player.abilitySet[0] = new Eviscerate(gameObject);
 
     }
 
