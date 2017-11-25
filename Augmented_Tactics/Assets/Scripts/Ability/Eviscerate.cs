@@ -7,6 +7,7 @@ public class Eviscerate : Ability {
     float damage = 10f;
 
     //Damages Enemy and removes one action point from enemy
+    //need to add status effect that removes one turn from enemy
 
     public Eviscerate(GameObject obj)
     {
@@ -32,6 +33,7 @@ public class Eviscerate : Ability {
         if (base.UseSkill(target))
         {
             Skill(target);
+            
             return true;
         }
         else

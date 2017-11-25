@@ -50,7 +50,7 @@ public class BaseClass : MonoBehaviour {
             player.abilitySet[i] = new BasicAttack(gameObject);
         }
 
-        jobs = new BaseClass[7];
+        
 
         for (int index = 0; index < 7; index++)
         {
