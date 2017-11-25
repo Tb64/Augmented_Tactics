@@ -28,11 +28,11 @@ public class PlayerControlled : Actor
     {
         TurnBehaviour.OnPlayerTurnStart += this.OnPlayerTurnStart;
 
-        abilitySet = new BasicAttack[4];  //test
-        for (int i = 0; i < 4; i++)
-        {
-            abilitySet[i] = new BasicAttack(gameObject);
-        }
+        //abilitySet = new BasicAttack[4];  //test
+        //for (int i = 0; i < 4; i++)
+        //{
+        //    abilitySet[i] = new BasicAttack(gameObject);
+        //}
         // GameObject.FindWithTag("Map").GetComponent<TileMap>().Players.Add(this.GetComponent<Actor>());
 
         if (map == null)

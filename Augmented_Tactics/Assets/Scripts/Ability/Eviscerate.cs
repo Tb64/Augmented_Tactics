@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Eviscerate : Ability {
 
     float damage = 10f;
 
     //Damages Enemy and removes one action point from enemy
     //need to add status effect that removes one turn from enemy
+    GameObject bloodEffect = Resources.Load<GameObject>("animation/effect26");
 
     public Eviscerate(GameObject obj)
     {
@@ -49,9 +51,13 @@ public class Eviscerate : Ability {
         {
             rotateAtObj(target);
             anim.SetTrigger("MeleeAttack");
+            GameObject effect = GameObject.Instantiate(bloodEffect, target.transform);
             parent.GetComponent<Actor>().PlaySound("attack");
         }
         target.GetComponent<Actor>().TakeDamage(damage);
+        //Need to add status effect
+        //Will apply bleed(damager per turn, 2 turns)
+        //Will remove 1 move from enemies next 2 turns
 
         DwellTime.Attack(dwell_time);
     }

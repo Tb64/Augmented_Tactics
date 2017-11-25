@@ -50,12 +50,6 @@ public class BaseClass : MonoBehaviour {
             player.abilitySet[i] = new BasicAttack(gameObject);
         }
 
-        
-
-        for (int index = 0; index < 7; index++)
-        {
-            jobs[index] = new BaseClass();
-        }
 
         player.setStrength(10);
         player.setDexterity(10);
