@@ -48,10 +48,34 @@ public class ClickableTile : MonoBehaviour {
      
     }
 
-
-    public void isOccupiedBy()
+    /// <summary>
+    /// Will return GameObject occupuying the tiles. Only returns gameobject if tile
+    /// is currently occupied
+    /// </summary>
+    /// <returns></returns>
+    public GameObject isOccupiedBy()
     {
-        //should return what unit is standing on the tile
+        if(occupied == true)
+        {
+            for(int index = 0; index < PlayerControlled.playerNum; index++)
+            {
+                if(transform.position == PlayerControlled.playerList[index].transform.position)
+                {
+                    return PlayerControlled.playerList[index].gameObject;
+                }
+            }
+            for (int index = 0; index < EnemyController.enemyNum; index++)
+            {
+                if (transform.position == EnemyController.enemyList[index].transform.position)
+                {
+                    return EnemyController.enemyList[index].gameObject;
+                }
+            }
+
+
+
+        }
+        return null;
     }
 
     public void OnMouseExit()
