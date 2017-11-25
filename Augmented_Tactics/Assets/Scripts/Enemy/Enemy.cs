@@ -86,7 +86,7 @@ public class Enemy : Actor
             return;
         }
         //base.EnemyTurnStart();
-        map.selectedUnit = gameObject;
+        //map.selectedUnit = gameObject;
         nearest = findNearestPlayer();
         weakest = findWeakestPlayer();
         //Debug.Log(weakest);

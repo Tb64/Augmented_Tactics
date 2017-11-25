@@ -7,7 +7,7 @@ using System.Linq;
 public class TileMap : MonoBehaviour {
 
     #region variables
-    public GameObject selectedUnit;
+    //public GameObject selectedUnit;
     float remainingMovement;
     public bool codeGenerateMap = true;
     LineRenderer path;
@@ -206,14 +206,14 @@ public class TileMap : MonoBehaviour {
         return getTileAtCoord(coords).tileType.isWalkable && getTileAtCoord(coords).isOccupied() == false;
     }
 
-    public void GeneratePathTo(Vector3 targetCoords)
+    public void GeneratePathTo(Vector3 targetCoords, GameObject actor)
     {
-        unit = selectedUnit.GetComponent<Actor>();
+        unit = actor.GetComponent<Actor>();
         Vector3 coordinates = new Vector3();
         
         //initializes coordinates vector to selected units transform
-        coordinates.x = (int)selectedUnit.transform.position.x;
-        coordinates.z = (int)selectedUnit.transform.position.z;
+        coordinates.x = (int)unit.transform.position.x;
+        coordinates.z = (int)unit.transform.position.z;
         //passes coordinates vector to unit to set units coords
         unit.setCoords(coordinates); 
         unit.setPathNull();
@@ -423,8 +423,8 @@ public class TileMap : MonoBehaviour {
     /// <returns>False = move not finished.  True = move finished.</returns>
     public bool moveActor(GameObject actor, Vector3 target)
     {
-        selectedUnit = actor;
-        GeneratePathTo(target);
+        //selectedUnit = actor;
+        GeneratePathTo(target, actor);
         return moveUnit(actor);
     }
 
@@ -602,8 +602,8 @@ public class TileMap : MonoBehaviour {
 
     private IEnumerator MoveActorThread(GameObject actor, Vector3 target)
     {
-        selectedUnit = actor;
-        GeneratePathTo(target);
+        //selectedUnit = actor;
+        GeneratePathTo(target, actor);
 
         bool moveDone = moveUnit(actor);
 
