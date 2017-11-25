@@ -25,6 +25,15 @@ public class ClickableTile : MonoBehaviour {
         controller = GameObject.Find("GameController").GetComponent<StateMachine>();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Collided with " + other.gameObject.name);
+        if (other.gameObject.tag == "Player" || other.gameObject.tag == "Enemy")
+        {
+            Debug.Log("Collison with actor.");
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log("Collided with " + collision.gameObject.name);

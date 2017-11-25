@@ -343,7 +343,7 @@ public class GameController : MonoBehaviour
             rangeMarker.Move_Marker_On(selectedUnit.getCoords(), selectedUnit.moveDistance); 
     }
 
- 
+
     Vector3 GetSelectedLocation(GameObject input)
     {
         Vector3 output = new Vector3(-1,-1,-1);
