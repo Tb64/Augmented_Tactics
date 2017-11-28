@@ -31,12 +31,14 @@ public class HealthBarUIManager : MonoBehaviour {
         TurnBehaviour.OnUnitMoved -= updateActions;
         TurnBehaviour.OnActorAttacked -= updateActions;
         TurnBehaviour.OnPlayerTurnStart -= onPlayerTurnStart;
+        onPlayerTurnStart();        
+        numPlayers = 0;
     }
-
+    
     void dimOtherBars()
     {
         //when a bar is clicked it gets stays the same color, other bars change to a darker color
-        //starts at 
+        //check for default unit
     }
 
 	public static void updateHealth()
@@ -44,6 +46,9 @@ public class HealthBarUIManager : MonoBehaviour {
         //would be harder to tell which enemy in particular took damage. Just update all bars
         for (int i = 0; i < numPlayers; i++)
             playerHealthImg[i].fillAmount = PlayerControlled.playerList[i].GetHealthPercent();
+
+        //TODO tint entire bar red if the unit has been destroyed
+        //in actor thwre is a var called dead its true. .isDead()
     }
 
 
@@ -57,7 +62,7 @@ public class HealthBarUIManager : MonoBehaviour {
 
     private static void updateActions()
     {
-        // if less than max actions then disable a amrker
+        // if less than max actions then disable a marker
         for (int i = 0; i < numPlayers; i++)
         {
             availableActions = PlayerControlled.playerList[i].getMoves();

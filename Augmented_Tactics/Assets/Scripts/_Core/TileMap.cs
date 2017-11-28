@@ -596,6 +596,7 @@ public class TileMap : MonoBehaviour {
         selectedUnit = actor;
         GeneratePathTo(target);
 
+        TurnBehaviour.ActorBeginsMoving();
         bool moveDone = moveUnit(actor);
 
         do

@@ -29,6 +29,7 @@ public class TurnBehaviour : MonoBehaviour
     public static event PlayerEventHandler OnUnitMoved;
     public static event PlayerEventHandler OnPlayerAttack;
     public static event PlayerEventHandler OnUnitDestroy;
+    public static event PlayerEventHandler OnUnitBeginsMoving;
 
     //for Handling Turn Based Events
     public delegate void TurnEventHandler();
@@ -46,6 +47,7 @@ public class TurnBehaviour : MonoBehaviour
     public static event EnemyEventHandler OnEnemyUnitMoved;
     public static event EnemyEventHandler OnEnemyUnitAttack;
     public static event EnemyEventHandler OnEnemyUnitDestroy;
+    public static event EnemyEventHandler OnEnemyBeginsMoving;
 
     //for checking whose turn it is and total number of turns played
     private static bool isPlayerTurn;
@@ -113,6 +115,21 @@ public class TurnBehaviour : MonoBehaviour
             OnGameStart();
     }
 
+    //Called when a Move starts
+    public static void ActorBeginsMoving()
+    {
+        if (!isPlayerTurn)
+        {
+            EnemyBeginsMoving();
+        }
+        else
+        {
+            PlayerBeginsMoving();
+        }
+        if (OnUnitBeginsMoving != null)
+            OnUnitBeginsMoving();
+    }
+
     //Called when a Move has finished
     public static void ActorHasJustMoved()
     {
@@ -141,6 +158,12 @@ public class TurnBehaviour : MonoBehaviour
     {
         if (OnUnitSpawn != null)
             OnUnitSpawn();
+    }
+    //calls Player Begins Moving Event
+    public static void PlayerBeginsMoving()
+    {
+        if (OnUnitBeginsMoving != null)
+            OnUnitBeginsMoving();
     }
     //calls Player Moved Event
     public static void PlayerHasJustMoved()
@@ -210,6 +233,12 @@ public class TurnBehaviour : MonoBehaviour
     {
         if (OnEnemyUnitSpawn != null)
             OnEnemyUnitSpawn();
+    }
+    //calls Enemy Begins Moving Event
+    public static void EnemyBeginsMoving()
+    {
+        if (OnEnemyBeginsMoving != null)
+            OnEnemyBeginsMoving();
     }
     //calls Enemy Moved Event
     public static void EnemyHasJustMoved()
