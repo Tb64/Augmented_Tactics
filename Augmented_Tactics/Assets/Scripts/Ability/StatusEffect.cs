@@ -14,13 +14,13 @@ public class StatusEffect : MonoBehaviour
         TurnBehaviour.OnTurnStart -= this.decreaseTimeCounter;
     }
     int duration;
-    string effectedStat;
+    float effectedStat;
     float effect;
     string effectType;
     Actor effectedPlayer;
     bool isEnemy;
     StateMachine SM;
-    public StatusEffect(int dur, string stat, string type, float effect, string operation, Actor effected, bool isEnemy, StateMachine SM)
+    public StatusEffect(int dur, float stat, string type, float effect, string operation, Actor effected, bool isEnemy, StateMachine SM)
     {
         this.duration = dur;
         this.effectedStat = stat;

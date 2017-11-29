@@ -63,7 +63,7 @@ public class StateMachine : MonoBehaviour {
             return;
         }
         TileMap map = GameObject.FindWithTag("Map").GetComponent<TileMap>();
-        Actor unit = map.selectedUnit.GetComponent<Actor>();
+        //Actor unit = map.selectedUnit.GetComponent<Actor>();
 
         if (map.getEndOfMove() == false)
         {
@@ -87,12 +87,12 @@ public class StateMachine : MonoBehaviour {
            
             GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Player Turn";
 
-            unit = player.GetComponent<Actor>();
-            map.selectedUnit = player;
+            //unit = player.GetComponent<Actor>();
+            //map.selectedUnit = player;
      
-            map.getMapArray()[(int)unit.getCoords().x,
-                (int)unit.getCoords().y, 
-                (int)unit.getCoords().z].setOccupiedTrue();
+            //map.getMapArray()[(int)unit.getCoords().x,
+            //    (int)unit.getCoords().y, 
+            //    (int)unit.getCoords().z].setOccupiedTrue();
 
             
         }
@@ -103,12 +103,12 @@ public class StateMachine : MonoBehaviour {
                         
             GameObject.Find("EndTurn").GetComponentInChildren<Text>().text = "Enemy Turn";
 
-            unit = enemy.GetComponent<Actor>();
-            map.selectedUnit = enemy;
+            //unit = enemy.GetComponent<Actor>();
+            //map.selectedUnit = enemy;
            
-            map.getMapArray()[(int)unit.getCoords().x, 
-                (int)unit.getCoords().y,
-                (int)unit.getCoords().z].setOccupiedTrue();
+            //map.getMapArray()[(int)unit.getCoords().x, 
+            //    (int)unit.getCoords().y,
+            //    (int)unit.getCoords().z].setOccupiedTrue();
         }
     }
 
