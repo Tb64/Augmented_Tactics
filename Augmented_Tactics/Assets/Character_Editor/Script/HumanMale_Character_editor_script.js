@@ -1,5 +1,8 @@
 ﻿#pragma strict
 import System.IO;
+import UnityEngine;
+
+#if UNITY_EDITOR
 				
 // Here is what you need to change in the inspector when changing the character in the scene or if you lose the prefab connection
 
@@ -2504,4 +2507,5 @@ function MakePrefab (){
 		 		
 		 		
 		 		
-		 		 		
+
+#endif

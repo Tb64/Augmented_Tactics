@@ -150,15 +150,13 @@ public class Actor : MonoBehaviour
         {
             report = GameObject.Find("SceneManager").GetComponent<AfterActionReport>();
         }
-         
+        
         incapacitated = false; //determines whether actor is knocked out
         dead = false;          //perma death
 
         coords.x = transform.position.x;
         coords.y = transform.position.y;
         coords.z = transform.position.z;
-
-
 
         health_current = health_max;
         remainingMovement = moveDistance;
@@ -182,6 +180,14 @@ public class Actor : MonoBehaviour
         }
         map = GameObject.Find("Map").GetComponent<TileMap>();
 
+        if (map.IsValidCoord(coords) == true)
+        {
+            Debug.Log("Coords: " + coords);
+            map.GetTileAt(coords).setOccupiedTrue();
+            Debug.Log("Occupied = " + map.GetTileAt(coords).isOccupied());
+        }
+
+
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
 
@@ -190,7 +196,10 @@ public class Actor : MonoBehaviour
     //Player Spawn Event - Put any actions you want done upon player spawn in here
     public void OnUnitSpawn()
     {
-        //map.GetTileAt(coords).setOccupiedTrue();
+        
+        
+       
+
     }
     
 
