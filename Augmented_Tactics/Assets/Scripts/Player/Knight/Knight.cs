@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Knight : BaseClass {
 
-    
-
     void Start()
     {
         base.Start();

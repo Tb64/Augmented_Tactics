@@ -17,6 +17,7 @@ public class DefaultUnit : PlayerControlled
         mana_current = setMana;
         mana_max = setMana;
 
+    
     }
 	
 }
