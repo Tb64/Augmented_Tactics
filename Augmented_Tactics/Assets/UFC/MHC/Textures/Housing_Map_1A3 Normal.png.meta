@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 51f8cc4f6ab0773469d57336a71a74b9
+guid: c3d727e5cab83ff44b662091c3db51e1
 timeCreated: 1454366153
 licenseType: Store
 TextureImporter:
@@ -12,6 +12,8 @@ TextureImporter:
     linearTexture: 1
     fadeOut: 0
     borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
@@ -27,10 +29,13 @@ TextureImporter:
   textureFormat: -1
   maxTextureSize: 2048
   textureSettings:
+    serializedVersion: 2
     filterMode: -1
     aniso: 3
     mipBias: -1
-    wrapMode: -1
+    wrapU: -1
+    wrapV: -1
+    wrapW: -1
   nPOTScale: 1
   lightmap: 0
   compressionQuality: 50
@@ -70,6 +75,7 @@ TextureImporter:
     serializedVersion: 2
     sprites: []
     outline: []
+    physicsShape: []
   spritePackingTag: 
   userData: 
   assetBundleName: 
