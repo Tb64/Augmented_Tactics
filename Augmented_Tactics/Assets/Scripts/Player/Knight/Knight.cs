@@ -24,7 +24,6 @@ public class Knight : BaseClass {
 
         //initialize base stats
         player.abilitySet[0] = new Eviscerate(gameObject);
-
     }
 
     public void taunt()

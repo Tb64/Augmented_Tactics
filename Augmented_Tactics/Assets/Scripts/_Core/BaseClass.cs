@@ -23,6 +23,8 @@ public class BaseClass : MonoBehaviour {
     private int charismaGain;
 
     public virtual void Start() {
+
+
         initializeBaseStats();
 
         //loadChar("Doogy");
