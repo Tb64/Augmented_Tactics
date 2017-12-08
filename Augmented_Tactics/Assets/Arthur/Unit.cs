@@ -11,7 +11,7 @@ public class Unit : MonoBehaviour {
     public int moveDistance;
     float step;
     float remainingMovement;
-    public List<Node> currentPath = null;
+    public List<MapNode> currentPath = null;
 
     void Update()
     {

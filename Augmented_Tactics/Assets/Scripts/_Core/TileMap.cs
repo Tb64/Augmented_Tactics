@@ -23,7 +23,7 @@ public class TileMap : MonoBehaviour {
     private bool endOfMove;
 
     //int[,] tiles;
-    Node[,,] graph;
+    MapNode[,,] graph;
     
     public int mapSizeX = 16;
     public int mapSizeY = 1;
@@ -224,19 +224,19 @@ public class TileMap : MonoBehaviour {
             return;
         }
 
-        Dictionary<Node, float> dist = new Dictionary<Node, float>();
-        Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
+        Dictionary<MapNode, float> dist = new Dictionary<MapNode, float>();
+        Dictionary<MapNode, MapNode> prev = new Dictionary<MapNode, MapNode>();
 
         //Actor uXZ = selectedUnit.GetComponent<Actor>();
 
-        List<Node> unvisited = new List<Node>();
+        List<MapNode> unvisited = new List<MapNode>();
 
-        Node source = graph[(int)unit.getCoords().x,(int)unit.getCoords().y,(int)unit.getCoords().z];
-        Node target = graph[(int)targetCoords.x,(int)targetCoords.y,(int)targetCoords.z];
+        MapNode source = graph[(int)unit.getCoords().x,(int)unit.getCoords().y,(int)unit.getCoords().z];
+        MapNode target = graph[(int)targetCoords.x,(int)targetCoords.y,(int)targetCoords.z];
         dist[source] = 0;
         prev[source] = null;
         
-        foreach(Node v in graph)
+        foreach(MapNode v in graph)
         {
             if(v != source)
             {
@@ -249,9 +249,9 @@ public class TileMap : MonoBehaviour {
         while(unvisited.Count > 0)
         {
             //u is unvisited node with the smallest distance
-            Node u = null;
+            MapNode u = null;
 
-            foreach(Node possibleU in unvisited)
+            foreach(MapNode possibleU in unvisited)
             {
                 if(u == null || dist[possibleU] < dist[u])
                 {
@@ -266,7 +266,7 @@ public class TileMap : MonoBehaviour {
 
             unvisited.Remove(u);
 
-            foreach (Node v in u.neighbors)
+            foreach (MapNode v in u.neighbors)
             {
                 //float alt = dist[u] + u.DistanceTo(v);
                 float alt = dist[u] + costToEnterTile(u.coords,v.coords);
@@ -286,9 +286,9 @@ public class TileMap : MonoBehaviour {
             return;
         }
 
-        List<Node> currentPath = new List<Node>();
+        List<MapNode> currentPath = new List<MapNode>();
 
-        Node curr = target;
+        MapNode curr = target;
 
         //step through prev chain and add it to path
 
@@ -305,7 +305,7 @@ public class TileMap : MonoBehaviour {
     void generatePathFindingGraph()
     {
         //init array
-        graph = new Node[mapSizeX,mapSizeY,mapSizeZ];
+        graph = new MapNode[mapSizeX,mapSizeY,mapSizeZ];
 
         //init a node for each index in array
         for (int x = 0; x < mapSizeX; x++)
@@ -314,7 +314,7 @@ public class TileMap : MonoBehaviour {
             {
                 for (int z = 0; z < mapSizeZ; z++)
                 {
-                    graph[x,y,z] = new Node();
+                    graph[x,y,z] = new MapNode();
                     graph[x,y,z].coords.x = x;
                     graph[x,y,z].coords.y = y;
                     graph[x,y,z].coords.z = z;

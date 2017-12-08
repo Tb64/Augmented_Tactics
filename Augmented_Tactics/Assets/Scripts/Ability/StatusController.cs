@@ -23,7 +23,7 @@ public class StatusController : MonoBehaviour {
         enemies = EnemyController.enemyList;
     }
 
-    public static void addStatus(StatusEffect status)
+    public static void addStatus(StatusEffectRPG status)
     {
 
     }
