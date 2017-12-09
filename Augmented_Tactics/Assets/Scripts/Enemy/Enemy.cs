@@ -12,6 +12,7 @@ public class Enemy : Actor
     private int enemyID;
     private Actor nearest, weakest;
     private Vector3 playerPosition, enemyPosition;
+    public float distanceToNearest;
     public Actor getNearest() { return nearest; }
     public void setNearest(Actor nearestPlayer) { nearest = nearestPlayer; }
     public Vector3 getPlayerPosition() { return playerPosition; }
@@ -82,7 +83,7 @@ public class Enemy : Actor
         Debug.Log("Enemy " + enemyID + " moving");
         if (GetHealthPercent() == 0f)
         {
-            SM.setTurn();
+            //SM.setTurn();
             return;
         }
         //base.EnemyTurnStart();
@@ -92,39 +93,63 @@ public class Enemy : Actor
         //Debug.Log(weakest);
         enemyPosition = getCoords();
         playerPosition = weakest.getCoords();
-        float distanceToNearest = Vector3.Distance(playerPosition, enemyPosition);
-        if (reactToProximity(distanceToNearest))
-        {
-            SM.setTurn();
-            return;
-        }
-        //Debug.Log(nearest.tileX + " " + nearest.tileZ+ " " + weakest.tileX + " "+ weakest.tileZ);
-        Actor target = nearest;
+        distanceToNearest = Vector3.Distance(playerPosition, enemyPosition);
 
+        //if (reactToProximity(distanceToNearest))
+        //{
+        //    SM.setTurn();
+        //    return;
+        //}
+        ////Debug.Log(nearest.tileX + " " + nearest.tileZ+ " " + weakest.tileX + " "+ weakest.tileZ);
+        //Actor target = nearest;
+
+        //if (target != weakest)
+        //    target = findTarget(weakest, distanceToNearest);
+        ////Debug.Log("Found Target = " + target.name + " at " + target.transform.position + target.getCoords());
+        //currentTarget = target;    
+
+        //if (target == null)
+        //{
+        //    Debug.LogError("no player team");
+        //    return;
+        //}
+           
+
+        //Vector3 movingTo = PosCloseTo(target.getCoords());
+        ////Debug.Log("Moving to " + movingTo);
+        //map.moveActorAsync(gameObject, movingTo);
+        ////Attack(currentTarget);
+
+        //if (map.IsValidCoord(coords) == true)
+        //{
+        //    Debug.Log("Coords: " + coords);
+        //    map.GetTileAt(coords).setOccupiedTrue();
+        //    Debug.Log("Occupied = " + map.GetTileAt(coords).isOccupied());
+        //}
+
+    }
+
+    public void nonProximityActions()
+    {
+        if (getMoves() == 0)
+            return;
+        Actor target = nearest;
         if (target != weakest)
             target = findTarget(weakest, distanceToNearest);
         //Debug.Log("Found Target = " + target.name + " at " + target.transform.position + target.getCoords());
-        currentTarget = target;    
+        currentTarget = target;
 
         if (target == null)
         {
             Debug.LogError("no player team");
             return;
         }
-           
 
         Vector3 movingTo = PosCloseTo(target.getCoords());
         //Debug.Log("Moving to " + movingTo);
         map.moveActorAsync(gameObject, movingTo);
+        Debug.Log("Move Complete");
         //Attack(currentTarget);
-
-        if (map.IsValidCoord(coords) == true)
-        {
-            Debug.Log("Coords: " + coords);
-            map.GetTileAt(coords).setOccupiedTrue();
-            Debug.Log("Occupied = " + map.GetTileAt(coords).isOccupied());
-        }
-
     }
 
     public void EnemyMoved()
@@ -137,28 +162,29 @@ public class Enemy : Actor
         }
         else
         {
-            Attack(currentTarget);  //attack attempt after move is finished
+            if (getMoves() != 0)
+                attemptAttack(currentTarget);  //attack attempt after move is finished
             //SM.setTurn();           //after attacking the enemy will end its turn.
             //Debug.Log("Called");
         }
     }
 
 
-    void enemyTurn()
-    {
-        //update position
+    //void enemyTurn()
+    //{
+    //    //update position
         
-        bool finishedMove = moveEnemy(currentTarget);
-        if (finishedMove)   //finished move
-        {
-            Attack(currentTarget);  //attack attempt after move is finished
-            SM.setTurn();           //after attacking the enemy will end its turn.
-        }
-        else
-        {
-            Debug.LogError("stupid code");
-        }
-    }
+    //    bool finishedMove = moveEnemy(currentTarget);
+    //    if (finishedMove)   //finished move
+    //    {
+    //        Attack(currentTarget);  //attack attempt after move is finished
+    //        SM.setTurn();           //after attacking the enemy will end its turn.
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("stupid code");
+    //    }
+    //}
 
     private Actor findNearestPlayer()
     {
@@ -204,14 +230,20 @@ public class Enemy : Actor
         return weakest;
     }
 
-    private bool reactToProximity(float distanceToNearest)
+    public bool reactToProximity(float distanceToNearest)
     {
-        Debug.Log(distanceToNearest);
+        //Debug.Log(distanceToNearest);
         if (distanceToNearest <= 1.5)
         {
             Debug.Log("Attempting Attack");
-            Attack(nearest);
-            return true;
+            if (attemptAttack(nearest))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         else if (GetHealthPercent() < nearest.GetHealthPercent() && distanceToNearest < moveDistance)
         {
@@ -298,6 +330,8 @@ public class Enemy : Actor
         Debug.Log("Delta "+ output + mapPos);
         output = mapPos + output;
         //Debug.Log("Delta " + output + mapPos);
+        if (EnemyController.currentEnemy > 0)
+            Debug.Log("first enemy " + EnemyController.enemyList[EnemyController.currentEnemy].getCoords());
         return output;
     }
 
@@ -306,14 +340,24 @@ public class Enemy : Actor
     /// //////////////////////// where to add attacking
     /// </summary>
     /// <param name="target"></param>
-    void Attack(Actor target)
+    public bool attemptAttack(Actor target)
     {
-        float dist = Vector3.Distance(getCoords(), target.getCoords());
-        if (!(dist <= 1.5))
-            return;
-        //Debug.Log("target = " + target.gameObject + " skill = " + abilitySet[0].abilityName + " range = " + dist);
-        abilitySet[0].UseSkill(target.gameObject); //test
-        //status change will occur here^^
+        Debug.Log(this + " Attempting attack on " + target);
+        if (abilitySet[0].SkillInRange(getCoords(), target.getCoords()))
+        {
+            //float dist = Vector3.Distance(getCoords(), target.getCoords());
+            //if (!(dist <= 1.5))
+            //  return;
+            //Debug.Log("target = " + target.gameObject + " skill = " + abilitySet[0].abilityName + " range = " + dist);
+            abilitySet[0].UseSkill(target.gameObject); //test
+                                                       //status change will occur here^^
+            return true;
+        }
+        else
+        {
+            Debug.Log("Out of Range " + target.getCoords() + " " + getCoords());
+            return false;
+        }
     }
 
     public int getExpGiven()
