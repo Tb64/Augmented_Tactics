@@ -80,7 +80,7 @@ public class Enemy : Actor
 
     public virtual void EnemyTurnStartActions()
     {
-        Debug.Log("Enemy " + enemyID + " moving");
+        Debug.Log("Enemy " + enemyID + " turn started");
         if (GetHealthPercent() == 0f)
         {
             //SM.setTurn();
@@ -131,6 +131,7 @@ public class Enemy : Actor
 
     public void nonProximityActions()
     {
+        Debug.Log("NON-PROXIMITY");
         if (getMoves() == 0)
             return;
         Actor target = nearest;
@@ -146,9 +147,9 @@ public class Enemy : Actor
         }
 
         Vector3 movingTo = PosCloseTo(target.getCoords());
-        //Debug.Log("Moving to " + movingTo);
+        Debug.Log("Moving to " + movingTo);
         map.moveActorAsync(gameObject, movingTo);
-        Debug.Log("Move Complete");
+        Debug.Log("Move Complete\t" + currentTarget);
         //Attack(currentTarget);
     }
 
@@ -232,7 +233,7 @@ public class Enemy : Actor
 
     public bool reactToProximity(float distanceToNearest)
     {
-        //Debug.Log(distanceToNearest);
+        Debug.Log(distanceToNearest);
         if (distanceToNearest <= 1.5)
         {
             Debug.Log("Attempting Attack");
@@ -247,6 +248,7 @@ public class Enemy : Actor
         }
         else if (GetHealthPercent() < nearest.GetHealthPercent() && distanceToNearest < moveDistance)
         {
+            Debug.Log("Healing");
             HealHealth(100);    // just a filler #
             return true;
         }
@@ -293,43 +295,96 @@ public class Enemy : Actor
     {
         Vector3 output = getCoords() - mapPos;
         output = output.normalized;
-        if (Mathf.Abs(output.x) > Mathf.Abs(output.z)) //attempts to get to the closest available tile then checks all other close pos'
+        float absX = Mathf.Abs(output.x), absZ = Mathf.Abs(output.z);
+        if (absX > absZ) //attempts to get to the closest available tile then checks all other close pos'
         {
-           // if (output.x > 0)
-                output = new Vector3(1f, 0f, 0f);
-            if (!map.UnitCanEnterTile(mapPos + output))
+            // if (output.x > 0)
+            if (absX < mapPos.x)
             {
-                //  else
+                output = new Vector3(1f, 0f, 0f);
+                if (!map.UnitCanEnterTile(mapPos + output))
+                {
+                    if (absZ < mapPos.z)
+                    {
+                        output = new Vector3(0f, 0f, 1f);
+                        if (!map.UnitCanEnterTile(mapPos + output))
+                        {
+                            output = new Vector3(0f, 0f, -1f);
+                            if (!map.UnitCanEnterTile(mapPos + output))
+                            {
+                                output = new Vector3(-1f, 0f, 0f);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
                 output = new Vector3(-1f, 0f, 0f);
                 if (!map.UnitCanEnterTile(mapPos + output))
                 {
-                    output = new Vector3(0f, 0f, 1f);
-                    if (!map.UnitCanEnterTile(mapPos + output))
+                    if (absZ < mapPos.z)
                     {
-                        output = new Vector3(0f, 0f, -1f);
+                        output = new Vector3(0f, 0f, 1f);
+                        if (!map.UnitCanEnterTile(mapPos + output))
+                        {
+                            output = new Vector3(0f, 0f, -1f);
+                            if (!map.UnitCanEnterTile(mapPos + output))
+                            {
+                                output = new Vector3(1f, 0f, 0f);
+                            }
+                        }
                     }
                 }
             }
         }
         else
         {
-            output = new Vector3(0f, 0f, 1f);
-            if (!map.UnitCanEnterTile(mapPos + output))
+            //closer to Z
+            if (absZ < mapPos.z)
+            {
+                output = new Vector3(0f, 0f, 1f);
+                if (!map.UnitCanEnterTile(mapPos + output))
+                {
+                    if (absX < mapPos.x)
+                    {
+                        output = new Vector3(1f, 0f, 0f);
+                        if (!map.UnitCanEnterTile(mapPos + output))
+                        {
+                            output = new Vector3(-1f, 0f, 0f);
+                            if (!map.UnitCanEnterTile(mapPos + output))
+                            {
+                                output = new Vector3(0f, 0f, -1f);
+                            }
+                        }
+                    }
+                }
+            }
+            else
             {
                 output = new Vector3(0f, 0f, -1f);
                 if (!map.UnitCanEnterTile(mapPos + output))
                 {
-                    output = new Vector3(1f, 0f, 0f);
-                    if (!map.UnitCanEnterTile(mapPos + output))
+                    if (absX < mapPos.x)
                     {
-                        output = new Vector3(-1f, 0f, 0f);
+                        output = new Vector3(1f, 0f, 0f);
+                        if (!map.UnitCanEnterTile(mapPos + output))
+                        {
+                            output = new Vector3(-1f, 0f, 0f);
+                            if (!map.UnitCanEnterTile(mapPos + output))
+                            {
+                                output = new Vector3(0f, 0f, 1f);
+                            }
+                        }
                     }
                 }
             }
         }
-        Debug.Log("Delta "+ output + mapPos);
+
+        //Debug.Log("Delta "+ output + mapPos);
         output = mapPos + output;
-        //Debug.Log("Delta " + output + mapPos);
+        Debug.Log("Delta " + output);
+        //Debug.Log(map.getTileAtCoord(output).isOccupied());
         if (EnemyController.currentEnemy > 0)
             Debug.Log("first enemy " + EnemyController.enemyList[EnemyController.currentEnemy].getCoords());
         return output;
