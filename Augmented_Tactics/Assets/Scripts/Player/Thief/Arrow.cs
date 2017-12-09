@@ -2,15 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Arrow : MonoBehaviour {
+public class Arrow : Ability
+{
+    float damage = 15f;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public override void Initialize(GameObject obj)
+    {
+        base.Initialize(obj);
+
+        damage = actor.getIntelligence();
+
+        anim = parent.GetComponentInChildren<Animator>();
+        range_max = 15;
+        range_min = 1;
+        manaCost = 3;
+        dwell_time = 1.0f;
+        abilityName = "Arrow";
+        abilityImage = Resources.Load<Sprite>("UI/Ability/Arrow");
+    }
+
+    public override bool UseSkill(GameObject target)
+    {
+        if (!base.UseSkill(target))
+        {
+            return false;
+        }
+
+        if (target.tag == "Player" || target.tag == "Enemy")
+        {
+            if (anim != null)
+            {
+                rotateAtObj(target);
+                anim.SetTrigger("MagicAttack");
+
+                //animate arrow attack
+
+                actor.PlaySound("attack");
+            }
+            target.GetComponent<Actor>().TakeDamage(damage);
+            return true;
+        }
+
+        return false;
+    }
 }
