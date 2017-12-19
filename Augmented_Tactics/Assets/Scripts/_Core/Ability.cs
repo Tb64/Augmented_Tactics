@@ -23,6 +23,7 @@ public class Ability
     {
         parent = obj;
         actor = obj.GetComponent<Actor>();
+        anim = parent.GetComponentInChildren<Animator>();
     }
 
     public virtual bool UseSkill(GameObject target)
