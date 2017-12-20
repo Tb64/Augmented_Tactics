@@ -163,6 +163,7 @@ public class GameController : MonoBehaviour
         {
             Debug.Log("Selected Player: " + interactedObject.name);
             selectedUnit = interactedObject.GetComponent<Actor>();
+            TurnBehaviour.NewSelectedUnit();
             //map.selectedUnit = interactedObject;
             SetAbilityButtons();
             if (selectedMarker != null)
@@ -341,6 +342,11 @@ public class GameController : MonoBehaviour
         currentMode = MODE_MOVE;
         if(rangeMarker != null)
             rangeMarker.Move_Marker_On(selectedUnit.getCoords(), selectedUnit.moveDistance); 
+    }
+
+    public static Actor getSelected()
+    {
+        return selectedUnit;
     }
 
 
