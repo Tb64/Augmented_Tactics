@@ -15,6 +15,7 @@ public class TurnBehaviour : MonoBehaviour
     // For Handling Global Game/Battle Events
     public delegate void GameEventHandler();
     public static event GameEventHandler OnGameStart;
+    public static event GameEventHandler OnNewSelectedUnit;
 
     // For Handling Actor Events
     public delegate void ActorEventHandler();
@@ -113,6 +114,12 @@ public class TurnBehaviour : MonoBehaviour
     {
         if (OnGameStart != null)
             OnGameStart();
+    }
+
+    public static void NewSelectedUnit()
+    {
+        if (OnNewSelectedUnit != null)
+            OnNewSelectedUnit();
     }
 
     //Called when a Move starts

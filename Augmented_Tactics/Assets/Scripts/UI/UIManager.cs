@@ -6,16 +6,17 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour {
 
     public GameObject move;
-    public GameObject skills;
+    public GameObject skills; //important to find later so people cant change these and break the game
     
 	void Start ()
     {
-        //disable while moving, on enemy turn start, if default unit is out of actions
+        //disable while moving, on enemy turn start, and if default unit is out of actions. Try to enable when switching
+        //to new unit
         TurnBehaviour.OnUnitBeginsMoving += disableActionsB;
         TurnBehaviour.OnPlayerTurnEnd += disableActionsB;
         TurnBehaviour.OnUnitMoved += enableActionsB;
         TurnBehaviour.OnPlayerTurnStart += enableActionsB;
-        //enable at player turn start, when unit is done moving, if default unit has >1 actions
+        TurnBehaviour.OnNewSelectedUnit += enableActionsB;
     }
 
     private void OnDestroy()
@@ -24,6 +25,7 @@ public class UIManager : MonoBehaviour {
         TurnBehaviour.OnPlayerTurnEnd -= disableActionsB;
         TurnBehaviour.OnUnitMoved -= enableActionsB;
         TurnBehaviour.OnPlayerTurnStart -= enableActionsB;
+        TurnBehaviour.OnNewSelectedUnit += enableActionsB;
     }
 
     //check if a default unit has actions left when default unit changes
