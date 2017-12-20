@@ -5,15 +5,41 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
 
-    public GameObject move;
-    public GameObject skills; //important to find later so people cant change these and break the game
+    private GameObject move;
+    private GameObject skills;
+    private GameObject end;
     
 	void Start ()
     {
         //disable while moving, on enemy turn start, and if default unit is out of actions. Try to enable when switching
         //to new unit
+        GameObject[] temp = GameObject.FindGameObjectsWithTag("Button");
+        if (temp != null)
+        {
+            foreach (GameObject button in temp)
+            {
+                switch (button.name)
+                {
+                    case "MoveButton":
+                        move = button;
+                        break;
+                    case "SkillsButton":
+                        skills = button;
+                        break;
+                    case "EndButton":
+                        end = button;
+                        break;
+                }
+            }
+        }
+
         TurnBehaviour.OnUnitBeginsMoving += disableActionsB;
         TurnBehaviour.OnPlayerTurnEnd += disableActionsB;
+        TurnBehaviour.OnUnitBeginsAttacking += disableActionsB;
+        TurnBehaviour.OnPlayerTurnEnd += disableEndTurn;
+
+        TurnBehaviour.OnPlayerTurnStart += enableEndturn;
+        TurnBehaviour.OnPlayerAttack += enableActionsB; //this is when attack ends
         TurnBehaviour.OnUnitMoved += enableActionsB;
         TurnBehaviour.OnPlayerTurnStart += enableActionsB;
         TurnBehaviour.OnNewSelectedUnit += enableActionsB;
@@ -23,6 +49,11 @@ public class UIManager : MonoBehaviour {
     {
         TurnBehaviour.OnUnitBeginsMoving -= disableActionsB;
         TurnBehaviour.OnPlayerTurnEnd -= disableActionsB;
+        TurnBehaviour.OnUnitBeginsAttacking -= disableActionsB;
+        TurnBehaviour.OnPlayerTurnEnd -= disableEndTurn;
+
+        TurnBehaviour.OnPlayerTurnStart -= enableEndturn;
+        TurnBehaviour.OnPlayerAttack -= enableActionsB;
         TurnBehaviour.OnUnitMoved -= enableActionsB;
         TurnBehaviour.OnPlayerTurnStart -= enableActionsB;
         TurnBehaviour.OnNewSelectedUnit += enableActionsB;
@@ -45,5 +76,15 @@ public class UIManager : MonoBehaviour {
             move.GetComponent<Button>().interactable = true;
             skills.GetComponent<Button>().interactable = true;
         }
+    }
+
+    void disableEndTurn()
+    {
+        end.GetComponent<Button>().interactable = false;
+    }
+
+    void enableEndturn()
+    {
+        end.GetComponent<Button>().interactable = true;
     }
 }
