@@ -203,7 +203,10 @@ public class GameController : MonoBehaviour
         }
         else if (targetObject == interactedObject)
         {
-            selectedUnit.abilitySet[currentAbility].UseSkill(targetObject);
+            bool attackedSuccess;
+
+            attackedSuccess = selectedUnit.abilitySet[currentAbility].UseSkill(targetObject);
+            if (attackedSuccess) { TurnBehaviour.ActorBeginsAttacking(); }
             if (rangeMarker != null)
             {
                 rangeMarker.Marker_Off();
@@ -319,12 +322,14 @@ public class GameController : MonoBehaviour
         }
 
         //rangeMarker.Marker_On();
+        
         currentAbility = abilityNum;
         setMode(MODE_SELECT_TARGET);
         if (rangeMarker != null)
             rangeMarker.Attack_Marker_On(selectedUnit.getCoords(), selectedUnit.abilitySet[currentAbility].range_min, selectedUnit.abilitySet[currentAbility].range_max);
         //selectedUnit.abilitySet[currentAbility].range); broken after merge, commented out in meantime -Arthur
         //abilityMode = true;
+
     }
 
     /************

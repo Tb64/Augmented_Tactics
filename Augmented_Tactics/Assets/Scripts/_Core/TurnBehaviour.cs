@@ -22,6 +22,7 @@ public class TurnBehaviour : MonoBehaviour
     public static event ActorEventHandler OnActorSpawn;
     public static event ActorEventHandler OnActorMoved;
     public static event ActorEventHandler OnActorAttacked;
+    public static event ActorEventHandler OnActorBeginsAttacking;
 
 
     //for Handling Player Events
@@ -31,6 +32,7 @@ public class TurnBehaviour : MonoBehaviour
     public static event PlayerEventHandler OnPlayerAttack;
     public static event PlayerEventHandler OnUnitDestroy;
     public static event PlayerEventHandler OnUnitBeginsMoving;
+    public static event PlayerEventHandler OnUnitBeginsAttacking;
 
     //for Handling Turn Based Events
     public delegate void TurnEventHandler();
@@ -49,6 +51,7 @@ public class TurnBehaviour : MonoBehaviour
     public static event EnemyEventHandler OnEnemyUnitAttack;
     public static event EnemyEventHandler OnEnemyUnitDestroy;
     public static event EnemyEventHandler OnEnemyBeginsMoving;
+    public static event PlayerEventHandler OnEnemyBeginsAttacking;
 
     //for checking whose turn it is and total number of turns played
     private static bool isPlayerTurn;
@@ -152,10 +155,36 @@ public class TurnBehaviour : MonoBehaviour
             OnUnitMoved();
     }
 
+    /// <summary>
+    /// An event that happens when and actor has finished attacking
+    /// </summary>
     public static void ActorHasAttacked()
     {
+        if (!isPlayerTurn)
+        {
+            EnemyHasJustAttacked();
+        }
+        else
+        {
+            Debug.Log("word");
+            PlayerHasJustAttacked();
+        }
         if (OnActorAttacked != null)
             OnActorAttacked();
+    }
+
+    public static void ActorBeginsAttacking()
+    {
+        if (!isPlayerTurn)
+        {
+            EnemyBeginsAttacking();
+        }
+        else
+        {
+            PlayerBeginsAttacking();
+        }
+        if (OnActorBeginsAttacking != null)
+            OnActorBeginsAttacking();
     }
 
     //**************************
@@ -189,6 +218,15 @@ public class TurnBehaviour : MonoBehaviour
     {
         if (OnUnitDestroy != null)
             OnUnitDestroy();
+    }
+
+    /// <summary>
+    /// calls Player Begins Attacking Event
+    /// </summary>
+    public static void PlayerBeginsAttacking()
+    {
+        if (OnUnitBeginsAttacking != null)
+            OnUnitBeginsAttacking();
     }
 
     //*****************************
@@ -264,6 +302,12 @@ public class TurnBehaviour : MonoBehaviour
     {
         if (OnEnemyUnitDestroy != null)
             OnEnemyUnitDestroy();
+    }
+    //calls Enemy Begins Moving Event
+    public static void EnemyBeginsAttacking()
+    {
+        if (OnEnemyBeginsAttacking != null)
+            OnEnemyBeginsAttacking();
     }
 
 
