@@ -4,26 +4,40 @@ using UnityEngine;
 
 public class SkillLoader : MonoBehaviour {
 
-    static public Ability LoadSkill(int skillID, GameObject gObj)
+    static public Ability LoadSkill(string skillID, GameObject gObj)
     {
+        skillID = skillID.ToLower();
         switch (skillID)
         {
-            case 1:
+            case "basicattack":
+                Debug.Log("Loading BasicAttack");
                 return new BasicAttack(gObj);
 
-            case 2:
+            case "heal":
                 return new Heal(gObj);
 
-            case 3:
+            case "fire":
                 return new Fire(gObj);
 
-            case 101:
+            //Brawler
+            case "combo":
+                Debug.Log("Loading Combo");
                 return new Combo(gObj);
 
-            case 102:
+            case "cyclonekick":
                 return new CycloneKick(gObj);
 
-                
+            case "dragonkick":
+                return new DragonKick(gObj);
+
+            case "howlingfist":
+                return new HowlingFist(gObj);
+
+            case "gutpunch":
+                return new GutPunch(gObj);
+
+            case "twinstrike":
+                return new TwinStrike(gObj);
 
             default:
                 return null;

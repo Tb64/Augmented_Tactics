@@ -16,7 +16,7 @@ public class Combo : Ability {
         range_max = 1;
         range_min = 0;
         dwell_time = 1.0f;
-        abilityName = "Cyclone Kick";
+        abilityName = "combo";
         abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill1");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
@@ -46,6 +46,7 @@ public class Combo : Ability {
             parent.GetComponent<Actor>().PlaySound("attack");
         }
         float damage = 10f + ((float)actor.getStrength() * 0.5f);
+        Debug.Log("combo damage = " + damage + " " + actor.getStrength());
         target.GetComponent<Actor>().TakeDamage(damage);
 
         DwellTime.Attack(dwell_time);
