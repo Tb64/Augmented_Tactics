@@ -7,6 +7,10 @@ public class Fire : Ability
 
     float damage = 20f;
     
+    public Fire(GameObject obj)
+    {
+        Initialize(obj);
+    }
 
     public override void Initialize(GameObject obj)
     {

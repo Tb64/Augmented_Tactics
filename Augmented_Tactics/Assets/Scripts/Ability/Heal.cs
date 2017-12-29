@@ -6,6 +6,11 @@ public class Heal : Ability {
 
     public float heal;
 
+    public Heal(GameObject obj)
+    {
+        Initialize(obj);
+    }
+
     public override void Initialize(GameObject obj)
     {
         base.Initialize(obj);
@@ -14,7 +19,8 @@ public class Heal : Ability {
         range_min = 0;
         dwell_time = 1.0f;
         abilityName = "Heal";
-        abilityImage = Resources.Load<Sprite>("UI/Ability/warriorSkill3");
+        manaCost = 10;
+        abilityImage = Resources.Load<Sprite>("UI/Ability/magician/magicianSkill5");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
         //Debug.Log("Adding " + abilityName + " to " + parent.name);
