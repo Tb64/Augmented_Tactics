@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Heal : Ability {
+public class DragonKick : Ability
+{
 
-    public float heal;
-
-    public Heal(GameObject obj)
+    public DragonKick(GameObject obj)
     {
         Initialize(obj);
     }
@@ -18,26 +17,27 @@ public class Heal : Ability {
         range_max = 1;
         range_min = 0;
         dwell_time = 1.0f;
-        abilityName = "Heal";
-        manaCost = 10;
-        abilityImage = Resources.Load<Sprite>("UI/Ability/magician/magicianSkill5");
+        abilityName = "Cyclone Kick";
+        abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill1");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
-        //Debug.Log("Adding " + abilityName + " to " + parent.name);
     }
 
     public override bool UseSkill(GameObject target)
     {
-        if(base.UseSkill(target))
+        if (base.UseSkill(target))
+        {
+            Skill(target);
+            return true;
+        }
+        else
         {
             return false;
         }
-        if (target.tag == "Player" || target.tag == "Enemy")
-        {
-            target.GetComponent<Actor>().HealHealth(heal);
+    }
 
-            return true;
-        }
-        return false;
+    private void Skill(GameObject target)
+    {
+
     }
 }
