@@ -605,6 +605,7 @@ public class TileMap : MonoBehaviour {
         //selectedUnit = actor;
         GeneratePathTo(target, actor);
 
+        TurnBehaviour.ActorBeginsMoving();
         bool moveDone = moveUnit(actor);
 
         do

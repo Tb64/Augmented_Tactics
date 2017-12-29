@@ -163,6 +163,7 @@ public class GameController : MonoBehaviour
         {
             Debug.Log("Selected Player: " + interactedObject.name);
             selectedUnit = interactedObject.GetComponent<Actor>();
+            TurnBehaviour.NewSelectedUnit();
             //map.selectedUnit = interactedObject;
             SetAbilityButtons();
             if (selectedMarker != null)
@@ -202,7 +203,10 @@ public class GameController : MonoBehaviour
         }
         else if (targetObject == interactedObject)
         {
-            selectedUnit.abilitySet[currentAbility].UseSkill(targetObject);
+            bool attackedSuccess;
+
+            attackedSuccess = selectedUnit.abilitySet[currentAbility].UseSkill(targetObject);
+            if (attackedSuccess) { TurnBehaviour.ActorBeginsAttacking(); }
             if (rangeMarker != null)
             {
                 rangeMarker.Marker_Off();
@@ -318,12 +322,14 @@ public class GameController : MonoBehaviour
         }
 
         //rangeMarker.Marker_On();
+        
         currentAbility = abilityNum;
         setMode(MODE_SELECT_TARGET);
         if (rangeMarker != null)
             rangeMarker.Attack_Marker_On(selectedUnit.getCoords(), selectedUnit.abilitySet[currentAbility].range_min, selectedUnit.abilitySet[currentAbility].range_max);
         //selectedUnit.abilitySet[currentAbility].range); broken after merge, commented out in meantime -Arthur
         //abilityMode = true;
+
     }
 
     /************
@@ -341,6 +347,11 @@ public class GameController : MonoBehaviour
         currentMode = MODE_MOVE;
         if(rangeMarker != null)
             rangeMarker.Move_Marker_On(selectedUnit.getCoords(), selectedUnit.moveDistance); 
+    }
+
+    public static Actor getSelected()
+    {
+        return selectedUnit;
     }
 
 
