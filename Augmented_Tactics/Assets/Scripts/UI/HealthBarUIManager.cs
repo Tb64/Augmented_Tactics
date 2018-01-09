@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+//this class will handle all the updating of the healthbars and action markers for each unit, dimming them and activating them as necessary
 public class HealthBarUIManager : MonoBehaviour {
 
     private static GameObject[] barFolders;
@@ -14,9 +15,7 @@ public class HealthBarUIManager : MonoBehaviour {
     private static bool ranAlready = false;
     private const int MAXACTIONS = 2;
     private static int availableActions;
-        
-    // this manager first gets all the health bars and disables them, enabling them 1 by one as player controlled units spawn
-    // when a unit takes damage update all bars
+
     void Awake ()
     {
         TurnBehaviour.OnUnitSpawn += onUnitSpawn;
@@ -51,15 +50,15 @@ public class HealthBarUIManager : MonoBehaviour {
         //in actor thwre is a var called dead its true. .isDead()
     }
 
-
+    //refresh movements
     private static void onPlayerTurnStart()
     {
-        //refresh movements
         for (int i = 0; i < numPlayers; i++)
             for (int j = 0; j < MAXACTIONS; j++)
                 playerActionsMarker[i,j].color = new Color32(255, 255, 255, 255);
     }
 
+    //dim action markers when and action is consumed
     private static void updateActions()
     {
         // if less than max actions then disable a marker
@@ -71,6 +70,8 @@ public class HealthBarUIManager : MonoBehaviour {
         }
     }
 
+    //activate a healthbar for each friendly that spawns at the beggining of the game.
+    //On the first unit that spawns it activates init()
     private void onUnitSpawn()
     {
         //if it was a play controlled that was just added, not an enemy.
@@ -91,23 +92,7 @@ public class HealthBarUIManager : MonoBehaviour {
             }
     }
 
-    private void getBars(int arraySlot)
-    {
-        Image[] bars = barFolders[arraySlot].GetComponentsInChildren<Image>();
-        //Looks for all the images in the BarX game objects, finds the proper ones we will modify
-        if (bars!=null)
-            for (int i = 0; i < bars.Length; i++)
-                if (bars[i].name == ("HFront" + (arraySlot + 1).ToString()))
-                    playerHealthImg[arraySlot] = bars[i];
-                else if (bars[i].name == ("MFront" + (arraySlot + 1).ToString()))
-                    playerManaImg[arraySlot] = bars[i];
-                else if (bars[i].name == ("ActionMA" + (arraySlot + 1).ToString()))
-                    playerActionsMarker[arraySlot, 0] = bars[i];
-                else if (bars[i].name == ("ActionMB" + (arraySlot + 1).ToString()))
-                    playerActionsMarker[arraySlot, 1] = bars[i];
-        barFolders[arraySlot].SetActive(false);
-    }
-
+    //organizes bars to into correct arrays and variables
     private void init()
     {
         GameObject[] tempObjs = GameObject.FindGameObjectsWithTag("UIHealthBar");
@@ -144,5 +129,23 @@ public class HealthBarUIManager : MonoBehaviour {
                 }
             }
         }
+    }
+
+    //assistant method to init
+    private void getBars(int arraySlot)
+    {
+        Image[] bars = barFolders[arraySlot].GetComponentsInChildren<Image>();
+        //Looks for all the images in the BarX game objects, finds the proper ones we will modify
+        if (bars != null)
+            for (int i = 0; i < bars.Length; i++)
+                if (bars[i].name == ("HFront" + (arraySlot + 1).ToString()))
+                    playerHealthImg[arraySlot] = bars[i];
+                else if (bars[i].name == ("MFront" + (arraySlot + 1).ToString()))
+                    playerManaImg[arraySlot] = bars[i];
+                else if (bars[i].name == ("ActionMA" + (arraySlot + 1).ToString()))
+                    playerActionsMarker[arraySlot, 0] = bars[i];
+                else if (bars[i].name == ("ActionMB" + (arraySlot + 1).ToString()))
+                    playerActionsMarker[arraySlot, 1] = bars[i];
+        barFolders[arraySlot].SetActive(false);
     }
 }
