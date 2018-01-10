@@ -8,9 +8,12 @@ public class TilePosGenerator : MonoBehaviour {
     public int max_x;
     public int max_y;
     public bool generateMap;
+    public bool showTile;
 
-	// Use this for initialization
-	public void generatePositions() {
+    Material m_Material;
+
+    // Use this for initialization
+    public void generatePositions() {
         ClickableTile[] tiles = GetComponentsInChildren<ClickableTile>();
 
         for(int index = 0; index < tiles.Length; index++)
@@ -38,6 +41,15 @@ public class TilePosGenerator : MonoBehaviour {
                 newtile.transform.localPosition = localPos;
 
                 newtile.GetComponent<ClickableTile>().coords = localPos;
+
+                Renderer m_render = newtile.GetComponent<Renderer>();
+                if ( ((x + z) % 2) == 0 )
+                {
+                    //Debug.Log("setting black");
+                    m_render.material.color = Color.black;
+                }
+                if(showTile)
+                    m_render.enabled = true;
             }
         }
     }
