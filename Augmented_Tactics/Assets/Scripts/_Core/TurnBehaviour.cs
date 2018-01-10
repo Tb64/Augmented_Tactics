@@ -166,7 +166,6 @@ public class TurnBehaviour : MonoBehaviour
         }
         else
         {
-            Debug.Log("word");
             PlayerHasJustAttacked();
         }
         if (OnActorAttacked != null)

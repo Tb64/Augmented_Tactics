@@ -18,7 +18,7 @@ public class Fire : Ability
 
         damage = actor.getIntelligence();
 
-        anim = parent.GetComponentInChildren<Animator>();
+        anim = gameObject.GetComponentInChildren<Animator>();
         range_max = 10;
         range_min = 1;
         manaCost = 5;
@@ -45,7 +45,7 @@ public class Fire : Ability
 
                 actor.PlaySound("attack");
             }
-            target.GetComponent<Actor>().TakeDamage(damage);
+            target.GetComponent<Actor>().TakeDamage(damage,gameObject);
             return true;
         }
 

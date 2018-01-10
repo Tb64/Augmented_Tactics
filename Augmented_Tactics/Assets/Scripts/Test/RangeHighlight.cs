@@ -90,6 +90,24 @@ public class RangeHighlight : MonoBehaviour {
         }
     }
 
+    public void Custom_Marker_On(Vector3 origin, Vector3[] delta)
+    {
+        Marker_Off();
+        GameObject obj;
+        if (map == null)
+            return;
+
+        foreach(Vector3 diff in delta)
+        {
+            Vector3 pos = diff + origin;
+            if(map.IsValidCoord(pos))
+            {
+                obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(pos), hightlightObj.transform.rotation);
+                obj.transform.parent = gameObject.transform;
+            }
+        }
+    }
+
     public void Marker_Off()
     {
         Transform[] children = GetComponentsInChildren<Transform>();

@@ -271,9 +271,9 @@ public class GameController : MonoBehaviour
 
     public void SelectDefaultUnit()
     {
-        Debug.Log("Selecting Default");
         if (selectedUnit == null && PlayerControlled.playerList != null && PlayerControlled.playerList[0] != null)
         {
+            Debug.Log("Selecting Default");
             selectedUnit = PlayerControlled.playerList[0];
             //selectedUnit = PlayerControlled.playerObjs[0].GetComponent<Actor>();
             //GameObject gObj = PlayerControlled.playerList[0].gameObject;
@@ -310,10 +310,11 @@ public class GameController : MonoBehaviour
             return;
         for (int index = 0; index < abilityImages.Length; index++)
         {
-            //Debug.Log("Updating Ability Bar");
+            //Debug.Log("Updating Ability Bar of " + selectedUnit.name);
             abilityImages[index].sprite = selectedUnit.abilitySet[index].abilityImage;
             abilityText[index].text = selectedUnit.abilitySet[index].abilityName;
         }
+        //Debug.Log("Updating Ability Bar of " + selectedUnit.name);
     }
 
     public void UseAbility(int abilityNum)
