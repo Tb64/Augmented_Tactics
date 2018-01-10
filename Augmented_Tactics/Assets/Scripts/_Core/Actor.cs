@@ -34,6 +34,7 @@ public class Actor : MonoBehaviour
     protected float mana_max;
     protected float move_speed;
     protected float armor_class;
+    protected int counterAttack;
 
     //stats
     protected int strength;         //measuring physical power
@@ -126,7 +127,10 @@ public class Actor : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
-        
+        if(counterAttack > 0)
+        {
+            counterAttack--;
+        }
         //if(report != null)
         //{
         //    report.BattleOver();    //checks for win/lose conditions and loads hub
@@ -154,6 +158,7 @@ public class Actor : MonoBehaviour
         incapacitated = false; //determines whether actor is knocked out
         dead = false;          //perma death
 
+        //NOTE: AR problems can happen here.
         coords.x = transform.position.x;
         coords.y = transform.position.y;
         coords.z = transform.position.z;
@@ -161,6 +166,8 @@ public class Actor : MonoBehaviour
         health_current = health_max;
         remainingMovement = moveDistance;
         numOfActions = 2;
+
+
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
         GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
@@ -219,7 +226,12 @@ public class Actor : MonoBehaviour
             origin.position = targetPos;
             scaleDist = 0f;
             if (anim != null && playerAgent == null)
+            {
                 anim.SetFloat("Speed", scaleDist);
+                anim.SetBool("Moving", true);
+                anim.SetFloat("Velocity Z", scaleDist);
+            }
+
             return true;
         }
 
@@ -236,7 +248,11 @@ public class Actor : MonoBehaviour
         {
 
             if (anim != null)
+            {
                 anim.SetFloat("Speed", scaleDist);
+                anim.SetBool("Moving", true);
+                anim.SetFloat("Velocity Z", scaleDist);
+            }
 
             origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
             Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
@@ -331,15 +347,35 @@ public class Actor : MonoBehaviour
         }
     }
 
+    protected void rotateAtObj(GameObject target)
+    {
+        Vector3 newDir = Vector3.RotateTowards(gameObject.transform.forward, target.transform.position, 1f, 0f);
+        newDir = new Vector3(newDir.x, gameObject.transform.position.y, newDir.z);
+
+        newDir = new Vector3(target.transform.position.x, gameObject.transform.position.y, target.transform.position.z);
+        gameObject.transform.LookAt(newDir);
+    }
+
     #region damage/heal functions
 
     /// <summary>
     /// The method to damage an Actor
     /// </summary>
     /// <param name="damage">Damage the Actor will take as a float</param>
-    public virtual void TakeDamage(float damage)
+    public virtual void TakeDamage(float damage, GameObject attacker)
     {
-        
+        float dist = Vector3.Distance(getCoords(), attacker.GetComponent<Actor>().getCoords());
+        if (counterAttack > 0 )
+        {
+            Debug.Log("Attempting Counter Attack. " + dist);
+            CounterAttack(attacker);
+            return;
+        }
+        if (damage < 0)
+        {
+            Debug.Log("Damage is negative. Value = " + damage);
+            return;
+        }
 
         damageNumber(damage, new Color(255, 0, 0, 1));
 
@@ -351,6 +387,7 @@ public class Actor : MonoBehaviour
             OnDeath();
             return;
         }
+        
         anim.SetTrigger("Hit");
         //justin set damage string array here
         PlaySound("damage");
@@ -372,6 +409,20 @@ public class Actor : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void CounterAttack(GameObject target)
+    {
+        float damage = 5f + ((float)this.strength * 0.5f);
+        if (anim != null)
+        {
+            Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", "Counter Attack", gameObject.name, target.name));
+            rotateAtObj(target);
+            anim.SetTrigger("MeleeAttack");
+            //justin set attack string array choice hereS
+            PlaySound("attack");
+        }
+        target.GetComponent<Actor>().TakeDamage(damage, this.gameObject);
     }
 
     /// <summary>
@@ -527,6 +578,11 @@ public class Actor : MonoBehaviour
     public void setMovement(int movesLeft)
     {
         remainingMovement = movesLeft;
+    }
+
+    public void setCounterAttack(int number_of_counters)
+    {
+        counterAttack = number_of_counters;
     }
 
     public float GetHealthPercent()
