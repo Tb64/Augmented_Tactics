@@ -11,8 +11,8 @@ public class GameController : MonoBehaviour
     public const int MODE_MOVE              = 3;
     public const int MODE_ACTION            = 4;
 
-    public GameObject selectedMarker;
-    public GameObject selectedUnitHighlight;
+    public static GameObject selectedMarker;
+    public static GameObject selectedUnitHighlight;
 
     private static Actor selectedUnit;
     private static Vector3 targetLocation;
@@ -58,6 +58,8 @@ public class GameController : MonoBehaviour
             selectedUnit = PlayerControlled.playerList[0];
             SetAbilityButtons();
         }
+        selectedMarker = GameObject.Find("SelectMarker");
+        selectedUnitHighlight = GameObject.Find("SelectUnitMarker");
 
         abilityImages = AbilityImages;
         abilityText = AbilityText;
@@ -354,7 +356,25 @@ public class GameController : MonoBehaviour
     {
         return selectedUnit;
     }
-
+    
+    /// <summary>
+    /// Takes in the number of which player you want to make the selected unit
+    /// </summary>
+    public static void setUnit(int playerNum)
+    {
+        if (PlayerControlled.playerList[playerNum] != null)
+        {
+            Debug.Log("Selected Player: " + PlayerControlled.playerList[playerNum].name);
+            selectedUnit = PlayerControlled.playerList[playerNum].GetComponent<Actor>();
+            TurnBehaviour.NewSelectedUnit();
+            //map.selectedUnit = interactedObject;
+            SetAbilityButtons();
+            if (selectedUnitHighlight != null)
+                selectedUnitHighlight.GetComponent<SelectedUnitMarker>().AttachMarker(selectedUnit);
+            else
+                Debug.Log("UNIT MARKER NOT ATTACHED");
+        }
+    }
 
     Vector3 GetSelectedLocation(GameObject input)
     {
