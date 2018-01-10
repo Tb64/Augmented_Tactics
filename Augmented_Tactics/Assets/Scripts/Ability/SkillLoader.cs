@@ -39,6 +39,9 @@ public class SkillLoader : MonoBehaviour {
             case "twinstrike":
                 return new TwinStrike(gObj);
 
+            case "counter":
+                return new Counter(gObj);
+
             default:
                 return null;
         }

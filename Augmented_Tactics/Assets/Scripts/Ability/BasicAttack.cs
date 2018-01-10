@@ -19,7 +19,7 @@ public class BasicAttack : Ability {
     public override void Initialize(GameObject obj)
     {
         base.Initialize(obj);
-        anim = parent.GetComponentInChildren<Animator>();
+        anim = gameObject.GetComponentInChildren<Animator>();
         range_max = 1;
         range_min = 0;
         dwell_time = 1.0f;
@@ -48,13 +48,13 @@ public class BasicAttack : Ability {
     {
         if (anim != null)
         {
-            Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, parent.name, target.name));
+            Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, gameObject.name, target.name));
             rotateAtObj(target);
             anim.SetTrigger("MeleeAttack");
             //justin set attack string array choice hereS
-            parent.GetComponent<Actor>().PlaySound("attack");
+            gameObject.GetComponent<Actor>().PlaySound("attack");
         }
-        target.GetComponent<Actor>().TakeDamage(damage);
+        target.GetComponent<Actor>().TakeDamage(damage,gameObject);
 
         DwellTime.Attack(dwell_time);
     }
