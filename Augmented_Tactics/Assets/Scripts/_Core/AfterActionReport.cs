@@ -64,10 +64,29 @@ public class AfterActionReport : MonoBehaviour {
 
     public void DisplayExp()
     {
-        Text Exp1 = GameObject.Find("Exp1").gameObject.GetComponent<Text>();
-        Text Exp2 = GameObject.Find("Exp2").gameObject.GetComponent<Text>();
-        Text Exp3 = GameObject.Find("Exp3").gameObject.GetComponent<Text>();
-        Text Exp4 = GameObject.Find("Exp4").gameObject.GetComponent<Text>();
+       
+
+        Text Exp1 = null;
+        Text Exp2 = null;
+        Text Exp3 = null;
+        Text Exp4 = null;
+
+        if (GameObject.Find("Exp1") != null)
+        {
+            Exp1 = GameObject.Find("Exp1").gameObject.GetComponent<Text>();
+        }
+        if(GameObject.Find("Exp2") != null)
+        {
+            Exp2 = GameObject.Find("Exp2").gameObject.GetComponent<Text>();
+        }
+        if(GameObject.Find("Exp3") != null)
+        {
+            Exp3 = GameObject.Find("Exp3").gameObject.GetComponent<Text>();
+        }
+        if (GameObject.Find("Exp2") != null)
+        {
+            Exp4 = GameObject.Find("Exp4").gameObject.GetComponent<Text>();
+        }
 
         int expTotal = 0;
 
@@ -76,17 +95,55 @@ public class AfterActionReport : MonoBehaviour {
             expTotal += EnemyController.enemyList[index].getExpGiven();
         }
 
-        expTotal = (int)expTotal / 4;
+        expTotal = (int)expTotal / PlayerControlled.playerNum;
 
         for (int index = 0; index < PlayerControlled.playerNum; index++)
         {
             PlayerControlled.playerList[index].setExperience(expTotal);
         }
 
-        Exp1.text = expTotal.ToString();
-        Exp2.text = expTotal.ToString();
-        Exp3.text = expTotal.ToString();
-        Exp4.text = expTotal.ToString();
+        GameObject[] playerArray = new GameObject[4 ];
+
+        if (GameObject.Find("Exp1") != null)
+        {
+            playerArray[0] = Exp1.transform.parent.gameObject;
+        }
+        if (GameObject.Find("Exp2") != null)
+        {
+            playerArray[1] = Exp2.transform.parent.gameObject;
+        }
+        if (GameObject.Find("Exp3") != null)
+        {
+            playerArray[2] = Exp3.transform.parent.gameObject;
+        }
+        if (GameObject.Find("Exp4") != null)
+        {
+            playerArray[3] = Exp4.transform.parent.gameObject;
+        }
+
+        if (GameObject.Find("Exp1") != null)
+        {
+            Exp1.text = expTotal.ToString();
+        }
+        if (GameObject.Find("Exp2") != null)
+        {
+            Exp2.text = expTotal.ToString();
+        }
+        if (GameObject.Find("Exp3") != null)
+        {
+            Exp3.text = expTotal.ToString();
+        }
+        if (GameObject.Find("Exp4") != null)
+        {
+            Exp4.text = expTotal.ToString();
+        }
+
+        for (int index = 3; index > PlayerControlled.playerNum - 1; index--)
+        {
+            playerArray[index].gameObject.SetActive(false);
+        }
+
+        
 
     }
 

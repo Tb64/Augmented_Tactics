@@ -24,6 +24,20 @@ public class BaseClass : MonoBehaviour {
 
     public virtual void Start() {
         initializeBaseStats();
+
+        //loadChar("Doogy");
+        /*if (loadChar("Doogy"))
+        {
+            Debug.Log("Successful Load!!");
+            Debug.Log(player.getCharisma());
+            //levelUp();
+            Debug.Log(player.getStrength());
+            //levelUp(); 
+        }
+        /*levelUp();
+        levelUp();
+        saveChar("Doogy");
+        Debug.Log("Successful Save");*/
     }
 
     void initializeBaseStats()
@@ -86,7 +100,7 @@ public class BaseClass : MonoBehaviour {
         PlayerData character = GameDataController.gameData.loadPlayer(charName);
         if (character == null)
         {
-            Debug.LogError("Character " +charName+ " does not exist!");
+            Debug.LogError("Character " + charName + " does not exist!");
             return false;
         }
         else
@@ -129,7 +143,7 @@ public class BaseClass : MonoBehaviour {
 
     private void triggerStatusEffect()
     {
-        
+
     }
 
 
