@@ -72,6 +72,7 @@ public class EnemyController : MonoBehaviour
             userTeam[playerNum] = tempPlayerTeam[playerNum].GetComponent<Actor>();
             //Debug.Log(userTeam[playerNum]);
         }
+
     }
 
     public Actor findWeakestPlayer()

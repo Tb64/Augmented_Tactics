@@ -87,7 +87,7 @@ public class Enemy : Actor
             return;
         }
         //base.EnemyTurnStart();
-        map.selectedUnit = gameObject;
+        //map.selectedUnit = gameObject;
         nearest = findNearestPlayer();
         weakest = findWeakestPlayer();
         //Debug.Log(weakest);
@@ -125,6 +125,14 @@ public class Enemy : Actor
         map.moveActorAsync(gameObject, movingTo);
         Debug.Log("Move Complete\t" + currentTarget);
         //Attack(currentTarget);
+
+        if (map.IsValidCoord(coords) == true)
+        {
+            Debug.Log("Coords: " + coords);
+            map.GetTileAt(coords).setOccupiedTrue();
+            Debug.Log("Occupied = " + map.GetTileAt(coords).isOccupied());
+        }
+
     }
 
     public void EnemyMoved()
