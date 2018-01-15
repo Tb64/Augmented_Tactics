@@ -28,7 +28,7 @@ public class PlayerControlled : Actor
     {
         TurnBehaviour.OnPlayerTurnStart += this.OnPlayerTurnStart;
 
-        abilitySet = new BasicAttack[4];  //test
+        abilitySet = new Ability[4];  //test
         for (int i = 0; i < 4; i++)
         {
             abilitySet[i] = new BasicAttack(gameObject);
@@ -113,9 +113,9 @@ public class PlayerControlled : Actor
        
     }
 
-    public override void TakeDamage(float damage)
+    public override void TakeDamage(float damage, GameObject attacker)
     {
-        base.TakeDamage(damage);
+        base.TakeDamage(damage, attacker);
         HealthBarUIManager.updateHealth();
     }
 

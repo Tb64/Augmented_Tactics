@@ -14,15 +14,25 @@ public class Ability
 
     public Animator anim;
     public string abilityName;
-
-    protected GameObject parent;
-    protected Actor actor;
     public Sprite abilityImage;
+
+    protected GameObject gameObject;
+    protected Actor actor;
+    protected bool canTargetTile;
+    protected bool canTargetFriendly;
+    protected bool canTargetEnemy;
+    protected Vector3[] rangeMarkerPos;
 
     public virtual void Initialize(GameObject obj)
     {
-        parent = obj;
+        canTargetTile       = false;
+        canTargetFriendly   = true;
+        canTargetEnemy      = true;
+
+        rangeMarkerPos = null;
+        gameObject = obj;
         actor = obj.GetComponent<Actor>();
+        anim = gameObject.GetComponentInChildren<Animator>();
     }
 
     public virtual bool UseSkill(GameObject target)
@@ -32,13 +42,23 @@ public class Ability
         if (target == null)
             return false;
 
-        if (!(target.tag == "Player" || target.tag == "Enemy"))
+        if (!canTargetFriendly && target.tag == gameObject.tag)
         {
             return false;
         }
 
+        if (!canTargetEnemy)
+        {
+            if((gameObject.tag == "Player" && target.tag == "Enemy") || (gameObject.tag == "Enemy" && target.tag == "Player"))
+                return false;
+        }
 
-        if (SkillInRange(parent, target) == false)
+        if (!canTargetTile && target.tag == "Tile")
+        {
+            return false;
+        }
+
+        if (SkillInRange(gameObject, target) == false)
         {
             Debug.Log("Out of range.");
             return false;
@@ -55,6 +75,14 @@ public class Ability
         }
 
         return true;
+
+    }
+
+    /// <summary>
+    /// Turns on the range marker for this skill
+    /// </summary>
+    public virtual void EnableRangeMarker()
+    {
 
     }
 
@@ -89,27 +117,24 @@ public class Ability
 
     protected void rotateAtObj(GameObject target)
     {
-        Vector3 newDir = Vector3.RotateTowards(parent.transform.forward, target.transform.position, 1f, 0f);
-        newDir = new Vector3(newDir.x, parent.transform.position.y, newDir.z);
+        Vector3 newDir = Vector3.RotateTowards(gameObject.transform.forward, target.transform.position, 1f, 0f);
+        newDir = new Vector3(newDir.x, gameObject.transform.position.y, newDir.z);
 
-        newDir = new Vector3(target.transform.position.x, parent.transform.position.y, target.transform.position.z);
-        parent.transform.LookAt(newDir);
+        newDir = new Vector3(target.transform.position.x, gameObject.transform.position.y, target.transform.position.z);
+        gameObject.transform.LookAt(newDir);
     }
 
-    //protected void DwellTimeThread()
-    //{
-    //    int sleepMS = (int)this.dwell_time * 1000;
-    //    Thread.Sleep(sleepMS);
-    //    //yield return new WaitForSeconds(this.dwell_time);
+    //////////////////
+    //  Set/Get     //
+    //////////////////
 
-    //    Debug.Log("Attack dwell finished");
-    //    TurnBehaviour.ActorHasAttacked();
-    //}
+    public Vector3[] getRangeMakers()
+    {
+        return this.rangeMarkerPos;
+    }
 
-    //protected void DwellTime()
-    //{
-    //    Thread dwellThread = new Thread(this.DwellTimeThread);
-    //    dwellThread.Start();
-    //    //StartCoroutine(DwellTimeThread());
-    //}
+    public bool hasCustomRange()
+    {
+        return (rangeMarkerPos != null);
+    }
 }
