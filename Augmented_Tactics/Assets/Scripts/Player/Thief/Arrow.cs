@@ -12,7 +12,7 @@ public class Arrow : Ability
 
         damage = actor.getIntelligence();
 
-        anim = parent.GetComponentInChildren<Animator>();
+        anim = gameObject.GetComponentInChildren<Animator>();
         range_max = 15;
         range_min = 1;
         manaCost = 3;
@@ -39,7 +39,7 @@ public class Arrow : Ability
 
                 actor.PlaySound("attack");
             }
-            target.GetComponent<Actor>().TakeDamage(damage);
+            target.GetComponent<Actor>().TakeDamage(damage, gameObject);
             return true;
         }
 

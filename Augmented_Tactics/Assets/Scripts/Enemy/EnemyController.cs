@@ -110,8 +110,8 @@ public class EnemyController : MonoBehaviour
 
     public void EnemyMoveFinished()
     {
-        //if (SM.checkTurn())
-        //    return;
+        if (SM.checkTurn())
+            return;
         Debug.Log("Enemy " + (currentEnemy - 1) + " Fisnished Turn");
         EnemyAction();
     }
@@ -128,22 +128,54 @@ public class EnemyController : MonoBehaviour
         if (currentEnemy != 0 && !map.getTileAtCoord(enemyList[currentEnemy - 1].getCoords()).isOccupied())
             Debug.LogError("TILE NOT SET TO OCCUPIED");
         enemyList[currentEnemy].EnemyTurnStartActions();
-        //while (enemyList[currentEnemy].getMoves() != 0)
-        //{
-        //    while (enemyList[currentEnemy].reactToProximity(enemyList[currentEnemy].distanceToNearest))
-        //    {
-        //        if (enemyList[currentEnemy].getMoves() == 0)
-        //        {
-        //            Debug.Log("Enemy " + currentEnemy + " out of moves");
-        //            break;
-        //        }
-        //    }
-        //    enemyList[currentEnemy].nonProximityActions();
-        //}
-        //currentEnemy++;
-        //TurnBehaviour.EnemyTurnFinished();
+        //Debug.Log("Marker 1");
+        /*if (enemyList[currentEnemy].getMoves() != 0)
+        {
+            while (enemyList[currentEnemy].reactToProximity(enemyList[currentEnemy].distanceToNearest))
+            {
+                if (enemyList[currentEnemy].getMoves() == 0)
+               {
+                    Debug.Log("Enemy " + currentEnemy + " out of moves");
+                    break;
+               }
+           }
+            enemyList[currentEnemy].nonProximityActions();
+        }
+        currentEnemy++;
+        //Debug.Log("Marker 2");
+        TurnBehaviour.EnemyTurnFinished();*/
+        ExhaustMoves();
     }
 
+    private void ExhaustMoves()
+    {
+        if (enemyList[currentEnemy].getMoves() != 0)
+        {
+            if (enemyList[currentEnemy].reactToProximity(enemyList[currentEnemy].distanceToNearest))
+            {
+                if (enemyList[currentEnemy].getMoves() == 0)
+                {
+                    Debug.Log("Enemy " + currentEnemy + " out of moves");
+                    currentEnemy++;
+                    TurnBehaviour.EnemyTurnFinished();
+                    return;
+                    //break;
+                }
+                else
+                    ExhaustMoves();
+            }
+            enemyList[currentEnemy].nonProximityActions();
+        }
+        if (enemyList[currentEnemy].getMoves() != 0)
+            ExhaustMoves();
+        else
+        {
+            Debug.Log("Enemy " + currentEnemy + " out of moves");
+            currentEnemy++;
+            TurnBehaviour.EnemyTurnFinished();
+            return;
+        }
+    }
     private void EnemyUsedAction()
     {
         if (SM.checkTurn())

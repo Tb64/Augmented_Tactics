@@ -65,10 +65,10 @@ public class Enemy : Actor
     void Update()
     {
         base.Update();
-        turnControl();
+       // turnControl();
     }
 
-    void turnControl()
+    /*void turnControl()
     {
         //true player turn ,false enemy turn
         if (SM.checkTurn() == false)
@@ -76,7 +76,7 @@ public class Enemy : Actor
             //enemyTurn();
             //map.drawDebugLines();
         }
-    }
+    }*/
 
     public virtual void EnemyTurnStartActions()
     {
@@ -150,14 +150,14 @@ public class Enemy : Actor
         Debug.Log("Moving to " + movingTo);
         map.moveActorAsync(gameObject, movingTo);
         Debug.Log("Move Complete\t" + currentTarget);
-        //Attack(currentTarget);
+    
     }
 
     public void EnemyMoved()
     {
 
         //Debug.Log(SM.checkTurn() + " " + EnemyController.currentEnemy + " " + enemyID);
-        if (SM.checkTurn() || EnemyController.currentEnemy-1 != enemyID)
+        if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
         {
             return;
         }
