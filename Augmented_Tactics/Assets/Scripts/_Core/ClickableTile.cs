@@ -81,7 +81,7 @@ public class ClickableTile : MonoBehaviour {
     public void OnMouseExit()
     {
         //resets block back to original color after mouse pointer exits
-        gameObject.GetComponent<MeshRenderer>().material.color = originalColor;
+        //gameObject.GetComponent<MeshRenderer>().material.color = originalColor;
     }
 
     public GameObject GetGameObject()
