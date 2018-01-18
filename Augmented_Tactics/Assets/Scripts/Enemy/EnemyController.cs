@@ -31,14 +31,14 @@ public class EnemyController : MonoBehaviour
         TurnBehaviour.OnUnitMoved -= this.EnemyUsedAction;
         TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStart;
         //TurnBehaviour.OnUnitMoved -= this.EnemyMoveFinished;
-        TurnBehaviour.OnEnemyOutOfMoves -= this.EnemyMoveFinished;
+        //TurnBehaviour.OnEnemyOutOfMoves -= this.EnemyMoveFinished;
     }
 
     public void EnemyInitialize()
     {
         enemyNum = 0;
         TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStart;
-        TurnBehaviour.OnUnitMoved += this.EnemyMoveFinished;
+        //TurnBehaviour.OnUnitMoved += this.EnemyMoveFinished;
         TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
         TurnBehaviour.OnEnemyOutOfMoves += this.EnemyMoveFinished;
 
@@ -112,7 +112,7 @@ public class EnemyController : MonoBehaviour
     {
         if (SM.checkTurn())
             return;
-        Debug.Log("Enemy " + (currentEnemy - 1) + " Fisnished Turn");
+        Debug.Log("Enemy " + (currentEnemy) + " Fisnished Turn");
         EnemyAction();
     }
     private void EnemyAction()
@@ -125,25 +125,9 @@ public class EnemyController : MonoBehaviour
             SM.setTurn();
             return;
         }
-        if (currentEnemy != 0 && !map.getTileAtCoord(enemyList[currentEnemy - 1].getCoords()).isOccupied())
-            Debug.LogError("TILE NOT SET TO OCCUPIED");
+        /*if (currentEnemy != 0 && !map.getTileAtCoord(enemyList[currentEnemy - 1].getCoords()).isOccupied())
+            Debug.LogError("TILE NOT SET TO OCCUPIED");*/
         enemyList[currentEnemy].EnemyTurnStartActions();
-        //Debug.Log("Marker 1");
-        /*if (enemyList[currentEnemy].getMoves() != 0)
-        {
-            while (enemyList[currentEnemy].reactToProximity(enemyList[currentEnemy].distanceToNearest))
-            {
-                if (enemyList[currentEnemy].getMoves() == 0)
-               {
-                    Debug.Log("Enemy " + currentEnemy + " out of moves");
-                    break;
-               }
-           }
-            enemyList[currentEnemy].nonProximityActions();
-        }
-        currentEnemy++;
-        //Debug.Log("Marker 2");
-        TurnBehaviour.EnemyTurnFinished();*/
         ExhaustMoves();
     }
 
@@ -159,23 +143,12 @@ public class EnemyController : MonoBehaviour
                     currentEnemy++;
                     TurnBehaviour.EnemyTurnFinished();
                     return;
-                    //break;
                 }
-                else
-                    ExhaustMoves();
             }
             enemyList[currentEnemy].nonProximityActions();
         }
-        if (enemyList[currentEnemy].getMoves() != 0)
-            ExhaustMoves();
-        else
-        {
-            Debug.Log("Enemy " + currentEnemy + " out of moves");
-            currentEnemy++;
-            TurnBehaviour.EnemyTurnFinished();
-            return;
-        }
     }
+
     private void EnemyUsedAction()
     {
         if (SM.checkTurn())
@@ -187,10 +160,7 @@ public class EnemyController : MonoBehaviour
             NextEnemy();
             return;
         }
-        if (enemyList[currentEnemy].reactToProximity(enemyList[currentEnemy].distanceToNearest))
-            return;
-        else
-            enemyList[currentEnemy].nonProximityActions();
+        ExhaustMoves();
     }
 
     private void NextEnemy()

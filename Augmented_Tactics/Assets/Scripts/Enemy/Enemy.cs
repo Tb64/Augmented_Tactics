@@ -147,16 +147,17 @@ public class Enemy : Actor
         }
 
         Vector3 movingTo = PosCloseTo(target.getCoords());
-        Debug.Log("Moving to " + movingTo);
+        Debug.Log("Moving " + this + " to " + movingTo);
         map.moveActorAsync(gameObject, movingTo);
-        Debug.Log("Move Complete\t" + currentTarget);
+        UpdateNearest();
+        //Debug.Log("Move Complete\t" + currentTarget);
     
     }
 
     public void EnemyMoved()
     {
 
-        //Debug.Log(SM.checkTurn() + " " + EnemyController.currentEnemy + " " + enemyID);
+        Debug.Log(EnemyController.currentEnemy + " " + enemyID);
         if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
         {
             return;
@@ -211,7 +212,11 @@ public class Enemy : Actor
         }
         return nearest;
     }
-
+    private void UpdateNearest()
+    {
+        findNearestPlayer();
+        distanceToNearest = Vector3.Distance(playerPosition, enemyPosition);
+    }
     public Actor findWeakestPlayer()
     {
         //Actor[] users = PlayerControlled.playerList;
@@ -233,7 +238,7 @@ public class Enemy : Actor
 
     public bool reactToProximity(float distanceToNearest)
     {
-        Debug.Log(distanceToNearest);
+       // Debug.Log(distanceToNearest);
         if (distanceToNearest <= 1.5)
         {
             Debug.Log("Attempting Attack");
@@ -397,6 +402,8 @@ public class Enemy : Actor
     /// <param name="target"></param>
     public bool attemptAttack(Actor target)
     {
+        if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
+            return false;
         Debug.Log(this + " Attempting attack on " + target);
         if (abilitySet[0].SkillInRange(getCoords(), target.getCoords()))
         {
