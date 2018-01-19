@@ -30,10 +30,10 @@ public class GameData{
     public PlayerData[] getCurrentTeam() 
     {
         PlayerData[] tempTeam = new PlayerData[4];
-        tempTeam[0] = findPlayer(PlayerPrefs.GetString("Player0"));
-        tempTeam[1] = findPlayer(PlayerPrefs.GetString("Player1"));
-        tempTeam[2] = findPlayer(PlayerPrefs.GetString("Player2"));
-        tempTeam[3] = findPlayer(PlayerPrefs.GetString("Player3"));
+        tempTeam[0] = loadPlayer(PlayerPrefs.GetString("Player0"));
+        tempTeam[1] = loadPlayer(PlayerPrefs.GetString("Player1"));
+        tempTeam[2] = loadPlayer(PlayerPrefs.GetString("Player2"));
+        tempTeam[3] = loadPlayer(PlayerPrefs.GetString("Player3"));
         return tempTeam;
         //no null checking. Must be checked when adding players to game
     }
@@ -54,7 +54,7 @@ public class GameData{
     }
     #endregion
 
-    public PlayerData findPlayer(string name)
+    public PlayerData loadPlayer(string name)
     {
         if (name == null)
         {

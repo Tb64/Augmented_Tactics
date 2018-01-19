@@ -51,6 +51,7 @@ public class TurnBehaviour : MonoBehaviour
     public static event EnemyEventHandler OnEnemyUnitAttack;
     public static event EnemyEventHandler OnEnemyUnitDestroy;
     public static event EnemyEventHandler OnEnemyBeginsMoving;
+    public static event EnemyEventHandler OnEnemyOutOfMoves;
     public static event PlayerEventHandler OnEnemyBeginsAttacking;
 
     //for checking whose turn it is and total number of turns played
@@ -272,12 +273,19 @@ public class TurnBehaviour : MonoBehaviour
 
     //*****************************
     //ENEMY EVENT CALLERS
-    //calls New Enemy Added Event
+
+
+    /// <summary>
+    /// calls New Enemy Added Event
+    /// </summary>
     public static void NewEnemyAdded()
     {
         if (OnEnemyUnitSpawn != null)
             OnEnemyUnitSpawn();
     }
+    /// <summary>
+    /// calls Enemy Moved Event
+    /// </summary>
     //calls Enemy Begins Moving Event
     public static void EnemyBeginsMoving()
     {
@@ -290,13 +298,17 @@ public class TurnBehaviour : MonoBehaviour
         if (OnEnemyUnitMoved != null)
             OnEnemyUnitMoved();
     }
-    //calls Enemy Attacked Event
+    /// <summary>
+    /// calls Enemy Attacked Event
+    /// </summary>
     public static void EnemyHasJustAttacked()
     {
         if (OnEnemyUnitAttack != null)
             OnEnemyUnitAttack();
     }
-    //calls Enemy Destroyed Event
+    /// <summary>
+    /// calls Enemy Destroyed Event
+    /// </summary>
     public static void EnemyHasJustBeenDestroyed()
     {
         if (OnEnemyUnitDestroy != null)
@@ -308,7 +320,14 @@ public class TurnBehaviour : MonoBehaviour
         if (OnEnemyBeginsAttacking != null)
             OnEnemyBeginsAttacking();
     }
-
+    /// <summary>
+    /// enemy done moving trigger next enemy
+    /// </summary>
+    public static void EnemyTurnFinished()
+    {
+        if (OnEnemyOutOfMoves != null)
+            OnEnemyOutOfMoves();
+    }
 
 
 
