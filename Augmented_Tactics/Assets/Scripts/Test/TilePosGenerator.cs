@@ -5,6 +5,8 @@ using UnityEngine;
 public class TilePosGenerator : MonoBehaviour {
 
     public GameObject tile;
+    public Material white;
+    public Material black;
     public int max_x;
     public int max_y;
     public bool generateMap;
@@ -46,7 +48,11 @@ public class TilePosGenerator : MonoBehaviour {
                 if ( ((x + z) % 2) == 0 )
                 {
                     //Debug.Log("setting black");
-                    m_render.material.color = Color.black;
+                    m_render.material = black;
+                }
+                else
+                {
+                    m_render.material = white;
                 }
                 if(showTile)
                     m_render.enabled = true;
