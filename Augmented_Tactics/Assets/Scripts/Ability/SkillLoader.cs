@@ -51,6 +51,10 @@ public class SkillLoader : MonoBehaviour {
             case "counter":
                 return new Counter(gObj);
 
+            //Wizard
+            case "ice":
+                return new Ice(gObj);
+
             default:
                 return null;
         }
