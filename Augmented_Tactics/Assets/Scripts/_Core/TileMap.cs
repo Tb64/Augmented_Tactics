@@ -401,6 +401,7 @@ public class TileMap : MonoBehaviour {
         //justin set move string array here
         actor.GetComponent<Actor>().PlaySound("move");
         StartCoroutine(MoveActorThread(actor, target));
+        Debug.Log("Move Complete\t");
         return;
     }
 
