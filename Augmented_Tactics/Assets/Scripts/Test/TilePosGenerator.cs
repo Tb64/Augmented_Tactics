@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class TilePosGenerator : MonoBehaviour {
 
-	// Use this for initialization
-	public void generatePositions() {
+    public GameObject tile;
+    public int max_x;
+    public int max_y;
+    public bool generateMap;
+    public bool showTile;
+
+    Material m_Material;
+
+    // Use this for initialization
+    public void generatePositions() {
         ClickableTile[] tiles = GetComponentsInChildren<ClickableTile>();
 
         for(int index = 0; index < tiles.Length; index++)
@@ -16,9 +24,38 @@ public class TilePosGenerator : MonoBehaviour {
         }
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    private void Start()
+    {
+        if (!generateMap)
+            return;
+
+        for (int x = 0; x < max_x; x++)
+        {
+            for (int z = 0; z < max_y; z++)
+            {
+                Vector3 localPos = new Vector3((float)x, 0f,(float)z);
+                GameObject newtile = Instantiate(tile);
+                newtile.transform.parent = transform;
+                
+                newtile.transform.localPosition = localPos;
+
+                newtile.GetComponent<ClickableTile>().coords = localPos;
+
+                Renderer m_render = newtile.GetComponent<Renderer>();
+                if ( ((x + z) % 2) == 0 )
+                {
+                    //Debug.Log("setting black");
+                    m_render.material.color = Color.black;
+                }
+                if(showTile)
+                    m_render.enabled = true;
+            }
+        }
+    }
+
+    // Update is called once per frame
+    void Update () {
 		
 	}
 }

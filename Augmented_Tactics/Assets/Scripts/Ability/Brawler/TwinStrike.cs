@@ -12,7 +12,7 @@ public class TwinStrike : Ability
     public override void Initialize(GameObject obj)
     {
         base.Initialize(obj);
-        anim = parent.GetComponentInChildren<Animator>();
+        anim = gameObject.GetComponentInChildren<Animator>();
         range_max = 1;
         range_min = 0;
         dwell_time = 1.0f;

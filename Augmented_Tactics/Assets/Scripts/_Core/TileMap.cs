@@ -116,33 +116,33 @@ public class TileMap : MonoBehaviour {
         //tiles = new int[mapSizeX, mapSizeZ];
 
         //init tiles
-        for (int x = 0; x < mapSizeX; x++)
-        {
-            for (int z = 0; z < mapSizeZ; z++)
-            {
-                //tiles[x, z] = 0;
+        //for (int x = 0; x < mapSizeX; x++)
+        //{
+        //    for (int z = 0; z < mapSizeZ; z++)
+        //    {
+        //        //tiles[x, z] = 0;
                 
-            }
-        }
+        //    }
+        //}
     }
 
-    //void GenerateMapVisual()
-    //{ 
-    //    for (int x = 0; x < mapSizeX; x++)
-    //    {
-    //        for (int z = 0; z < mapSizeZ; z++)
-    //        {
-    //            //TileType tt = tileTypes[tiles[x, z]];
-    //            GameObject go = (GameObject)Instantiate(tt.tileVisualPrefab, new Vector3(x, 0, z), Quaternion.identity);
-    //            go.transform.parent = transform;
-    //            ClickableTile ct = go.GetComponent<ClickableTile>();
-    //            ct.tileX = x;
-    //            ct.tileZ = z;
-    //            ct.map = this;
-    //            map[x, z] = ct;
-    //        }       
-    //    }
-    //}
+    void GenerateMapVisual()
+    {
+        //for (int x = 0; x < mapSizeX; x++)
+        //{
+        //    for (int z = 0; z < mapSizeZ; z++)
+        //    {
+        //        //TileType tt = tileTypes[tiles[x, z]];
+        //        GameObject go = (GameObject)Instantiate(tt.tileVisualPrefab, new Vector3(x, 0, z), Quaternion.identity);
+        //        go.transform.parent = transform;
+        //        ClickableTile ct = go.GetComponent<ClickableTile>();
+        //        ct.tileX = x;
+        //        ct.tileZ = z;
+        //        ct.map = this;
+        //        map[x, z] = ct;
+        //    }
+        //}
+    }
 
     public Vector3 TileCoordToWorldCoord(int x, int z)
     {
@@ -401,6 +401,7 @@ public class TileMap : MonoBehaviour {
         //justin set move string array here
         actor.GetComponent<Actor>().PlaySound("move");
         StartCoroutine(MoveActorThread(actor, target));
+        Debug.Log("Move Complete\t");
         return;
     }
 

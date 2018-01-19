@@ -14,28 +14,33 @@ public class EnemyController : MonoBehaviour
     //public Actor getWeakest() { return weakest; }
     //public void setWeakest(Actor weakestPlayer) { weakest = weakestPlayer; }
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         EnemyInitialize();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     public void OnDestroy()
     {
         //TurnBehaviour.OnUnitMoved -= this.EnemyMoved;
+        TurnBehaviour.OnUnitMoved -= this.EnemyUsedAction;
         TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStart;
-        TurnBehaviour.OnUnitMoved -= this.EnemyMoveFinished;
+        //TurnBehaviour.OnUnitMoved -= this.EnemyMoveFinished;
+        //TurnBehaviour.OnEnemyOutOfMoves -= this.EnemyMoveFinished;
     }
 
     public void EnemyInitialize()
     {
         enemyNum = 0;
         TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStart;
-        TurnBehaviour.OnUnitMoved += this.EnemyMoveFinished;
-        //TurnBehaviour.OnUnitMoved += this.EnemyMoved;
+        //TurnBehaviour.OnUnitMoved += this.EnemyMoveFinished;
+        TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
+        TurnBehaviour.OnEnemyOutOfMoves += this.EnemyMoveFinished;
 
         if (map == null)
         {
@@ -56,7 +61,7 @@ public class EnemyController : MonoBehaviour
             enemyList[enemyNum].EnemyInitialize();
             enemyList[enemyNum].setEnemyId(enemyNum);
             Debug.Log("Enemy added: " + enemyNum + ") " + enemyList[enemyNum]);
-            enemyNum++;   
+            enemyNum++;
         }
         GameObject[] tempPlayerTeam = GameObject.FindGameObjectsWithTag("Player");
         if (tempPlayerTeam == null)
@@ -64,7 +69,7 @@ public class EnemyController : MonoBehaviour
             Debug.LogError("No players");
         }
         userTeam = new Actor[tempPlayerTeam.Length];
-        for (int playerNum = 0; playerNum < tempPlayerTeam.Length; playerNum++ )
+        for (int playerNum = 0; playerNum < tempPlayerTeam.Length; playerNum++)
         {
             userTeam[playerNum] = tempPlayerTeam[playerNum].GetComponent<Actor>();
             //Debug.Log(userTeam[playerNum]);
@@ -92,11 +97,11 @@ public class EnemyController : MonoBehaviour
 
     public void EnemyTurnStart()
     {
-       /* if (SM.checkTurn())
-        {
-            Debug.Log("Error with enemy #");
-            return;
-        }*/
+        /* if (SM.checkTurn())
+         {
+             Debug.Log("Error with enemy #");
+             return;
+         }*/
         Debug.Log("1EnemyTurnStart");
         //int[] attackOrder = DecideOrder()
         //also need to add some advanced decision making for attacking a target together #notfirstplayable
@@ -107,7 +112,7 @@ public class EnemyController : MonoBehaviour
     {
         if (SM.checkTurn())
             return;
-        Debug.Log("Enemy Fisnished Moving");
+        Debug.Log("Enemy " + (currentEnemy) + " Fisnished Turn");
         EnemyAction();
     }
     private void EnemyAction()
@@ -120,18 +125,59 @@ public class EnemyController : MonoBehaviour
             SM.setTurn();
             return;
         }
+        /*if (currentEnemy != 0 && !map.getTileAtCoord(enemyList[currentEnemy - 1].getCoords()).isOccupied())
+            Debug.LogError("TILE NOT SET TO OCCUPIED");*/
         enemyList[currentEnemy].EnemyTurnStartActions();
-        currentEnemy++;
-        //EnemyAction();
+        ExhaustMoves();
     }
 
-   /* private void EnemyMoved()
+    private void ExhaustMoves()
+    {
+        if (enemyList[currentEnemy].getMoves() != 0)
+        {
+            if (enemyList[currentEnemy].reactToProximity(enemyList[currentEnemy].distanceToNearest))
+            {
+                if (enemyList[currentEnemy].getMoves() == 0)
+                {
+                    Debug.Log("Enemy " + currentEnemy + " out of moves");
+                    currentEnemy++;
+                    TurnBehaviour.EnemyTurnFinished();
+                    return;
+                }
+            }
+            enemyList[currentEnemy].nonProximityActions();
+        }
+    }
+
+    private void EnemyUsedAction()
     {
         if (SM.checkTurn())
             return;
-        
-        EnemyAction();
-    }*/
+        //Debug.Log("USED ACTION WORKING");
+        if (enemyList[currentEnemy].getMoves() == 0)
+        {
+            Debug.Log("Enemy " + currentEnemy + " out of moves");
+            NextEnemy();
+            return;
+        }
+        ExhaustMoves();
+    }
+
+    private void NextEnemy()
+    {
+        if (SM.checkTurn() || enemyList[currentEnemy].getMoves() != 0)
+            return;
+        currentEnemy++;
+        TurnBehaviour.EnemyTurnFinished();
+    }
+
+    /* private void EnemyMoved()
+     {
+         if (SM.checkTurn())
+             return;
+
+         EnemyAction();
+     }*/
     private int[] DecideOrder() //decide which order the enemies attack in and return array of enemyID
     {
         int[] attackOrder = new int[enemyList.Length];

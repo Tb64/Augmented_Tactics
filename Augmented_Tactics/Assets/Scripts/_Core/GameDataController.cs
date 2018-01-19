@@ -6,7 +6,7 @@ using System.IO;
 public class GameDataController: MonoBehaviour
 {
     private static string filePath; //add android path in future
-    private GameData gameData;
+    public static GameData gameData;
     private void Start()
     {
         filePath = Application.dataPath + "/StreamingAssets\\Saves\\data.json";
