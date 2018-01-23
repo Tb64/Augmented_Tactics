@@ -42,7 +42,21 @@ public class Ice : Ability {
 
     private void Skill(GameObject target)
     {
+        // when the attack lands spawn a circle, anything touching that circle is hit
 
+        if (target.tag == "Player" || target.tag == "Enemy")
+        {
+            if (anim != null)
+            {
+                rotateAtObj(target);
+                anim.SetTrigger("MagicAttack");
+
+                //animate fire attack
+
+                actor.PlaySound("attack");
+            }
+            target.GetComponent<Actor>().TakeDamage(damage, gameObject);
+        }
     }
 
 }
