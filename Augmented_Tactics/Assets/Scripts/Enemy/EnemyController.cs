@@ -28,9 +28,10 @@ public class EnemyController : MonoBehaviour
     public void OnDestroy()
     {
         //TurnBehaviour.OnUnitMoved -= this.EnemyMoved;
-        TurnBehaviour.OnUnitMoved -= this.EnemyUsedAction;
+       // TurnBehaviour.OnUnitMoved -= this.EnemyUsedAction;
+        //TurnBehaviour.OnEnemyUnitAttack -= this.EnemyUsedAction;
         TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStart;
-        //TurnBehaviour.OnUnitMoved -= this.EnemyMoveFinished;
+        TurnBehaviour.OnUnitMoved -= this.EnemyMoveFinished;
         //TurnBehaviour.OnEnemyOutOfMoves -= this.EnemyMoveFinished;
     }
 
@@ -39,7 +40,8 @@ public class EnemyController : MonoBehaviour
         enemyNum = 0;
         TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStart;
         //TurnBehaviour.OnUnitMoved += this.EnemyMoveFinished;
-        TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
+        //TurnBehaviour.OnEnemyUnitAttack += this.EnemyUsedAction;
+        //TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
         TurnBehaviour.OnEnemyOutOfMoves += this.EnemyMoveFinished;
 
         if (map == null)
@@ -112,7 +114,7 @@ public class EnemyController : MonoBehaviour
     {
         if (SM.checkTurn())
             return;
-        Debug.Log("Enemy " + (currentEnemy) + " Fisnished Turn");
+        Debug.Log("Enemy " + (currentEnemy-1) + " Fisnished Turn");
         EnemyAction();
     }
     private void EnemyAction()
@@ -131,7 +133,7 @@ public class EnemyController : MonoBehaviour
         ExhaustMoves();
     }
 
-    private void ExhaustMoves()
+    public static void ExhaustMoves()
     {
         if (enemyList[currentEnemy].getMoves() != 0)
         {
@@ -144,12 +146,14 @@ public class EnemyController : MonoBehaviour
                     TurnBehaviour.EnemyTurnFinished();
                     return;
                 }
+                else
+                    return;
             }
             enemyList[currentEnemy].nonProximityActions();
         }
     }
 
-    private void EnemyUsedAction()
+/*    private void EnemyUsedAction()
     {
         if (SM.checkTurn())
             return;
@@ -162,8 +166,8 @@ public class EnemyController : MonoBehaviour
         }
         ExhaustMoves();
     }
-
-    private void NextEnemy()
+    */
+    public static void NextEnemy(StateMachine SM)
     {
         if (SM.checkTurn() || enemyList[currentEnemy].getMoves() != 0)
             return;

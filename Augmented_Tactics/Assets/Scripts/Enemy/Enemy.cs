@@ -39,6 +39,8 @@ public class Enemy : Actor
     {
         base.OnDestroy();
         TurnBehaviour.OnUnitMoved -= this.EnemyMoved;
+        TurnBehaviour.OnUnitMoved -= this.EnemyUsedAction;
+        TurnBehaviour.OnEnemyUnitAttack -= this.EnemyUsedAction;
         //TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStart;
     }
 
@@ -48,6 +50,9 @@ public class Enemy : Actor
         expGiven = 10;
         //TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStartActions;
         TurnBehaviour.OnUnitMoved += this.EnemyMoved;
+        TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
+        TurnBehaviour.OnEnemyUnitAttack += this.EnemyUsedAction;
+
 
         if (map == null)
         {
@@ -157,7 +162,7 @@ public class Enemy : Actor
     public void EnemyMoved()
     {
 
-        Debug.Log(EnemyController.currentEnemy + " " + enemyID);
+        //Debug.Log(EnemyController.currentEnemy + " " + enemyID);
         if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
         {
             return;
@@ -395,7 +400,19 @@ public class Enemy : Actor
         return output;
     }
 
-
+    private void EnemyUsedAction()
+    {
+        if (SM.checkTurn())
+            return;
+        //Debug.Log("USED ACTION WORKING");
+        if (EnemyController.enemyList[EnemyController.currentEnemy].getMoves() == 0)
+        {
+            Debug.Log("Enemy " + EnemyController.currentEnemy + " out of moves");
+            EnemyController.NextEnemy(SM);
+            return;
+        }
+        EnemyController.ExhaustMoves();
+    }
     /// <summary>
     /// //////////////////////// where to add attacking
     /// </summary>
@@ -413,6 +430,7 @@ public class Enemy : Actor
             //Debug.Log("target = " + target.gameObject + " skill = " + abilitySet[0].abilityName + " range = " + dist);
             abilitySet[0].UseSkill(target.gameObject); //test
                                                        //status change will occur here^^
+            TurnBehaviour.EnemyHasJustAttacked();
             return true;
         }
         else
