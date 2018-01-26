@@ -88,6 +88,7 @@ public class ClickableTile : MonoBehaviour {
     public void setOccupiedFalse()
     {
         occupied = false;
+        occupiedBy = null;
     }
 
     public Vector3 getCoords()
