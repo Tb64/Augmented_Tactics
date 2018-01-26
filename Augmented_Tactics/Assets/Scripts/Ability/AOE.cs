@@ -4,30 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AOE
+public class AOE : Ability
 {
-    public int range_max;
-    public int range_min;
-    public float dwell_time;
+    protected bool canAffectFriendly;
+    protected bool canAffectEnemy;
 
-    public float manaCost = 0;
-
-    public Animator anim;
-    public string abilityName;
-    public Sprite abilityImage;
-
-    protected GameObject gameObject;
-    protected Actor actor;
-    protected bool canTargetTile;
-    protected bool canTargetFriendly;
-    protected bool canTargetEnemy;
-    protected Vector3[] rangeMarkerPos;
-
-    public virtual void Initialize(GameObject obj)
+    public override void Initialize(GameObject obj)
     {
         canTargetTile = true;
         canTargetFriendly = true;
         canTargetEnemy = true;
+        canTargetEnemy = true;
+        canAffectFriendly = false;
 
         rangeMarkerPos = null;
         gameObject = obj;
@@ -35,106 +23,5 @@ public class AOE
         anim = gameObject.GetComponentInChildren<Animator>();
     }
 
-    public virtual bool UseSkill(GameObject target)
-    {
-        //parent.GetComponent<Actor>().useAction();
-
-        if (target == null)
-            return false;
-
-        if (!canTargetFriendly && target.tag == gameObject.tag)
-        {
-            return false;
-        }
-
-        if (!canTargetEnemy)
-        {
-            if ((gameObject.tag == "Player" && target.tag == "Enemy") || (gameObject.tag == "Enemy" && target.tag == "Player"))
-                return false;
-        }
-
-        if (!canTargetTile && target.tag == "Tile")
-        {
-            return false;
-        }
-
-        if (SkillInRange(gameObject, target) == false)
-        {
-            Debug.Log("Out of range.");
-            return false;
-        }
-        if (!actor.UseMana(manaCost))
-        {
-            Debug.Log("Out of mana");
-            return false;
-        }
-        if (!actor.useAction())
-        {
-            Debug.Log("Not enough actions");
-            return false;
-        }
-
-        return true;
-
-    }
-
-    /// <summary>
-    /// Turns on the range marker for this skill
-    /// </summary>
-    public virtual void EnableRangeMarker()
-    {
-
-    }
-
-    /// <summary>
-    /// Use this method if you need to check Skill is sucessful (in range or valid target).
-    /// </summary>
-    /// <param name="target"></param>
-    /// <param name="isSuccessful"></param>
-    public virtual void UseSkill(GameObject target, out bool isSuccessful)
-    {
-        isSuccessful = false;
-    }
-
-    public virtual void UseSkillAsync(GameObject target, out bool isSuccessful)
-    {
-        isSuccessful = false;
-    }
-
-    public bool SkillInRange(Vector3 start, Vector3 end)
-    {
-        float distance = Vector3.Distance(start, end);
-        return (distance <= (float)range_max && distance >= (float)range_min);
-    }
-
-    public bool SkillInRange(GameObject startObj, GameObject endObj)
-    {
-        Vector3 start = startObj.GetComponent<Actor>().getCoords();
-        Vector3 end = endObj.GetComponent<Actor>().getCoords();
-
-        return SkillInRange(start, end);
-    }
-
-    protected void rotateAtObj(GameObject target)
-    {
-        Vector3 newDir = Vector3.RotateTowards(gameObject.transform.forward, target.transform.position, 1f, 0f);
-        newDir = new Vector3(newDir.x, gameObject.transform.position.y, newDir.z);
-
-        newDir = new Vector3(target.transform.position.x, gameObject.transform.position.y, target.transform.position.z);
-        gameObject.transform.LookAt(newDir);
-    }
-
-    //////////////////
-    //  Set/Get     //
-    //////////////////
-
-    public Vector3[] getRangeMakers()
-    {
-        return this.rangeMarkerPos;
-    }
-
-    public bool hasCustomRange()
-    {
-        return (rangeMarkerPos != null);
-    }
+    //make a ubbble or check for tiles occupied
 }

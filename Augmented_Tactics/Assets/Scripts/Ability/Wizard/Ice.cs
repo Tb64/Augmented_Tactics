@@ -19,11 +19,11 @@ public class Ice : Ability {
         damage = actor.getIntelligence();
 
         anim = gameObject.GetComponentInChildren<Animator>();
-        range_max = 10;
-        range_min = 1;
+        range_max = 5;
+        range_min = 0;
         manaCost = 5;
         dwell_time = 1.0f;
-        abilityName = "Fire";
+        abilityName = "Ice";
         abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill1");
     }
 

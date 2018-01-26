@@ -110,7 +110,11 @@ public class Ability
     public bool SkillInRange(GameObject startObj, GameObject endObj)
     {
         Vector3 start = startObj.GetComponent<Actor>().getCoords();
-        Vector3 end = endObj.GetComponent<Actor>().getCoords();
+        Vector3 end = new Vector3(0,0,0);
+        if (endObj.GetComponent<Actor>() != null)
+            end = endObj.GetComponent<Actor>().getCoords();
+        else if (endObj.GetComponent<ClickableTile>()!=null)
+            end = endObj.GetComponent<ClickableTile>().getCoords();
 
         return SkillInRange(start, end);
     }

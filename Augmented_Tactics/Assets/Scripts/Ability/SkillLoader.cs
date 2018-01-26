@@ -55,6 +55,8 @@ public class SkillLoader : MonoBehaviour {
             case "ice":
                 return new Ice(gObj);
 
+            case "thunder":
+                return new Thunder(gObj);
             default:
                 return null;
         }
