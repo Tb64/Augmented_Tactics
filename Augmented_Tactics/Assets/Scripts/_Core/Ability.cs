@@ -9,7 +9,7 @@ public class Ability
     public int range_max;
     public int range_min;
     public float dwell_time;
-
+    public int damage = 10; // temp to test AI
     public float manaCost = 0;
 
     public Animator anim;
