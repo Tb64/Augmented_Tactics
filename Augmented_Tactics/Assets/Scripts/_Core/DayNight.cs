@@ -15,7 +15,7 @@ public class DayNight : MonoBehaviour {
        sun = GameObject.Find("Sun");
 	}
 	
-    public int twelveHour()
+    public int twelveHourCycle()
     {
         hour = time.Hour;
 
@@ -31,6 +31,7 @@ public class DayNight : MonoBehaviour {
     {
         //Color light = sun.GetComponent<Color>();
 
+
         if (time.Hour >= 18)
         {
             sun.GetComponent<Light>().color = new Color(0, 0, 0, 255);
@@ -45,7 +46,7 @@ public class DayNight : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         time = DateTime.Now;
-        twelveHour();
+        twelveHourCycle();
         dayCycle();
         minute = time.Minute;
 	}
