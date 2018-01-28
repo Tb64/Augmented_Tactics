@@ -32,15 +32,15 @@ public class DayNight : MonoBehaviour {
         //Color light = sun.GetComponent<Color>();
 
 
-        if (time.Hour >= 18)
+        if (time.Hour >= 18 || time.Hour < 6)
         {
             sun.GetComponent<Light>().color = new Color(0, 0, 0, 255);
         }
 
-        if (time.Hour >= 6 && time.Hour < 18)
-        {
-            sun.GetComponent<Light>().color = new Color(255, 243, 210, 255);
-        }
+        //if (time.Hour >= 6 && time.Hour < 18)
+        //{
+        //    sun.GetComponent<Light>().color = new Color(255, 243, 210, 255);
+        //}
     }
 
 	// Update is called once per frame
