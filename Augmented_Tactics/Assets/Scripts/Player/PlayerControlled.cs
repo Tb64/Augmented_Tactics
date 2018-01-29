@@ -8,7 +8,6 @@ This is the parent class
 for all player controlled actors
 ********************/
 
-
 public class PlayerControlled : Actor
 {
     public static int playerNum;
@@ -19,9 +18,7 @@ public class PlayerControlled : Actor
     new void Start ()
     {
         base.Init();
-
         PlayerInitialize();
-
     }
 
     public void PlayerInitialize()
@@ -57,7 +54,7 @@ public class PlayerControlled : Actor
         if (map.IsValidCoord(coords) == true)
         {
             Debug.Log("Coords: " + coords);
-            map.GetTileAt(coords).setOccupiedTrue();
+            map.GetTileAt(coords).setOccupiedTrue(gameObject);
             Debug.Log("Occupied = " + map.GetTileAt(coords).isOccupied());
         }
     }
@@ -78,32 +75,25 @@ public class PlayerControlled : Actor
         numberOfActors++;
     }
 
-
     // Update is called once per frame
-    void Update () {
+    void Update ()
+    {
         base.Update();
-
         turnControl();
     }
 
-
-
     void turnControl()
     {
-
         //true player turn ,false enemy turn
         if (SM.GetComponent<StateMachine>().checkTurn() == true)
         {
             map.drawDebugLines();
             //map.moveUnit();
         }
-
-
     }
 
     public void MoveSelected()
     {
-        
         if(numOfActions != 0)
             rangeMarker.Move_Marker_On(getCoords(), this.moveDistance);
     }

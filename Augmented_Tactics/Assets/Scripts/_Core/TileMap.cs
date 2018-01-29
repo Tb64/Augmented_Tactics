@@ -151,8 +151,6 @@ public class TileMap : MonoBehaviour {
         return new Vector3(x, .5f, z);
     }
 
-    
-
     public Vector3 TileCoordToWorldCoord(Vector3 input)
     {
         //Vector3 output = map[(int)input.x, (int)input.z].GetGameObject().transform.position;
@@ -399,9 +397,15 @@ public class TileMap : MonoBehaviour {
     public void moveActorAsync(GameObject actor, Vector3 target)
     {
         //justin set move string array here
+        Vector3 currentCoords = actor.GetComponent<Actor>().getCoords();
+
         actor.GetComponent<Actor>().PlaySound("move");
         StartCoroutine(MoveActorThread(actor, target));
+
+        SetOcc(actor, currentCoords, target);
         Debug.Log("Move Complete\t");
+       
+        
         return;
     }
 
@@ -489,19 +493,14 @@ public class TileMap : MonoBehaviour {
             {
                 path.positionCount = 0; //clears line renderer
             }
-
         }
-
         return endOfMove;
-
     }
 
     public void PlayerMoveActions()
     {
         Debug.Log("PLAYER HAS MOVED");
     }
-
-
 
     void AdvancePathing()
     {
@@ -512,11 +511,6 @@ public class TileMap : MonoBehaviour {
             return;
         }
 
-        //if (unit.getCanMove() == false)
-        //{
-        //    return;
-        //}
-
         //Actor runs out of movement points
         if (unit.getRemainingMovement() <= 0)
         {
@@ -525,7 +519,7 @@ public class TileMap : MonoBehaviour {
 
         remainingMovement = unit.getRemainingMovement();
 
-        // Get cost from current tile to next tile
+        //Get cost from current tile to next tile
         remainingMovement -= costToEnterTile(unit.getCurrentPath()[0].coords,unit.getCurrentPath()[1].coords);
 
         unit.setRemainingMovement(remainingMovement);
@@ -535,9 +529,9 @@ public class TileMap : MonoBehaviour {
         //unit.tileZ = (int)unit.getCurrentPath()[1].coords.z;
         unit.setCoords(unit.getCurrentPath()[1].coords);
 
-        map[(int)unit.getCurrentPath()[0].coords.x,
-            (int)unit.getCurrentPath()[0].coords.y,
-            (int)unit.getCurrentPath()[0].coords.z].setOccupiedFalse();
+        //map[(int)unit.getCurrentPath()[0].coords.x,
+        //    (int)unit.getCurrentPath()[0].coords.y,
+        //    (int)unit.getCurrentPath()[0].coords.z].setOccupiedFalse();
 
         // Remove the old "current" tile from the pathfinding list
 
@@ -568,6 +562,7 @@ public class TileMap : MonoBehaviour {
         if (unit.getCurrentPath() != null)
         {
             int currNode = 0;
+
             Vector3[] position = new Vector3[unit.getCurrentPath().Count+1];
             Vector3 start = new Vector3();
             Vector3 end = new Vector3();
@@ -600,6 +595,21 @@ public class TileMap : MonoBehaviour {
             }
         }
     }
+    /// <summary>
+    /// Sets occupied of current actor location to false, and target location to true.
+    /// Takes an Actor gameobject, its current coords and target coords as a parameter.
+    /// </summary>
+    /// <param name="Actor"></param>
+    /// <param name="currentCoords"></param>
+    /// <param name="targetCoords"></param>
+    public void SetOcc(GameObject Actor, Vector3 currentCoords, Vector3 targetCoords)
+    {
+        Actor unit = Actor.GetComponent<Actor>();
+        Debug.Log("SETOCC INITIALIZED");
+        map[(int)currentCoords.x, (int)currentCoords.y, (int)currentCoords.z].setOccupiedFalse();
+        Debug.Log("current coords" + currentCoords);
+        map[(int)targetCoords.x, (int)targetCoords.y, (int)targetCoords.z].setOccupiedTrue(Actor);
+    }
 
     private IEnumerator MoveActorThread(GameObject actor, Vector3 target)
     {
@@ -618,7 +628,7 @@ public class TileMap : MonoBehaviour {
         while (!moveDone); 
 
         Debug.Log("Moved " + actor.name + " to " + target);
-        getTileAtCoord(unit.getCoords()).setOccupiedTrue();
+        getTileAtCoord(unit.getCoords()).setOccupiedTrue(actor);
         TurnBehaviour.ActorHasJustMoved();
     }
 
@@ -630,7 +640,6 @@ public class TileMap : MonoBehaviour {
     {
         if (unit.getCurrentPath() != null)
         {
-
             position = new Vector3[unit.getCurrentPath().Count];
             path.SetPositions(position);
         }
