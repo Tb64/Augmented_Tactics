@@ -10,6 +10,11 @@ public class SceneManagement : MonoBehaviour {
         SceneManager.LoadScene(0);
     }
 
+    public void loadGreenDragonTavern()
+    {
+        SceneManager.LoadScene(2);
+    }
+
     public void LoadLevel(int index)
     {
         SceneManager.LoadScene(index);
