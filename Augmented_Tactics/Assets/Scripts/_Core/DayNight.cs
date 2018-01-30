@@ -34,7 +34,7 @@ public class DayNight : MonoBehaviour {
 
         if (time.Hour >= 18 || time.Hour < 6)
         {
-            sun.GetComponent<Light>().color = new Color(0, 0, 0, 255);
+            sun.GetComponent<Light>().color = new Color(35, 120, 120, 255);
         }
 
         //if (time.Hour >= 6 && time.Hour < 18)
@@ -47,7 +47,7 @@ public class DayNight : MonoBehaviour {
 	void Update () {
         time = DateTime.Now;
         twelveHourCycle();
-        dayCycle();
+        //dayCycle();
         minute = time.Minute;
 	}
 }
