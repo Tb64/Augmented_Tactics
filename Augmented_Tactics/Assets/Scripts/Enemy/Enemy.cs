@@ -39,6 +39,8 @@ public class Enemy : Actor
     {
         base.OnDestroy();
         TurnBehaviour.OnUnitMoved -= this.EnemyMoved;
+        //TurnBehaviour.OnUnitMoved -= this.EnemyUsedAction;
+        //TurnBehaviour.OnEnemyUnitAttack -= this.EnemyUsedAction;
         //TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStart;
     }
 
@@ -48,6 +50,9 @@ public class Enemy : Actor
         expGiven = 10;
         //TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStartActions;
         TurnBehaviour.OnUnitMoved += this.EnemyMoved;
+        //TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
+        //TurnBehaviour.OnEnemyUnitAttack += this.EnemyUsedAction;
+
 
         if (map == null)
         {
@@ -157,7 +162,7 @@ public class Enemy : Actor
     public void EnemyMoved()
     {
 
-        Debug.Log(EnemyController.currentEnemy + " " + enemyID);
+        //Debug.Log(EnemyController.currentEnemy + " " + enemyID);
         if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
         {
             return;
@@ -204,7 +209,7 @@ public class Enemy : Actor
             playerPosition = user.getCoords();
             float distanceFromPlayer = Vector3.Distance(playerPosition, enemyPosition);
             //Debug.Log("Dist = " + distanceFromPlayer + " " + enemyPosition + playerPosition);
-            if (distanceFromPlayer < currentNearest)
+            if (distanceFromPlayer < currentNearest && !user.isDead())
             {
                 nearest = user;
                 currentNearest = distanceFromPlayer;
@@ -227,7 +232,7 @@ public class Enemy : Actor
             //Actor player = user.GetComponent<Actor>();
             //same as findNearest.
             float playerHealth = user.GetHealthPercent();
-            if (playerHealth < lowestHealth)
+            if (playerHealth < lowestHealth && !user.isDead())
             {
                 weakest = user;
                 lowestHealth = playerHealth;
@@ -395,7 +400,19 @@ public class Enemy : Actor
         return output;
     }
 
-
+    /*private void EnemyUsedAction()
+    {
+        if (SM.checkTurn())
+            return;
+        //Debug.Log("USED ACTION WORKING");
+        if (EnemyController.enemyList[EnemyController.currentEnemy].getMoves() == 0)
+        {
+            Debug.Log("Enemy " + EnemyController.currentEnemy + " out of moves");
+            EnemyController.NextEnemy(SM);
+            return;
+        }
+        EnemyController.ExhaustMoves();
+    }*/
     /// <summary>
     /// //////////////////////// where to add attacking
     /// </summary>
@@ -405,14 +422,25 @@ public class Enemy : Actor
         if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
             return false;
         Debug.Log(this + " Attempting attack on " + target);
-        if (abilitySet[0].SkillInRange(getCoords(), target.getCoords()))
+        int bestAttack = 0, choice = 0;
+        bool chosen = false;
+        for (int ability = 0; ability < 4; ability++)
         {
-            //float dist = Vector3.Distance(getCoords(), target.getCoords());
-            //if (!(dist <= 1.5))
-            //  return;
-            //Debug.Log("target = " + target.gameObject + " skill = " + abilitySet[0].abilityName + " range = " + dist);
-            abilitySet[0].UseSkill(target.gameObject); //test
-                                                       //status change will occur here^^
+            if (abilitySet[ability].damage > bestAttack && abilitySet[ability].SkillInRange(getCoords(), target.getCoords()))
+            {
+                bestAttack = abilitySet[ability].damage;
+                choice = ability;
+                chosen = true;
+            }
+        }
+        //float dist = Vector3.Distance(getCoords(), target.getCoords());
+        //if (!(dist <= 1.5))
+        //  return;
+        //Debug.Log("target = " + target.gameObject + " skill = " + abilitySet[0].abilityName + " range = " + dist);
+        if (chosen)
+        { 
+            abilitySet[choice].UseSkill(target.gameObject); //test
+            TurnBehaviour.EnemyHasJustAttacked();
             return true;
         }
         else
