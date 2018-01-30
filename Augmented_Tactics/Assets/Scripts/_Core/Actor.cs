@@ -191,7 +191,7 @@ public class Actor : MonoBehaviour
         if (map.IsValidCoord(coords) == true)
         {
             Debug.Log("Coords: " + coords);
-            map.GetTileAt(coords).setOccupiedTrue();
+            map.GetTileAt(coords).setOccupiedTrue(gameObject);
             Debug.Log("Occupied = " + map.GetTileAt(coords).isOccupied());
         }
 
@@ -464,8 +464,6 @@ public class Actor : MonoBehaviour
     }
     #endregion
     
-
-
     /******************
     *  Set/Gets
     ******************/
