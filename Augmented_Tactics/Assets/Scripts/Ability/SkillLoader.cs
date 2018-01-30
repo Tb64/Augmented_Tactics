@@ -56,6 +56,9 @@ public class SkillLoader : MonoBehaviour {
             case "eviscerate":
                 return new Eviscerate(gObj);
 
+            case "disintegrate":
+                return new Disintegrate(gObj);
+
             default:
                 return null;
         }

@@ -2,18 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class Eviscerate : Ability
-{
+public class Disintegrate : Ability {
 
     float damage = 10f;
     StateMachine SM = GameObject.Find("GameController").GetComponent<StateMachine>();
-    //Damages Enemy and removes one action point from enemy
-    //need to add status effect that removes one turn from enemy
     GameObject bloodEffect = Resources.Load<GameObject>("animation/effect26");
     Actor user;
 
-    public Eviscerate(GameObject obj)
+    public Disintegrate(GameObject obj)
     {
         Initialize(obj);
         user = obj.GetComponent<Actor>();
@@ -24,11 +20,11 @@ public class Eviscerate : Ability
         base.Initialize(obj);
         anim = gameObject.GetComponentInChildren<Animator>();
         dwell_time = 1.0f;
-        abilityName = "eviscerate";
-        range_max = 1;
+        abilityName = "disintegrate";
+        range_max = 3;
         range_min = 0;
         damage = 10 + actor.getStrength() * 2;
-        abilityImage = Resources.Load<Sprite>("UI/Ability/assassinSkill10");
+        abilityImage = Resources.Load<Sprite>("UI/Ability/warriorSkill3");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
         manaCost = 0;
@@ -54,6 +50,9 @@ public class Eviscerate : Ability
     {
         if (anim != null)
         {
+            
+            gameObject.GetComponent<Transform>().position = (target.GetComponent<Actor>().getCoords() - new Vector3(0,0,1));
+            gameObject.GetComponent<Actor>().setCoords(target.GetComponent<Actor>().getCoords() - new Vector3(0, 0, 1));
             rotateAtObj(target);
             anim.SetTrigger("MeleeAttack");
             GameObject effect = GameObject.Instantiate(bloodEffect, target.transform);
@@ -68,5 +67,4 @@ public class Eviscerate : Ability
 
         DwellTime.Attack(dwell_time);
     }
-
 }
