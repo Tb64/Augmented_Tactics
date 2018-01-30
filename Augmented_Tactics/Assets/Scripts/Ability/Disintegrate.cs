@@ -21,7 +21,7 @@ public class Disintegrate : Ability {
         anim = gameObject.GetComponentInChildren<Animator>();
         dwell_time = 1.0f;
         abilityName = "disintegrate";
-        range_max = 3;
+        range_max = 4;
         range_min = 0;
         damage = 10 + actor.getStrength() * 2;
         abilityImage = Resources.Load<Sprite>("UI/Ability/warriorSkill3");
@@ -50,20 +50,16 @@ public class Disintegrate : Ability {
     {
         if (anim != null)
         {
-            
+            GameObject effect = GameObject.Instantiate(bloodEffect, gameObject.GetComponent<Actor>().getCoords(),Quaternion.identity);
             gameObject.GetComponent<Transform>().position = (target.GetComponent<Actor>().getCoords() - new Vector3(0,0,1));
             gameObject.GetComponent<Actor>().setCoords(target.GetComponent<Actor>().getCoords() - new Vector3(0, 0, 1));
             rotateAtObj(target);
             anim.SetTrigger("MeleeAttack");
-            GameObject effect = GameObject.Instantiate(bloodEffect, target.transform);
+            GameObject.Instantiate(bloodEffect, gameObject.transform);
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
         target.GetComponent<Actor>().TakeDamage(damage, gameObject);
-        //decide if status effect is successful
-        //StatusEffect status = new StatusEffect(2, (float)typeof(Actor).GetField("health_current").GetValue(user), "Bleeding", 5, "-", target.GetComponent<Actor>(),true, SM);
-        //Need to add status effect
-        //Will apply bleed(damager per turn, 2 turns)
-        //Will remove 1 move from enemies next 2 turns
+       
 
         DwellTime.Attack(dwell_time);
     }
