@@ -24,11 +24,13 @@ public class Eviscerate : Ability
         base.Initialize(obj);
         anim = gameObject.GetComponentInChildren<Animator>();
         dwell_time = 1.0f;
-        abilityName = "Eviscerate";
+        abilityName = "eviscerate";
         range_max = 1;
         range_min = 0;
-        damage = actor.getStrength() * 2;
-
+        damage = 10 + actor.getStrength() * 2;
+        abilityImage = Resources.Load<Sprite>("UI/Ability/assassinSkill10");
+        if (abilityImage == null)
+            Debug.Log("Unable to load image");
         manaCost = 0;
     }
 
