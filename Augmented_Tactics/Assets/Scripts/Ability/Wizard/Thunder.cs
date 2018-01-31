@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Thunder : AOE
 {
+    float damage;
+
     public Thunder(GameObject obj)
     {
         Initialize(obj);
@@ -15,6 +17,7 @@ public class Thunder : AOE
 
         AOESizeMin = 0;
         AOESizeMax = 2;
+        damage = (actor.getIntelligence() + 20.0f);
 
         anim = gameObject.GetComponentInChildren<Animator>();
         range_max = 3;
@@ -50,10 +53,10 @@ public class Thunder : AOE
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
 
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < listIter; i++)
         {
-            if (listOfAffected[i] != null)
-                listOfAffected[i].TakeDamage(50, gameObject);
+            if (listOfActorsAffected[i] != null)
+                listOfActorsAffected[i].GetComponent<Actor>().TakeDamage(damage, gameObject);
         }
     }
 }

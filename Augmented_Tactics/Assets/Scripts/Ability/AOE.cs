@@ -8,11 +8,26 @@ public class AOE : Ability
 {
     protected bool canAffectFriendly;
     protected bool canAffectEnemy;
+    protected bool canAffectTiles;
     protected int AOESizeMin;
     protected int AOESizeMax;
-    private Vector3 startTileCoords;
-    protected Actor[] listOfAffected;
-    private int listIter = 0;
+    protected int rangeDelta;
+    private Vector3 startTileCoords;    
+
+    /// <summary>
+    /// Increments for each gameobject found. Resets to 0 at the start of an AOE cast.
+    /// </summary>
+    protected int listIter;
+
+    /// <summary>
+    /// This array contains all of the actors hit by the AOE. Held as gameObjects.
+    /// </summary>
+    protected GameObject[] listOfActorsAffected;
+
+    /// <summary>
+    /// This array contains all the tiles hit by the AOE. Held as gameObjects.
+    /// </summary>
+    protected GameObject[] listOfTilesAffected;
 
     public override void Initialize(GameObject obj)
     {
@@ -23,9 +38,11 @@ public class AOE : Ability
         canTargetEnemy = true;
 
         canAffectEnemy = true;
-        canAffectFriendly = true;
+        canAffectFriendly = false;
+        canAffectTiles = false;
 
-        listOfAffected = new Actor[8];
+        listOfActorsAffected = new GameObject[8];
+        listOfTilesAffected = new GameObject[256];
     }
 
     /// <summary>
@@ -34,9 +51,10 @@ public class AOE : Ability
     public virtual void AOEBase(GameObject target)
     {
         Vector3 targetCoords = target.transform.position;
-        int rangeDelta = AOESizeMax;
+        rangeDelta = AOESizeMax;
+        listIter = 0;
 
-        //if not tile get the coords under it, else use the tile's coords
+        //if clicked on gameobject is not a tile then get the coords under it, else use the clicked tile's coords
         if (target.tag != "Tile")
         {
             startTileCoords = new Vector3(targetCoords.x, 0, targetCoords.y);
@@ -45,10 +63,19 @@ public class AOE : Ability
         {
             startTileCoords = targetCoords;
         }
+        aoeRange();        
+    }
 
+    /// <summary>
+    /// This looks around on the clicked tile or target in a '+' pattern. Can ovveride this for a custom pattern.
+    /// </summary>
+    public virtual void aoeRange()
+    {
         Vector3 tileCoordsToCheck1;
         Vector3 tileCoordsToCheck2;
-        
+
+
+        //Looks around the specified area for things it can affect
         for (int x = AOESizeMin; x <= AOESizeMax; x++)
         {
             for (int z = -rangeDelta; z <= rangeDelta; z++)
@@ -60,10 +87,11 @@ public class AOE : Ability
                     if (actor.map.IsValidCoord(tileCoordsToCheck2))
                     {
                         //actor.map.GetTileAt(tileCoordsToCheck2).gameObject.SetActive(false);
-                        if (actor.map.GetTileAt(tileCoordsToCheck2).isOccupied())
-                        {
-                            addToList(actor.map.GetTileAt(tileCoordsToCheck2).isOccupiedBy());
-                        }
+                            if (actor.map.GetTileAt(tileCoordsToCheck2).isOccupied())
+                            {
+                                //it found that something on is that tile, send the object occupying the tile to the addToList method
+                                AddToList(actor.map.GetTileAt(tileCoordsToCheck2).isOccupiedBy());
+                            }
                     }
                 }
                 if (actor.map.IsValidCoord(tileCoordsToCheck1))
@@ -71,30 +99,34 @@ public class AOE : Ability
                     //actor.map.GetTileAt(tileCoordsToCheck1).gameObject.SetActive(false);
                     if (actor.map.GetTileAt(tileCoordsToCheck1).isOccupied())
                     {
-                        addToList(actor.map.GetTileAt(tileCoordsToCheck1).isOccupiedBy());
+                        AddToList(actor.map.GetTileAt(tileCoordsToCheck1).isOccupiedBy());
                     }
                 }
             }
             rangeDelta--;
         }
-        listIter = 0;
     }
 
-    void addToList(GameObject gObj)
-    {
-        Debug.Log("Has tag: " + gObj.tag);
-        if (canAffectEnemy && gObj.tag == "Enemy")
+    void AddToList(GameObject gObj)
+    {        
+        if (gObj != null)
         {
-            listOfAffected[listIter] = gObj.GetComponent<Actor>();
-            Debug.Log("adding" + gObj);
-            listIter++;
+            Debug.Log("Has tag: " + gObj.tag);
+            if (canAffectEnemy && gObj.tag == "Enemy")
+            {
+                listOfActorsAffected[listIter] = gObj;
+                Debug.Log("adding" + gObj);
+                listIter++;
+            }
+            else if (canAffectFriendly && gObj.tag == "Player")
+            {
+                listOfActorsAffected[listIter] = gObj;
+                Debug.Log("adding" + gObj + " and trying to access" + gObj.GetComponent<Actor>().name);
+                listIter++;
+            }
         }
-        if (canAffectFriendly && gObj.tag == "Player")
-        {
-            listOfAffected[listIter] = gObj.GetComponent<Actor>();
-            Debug.Log("adding" + gObj + " but trying to get" + gObj.GetComponent<Actor>().name);
-            listIter++;
-        }
+        else
+            Debug.Log("The AOE attack returned a null game object!");
     }
     
 }
