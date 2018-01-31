@@ -15,19 +15,24 @@ public class AOE : Ability
     private Vector3 startTileCoords;    
 
     /// <summary>
-    /// Increments for each gameobject found. Resets to 0 at the start of an AOE cast.
+    /// Increments for each Actor found found. Resets to 0 at the start of an AOE cast.
     /// </summary>
     protected int listIter;
 
     /// <summary>
-    /// This array contains all of the actors hit by the AOE. Held as gameObjects.
+    /// Increments for each tile found. Resets to 0 at the start of an AOE cast.
     /// </summary>
-    protected GameObject[] listOfActorsAffected;
+    protected int listIterTile;
+
+    /// <summary>
+    /// This array contains all of the actors hit by the AOE. Held as Actor.
+    /// </summary>
+    protected Actor[] listOfActorsAffected;
 
     /// <summary>
     /// This array contains all the tiles hit by the AOE. Held as gameObjects.
     /// </summary>
-    protected GameObject[] listOfTilesAffected;
+    protected ClickableTile[] listOfTilesAffected;
 
     public override void Initialize(GameObject obj)
     {
@@ -41,8 +46,8 @@ public class AOE : Ability
         canAffectFriendly = false;
         canAffectTiles = false;
 
-        listOfActorsAffected = new GameObject[8];
-        listOfTilesAffected = new GameObject[256];
+        listOfActorsAffected = new Actor[8];
+        listOfTilesAffected = new ClickableTile[256];
     }
 
     /// <summary>
@@ -63,13 +68,13 @@ public class AOE : Ability
         {
             startTileCoords = targetCoords;
         }
-        aoeRange();        
+        AOERange();        
     }
 
     /// <summary>
-    /// This looks around on the clicked tile or target in a '+' pattern. Can ovveride this for a custom pattern.
+    /// This looks around on the clicked tile or target in a '+'-ish pattern. Can ovveride this for a custom pattern.
     /// </summary>
-    public virtual void aoeRange()
+    public virtual void AOERange()
     {
         Vector3 tileCoordsToCheck1;
         Vector3 tileCoordsToCheck2;
@@ -87,11 +92,15 @@ public class AOE : Ability
                     if (actor.map.IsValidCoord(tileCoordsToCheck2))
                     {
                         //actor.map.GetTileAt(tileCoordsToCheck2).gameObject.SetActive(false);
-                            if (actor.map.GetTileAt(tileCoordsToCheck2).isOccupied())
+                        if (actor.map.GetTileAt(tileCoordsToCheck2).isOccupied())
+                        {                                
+                            //it found that something on is that tile, send the object occupying the tile to the addToList method
+                            AddToList(actor.map.GetTileAt(tileCoordsToCheck2).isOccupiedBy());
+                            if (canAffectTiles)
                             {
-                                //it found that something on is that tile, send the object occupying the tile to the addToList method
-                                AddToList(actor.map.GetTileAt(tileCoordsToCheck2).isOccupiedBy());
+                                AddToList(actor.map.GetTileAt(tileCoordsToCheck2).gameObject);
                             }
+                        }
                     }
                 }
                 if (actor.map.IsValidCoord(tileCoordsToCheck1))
@@ -100,6 +109,10 @@ public class AOE : Ability
                     if (actor.map.GetTileAt(tileCoordsToCheck1).isOccupied())
                     {
                         AddToList(actor.map.GetTileAt(tileCoordsToCheck1).isOccupiedBy());
+                        if (canAffectTiles)
+                        {
+                            AddToList(actor.map.GetTileAt(tileCoordsToCheck1).gameObject);
+                        }
                     }
                 }
             }
@@ -114,15 +127,19 @@ public class AOE : Ability
             Debug.Log("Has tag: " + gObj.tag);
             if (canAffectEnemy && gObj.tag == "Enemy")
             {
-                listOfActorsAffected[listIter] = gObj;
-                Debug.Log("adding" + gObj);
+                listOfActorsAffected[listIter] = gObj.GetComponent<Actor>();
+                //Debug.Log("adding" + gObj);
                 listIter++;
             }
             else if (canAffectFriendly && gObj.tag == "Player")
             {
-                listOfActorsAffected[listIter] = gObj;
-                Debug.Log("adding" + gObj + " and trying to access" + gObj.GetComponent<Actor>().name);
+                listOfActorsAffected[listIter] = gObj.GetComponent<Actor>();
+                //Debug.Log("adding" + gObj + " and trying to access" + gObj.GetComponent<Actor>().name);
                 listIter++;
+            }
+            else if (gObj.tag == "Tile")
+            {
+                listOfTilesAffected[listIterTile] = gObj.GetComponent<ClickableTile>();
             }
         }
         else
