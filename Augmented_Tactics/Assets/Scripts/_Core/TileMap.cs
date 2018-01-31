@@ -396,16 +396,10 @@ public class TileMap : MonoBehaviour {
     /// <returns></returns>
     public void moveActorAsync(GameObject actor, Vector3 target)
     {
-        //justin set move string array here
-        Vector3 currentCoords = actor.GetComponent<Actor>().getCoords();
-
+    
         actor.GetComponent<Actor>().PlaySound("move");
         StartCoroutine(MoveActorThread(actor, target));
 
-        SetOcc(actor, currentCoords, target);
-        Debug.Log("Move Complete\t");
-       
-        
         return;
     }
 
@@ -536,6 +530,7 @@ public class TileMap : MonoBehaviour {
         // Remove the old "current" tile from the pathfinding list
 
         unit.getCurrentPath().RemoveAt(0);
+     
         
         if (unit.getCurrentPath().Count == 1)
         {
@@ -605,7 +600,7 @@ public class TileMap : MonoBehaviour {
     public void SetOcc(GameObject Actor, Vector3 currentCoords, Vector3 targetCoords)
     {
         Actor unit = Actor.GetComponent<Actor>();
-        Debug.Log("SETOCC INITIALIZED");
+        //Debug.Log("SETOCC INITIALIZED");
         map[(int)currentCoords.x, (int)currentCoords.y, (int)currentCoords.z].setOccupiedFalse();
         Debug.Log("current coords" + currentCoords);
         map[(int)targetCoords.x, (int)targetCoords.y, (int)targetCoords.z].setOccupiedTrue(Actor);
@@ -615,6 +610,7 @@ public class TileMap : MonoBehaviour {
     {
         //selectedUnit = actor;
         GeneratePathTo(target, actor);
+        Vector3 currentCoords = actor.GetComponent<Actor>().getCoords();
 
         TurnBehaviour.ActorBeginsMoving();
         bool moveDone = moveUnit(actor);
@@ -625,10 +621,15 @@ public class TileMap : MonoBehaviour {
             moveDone = moveUnit(actor);
             yield return null;
         }
-        while (!moveDone); 
+        while (!moveDone);
+
+        
+
+        Vector3 newCoords = actor.GetComponent<Actor>().getCoords();
 
         Debug.Log("Moved " + actor.name + " to " + target);
-        getTileAtCoord(unit.getCoords()).setOccupiedTrue(actor);
+        SetOcc(actor, currentCoords, newCoords);
+        //getTileAtCoord(unit.getCoords()).setOccupiedTrue(actor);
         TurnBehaviour.ActorHasJustMoved();
     }
 

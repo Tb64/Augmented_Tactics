@@ -301,7 +301,7 @@ public class Enemy : Actor
     /// </summary>
     /// <param name="mapPos">The map/tile position of occupied tile</param>
     /// <returns>Returns closest map/tile position to mapPos, that is not mapPos</returns>
-    private Vector3 PosCloseTo(Vector3 mapPos)
+    public Vector3 PosCloseTo(Vector3 mapPos)
     {
         Vector3 output = getCoords() - mapPos;
         output = output.normalized;
