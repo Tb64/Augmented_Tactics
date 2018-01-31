@@ -51,12 +51,22 @@ public class SkillLoader : MonoBehaviour {
             case "counter":
                 return new Counter(gObj);
 
+            //Knight
+
+            case "eviscerate":
+                return new Eviscerate(gObj);
+
+            case "disintegrate":
+                return new Disintegrate(gObj);
+
             //Wizard
             case "ice":
                 return new Ice(gObj);
 
             case "thunder":
                 return new Thunder(gObj);
+
+
             default:
                 return null;
         }

@@ -6,6 +6,7 @@ public class EnemyController : MonoBehaviour
 {
     public StateMachine SM;
     public TileMap map;
+    private static int enemyCount; // temp until better method found
     public static Actor[] userTeam;
     public Actor weakest, nearest; //for attacking together later. not useful now
     public static int enemyNum;
@@ -27,19 +28,22 @@ public class EnemyController : MonoBehaviour
 
     public void OnDestroy()
     {
-        //TurnBehaviour.OnUnitMoved -= this.EnemyMoved;
-        TurnBehaviour.OnUnitMoved -= this.EnemyUsedAction;
+        TurnBehaviour.OnUnitMoved -= this.ExhaustMoves;
+       // TurnBehaviour.OnUnitMoved -= this.EnemyUsedAction;
+        //TurnBehaviour.OnEnemyUnitAttack -= this.EnemyUsedAction;
         TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStart;
         //TurnBehaviour.OnUnitMoved -= this.EnemyMoveFinished;
-        //TurnBehaviour.OnEnemyOutOfMoves -= this.EnemyMoveFinished;
+        TurnBehaviour.OnEnemyOutOfMoves -= this.EnemyMoveFinished;
     }
 
     public void EnemyInitialize()
     {
         enemyNum = 0;
+        enemyCount = 2;
         TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStart;
-        //TurnBehaviour.OnUnitMoved += this.EnemyMoveFinished;
-        TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
+        TurnBehaviour.OnUnitMoved += this.ExhaustMoves;
+        //TurnBehaviour.OnEnemyUnitAttack += this.EnemyUsedAction;
+        //TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
         TurnBehaviour.OnEnemyOutOfMoves += this.EnemyMoveFinished;
 
         if (map == null)
@@ -112,9 +116,10 @@ public class EnemyController : MonoBehaviour
     {
         if (SM.checkTurn())
             return;
-        Debug.Log("Enemy " + (currentEnemy) + " Fisnished Turn");
+        Debug.Log("Enemy " + (currentEnemy-1) + " Fisnished Turn");
         EnemyAction();
     }
+
     private void EnemyAction()
     {
         //Debug.Log("called " + EnemyController.enemyNum + " " + currentEnemy);
@@ -128,47 +133,58 @@ public class EnemyController : MonoBehaviour
         /*if (currentEnemy != 0 && !map.getTileAtCoord(enemyList[currentEnemy - 1].getCoords()).isOccupied())
             Debug.LogError("TILE NOT SET TO OCCUPIED");*/
         enemyList[currentEnemy].EnemyTurnStartActions();
-        ExhaustMoves();
+        ExhaustMoves(SM);
     }
 
-    private void ExhaustMoves()
+    public void ExhaustMoves()
     {
+        ExhaustMoves(SM);
+    }
+    public static void ExhaustMoves(StateMachine SM)
+    {
+        if (currentEnemy >= enemyCount || SM.checkTurn())
+            return;
         if (enemyList[currentEnemy].getMoves() != 0)
         {
             if (enemyList[currentEnemy].reactToProximity(enemyList[currentEnemy].distanceToNearest))
             {
                 if (enemyList[currentEnemy].getMoves() == 0)
                 {
-                    Debug.Log("Enemy " + currentEnemy + " out of moves");
-                    currentEnemy++;
-                    TurnBehaviour.EnemyTurnFinished();
+                    NextEnemy();
+                    return;
+                }
+                else
+                {
+                    ExhaustMoves(SM);
                     return;
                 }
             }
             enemyList[currentEnemy].nonProximityActions();
         }
-    }
-
-    private void EnemyUsedAction()
-    {
-        if (SM.checkTurn())
-            return;
-        //Debug.Log("USED ACTION WORKING");
-        if (enemyList[currentEnemy].getMoves() == 0)
-        {
-            Debug.Log("Enemy " + currentEnemy + " out of moves");
+        else
             NextEnemy();
-            return;
-        }
-        ExhaustMoves();
     }
 
-    private void NextEnemy()
+    /*    private void EnemyUsedAction()
+        {
+            if (SM.checkTurn())
+                return;
+            //Debug.Log("USED ACTION WORKING");
+            if (enemyList[currentEnemy].getMoves() == 0)
+            {
+                Debug.Log("Enemy " + currentEnemy + " out of moves");
+                NextEnemy();
+                return;
+            }
+            ExhaustMoves();
+        }
+        */
+    private static void NextEnemy()
     {
-        if (SM.checkTurn() || enemyList[currentEnemy].getMoves() != 0)
-            return;
+        Debug.Log("Enemy " + currentEnemy + " out of moves");
         currentEnemy++;
         TurnBehaviour.EnemyTurnFinished();
+        return;
     }
 
     /* private void EnemyMoved()
