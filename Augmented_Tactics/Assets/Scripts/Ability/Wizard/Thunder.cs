@@ -53,7 +53,7 @@ public class Thunder : AOE
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
 
-        for (int i = 0; i < listIter; i++)
+        for (int i = 0; i < listIterActor; i++)
         {
             if (listOfActorsAffected[i] != null)
                 listOfActorsAffected[i].GetComponent<Actor>().TakeDamage(damage, gameObject);
