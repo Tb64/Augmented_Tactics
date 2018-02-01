@@ -33,7 +33,6 @@ public class Thunder : AOE
     {
         if (base.UseSkill(target))
         {
-            AOEBase(target);
             Skill(target);
             return true;
         }

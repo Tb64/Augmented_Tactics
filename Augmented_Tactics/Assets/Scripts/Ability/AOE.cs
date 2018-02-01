@@ -6,12 +6,13 @@ using UnityEngine.UI;
 
 public class AOE : Ability
 {
+    public GameObject hightlightObj;
+    //private GameController gameController;
     protected bool canAffectFriendly;
     protected bool canAffectEnemy;
     protected int AOESizeMin;
     protected int AOESizeMax;
-    protected int rangeDelta;
-    private Vector3 startTileCoords;    
+    protected int rangeDelta; 
 
     /// <summary>
     /// Increments for each Actor found found. Resets to 0 at the start of an AOE cast.
@@ -46,52 +47,56 @@ public class AOE : Ability
 
         listOfActorsAffected = new Actor[8];
         listOfTilesAffected = new ClickableTile[256];
+        //gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
-        TurnBehaviour.OnPlayerConfirmingAttack += HighlightArea;
+        //TurnBehaviour.OnPlayerConfirmingAttack += TargetSkill;
         /*
         **THERE IS NO ON DESTROY METHOD. IS THIS A GOOD IDEA???
         */
     }
 
-    //This will get all the tiles and actors to be hit, they will be stored in variables so no need to be wasteful and calculate again later
-    private void HighlightArea()
-    {
-        Debug.Log("*************************");
-        AOERange();
-    }
-
     /// <summary>
-    /// Highlights the area that will be affected 
+    /// Checks if the skill can be used on first click of a target. Resets values and gets the target's coords to  call AOERange.
     /// </summary>
-    public virtual void AOEBase(GameObject target)
+    public override void TargetSkill(GameObject target)
     {
-        Vector3 targetCoords = target.transform.position;
-        rangeDelta = AOESizeMax;
-        listIterActor = 0;
-        listIterTile = 0;
-
-        //if clicked on gameobject is not a tile then get the coords under it, else use the clicked tile's coords
-        if (target.tag != "Tile")
+        if (true)//UseSkill(target))
         {
-            startTileCoords = new Vector3(targetCoords.x, 0, targetCoords.y);
-        }
-        else
-        {
-            startTileCoords = targetCoords;
-        }
-        CastAOE();        
-    }
+            Debug.Log("*************************");
 
-    private void CastAOE()
-    {
+            Vector3 start;
+            rangeDelta = AOESizeMax;
+            listIterActor = 0;
+            listIterTile = 0;
+
+            //if clicked on gameobject is not a tile then get the coords under it, else use the clicked tile's coords
+            Vector3 targetCoords = target.transform.position;
+
+            if (target.tag != "Tile")
+            {
+                start = new Vector3(targetCoords.x, 0, targetCoords.y);
+            }
+            else
+            {
+                start = targetCoords;
+            }
+
+            /*if(gameController != null)
+            {
+                gameController.setRangeMarkerOff();
+            }*/
+
+            AOERange(start);
+        }
     }
 
     /// <summary>
     /// This looks around on the clicked tile or target in a '+'-ish pattern. Can ovveride this for a custom pattern. 
     /// Pass a ClickableTile to the AddToList function to have that tile and anything standing on it included in the 'listOfTilesAffected', and 'listOfActorsAffected' per 'canAffectXX' booleans
     /// </summary>
-    public virtual void AOERange()
+    public virtual void AOERange(Vector3 startTileCoords)
     {
+        RangeHighlight rangeHighlight = new RangeHighlight();
         Vector3 tileCoordsToCheck1;
         Vector3 tileCoordsToCheck2;
 
@@ -106,13 +111,12 @@ public class AOE : Ability
                 {
                     if (actor.map.IsValidCoord(tileCoordsToCheck2))
                     {
-                        Debug.Log("1");
                         AddToList(actor.map.GetTileAt(tileCoordsToCheck2));
+                        rangeHighlight.Custom_Marker_On(tileCoordsToCheck2, new Vector3[1] { tileCoordsToCheck2 });
                     }
                 }
                 if (actor.map.IsValidCoord(tileCoordsToCheck1))
                 {
-                    Debug.Log("2");
                     AddToList(actor.map.GetTileAt(tileCoordsToCheck1));
                 }
             }
@@ -128,21 +132,20 @@ public class AOE : Ability
         listIterTile++;
 
         if (cTile.isOccupied() == true)
-        {
-            Debug.Log("3");
+        {           
             occupiedBy = cTile.isOccupiedBy();
             if (occupiedBy != null)
             {
                 if (canAffectEnemy && occupiedBy.tag == "Enemy")
                 {
                     listOfActorsAffected[listIterActor] = occupiedBy.GetComponent<Actor>();
-                    Debug.Log("Found enemy: " + occupiedBy.name);
+                    Debug.Log("***Found enemy: " + occupiedBy.name);
                     listIterActor++;
                 }
                 else if (canAffectFriendly && occupiedBy.tag == "Player")
                 {
                     listOfActorsAffected[listIterActor] = occupiedBy.GetComponent<Actor>();
-                    Debug.Log("Found player: " + occupiedBy.name);
+                    Debug.Log("***Found player: " + occupiedBy.name);
                     listIterActor++;
                 }
             }

@@ -201,8 +201,7 @@ public class GameController : MonoBehaviour
         if( targetObject == null || targetObject != interactedObject)
         {
             targetObject = interactedObject;
-            if(selectedUnit.abilitySet[currentAbility].GetType() == typeof(AOE))
-                Debug.Log("***FOUNDaoe****");
+            selectedUnit.abilitySet[currentAbility].TargetSkill(targetObject);
             TurnBehaviour.PlayerIsConfirmingAttack();
             Debug.Log("Initial Target selected, select again to confirm");
         }

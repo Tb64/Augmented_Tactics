@@ -35,6 +35,14 @@ public class Ability
         anim = gameObject.GetComponentInChildren<Animator>();
     }
 
+    /// <summary>
+    /// Checks if the skill can be used on first click of target.
+    /// </summary>
+    public virtual void TargetSkill(GameObject target)
+    {
+        
+    }
+
     public virtual bool UseSkill(GameObject target)
     {
         //parent.GetComponent<Actor>().useAction();
