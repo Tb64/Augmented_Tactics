@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 8
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
@@ -585,12 +585,12 @@ Prefab:
     - target: {fileID: 224055554784027584, guid: 98abd28440606c54e8236c9cad5e791a,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 592.8794
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224055554784027584, guid: 98abd28440606c54e8236c9cad5e791a,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 35.74489
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224988257514936112, guid: 98abd28440606c54e8236c9cad5e791a,
         type: 2}
@@ -2638,6 +2638,7 @@ GameObject:
   - component: {fileID: 272767520}
   - component: {fileID: 272767519}
   - component: {fileID: 272767518}
+  - component: {fileID: 272767521}
   m_Layer: 0
   m_Name: CamFocus
   m_TagString: Untagged
@@ -2688,6 +2689,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+--- !u!114 &272767521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 272767517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 528744f67cb29a046ab9ad90d6aab2c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 0
+  sunTransform: {fileID: 1145604698}
+  sun: {fileID: 1145604697}
+  timeText: {fileID: 1295098159}
+  hour: 0
+  minute: 0
+  days: 0
+  intensity: 0
+  fogDay: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  fogNight: {r: 0, g: 0, b: 0, a: 1}
+  speed: 720
 --- !u!1001 &280113596
 Prefab:
   m_ObjectHideFlags: 0
@@ -19719,8 +19742,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 528744f67cb29a046ab9ad90d6aab2c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  time: 0
+  sunTransform: {fileID: 0}
+  sun: {fileID: 0}
+  timeText: {fileID: 0}
   hour: 0
   minute: 0
+  days: 0
+  intensity: 0
+  fogDay: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  fogNight: {r: 0, g: 0, b: 0, a: 1}
+  speed: 0
 --- !u!1001 &2001994528
 Prefab:
   m_ObjectHideFlags: 0
@@ -20774,7 +20806,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2115521177}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 606, y: 41.5, z: 0}
+  m_LocalPosition: {x: 606, y: 91.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1295098157}
