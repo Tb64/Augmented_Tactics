@@ -50,7 +50,7 @@ public class CycloneKick : Ability {
 
         targetActor = target.GetComponent<Actor>();
 
-        Vector3 coords;
-        targetActor.map.getTileAtCoord(coords);
+        Vector3 location = new Vector3();
+        targetActor.map.getTileAtCoord(location);
     }
 }
