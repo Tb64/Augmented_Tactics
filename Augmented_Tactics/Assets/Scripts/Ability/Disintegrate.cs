@@ -1,13 +1,19 @@
 ﻿using System.Collections;
+using System.Threading;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Disintegrate : Ability {
 
+    static public Disintegrate instance;
+
     float damage = 10f;
     StateMachine SM = GameObject.Find("GameController").GetComponent<StateMachine>();
     GameObject bloodEffect = Resources.Load<GameObject>("animation/effect26");
     Actor user;
+    private MonoBehaviour mB;
+    private Enemy position;
+
 
     public Disintegrate(GameObject obj)
     {
@@ -21,10 +27,12 @@ public class Disintegrate : Ability {
         anim = gameObject.GetComponentInChildren<Animator>();
         dwell_time = 1.0f;
         abilityName = "disintegrate";
-        range_max = 3;
+        range_max = 4;
         range_min = 0;
         damage = 10 + actor.getStrength() * 2;
         abilityImage = Resources.Load<Sprite>("UI/Ability/warriorSkill3");
+        mB = GameObject.FindObjectOfType<MonoBehaviour>();
+        position = GameObject.FindObjectOfType<Enemy>();
         if (abilityImage == null)
             Debug.Log("Unable to load image");
         manaCost = 0;
@@ -46,24 +54,54 @@ public class Disintegrate : Ability {
 
     }
 
-    private void Skill(GameObject target)
+
+    public void StartCoroutine(GameObject target)
     {
-        if (anim != null)
+        if (mB != null)
         {
             
-            gameObject.GetComponent<Transform>().position = (target.GetComponent<Actor>().getCoords() - new Vector3(0,0,1));
-            gameObject.GetComponent<Actor>().setCoords(target.GetComponent<Actor>().getCoords() - new Vector3(0, 0, 1));
+            mB.StartCoroutine(disintegrateAnim(target));
+        }      
+    }
+    IEnumerator disintegrateAnim(GameObject target)
+    {
+        yield return new WaitForSeconds(1);
+        gameObject.SetActive(true);
+        GameObject.Instantiate(bloodEffect, gameObject.transform);
+        if (anim != null)
+        {
+
             rotateAtObj(target);
             anim.SetTrigger("MeleeAttack");
-            GameObject effect = GameObject.Instantiate(bloodEffect, target.transform);
+
             gameObject.GetComponent<Actor>().PlaySound("attack");
+            target.GetComponent<Actor>().TakeDamage(damage, gameObject);
         }
-        target.GetComponent<Actor>().TakeDamage(damage, gameObject);
-        //decide if status effect is successful
-        //StatusEffect status = new StatusEffect(2, (float)typeof(Actor).GetField("health_current").GetValue(user), "Bleeding", 5, "-", target.GetComponent<Actor>(),true, SM);
-        //Need to add status effect
-        //Will apply bleed(damager per turn, 2 turns)
-        //Will remove 1 move from enemies next 2 turns
+    }
+
+    private void Skill(GameObject target)
+    {
+        //if (anim != null)
+        //{
+            
+        //    rotateAtObj(target);
+        //    anim.SetTrigger("MeleeAttack");
+            
+        //    gameObject.GetComponent<Actor>().PlaySound("attack");
+        //}
+
+        GameObject effect = GameObject.Instantiate(bloodEffect, actor.getCoords(), Quaternion.identity);
+        gameObject.SetActive(false);
+        gameObject.GetComponent<Transform>().position = position.PosCloseTo(target.GetComponent<Actor>().getCoords());
+        gameObject.GetComponent<Actor>().setCoords(target.GetComponent<Actor>().getCoords() - new Vector3(0, 0, 1));
+        
+        
+        StartCoroutine(target);
+        //Thread myThread = new System.Threading.Thread(new System.Threading.ThreadStart(sleep));
+        //myThread.Start();
+
+        
+       
 
         DwellTime.Attack(dwell_time);
     }
