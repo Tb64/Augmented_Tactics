@@ -10,10 +10,10 @@ public class Disintegrate : Ability {
     float damage = 10f;
     StateMachine SM = GameObject.Find("GameController").GetComponent<StateMachine>();
     GameObject bloodEffect = Resources.Load<GameObject>("animation/effect26");
+    TileMap map = GameObject.FindGameObjectWithTag("Map").GetComponent<TileMap>();
     Actor user;
     private MonoBehaviour mB;
     private Enemy position;
-
 
     public Disintegrate(GameObject obj)
     {
@@ -33,11 +33,12 @@ public class Disintegrate : Ability {
         abilityImage = Resources.Load<Sprite>("UI/Ability/warriorSkill3");
         mB = GameObject.FindObjectOfType<MonoBehaviour>();
         position = GameObject.FindObjectOfType<Enemy>();
+
         if (abilityImage == null)
             Debug.Log("Unable to load image");
+
         manaCost = 0;
     }
-
 
     public override bool UseSkill(GameObject target)
     {
@@ -51,18 +52,16 @@ public class Disintegrate : Ability {
         {
             return false;
         }
-
     }
-
 
     public void StartCoroutine(GameObject target)
     {
         if (mB != null)
         {
-            
             mB.StartCoroutine(disintegrateAnim(target));
         }      
     }
+
     IEnumerator disintegrateAnim(GameObject target)
     {
         yield return new WaitForSeconds(1);
@@ -70,39 +69,25 @@ public class Disintegrate : Ability {
         GameObject.Instantiate(bloodEffect, gameObject.transform);
         if (anim != null)
         {
-
             rotateAtObj(target);
             anim.SetTrigger("MeleeAttack");
-
             gameObject.GetComponent<Actor>().PlaySound("attack");
-            target.GetComponent<Actor>().TakeDamage(damage, gameObject);
         }
+        target.GetComponent<Actor>().TakeDamage(damage, gameObject);
     }
 
     private void Skill(GameObject target)
     {
-        //if (anim != null)
-        //{
-            
-        //    rotateAtObj(target);
-        //    anim.SetTrigger("MeleeAttack");
-            
-        //    gameObject.GetComponent<Actor>().PlaySound("attack");
-        //}
-
+        Vector3 currentLoc = gameObject.GetComponent<Transform>().position;
         GameObject effect = GameObject.Instantiate(bloodEffect, actor.getCoords(), Quaternion.identity);
-        gameObject.SetActive(false);
+
         gameObject.GetComponent<Transform>().position = position.PosCloseTo(target.GetComponent<Actor>().getCoords());
-        gameObject.GetComponent<Actor>().setCoords(target.GetComponent<Actor>().getCoords() - new Vector3(0, 0, 1));
-        
+        map.SetOcc(gameObject, currentLoc, position.PosCloseTo(target.GetComponent<Actor>().getCoords()));
         
         StartCoroutine(target);
-        //Thread myThread = new System.Threading.Thread(new System.Threading.ThreadStart(sleep));
-        //myThread.Start();
-
+        gameObject.SetActive(false);
+        gameObject.GetComponent<Actor>().setCoords(target.GetComponent<Actor>().getCoords() - new Vector3(0, 0, 1));
         
-       
-
         DwellTime.Attack(dwell_time);
     }
 }
