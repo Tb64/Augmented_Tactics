@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Runtime.InteropServices;
 
-public enum Weapon{
+public enum WeaponID{
 	UNARMED = 0,
 	TWOHANDSWORD = 1,
 	TWOHANDSPEAR = 2,
@@ -93,7 +93,7 @@ public class RPGCharacterController : MonoBehaviour{
 	Vector3 newVelocity;
 
 	//Weapon and Shield
-	public Weapon weapon;
+	public WeaponID weapon;
 	[HideInInspector]
 	public int rightWeapon = 0;
 	[HideInInspector]
@@ -253,7 +253,7 @@ public class RPGCharacterController : MonoBehaviour{
 				StartCoroutine(_Revive());
 			}
 		}
-		if(inputUnarmed && canAction && isGrounded && !isBlocking && weapon != Weapon.UNARMED){
+		if(inputUnarmed && canAction && isGrounded && !isBlocking && weapon != WeaponID.UNARMED){
 			StartCoroutine(_SwitchWeapon(0));
 		}
 		if(inputShield && canAction && isGrounded && !isBlocking && leftWeapon != 7){
@@ -299,7 +299,7 @@ public class RPGCharacterController : MonoBehaviour{
 			isSwitchingFinished = true;
 		}
 		//Strafing
-		if(inputStrafe || inputTargetBlock > 0.1f && canAction && weapon != Weapon.RIFLE){  
+		if(inputStrafe || inputTargetBlock > 0.1f && canAction && weapon != WeaponID.RIFLE){  
 			if(!isRelax){
 				isStrafing = true;
 				animator.SetBool("Strafing", true);
@@ -326,7 +326,7 @@ public class RPGCharacterController : MonoBehaviour{
 					navMeshAgent.destination = hit.point;
 				}
 			}
-			if(weapon == Weapon.RIFLE){
+			if(weapon == WeaponID.RIFLE){
 				if(hipShooting == true){
 					animator.SetTrigger("Attack2Trigger");
 				}
@@ -334,7 +334,7 @@ public class RPGCharacterController : MonoBehaviour{
 					animator.SetTrigger("Attack1Trigger");
 				}
 			}
-			if((weapon == Weapon.TWOHANDBOW || weapon ==  Weapon.TWOHANDCROSSBOW) && isAiming){
+			if((weapon == WeaponID.TWOHANDBOW || weapon == WeaponID.TWOHANDCROSSBOW) && isAiming){
 				animator.SetTrigger("Attack1Trigger");
 			}
 		}
@@ -656,7 +656,7 @@ public class RPGCharacterController : MonoBehaviour{
 			animator.SetTrigger("SwimTrigger");
 			animator.SetBool("Swimming", true);
 			animator.SetInteger("Weapon", 0);
-			weapon = Weapon.UNARMED;
+			weapon = WeaponID.UNARMED;
 			StartCoroutine(_WeaponVisibility(leftWeapon, 0, false));
 			StartCoroutine(_WeaponVisibility(rightWeapon, 0, false));
 			animator.SetInteger("RightWeapon", 0);
@@ -928,9 +928,9 @@ public class RPGCharacterController : MonoBehaviour{
 			//Ground attacks
 			if(isGrounded){
 				//Armed or Unarmed
-				if(weapon == Weapon.UNARMED || weapon == Weapon.ARMED || weapon == Weapon.ARMEDSHIELD){
+				if(weapon == WeaponID.UNARMED || weapon == WeaponID.ARMED || weapon == WeaponID.ARMEDSHIELD){
 					//If armed and moving, running attacks
-					if((weapon == Weapon.ARMED || weapon == Weapon.ARMEDSHIELD) && inputVec != Vector3.zero){
+					if((weapon == WeaponID.ARMED || weapon == WeaponID.ARMEDSHIELD) && inputVec != Vector3.zero){
 						if(attackSide == 1){
 							animator.SetTrigger("Attack1Trigger");
 						}
@@ -991,7 +991,7 @@ public class RPGCharacterController : MonoBehaviour{
 						}
 					}
 				}
-				else if(weapon == Weapon.SHIELD){
+				else if(weapon == WeaponID.SHIELD){
 					int maxAttacks = 1;
 					int attackNumber = Random.Range(1, maxAttacks);
 					if(isGrounded){
@@ -999,7 +999,7 @@ public class RPGCharacterController : MonoBehaviour{
 						StartCoroutine(_Lock(true, true, true, 0, 1.1f));
 					}
 				}
-				else if(weapon == Weapon.TWOHANDSPEAR){
+				else if(weapon == WeaponID.TWOHANDSPEAR){
 					int maxAttacks = 10;
 					int attackNumber = Random.Range(1, maxAttacks);
 					if(isGrounded){
@@ -1007,7 +1007,7 @@ public class RPGCharacterController : MonoBehaviour{
 						StartCoroutine(_Lock(true, true, true, 0, 1.1f));
 					}
 				}
-				else if(weapon == Weapon.TWOHANDCLUB){
+				else if(weapon == WeaponID.TWOHANDCLUB){
 					int maxAttacks = 10;
 					int attackNumber = Random.Range(1, maxAttacks);
 					if(isGrounded){
@@ -1015,7 +1015,7 @@ public class RPGCharacterController : MonoBehaviour{
 						StartCoroutine(_Lock(true, true, true, 0, 1.1f));
 					}
 				}
-				else if(weapon == Weapon.TWOHANDSWORD){
+				else if(weapon == WeaponID.TWOHANDSWORD){
 					int maxAttacks = 11;
 					int attackNumber = Random.Range(1, maxAttacks);
 					if(isGrounded){
@@ -1028,13 +1028,13 @@ public class RPGCharacterController : MonoBehaviour{
 					int attackNumber = Random.Range(1, maxAttacks);
 					if(isGrounded){
 						animator.SetTrigger("Attack" + (attackNumber).ToString() + "Trigger");
-						if(weapon == Weapon.TWOHANDSWORD){
+						if(weapon == WeaponID.TWOHANDSWORD){
 							StartCoroutine(_Lock(true, true, true, 0, 0.85f));
 						}
-						else if(weapon == Weapon.TWOHANDAXE){
+						else if(weapon == WeaponID.TWOHANDAXE){
 							StartCoroutine(_Lock(true, true, true, 0, 1.5f));
 						}
-						else if(weapon == Weapon.STAFF){
+						else if(weapon == WeaponID.STAFF){
 							StartCoroutine(_Lock(true, true, true, 0, 1f));
 						}
 						else{
@@ -1066,7 +1066,7 @@ public class RPGCharacterController : MonoBehaviour{
 			animator.SetTrigger("Special" + n.ToString() + "Trigger");
 			special = n;
 			canAction = false;
-			if(weapon == Weapon.TWOHANDSWORD){
+			if(weapon == WeaponID.TWOHANDSWORD){
 				if(special == 1){
 					StartCoroutine(_Lock(false, true, false, 0, 0.6f));
 				}
@@ -1107,7 +1107,7 @@ public class RPGCharacterController : MonoBehaviour{
 		else{
 			animator.SetInteger("LeftRight", attackSide);
 		}
-		if(weapon == Weapon.UNARMED || weapon == Weapon.STAFF || weapon == Weapon.ARMED){
+		if(weapon == WeaponID.UNARMED || weapon == WeaponID.STAFF || weapon == WeaponID.ARMED){
 			//Cast Attacks
 			if(type == "attack"){
 				int maxAttacks = 3;
@@ -1161,7 +1161,7 @@ public class RPGCharacterController : MonoBehaviour{
 	}
 
 	public void GetHit(){
-		if(weapon != Weapon.RIFLE){
+		if(weapon != WeaponID.RIFLE){
 			int hits = 5;
 			int hitNumber = Random.Range(0, hits);
 			animator.SetTrigger("GetHit" + (hitNumber + 1).ToString() + "Trigger");
@@ -1495,11 +1495,11 @@ public class RPGCharacterController : MonoBehaviour{
 	//weaponNumber 20 == 2H Club
 	public IEnumerator _SwitchWeapon(int weaponNumber){	
 		//character is unarmed
-		if(weapon == Weapon.UNARMED){
+		if(weapon == WeaponID.UNARMED){
 			StartCoroutine(_UnSheathWeapon(weaponNumber));
 		}
 		//character has 2 handed weapon
-		else if(weapon == Weapon.STAFF || weapon == Weapon.TWOHANDAXE || weapon == Weapon.TWOHANDBOW || weapon == Weapon.TWOHANDCROSSBOW || weapon == Weapon.TWOHANDSPEAR || weapon == Weapon.TWOHANDSWORD || weapon == Weapon.RIFLE || weapon == Weapon.TWOHANDCLUB){
+		else if(weapon == WeaponID.STAFF || weapon == WeaponID.TWOHANDAXE || weapon == WeaponID.TWOHANDBOW || weapon == WeaponID.TWOHANDCROSSBOW || weapon == WeaponID.TWOHANDSPEAR || weapon == WeaponID.TWOHANDSWORD || weapon == WeaponID.RIFLE || weapon == WeaponID.TWOHANDCLUB){
 			StartCoroutine(_SheathWeapon(leftWeapon, weaponNumber));
 			if(!instantWeaponSwitch){
 				yield return new WaitForSeconds(1.1f);
@@ -1509,12 +1509,12 @@ public class RPGCharacterController : MonoBehaviour{
 			}
 			//switch to unarmed
 			else{
-				weapon = Weapon.UNARMED;
+				weapon = WeaponID.UNARMED;
 				animator.SetInteger("Weapon", 0);
 			}
 		}
 		//character has 1 or 2 1hand weapons and/or shield
-		else if(weapon == Weapon.ARMED || weapon == Weapon.SHIELD || weapon == Weapon.ARMEDSHIELD){
+		else if(weapon == WeaponID.ARMED || weapon == WeaponID.SHIELD || weapon == WeaponID.ARMEDSHIELD){
 			//character is switching to 2 hand weapon or unarmed, put put away all weapons
 			if(weaponNumber < 7 || weaponNumber > 17 || weaponNumber == 20){
 				//check left hand for weapon
@@ -1641,7 +1641,7 @@ public class RPGCharacterController : MonoBehaviour{
 			animator.SetInteger("LeftRight", 0);
 			animator.SetInteger("Weapon", 0);
 			animator.SetBool("Armed", false);
-			weapon = Weapon.UNARMED;
+			weapon = WeaponID.UNARMED;
 		}
 		if(instantWeaponSwitch){
 			StartCoroutine(_WeaponVisibility(weaponNumber, 0f, false));
@@ -1665,52 +1665,52 @@ public class RPGCharacterController : MonoBehaviour{
 			leftWeapon = weaponNumber;
 			animator.SetInteger("LeftRight", 3);
 			if(weaponNumber == 0){
-				weapon = Weapon.UNARMED;
+				weapon = WeaponID.UNARMED;
 			}
 			if(weaponNumber == 1){
-				weapon = Weapon.TWOHANDSWORD;
+				weapon = WeaponID.TWOHANDSWORD;
 				if(!instantWeaponSwitch){
 					StartCoroutine(_WeaponVisibility(weaponNumber, 0.4f, true));
 				}
 			}
 			else if(weaponNumber == 2){
-				weapon = Weapon.TWOHANDSPEAR;
+				weapon = WeaponID.TWOHANDSPEAR;
 				if(!instantWeaponSwitch){
 					StartCoroutine(_WeaponVisibility(weaponNumber, 0.5f, true));
 				}
 			}
 			else if(weaponNumber == 3){
-				weapon = Weapon.TWOHANDAXE;
+				weapon = WeaponID.TWOHANDAXE;
 				if(!instantWeaponSwitch){
 					StartCoroutine(_WeaponVisibility(weaponNumber, 0.5f, true));
 				}
 			}
 			else if(weaponNumber == 4){
-				weapon = Weapon.TWOHANDBOW;
+				weapon = WeaponID.TWOHANDBOW;
 				if(!instantWeaponSwitch){
 					StartCoroutine(_WeaponVisibility(weaponNumber, 0.55f, true));
 				}
 			}
 			else if(weaponNumber == 5){
-				weapon = Weapon.TWOHANDCROSSBOW;
+				weapon = WeaponID.TWOHANDCROSSBOW;
 				if(!instantWeaponSwitch){
 					StartCoroutine(_WeaponVisibility(weaponNumber, 0.5f, true));
 				}
 			}
 			else if(weaponNumber == 6){
-				weapon = Weapon.STAFF;
+				weapon = WeaponID.STAFF;
 				if(!instantWeaponSwitch){
 					StartCoroutine(_WeaponVisibility(weaponNumber, 0.6f, true));
 				}
 			}
 			else if(weaponNumber == 18){
-				weapon = Weapon.RIFLE;
+				weapon = WeaponID.RIFLE;
 				if(!instantWeaponSwitch){
 					StartCoroutine(_WeaponVisibility(weaponNumber, 0.6f, true));
 				}
 			}
 			else if(weaponNumber == 20){
-				weapon = Weapon.TWOHANDCLUB;
+				weapon = WeaponID.TWOHANDCLUB;
 				if(!instantWeaponSwitch){
 					StartCoroutine(_WeaponVisibility(weaponNumber, 0.6f, true));
 				}
@@ -1778,10 +1778,10 @@ public class RPGCharacterController : MonoBehaviour{
 				}
 			}
 		}
-		if(weapon == Weapon.RIFLE){
+		if(weapon == WeaponID.RIFLE){
 			animator.SetInteger("Weapon", 8);
 		}
-		else if(weapon == Weapon.TWOHANDCLUB){
+		else if(weapon == WeaponID.TWOHANDCLUB){
 			animator.SetInteger("Weapon", 9);
 		}
 		else{
@@ -1791,20 +1791,20 @@ public class RPGCharacterController : MonoBehaviour{
 		if(leftWeapon == 7){
 			if(rightWeapon == 0){
 				animator.SetBool("Shield", true);
-				weapon = Weapon.SHIELD;
+				weapon = WeaponID.SHIELD;
 			}
 			else{
 				animator.SetBool("Shield", true);
-				weapon = Weapon.ARMEDSHIELD;
+				weapon = WeaponID.ARMEDSHIELD;
 			}
 			animator.SetBool("Shield", true);
 		}
 		//Set weapon and animator to Armed
-		if((leftWeapon > 6 || rightWeapon > 6) && weapon != Weapon.RIFLE && weapon != Weapon.TWOHANDCLUB){
+		if((leftWeapon > 6 || rightWeapon > 6) && weapon != WeaponID.RIFLE && weapon != WeaponID.TWOHANDCLUB){
 			yield return new WaitForSeconds(0.25f);
 			animator.SetBool("Armed", true);
 			if(leftWeapon != 7){
-				weapon = Weapon.ARMED;
+				weapon = WeaponID.ARMED;
 			}
 		}
 		//For dual blocking

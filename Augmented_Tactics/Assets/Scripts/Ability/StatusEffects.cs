@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StatusEffect : MonoBehaviour
+public class StatusEffects : MonoBehaviour
 {
 
     private void Start()
@@ -29,9 +29,11 @@ public class StatusEffect : MonoBehaviour
     Actor effectedPlayer;
     bool isEnemy, added, multiplied, subtracted, divided;
     StateMachine SM;
+    internal string ID;
+
     /*public StatusEffect(how many turns, name of variable,text to display when triggered, + - * / in a string, the effected actor,
-     enemy or player, state machine)*/
-    public StatusEffect(int dur, string stat, string name, float effect, string operation, Actor effected, bool isEnemy, StateMachine SM)
+enemy or player, state machine)*/
+    public StatusEffects(int dur, string stat, string name, float effect, string operation, Actor effected, bool isEnemy, StateMachine SM)
     {
         this.duration = dur;
         //this.effectedStat = (float)stat; //operation that takes in the stat name and returns the variable using the actor
