@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour
     public Image[] AbilityImages;
     public Text[] AbilityText;
     private RangeHighlight rangeMarker;
+    private RangeHighlight aoeMarker;
     private GameObject endOfBattleController;
 
     private int currentAbility = 0;
@@ -52,6 +53,10 @@ public class GameController : MonoBehaviour
         GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
         if (rangeMarkerObj != null)
             rangeMarker = rangeMarkerObj.GetComponent<RangeHighlight>();
+
+        GameObject aoeRangeMarkerObj = GameObject.Find("AttackMarker");
+        if (aoeRangeMarkerObj != null)
+            aoeMarker = aoeRangeMarkerObj.GetComponent<RangeHighlight>();
 
         if (PlayerControlled.playerList != null && PlayerControlled.playerList[0] != null)
         {
@@ -201,7 +206,14 @@ public class GameController : MonoBehaviour
         if( targetObject == null || targetObject != interactedObject)
         {
             targetObject = interactedObject;
-            selectedUnit.abilitySet[currentAbility].TargetSkill(targetObject);
+            if (selectedUnit.abilitySet[currentAbility].isAOEAttack())
+            {
+                if (aoeMarker != null)
+                {
+                    aoeMarker.Marker_Off();
+                }
+                selectedUnit.abilitySet[currentAbility].TargetSkill(targetObject);
+            }
             TurnBehaviour.PlayerIsConfirmingAttack();
             Debug.Log("Initial Target selected, select again to confirm");
         }
@@ -214,6 +226,10 @@ public class GameController : MonoBehaviour
             if (rangeMarker != null)
             {
                 rangeMarker.Marker_Off();
+            }
+            if (aoeMarker != null)
+            {
+                aoeMarker.Marker_Off();
             }
             setMode(MODE_SELECT_UNIT);
             targetObject = null;
@@ -358,7 +374,16 @@ public class GameController : MonoBehaviour
     {
         return selectedUnit;
     }
-    
+
+    public void setAOEMarker(Vector3 markerCoor)
+    {
+        if (aoeMarker != null)
+        {
+            aoeMarker.AOE_Marker_On(markerCoor);
+        }
+
+    }
+
     /// <summary>
     /// Takes in the number of which player you want to make the selected unit
     /// </summary>

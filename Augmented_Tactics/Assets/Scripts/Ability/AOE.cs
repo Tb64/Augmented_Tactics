@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class AOE : Ability
 {
     public GameObject hightlightObj;
-    //private GameController gameController;
+    private GameController gameController;
     protected bool canAffectFriendly;
     protected bool canAffectEnemy;
     protected int AOESizeMin;
@@ -34,6 +34,10 @@ public class AOE : Ability
     /// </summary>
     protected ClickableTile[] listOfTilesAffected;
 
+    /// <summary>
+    /// Initilaize the AOE attack. By default AOE attacks will hit BOTH enemies and friendlies with 'canAffectEnemy' and 'canAffectFriendly'
+    /// </summary>
+    /// <param name="obj"></param>
     public override void Initialize(GameObject obj)
     {
         base.Initialize(obj);
@@ -41,13 +45,14 @@ public class AOE : Ability
         canTargetTile = true;
         canTargetFriendly = true;
         canTargetEnemy = true;
+        isAOE = true;
 
         canAffectEnemy = true;
         canAffectFriendly = true;
 
         listOfActorsAffected = new Actor[8];
         listOfTilesAffected = new ClickableTile[256];
-        //gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
 
         //TurnBehaviour.OnPlayerConfirmingAttack += TargetSkill;
         /*
@@ -74,7 +79,7 @@ public class AOE : Ability
 
             if (target.tag != "Tile")
             {
-                start = new Vector3(targetCoords.x, 0, targetCoords.y);
+                start = new Vector3(targetCoords.x, 0, targetCoords.z);
             }
             else
             {
@@ -96,7 +101,7 @@ public class AOE : Ability
     /// </summary>
     public virtual void AOERange(Vector3 startTileCoords)
     {
-        RangeHighlight rangeHighlight = new RangeHighlight();
+        //RangeHighlight rangeHighlight = new RangeHighlight();
         Vector3 tileCoordsToCheck1;
         Vector3 tileCoordsToCheck2;
 
@@ -112,7 +117,7 @@ public class AOE : Ability
                     if (actor.map.IsValidCoord(tileCoordsToCheck2))
                     {
                         AddToList(actor.map.GetTileAt(tileCoordsToCheck2));
-                        rangeHighlight.Custom_Marker_On(tileCoordsToCheck2, new Vector3[1] { tileCoordsToCheck2 });
+                        //rangeHighlight.Custom_Marker_On(tileCoordsToCheck2, new Vector3[1] { tileCoordsToCheck2 });
                     }
                 }
                 if (actor.map.IsValidCoord(tileCoordsToCheck1))
@@ -130,6 +135,7 @@ public class AOE : Ability
 
         listOfTilesAffected[listIterTile] = cTile;
         listIterTile++;
+        gameController.setAOEMarker(new Vector3(cTile.gameObject.transform.position.x, 0, cTile.gameObject.transform.position.z));
 
         if (cTile.isOccupied() == true)
         {           

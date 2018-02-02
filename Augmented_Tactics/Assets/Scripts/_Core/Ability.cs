@@ -21,6 +21,7 @@ public class Ability
     protected bool canTargetTile;
     protected bool canTargetFriendly;
     protected bool canTargetEnemy;
+    protected bool isAOE;
     protected Vector3[] rangeMarkerPos;
 
     public virtual void Initialize(GameObject obj)
@@ -28,6 +29,7 @@ public class Ability
         canTargetTile       = false;
         canTargetFriendly   = true;
         canTargetEnemy      = true;
+        isAOE = false;
 
         rangeMarkerPos = null;
         gameObject = obj;
@@ -148,5 +150,10 @@ public class Ability
     public bool hasCustomRange()
     {
         return (rangeMarkerPos != null);
+    }
+
+    public bool isAOEAttack()
+    {
+        return this.isAOE;
     }
 }

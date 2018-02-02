@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.574817, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -165,7 +165,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &432258
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -273,7 +272,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1364244
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -381,7 +379,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1986447
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -489,7 +486,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &3420578
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -597,7 +593,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &6520513
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -705,7 +700,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &10409685
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -813,7 +807,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &28774945
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -921,7 +914,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &30148181
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1029,7 +1021,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &38665261
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1137,7 +1128,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &39440546
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1245,7 +1235,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &42054071
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1353,7 +1342,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &43076054
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1461,7 +1449,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &50087154
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1569,7 +1556,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &51187337
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1677,7 +1663,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &52061222
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1785,7 +1770,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &58535487
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1893,7 +1877,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &59318460
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2001,7 +1984,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &66459658
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2109,7 +2091,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &67363720
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2217,7 +2198,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &69476705
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2325,7 +2305,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &74915421
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2433,7 +2412,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &79033222
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2541,7 +2519,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &83112607
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2649,7 +2626,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &83369335
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2757,7 +2733,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &89164737
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2865,7 +2840,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &89439341
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2973,7 +2947,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &102636898
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3081,7 +3054,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &107755736
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3189,7 +3161,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &108847284
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3297,7 +3268,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &110388792
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3487,7 +3457,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &115614684
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3595,7 +3564,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &116305547
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3703,7 +3671,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &121481313
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3811,7 +3778,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &130670881
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3919,7 +3885,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &131517190
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4027,7 +3992,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &136928259
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4135,7 +4099,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &138397603
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4320,7 +4283,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &146700446
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4428,7 +4390,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &146884316
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4536,7 +4497,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &152389513
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4644,7 +4604,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &153843889
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4752,7 +4711,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &167106831
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4860,7 +4818,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &169064883
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4968,7 +4925,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &169734933
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5076,7 +5032,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &171078223
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5184,7 +5139,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &178727430
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5292,7 +5246,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &179261852
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5400,7 +5353,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &183187522
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5508,7 +5460,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &189490432
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5616,7 +5567,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &192389696
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5724,7 +5674,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &192447362
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5832,7 +5781,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &195145103
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5940,7 +5888,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &196200039
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6048,7 +5995,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &198926873
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6156,7 +6102,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &200753860
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6264,7 +6209,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &203004474
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6372,7 +6316,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &204010031
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6545,7 +6488,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &204854354
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6653,7 +6595,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &205791323
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6761,7 +6702,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &206324274
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6869,7 +6809,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &212411447
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6977,7 +6916,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &224482374
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7085,7 +7023,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &229145191
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7193,7 +7130,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &229519016
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7301,7 +7237,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &233266000
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7409,7 +7344,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &235146264
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7517,7 +7451,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &235545209
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7625,7 +7558,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &235655199
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7733,7 +7665,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &237951482
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7841,7 +7772,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &241962943
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7949,7 +7879,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &251213057
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8057,7 +7986,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &255851049
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8165,7 +8093,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &257439478
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8273,7 +8200,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &265578595
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8381,7 +8307,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &267293681
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8489,7 +8414,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &271088588
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8597,7 +8521,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &274702578
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8705,7 +8628,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &277811157
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8813,7 +8735,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &278782843
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8921,7 +8842,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &285105219
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9029,7 +8949,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &287460240
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9137,7 +9056,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &291387237
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9245,7 +9163,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &295332105
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9353,7 +9270,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &299580522
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9461,7 +9377,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &299845658
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9569,7 +9484,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &301266575
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9677,7 +9591,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &317156059
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9785,7 +9698,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &320791981
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -9893,7 +9805,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &321611386
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10001,7 +9912,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &322151337
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10109,7 +10019,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &322736328
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10217,7 +10126,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &332877084
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10325,7 +10233,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &333139004
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10433,7 +10340,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &333176584
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10541,7 +10447,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &336105498
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10649,7 +10554,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &349177342
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10757,7 +10661,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &353765195
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10865,7 +10768,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &357460090
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -10973,7 +10875,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &359323972
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11081,7 +10982,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &360482632
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11189,7 +11089,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &361832667
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11297,7 +11196,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &363031593
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11405,7 +11303,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &398217333
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11513,7 +11410,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &402178330
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11621,7 +11517,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &403043926
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11729,7 +11624,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &404097583
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11837,7 +11731,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &406598259
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -11945,7 +11838,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &406706123
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12053,7 +11945,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &407327828
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12161,7 +12052,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &414113628
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12269,7 +12159,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &415856210
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12377,7 +12266,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &417891065
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12485,7 +12373,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &423617865
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12593,7 +12480,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &423750578
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12701,7 +12587,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &426860354
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12809,7 +12694,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &431902652
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -12917,7 +12801,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &438560789
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13025,7 +12908,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &450956466
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13133,7 +13015,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &451874756
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13241,7 +13122,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &453223488
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13349,7 +13229,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &457022354
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13457,7 +13336,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &459528848
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13622,7 +13500,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &468556754
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13730,7 +13607,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &469624940
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -13838,7 +13714,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &471106444
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14585,7 +14460,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &476744366
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14693,7 +14567,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &484921340
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14801,7 +14674,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &485900299
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14909,7 +14781,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &487961978
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15017,7 +14888,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &489094671
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15125,7 +14995,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &492757891
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15233,7 +15102,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &493610296
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15341,7 +15209,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &495661671
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15449,7 +15316,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &498144484
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15557,7 +15423,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &498262064
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15665,7 +15530,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &502118667
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15773,7 +15637,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &509625652
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15881,7 +15744,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &515782799
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -15989,7 +15851,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &526481045
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16097,7 +15958,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &539820666
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16205,7 +16065,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &540511733
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16313,7 +16172,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &542305213
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16421,7 +16279,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &552057360
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16529,7 +16386,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &556893661
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16637,7 +16493,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &559796342
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16745,7 +16600,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &561628461
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16853,7 +16707,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &578709408
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16961,7 +16814,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &581191490
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17069,7 +16921,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &582424540
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17177,7 +17028,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &586472882
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17285,7 +17135,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &589504595
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17393,7 +17242,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &601481448
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17501,7 +17349,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &605731540
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17609,7 +17456,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &605888198
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17717,7 +17563,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &606006937
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17825,7 +17670,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &607306997
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -17933,7 +17777,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &608199802
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18041,7 +17884,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &611813714
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18149,7 +17991,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &612652138
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18257,7 +18098,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &614122994
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18365,7 +18205,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &618990141
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18473,7 +18312,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &620799952
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18581,7 +18419,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &621898888
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18689,7 +18526,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &628520847
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18797,7 +18633,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &628947371
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -18905,7 +18740,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &631318224
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19013,7 +18847,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &634974318
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19121,7 +18954,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &635936053
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19229,7 +19061,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &635945067
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19337,7 +19168,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &637470051
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19445,7 +19275,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &646796318
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19553,7 +19382,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &647457265
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19661,7 +19489,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &648480158
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19769,7 +19596,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &648568707
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -19877,7 +19703,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &649069157
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20092,7 +19917,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &652596355
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20200,7 +20024,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &652965062
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20308,7 +20131,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &663707510
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20416,7 +20238,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &666759878
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20524,7 +20345,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &669324411
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20632,7 +20452,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &678396521
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20740,7 +20559,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &680488656
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20848,7 +20666,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &682563724
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -20956,7 +20773,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &684326155
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21064,7 +20880,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &687640724
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21172,7 +20987,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &688974747
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21280,7 +21094,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &696946104
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21388,7 +21201,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &704779485
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21496,7 +21308,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &705010093
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21604,7 +21415,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &705107119
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21712,7 +21522,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &711719743
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21820,7 +21629,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &713736704
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -21928,7 +21736,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &717876366
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22122,7 +21929,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &721761059
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22230,7 +22036,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &724861550
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22338,7 +22143,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &736045653
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22446,7 +22250,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &736427693
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22554,7 +22357,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &737762905
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22662,7 +22464,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &744271027
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22770,7 +22571,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &745978034
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22878,7 +22678,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &748259054
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -22986,7 +22785,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &759021466
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -23094,7 +22892,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &767095555
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -23202,7 +22999,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &767384247
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -23310,7 +23106,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &769475611
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -23418,7 +23213,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &769658711
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -23526,7 +23320,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &770381679
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -23694,7 +23487,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &787598348
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -23802,7 +23594,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &790218835
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -23910,7 +23701,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &795584061
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -24018,7 +23808,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &795657587
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -24126,7 +23915,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &796144871
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -24234,7 +24022,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &797293011
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -24342,7 +24129,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &804178813
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -24450,7 +24236,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &806380990
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -24558,7 +24343,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &811311025
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -24666,7 +24450,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &817811188
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -24774,7 +24557,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &828212438
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -24882,7 +24664,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &828556722
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -24990,7 +24771,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &837534416
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -25098,7 +24878,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &838952573
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -25206,7 +24985,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &843559900
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -25314,7 +25092,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &843648985
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -25422,7 +25199,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &844532411
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -25530,7 +25306,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &845688721
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -25638,7 +25413,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &845876903
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -25746,7 +25520,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &857891747
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -25854,7 +25627,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &862451672
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -25962,7 +25734,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &863971605
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -26070,7 +25841,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &865339981
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -26178,7 +25948,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &865610514
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -26286,7 +26055,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &867826171
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -26394,7 +26162,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &869488252
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -26502,7 +26269,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &880761179
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -26610,7 +26376,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &884280853
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -26718,7 +26483,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &886198773
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -26826,7 +26590,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &895136733
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -26934,7 +26697,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &897576975
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -27042,7 +26804,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &902853424
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -27150,7 +26911,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &906339831
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -27258,7 +27018,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &909181632
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -27366,7 +27125,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &909880483
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -27474,7 +27232,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &911461154
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -27582,7 +27339,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &912002908
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -27690,7 +27446,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &912062377
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -27798,7 +27553,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &915645515
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -27906,7 +27660,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &917354814
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28014,7 +27767,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &920999942
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28122,7 +27874,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &925179041
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28230,7 +27981,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &926088572
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28338,7 +28088,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &939774763
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28446,7 +28195,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &946219501
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28554,7 +28302,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &957127632
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28662,7 +28409,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &964335413
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28770,7 +28516,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &966066031
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28878,7 +28623,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &966116612
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -28986,7 +28730,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &970368085
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29094,7 +28837,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &970819067
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29202,7 +28944,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &976397819
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29310,7 +29051,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &978403163
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29418,7 +29158,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &980583862
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29526,7 +29265,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &986634941
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29634,7 +29372,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &988877786
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29742,7 +29479,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &992325258
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29850,7 +29586,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &993134436
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -29958,7 +29693,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &993335995
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30066,7 +29800,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1000123660
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30256,7 +29989,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1007071303
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30364,7 +30096,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1008787976
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30472,7 +30203,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1011052116
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30580,7 +30310,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1019774245
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30688,7 +30417,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1020418005
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30796,7 +30524,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1028111359
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -30904,7 +30631,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1041873588
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31012,7 +30738,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1058121844
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31283,7 +31008,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1064617043
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31391,7 +31115,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1066057765
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31499,7 +31222,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1066272957
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31607,7 +31329,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1082059990
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31715,7 +31436,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1084543117
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31823,7 +31543,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1084670136
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -31931,7 +31650,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1089679721
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32039,7 +31757,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1091394476
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32147,7 +31864,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1092585878
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32255,7 +31971,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1096358100
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32363,7 +32078,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1097338134
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32471,7 +32185,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1098475804
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32579,7 +32292,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1101292547
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32687,7 +32399,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1110247870
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32795,7 +32506,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1111953573
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -32903,7 +32613,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1111985179
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -33011,7 +32720,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1120074808
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -33119,7 +32827,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1122654006
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -33227,7 +32934,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1125860156
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -33335,7 +33041,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1125988495
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -33443,7 +33148,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1127030449
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -33551,7 +33255,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1135482855
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -33659,7 +33362,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1138204633
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -33767,7 +33469,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1145278585
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -33875,7 +33576,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1145787752
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -33983,7 +33683,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1155199922
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -34091,7 +33790,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1155853537
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -34199,7 +33897,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1158079995
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -34307,7 +34004,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1167501465
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -34415,7 +34111,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1168700997
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -34523,7 +34218,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1172038860
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -34631,7 +34325,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1172487288
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -34739,7 +34432,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1194444071
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -34847,7 +34539,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1194979914
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -34955,7 +34646,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1195905539
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -35063,7 +34753,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1199736335
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -35171,7 +34860,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1210581800
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -35279,7 +34967,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1211466864
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -35387,7 +35074,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1211782897
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -35495,7 +35181,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1212385670
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -35603,7 +35288,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1216980910
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -35711,7 +35395,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1219581907
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -35819,7 +35502,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1222868113
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -35927,7 +35609,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1225441956
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -36035,7 +35716,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1228573627
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -36143,7 +35823,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1229810817
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -36251,7 +35930,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1232654803
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -36359,7 +36037,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1238801657
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -36467,7 +36144,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1240618089
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -36575,7 +36251,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1261306875
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -36683,7 +36358,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1266707114
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -36791,7 +36465,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1269039202
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -36899,7 +36572,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1270231969
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37007,7 +36679,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1275494051
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37115,7 +36786,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1275977465
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37223,7 +36893,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1276700408
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37331,7 +37000,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1276768987
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37439,7 +37107,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1282846654
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37547,7 +37214,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1294953989
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37655,7 +37321,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1296899300
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37763,7 +37428,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1304795510
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37871,7 +37535,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1309847368
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -37979,7 +37642,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1313844432
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38049,12 +37711,12 @@ Prefab:
     - target: {fileID: 224135039386475770, guid: 10e93010670ce5d4e9c7b31505887d99,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 669.5
+      value: 640
       objectReference: {fileID: 0}
     - target: {fileID: 224135039386475770, guid: 10e93010670ce5d4e9c7b31505887d99,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 285
+      value: 360
       objectReference: {fileID: 0}
     - target: {fileID: 224135039386475770, guid: 10e93010670ce5d4e9c7b31505887d99,
         type: 2}
@@ -38392,7 +38054,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1337110642
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38500,7 +38161,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1338309665
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38608,7 +38268,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1339272689
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38716,7 +38375,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1339839794
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38824,7 +38482,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1339949692
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -38932,7 +38589,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1342900840
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39040,7 +38696,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1347840838
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39148,7 +38803,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1348666082
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39256,7 +38910,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1350524331
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39364,7 +39017,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1351082180
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39472,7 +39124,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1351600585
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39580,7 +39231,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1351751311
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39688,7 +39338,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1357194869
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39796,7 +39445,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1367332428
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -39904,7 +39552,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1375416306
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40012,7 +39659,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1380297356
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40120,7 +39766,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1380901547
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40228,7 +39873,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1382589687
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40336,7 +39980,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1383623675
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40444,7 +40087,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1384682723
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40552,7 +40194,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1390581240
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40660,7 +40301,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1391239230
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40768,7 +40408,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1393817177
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40876,7 +40515,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1406204458
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -40984,7 +40622,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1410203721
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41092,7 +40729,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1412168408
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41200,7 +40836,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1412213379
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41308,7 +40943,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1428167057
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41363,6 +40997,11 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1428167054}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1429624960 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4949089476036494, guid: 1a074b71e78b9594c961327a915d6dcc,
+    type: 2}
+  m_PrefabInternal: {fileID: 1551408480}
 --- !u!1 &1436949719
 GameObject:
   m_ObjectHideFlags: 0
@@ -41416,7 +41055,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1436949722
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41524,7 +41162,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1440596215
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41632,7 +41269,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1443098898
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41740,7 +41376,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1452704166
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41848,7 +41483,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1463794702
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -41956,7 +41590,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1464836028
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42064,7 +41697,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1469929616
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42172,7 +41804,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1471697136
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42280,7 +41911,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1471707290
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42388,7 +42018,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1473442339
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42496,7 +42125,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1479942977
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42604,7 +42232,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1484957909
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42712,7 +42339,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1485820208
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42820,7 +42446,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1491579595
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -42928,7 +42553,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1496463923
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43036,7 +42660,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1497261763
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43144,7 +42767,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1498743924
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43252,7 +42874,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1501959347
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43360,7 +42981,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1504408124
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43468,7 +43088,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1512916949
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43576,7 +43195,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1524089623
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43684,7 +43302,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1534104823
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43792,7 +43409,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1534938196
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -43900,7 +43516,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1536115267
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -44008,7 +43623,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1537718206
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -44116,7 +43730,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1544000403
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -44332,7 +43945,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1551291648
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -44429,7 +44041,7 @@ Prefab:
     - target: {fileID: 224890228977820688, guid: 1a074b71e78b9594c961327a915d6dcc,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: 195.86859
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224890228977820688, guid: 1a074b71e78b9594c961327a915d6dcc,
         type: 2}
@@ -44443,7 +44055,7 @@ Prefab:
     - target: {fileID: 224890228977820688, guid: 1a074b71e78b9594c961327a915d6dcc,
         type: 2}
       propertyPath: m_LocalPosition.x
-      value: 664
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1423991744168664, guid: 1a074b71e78b9594c961327a915d6dcc, type: 2}
       propertyPath: m_IsActive
@@ -44452,7 +44064,7 @@ Prefab:
     - target: {fileID: 224554680479754962, guid: 1a074b71e78b9594c961327a915d6dcc,
         type: 2}
       propertyPath: m_LocalPosition.y
-      value: -1311.9043
+      value: -17.5
       objectReference: {fileID: 0}
     - target: {fileID: 224554680479754962, guid: 1a074b71e78b9594c961327a915d6dcc,
         type: 2}
@@ -44483,6 +44095,20 @@ Prefab:
         type: 2}
       propertyPath: m_SizeDelta.x
       value: -729
+      objectReference: {fileID: 0}
+    - target: {fileID: 4797508792388096, guid: 1a074b71e78b9594c961327a915d6dcc, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224788263747573914, guid: 1a074b71e78b9594c961327a915d6dcc,
+        type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114290143381044584, guid: 1a074b71e78b9594c961327a915d6dcc,
+        type: 2}
+      propertyPath: AOEHighlightObj
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1a074b71e78b9594c961327a915d6dcc, type: 2}
@@ -44557,7 +44183,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1554476010
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -44665,7 +44290,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1555967078
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -44773,7 +44397,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1559893318
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -44881,7 +44504,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1561039639
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -44989,7 +44611,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1563324678
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45097,7 +44718,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1571684925
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45205,7 +44825,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1573028029
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45313,7 +44932,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1577275024
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45421,7 +45039,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1577278824
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45529,7 +45146,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1582291072
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45637,7 +45253,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1584840436
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45745,7 +45360,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1586052713
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45853,7 +45467,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1596954596
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45961,7 +45574,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1600686586
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46069,7 +45681,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1603008933
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46177,7 +45788,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1606900915
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46285,7 +45895,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1608416674
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46393,7 +46002,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1617094438
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46501,7 +46109,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1624742809
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46609,7 +46216,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1625131962
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46717,7 +46323,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1638049406
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46825,7 +46430,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1641586132
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -46933,7 +46537,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1646080740
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47041,7 +46644,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1658903005
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47149,7 +46751,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1664192035
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47257,7 +46858,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1664738675
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47365,7 +46965,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1669024887
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47473,7 +47072,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1675750469
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47581,7 +47179,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1678639792
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47689,7 +47286,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1681406326
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47797,7 +47393,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1687335687
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -47905,7 +47500,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1691594616
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48013,7 +47607,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1695620026
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48121,7 +47714,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1698646229
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48229,7 +47821,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1699866964
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48337,7 +47928,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1701385090
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48445,7 +48035,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1707287139
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48553,7 +48142,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1707937103
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48661,7 +48249,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1708563110
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48769,7 +48356,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1711021495
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48877,7 +48463,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1711561397
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -48985,7 +48570,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1712066777
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -49093,7 +48677,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1716441077
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -49201,7 +48784,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1720420198
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -49309,7 +48891,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1720457818
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -49417,7 +48998,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1724130630
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -49613,7 +49193,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1727726738
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -49721,7 +49300,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1732563646
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -49829,7 +49407,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1736286712
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -49937,7 +49514,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1737255986
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -50045,7 +49621,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1738376028
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -50153,7 +49728,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1747317845
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -50261,7 +49835,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1751398857
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -50369,7 +49942,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1755814097
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -50477,7 +50049,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1757077958
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -50585,7 +50156,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1764927640
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -50693,7 +50263,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1767411698
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -50801,7 +50370,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1768092641
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -50909,7 +50477,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1773198577
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -51017,7 +50584,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1775372183
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -51125,7 +50691,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1778467093
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -51233,7 +50798,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1779985450
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -51341,7 +50905,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1781441918
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -51449,7 +51012,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1784250383
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -51557,7 +51119,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1784764701
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -51665,7 +51226,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1788913861
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -51773,7 +51333,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1789797452
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -51959,7 +51518,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1792368190
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -52067,7 +51625,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1792518141
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -52175,7 +51732,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1793388516
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -52283,7 +51839,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1794307791
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -52391,7 +51946,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1795339566
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -52499,7 +52053,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1795999438
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -52607,7 +52160,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1801722050
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -52715,7 +52267,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1802011564
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -52823,7 +52374,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1807154751
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -52931,7 +52481,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1807434222
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -53039,7 +52588,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1810638106
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -53147,7 +52695,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1818828391
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -53364,7 +52911,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1824163314
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -53472,7 +53018,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1830068741
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -53580,7 +53125,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1840907561
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -53688,7 +53232,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1841933175
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -53796,7 +53339,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1847647820
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -53904,7 +53446,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1848605283
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -54012,7 +53553,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1853576279
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -54120,7 +53660,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1856409333
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -54228,7 +53767,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1856528351
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -54336,7 +53874,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1859224429
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -54517,7 +54054,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1862745035
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -54625,7 +54161,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1863220937
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -54733,7 +54268,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1869668508
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -54841,7 +54375,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1873943109
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -54949,7 +54482,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1875596834
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -55057,7 +54589,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1878850744
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -55165,7 +54696,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1889529112
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -55273,7 +54803,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1892485903
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -55381,7 +54910,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1893612927
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -55489,7 +55017,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1895234344
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -55597,7 +55124,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1903229592
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -55705,7 +55231,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1906253231
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -55813,7 +55338,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1910839512
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -55921,7 +55445,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1911200400
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -56029,7 +55552,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1914518840
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -56137,7 +55659,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1918669635
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -56245,7 +55766,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1919258647
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -56353,7 +55873,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1919378209
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -56461,7 +55980,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1922572437
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -56569,7 +56087,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1925454934
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -56677,7 +56194,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1926193031
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -56785,7 +56301,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1929812085
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -56893,7 +56408,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1929892635
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -57001,7 +56515,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1931268882
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -57109,7 +56622,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1932550759
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -57217,7 +56729,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1932872654
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -57325,7 +56836,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1934081996
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -57433,7 +56943,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1938976468
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -57541,7 +57050,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1945073707
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -57649,7 +57157,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1953953498
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -57757,7 +57264,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1955747321
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -57865,7 +57371,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1957101666
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -57973,7 +57478,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1957400549
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -58081,7 +57585,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1964234674
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -58189,7 +57692,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1967409325
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -58297,7 +57799,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1968825524
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -58405,7 +57906,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1969534454
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -58513,7 +58013,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1970007618
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -58621,7 +58120,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1970319565
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -58729,7 +58227,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1970611878
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -58837,7 +58334,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1972107234
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -58945,7 +58441,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1972561964
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -59053,7 +58548,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1979362998
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -59161,7 +58655,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1980795656
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -59269,7 +58762,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1983508770
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -59377,7 +58869,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1987278027
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -59551,7 +59042,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1992790783
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -59659,7 +59149,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1994532972
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -59767,7 +59256,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &1997741572
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -59875,7 +59363,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2002809497
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -59983,7 +59470,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2004055176
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -60091,7 +59577,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2004544435
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -60199,7 +59684,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2009019600
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -60307,7 +59791,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2012988583
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -60415,7 +59898,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2018928462
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -60523,7 +60005,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2023983214
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -60631,7 +60112,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2024892375
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -60739,7 +60219,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2031398777
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -60847,7 +60326,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2039363576
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -60955,7 +60433,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2039705402
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -61063,7 +60540,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2052545379
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -61171,7 +60647,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2054756071
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -61279,7 +60754,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2057191263
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -61387,7 +60861,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2057890602
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -61495,7 +60968,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2059876696
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -61603,7 +61075,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2067219463
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -61711,7 +61182,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2068853601
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -61819,7 +61289,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2070068730
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -61927,7 +61396,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2072028838
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62035,7 +61503,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2074129558
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62143,7 +61610,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2075240669
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62198,6 +61664,52 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2075240666}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2078844948
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 1213528386139814, guid: 1a074b71e78b9594c961327a915d6dcc,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2078844949}
+  - component: {fileID: 2078844950}
+  m_Layer: 0
+  m_Name: AttackMarker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2078844949
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 4801942764801816, guid: 1a074b71e78b9594c961327a915d6dcc,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2078844948}
+  m_LocalRotation: {x: -0.38268343, y: -0, z: -0, w: 0.92387956}
+  m_LocalPosition: {x: 8, y: 3.535534, z: 17.67767}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1429624960}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2078844950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 114290143381044584, guid: 1a074b71e78b9594c961327a915d6dcc,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2078844948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3333e96a4eac444ae7983e84ae8889, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hightlightObj: {fileID: 1366926569810674, guid: 9596e0be0ca11e144a599c154223a732,
+    type: 2}
+  range: 3
 --- !u!1 &2080221968
 GameObject:
   m_ObjectHideFlags: 0
@@ -62251,7 +61763,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2080221971
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62359,7 +61870,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2081775327
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62467,7 +61977,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2082703544
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62575,7 +62084,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2084015743
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62683,7 +62191,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2094445110
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62791,7 +62298,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2096795556
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -62899,7 +62405,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2096858775
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63007,7 +62512,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2098529136
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63115,7 +62619,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2101336165
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63223,7 +62726,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2108050631
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63331,7 +62833,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2110499166
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63439,7 +62940,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2110800594
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63547,7 +63047,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2111384712
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63655,7 +63154,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2124431723
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63763,7 +63261,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2130098306
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63871,7 +63368,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2130848065
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -63979,7 +63475,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2133048798
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64087,7 +63582,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2135155559
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64195,7 +63689,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2135198370
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64303,7 +63796,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2138381617
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64411,7 +63903,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2141095801
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64519,7 +64010,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2143489530
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64627,7 +64117,6 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 0}
     isWalkable: 1
     movementCost: 1
-  occupied: 0
 --- !u!23 &2144926960
 MeshRenderer:
   m_ObjectHideFlags: 0
