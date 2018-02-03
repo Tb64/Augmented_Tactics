@@ -82,12 +82,12 @@ public class Disintegrate : Ability {
         GameObject effect = GameObject.Instantiate(bloodEffect, actor.getCoords(), Quaternion.identity);
 
         gameObject.GetComponent<Transform>().position = position.PosCloseTo(target.GetComponent<Actor>().getCoords());
-        gameObject.GetComponent<Actor>().setCoords(position.PosCloseTo(target.GetComponent<Actor>().getCoords()));
         map.SetOcc(gameObject, currentLoc, position.PosCloseTo(target.GetComponent<Actor>().getCoords()));
         
         StartCoroutine(target);
         gameObject.SetActive(false);
-       
+        gameObject.GetComponent<Actor>().setCoords(target.GetComponent<Actor>().getCoords() - new Vector3(0, 0, 1));
+        
         DwellTime.Attack(dwell_time);
     }
 }

@@ -59,9 +59,6 @@ public class SkillLoader : MonoBehaviour {
             case "disintegrate":
                 return new Disintegrate(gObj);
 
-            case "lifeleech":
-                return new LifeLeech(gObj);
-
             default:
                 return null;
         }
