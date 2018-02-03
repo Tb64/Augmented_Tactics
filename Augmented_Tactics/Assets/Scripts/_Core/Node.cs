@@ -19,7 +19,6 @@ public class Node {
     public float DistanceTo(Node n)
     {
         return Vector3.Distance(coords, n.coords); // n.coords is target destination
-
     }
 
     

@@ -6,8 +6,7 @@ public class DwellTime : MonoBehaviour {
 
     static public DwellTime instance;
     static private float dwellTime = 0f;
-
-
+    
     void Awake()
     { 
         instance = this; 
@@ -22,7 +21,22 @@ public class DwellTime : MonoBehaviour {
         Debug.Log("Attack dwell finished");
         TurnBehaviour.ActorHasAttacked();
     }
+    //=====
+    public void funcTemplate()
+    {
 
+    }
+
+    public void setDelay(float delay, GameObject temp)
+    {
+        StartCoroutine(wait(delay));
+    }
+
+    IEnumerator wait(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+    }
+    //======
     static public void Attack(float input)
     {
         dwellTime = input;
