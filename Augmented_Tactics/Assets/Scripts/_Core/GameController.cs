@@ -92,6 +92,7 @@ public class GameController : MonoBehaviour
         {
             rangeMarker.Marker_Off();
         }
+      
         endOfBattleController.GetComponent<AfterActionReport>().BattleOver();
     }
 

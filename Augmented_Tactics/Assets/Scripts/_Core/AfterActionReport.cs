@@ -54,11 +54,13 @@ public class AfterActionReport : MonoBehaviour {
 
     public void Restart()
     {
+        Time.timeScale = 1;
         manager.LoadLevel(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Continue()
     {
+        Time.timeScale = 1;
         manager.LoadHub();
     }
 
@@ -83,7 +85,7 @@ public class AfterActionReport : MonoBehaviour {
         {
             Exp3 = GameObject.Find("Exp3").gameObject.GetComponent<Text>();
         }
-        if (GameObject.Find("Exp2") != null)
+        if (GameObject.Find("Exp4") != null)
         {
             Exp4 = GameObject.Find("Exp4").gameObject.GetComponent<Text>();
         }
@@ -107,40 +109,30 @@ public class AfterActionReport : MonoBehaviour {
         if (GameObject.Find("Exp1") != null)
         {
             playerArray[0] = Exp1.transform.parent.gameObject;
-        }
-        if (GameObject.Find("Exp2") != null)
-        {
-            playerArray[1] = Exp2.transform.parent.gameObject;
-        }
-        if (GameObject.Find("Exp3") != null)
-        {
-            playerArray[2] = Exp3.transform.parent.gameObject;
-        }
-        if (GameObject.Find("Exp4") != null)
-        {
-            playerArray[3] = Exp4.transform.parent.gameObject;
-        }
-
-        if (GameObject.Find("Exp1") != null)
-        {
             Exp1.text = expTotal.ToString();
         }
         if (GameObject.Find("Exp2") != null)
         {
+            playerArray[1] = Exp2.transform.parent.gameObject;
             Exp2.text = expTotal.ToString();
         }
         if (GameObject.Find("Exp3") != null)
         {
+            playerArray[2] = Exp3.transform.parent.gameObject;
             Exp3.text = expTotal.ToString();
         }
         if (GameObject.Find("Exp4") != null)
         {
+            playerArray[3] = Exp4.transform.parent.gameObject;
             Exp4.text = expTotal.ToString();
         }
+
+        
 
         for (int index = 3; index > PlayerControlled.playerNum - 1; index--)
         {
             playerArray[index].gameObject.SetActive(false);
+            Debug.Log("index: " + index);
         }
 
         
@@ -149,12 +141,15 @@ public class AfterActionReport : MonoBehaviour {
 
     public void BattleOver()
     {
+        GameObject screen = transform.Find("EndofBattleScreen").gameObject; ;
         GameDataController.savePlayerData(GameDataController.gameData);
-        if (win() == true || lose() == true)
+
+        if (win() == true || lose() == true && screen.GetComponent<Canvas>().enabled == false)
         {
-            GameObject screen = transform.Find("EndofBattleScreen").gameObject;
             screen.GetComponent<Canvas>().enabled = true;
             DisplayExp();
+            Time.timeScale = 0;
+
         }
     }
 }
