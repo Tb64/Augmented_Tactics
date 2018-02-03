@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour
     public Image[] AbilityImages;
     public Text[] AbilityText;
     private RangeHighlight rangeMarker;
+    private RangeHighlight aoeMarker;
     private GameObject endOfBattleController;
 
     private int currentAbility = 0;
@@ -52,6 +53,10 @@ public class GameController : MonoBehaviour
         GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
         if (rangeMarkerObj != null)
             rangeMarker = rangeMarkerObj.GetComponent<RangeHighlight>();
+
+        GameObject aoeRangeMarkerObj = GameObject.Find("AttackMarker");
+        if (aoeRangeMarkerObj != null)
+            aoeMarker = aoeRangeMarkerObj.GetComponent<RangeHighlight>();
 
         if (PlayerControlled.playerList != null && PlayerControlled.playerList[0] != null)
         {
@@ -88,10 +93,7 @@ public class GameController : MonoBehaviour
     private void TurnStart()
     {
         targetObject = null;
-        if (rangeMarker != null)
-        {
-            rangeMarker.Marker_Off();
-        }
+        BothMarkersOff();
         endOfBattleController.GetComponent<AfterActionReport>().BattleOver();
     }
 
@@ -201,6 +203,15 @@ public class GameController : MonoBehaviour
         if( targetObject == null || targetObject != interactedObject)
         {
             targetObject = interactedObject;
+            if (aoeMarker != null)
+            {
+                aoeMarker.Marker_Off();
+            }
+            if (selectedUnit.abilitySet[currentAbility].isAOEAttack())
+            {                
+                selectedUnit.abilitySet[currentAbility].TargetSkill(targetObject);
+            }
+            TurnBehaviour.PlayerIsConfirmingAttack();
             Debug.Log("Initial Target selected, select again to confirm");
         }
         else if (targetObject == interactedObject)
@@ -209,10 +220,7 @@ public class GameController : MonoBehaviour
 
             attackedSuccess = selectedUnit.abilitySet[currentAbility].UseSkill(targetObject);
             if (attackedSuccess) { TurnBehaviour.ActorBeginsAttacking(); }
-            if (rangeMarker != null)
-            {
-                rangeMarker.Marker_Off();
-            }
+            BothMarkersOff();
             setMode(MODE_SELECT_UNIT);
             targetObject = null;
             Debug.Log("Using ability " + selectedUnit.abilitySet[currentAbility].abilityName);
@@ -246,7 +254,7 @@ public class GameController : MonoBehaviour
     void SelectLocation()
     {
         GameObject interactedObject = RayCaster();
-
+                
         if (interactedObject != null && interactedObject.name.Contains("Tile"))
         {
             Debug.Log("Selected Tile: " + interactedObject.name);
@@ -325,7 +333,11 @@ public class GameController : MonoBehaviour
         }
 
         //rangeMarker.Marker_On();
-        
+        if (aoeMarker != null) //turns off aoe marker when switching to another ability
+        {
+            aoeMarker.Marker_Off();
+        }
+
         currentAbility = abilityNum;
         setMode(MODE_SELECT_TARGET);
         if (rangeMarker != null)
@@ -348,6 +360,7 @@ public class GameController : MonoBehaviour
     public void setMove()
     {
         currentMode = MODE_MOVE;
+        BothMarkersOff();
         if(rangeMarker != null)
             rangeMarker.Move_Marker_On(selectedUnit.getCoords(), selectedUnit.moveDistance); 
     }
@@ -356,7 +369,31 @@ public class GameController : MonoBehaviour
     {
         return selectedUnit;
     }
-    
+
+    public void setAOEMarker(Vector3 markerCoor)
+    {
+        if (aoeMarker != null)
+        {
+            aoeMarker.AOE_Marker_On(markerCoor);
+        }
+
+    }
+
+    /// <summary>
+    /// Turns off both aoeMarker and rangeMarker
+    /// </summary>
+    public void BothMarkersOff()
+    {
+        if (rangeMarker != null)
+        {
+            rangeMarker.Marker_Off();
+        }
+        if (aoeMarker != null)
+        {
+            aoeMarker.Marker_Off();
+        }
+    }
+
     /// <summary>
     /// Takes in the number of which player you want to make the selected unit
     /// </summary>

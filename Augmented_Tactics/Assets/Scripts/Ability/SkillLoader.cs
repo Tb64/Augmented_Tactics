@@ -59,6 +59,14 @@ public class SkillLoader : MonoBehaviour {
             case "disintegrate":
                 return new Disintegrate(gObj);
 
+            //Wizard
+            case "ice":
+                return new Ice(gObj);
+
+            case "thunder":
+                return new Thunder(gObj);
+
+
             default:
                 return null;
         }
