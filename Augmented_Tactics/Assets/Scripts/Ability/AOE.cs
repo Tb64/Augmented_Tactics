@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 public class AOE : Ability
 {
-    public GameObject hightlightObj;
     private GameController gameController;
     protected bool canAffectFriendly;
     protected bool canAffectEnemy;
@@ -25,12 +24,12 @@ public class AOE : Ability
     protected int listIterTile;
 
     /// <summary>
-    /// This array contains all of the actors hit by the AOE. Held as Actor.
+    /// This array contains all of the actors hit by the AOE. Held as Actor. If you need to check later to see if it's an enemy or player you can use the xx.gameObject.tag method to return the Actor's tag.
     /// </summary>
     protected Actor[] listOfActorsAffected;
 
     /// <summary>
-    /// This array contains all the tiles hit by the AOE. Held as gameObjects.
+    /// This array contains all the tiles hit by the AOE. Held as ClickableTile.
     /// </summary>
     protected ClickableTile[] listOfTilesAffected;
 
@@ -53,30 +52,23 @@ public class AOE : Ability
         listOfActorsAffected = new Actor[8];
         listOfTilesAffected = new ClickableTile[256];
         gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
-
-        //TurnBehaviour.OnPlayerConfirmingAttack += TargetSkill;
-        /*
-        **THERE IS NO ON DESTROY METHOD. IS THIS A GOOD IDEA???
-        */
     }
 
     /// <summary>
-    /// Checks if the skill can be used on first click of a target. Resets values and gets the target's coords to  call AOERange.
+    /// Checks what will be hit on first click of a target. Resets values and gets the target's coords to  call AOERange.
     /// </summary>
     public override void TargetSkill(GameObject target)
     {
-        if (true)//UseSkill(target))
+        Vector3 start;
+        rangeDelta = AOESizeMax;
+        listIterActor = 0;
+        listIterTile = 0;
+
+        if (target != null)
         {
-            Debug.Log("*************************");
-
-            Vector3 start;
-            rangeDelta = AOESizeMax;
-            listIterActor = 0;
-            listIterTile = 0;
-
-            //if clicked on gameobject is not a tile then get the coords under it, else use the clicked tile's coords
             Vector3 targetCoords = target.transform.position;
-
+            
+            //if clicked on gameobject is not a tile then get the coords under it, else use the clicked tile's coords
             if (target.tag != "Tile")
             {
                 start = new Vector3(targetCoords.x, 0, targetCoords.z);
@@ -86,13 +78,8 @@ public class AOE : Ability
                 start = targetCoords;
             }
 
-            /*if(gameController != null)
-            {
-                gameController.setRangeMarkerOff();
-            }*/
-
             AOERange(start);
-        }
+        } 
     }
 
     /// <summary>
@@ -117,7 +104,6 @@ public class AOE : Ability
                     if (actor.map.IsValidCoord(tileCoordsToCheck2))
                     {
                         AddToList(actor.map.GetTileAt(tileCoordsToCheck2));
-                        //rangeHighlight.Custom_Marker_On(tileCoordsToCheck2, new Vector3[1] { tileCoordsToCheck2 });
                     }
                 }
                 if (actor.map.IsValidCoord(tileCoordsToCheck1))
@@ -145,13 +131,13 @@ public class AOE : Ability
                 if (canAffectEnemy && occupiedBy.tag == "Enemy")
                 {
                     listOfActorsAffected[listIterActor] = occupiedBy.GetComponent<Actor>();
-                    Debug.Log("***Found enemy: " + occupiedBy.name);
+                    //Debug.Log("***Found enemy: " + occupiedBy.name);
                     listIterActor++;
                 }
                 else if (canAffectFriendly && occupiedBy.tag == "Player")
                 {
                     listOfActorsAffected[listIterActor] = occupiedBy.GetComponent<Actor>();
-                    Debug.Log("***Found player: " + occupiedBy.name);
+                    //Debug.Log("***Found player: " + occupiedBy.name);
                     listIterActor++;
                 }
             }

@@ -92,35 +92,9 @@ public class RangeHighlight : MonoBehaviour {
 
     public void AOE_Marker_On(Vector3 positionInput)
     {
-        //Marker_Off();
         GameObject obj;
         obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(positionInput), hightlightObj.transform.rotation);
         obj.transform.parent = gameObject.transform;
-        //TileMap map = GameObject.Find("Map").GetComponent<TileMap>();
-        /*int rangeDelta = rangeMax;
-        for (int x = rangeMin; x <= rangeMax; x++)
-        {
-            for (int z = -rangeDelta; z <= rangeDelta; z++)
-            {
-                Vector3 spawnPosition1 = new Vector3(positionInput.x + x, positionInput.y, positionInput.z + z);
-                Vector3 spawnPosition2 = new Vector3(positionInput.x - x, positionInput.y, positionInput.z + z);
-                if (spawnPosition1 != spawnPosition2)
-                {
-                    if (map.IsValidCoord(spawnPosition2))
-                    {
-                        obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition2), hightlightObj.transform.rotation);
-                        obj.transform.parent = gameObject.transform;
-                    }
-                }
-                if (map.IsValidCoord(spawnPosition1))
-                {
-                    obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition1), hightlightObj.transform.rotation);
-                    obj.transform.parent = gameObject.transform;
-                }
-            }
-            rangeDelta--;
-        }*/
-
     }
 
     public void Custom_Marker_On(Vector3 origin, Vector3[] delta)

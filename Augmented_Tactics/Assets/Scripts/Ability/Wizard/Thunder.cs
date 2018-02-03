@@ -55,7 +55,7 @@ public class Thunder : AOE
         for (int i = 0; i < listIterActor; i++)
         {
             if (listOfActorsAffected[i] != null)
-                listOfActorsAffected[i].GetComponent<Actor>().TakeDamage(damage, gameObject);
+                listOfActorsAffected[i].TakeDamage(damage, gameObject);
         }
     }
 }

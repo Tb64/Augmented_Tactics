@@ -93,10 +93,7 @@ public class GameController : MonoBehaviour
     private void TurnStart()
     {
         targetObject = null;
-        if (rangeMarker != null)
-        {
-            rangeMarker.Marker_Off();
-        }
+        BothMarkersOff();
         endOfBattleController.GetComponent<AfterActionReport>().BattleOver();
     }
 
@@ -206,12 +203,12 @@ public class GameController : MonoBehaviour
         if( targetObject == null || targetObject != interactedObject)
         {
             targetObject = interactedObject;
-            if (selectedUnit.abilitySet[currentAbility].isAOEAttack())
+            if (aoeMarker != null)
             {
-                if (aoeMarker != null)
-                {
-                    aoeMarker.Marker_Off();
-                }
+                aoeMarker.Marker_Off();
+            }
+            if (selectedUnit.abilitySet[currentAbility].isAOEAttack())
+            {                
                 selectedUnit.abilitySet[currentAbility].TargetSkill(targetObject);
             }
             TurnBehaviour.PlayerIsConfirmingAttack();
@@ -223,14 +220,7 @@ public class GameController : MonoBehaviour
 
             attackedSuccess = selectedUnit.abilitySet[currentAbility].UseSkill(targetObject);
             if (attackedSuccess) { TurnBehaviour.ActorBeginsAttacking(); }
-            if (rangeMarker != null)
-            {
-                rangeMarker.Marker_Off();
-            }
-            if (aoeMarker != null)
-            {
-                aoeMarker.Marker_Off();
-            }
+            BothMarkersOff();
             setMode(MODE_SELECT_UNIT);
             targetObject = null;
             Debug.Log("Using ability " + selectedUnit.abilitySet[currentAbility].abilityName);
@@ -264,7 +254,7 @@ public class GameController : MonoBehaviour
     void SelectLocation()
     {
         GameObject interactedObject = RayCaster();
-
+                
         if (interactedObject != null && interactedObject.name.Contains("Tile"))
         {
             Debug.Log("Selected Tile: " + interactedObject.name);
@@ -343,7 +333,11 @@ public class GameController : MonoBehaviour
         }
 
         //rangeMarker.Marker_On();
-        
+        if (aoeMarker != null) //turns off aoe marker when switching to another ability
+        {
+            aoeMarker.Marker_Off();
+        }
+
         currentAbility = abilityNum;
         setMode(MODE_SELECT_TARGET);
         if (rangeMarker != null)
@@ -366,6 +360,7 @@ public class GameController : MonoBehaviour
     public void setMove()
     {
         currentMode = MODE_MOVE;
+        BothMarkersOff();
         if(rangeMarker != null)
             rangeMarker.Move_Marker_On(selectedUnit.getCoords(), selectedUnit.moveDistance); 
     }
@@ -382,6 +377,21 @@ public class GameController : MonoBehaviour
             aoeMarker.AOE_Marker_On(markerCoor);
         }
 
+    }
+
+    /// <summary>
+    /// Turns off both aoeMarker and rangeMarker
+    /// </summary>
+    public void BothMarkersOff()
+    {
+        if (rangeMarker != null)
+        {
+            rangeMarker.Marker_Off();
+        }
+        if (aoeMarker != null)
+        {
+            aoeMarker.Marker_Off();
+        }
     }
 
     /// <summary>
