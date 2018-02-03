@@ -51,7 +51,7 @@ public class Actor : MonoBehaviour
     //Movement 
     public TileMap map;
     public Vector3 coords;
-    private List<Node> currentPath = null;
+    private List<Nodes> currentPath = null;
     NavMeshAgent playerAgent;
     public float speed;
     public int moveDistance;
@@ -499,12 +499,12 @@ public class Actor : MonoBehaviour
         return numOfActions;
     }
 
-    public List<Node> getCurrentPath()
+    public List<Nodes> getCurrentPath()
     {
         return currentPath;
     }
 
-    public void setCurrentPath(List<Node> path)
+    public void setCurrentPath(List<Nodes> path)
     {
         currentPath = path;
     }
