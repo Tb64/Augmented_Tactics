@@ -21,6 +21,7 @@ public class Ability
     protected bool canTargetTile;
     protected bool canTargetFriendly;
     protected bool canTargetEnemy;
+    protected bool isAOE;
     protected Vector3[] rangeMarkerPos;
 
     public virtual void Initialize(GameObject obj)
@@ -28,11 +29,20 @@ public class Ability
         canTargetTile       = false;
         canTargetFriendly   = true;
         canTargetEnemy      = true;
+        isAOE = false;
 
         rangeMarkerPos = null;
         gameObject = obj;
         actor = obj.GetComponent<Actor>();
         anim = gameObject.GetComponentInChildren<Animator>();
+    }
+
+    /// <summary>
+    /// Checks if the skill can be used on first click of target.
+    /// </summary>
+    public virtual void TargetSkill(GameObject target)
+    {
+        
     }
 
     public virtual bool UseSkill(GameObject target)
@@ -110,7 +120,11 @@ public class Ability
     public bool SkillInRange(GameObject startObj, GameObject endObj)
     {
         Vector3 start = startObj.GetComponent<Actor>().getCoords();
-        Vector3 end = endObj.GetComponent<Actor>().getCoords();
+        Vector3 end = new Vector3(0,0,0);
+        if (endObj.GetComponent<Actor>() != null)
+            end = endObj.GetComponent<Actor>().getCoords();
+        else if (endObj.GetComponent<ClickableTile>()!=null)
+            end = endObj.GetComponent<ClickableTile>().getCoords();
 
         return SkillInRange(start, end);
     }
@@ -136,5 +150,10 @@ public class Ability
     public bool hasCustomRange()
     {
         return (rangeMarkerPos != null);
+    }
+
+    public bool isAOEAttack()
+    {
+        return this.isAOE;
     }
 }
