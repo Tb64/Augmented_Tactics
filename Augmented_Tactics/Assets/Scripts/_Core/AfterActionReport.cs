@@ -141,7 +141,7 @@ public class AfterActionReport : MonoBehaviour {
 
     public void BattleOver()
     {
-        GameObject screen = transform.Find("EndofBattleScreen").gameObject; ;
+        GameObject screen = transform.Find("EndofBattleScreen").gameObject;
         GameDataController.savePlayerData(GameDataController.gameData);
 
         if (win() == true || lose() == true && screen.GetComponent<Canvas>().enabled == false)

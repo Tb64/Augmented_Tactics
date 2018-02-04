@@ -59,6 +59,9 @@ public class SkillLoader : MonoBehaviour {
             case "disintegrate":
                 return new Disintegrate(gObj);
 
+            case "lifeleech":
+                return new LifeLeech(gObj);
+
             //Wizard
             case "ice":
                 return new Ice(gObj);
