@@ -37,7 +37,7 @@ public class Disintegrate : Ability {
         if (abilityImage == null)
             Debug.Log("Unable to load image");
 
-        manaCost = 0;
+        manaCost = 10;
     }
 
     public override bool UseSkill(GameObject target)

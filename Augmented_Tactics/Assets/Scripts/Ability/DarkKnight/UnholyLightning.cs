@@ -6,9 +6,7 @@ public class UnholyLightning : Ability {
 
     float damage = 10f;
     StateMachine SM = GameObject.Find("GameController").GetComponent<StateMachine>();
-    //Damages Enemy and removes one action point from enemy
-    //need to add status effect that removes one turn from enemy
-    GameObject bloodEffect = Resources.Load<GameObject>("animation/effect26");
+    GameObject unholyLightning = Resources.Load<GameObject>("animation/effect26");
     Actor user;
 
     public UnholyLightning(GameObject obj)

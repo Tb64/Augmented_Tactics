@@ -28,7 +28,7 @@ public class LifeLeech : Ability
         abilityImage = Resources.Load<Sprite>("UI/Ability/assassinSkill10");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
-        manaCost = 0;
+        manaCost = 20;
     }
 
     void leechAnim(GameObject target)
@@ -91,6 +91,8 @@ public class LifeLeech : Ability
         {
             rotateAtObj(target);
             //anim.SetTrigger("MeleeAttack");
+            
+            anim.Play("Leech");
             //gameObject.GetComponent<Actor>().PlaySound("attack");
         }
         
