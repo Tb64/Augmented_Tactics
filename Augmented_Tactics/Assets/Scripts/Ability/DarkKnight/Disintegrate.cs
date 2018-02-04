@@ -45,7 +45,6 @@ public class Disintegrate : Ability {
         if (base.UseSkill(target))
         {
             Skill(target);
-
             return true;
         }
         else
@@ -70,7 +69,7 @@ public class Disintegrate : Ability {
         if (anim != null)
         {
             rotateAtObj(target);
-            anim.SetTrigger("MeleeAttack");
+            anim.Play("Disintegrate");
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
         target.GetComponent<Actor>().TakeDamage(damage, gameObject);

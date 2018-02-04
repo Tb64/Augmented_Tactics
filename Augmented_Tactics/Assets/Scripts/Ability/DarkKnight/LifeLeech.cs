@@ -8,6 +8,7 @@ public class LifeLeech : Ability
     Actor user;
     GameObject leech = Resources.Load<GameObject>("animation/Effect8_Optimized");
     private MonoBehaviour mB;
+    private PositionAllignment reposition;
 
     public LifeLeech(GameObject obj)
     {
@@ -19,6 +20,7 @@ public class LifeLeech : Ability
     {
         base.Initialize(obj);
         mB = GameObject.FindObjectOfType<MonoBehaviour>();
+        reposition = GameObject.FindObjectOfType<PositionAllignment>();
         anim = gameObject.GetComponentInChildren<Animator>();
         dwell_time = 2.0f;
         abilityName = "lifeleech";
@@ -33,20 +35,20 @@ public class LifeLeech : Ability
 
     void leechAnim(GameObject target)
     {
-        GameObject effect = GameObject.Instantiate(leech, target.GetComponent<Actor>().getCoords() + new Vector3(0,.5f,0), Quaternion.identity );
+
+        GameObject effect = GameObject.Instantiate(leech, target.GetComponent<Actor>().getCoords() 
+            + new Vector3(0,.5f,0), Quaternion.identity );
         Transform coreDistance = effect.transform.Find("Core_Distance");
         Transform wavesDistance = coreDistance.transform.Find("Waves_Distance");
-        ParticleSystem pS = wavesDistance.GetComponent<ParticleSystem>();
        
+        //calculates distance between player and target, then multiplies x coord to scale particles correctly
         float distance = Vector3.Distance(target.GetComponent<Actor>().getCoords(), gameObject.transform.position);
-        
         coreDistance.transform.localScale = new Vector3(.1f * distance, 1, 1);
         wavesDistance.transform.localScale = new Vector3(.1f * distance, 1, 1);
-
-
-
-
+       
+        //Turns the animation towards the player
         effect.transform.LookAt(gameObject.transform.position + new Vector3(0, .5f, 0));
+
     }
 
     public override bool UseSkill(GameObject target)
@@ -73,16 +75,18 @@ public class LifeLeech : Ability
 
     IEnumerator healTakeDamage(GameObject target)
     {
+        //will tick for 3 seconds, doing damage and healing each tick
+
         leechAnim(target);
-        yield return new WaitForSeconds(1);
-        target.GetComponent<Actor>().TakeDamage(damage, gameObject);
-        user.HealHealth(damage);
-        yield return new WaitForSeconds(1);
-        target.GetComponent<Actor>().TakeDamage(damage, gameObject);
-        user.HealHealth(damage);
-        yield return new WaitForSeconds(1);
-        target.GetComponent<Actor>().TakeDamage(damage, gameObject);
-        user.HealHealth(damage);
+
+
+        for(int index = 0; index < 3; index++)
+        {
+            yield return new WaitForSeconds(1);
+            target.GetComponent<Actor>().TakeDamage(damage, gameObject);
+            user.HealHealth(damage);
+        }
+       
     }
 
     private void Skill(GameObject target)
