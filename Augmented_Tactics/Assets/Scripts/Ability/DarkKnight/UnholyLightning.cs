@@ -9,6 +9,10 @@ public class UnholyLightning : Ability {
     GameObject unholyLightning = Resources.Load<GameObject>("animation/effect25");
     Actor user;
 
+    RFX4_ParticleTrail beam1;
+    RFX4_ParticleTrail beam2;
+    RFX4_ParticleTrail beam3;
+
     public UnholyLightning(GameObject obj)
     {
         Initialize(obj);
@@ -24,15 +28,41 @@ public class UnholyLightning : Ability {
         range_max = 4;
         range_min = 0;
         damage = actor.getStrength() * 2;
+        manaCost = 40;
 
-        manaCost = 0;
+        beam1 = unholyLightning.transform.Find("Trail1").GetComponent<RFX4_ParticleTrail>();
+        beam2 = unholyLightning.transform.Find("Trail2").GetComponent<RFX4_ParticleTrail>();
+        beam3 = unholyLightning.transform.Find("Trail3").GetComponent<RFX4_ParticleTrail>();
     }
 
     private void unholyAnim()
     {
-        GameObject effect = GameObject.Instantiate(unholyLightning, actor.getCoords() + new Vector3(0,2,0), Quaternion.identity);
+        GameObject effect = GameObject.Instantiate(unholyLightning, actor.getCoords() + new Vector3(0,4,0), Quaternion.identity);
 
-        
+        int totalEnemies = EnemyController.enemyNum;
+
+        //if less than 3 enemies only 2 beams will be active
+        if (totalEnemies < 3)
+            beam3.transform.parent.gameObject.SetActive(false);
+        else
+            beam3.transform.parent.gameObject.SetActive(true);
+        //if less than 2 enemies, one 1 beam will be active
+        if (totalEnemies < 2)
+            beam2.transform.parent.gameObject.SetActive(false);
+        else
+            beam2.transform.parent.gameObject.SetActive(true);
+
+        int chooseEnemy = Random.Range(0, totalEnemies);
+
+        float distance = Vector3.Distance(EnemyController.enemyList[chooseEnemy].getCoords(), gameObject.transform.position);
+        if (distance <= range_max)
+        {
+            beam1.Target = EnemyController.enemyList[chooseEnemy].transform.parent.gameObject;
+        }
+
+        beam2.Target = EnemyController.enemyList[1].transform.parent.gameObject.gameObject;
+
+
         unholyLightning.transform.Find("Trail1").GetComponent<RFX4_ParticleTrail>().Target = EnemyController.enemyList[0].gameObject;
         unholyLightning.transform.Find("Trail2").GetComponent<RFX4_ParticleTrail>().Target = EnemyController.enemyList[1].gameObject;
     }
