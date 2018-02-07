@@ -22,6 +22,7 @@ public class HealthBarUIManager : MonoBehaviour {
         TurnBehaviour.OnUnitMoved += updateActions;
         TurnBehaviour.OnActorAttacked += updateActions;
         TurnBehaviour.OnPlayerTurnStart += onPlayerTurnStart;
+        TurnBehaviour.OnActorAttacked += OnActorAttacked;
     }
 
     void OnDestroy()
@@ -30,6 +31,7 @@ public class HealthBarUIManager : MonoBehaviour {
         TurnBehaviour.OnUnitMoved -= updateActions;
         TurnBehaviour.OnActorAttacked -= updateActions;
         TurnBehaviour.OnPlayerTurnStart -= onPlayerTurnStart;
+        TurnBehaviour.OnActorAttacked -= OnActorAttacked;
         onPlayerTurnStart();        
         numPlayers = 0;
     }
@@ -44,10 +46,22 @@ public class HealthBarUIManager : MonoBehaviour {
     {
         //would be harder to tell which enemy in particular took damage. Just update all bars
         for (int i = 0; i < numPlayers; i++)
+        {
             playerHealthImg[i].fillAmount = PlayerControlled.playerList[i].GetHealthPercent();
+        }
 
         //TODO tint entire bar red if the unit has been destroyed
         //in actor thwre is a var called dead its true. .isDead()
+    }
+
+    //updates mana after a player attacks
+    public static void OnActorAttacked()
+    {
+        for (int i = 0; i < numPlayers; i++)
+        {
+            playerManaImg[i].fillAmount = PlayerControlled.playerList[i].GetManaPercent();
+        }
+
     }
 
     //refresh movements
