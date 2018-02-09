@@ -61,8 +61,7 @@ public class UnholyLightning : Ability {
         }
 
         beam2.Target = EnemyController.enemyList[1].transform.parent.gameObject.gameObject;
-
-
+        //GameObject collision1 = GameObject.Find("Trail1").transform.Find("effect25_collision(clone)");
         unholyLightning.transform.Find("Trail1").GetComponent<RFX4_ParticleTrail>().Target = EnemyController.enemyList[0].gameObject;
         unholyLightning.transform.Find("Trail2").GetComponent<RFX4_ParticleTrail>().Target = EnemyController.enemyList[1].gameObject;
     }
@@ -91,7 +90,8 @@ public class UnholyLightning : Ability {
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
         unholyAnim();
-        
+        DwellTime.Attack(dwell_time);
+
     }
 
 }

@@ -58,13 +58,20 @@ public class Disintegrate : Ability {
         if (mB != null)
         {
             mB.StartCoroutine(disintegrateAnim(target));
-        }      
+        }
+        else
+        {
+            Debug.Log("mB doesnt exist");
+        }
     }
 
     IEnumerator disintegrateAnim(GameObject target)
     {
-        yield return new WaitForSeconds(1);
-        gameObject.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        anim.gameObject.SetActive(true);
+        //gameObject.GetComponentInChildren<MeshRenderer>().enabled = true;
+       
+        
         GameObject.Instantiate(bloodEffect, gameObject.transform);
         if (anim != null)
         {
@@ -84,8 +91,9 @@ public class Disintegrate : Ability {
         map.SetOcc(gameObject, currentLoc, position.PosCloseTo(target.GetComponent<Actor>().getCoords()));
         
         StartCoroutine(target);
-        gameObject.SetActive(false);
-        gameObject.GetComponent<Actor>().setCoords(target.GetComponent<Actor>().getCoords() - new Vector3(0, 0, 1));
+        //gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
+        anim.gameObject.SetActive(false);
+        gameObject.GetComponent<Actor>().setCoords(position.PosCloseTo(target.GetComponent<Actor>().getCoords()));
         
         DwellTime.Attack(dwell_time);
     }

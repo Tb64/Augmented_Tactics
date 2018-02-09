@@ -67,7 +67,6 @@ public class AfterActionReport : MonoBehaviour {
     public void DisplayExp()
     {
        
-
         Text Exp1 = null;
         Text Exp2 = null;
         Text Exp3 = null;
@@ -104,7 +103,7 @@ public class AfterActionReport : MonoBehaviour {
             PlayerControlled.playerList[index].setExperience(expTotal);
         }
 
-        GameObject[] playerArray = new GameObject[4 ];
+        GameObject[] playerArray = new GameObject[4];
 
         if (GameObject.Find("Exp1") != null)
         {
@@ -127,15 +126,17 @@ public class AfterActionReport : MonoBehaviour {
             Exp4.text = expTotal.ToString();
         }
 
-        
 
-        for (int index = 3; index > PlayerControlled.playerNum - 1; index--)
+        if (playerArray[3] != null)
         {
-            playerArray[index].gameObject.SetActive(false);
-            Debug.Log("index: " + index);
-        }
 
-        
+            for (int index = 3; index > PlayerControlled.playerNum - 1; index--)
+            {
+                playerArray[index].gameObject.SetActive(false);
+                Debug.Log("index: " + index + "players" + PlayerControlled.playerNum);
+            }
+
+        }
 
     }
 

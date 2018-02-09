@@ -22,9 +22,9 @@ public class LifeLeech : Ability
         mB = GameObject.FindObjectOfType<MonoBehaviour>();
         reposition = GameObject.FindObjectOfType<PositionAllignment>();
         anim = gameObject.GetComponentInChildren<Animator>();
-        dwell_time = 2.0f;
+        dwell_time = 3.5f;
         abilityName = "lifeleech";
-        range_max = 4;
+        range_max = 5;
         range_min = 0;
         damage = 10 + actor.getStrength() * 2;
         abilityImage = Resources.Load<Sprite>("UI/Ability/assassinSkill10");
@@ -101,7 +101,7 @@ public class LifeLeech : Ability
         }
         
         StartCoroutine(target);
-               
+        DwellTime.Attack(dwell_time);
     }
 
 }
