@@ -117,7 +117,13 @@ public class Actor : MonoBehaviour
     public virtual void ActorTurnStart()
     {
         remainingMovement = moveDistance;
-        setNumOfActions(2);
+
+        //Dont want actor making moves if incapacitaded/dead
+        if(incapacitated == true || dead == true)
+            setNumOfActions(0);
+        else
+            setNumOfActions(2);
+
         if(incapacitated == true && deathTimer < 6)
         {
             deathTimer++;
@@ -457,7 +463,6 @@ public class Actor : MonoBehaviour
     public virtual void OnDeath()
     {
         incapacitated = true;
-        //justin set string death array here
         anim.SetTrigger("Death");
         PlaySound("death");
     }
