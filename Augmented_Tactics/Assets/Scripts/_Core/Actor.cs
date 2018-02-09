@@ -624,6 +624,17 @@ public class Actor : MonoBehaviour
         mana_current = mana;
     }
 
+    public float GetManaPercent()
+    {
+        float manaPercent = mana_current / mana_max;
+        if (manaPercent <= 0f)
+            return 0f;
+        else if (manaPercent >= 1f)
+            return 1f;
+
+        return manaPercent;
+    }
+
     public void setArmorClass(float aClass)
     {
         armor_class = aClass;
