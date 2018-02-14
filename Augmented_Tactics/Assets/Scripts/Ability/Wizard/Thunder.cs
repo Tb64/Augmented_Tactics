@@ -22,6 +22,7 @@ public class Thunder : AOE
         anim = gameObject.GetComponentInChildren<Animator>();
         range_max = 3;
         range_min = 0;
+        manaCost = 40;
         dwell_time = 1.0f;
         abilityName = "Thunder";
         abilityImage = Resources.Load<Sprite>("UI/Ability/magician/magicianSkill1");
@@ -57,5 +58,7 @@ public class Thunder : AOE
             if (listOfActorsAffected[i] != null)
                 listOfActorsAffected[i].TakeDamage(damage, gameObject);
         }
+
+        DwellTime.Attack(dwell_time);
     }
 }
