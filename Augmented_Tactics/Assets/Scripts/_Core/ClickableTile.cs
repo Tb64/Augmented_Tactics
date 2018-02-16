@@ -96,6 +96,7 @@ public class ClickableTile : MonoBehaviour {
         return coords;
     }
 
+    [System.Obsolete("Use getCoords() instead.")]
     public Vector3 getMapPosition()
     {
         Vector3 output = new Vector3(tileX, 0f, tileZ);
