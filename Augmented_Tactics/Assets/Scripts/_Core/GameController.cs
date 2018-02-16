@@ -94,6 +94,7 @@ public class GameController : MonoBehaviour
     {
         targetObject = null;
         BothMarkersOff();
+      
         endOfBattleController.GetComponent<AfterActionReport>().BattleOver();
     }
 
