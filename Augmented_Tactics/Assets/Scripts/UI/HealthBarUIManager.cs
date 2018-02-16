@@ -9,6 +9,7 @@ public class HealthBarUIManager : MonoBehaviour {
     private static GameObject[] barFolders;
     private static Image[] playerHealthImg;
     private static Image[] playerManaImg;
+    private static Image[] healthCircleImg;
     //One array for storing every player's actions. [numPlyaers][ActionImg]
     private static Image[,] playerActionsMarker;
     private static int numPlayers = 0;
@@ -23,6 +24,8 @@ public class HealthBarUIManager : MonoBehaviour {
         TurnBehaviour.OnActorAttacked += updateActions;
         TurnBehaviour.OnPlayerTurnStart += onPlayerTurnStart;
         TurnBehaviour.OnActorAttacked += OnActorAttacked;
+        TurnBehaviour.OnNewSelectedUnit += OnNewSelectedUnit;
+        //TurnBehaviour.OnUnitDestroy
     }
 
     void OnDestroy()
@@ -32,14 +35,23 @@ public class HealthBarUIManager : MonoBehaviour {
         TurnBehaviour.OnActorAttacked -= updateActions;
         TurnBehaviour.OnPlayerTurnStart -= onPlayerTurnStart;
         TurnBehaviour.OnActorAttacked -= OnActorAttacked;
+        TurnBehaviour.OnNewSelectedUnit -= OnNewSelectedUnit;
         onPlayerTurnStart();        
         numPlayers = 0;
     }
     
-    void dimOtherBars()
+    //used to dim the other bars on the none seletced units
+    private void OnNewSelectedUnit()
     {
-        //when a bar is clicked it gets stays the same color, other bars change to a darker color
-        //check for default unit
+        //when a bar is clicked it gets stays the same color, other bars change to a darker color        
+        for (int i = 0; i < numPlayers; i++)
+        {
+            //if a player is the one selected set it normal. Else dim the corresponding numbered healthbars
+            if (GameController.getSelected() == PlayerControlled.playerList[i])
+                healthCircleImg[i].color = new Color32(255, 255, 255, 255); //normal
+            else
+                healthCircleImg[i].color = new Color32(184, 150, 91, 255); //197, 193, 156, 255); //dim
+        }
     }
 
 	public static void updateHealth()
@@ -118,6 +130,7 @@ public class HealthBarUIManager : MonoBehaviour {
             barFolders = new GameObject[tempObjs.Length];
             playerHealthImg = new Image[tempObjs.Length];
             playerManaImg = new Image[tempObjs.Length];
+            healthCircleImg = new Image[tempObjs.Length];
             for (int i = 0; i < tempObjs.Length; i++)
             {
                 switch (tempObjs[i].gameObject.name)
@@ -149,7 +162,7 @@ public class HealthBarUIManager : MonoBehaviour {
     private void getBars(int arraySlot)
     {
         Image[] bars = barFolders[arraySlot].GetComponentsInChildren<Image>();
-        //Looks for all the images in the BarX game objects, finds the proper ones we will modify
+        //Looks for all the images in the BarX game objects
         if (bars != null)
             for (int i = 0; i < bars.Length; i++)
                 if (bars[i].name == ("HFront" + (arraySlot + 1).ToString()))
@@ -160,6 +173,8 @@ public class HealthBarUIManager : MonoBehaviour {
                     playerActionsMarker[arraySlot, 0] = bars[i];
                 else if (bars[i].name == ("ActionMB" + (arraySlot + 1).ToString()))
                     playerActionsMarker[arraySlot, 1] = bars[i];
+                else if (bars[i].name == ("HC" + (arraySlot + 1).ToString()))
+                    healthCircleImg[arraySlot] = bars[i];
         barFolders[arraySlot].SetActive(false);
     }
 }
