@@ -53,7 +53,17 @@ public class GameData{
         armyList = army;
     }
     #endregion
+    public PlayerData[] getNextSix(int playerNum)
+    {
+        PlayerData[] next = new PlayerData[6];
+        for (int x = 0; x < 6; x++)
+        {
+            next[x] = armyList[playerNum];
+            playerNum++;
+        }
 
+        return next;
+    }
     public PlayerData loadPlayer(string name)
     {
         if (name == null)
