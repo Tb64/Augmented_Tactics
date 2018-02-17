@@ -8,11 +8,12 @@ public class ClickableTile : MonoBehaviour {
     public int tileZ;
     public Vector3 coords;
     public int tileClass;
+    private GameObject occupiedBy;
     public TileMap map;
     public TileType tileType;
     private Color32 originalColor;
     Actor unit;
-    public bool occupied = false;
+    private bool occupied = false;
     StateMachine controller;
     Actor player;
     Actor enemy;
@@ -55,27 +56,7 @@ public class ClickableTile : MonoBehaviour {
     /// <returns></returns>
     public GameObject isOccupiedBy()
     {
-        if(occupied == true)
-        {
-            for(int index = 0; index < PlayerControlled.playerNum; index++)
-            {
-                if(coords == PlayerControlled.playerList[index].getCoords())
-                {
-                    return PlayerControlled.playerList[index].gameObject;
-                }
-            }
-            for (int index = 0; index < EnemyController.enemyNum; index++)
-            {
-                if (coords == EnemyController.enemyList[index].getCoords())
-                {
-                    return EnemyController.enemyList[index].gameObject;
-                }
-            }
-
-
-
-        }
-        return null;
+        return occupiedBy;
     }
 
     public void OnMouseExit()
@@ -89,18 +70,25 @@ public class ClickableTile : MonoBehaviour {
         return gameObject;
     }
 
+    /// <summary>
+    /// Will return whether the tile is currently occupied.
+    /// </summary>
+    /// <returns> returns a bool </returns>
     public bool isOccupied()
     {
         return occupied;
     }
 
-    public void setOccupiedTrue()
+    public void setOccupiedTrue(GameObject actor)
     {
+        occupiedBy = actor;
         occupied = true;
     }
+
     public void setOccupiedFalse()
     {
         occupied = false;
+        occupiedBy = null;
     }
 
     public Vector3 getCoords()
@@ -108,6 +96,7 @@ public class ClickableTile : MonoBehaviour {
         return coords;
     }
 
+    [System.Obsolete("Use getCoords() instead.")]
     public Vector3 getMapPosition()
     {
         Vector3 output = new Vector3(tileX, 0f, tileZ);

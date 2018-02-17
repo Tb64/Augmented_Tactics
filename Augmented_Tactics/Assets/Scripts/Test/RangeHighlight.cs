@@ -90,6 +90,13 @@ public class RangeHighlight : MonoBehaviour {
         }
     }
 
+    public void AOE_Marker_On(Vector3 positionInput)
+    {
+        GameObject obj;
+        obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(positionInput), hightlightObj.transform.rotation);
+        obj.transform.parent = gameObject.transform;
+    }
+
     public void Custom_Marker_On(Vector3 origin, Vector3[] delta)
     {
         Marker_Off();
