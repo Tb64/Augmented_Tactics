@@ -25,7 +25,7 @@ public class DayNight : MonoBehaviour {
 
     private void Start()
     {
-        time = 30000;
+        time = 3600;
     }
 
     public void ChangeTime()
@@ -53,7 +53,13 @@ public class DayNight : MonoBehaviour {
         moon.intensity = (1 - intensity) - .5f;
     }
 
-   
+    /// <summary>
+    /// Enter a time from 0 to 24
+    /// </summary>
+    public void setTime(int setTime)
+    {
+        time = setTime * 3600;
+    }
 
 	void Update ()
     {
