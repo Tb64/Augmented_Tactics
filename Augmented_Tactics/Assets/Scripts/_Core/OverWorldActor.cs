@@ -9,6 +9,8 @@ public class OverWorldActor : MonoBehaviour
     NavMeshAgent playerAgent;
     private Animator playerAnim;
     public float rotationSpeed;
+    private Quaternion _lookRotation;
+    private Vector3 _direction;
   
     public virtual void Start()
     {
@@ -19,8 +21,27 @@ public class OverWorldActor : MonoBehaviour
     public virtual void Update()
     {
         clickToMove();
-        if(target.collider == true)
-            rotateTowards();
+        float angle = 0f;
+        if (target.collider == true)
+        {
+            if (angle > 5f)
+            {
+                Vector3 targetDir = target.transform.position - transform.position;
+
+            angle = Vector3.SignedAngle(targetDir, transform.forward, Vector3.up);
+            //find the vector pointing from our position to the target
+            _direction = (target.transform.position - transform.position).normalized;
+    
+            //create the rotation we need to be in to look at the target
+            _lookRotation = Quaternion.LookRotation(_direction);
+    
+            //rotate us over time according to speed until we are in the required rotation
+            transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * rotationSpeed);
+
+           
+                transform.rotation = _lookRotation;
+            }
+        }
     }
 
     void initialize()
@@ -28,7 +49,8 @@ public class OverWorldActor : MonoBehaviour
         playerAgent = GetComponent<NavMeshAgent>();
         playerAnim = gameObject.GetComponentInChildren<Animator>();
         playerAgent.updateRotation = false;
-        rotationSpeed = 1f;
+        rotationSpeed = 10f;
+
     }
 
     void clickToMove()
@@ -38,7 +60,7 @@ public class OverWorldActor : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) //&& !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
             GetInteraction();
-           
+            rotateTowards();
         }
     }
 
@@ -46,9 +68,10 @@ public class OverWorldActor : MonoBehaviour
     {
         Vector3 newDir;
        
-            Vector3 targetDir = target.transform.position - transform.position;
+            //Vector3 targetDir = target.transform.position - transform.position;
             float step = rotationSpeed * Time.deltaTime;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, target.transform, step);
+            var q = Quaternion.LookRotation(target.transform.position - transform.position);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, q, rotationSpeed * Time.deltaTime);
 
     }
 
