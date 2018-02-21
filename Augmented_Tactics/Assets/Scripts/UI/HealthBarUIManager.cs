@@ -17,6 +17,10 @@ public class HealthBarUIManager : MonoBehaviour {
     private const int MAXACTIONS = 2;
     private static int availableActions;
 
+    private static Color32 dimCircleColor = new Color32(184, 150, 91, 255);
+    private static Color32 normalColor = new Color32(255,255,255,255);
+    private static Color32 dimActionMarkerColor = new Color32(190, 100, 100, 255);
+
     void Awake ()
     {
         TurnBehaviour.OnUnitSpawn += onUnitSpawn;
@@ -48,9 +52,9 @@ public class HealthBarUIManager : MonoBehaviour {
         {
             //if a player is the one selected set it normal. Else dim the corresponding numbered healthbars
             if (GameController.getSelected() == PlayerControlled.playerList[i])
-                healthCircleImg[i].color = new Color32(255, 255, 255, 255); //normal
+                healthCircleImg[i].color = normalColor;
             else
-                healthCircleImg[i].color = new Color32(184, 150, 91, 255); //197, 193, 156, 255); //dim
+                healthCircleImg[i].color = dimCircleColor;
         }
     }
 
@@ -81,7 +85,7 @@ public class HealthBarUIManager : MonoBehaviour {
     {
         for (int i = 0; i < numPlayers; i++)
             for (int j = 0; j < MAXACTIONS; j++)
-                playerActionsMarker[i,j].color = new Color32(255, 255, 255, 255);
+                playerActionsMarker[i, j].color = normalColor;
     }
 
     //dim action markers when and action is consumed
@@ -92,7 +96,7 @@ public class HealthBarUIManager : MonoBehaviour {
         {
             availableActions = PlayerControlled.playerList[i].getMoves();
             if(availableActions < MAXACTIONS)
-                playerActionsMarker[i, availableActions].color = new Color32(190, 100, 100, 255);
+                playerActionsMarker[i, availableActions].color = dimActionMarkerColor;
         }
     }
 
@@ -113,7 +117,10 @@ public class HealthBarUIManager : MonoBehaviour {
             else
             {
                 if (barFolders != null)
+                {
                     barFolders[numPlayers].SetActive(true);
+                    healthCircleImg[numPlayers].color = dimCircleColor; //dim the bar of the unit not selected
+                }
                 numPlayers++;
             }
     }

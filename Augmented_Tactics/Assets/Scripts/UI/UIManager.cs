@@ -8,6 +8,10 @@ public class UIManager : MonoBehaviour {
     private GameObject move;
     private GameObject skills;
     private GameObject end;
+
+    /// <summary>
+    /// These are the 4 buttons overlaying the health bar circles.
+    /// </summary>
     private Button[] selectButtons;
     
     //must be Awake or else if a unit spawns before this activates, some select buttons may be disabled
@@ -54,14 +58,21 @@ public class UIManager : MonoBehaviour {
         //to new unit
         TurnBehaviour.OnUnitBeginsMoving += disableActionsB;
         TurnBehaviour.OnPlayerTurnEnd += disableActionsB;
-        TurnBehaviour.OnUnitBeginsAttacking += disableActionsB;
-        TurnBehaviour.OnPlayerTurnEnd += disableEndTurn;
-
-        TurnBehaviour.OnPlayerTurnStart += enableEndturn;
+        TurnBehaviour.OnUnitBeginsAttacking += disableActionsB;        
+        
         TurnBehaviour.OnPlayerAttack += enableActionsB; //this is when attack ends
         TurnBehaviour.OnUnitMoved += enableActionsB;
         TurnBehaviour.OnPlayerTurnStart += enableActionsB;
         TurnBehaviour.OnNewSelectedUnit += enableActionsB;
+
+        //disables end turn when is enemy turn, attacking, moving, or using item
+        TurnBehaviour.OnPlayerTurnEnd += disableEndTurn;
+        TurnBehaviour.OnUnitBeginsAttacking += disableEndTurn;
+        TurnBehaviour.OnUnitBeginsMoving += disableEndTurn;
+
+        TurnBehaviour.OnPlayerTurnStart += enableEndturn;
+        TurnBehaviour.OnPlayerAttack += enableEndturn;
+        TurnBehaviour.OnUnitMoved += enableEndturn;
     }
 
     private void OnDestroy()
@@ -69,25 +80,33 @@ public class UIManager : MonoBehaviour {
         TurnBehaviour.OnUnitBeginsMoving -= disableActionsB;
         TurnBehaviour.OnPlayerTurnEnd -= disableActionsB;
         TurnBehaviour.OnUnitBeginsAttacking -= disableActionsB;
-        TurnBehaviour.OnPlayerTurnEnd -= disableEndTurn;
-
-        TurnBehaviour.OnPlayerTurnStart -= enableEndturn;
+        
         TurnBehaviour.OnPlayerAttack -= enableActionsB;
         TurnBehaviour.OnUnitMoved -= enableActionsB;
         TurnBehaviour.OnPlayerTurnStart -= enableActionsB;
-        TurnBehaviour.OnNewSelectedUnit += enableActionsB;
+        TurnBehaviour.OnNewSelectedUnit -= enableActionsB;
+
+        TurnBehaviour.OnPlayerTurnEnd -= disableEndTurn;
+        TurnBehaviour.OnUnitBeginsAttacking -= disableEndTurn;
+        TurnBehaviour.OnUnitBeginsMoving -= disableEndTurn;
+
+        TurnBehaviour.OnPlayerTurnStart -= enableEndturn;
+        TurnBehaviour.OnPlayerAttack -= enableEndturn;
+        TurnBehaviour.OnUnitMoved -= enableEndturn;
     }
 
-    //check if a default unit has actions left when default unit changes
-    //during movement disable
-    //at the end of a turn disable movement, re-enable if available is >0
-
+    /// <summary>
+    /// Disables buttons while certain events are happens
+    /// </summary>
     void disableActionsB()
     {
         move.GetComponent<Button>().interactable = false;
         skills.GetComponent<Button>().interactable = false;
     }
 
+    /// <summary>
+    /// Tries to enable buttons if the unit has actions avilable
+    /// </summary>
     void enableActionsB()
     {
         if (GameController.getSelected().getMoves() != 0)
