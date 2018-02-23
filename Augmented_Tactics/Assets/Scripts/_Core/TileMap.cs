@@ -23,7 +23,7 @@ public class TileMap : MonoBehaviour {
     private bool endOfMove;
 
     //int[,] tiles;
-    Node[,,] graph;
+    Nodes[,,] graph;
     
     public int mapSizeX = 16;
     public int mapSizeY = 1;
@@ -151,8 +151,6 @@ public class TileMap : MonoBehaviour {
         return new Vector3(x, .5f, z);
     }
 
-    
-
     public Vector3 TileCoordToWorldCoord(Vector3 input)
     {
         //Vector3 output = map[(int)input.x, (int)input.z].GetGameObject().transform.position;
@@ -224,19 +222,19 @@ public class TileMap : MonoBehaviour {
             return;
         }
 
-        Dictionary<Node, float> dist = new Dictionary<Node, float>();
-        Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
+        Dictionary<Nodes, float> dist = new Dictionary<Nodes, float>();
+        Dictionary<Nodes, Nodes> prev = new Dictionary<Nodes, Nodes>();
 
         //Actor uXZ = selectedUnit.GetComponent<Actor>();
 
-        List<Node> unvisited = new List<Node>();
+        List<Nodes> unvisited = new List<Nodes>();
 
-        Node source = graph[(int)unit.getCoords().x,(int)unit.getCoords().y,(int)unit.getCoords().z];
-        Node target = graph[(int)targetCoords.x,(int)targetCoords.y,(int)targetCoords.z];
+        Nodes source = graph[(int)unit.getCoords().x,(int)unit.getCoords().y,(int)unit.getCoords().z];
+        Nodes target = graph[(int)targetCoords.x,(int)targetCoords.y,(int)targetCoords.z];
         dist[source] = 0;
         prev[source] = null;
         
-        foreach(Node v in graph)
+        foreach(Nodes v in graph)
         {
             if(v != source)
             {
@@ -249,9 +247,9 @@ public class TileMap : MonoBehaviour {
         while(unvisited.Count > 0)
         {
             //u is unvisited node with the smallest distance
-            Node u = null;
+            Nodes u = null;
 
-            foreach(Node possibleU in unvisited)
+            foreach(Nodes possibleU in unvisited)
             {
                 if(u == null || dist[possibleU] < dist[u])
                 {
@@ -266,7 +264,7 @@ public class TileMap : MonoBehaviour {
 
             unvisited.Remove(u);
 
-            foreach (Node v in u.neighbors)
+            foreach (Nodes v in u.neighbors)
             {
                 //float alt = dist[u] + u.DistanceTo(v);
                 float alt = dist[u] + costToEnterTile(u.coords,v.coords);
@@ -286,9 +284,9 @@ public class TileMap : MonoBehaviour {
             return;
         }
 
-        List<Node> currentPath = new List<Node>();
+        List<Nodes> currentPath = new List<Nodes>();
 
-        Node curr = target;
+        Nodes curr = target;
 
         //step through prev chain and add it to path
 
@@ -305,7 +303,7 @@ public class TileMap : MonoBehaviour {
     void generatePathFindingGraph()
     {
         //init array
-        graph = new Node[mapSizeX,mapSizeY,mapSizeZ];
+        graph = new Nodes[mapSizeX,mapSizeY,mapSizeZ];
 
         //init a node for each index in array
         for (int x = 0; x < mapSizeX; x++)
@@ -314,7 +312,7 @@ public class TileMap : MonoBehaviour {
             {
                 for (int z = 0; z < mapSizeZ; z++)
                 {
-                    graph[x,y,z] = new Node();
+                    graph[x,y,z] = new Nodes();
                     graph[x,y,z].coords.x = x;
                     graph[x,y,z].coords.y = y;
                     graph[x,y,z].coords.z = z;
@@ -398,10 +396,10 @@ public class TileMap : MonoBehaviour {
     /// <returns></returns>
     public void moveActorAsync(GameObject actor, Vector3 target)
     {
-        //justin set move string array here
+    
         actor.GetComponent<Actor>().PlaySound("move");
         StartCoroutine(MoveActorThread(actor, target));
-        Debug.Log("Move Complete\t");
+
         return;
     }
 
@@ -489,19 +487,14 @@ public class TileMap : MonoBehaviour {
             {
                 path.positionCount = 0; //clears line renderer
             }
-
         }
-
         return endOfMove;
-
     }
 
     public void PlayerMoveActions()
     {
         Debug.Log("PLAYER HAS MOVED");
     }
-
-
 
     void AdvancePathing()
     {
@@ -512,11 +505,6 @@ public class TileMap : MonoBehaviour {
             return;
         }
 
-        //if (unit.getCanMove() == false)
-        //{
-        //    return;
-        //}
-
         //Actor runs out of movement points
         if (unit.getRemainingMovement() <= 0)
         {
@@ -525,7 +513,7 @@ public class TileMap : MonoBehaviour {
 
         remainingMovement = unit.getRemainingMovement();
 
-        // Get cost from current tile to next tile
+        //Get cost from current tile to next tile
         remainingMovement -= costToEnterTile(unit.getCurrentPath()[0].coords,unit.getCurrentPath()[1].coords);
 
         unit.setRemainingMovement(remainingMovement);
@@ -535,13 +523,14 @@ public class TileMap : MonoBehaviour {
         //unit.tileZ = (int)unit.getCurrentPath()[1].coords.z;
         unit.setCoords(unit.getCurrentPath()[1].coords);
 
-        map[(int)unit.getCurrentPath()[0].coords.x,
-            (int)unit.getCurrentPath()[0].coords.y,
-            (int)unit.getCurrentPath()[0].coords.z].setOccupiedFalse();
+        //map[(int)unit.getCurrentPath()[0].coords.x,
+        //    (int)unit.getCurrentPath()[0].coords.y,
+        //    (int)unit.getCurrentPath()[0].coords.z].setOccupiedFalse();
 
         // Remove the old "current" tile from the pathfinding list
 
         unit.getCurrentPath().RemoveAt(0);
+     
         
         if (unit.getCurrentPath().Count == 1)
         {
@@ -568,6 +557,7 @@ public class TileMap : MonoBehaviour {
         if (unit.getCurrentPath() != null)
         {
             int currNode = 0;
+
             Vector3[] position = new Vector3[unit.getCurrentPath().Count+1];
             Vector3 start = new Vector3();
             Vector3 end = new Vector3();
@@ -600,11 +590,27 @@ public class TileMap : MonoBehaviour {
             }
         }
     }
+    /// <summary>
+    /// Sets occupied of current actor location to false, and target location to true.
+    /// Takes an Actor gameobject, its current coords and target coords as a parameter.
+    /// </summary>
+    /// <param name="Actor"></param>
+    /// <param name="currentCoords"></param>
+    /// <param name="targetCoords"></param>
+    public void SetOcc(GameObject Actor, Vector3 currentCoords, Vector3 targetCoords)
+    {
+        Actor unit = Actor.GetComponent<Actor>();
+        //Debug.Log("SETOCC INITIALIZED");
+        map[(int)currentCoords.x, (int)currentCoords.y, (int)currentCoords.z].setOccupiedFalse();
+        Debug.Log("current coords" + currentCoords);
+        map[(int)targetCoords.x, (int)targetCoords.y, (int)targetCoords.z].setOccupiedTrue(Actor);
+    }
 
     private IEnumerator MoveActorThread(GameObject actor, Vector3 target)
     {
         //selectedUnit = actor;
         GeneratePathTo(target, actor);
+        Vector3 currentCoords = actor.GetComponent<Actor>().getCoords();
 
         TurnBehaviour.ActorBeginsMoving();
         bool moveDone = moveUnit(actor);
@@ -615,10 +621,15 @@ public class TileMap : MonoBehaviour {
             moveDone = moveUnit(actor);
             yield return null;
         }
-        while (!moveDone); 
+        while (!moveDone);
+
+        
+
+        Vector3 newCoords = actor.GetComponent<Actor>().getCoords();
 
         Debug.Log("Moved " + actor.name + " to " + target);
-        getTileAtCoord(unit.getCoords()).setOccupiedTrue();
+        SetOcc(actor, currentCoords, newCoords);
+        //getTileAtCoord(unit.getCoords()).setOccupiedTrue(actor);
         TurnBehaviour.ActorHasJustMoved();
     }
 
@@ -630,7 +641,6 @@ public class TileMap : MonoBehaviour {
     {
         if (unit.getCurrentPath() != null)
         {
-
             position = new Vector3[unit.getCurrentPath().Count];
             path.SetPositions(position);
         }
