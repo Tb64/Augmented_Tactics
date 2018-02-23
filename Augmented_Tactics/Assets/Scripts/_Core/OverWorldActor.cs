@@ -34,12 +34,11 @@ public class OverWorldActor : MonoBehaviour
     
             //create the rotation we need to be in to look at the target
             _lookRotation = Quaternion.LookRotation(_direction);
-    
+            
             //rotate us over time according to speed until we are in the required rotation
             transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * rotationSpeed);
 
-           
-                transform.rotation = _lookRotation;
+            transform.rotation = _lookRotation;
             }
         }
     }
