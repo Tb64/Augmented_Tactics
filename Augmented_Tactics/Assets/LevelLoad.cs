@@ -4,24 +4,38 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelLoad : MonoBehaviour {
+    public GameObject canvasObject;
     public Slider slidy;
+    public GameObject background;
 
     void Start()
     {
-        LoadLevel(1);
+        DisableCanvas();
     }
 
-    public void LoadLevel(int sceneIndex)
+    private void DisableCanvas()
     {
+        canvasObject.GetComponent<Canvas>().enabled = false;
+    }
+    private void EnableCanvas()
+    {
+        canvasObject.GetComponent<Canvas>().enabled = true;
+    }
 
+    public void StartLoad(int sceneIndex)
+    {
+        Debug.Log("load actually started");
+        EnableCanvas();
         StartCoroutine(LoadAsync(sceneIndex));
 
     }
 
-    IEnumerator LoadAsync (int sceneIndex)
+    
+
+    IEnumerator LoadAsync (int sceneindex)
     {
       
-        AsyncOperation loady = SceneManager.LoadSceneAsync(sceneIndex);
+        AsyncOperation loady = SceneManager.LoadSceneAsync(sceneindex);
 
         while (!loady.isDone)
         {

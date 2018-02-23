@@ -7,12 +7,19 @@ using UnityEngine;
 public class AfterActionReport : MonoBehaviour {
 
     SceneManagement manager;
+    LevelLoad loady;
+    
 
     private void Start()
     {
         if (GameObject.Find("SceneManager") != null)
         {
             manager = GameObject.Find("SceneManager").GetComponent<SceneManagement>();
+            
+        }
+        if (GameObject.Find("LevelLoad") != null){
+            loady = GameObject.Find("LevelLoad").GetComponent<LevelLoad>();
+            
         }
     }
 
@@ -59,7 +66,13 @@ public class AfterActionReport : MonoBehaviour {
 
     public void Continue()
     {
-        manager.LoadHub();
+        
+        //manager.LoadHub();
+        int y = SceneManager.GetActiveScene().buildIndex + 1;
+        if (loady != null)
+        {
+            loady.StartLoad(y);
+        }
     }
 
     public void DisplayExp()

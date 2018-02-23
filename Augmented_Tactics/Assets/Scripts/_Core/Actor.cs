@@ -77,6 +77,13 @@ public class Actor : MonoBehaviour
         public AudioClip Attack;
         public AudioClip Damage;
         public AudioClip Death;
+
+        //justin lines below Feb 8
+        public AudioClip footstep1;
+        public AudioClip footstep2;
+        public AudioClip swordslash;
+
+
     }
 
     public AudioClips soundFx;
@@ -278,15 +285,14 @@ public class Actor : MonoBehaviour
             || soundFx.Attack == null
             || soundFx.Damage == null
             || soundFx.Death == null
+
+            //justin
+            || soundFx.footstep1 == null
+            || soundFx.footstep2 == null
+            || soundFx.swordslash == null
             || audio == null)
             return false;
-        //justin audio garbage - ignore until fixed
-        //   int n;
-        //   n = UnityEngine.Random.Range(1, 6);
-        //   int k;
-        //   k = UnityEngine.Random.Range(1,4);
-        //   bool t;
-        //   t = getCurrentTurn();
+        
 
 
 
@@ -296,6 +302,7 @@ public class Actor : MonoBehaviour
 
             case "move":
                 audio.clip = soundFx.Move;
+                //footsteps maybe
                 break;
             case "attack":
                 audio.clip = soundFx.Attack;
@@ -304,6 +311,7 @@ public class Actor : MonoBehaviour
                //audio.clip = soundFx.PlayerAttackSounds[n-1];
               
                 break;
+            
             case "damage":
                 audio.clip = soundFx.Damage;
                 break;
