@@ -150,17 +150,12 @@ public class Enemy : Actor
             Debug.LogError("no player team");
             return;
         }
-        Vector3 movingTo = PosCloseTo(target.getCoords(), 0);
-        if (movingTo == new Vector3(0, 0, 0))
+        Vector3 movingTo = PosCloseTo(target.getCoords());
+        if (movingTo == new Vector3(-1, -1, -1))
         {
-            movingTo = PosCloseTo(target.getCoords(), 1);
-            if (movingTo == new Vector3(0, 0, 0))
-            {
-                Debug.Log("No possible move available, switching target."); 
-                //need to add contingency for enemy surrounded or unavailable
-                return;
-            }
-                
+            Debug.Log("NO AVAILABLE CLOSE MOVES");
+            //TEMP
+            return;
         }
         Debug.Log("Moving " + this + " to " + movingTo);
         map.moveActorAsync(gameObject, movingTo);
