@@ -23,7 +23,7 @@ public class TileMap : MonoBehaviour {
     private bool endOfMove;
 
     //int[,] tiles;
-    Node[,,] graph;
+    Nodes[,,] graph;
     
     public int mapSizeX = 16;
     public int mapSizeY = 1;
@@ -222,19 +222,19 @@ public class TileMap : MonoBehaviour {
             return;
         }
 
-        Dictionary<Node, float> dist = new Dictionary<Node, float>();
-        Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
+        Dictionary<Nodes, float> dist = new Dictionary<Nodes, float>();
+        Dictionary<Nodes, Nodes> prev = new Dictionary<Nodes, Nodes>();
 
         //Actor uXZ = selectedUnit.GetComponent<Actor>();
 
-        List<Node> unvisited = new List<Node>();
+        List<Nodes> unvisited = new List<Nodes>();
 
-        Node source = graph[(int)unit.getCoords().x,(int)unit.getCoords().y,(int)unit.getCoords().z];
-        Node target = graph[(int)targetCoords.x,(int)targetCoords.y,(int)targetCoords.z];
+        Nodes source = graph[(int)unit.getCoords().x,(int)unit.getCoords().y,(int)unit.getCoords().z];
+        Nodes target = graph[(int)targetCoords.x,(int)targetCoords.y,(int)targetCoords.z];
         dist[source] = 0;
         prev[source] = null;
         
-        foreach(Node v in graph)
+        foreach(Nodes v in graph)
         {
             if(v != source)
             {
@@ -247,9 +247,9 @@ public class TileMap : MonoBehaviour {
         while(unvisited.Count > 0)
         {
             //u is unvisited node with the smallest distance
-            Node u = null;
+            Nodes u = null;
 
-            foreach(Node possibleU in unvisited)
+            foreach(Nodes possibleU in unvisited)
             {
                 if(u == null || dist[possibleU] < dist[u])
                 {
@@ -264,7 +264,7 @@ public class TileMap : MonoBehaviour {
 
             unvisited.Remove(u);
 
-            foreach (Node v in u.neighbors)
+            foreach (Nodes v in u.neighbors)
             {
                 //float alt = dist[u] + u.DistanceTo(v);
                 float alt = dist[u] + costToEnterTile(u.coords,v.coords);
@@ -284,9 +284,9 @@ public class TileMap : MonoBehaviour {
             return;
         }
 
-        List<Node> currentPath = new List<Node>();
+        List<Nodes> currentPath = new List<Nodes>();
 
-        Node curr = target;
+        Nodes curr = target;
 
         //step through prev chain and add it to path
 
@@ -303,7 +303,7 @@ public class TileMap : MonoBehaviour {
     void generatePathFindingGraph()
     {
         //init array
-        graph = new Node[mapSizeX,mapSizeY,mapSizeZ];
+        graph = new Nodes[mapSizeX,mapSizeY,mapSizeZ];
 
         //init a node for each index in array
         for (int x = 0; x < mapSizeX; x++)
@@ -312,7 +312,7 @@ public class TileMap : MonoBehaviour {
             {
                 for (int z = 0; z < mapSizeZ; z++)
                 {
-                    graph[x,y,z] = new Node();
+                    graph[x,y,z] = new Nodes();
                     graph[x,y,z].coords.x = x;
                     graph[x,y,z].coords.y = y;
                     graph[x,y,z].coords.z = z;
@@ -396,16 +396,10 @@ public class TileMap : MonoBehaviour {
     /// <returns></returns>
     public void moveActorAsync(GameObject actor, Vector3 target)
     {
-        //justin set move string array here
-        Vector3 currentCoords = actor.GetComponent<Actor>().getCoords();
-
+    
         actor.GetComponent<Actor>().PlaySound("move");
         StartCoroutine(MoveActorThread(actor, target));
 
-        SetOcc(actor, currentCoords, target);
-        Debug.Log("Move Complete\t");
-       
-        
         return;
     }
 
@@ -536,6 +530,7 @@ public class TileMap : MonoBehaviour {
         // Remove the old "current" tile from the pathfinding list
 
         unit.getCurrentPath().RemoveAt(0);
+     
         
         if (unit.getCurrentPath().Count == 1)
         {
@@ -605,7 +600,7 @@ public class TileMap : MonoBehaviour {
     public void SetOcc(GameObject Actor, Vector3 currentCoords, Vector3 targetCoords)
     {
         Actor unit = Actor.GetComponent<Actor>();
-        Debug.Log("SETOCC INITIALIZED");
+        //Debug.Log("SETOCC INITIALIZED");
         map[(int)currentCoords.x, (int)currentCoords.y, (int)currentCoords.z].setOccupiedFalse();
         Debug.Log("current coords" + currentCoords);
         map[(int)targetCoords.x, (int)targetCoords.y, (int)targetCoords.z].setOccupiedTrue(Actor);
@@ -615,6 +610,7 @@ public class TileMap : MonoBehaviour {
     {
         //selectedUnit = actor;
         GeneratePathTo(target, actor);
+        Vector3 currentCoords = actor.GetComponent<Actor>().getCoords();
 
         TurnBehaviour.ActorBeginsMoving();
         bool moveDone = moveUnit(actor);
@@ -625,10 +621,15 @@ public class TileMap : MonoBehaviour {
             moveDone = moveUnit(actor);
             yield return null;
         }
-        while (!moveDone); 
+        while (!moveDone);
+
+        
+
+        Vector3 newCoords = actor.GetComponent<Actor>().getCoords();
 
         Debug.Log("Moved " + actor.name + " to " + target);
-        getTileAtCoord(unit.getCoords()).setOccupiedTrue(actor);
+        SetOcc(actor, currentCoords, newCoords);
+        //getTileAtCoord(unit.getCoords()).setOccupiedTrue(actor);
         TurnBehaviour.ActorHasJustMoved();
     }
 

@@ -1,53 +1,62 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 using System;
 
 public class DayNight : MonoBehaviour {
 
-    DateTime time;
-    GameObject sun;
+    public float time;
+    public TimeSpan currentTime;
+    public Transform sunTransform;
+    public Transform moonTransform;
+    public Light sun;
+    public Light moon;
+    public Text timeText;
     public int hour;
     public int minute;
+    public int days;
 
-	// Use this for initialization
-	void Start () {
-       sun = GameObject.Find("Sun");
-	}
-	
-    public int twelveHourCycle()
+    public float intensity;
+    public Color fogDay = Color.grey;
+    public Color fogNight = Color.black;
+
+    public int speed;
+
+    private void Start()
     {
-        hour = time.Hour;
-
-        if(hour > 12)
-        {
-            hour = hour - 12;
-        }
-
-        return hour;
+        time = 30000;
     }
 
-    void dayCycle()
+    public void ChangeTime()
     {
-        //Color light = sun.GetComponent<Color>();
-
-
-        if (time.Hour >= 18 || time.Hour < 6)
+        time += Time.deltaTime * speed;
+        if(time > 84600)
         {
-            sun.GetComponent<Light>().color = new Color(35, 120, 120, 255);
+            days += 1;
+            time = 0;
         }
+        currentTime = TimeSpan.FromSeconds(time);
+        string[] tempTime = currentTime.ToString().Split(":" [0]);
+        timeText.text = tempTime[0] + ":" + tempTime[1];
+        moonTransform.rotation = Quaternion.Euler(new Vector3((time - 21600) / 86400 * -360, 0, 0));
+        sunTransform.rotation = Quaternion.Euler(new Vector3((time - 21600) / 86400 * 360, 0, 0));
+        if(time < 43200)
+        {
+            intensity = 1 - (43200 - time) / 43200
+;       }
+        else 
+            intensity = 1 - ((43200 - time) / 43200 * -1);
 
-        //if (time.Hour >= 6 && time.Hour < 18)
-        //{
-        //    sun.GetComponent<Light>().color = new Color(255, 243, 210, 255);
-        //}
+        RenderSettings.fogColor = Color.Lerp(fogNight, fogDay, intensity * intensity);
+        sun.intensity = intensity;
+        moon.intensity = (1 - intensity) - .5f;
     }
 
-	// Update is called once per frame
-	void Update () {
-        time = DateTime.Now;
-        twelveHourCycle();
-        //dayCycle();
-        minute = time.Minute;
-	}
+   
+
+	void Update ()
+    {
+        ChangeTime();
+    }
 }

@@ -50,7 +50,7 @@ public class Actor : MonoBehaviour
     //Movement 
     public TileMap map;
     public Vector3 coords;
-    private List<Node> currentPath = null;
+    private List<Nodes> currentPath = null;
     NavMeshAgent playerAgent;
     public float speed;
     public int moveDistance;
@@ -124,7 +124,13 @@ public class Actor : MonoBehaviour
     public virtual void ActorTurnStart()
     {
         remainingMovement = moveDistance;
-        setNumOfActions(2);
+
+        //Dont want actor making moves if incapacitaded/dead
+        if(incapacitated == true || dead == true)
+            setNumOfActions(0);
+        else
+            setNumOfActions(2);
+
         if(incapacitated == true && deathTimer < 6)
         {
             deathTimer++;
@@ -465,7 +471,6 @@ public class Actor : MonoBehaviour
     public virtual void OnDeath()
     {
         incapacitated = true;
-        //justin set string death array here
         anim.SetTrigger("Death");
         PlaySound("death");
     }
@@ -506,12 +511,12 @@ public class Actor : MonoBehaviour
         return numOfActions;
     }
 
-    public List<Node> getCurrentPath()
+    public List<Nodes> getCurrentPath()
     {
         return currentPath;
     }
 
-    public void setCurrentPath(List<Node> path)
+    public void setCurrentPath(List<Nodes> path)
     {
         currentPath = path;
     }
@@ -627,6 +632,17 @@ public class Actor : MonoBehaviour
         mana_current = mana;
     }
 
+    public float GetManaPercent()
+    {
+        float manaPercent = mana_current / mana_max;
+        if (manaPercent <= 0f)
+            return 0f;
+        else if (manaPercent >= 1f)
+            return 1f;
+
+        return manaPercent;
+    }
+
     public void setArmorClass(float aClass)
     {
         armor_class = aClass;
@@ -640,6 +656,11 @@ public class Actor : MonoBehaviour
     public int getNumofActors()
     {
         return numberOfActors;
+    }
+
+    public ClickableTile GetTileStandingOn()
+    {
+        return map.getTileAtCoord(getCoords());
     }
 
     //justin added v

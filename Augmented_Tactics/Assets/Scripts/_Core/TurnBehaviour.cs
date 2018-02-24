@@ -33,6 +33,7 @@ public class TurnBehaviour : MonoBehaviour
     public static event PlayerEventHandler OnUnitDestroy;
     public static event PlayerEventHandler OnUnitBeginsMoving;
     public static event PlayerEventHandler OnUnitBeginsAttacking;
+    public static event PlayerEventHandler OnPlayerConfirmingAttack;
 
     //for Handling Turn Based Events
     public delegate void TurnEventHandler();
@@ -227,6 +228,12 @@ public class TurnBehaviour : MonoBehaviour
     {
         if (OnUnitBeginsAttacking != null)
             OnUnitBeginsAttacking();
+    }
+    //calls Player Attacked Event
+    public static void PlayerIsConfirmingAttack()
+    {
+        if (OnPlayerConfirmingAttack != null)
+            OnPlayerConfirmingAttack();
     }
 
     //*****************************
