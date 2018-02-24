@@ -316,7 +316,7 @@ public class Enemy : Actor
     /// </summary>
     /// <param name="mapPos">The map/tile position of occupied tile</param>
     /// <returns>Returns closest map/tile position to mapPos, that is not mapPos</returns>
-    public Vector3 PosCloseTo(Vector3 mapPos)
+    /*public Vector3 PosCloseTo(Vector3 mapPos)
      {
          Vector3 output = getCoords() - mapPos;
          output = output.normalized;
@@ -415,23 +415,47 @@ public class Enemy : Actor
              Debug.Log("first enemy " + EnemyController.enemyList[EnemyController.currentEnemy].getCoords());
          return output;
      }*/
-    private Vector3 PosCloseTo(Vector3 mapPos, int attemptNum)
+    public Vector3 PosCloseTo(Vector3 mapPos)
     {
         Vector3 output = getCoords() - mapPos;
         output = output.normalized;
-        if (output.x > 0 && attemptNum != 1)
+        if (output.x > 0)
         {
-            if (output.z > 0 )
-                return PosCloseTo("rightup", mapPos);
+            if (output.z > 0)
+            {
+                Vector3 temp = PosCloseTo("rightup", mapPos);
+                if (temp == new Vector3(-1, -1, -1))
+                    return PosCloseTo("leftdown", mapPos);
+                else
+                    return temp;
+            }
             else
-                return PosCloseTo("rightdown", mapPos);
+            {
+                Vector3 temp = PosCloseTo("rightdown", mapPos);
+                if (temp == new Vector3(-1, -1, -1))
+                    return PosCloseTo("leftup", mapPos);
+                else
+                    return temp;
+            }
         }
         else
         {
             if (output.z > 0)
-                return PosCloseTo("leftup", mapPos);
+            {
+                Vector3 temp = PosCloseTo("leftup", mapPos);
+                if (temp == new Vector3(-1, -1, -1))
+                    return PosCloseTo("rightdown", mapPos);
+                else
+                    return temp;
+            }
             else
-                return PosCloseTo("leftdown", mapPos);
+            {
+                Vector3 temp = PosCloseTo("leftdown", mapPos);
+                if (temp == new Vector3(-1, -1, -1))
+                    return PosCloseTo("rightup", mapPos);
+                else
+                    return temp;
+            }
         }
     }
 
@@ -454,7 +478,7 @@ public class Enemy : Actor
         else if (map.UnitCanEnterTile(secDir))
             return secDir;
         else
-            return new Vector3(0,0,0); //no move available
+            return new Vector3(-1,-1,-1); //no move available
     }
         /*private void EnemyUsedAction()
         {
