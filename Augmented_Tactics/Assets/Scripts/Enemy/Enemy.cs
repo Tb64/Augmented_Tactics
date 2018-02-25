@@ -150,10 +150,10 @@ public class Enemy : Actor
             Debug.LogError("no player team");
             return;
         }
-        Vector3 movingTo = PosCloseTo(target.getCoords(), 0);
+        Vector3 movingTo = PosCloseTo(target.getCoords());
         if (movingTo == new Vector3(0, 0, 0))
         {
-            movingTo = PosCloseTo(target.getCoords(), 1);
+            movingTo = PosCloseTo(target.getCoords());
             if (movingTo == new Vector3(0, 0, 0))
             {
                 Debug.Log("No possible move available, switching target."); 
@@ -292,10 +292,10 @@ public class Enemy : Actor
     {
         if (target == null)
             return false;
-        Vector3 movingTo = PosCloseTo(target.getCoords(), 0);
+        Vector3 movingTo = PosCloseTo(target.getCoords());
         if (movingTo == new Vector3(0, 0, 0))
         {
-            movingTo = PosCloseTo(target.getCoords(), 1);
+            movingTo = PosCloseTo(target.getCoords());
             if (movingTo == new Vector3(0, 0, 0))
                 return false;
         }
