@@ -151,15 +151,15 @@ public class Enemy : Actor
             return;
         }
         Vector3 movingTo = PosCloseTo(target.getCoords());
-        if (movingTo == new Vector3(0, 0, 0))
+        if (movingTo == new Vector3(-1, -1, -1))
         {
-            movingTo = PosCloseTo(target.getCoords());
-            if (movingTo == new Vector3(0, 0, 0))
-            {
+           // movingTo = PosCloseTo(target.getCoords());
+            //if (movingTo == new Vector3(0, 0, 0))
+            //{
                 Debug.Log("No possible move available, switching target."); 
                 //need to add contingency for enemy surrounded or unavailable
                 return;
-            }
+            //}
                 
         }
         Debug.Log("Moving " + this + " to " + movingTo);
