@@ -37,6 +37,7 @@ public class Actor : MonoBehaviour
     protected int counterAttack;
 
     //stats
+    protected int level;            //current actor's level
     protected int strength;         //measuring physical power
     protected int dexterity;        //measuring agility
     protected int constitution;     //measuring endurance
@@ -747,6 +748,11 @@ public class Actor : MonoBehaviour
     public int getExperience()
     {
         return experience;
+    }
+
+    public int getLevel()
+    {
+        return this.level;
     }
     #endregion
 }
