@@ -24,6 +24,7 @@ public class Enemy : Actor
     public Actor getWeakest() { return weakest; }
     public void setWeakest(Actor weakestPlayer) { weakest = weakestPlayer; }
     private int expGiven;
+    private List<Actor> cantTarget;
 
     private Actor currentTarget;
     // Use this for initialization
@@ -38,7 +39,7 @@ public class Enemy : Actor
     public override void OnDestroy()
     {
         base.OnDestroy();
-        TurnBehaviour.OnUnitMoved -= this.EnemyMoved;
+        //TurnBehaviour.OnUnitMoved -= this.EnemyMoved;
         //TurnBehaviour.OnUnitMoved -= this.EnemyUsedAction;
         //TurnBehaviour.OnEnemyUnitAttack -= this.EnemyUsedAction;
         //TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStart;
@@ -49,7 +50,7 @@ public class Enemy : Actor
         base.Init();
         expGiven = 10;
         //TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStartActions;
-        TurnBehaviour.OnUnitMoved += this.EnemyMoved;
+        //TurnBehaviour.OnUnitMoved += this.EnemyMoved;
         //TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
         //TurnBehaviour.OnEnemyUnitAttack += this.EnemyUsedAction;
 
@@ -134,14 +135,14 @@ public class Enemy : Actor
 
     }
 
-    public void nonProximityActions()
+    public void EnemyActions()
     {
         Debug.Log("NON-PROXIMITY");
         if (getMoves() == 0)
             return;
         //add tree 
         Actor target = nearest;
-        if (target != weakest)
+        if (target != weakest || cantTarget.Contains(target))
             target = findTarget(weakest, distanceToNearest);
         //Debug.Log("Found Target = " + target.name + " at " + target.transform.position + target.getCoords());
         currentTarget = target;
@@ -151,14 +152,17 @@ public class Enemy : Actor
             Debug.LogError("no player team");
             return;
         }
+        if (attemptAttack(target))
+            return;
         Vector3 movingTo = PosCloseTo(target.getCoords());
         if (movingTo == new Vector3(-1, -1, -1))
         {
            // movingTo = PosCloseTo(target.getCoords());
             //if (movingTo == new Vector3(0, 0, 0))
             //{
-                Debug.Log("No possible move available, switching target."); 
-                //need to add contingency for enemy surrounded or unavailable
+            Debug.Log("No possible move available, switching target.");
+            cantTarget.Add(target);
+            EnemyActions();
                 return;
             //}
                 
@@ -170,7 +174,7 @@ public class Enemy : Actor
     
     }
 
-    public void EnemyMoved()
+    /*public void EnemyMoved()
     {
 
         Debug.Log(EnemyController.currentEnemy + " " + enemyID);
@@ -186,7 +190,7 @@ public class Enemy : Actor
             //Debug.Log("Called");
             EnemyController.ExhaustMoves(SM);
         }
-    }
+    }*/
 
 
     //void enemyTurn()
@@ -281,12 +285,21 @@ public class Enemy : Actor
     private Actor findTarget(Actor target, float distanceToNearest)
     {
         //Debug.Log(target.coords);
-        Vector3 weakestPosition = target.getCoords();
+        Vector3 weakestPosition = weakest.getCoords();
         float distanceToWeakest = Vector3.Distance(weakestPosition, enemyPosition);
-        if (distanceToWeakest > moveDistance && distanceToWeakest > 2 * distanceToNearest)
+        if (distanceToWeakest > moveDistance && distanceToWeakest > 2 * distanceToNearest && !cantTarget.Contains(nearest))
             target = nearest;
-        //the idea here is to attack the weakest person unless the nearest person is much closerthan the weakest
-        //this is only a greenlight method since range etc will be added
+        else if (!cantTarget.Contains(weakest))
+            target = weakest;
+        else
+        {
+            Actor[] userTeam = EnemyController.userTeam;
+            for (int player = 0; player<4; player++)
+            {
+                if (!cantTarget.Contains(userTeam[player]))
+                    return userTeam[player];
+            }
+        }
         return target;
     }
 
@@ -507,7 +520,7 @@ public class Enemy : Actor
         bool chosen = false;
         for (int ability = 0; ability < 4; ability++)
         {
-            if (abilitySet[ability].damage > bestAttack && abilitySet[ability].SkillInRange(getCoords(), target.getCoords()))
+            if (abilitySet[ability].damage > bestAttack /*&& abilitySet[ability].CanUse()*/)
             {
                 bestAttack = abilitySet[ability].damage;
                 choice = ability;
@@ -526,7 +539,7 @@ public class Enemy : Actor
         }
         else
         {
-            Debug.Log("Out of Range " + target.getCoords() + " " + getCoords());
+            Debug.Log("No Possible Attacks");
             return false;
         }
     }

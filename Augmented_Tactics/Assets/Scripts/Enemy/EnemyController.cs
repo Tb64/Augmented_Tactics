@@ -28,7 +28,7 @@ public class EnemyController : MonoBehaviour
 
     public void OnDestroy()
     {
-       // TurnBehaviour.OnUnitMoved -= this.ExhaustMoves;
+        TurnBehaviour.OnUnitMoved -= this.ExhaustMoves;
        // TurnBehaviour.OnUnitMoved -= this.EnemyUsedAction;
         TurnBehaviour.OnActorAttacked -= this.ExhaustMoves;
         TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStart;
@@ -146,26 +146,13 @@ public class EnemyController : MonoBehaviour
             return;
         if (enemyList[currentEnemy].getMoves() != 0)
         {
-            /*if (enemyList[currentEnemy].reactToProximity(enemyList[currentEnemy].distanceToNearest))
-            {
-                if (enemyList[currentEnemy].getMoves() == 0)
-                {
-                    NextEnemy();
-                    return;
-                }
-                else
-                {
-                    ExhaustMoves(SM);
-                    return;
-                }
-            }*/
-            enemyList[currentEnemy].nonProximityActions();
+            enemyList[currentEnemy].EnemyActions();
         }
         else
             NextEnemy();
     }
 
-    /*    private void EnemyUsedAction()
+      /* private void EnemyUsedAction()
         {
             if (SM.checkTurn())
                 return;
@@ -177,8 +164,8 @@ public class EnemyController : MonoBehaviour
                 return;
             }
             ExhaustMoves();
-        }
-        */
+        }*/
+        
     private static void NextEnemy()
     {
         Debug.Log("Enemy " + currentEnemy + " out of moves");
