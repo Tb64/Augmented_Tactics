@@ -651,6 +651,11 @@ public class Actor : MonoBehaviour
         return numberOfActors;
     }
 
+    public ClickableTile GetTileStandingOn()
+    {
+        return map.getTileAtCoord(getCoords());
+    }
+
     //justin added v
     public bool getCurrentTurn()
     {

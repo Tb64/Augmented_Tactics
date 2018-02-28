@@ -59,23 +59,21 @@ public class AOE : Ability
     /// </summary>
     public override void TargetSkill(GameObject target)
     {
-        Vector3 start;
+        Vector3 start = new Vector3();
         rangeDelta = AOESizeMax;
         listIterActor = 0;
         listIterTile = 0;
 
         if (target != null)
         {
-            Vector3 targetCoords = target.transform.position;
-            
-            //if clicked on gameobject is not a tile then get the coords under it, else use the clicked tile's coords
-            if (target.tag != "Tile")
+            //if clicked on gameobject is not a tile and is an actor
+            if (target.tag != "Tile" && (target.tag == "Enemy" || target.tag == "Player"))
             {
-                start = new Vector3(targetCoords.x, 0, targetCoords.z);
+                start = target.GetComponent<Actor>().GetTileStandingOn().getCoords();
             }
             else
             {
-                start = targetCoords;
+                start = target.GetComponent<ClickableTile>().getCoords(); ;
             }
 
             AOERange(start);
@@ -89,6 +87,7 @@ public class AOE : Ability
     public virtual void AOERange(Vector3 startTileCoords)
     {
         //RangeHighlight rangeHighlight = new RangeHighlight();
+
         Vector3 tileCoordsToCheck1;
         Vector3 tileCoordsToCheck2;
 
