@@ -37,6 +37,7 @@ public class TileMap : MonoBehaviour {
 
     private void Awake()
     {
+        Application.stackTraceLogType = StackTraceLogType.ScriptOnly;
         initialize();
         TurnBehaviour.OnUnitMoved += this.PlayerMoveActions;
     }
