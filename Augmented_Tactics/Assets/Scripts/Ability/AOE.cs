@@ -11,7 +11,7 @@ public class AOE : Ability
     protected bool canAffectEnemy;
     protected int AOESizeMin;
     protected int AOESizeMax;
-    protected int rangeDelta; 
+    protected int rangeDelta;
 
     /// <summary>
     /// Increments for each Actor found found. Resets to 0 at the start of an AOE cast.
@@ -90,26 +90,33 @@ public class AOE : Ability
 
         Vector3 tileCoordsToCheck1;
         Vector3 tileCoordsToCheck2;
+        //for a decay measure how far you are from 
+        int minDelta = AOESizeMin; //lets say the min size is 2, makes a + expanded
 
         //Looks around the specified area for things it can affect
         for (int x = AOESizeMin; x <= AOESizeMax; x++)
         {
             for (int z = -rangeDelta; z <= rangeDelta; z++)
             {
-                tileCoordsToCheck1 = new Vector3(startTileCoords.x + x, startTileCoords.y, startTileCoords.z + z);
-                tileCoordsToCheck2 = new Vector3(startTileCoords.x - x, startTileCoords.y, startTileCoords.z + z);
-                if (tileCoordsToCheck1 != tileCoordsToCheck2)
+                //if z is outside of the zone to be excluded (Such as 1 block away from player) then add to list
+                if (minDelta <= 0 || System.Math.Abs(z) >= minDelta)
                 {
-                    if (actor.map.IsValidCoord(tileCoordsToCheck2))
+                    tileCoordsToCheck1 = new Vector3(startTileCoords.x + x, startTileCoords.y, startTileCoords.z + z);
+                    tileCoordsToCheck2 = new Vector3(startTileCoords.x - x, startTileCoords.y, startTileCoords.z + z);
+                    if (tileCoordsToCheck1 != tileCoordsToCheck2)
                     {
-                        AddToList(actor.map.GetTileAt(tileCoordsToCheck2));
+                        if (actor.map.IsValidCoord(tileCoordsToCheck2))
+                        {
+                            AddToList(actor.map.GetTileAt(tileCoordsToCheck2));
+                        }
+                    }
+                    if (actor.map.IsValidCoord(tileCoordsToCheck1))
+                    {
+                        AddToList(actor.map.GetTileAt(tileCoordsToCheck1));
                     }
                 }
-                if (actor.map.IsValidCoord(tileCoordsToCheck1))
-                {
-                    AddToList(actor.map.GetTileAt(tileCoordsToCheck1));
-                }
             }
+            minDelta--;
             rangeDelta--;
         }
     }

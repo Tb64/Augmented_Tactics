@@ -66,26 +66,34 @@ public class RangeHighlight : MonoBehaviour {
         GameObject obj;
         TileMap map = GameObject.Find("Map").GetComponent<TileMap>();
         int rangeDelta = rangeMax;
-        for (int x = rangeMin; x <= rangeMax; x++)
+        int minDelta = rangeMin;
+        for (int x = 0; x <= rangeMax; x++)
         {
             for (int z = -rangeDelta; z <= rangeDelta; z++)
             {
                 Vector3 spawnPosition1 = new Vector3(positionInput.x + x, positionInput.y, positionInput.z + z);
                 Vector3 spawnPosition2 = new Vector3(positionInput.x - x, positionInput.y, positionInput.z + z);
-                if (spawnPosition1 != spawnPosition2)
+
+                //if absolute value of z is greater/equal than the delta then add the marker.
+                //(2 >= 1) will activate the code. (1 >= 1), (0 >= 1) will skip over the code
+                if (minDelta <= 0 || System.Math.Abs(z) >= minDelta)
                 {
-                    if (map.IsValidCoord(spawnPosition2))
+                    if (spawnPosition1 != spawnPosition2)
                     {
-                        obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition2), hightlightObj.transform.rotation);
+                        if (map.IsValidCoord(spawnPosition2))
+                        {
+                            obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition2), hightlightObj.transform.rotation);
+                            obj.transform.parent = gameObject.transform;
+                        }
+                    }
+                    if (map.IsValidCoord(spawnPosition1))
+                    {
+                        obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition1), hightlightObj.transform.rotation);
                         obj.transform.parent = gameObject.transform;
                     }
                 }
-                if (map.IsValidCoord(spawnPosition1))
-                {
-                    obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition1), hightlightObj.transform.rotation);
-                    obj.transform.parent = gameObject.transform;
-                }
             }
+            minDelta--;
             rangeDelta--;
         }
     }
