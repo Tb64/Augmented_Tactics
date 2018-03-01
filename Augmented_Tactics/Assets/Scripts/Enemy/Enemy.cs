@@ -86,6 +86,7 @@ public class Enemy : Actor
 
     public virtual void EnemyTurnStartActions()
     {
+        cantTarget = new List<Actor>();
         Debug.Log("Enemy " + enemyID + " turn started");
         if (GetHealthPercent() == 0f)
         {
@@ -137,7 +138,7 @@ public class Enemy : Actor
 
     public void EnemyActions()
     {
-        Debug.Log("NON-PROXIMITY");
+        //Debug.Log("NON-PROXIMITY");
         if (getMoves() == 0)
             return;
         //add tree 
@@ -520,7 +521,7 @@ public class Enemy : Actor
         bool chosen = false;
         for (int ability = 0; ability < 4; ability++)
         {
-            if (abilitySet[ability].damage > bestAttack /*&& abilitySet[ability].CanUse()*/)
+            if (abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUse())
             {
                 bestAttack = abilitySet[ability].damage;
                 choice = ability;
@@ -532,7 +533,7 @@ public class Enemy : Actor
         //  return;
         //Debug.Log("target = " + target.gameObject + " skill = " + abilitySet[0].abilityName + " range = " + dist);
         if (chosen)
-        { 
+        {
             abilitySet[choice].UseSkill(target.gameObject); //test
            // TurnBehaviour.EnemyHasJustAttacked();
             return true;
