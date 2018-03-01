@@ -41,7 +41,7 @@ public class EnemyController : MonoBehaviour
         enemyNum = 0;
         enemyCount = 2;
         TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStart;
-        //TurnBehaviour.OnUnitMoved += this.ExhaustMoves;
+        TurnBehaviour.OnUnitMoved += this.ExhaustMoves;
         TurnBehaviour.OnActorAttacked += this.ExhaustMoves;
         //TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
         TurnBehaviour.OnEnemyOutOfMoves += this.EnemyMoveFinished;
