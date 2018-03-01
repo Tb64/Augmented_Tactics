@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class CycloneKick : Ability {
 
+    float BASE_DAMAGE = 10f;
+    float DEX_SCALER = 0.5f;
+    float STR_SCALER = 0.5f;
+
+    Actor targetActor;
+
     public CycloneKick(GameObject obj)
     {
         Initialize(obj);
@@ -37,6 +43,14 @@ public class CycloneKick : Ability {
 
     private void Skill(GameObject target)
     {
+        float damage =
+            BASE_DAMAGE * actor.getLevel() +
+            DEX_SCALER * actor.getDexterity() +
+            STR_SCALER * actor.getStrength();
 
+        targetActor = target.GetComponent<Actor>();
+
+        Vector3 location = new Vector3();
+        targetActor.map.getTileAtCoord(location);
     }
 }
