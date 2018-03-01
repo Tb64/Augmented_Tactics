@@ -39,7 +39,7 @@ public class TileMap : MonoBehaviour {
     {
         Application.stackTraceLogType = StackTraceLogType.ScriptOnly;
         initialize();
-        TurnBehaviour.OnUnitMoved += this.PlayerMoveActions;
+        TurnBehaviour.OnActorFinishedMove += this.PlayerMoveActions;
     }
 
     //use this function to initializes variables

@@ -28,7 +28,7 @@ public class EnemyController : MonoBehaviour
 
     public void OnDestroy()
     {
-        TurnBehaviour.OnUnitMoved -= this.ExhaustMoves;
+        TurnBehaviour.OnActorFinishedMove -= this.ExhaustMoves;
        // TurnBehaviour.OnUnitMoved -= this.EnemyUsedAction;
         TurnBehaviour.OnActorAttacked -= this.ExhaustMoves;
         TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStart;
@@ -41,7 +41,7 @@ public class EnemyController : MonoBehaviour
         enemyNum = 0;
         enemyCount = 2;
         TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStart;
-        TurnBehaviour.OnUnitMoved += this.ExhaustMoves;
+        TurnBehaviour.OnActorFinishedMove += this.ExhaustMoves;
         TurnBehaviour.OnActorAttacked += this.ExhaustMoves;
         //TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
         TurnBehaviour.OnEnemyOutOfMoves += this.EnemyMoveFinished;

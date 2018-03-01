@@ -40,7 +40,7 @@ public class InGameKeyPress : MonoBehaviour
 
         if (ControlDefinition != null)
         {
-            if (evt.type == EventType.repaint)
+            if (evt.type == EventType.Repaint)
             {
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
