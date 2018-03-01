@@ -168,9 +168,9 @@ public class Enemy : Actor
             //}
 
         }
-        Debug.Log("Moving " + this + " to " + movingTo);
+        Debug.Log("Attempting to move " + this + " from " + this.getCoords() + " to " + movingTo);
         map.moveActorAsync(gameObject, movingTo);
-        UpdateNearest();
+        
         //Debug.Log("Move Complete\t" + currentTarget);
 
     }
@@ -234,7 +234,7 @@ public class Enemy : Actor
         }
         return nearest;
     }
-    private void UpdateNearest()
+    public void UpdateNearest()
     {
         findNearestPlayer();
         distanceToNearest = Vector3.Distance(playerPosition, enemyPosition);
@@ -516,11 +516,12 @@ public class Enemy : Actor
     {
         if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
             return false;
-        Debug.Log(this + " Attempting attack on " + target);
+        Debug.Log(this + " Attempting attack on " + target + " at " + target.getCoords());
         int bestAttack = 0, choice = 0;
         bool chosen = false;
         for (int ability = 0; ability < 4; ability++)
         {
+            Debug.Log(abilitySet[ability].SkillInRange(getCoords(), target.getCoords()));
             if (abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(target.gameObject) /*&& abilitySet[ability].SkillInRange(getCoords(), target.getCoords())*/)
             {
                 bestAttack = abilitySet[ability].damage;
