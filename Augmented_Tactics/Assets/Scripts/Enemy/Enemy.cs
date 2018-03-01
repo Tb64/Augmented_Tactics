@@ -521,7 +521,7 @@ public class Enemy : Actor
         bool chosen = false;
         for (int ability = 0; ability < 4; ability++)
         {
-            if (abilitySet[ability].damage > bestAttack && abilitySet[ability].SkillInRange(getCoords(), target.getCoords()))
+            if (abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(target.gameObject) /*&& abilitySet[ability].SkillInRange(getCoords(), target.getCoords())*/)
             {
                 bestAttack = abilitySet[ability].damage;
                 choice = ability;
