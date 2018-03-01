@@ -8,7 +8,7 @@ public class StatusController : MonoBehaviour {
     private Actor[] enemies;
   
     void Start () {
-        TurnBehaviour.OnUnitSpawn += this.playerAdded;
+        TurnBehaviour.OnPlayerSpawn += this.playerAdded;
         
     }
 	

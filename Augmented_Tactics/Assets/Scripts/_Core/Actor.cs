@@ -97,9 +97,9 @@ public class Actor : MonoBehaviour
 
     private void Awake()
     {
-        TurnBehaviour.OnUnitSpawn += this.OnUnitSpawn;
+        TurnBehaviour.OnPlayerSpawn += this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart += this.ActorTurnStart;
-        TurnBehaviour.OnUnitMoved += this.ActorMoved;
+        TurnBehaviour.OnActorFinishedMove += this.ActorMoved;
     }
     
     public virtual void Update()
@@ -110,9 +110,9 @@ public class Actor : MonoBehaviour
 
     public virtual void OnDestroy()
     {
-        TurnBehaviour.OnUnitSpawn -= this.OnUnitSpawn;
+        TurnBehaviour.OnPlayerSpawn -= this.OnUnitSpawn;
         TurnBehaviour.OnTurnStart -= this.ActorTurnStart;
-        TurnBehaviour.OnUnitMoved -= this.ActorMoved;
+        TurnBehaviour.OnActorFinishedMove -= this.ActorMoved;
     }
 
     public virtual void ActorTurnStart()

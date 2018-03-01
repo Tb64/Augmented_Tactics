@@ -9,7 +9,7 @@ public class RangeHighlight : MonoBehaviour {
     private TileMap map;
 	// Use this for initialization
 	void Start () {
-        TurnBehaviour.OnUnitMoved += this.MoveFinished;
+        TurnBehaviour.OnActorFinishedMove += this.MoveFinished;
 
         map = GameObject.Find("Map").GetComponent<TileMap>();
         //Marker_On(transform.position,3);
@@ -17,7 +17,7 @@ public class RangeHighlight : MonoBehaviour {
 
     private void OnDestroy()
     {
-        TurnBehaviour.OnUnitMoved -= this.MoveFinished;
+        TurnBehaviour.OnActorFinishedMove -= this.MoveFinished;
     }
 
     // Update is called once per frame

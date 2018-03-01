@@ -19,8 +19,8 @@ public class HealthBarUIManager : MonoBehaviour {
 
     void Awake ()
     {
-        TurnBehaviour.OnUnitSpawn += onUnitSpawn;
-        TurnBehaviour.OnUnitMoved += updateActions;
+        TurnBehaviour.OnPlayerSpawn += onUnitSpawn;
+        TurnBehaviour.OnActorFinishedMove += updateActions;
         TurnBehaviour.OnActorAttacked += updateActions;
         TurnBehaviour.OnPlayerTurnStart += onPlayerTurnStart;
         TurnBehaviour.OnActorAttacked += OnActorAttacked;
@@ -30,8 +30,8 @@ public class HealthBarUIManager : MonoBehaviour {
 
     void OnDestroy()
     {
-        TurnBehaviour.OnUnitSpawn -= onUnitSpawn;
-        TurnBehaviour.OnUnitMoved -= updateActions;
+        TurnBehaviour.OnPlayerSpawn -= onUnitSpawn;
+        TurnBehaviour.OnActorFinishedMove -= updateActions;
         TurnBehaviour.OnActorAttacked -= updateActions;
         TurnBehaviour.OnPlayerTurnStart -= onPlayerTurnStart;
         TurnBehaviour.OnActorAttacked -= OnActorAttacked;
