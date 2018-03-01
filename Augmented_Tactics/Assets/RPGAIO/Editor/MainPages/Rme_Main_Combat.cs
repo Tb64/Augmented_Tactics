@@ -335,7 +335,7 @@ namespace LogicSpawn.RPGMaker.Editor
 
             var rect = RPGMakerGUI.ListArea(filteredSkillsList, ref selectedSkill, Rm_ListAreaType.Skills, true, true);
             var evt = Event.current;
-            if (evt.type == EventType.mouseDown && !Rme_Main.ShowSubMenu)
+            if (evt.type == EventType.MouseDown && !Rme_Main.ShowSubMenu)
             {
                 var mousePos = evt.mousePosition;
 
