@@ -5,7 +5,7 @@ using UnityEngine;
 public class Fire : Ability
 {
 
-    float damage = 20f;
+   // float damage = 20f;
     
     public Fire(GameObject obj)
     {
@@ -46,6 +46,7 @@ public class Fire : Ability
                 actor.PlaySound("attack");
             }
             target.GetComponent<Actor>().TakeDamage(damage,gameObject);
+            DwellTime.Attack(dwell_time);
             return true;
         }
 

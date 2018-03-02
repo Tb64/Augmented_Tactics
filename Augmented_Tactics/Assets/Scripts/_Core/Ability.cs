@@ -75,7 +75,7 @@ public class Ability
         }
         if(!actor.UseMana(manaCost))
         {
-            Debug.Log("Out of mana");
+            Debug.Log("Not enough mana");
             return false;
         }
         if (!actor.useAction())
@@ -116,9 +116,9 @@ public class Ability
         }
         if (manaCost != 0)
         {
-            if (manaCost < actor.getManaCurrent())
+            if (manaCost > actor.getManaCurrent())
             {
-                Debug.Log("Out of mana");
+                Debug.Log("Not Enough mana");
                 return false;
             }
         }

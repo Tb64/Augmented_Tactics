@@ -61,11 +61,31 @@ public class Enemy : Actor
             map = GameObject.Find("Map").GetComponent<TileMap>();
         }
 
-        abilitySet = new BasicAttack[4];  //test
-        for (int i = 0; i < 4; i++)
+        abilitySet = new Ability[4];
+        /*updating for using varied attacks
+         update for specific character needs to be added to every
+         type of enemy as they are created to load correct attacks*/
+         
+        //FOR DEMO ONLY
+        abilitySet[0] = SkillLoader.LoadSkill("basicattack", gameObject);
+        abilitySet[1] = SkillLoader.LoadSkill("heal", gameObject);
+        abilitySet[2] = SkillLoader.LoadSkill("fire", gameObject);
+        abilitySet[3] = SkillLoader.LoadSkill("combo", gameObject);
+        setManaCurrent(30);
+        setMaxMana(30);
+        setHealthCurrent(20);
+        setMaxHealth(20);
+        setWisdom(15);
+        setDexterity(25);
+        setCharisma(10);
+        setConstitution(14);
+        setIntelligence(30);
+        //FOR DEMO ON:Y
+
+        /*for (int i = 0; i < 4; i++)
         {
             abilitySet[i] = new BasicAttack(gameObject);
-        }
+        }*/
     }
     
 
@@ -149,7 +169,7 @@ public class Enemy : Actor
         {
             currentTarget = nearest;
             if (currentTarget != weakest || cantTarget.Contains(currentTarget) || currentTarget.isIncapacitated() || currentTarget.isDead())
-                findTarget(distanceToNearest);
+                findTarget();
 
             //Debug.Log("Found Target = " + currentTarget.name + " at " + currentTarget.transform.position + currentTarget.getCoords());
             //currentTarget = currentTarget;
@@ -291,7 +311,7 @@ public class Enemy : Actor
             return false;
     }*/
 
-    private void findTarget(float distanceToNearest)
+    private void findTarget()
     {
         //Debug.Log(currentTarget.coords);
         currentTarget = weakest;
@@ -307,6 +327,7 @@ public class Enemy : Actor
         else if (!cantTarget.Contains(weakest) && !weakest.isDead() && !weakest.isIncapacitated())
         {
             currentTarget = weakest;
+            targetLocked = true;
             Debug.Log("Targeted Weakest");
             return;
         }
@@ -318,10 +339,11 @@ public class Enemy : Actor
                 if (!cantTarget.Contains(userTeam[player]) && !userTeam[player].isDead() && !userTeam[player].isIncapacitated())
                 {
                     currentTarget = userTeam[player];
+                    targetLocked = true;
                     return;
                 }
-                    
             }
+            Debug.LogError("Absolutely No Good Move Available. Skipping Turn");
         }
     }
 
@@ -455,42 +477,69 @@ public class Enemy : Actor
     {
         Vector3 output = getCoords() - mapPos;
         output = output.normalized;
-        if (output.x > 0)
+        if (output.x >= 0)
         {
-            if (output.z > 0)
+            if (output.z >= 0)
             {
                 Vector3 temp = PosCloseTo("rightup", mapPos);
                 if (temp == new Vector3(-1, -1, -1))
+                {
+                    Debug.Log("leftdown");
                     return PosCloseTo("leftdown", mapPos);
+                }
                 else
+                {
+                    Debug.Log("rightup");
                     return temp;
+                }
+                    
             }
             else
             {
                 Vector3 temp = PosCloseTo("rightdown", mapPos);
                 if (temp == new Vector3(-1, -1, -1))
+                {
+                    Debug.Log("leftup");
                     return PosCloseTo("leftup", mapPos);
+
+                }
                 else
+                {
+                    Debug.Log("rightdown");
                     return temp;
+                }
+                    
             }
         }
         else
         {
-            if (output.z > 0)
+            if (output.z >= 0)
             {
                 Vector3 temp = PosCloseTo("leftup", mapPos);
                 if (temp == new Vector3(-1, -1, -1))
+                {
+                    Debug.Log("rightdown");
                     return PosCloseTo("rightdown", mapPos);
+                }
                 else
+                {
+                    Debug.Log("leftup");
                     return temp;
+                }
             }
             else
             {
                 Vector3 temp = PosCloseTo("leftdown", mapPos);
                 if (temp == new Vector3(-1, -1, -1))
+                {
+                    Debug.Log("rightup");
                     return PosCloseTo("rightup", mapPos);
+                }
                 else
+                {
+                    Debug.Log("leftdown");
                     return temp;
+                }
             }
         }
     }
@@ -533,7 +582,7 @@ public class Enemy : Actor
         /// //////////////////////// where to add attacking
         /// </summary>
         /// <param name="currentTarget"></param>
-        public bool attemptAttack()
+        public bool attemptAttack() //thinkiing of changing to attemptAction. Also covers heal
         {
             if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
                 return false;
@@ -542,8 +591,14 @@ public class Enemy : Actor
             bool chosen = false;
             for (int ability = 0; ability < 4; ability++)
             {
-               // Debug.Log(abilitySet[ability].SkillInRange(getCoords(), currentTarget.getCoords()));
-                if (abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject) /*&& abilitySet[ability].SkillInRange(getCoords(), currentTarget.getCoords())*/)
+            // Debug.Log(abilitySet[ability].SkillInRange(getCoords(), currentTarget.getCoords()));
+                if (abilitySet[ability].abilityName == "Heal" && CheckHeal())
+                {
+                    abilitySet[ability].UseSkill(gameObject);
+                    return true;
+                }   
+                    
+                if (abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
                 {
                     bestAttack = abilitySet[ability].damage;
                     choice = ability;
@@ -556,6 +611,7 @@ public class Enemy : Actor
             //Debug.Log("currentTarget = " + currentTarget.gameObject + " skill = " + abilitySet[0].abilityName + " range = " + dist);
             if (chosen)
             {
+                Debug.Log(this + " using skill: " + abilitySet[choice] + " on " + currentTarget);
                 abilitySet[choice].UseSkill(currentTarget.gameObject); //test
                // TurnBehaviour.EnemyHasJustAttacked();
                 return true;
@@ -565,6 +621,24 @@ public class Enemy : Actor
                 Debug.Log("No Possible Attacks");
                 return false;
             }
+    }
+
+    public bool CheckHeal()
+    {
+        if (GetHealthPercent() < 50 && GetHealthPercent() < nearest.GetHealthPercent() && !TargetInRange())
+            return true;
+        else
+            return false;
+    }
+
+    public bool TargetInRange()
+    {
+        foreach(Ability ability in abilitySet)
+        {
+            if (ability.abilityName != "Heal" && ability.CanUseSkill(currentTarget.gameObject))
+                return true;
+        }
+        return false;
     }
 
     public int getExpGiven()
