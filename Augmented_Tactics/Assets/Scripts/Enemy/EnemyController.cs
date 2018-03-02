@@ -145,7 +145,7 @@ public class EnemyController : MonoBehaviour
         if (currentEnemy >= enemyCount || SM.checkTurn())
             return;
         enemyList[currentEnemy].UpdateNearest();
-        Debug.Log("Actually moved to " + enemyList[currentEnemy].getCoords());
+        //Debug.Log("Actually moved to " + enemyList[currentEnemy].getCoords());
         if (enemyList[currentEnemy].getMoves() != 0)
         {
             enemyList[currentEnemy].EnemyActions();

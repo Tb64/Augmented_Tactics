@@ -25,6 +25,7 @@ public class Enemy : Actor
     public void setWeakest(Actor weakestPlayer) { weakest = weakestPlayer; }
     private int expGiven;
     private List<Actor> cantTarget;
+    private bool targetLocked;
 
     private Actor currentTarget;
     // Use this for initialization
@@ -66,6 +67,7 @@ public class Enemy : Actor
             abilitySet[i] = new BasicAttack(gameObject);
         }
     }
+    
 
     // Update is called once per frame
     void Update()
@@ -87,6 +89,7 @@ public class Enemy : Actor
     public virtual void EnemyTurnStartActions()
     {
         cantTarget = new List<Actor>();
+        targetLocked = false;
         Debug.Log("Enemy " + enemyID + " turn started");
         if (GetHealthPercent() == 0f)
         {
@@ -108,21 +111,21 @@ public class Enemy : Actor
         //    return;
         //}
         ////Debug.Log(nearest.tileX + " " + nearest.tileZ+ " " + weakest.tileX + " "+ weakest.tileZ);
-        //Actor target = nearest;
+        //Actor currentTarget = nearest;
 
-        //if (target != weakest)
-        //    target = findTarget(weakest, distanceToNearest);
-        ////Debug.Log("Found Target = " + target.name + " at " + target.transform.position + target.getCoords());
-        //currentTarget = target;    
+        //if (currentTarget != weakest)
+        //    currentTarget = findTarget(weakest, distanceToNearest);
+        ////Debug.Log("Found Target = " + currentTarget.name + " at " + currentTarget.transform.position + currentTarget.getCoords());
+        //currentTarget = currentTarget;    
 
-        //if (target == null)
+        //if (currentTarget == null)
         //{
         //    Debug.LogError("no player team");
         //    return;
         //}
 
 
-        //Vector3 movingTo = PosCloseTo(target.getCoords());
+        //Vector3 movingTo = PosCloseTo(currentTarget.getCoords());
         ////Debug.Log("Moving to " + movingTo);
         //map.moveActorAsync(gameObject, movingTo);
         ////Attack(currentTarget);
@@ -142,27 +145,32 @@ public class Enemy : Actor
         if (getMoves() == 0)
             return;
         //add tree 
-        Actor target = nearest;
-        if (target != weakest || cantTarget.Contains(target))
-            target = findTarget(weakest, distanceToNearest);
-        //Debug.Log("Found Target = " + target.name + " at " + target.transform.position + target.getCoords());
-        currentTarget = target;
+        if (!targetLocked)
+        {
+            currentTarget = nearest;
+            if (currentTarget != weakest || cantTarget.Contains(currentTarget) || currentTarget.isIncapacitated() || currentTarget.isDead())
+                findTarget(distanceToNearest);
 
-        if (target == null)
+            //Debug.Log("Found Target = " + currentTarget.name + " at " + currentTarget.transform.position + currentTarget.getCoords());
+            //currentTarget = currentTarget;
+        }
+        
+
+        if (currentTarget == null)
         {
             Debug.LogError("no player team");
             return;
         }
-        if (attemptAttack(target))
+        if (attemptAttack())
             return;
-        Vector3 movingTo = PosCloseTo(target.getCoords());
+        Vector3 movingTo = PosCloseTo(currentTarget.getCoords());
         if (movingTo == new Vector3(-1, -1, -1))
         {
-            // movingTo = PosCloseTo(target.getCoords());
+            // movingTo = PosCloseTo(currentTarget.getCoords());
             //if (movingTo == new Vector3(0, 0, 0))
             //{
-            Debug.Log("No possible move available, switching target.");
-            cantTarget.Add(target);
+            Debug.Log("No possible move available, switching currentTarget.");
+            cantTarget.Add(currentTarget);
             EnemyActions();
             return;
             //}
@@ -283,20 +291,24 @@ public class Enemy : Actor
             return false;
     }*/
 
-    private Actor findTarget(Actor target, float distanceToNearest)
+    private void findTarget(float distanceToNearest)
     {
-        //Debug.Log(target.coords);
-        Vector3 weakestPosition = target.getCoords();
+        //Debug.Log(currentTarget.coords);
+        currentTarget = weakest;
+        Vector3 weakestPosition = currentTarget.getCoords();
         float distanceToWeakest = Vector3.Distance(weakestPosition, enemyPosition);
-        if (!nearest.isDead() && !nearest.isIncapacitated() && !cantTarget.Contains(nearest) && (distanceToWeakest > moveDistance || distanceToWeakest > 1.5 * distanceToNearest))
+        if (!nearest.isDead() && !nearest.isIncapacitated() && !cantTarget.Contains(nearest) && (distanceToWeakest > moveDistance || distanceToWeakest > 1.2 * distanceToNearest))
         {
-            target = nearest;
+            currentTarget = nearest;
+            targetLocked = true;
             Debug.Log("Targeted Nearest");
+            return;
         }
         else if (!cantTarget.Contains(weakest) && !weakest.isDead() && !weakest.isIncapacitated())
         {
-            target = weakest;
+            currentTarget = weakest;
             Debug.Log("Targeted Weakest");
+            return;
         }
         else
         {
@@ -304,29 +316,32 @@ public class Enemy : Actor
             for (int player = 0; player < 4; player++)
             {
                 if (!cantTarget.Contains(userTeam[player]) && !userTeam[player].isDead() && !userTeam[player].isIncapacitated())
-                    return userTeam[player];
+                {
+                    currentTarget = userTeam[player];
+                    return;
+                }
+                    
             }
         }
-        return target;
     }
 
-    private bool moveEnemy(Actor target)
+    private bool moveEnemy()
     {
-        if (target == null)
+        if (currentTarget == null)
             return false;
-        Vector3 movingTo = PosCloseTo(target.getCoords());
+        Vector3 movingTo = PosCloseTo(currentTarget.getCoords());
         if (movingTo == new Vector3(-1, -1, -1))
         {
-            movingTo = PosCloseTo(target.getCoords());
+            movingTo = PosCloseTo(currentTarget.getCoords());
             if (movingTo == new Vector3(-1, -1, -1))
                 return false;
         }
         bool isFinshed = map.moveActor(gameObject, movingTo);
-        //Debug.Log(target.name+" "+ " " + getMapPosition() + movingTo);
+        //Debug.Log(currentTarget.name+" "+ " " + getMapPosition() + movingTo);
         //after moving, if enemy is in range attack
         //Debug.Log("Dist = " + Vector3.Distance(enemyPosition, playerPosition) + " " + getMapPosition() + movingTo);
         //if (Vector3.Distance(enemyPosition, playerPosition) <= 1)
-        //    Attack(target);
+        //    Attack(currentTarget);
         //NextTurn();
         return isFinshed;
     }
@@ -334,7 +349,7 @@ public class Enemy : Actor
 
 
     /// <summary>
-    /// TEMP - Calculates the closest map position to target.  Can not move to occupied tile. BUG - does not check if it can walk on returned path.
+    /// TEMP - Calculates the closest map position to currentTarget.  Can not move to occupied tile. BUG - does not check if it can walk on returned path.
     /// </summary>
     /// <param name="mapPos">The map/tile position of occupied tile</param>
     /// <returns>Returns closest map/tile position to mapPos, that is not mapPos</returns>
@@ -517,31 +532,31 @@ public class Enemy : Actor
         /// <summary>
         /// //////////////////////// where to add attacking
         /// </summary>
-        /// <param name="target"></param>
-        public bool attemptAttack(Actor target)
+        /// <param name="currentTarget"></param>
+        public bool attemptAttack()
         {
             if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
                 return false;
-            Debug.Log(this + " Attempting attack on " + target + " at " + target.getCoords());
+            Debug.Log(this + " Attempting attack on " + currentTarget + " at " + currentTarget.getCoords());
             int bestAttack = 0, choice = 0;
             bool chosen = false;
             for (int ability = 0; ability < 4; ability++)
             {
-                Debug.Log(abilitySet[ability].SkillInRange(getCoords(), target.getCoords()));
-                if (abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(target.gameObject) /*&& abilitySet[ability].SkillInRange(getCoords(), target.getCoords())*/)
+               // Debug.Log(abilitySet[ability].SkillInRange(getCoords(), currentTarget.getCoords()));
+                if (abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject) /*&& abilitySet[ability].SkillInRange(getCoords(), currentTarget.getCoords())*/)
                 {
                     bestAttack = abilitySet[ability].damage;
                     choice = ability;
                     chosen = true;
                 }
             }
-            //float dist = Vector3.Distance(getCoords(), target.getCoords());
+            //float dist = Vector3.Distance(getCoords(), currentTarget.getCoords());
             //if (!(dist <= 1.5))
             //  return;
-            //Debug.Log("target = " + target.gameObject + " skill = " + abilitySet[0].abilityName + " range = " + dist);
+            //Debug.Log("currentTarget = " + currentTarget.gameObject + " skill = " + abilitySet[0].abilityName + " range = " + dist);
             if (chosen)
             {
-                abilitySet[choice].UseSkill(target.gameObject); //test
+                abilitySet[choice].UseSkill(currentTarget.gameObject); //test
                // TurnBehaviour.EnemyHasJustAttacked();
                 return true;
             }

@@ -464,6 +464,7 @@ public class Actor : MonoBehaviour
     public virtual void OnDeath()
     {
         incapacitated = true;
+        Debug.Log(this + " has died");
         anim.SetTrigger("Death");
         PlaySound("death");
     }
