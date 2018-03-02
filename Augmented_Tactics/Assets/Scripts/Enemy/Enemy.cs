@@ -288,16 +288,22 @@ public class Enemy : Actor
         //Debug.Log(target.coords);
         Vector3 weakestPosition = target.getCoords();
         float distanceToWeakest = Vector3.Distance(weakestPosition, enemyPosition);
-        if (!cantTarget.Contains(nearest) && (distanceToWeakest > moveDistance||distanceToWeakest > 2 * distanceToNearest) )
+        if (!nearest.isDead() && !nearest.isIncapacitated() && !cantTarget.Contains(nearest) && (distanceToWeakest > moveDistance || distanceToWeakest > 1.5 * distanceToNearest))
+        {
             target = nearest;
-        else if (!cantTarget.Contains(weakest))
+            Debug.Log("Targeted Nearest");
+        }
+        else if (!cantTarget.Contains(weakest) && !weakest.isDead() && !weakest.isIncapacitated())
+        {
             target = weakest;
+            Debug.Log("Targeted Weakest");
+        }
         else
         {
             Actor[] userTeam = EnemyController.userTeam;
-            for (int player = 0; player<4; player++)
+            for (int player = 0; player < 4; player++)
             {
-                if (!cantTarget.Contains(userTeam[player]))
+                if (!cantTarget.Contains(userTeam[player]) && !userTeam[player].isDead() && !userTeam[player].isIncapacitated())
                     return userTeam[player];
             }
         }
@@ -513,37 +519,37 @@ public class Enemy : Actor
         /// </summary>
         /// <param name="target"></param>
         public bool attemptAttack(Actor target)
-    {
-        if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
-            return false;
-        Debug.Log(this + " Attempting attack on " + target + " at " + target.getCoords());
-        int bestAttack = 0, choice = 0;
-        bool chosen = false;
-        for (int ability = 0; ability < 4; ability++)
         {
-            Debug.Log(abilitySet[ability].SkillInRange(getCoords(), target.getCoords()));
-            if (abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(target.gameObject) /*&& abilitySet[ability].SkillInRange(getCoords(), target.getCoords())*/)
+            if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
+                return false;
+            Debug.Log(this + " Attempting attack on " + target + " at " + target.getCoords());
+            int bestAttack = 0, choice = 0;
+            bool chosen = false;
+            for (int ability = 0; ability < 4; ability++)
             {
-                bestAttack = abilitySet[ability].damage;
-                choice = ability;
-                chosen = true;
+                Debug.Log(abilitySet[ability].SkillInRange(getCoords(), target.getCoords()));
+                if (abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(target.gameObject) /*&& abilitySet[ability].SkillInRange(getCoords(), target.getCoords())*/)
+                {
+                    bestAttack = abilitySet[ability].damage;
+                    choice = ability;
+                    chosen = true;
+                }
             }
-        }
-        //float dist = Vector3.Distance(getCoords(), target.getCoords());
-        //if (!(dist <= 1.5))
-        //  return;
-        //Debug.Log("target = " + target.gameObject + " skill = " + abilitySet[0].abilityName + " range = " + dist);
-        if (chosen)
-        {
-            abilitySet[choice].UseSkill(target.gameObject); //test
-           // TurnBehaviour.EnemyHasJustAttacked();
-            return true;
-        }
-        else
-        {
-            Debug.Log("No Possible Attacks");
-            return false;
-        }
+            //float dist = Vector3.Distance(getCoords(), target.getCoords());
+            //if (!(dist <= 1.5))
+            //  return;
+            //Debug.Log("target = " + target.gameObject + " skill = " + abilitySet[0].abilityName + " range = " + dist);
+            if (chosen)
+            {
+                abilitySet[choice].UseSkill(target.gameObject); //test
+               // TurnBehaviour.EnemyHasJustAttacked();
+                return true;
+            }
+            else
+            {
+                Debug.Log("No Possible Attacks");
+                return false;
+            }
     }
 
     public int getExpGiven()
