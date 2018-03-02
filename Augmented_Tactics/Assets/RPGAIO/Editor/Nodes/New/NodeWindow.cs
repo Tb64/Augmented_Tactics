@@ -196,7 +196,7 @@ namespace LogicSpawn.RPGMaker.Editor.New
                 GUILayout.Box("+", "genericButton", GUILayout.Height(25), GUILayout.Width(25));
                 var rect = GUILayoutUtility.GetLastRect();
                 var evtC = Event.current;
-                if (evtC.type == EventType.mouseDown)
+                if (evtC.type == EventType.MouseDown)
                 {
                     var mousePos = evtC.mousePosition;
 
@@ -757,7 +757,7 @@ namespace LogicSpawn.RPGMaker.Editor.New
             var propNode = node as PropertyNode;
             var isPropertyNode = propNode != null && propNode.NodeType == NodeType.Property;
 
-            if ((Event.current.button == 0) && (Event.current.type == EventType.mouseUp))
+            if ((Event.current.button == 0) && (Event.current.type == EventType.MouseUp))
             {
                 _selectedNode = node;
                 _selectedWindow = id;

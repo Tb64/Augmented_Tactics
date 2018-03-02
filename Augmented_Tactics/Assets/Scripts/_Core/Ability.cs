@@ -87,6 +87,49 @@ public class Ability
         return true;
 
     }
+    
+    public bool CanUseSkill(GameObject target)
+    {
+        if (target == null)
+            return false;
+
+        if (!canTargetFriendly && target.tag == gameObject.tag)
+        {
+            return false;
+        }
+
+        if (!canTargetEnemy)
+        {
+            if ((gameObject.tag == "Player" && target.tag == "Enemy") || (gameObject.tag == "Enemy" && target.tag == "Player"))
+                return false;
+        }
+
+        if (!canTargetTile && target.tag == "Tile")
+        {
+            return false;
+        }
+
+        if (SkillInRange(gameObject, target) == false)
+        {
+            Debug.Log("Out of range.");
+            return false;
+        }
+        if (manaCost != 0)
+        {
+            if (manaCost < actor.getManaCurrent())
+            {
+                Debug.Log("Out of mana");
+                return false;
+            }
+        }
+        if (actor.getMoves() <= 0)
+        {
+            Debug.Log("Not enough actions");
+            return false;
+        }
+
+        return true;
+    }
 
     /// <summary>
     /// Turns on the range marker for this skill

@@ -6,7 +6,7 @@ public class PositionAllignment : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        TurnBehaviour.OnUnitMoved += this.AlignUnit;
+        TurnBehaviour.OnActorFinishedMove += this.AlignUnit;
         TurnBehaviour.OnActorAttacked += this.AlignUnit;
     }
 	
