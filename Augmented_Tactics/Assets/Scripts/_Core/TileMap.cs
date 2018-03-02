@@ -37,8 +37,9 @@ public class TileMap : MonoBehaviour {
 
     private void Awake()
     {
+        Application.stackTraceLogType = StackTraceLogType.ScriptOnly;
         initialize();
-        TurnBehaviour.OnUnitMoved += this.PlayerMoveActions;
+        TurnBehaviour.OnActorFinishedMove += this.PlayerMoveActions;
     }
 
     //use this function to initializes variables

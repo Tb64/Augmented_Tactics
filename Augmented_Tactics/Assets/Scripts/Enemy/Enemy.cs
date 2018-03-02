@@ -38,7 +38,7 @@ public class Enemy : Actor
     public override void OnDestroy()
     {
         base.OnDestroy();
-        TurnBehaviour.OnUnitMoved -= this.EnemyMoved;
+        TurnBehaviour.OnActorFinishedMove -= this.EnemyMoved;
         //TurnBehaviour.OnUnitMoved -= this.EnemyUsedAction;
         //TurnBehaviour.OnEnemyUnitAttack -= this.EnemyUsedAction;
         //TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStart;
@@ -49,7 +49,7 @@ public class Enemy : Actor
         base.Init();
         expGiven = 10;
         //TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStartActions;
-        TurnBehaviour.OnUnitMoved += this.EnemyMoved;
+        TurnBehaviour.OnActorFinishedMove += this.EnemyMoved;
         //TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
         //TurnBehaviour.OnEnemyUnitAttack += this.EnemyUsedAction;
 

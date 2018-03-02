@@ -546,7 +546,7 @@ namespace LogicSpawn.RPGMaker.Editor
 
             if (ControlDefinition != null)
             {
-                if (evt.type == EventType.repaint)
+                if (evt.type == EventType.Repaint)
                 {
                     if (Input.GetKey(KeyCode.LeftShift))
                     {

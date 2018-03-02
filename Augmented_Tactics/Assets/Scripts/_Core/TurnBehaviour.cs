@@ -23,16 +23,17 @@ public class TurnBehaviour : MonoBehaviour
     public static event ActorEventHandler OnActorMoved;
     public static event ActorEventHandler OnActorAttacked;
     public static event ActorEventHandler OnActorBeginsAttacking;
-
+    public static event ActorEventHandler OnActorStartsMove;
+    public static event ActorEventHandler OnActorFinishedMove;
 
     //for Handling Player Events
     public delegate void PlayerEventHandler();
-    public static event PlayerEventHandler OnUnitSpawn;
-    public static event PlayerEventHandler OnUnitMoved;
+    public static event PlayerEventHandler OnPlayerSpawn;
+    public static event PlayerEventHandler OnPlayerJustMoved;
     public static event PlayerEventHandler OnPlayerAttack;
     public static event PlayerEventHandler OnUnitDestroy;
-    public static event PlayerEventHandler OnUnitBeginsMoving;
-    public static event PlayerEventHandler OnUnitBeginsAttacking;
+    public static event PlayerEventHandler OnPlayerStartMove;
+    public static event PlayerEventHandler OnPlayerBeginsAttack;
     public static event PlayerEventHandler OnPlayerConfirmingAttack;
 
     //for Handling Turn Based Events
@@ -138,23 +139,25 @@ public class TurnBehaviour : MonoBehaviour
         {
             PlayerBeginsMoving();
         }
-        if (OnUnitBeginsMoving != null)
-            OnUnitBeginsMoving();
+        if (OnActorStartsMove != null)
+            OnActorStartsMove();
     }
 
     //Called when a Move has finished
     public static void ActorHasJustMoved()
     {
-        if (!isPlayerTurn)
+        if (OnActorFinishedMove != null)
         {
-            EnemyHasJustMoved();
+            OnActorFinishedMove();
+            if (!isPlayerTurn)
+            {
+                EnemyHasJustMoved();
+            }
+            else
+            {
+                PlayerHasJustMoved();
+            }
         }
-        else
-        {
-            PlayerHasJustMoved();
-        }
-        if (OnUnitMoved != null)
-            OnUnitMoved();
     }
 
     /// <summary>
@@ -193,20 +196,20 @@ public class TurnBehaviour : MonoBehaviour
     //calls New Player Added Event
     public static void NewPlayerAdded()
     {
-        if (OnUnitSpawn != null)
-            OnUnitSpawn();
+        if (OnPlayerSpawn != null)
+            OnPlayerSpawn();
     }
     //calls Player Begins Moving Event
     public static void PlayerBeginsMoving()
     {
-        if (OnUnitBeginsMoving != null)
-            OnUnitBeginsMoving();
+        if (OnPlayerStartMove != null)
+            OnPlayerStartMove();
     }
     //calls Player Moved Event
     public static void PlayerHasJustMoved()
     {
-        if (OnUnitMoved != null)
-            OnUnitMoved();
+        if (OnPlayerJustMoved != null)
+            OnPlayerJustMoved();
     }
     //calls Player Attacked Event
     public static void PlayerHasJustAttacked()
@@ -226,8 +229,8 @@ public class TurnBehaviour : MonoBehaviour
     /// </summary>
     public static void PlayerBeginsAttacking()
     {
-        if (OnUnitBeginsAttacking != null)
-            OnUnitBeginsAttacking();
+        if (OnPlayerBeginsAttack != null)
+            OnPlayerBeginsAttack();
     }
     //calls Player Attacked Event
     public static void PlayerIsConfirmingAttack()

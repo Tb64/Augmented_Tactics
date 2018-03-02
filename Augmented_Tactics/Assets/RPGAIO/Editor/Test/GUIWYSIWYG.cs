@@ -72,7 +72,7 @@ public class GUIWYSIWYG : EditorWindow
             GUILayout.BeginVertical(GUILayout.MaxWidth(180));
             var rect = RPGMakerGUI.ListArea(GUIElements, ref selectedGUIelement, Rm_ListAreaType.Vitals, true, true);
             var evt = Event.current;
-            if (evt.type == EventType.mouseDown)
+            if (evt.type == EventType.MouseDown)
             {
                 var mousePos = evt.mousePosition;
                 if (rect.Contains(mousePos))
