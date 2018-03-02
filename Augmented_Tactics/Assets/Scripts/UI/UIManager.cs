@@ -52,28 +52,28 @@ public class UIManager : MonoBehaviour {
 
         //disable while moving, on enemy turn start, and if default unit is out of actions. Try to enable when switching
         //to new unit
-        TurnBehaviour.OnUnitBeginsMoving += disableActionsB;
+        TurnBehaviour.OnPlayerStartMove += disableActionsB;
         TurnBehaviour.OnPlayerTurnEnd += disableActionsB;
-        TurnBehaviour.OnUnitBeginsAttacking += disableActionsB;
+        TurnBehaviour.OnPlayerBeginsAttack += disableActionsB;
         TurnBehaviour.OnPlayerTurnEnd += disableEndTurn;
 
         TurnBehaviour.OnPlayerTurnStart += enableEndturn;
         TurnBehaviour.OnPlayerAttack += enableActionsB; //this is when attack ends
-        TurnBehaviour.OnUnitMoved += enableActionsB;
+        TurnBehaviour.OnActorFinishedMove += enableActionsB;
         TurnBehaviour.OnPlayerTurnStart += enableActionsB;
         TurnBehaviour.OnNewSelectedUnit += enableActionsB;
     }
 
     private void OnDestroy()
     {
-        TurnBehaviour.OnUnitBeginsMoving -= disableActionsB;
+        TurnBehaviour.OnPlayerStartMove -= disableActionsB;
         TurnBehaviour.OnPlayerTurnEnd -= disableActionsB;
-        TurnBehaviour.OnUnitBeginsAttacking -= disableActionsB;
+        TurnBehaviour.OnPlayerBeginsAttack -= disableActionsB;
         TurnBehaviour.OnPlayerTurnEnd -= disableEndTurn;
 
         TurnBehaviour.OnPlayerTurnStart -= enableEndturn;
         TurnBehaviour.OnPlayerAttack -= enableActionsB;
-        TurnBehaviour.OnUnitMoved -= enableActionsB;
+        TurnBehaviour.OnActorFinishedMove -= enableActionsB;
         TurnBehaviour.OnPlayerTurnStart -= enableActionsB;
         TurnBehaviour.OnNewSelectedUnit += enableActionsB;
     }

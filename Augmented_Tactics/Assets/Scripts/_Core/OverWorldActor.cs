@@ -21,26 +21,26 @@ public class OverWorldActor : MonoBehaviour
     public virtual void Update()
     {
         clickToMove();
-        float angle = 0f;
-        if (target.collider == true)
-        {
-            if (angle > 5f)
-            {
-                Vector3 targetDir = target.transform.position - transform.position;
+        //float angle = 0f;
+        //if (target.collider == true)
+        //{
+        //    if (angle > 5f)
+        //    {
+        //        Vector3 targetDir = target.transform.position - transform.position;
 
-            angle = Vector3.SignedAngle(targetDir, transform.forward, Vector3.up);
-            //find the vector pointing from our position to the target
-            _direction = (target.transform.position - transform.position).normalized;
+        //    angle = Vector3.SignedAngle(targetDir, transform.forward, Vector3.up);
+        //    //find the vector pointing from our position to the target
+        //    _direction = (target.transform.position - transform.position).normalized;
     
-            //create the rotation we need to be in to look at the target
-            _lookRotation = Quaternion.LookRotation(_direction);
+        //    //create the rotation we need to be in to look at the target
+        //    _lookRotation = Quaternion.LookRotation(_direction);
             
-            //rotate us over time according to speed until we are in the required rotation
-            transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * rotationSpeed);
+        //    //rotate us over time according to speed until we are in the required rotation
+        //    transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * rotationSpeed);
 
-            transform.rotation = _lookRotation;
-            }
-        }
+        //    transform.rotation = _lookRotation;
+        //    }
+        //}
     }
 
     void initialize()
