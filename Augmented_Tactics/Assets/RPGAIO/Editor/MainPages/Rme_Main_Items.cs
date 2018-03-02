@@ -561,7 +561,7 @@ namespace LogicSpawn.RPGMaker.Editor
             var evt = Event.current;
             
             
-            if (evt.type == EventType.mouseDown)
+            if (evt.type == EventType.MouseDown)
             {
                 var mousePos = evt.mousePosition;
 
@@ -1483,7 +1483,7 @@ namespace LogicSpawn.RPGMaker.Editor
 
             var rect = RPGMakerGUI.ListArea(allItemsList, ref selectedCraftItemInfo, Rm_ListAreaType.Items, true, true);
             var evt = Event.current;
-            if (evt.type == EventType.mouseDown)
+            if (evt.type == EventType.MouseDown)
             {
                 var mousePos = evt.mousePosition;
 

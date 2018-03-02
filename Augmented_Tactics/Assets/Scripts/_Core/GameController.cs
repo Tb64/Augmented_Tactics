@@ -45,7 +45,7 @@ public class GameController : MonoBehaviour
     {
         TurnBehaviour.OnTurnStart += this.TurnStart;
         TurnBehaviour.OnPlayerTurnStart += this.PlayerTurnStart;
-        TurnBehaviour.OnUnitSpawn += this.UnitSpawn;
+        TurnBehaviour.OnPlayerSpawn += this.UnitSpawn;
         currentMode = MODE_SELECT_UNIT;
         GameObject mapObj = GameObject.FindGameObjectWithTag("Map");
         endOfBattleController = GameObject.Find("EndofBattleController");
@@ -83,7 +83,7 @@ public class GameController : MonoBehaviour
     {
         TurnBehaviour.OnTurnStart -= this.TurnStart;
         TurnBehaviour.OnPlayerTurnStart -= this.PlayerTurnStart;
-        TurnBehaviour.OnUnitSpawn -= this.UnitSpawn;
+        TurnBehaviour.OnPlayerSpawn -= this.UnitSpawn;
     }
 
     // Update is called once per frame
