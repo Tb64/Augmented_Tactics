@@ -114,12 +114,15 @@ public class Ability
             Debug.Log("Out of range.");
             return false;
         }
-        if (manaCost < actor.getManaCurrent())
+        if (manaCost != 0)
         {
-            Debug.Log("Out of mana");
-            return false;
+            if (manaCost < actor.getManaCurrent())
+            {
+                Debug.Log("Out of mana");
+                return false;
+            }
         }
-        if (actor.getMoves() >= 0)
+        if (actor.getMoves() <= 0)
         {
             Debug.Log("Not enough actions");
             return false;
