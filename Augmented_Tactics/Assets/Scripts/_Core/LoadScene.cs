@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
-public class LoadScene : MonoBehaviour {
+public class LoadScene : MonoBehaviour
+{
 
     //Name of scene to load
     public string sceneName;
     bool sceneLoaded = false;
     int increment = 1;
+    private void Awake()
+    {
+        Application.stackTraceLogType = StackTraceLogType.ScriptOnly;
+    }
 
     private void Start()
     {
@@ -17,25 +22,36 @@ public class LoadScene : MonoBehaviour {
 
     IEnumerator CoLoadNextScene()
     {
+
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
-        yield return op;
+        op.allowSceneActivation = false;
+        yield return new WaitForSeconds(5);
+        //do
+        //{
+        //    Debug.Log("scene loading: " + op.progress);
+        //    Debug.Log("isdone: " + op.isDone);
+            
+        //} while (op.isDone != true);
         op.allowSceneActivation = true;
+        yield return op;
 
     }
+
 
     //will start thread that loads the scene
     private void loadScene()
     {
         //increment is used to prevent a scene being loaded more than once
-        increment++;    
+        Debug.Log("Start Load");
+        increment++;
         StartCoroutine(CoLoadNextScene());
     }
-  
+
     public void OnTriggerEnter(Collider other)
     {
         Debug.Log(other.name);
         if (other.tag == "Player" && increment == 1)
-            loadScene();
+                loadScene();
     }
 
 
