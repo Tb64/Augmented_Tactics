@@ -6,10 +6,10 @@ public class EnemyController : MonoBehaviour
 {
     public StateMachine SM;
     public TileMap map;
-    private static int enemyCount; // temp until better method found
-    public static Actor[] userTeam;
+    private static int enemyCount; //number of foes
+    public static Actor[] userTeam; // player controlled team
     public Actor weakest, nearest; //for attacking together later. not useful now
-    public static int enemyNum;
+    public static int enemyNum; // current enemy in enemyList
     public static Enemy[] enemyList;
     public static int currentEnemy = 0;
     //public Actor getWeakest() { return weakest; }
@@ -35,11 +35,11 @@ public class EnemyController : MonoBehaviour
         //TurnBehaviour.OnUnitMoved -= this.EnemyMoveFinished;
         TurnBehaviour.OnEnemyOutOfMoves -= this.EnemyMoveFinished;
     }
-
+    #region primaryActions
     public void EnemyInitialize()
     {
         enemyNum = 0;
-        enemyCount = 2;
+        //enemyCount = 2;
         TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStart;
         TurnBehaviour.OnActorFinishedMove += this.ExhaustMoves;
         TurnBehaviour.OnActorAttacked += this.ExhaustMoves;
@@ -59,14 +59,23 @@ public class EnemyController : MonoBehaviour
         if (enemyList == null)
             enemyList = new Enemy[15];
         GameObject[] tempEnemyTeam = GameObject.FindGameObjectsWithTag("Enemy");
-        foreach (GameObject enemy in tempEnemyTeam)
+        List<Enemy> findOrder = new List<Enemy>();
+        foreach (GameObject orderChoice in tempEnemyTeam)
         {
-            enemyList[enemyNum] = enemy.GetComponent<Enemy>();
-            enemyList[enemyNum].EnemyInitialize();
+            findOrder.Add(orderChoice.GetComponent<Enemy>());
+            enemyNum++;
+        }
+        DecideOrder(findOrder);
+       /* foreach (Enemy enemy in enemyList)
+        {
+           // enemyList[enemyNum] = enemy.GetComponent<Enemy>();
+            enemy.EnemyInitialize();
             enemyList[enemyNum].setEnemyId(enemyNum);
             Debug.Log("Enemy added: " + enemyNum + ") " + enemyList[enemyNum]);
             enemyNum++;
-        }
+        }*/
+        //enemyCount = enemyNum - 1;
+        //DecideOrder();
         GameObject[] tempPlayerTeam = GameObject.FindGameObjectsWithTag("Player");
         if (tempPlayerTeam == null)
         {
@@ -99,6 +108,28 @@ public class EnemyController : MonoBehaviour
         return weakest;
     }
 
+    private void DecideOrder(List<Enemy> enemies) //decide which order the enemies attack based on dexterity and
+                                                 //initialize in order
+    {
+        for(int x = 0; x < enemyNum; x++)
+        {
+            int highest = -1, chosen = 0;
+            for (int y = 0; y < enemies.Count; y++)
+            {
+               if(enemies[y].getDexterity() > highest)
+                {
+                    highest = enemies[y].getDexterity();
+                    chosen = y;
+                }
+            }
+            enemyList[x] = enemies[chosen];
+            enemies.Remove(enemies[chosen]);
+            enemyList[x].EnemyInitialize();
+            enemyList[x].setEnemyId(x);
+            Debug.Log("Enemy added: " + enemyNum + ") " + enemyList[enemyNum]);
+        }
+    }
+
     public void EnemyTurnStart()
     {
         /* if (SM.checkTurn())
@@ -111,7 +142,9 @@ public class EnemyController : MonoBehaviour
         //also need to add some advanced decision making for attacking a target together #notfirstplayable
         EnemyAction();
     }
+    #endregion
 
+    #region eventBasedReactions
     public void EnemyMoveFinished()
     {
         if (SM.checkTurn())
@@ -142,7 +175,7 @@ public class EnemyController : MonoBehaviour
     }
     public static void ExhaustMoves(StateMachine SM)
     {
-        if (currentEnemy >= enemyCount || SM.checkTurn())
+        if (currentEnemy >= enemyNum || SM.checkTurn())
             return;
         enemyList[currentEnemy].UpdateNearest();
         //Debug.Log("Actually moved to " + enemyList[currentEnemy].getCoords());
@@ -183,9 +216,6 @@ public class EnemyController : MonoBehaviour
 
          EnemyAction();
      }*/
-    private int[] DecideOrder() //decide which order the enemies attack in and return array of enemyID
-    {
-        int[] attackOrder = new int[enemyList.Length];
-        return attackOrder;
-    }
+    #endregion
+
 }

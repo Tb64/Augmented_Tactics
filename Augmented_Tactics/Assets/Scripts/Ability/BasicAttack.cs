@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class BasicAttack : Ability {
 
-    public float damage = 10f;
+    //public float damage = 10f;
     
     /// <summary>
     /// Constructor for Basic Attack, put in the gameobject of the object that basic attack will be added to.
