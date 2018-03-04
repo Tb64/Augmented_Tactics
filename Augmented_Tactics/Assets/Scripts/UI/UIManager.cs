@@ -67,12 +67,12 @@ public class UIManager : MonoBehaviour {
 
         //disables end turn when is enemy turn, attacking, moving, or using item
         TurnBehaviour.OnPlayerTurnEnd += disableEndTurn;
-        TurnBehaviour.OnUnitBeginsAttacking += disableEndTurn;
-        TurnBehaviour.OnUnitBeginsMoving += disableEndTurn;
+        TurnBehaviour.OnPlayerBeginsAttack += disableEndTurn;
+        TurnBehaviour.OnPlayerStartMove += disableEndTurn;
 
         TurnBehaviour.OnPlayerTurnStart += enableEndturn;
         TurnBehaviour.OnPlayerAttack += enableEndturn;
-        TurnBehaviour.OnUnitMoved += enableEndturn;
+        TurnBehaviour.OnPlayerJustMoved += enableEndturn;
     }
 
     private void OnDestroy()
@@ -87,12 +87,12 @@ public class UIManager : MonoBehaviour {
         TurnBehaviour.OnNewSelectedUnit -= enableActionsB;
 
         TurnBehaviour.OnPlayerTurnEnd -= disableEndTurn;
-        TurnBehaviour.OnUnitBeginsAttacking -= disableEndTurn;
-        TurnBehaviour.OnUnitBeginsMoving -= disableEndTurn;
+        TurnBehaviour.OnPlayerBeginsAttack -= disableEndTurn;
+        TurnBehaviour.OnPlayerStartMove -= disableEndTurn;
 
         TurnBehaviour.OnPlayerTurnStart -= enableEndturn;
         TurnBehaviour.OnPlayerAttack -= enableEndturn;
-        TurnBehaviour.OnUnitMoved -= enableEndturn;
+        TurnBehaviour.OnPlayerJustMoved -= enableEndturn;
     }
 
     /// <summary>
