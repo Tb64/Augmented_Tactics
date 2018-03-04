@@ -5,7 +5,8 @@ using UnityEngine;
 public class Fire : Ability
 {
 
-   // float damage = 20f;
+    // float damage = 20f;
+    GameObject effect;
     
     public Fire(GameObject obj)
     {
@@ -25,6 +26,7 @@ public class Fire : Ability
         dwell_time = 1.0f;
         abilityName = "Fire";
         abilityImage = Resources.Load<Sprite>("UI/Ability/Fire");
+        effect = Resources.Load<GameObject>("Effects/Effect23");
     }
 
     public override bool UseSkill(GameObject target)
@@ -42,6 +44,8 @@ public class Fire : Ability
                 anim.SetTrigger("MagicAttack");
 
                 //animate fire attack
+                if (effect != null)
+                    GameObject.Instantiate(effect, gameObject.transform);
 
                 actor.PlaySound("attack");
             }
