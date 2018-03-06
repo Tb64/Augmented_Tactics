@@ -66,6 +66,7 @@ public class Actor : MonoBehaviour
     protected RangeHighlight rangeMarker;
     private bool incapacitated;
     private bool dead;
+    private int aggro; //for A.I use only. Measures highest threat for targeting
     protected int deathTimer;
     private Transform mainCamera;
     //Audio clips
@@ -464,6 +465,7 @@ public class Actor : MonoBehaviour
     public virtual void OnDeath()
     {
         incapacitated = true;
+        Debug.Log(this + " has died");
         anim.SetTrigger("Death");
         PlaySound("death");
     }

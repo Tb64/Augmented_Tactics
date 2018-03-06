@@ -1,10 +1,11 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [System.Serializable]
-public class GameData{
-    public  List<PlayerData> armyList = new List<PlayerData>();
-    private KeyValuePair<string,string>[] currentTeam = { new KeyValuePair<string, string>("Player0", ""),
+public class GameData
+{
+    public List<PlayerData> armyList = new List<PlayerData>();
+    private KeyValuePair<string, string>[] currentTeam = { new KeyValuePair<string, string>("Player0", ""),
     new KeyValuePair<string, string>("Player1", ""), new KeyValuePair<string, string>("Player2", ""),
     new KeyValuePair<string, string>("Player3", "")};
     public bool loaded = false;
@@ -12,9 +13,9 @@ public class GameData{
     {
         //if (!loaded)
         //{
-           // loaded = true;
-         //   armyList = retrieveData();
-       // }
+        // loaded = true;
+        //   armyList = retrieveData();
+        // }
         //Debug.Log(armyList[0]);
         /*List<PlayerData> tempPlayers = armyList;
         tempPlayers.Add(new PlayerData("Doogy"));
@@ -23,11 +24,11 @@ public class GameData{
         tempPlayers.Add(new PlayerData("Loading"));
         armyList = tempPlayers;*/
         //Debug.Log("added all players")
-       // sendData();
+        // sendData();
 
     }
     #region set/gets
-    public PlayerData[] getCurrentTeam() 
+    public PlayerData[] getCurrentTeam()
     {
         PlayerData[] tempTeam = new PlayerData[4];
         tempTeam[0] = loadPlayer(PlayerPrefs.GetString("Player0"));
@@ -53,7 +54,17 @@ public class GameData{
         armyList = army;
     }
     #endregion
+    public PlayerData[] getNextSix(int playerNum)
+    {
+        PlayerData[] next = new PlayerData[6];
+        for (int x = 0; x < 6; x++)
+        {
+            next[x] = armyList[playerNum];
+            playerNum++;
+        }
 
+        return next;
+    }
     public PlayerData loadPlayer(string name)
     {
         if (name == null)
@@ -88,20 +99,20 @@ public class GameData{
         }
 
         //Debug.LogError("Unable to save");
-        
+
         return false;
     }
 
-   /* private List<PlayerData> retrieveData()
-    {
-        //GameDataController game = new GameDataController();
-        List<PlayerData> data = GameDataController.loadPlayerData();
-        return data;
-    }*/
+    /* private List<PlayerData> retrieveData()
+     {
+         //GameDataController game = new GameDataController();
+         List<PlayerData> data = GameDataController.loadPlayerData();
+         return data;
+     }*/
 
-    private  void sendData()
+    private void sendData()
     {
-       // GameDataController game = new GameDataController();
+        // GameDataController game = new GameDataController();
         GameDataController.savePlayerData(this);
     }
 
