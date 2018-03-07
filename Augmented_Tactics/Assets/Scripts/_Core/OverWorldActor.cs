@@ -9,8 +9,8 @@ public class OverWorldActor : MonoBehaviour
     NavMeshAgent playerAgent;
     private Animator playerAnim;
     public float rotationSpeed;
-    private Quaternion _lookRotation;
-    private Vector3 _direction;
+    private Quaternion lookRotation;
+    private Vector3 direction;
   
     public virtual void Start()
     {
@@ -21,35 +21,17 @@ public class OverWorldActor : MonoBehaviour
     public virtual void Update()
     {
         clickToMove();
-        //float angle = 0f;
-        //if (target.collider == true)
-        //{
-        //    if (angle > 5f)
-        //    {
-        //        Vector3 targetDir = target.transform.position - transform.position;
+        //if (target.collider != null) 
+        //    rotateTowards();
 
-        //    angle = Vector3.SignedAngle(targetDir, transform.forward, Vector3.up);
-        //    //find the vector pointing from our position to the target
-        //    _direction = (target.transform.position - transform.position).normalized;
-    
-        //    //create the rotation we need to be in to look at the target
-        //    _lookRotation = Quaternion.LookRotation(_direction);
-            
-        //    //rotate us over time according to speed until we are in the required rotation
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * rotationSpeed);
-
-        //    transform.rotation = _lookRotation;
-        //    }
-        //}
     }
 
     void initialize()
     {
         playerAgent = GetComponent<NavMeshAgent>();
         playerAnim = gameObject.GetComponentInChildren<Animator>();
-        playerAgent.updateRotation = false;
-        rotationSpeed = 10f;
-
+        //playerAgent.updateRotation = false;
+        rotationSpeed = 100f;
     }
 
     void clickToMove()
@@ -59,19 +41,18 @@ public class OverWorldActor : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) //&& !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
             GetInteraction();
-            rotateTowards();
+            
         }
     }
 
     void rotateTowards()
     {
-        Vector3 newDir;
-       
-            //Vector3 targetDir = target.transform.position - transform.position;
-            float step = rotationSpeed * Time.deltaTime;
-            var q = Quaternion.LookRotation(target.transform.position - transform.position);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, q, rotationSpeed * Time.deltaTime);
+        //Vector3 newDir = Vector3.RotateTowards(gameObject.transform.forward, target.transform.position, 1f, 0f);
+        //newDir = new Vector3(newDir.x, gameObject.transform.position.y, newDir.z);
 
+        //newDir = new Vector3(target.transform.position.x, gameObject.transform.position.y, target.transform.position.z);
+        //gameObject.transform.LookAt(newDir);
+        gameObject.transform.LookAt(target.transform);
     }
 
     void GetInteraction()
@@ -89,6 +70,7 @@ public class OverWorldActor : MonoBehaviour
             {
                 //move our player to the point
                 playerAgent.destination = target.point;
+               
             }
         }
     }
