@@ -25,7 +25,7 @@ public class DayNight : MonoBehaviour {
 
     private void Start()
     {
-        time = 3600;
+        setTime(10);
     }
 
     public void ChangeTime()

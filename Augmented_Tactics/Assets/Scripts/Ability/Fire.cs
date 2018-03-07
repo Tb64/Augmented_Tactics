@@ -5,7 +5,8 @@ using UnityEngine;
 public class Fire : Ability
 {
 
-    float damage = 20f;
+    // float damage = 20f;
+    GameObject effect;
     
     public Fire(GameObject obj)
     {
@@ -16,15 +17,16 @@ public class Fire : Ability
     {
         base.Initialize(obj);
 
-        damage = actor.getIntelligence();
+        damage = actor.getIntelligence()/3;
 
         anim = gameObject.GetComponentInChildren<Animator>();
-        range_max = 10;
+        range_max = 3;
         range_min = 1;
-        manaCost = 5;
+        manaCost = 10;
         dwell_time = 1.0f;
         abilityName = "Fire";
         abilityImage = Resources.Load<Sprite>("UI/Ability/Fire");
+        effect = Resources.Load<GameObject>("Effects/Effect23");
     }
 
     public override bool UseSkill(GameObject target)
@@ -42,10 +44,13 @@ public class Fire : Ability
                 anim.SetTrigger("MagicAttack");
 
                 //animate fire attack
+                if (effect != null)
+                    GameObject.Instantiate(effect, gameObject.transform);
 
                 actor.PlaySound("attack");
             }
             target.GetComponent<Actor>().TakeDamage(damage,gameObject);
+            DwellTime.Attack(dwell_time);
             return true;
         }
 
