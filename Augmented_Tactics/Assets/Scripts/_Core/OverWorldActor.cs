@@ -21,8 +21,7 @@ public class OverWorldActor : MonoBehaviour
     public virtual void Update()
     {
         clickToMove();
-        //if (target.collider != null) 
-        //    rotateTowards();
+        playerAnim.SetFloat("Speed", gameObject.GetComponent<NavMeshAgent>().velocity.magnitude);
 
     }
 
@@ -47,12 +46,7 @@ public class OverWorldActor : MonoBehaviour
 
     void rotateTowards()
     {
-        //Vector3 newDir = Vector3.RotateTowards(gameObject.transform.forward, target.transform.position, 1f, 0f);
-        //newDir = new Vector3(newDir.x, gameObject.transform.position.y, newDir.z);
-
-        //newDir = new Vector3(target.transform.position.x, gameObject.transform.position.y, target.transform.position.z);
-        //gameObject.transform.LookAt(newDir);
-        gameObject.transform.LookAt(target.transform);
+       
     }
 
     void GetInteraction()
