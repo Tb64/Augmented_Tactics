@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class AnimTriggers : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    // Use this for initialization
+    void Start () {
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -16,25 +15,31 @@ public class AnimTriggers : MonoBehaviour {
 
     public void Hit()
     {
+        
     }
 
     public void Shoot()
     {
+
     }
 
     public void FootR()
     {
+        FindObjectOfType<SFXController>().Play("rightfoot");
     }
 
     public void FootL()
     {
+        FindObjectOfType<SFXController>().Play("leftfoot");
     }
 
     public void Land()
     {
+
     }
 
     public void WeaponSwitch()
     {
+
     }
 }
