@@ -78,7 +78,6 @@ public class UnholyLightning : Ability {
         {
             return false;
         }
-
     }
 
     private void Skill(GameObject target)

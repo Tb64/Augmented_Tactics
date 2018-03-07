@@ -10,9 +10,8 @@ public class SceneManagement : MonoBehaviour {
         SceneManager.LoadScene(0);
     }
 
-    public void LoadLevel(int index)
-    {
-        SceneManager.LoadScene(index);
-    }
+    
+
+   
 
 }
