@@ -75,6 +75,9 @@ public class SkillLoader : MonoBehaviour {
             case "thunder":
                 return new Thunder(gObj);
 
+            case "fireball":
+                return new FireBall(gObj);
+
 
             default:
                 return null;

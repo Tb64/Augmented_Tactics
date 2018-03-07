@@ -17,12 +17,12 @@ public class Fire : Ability
     {
         base.Initialize(obj);
 
-        damage = actor.getIntelligence();
+        damage = actor.getIntelligence()/3;
 
         anim = gameObject.GetComponentInChildren<Animator>();
-        range_max = 10;
+        range_max = 3;
         range_min = 1;
-        manaCost = 5;
+        manaCost = 10;
         dwell_time = 1.0f;
         abilityName = "Fire";
         abilityImage = Resources.Load<Sprite>("UI/Ability/Fire");
