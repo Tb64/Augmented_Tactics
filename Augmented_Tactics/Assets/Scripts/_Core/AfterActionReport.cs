@@ -62,7 +62,7 @@ public class AfterActionReport : MonoBehaviour {
     public void Restart()
     {
         Time.timeScale = 1;
-        manager.LoadLevel(SceneManager.GetActiveScene().buildIndex);
+        //manager.LoadLevel(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Continue()

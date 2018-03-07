@@ -5,16 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class SceneManagement : MonoBehaviour {
 
-
     public void LoadHub()
     {//loads main hub
-        SceneManager.LoadScene(0);
+        SceneManager.LoadSceneAsync("castle_hub");
     }
+
     
-    
-    public void LoadLevel(int index)
-    {
-        SceneManager.LoadScene(index);
-    }
+
+   
 
 }

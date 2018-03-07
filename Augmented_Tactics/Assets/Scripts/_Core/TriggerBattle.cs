@@ -21,7 +21,7 @@ private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            manager.LoadLevel(1);
+            //manager.LoadLevel(1);
         }
     }
 }

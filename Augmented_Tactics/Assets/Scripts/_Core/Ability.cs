@@ -75,7 +75,7 @@ public class Ability
         }
         if(!actor.UseMana(manaCost))
         {
-            Debug.Log("Out of mana");
+            Debug.Log("Not enough mana");
             return false;
         }
         if (!actor.useAction())
@@ -114,12 +114,15 @@ public class Ability
             Debug.Log("Out of range.");
             return false;
         }
-        if (manaCost < actor.getManaCurrent())
+        if (manaCost != 0)
         {
-            Debug.Log("Out of mana");
-            return false;
+            if (manaCost > actor.getManaCurrent())
+            {
+                Debug.Log("Not Enough mana");
+                return false;
+            }
         }
-        if (actor.getMoves() >= 0)
+        if (actor.getMoves() <= 0)
         {
             Debug.Log("Not enough actions");
             return false;
@@ -153,7 +156,10 @@ public class Ability
 
     public bool SkillInRange(Vector3 start, Vector3 end)
     {
+        start.y = 0f;
+        end.y = 0f;
         float distance = Vector3.Distance(start, end);
+        Debug.Log("Skill Range Check: Start:" + start + " End:" + end + " Distance:" + distance);
         return (distance <= (float)range_max && distance >= (float)range_min );
     }
 
