@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
 
     public static GameObject selectedMarker;
     public static GameObject selectedUnitHighlight;
+    
 
     private static Actor selectedUnit;
     private static Vector3 targetLocation;
@@ -31,6 +32,8 @@ public class GameController : MonoBehaviour
     private int currentAbility = 0;
     private static bool abilityMode = false;
     private int currentMode = MODE_SELECT_UNIT;
+    
+
 
     private void Awake()
     {
@@ -87,6 +90,7 @@ public class GameController : MonoBehaviour
     void Update()
     {
         ClickEvent();
+        
 
     }
 
