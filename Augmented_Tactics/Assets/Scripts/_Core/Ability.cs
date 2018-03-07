@@ -156,7 +156,10 @@ public class Ability
 
     public bool SkillInRange(Vector3 start, Vector3 end)
     {
+        start.y = 0f;
+        end.y = 0f;
         float distance = Vector3.Distance(start, end);
+        Debug.Log("Skill Range Check: Start:" + start + " End:" + end + " Distance:" + distance);
         return (distance <= (float)range_max && distance >= (float)range_min );
     }
 

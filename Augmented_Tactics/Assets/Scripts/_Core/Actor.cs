@@ -389,6 +389,10 @@ public class Actor : MonoBehaviour
 
         health_current -= damage;
         Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
+        if (gameObject.GetComponentInChildren<HealthBar>() != null)
+        {
+            gameObject.GetComponentInChildren<HealthBar>().updateHealth(GetHealthPercent());
+        }
         if (health_current <= 0)
         {
             health_current = 0;
@@ -400,10 +404,6 @@ public class Actor : MonoBehaviour
         //justin set damage string array here
         PlaySound("damage");
         //Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
-        if (gameObject.GetComponentInChildren<HealthBar>() != null)
-        {
-            gameObject.GetComponentInChildren<HealthBar>().updateHealth(GetHealthPercent());
-        }
     }
 
     public bool UseMana(float cost)
