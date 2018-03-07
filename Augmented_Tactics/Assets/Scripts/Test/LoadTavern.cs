@@ -19,14 +19,14 @@ public class LoadTavern : MonoBehaviour {
 
     private void OnMouseDown()
     {
-        manager.LoadLevel(2);
+        //manager.LoadLevel(2);
     }
 
     private void OnColliderEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            manager.LoadLevel(2);
+            //manager.LoadLevel(2);
         }
     }
 }

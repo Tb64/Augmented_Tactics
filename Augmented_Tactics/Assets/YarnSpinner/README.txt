@@ -12,8 +12,7 @@ __   __                 _____       _
 
 Yarn Spinner is an interpreter for the Yarn interactive dialogue language, written in C#.
 
-For more information on Yarn Spinner, including tutorials on how to get started, check 
-out the project's page on GitHub: https://github.com/thesecretlab/YarnSpinner
+For more information on Yarn Spinner, including tutorials on how to get started, check out the project's page on GitHub: https://github.com/thesecretlab/YarnSpinner
 
 LICENSE:
 
