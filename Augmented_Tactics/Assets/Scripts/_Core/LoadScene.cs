@@ -25,7 +25,7 @@ public class LoadScene : MonoBehaviour
 
         AsyncOperation op = SceneManager.LoadSceneAsync(sceneName);
         op.allowSceneActivation = false;
-        yield return new WaitForSeconds(5);
+        //yield return new WaitForSeconds(5);
         //do
         //{
         //    Debug.Log("scene loading: " + op.progress);
