@@ -357,10 +357,10 @@ public class Actor : MonoBehaviour
 
     protected void rotateAtObj(GameObject target)
     {
-        Vector3 newDir = Vector3.RotateTowards(gameObject.transform.forward, target.transform.position, 1f, 0f);
-        newDir = new Vector3(newDir.x, gameObject.transform.position.y, newDir.z);
+        //Vector3 newDir = Vector3.RotateTowards(gameObject.transform.forward, target.transform.position, 1f, 0f);
+        //newDir = new Vector3(newDir.x, gameObject.transform.position.y, newDir.z);
 
-        newDir = new Vector3(target.transform.position.x, gameObject.transform.position.y, target.transform.position.z);
+        Vector3 newDir = new Vector3(target.transform.position.x, gameObject.transform.position.y, target.transform.position.z);
         gameObject.transform.LookAt(newDir);
     }
 
