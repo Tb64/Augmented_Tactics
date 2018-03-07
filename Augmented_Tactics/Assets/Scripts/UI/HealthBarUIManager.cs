@@ -66,14 +66,19 @@ public class HealthBarUIManager : MonoBehaviour {
         //in actor thwre is a var called dead its true. .isDead()
     }
 
-    //updates mana after a player attacks
-    public static void OnActorAttacked()
+    public static void updateMana()
     {
         for (int i = 0; i < numPlayers; i++)
         {
             playerManaImg[i].fillAmount = PlayerControlled.playerList[i].GetManaPercent();
         }
+    }
 
+    //updates mana after a player attacks
+    public static void OnActorAttacked()
+    {
+        updateHealth();
+        updateMana();
     }
 
     //refresh movements
