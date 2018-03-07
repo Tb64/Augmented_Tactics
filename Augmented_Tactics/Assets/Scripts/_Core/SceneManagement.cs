@@ -7,7 +7,7 @@ public class SceneManagement : MonoBehaviour {
 
     public void LoadHub()
     {//loads main hub
-        SceneManager.LoadScene(0);
+        SceneManager.LoadSceneAsync("castle_hub");
     }
 
     
