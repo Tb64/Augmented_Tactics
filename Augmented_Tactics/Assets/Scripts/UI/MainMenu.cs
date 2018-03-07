@@ -5,9 +5,14 @@ using UnityEngine;
 
 public class MainMenu : MonoBehaviour {
 
+    public SceneLoader loader;
+
 	public void loadHub()
     {
-        SceneManager.LoadSceneAsync("Castle_Hub");
+        if (loader != null)
+            loader.SceneLoad("Castle_Hub");
+        else
+         SceneManager.LoadSceneAsync("Castle_Hub");
     }
 
 }
