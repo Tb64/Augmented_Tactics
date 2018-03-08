@@ -29,7 +29,7 @@ public class Eviscerate : Ability
         range_max = 1;
         range_min = 0;
         damage = 50 + actor.getStrength() * 2;
-        abilityImage = Resources.Load<Sprite>("UI/Ability/assassinSkill10");
+        abilityImage = Resources.Load<Sprite>("UI/Ability/assassin/assassinSkill2");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
         manaCost = 0;

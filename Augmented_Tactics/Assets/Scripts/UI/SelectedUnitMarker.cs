@@ -18,7 +18,7 @@ public class SelectedUnitMarker : MonoBehaviour {
     public void AttachMarker(GameObject SelectedUnit)
     {
 
-        Debug.Log(" HELLO I AM A UNIT ATTACH LOL ^.^");
+        //Debug.Log(" HELLO I AM A UNIT ATTACH LOL ^.^");
         DetachMarker();
         transform.GetComponentInChildren<MeshRenderer>().enabled = true;
         transform.position = SelectedUnit.transform.position;

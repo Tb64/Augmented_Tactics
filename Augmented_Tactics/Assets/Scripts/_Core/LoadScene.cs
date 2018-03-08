@@ -8,6 +8,7 @@ public class LoadScene : MonoBehaviour
 
     //Name of scene to load
     public string sceneName;
+    public SceneLoader loader;
     bool sceneLoaded = false;
     int increment = 1;
     private void Awake()
@@ -44,7 +45,10 @@ public class LoadScene : MonoBehaviour
         //increment is used to prevent a scene being loaded more than once
         Debug.Log("Start Load");
         increment++;
-        StartCoroutine(CoLoadNextScene());
+        if (loader != null)
+            loader.SceneLoad(sceneName);
+        else
+            StartCoroutine(CoLoadNextScene());
     }
 
     public void OnTriggerEnter(Collider other)
