@@ -94,11 +94,6 @@ namespace Yarn.Unity
             }
         }
 
-        private void Awake()
-        {
-            Application.stackTraceLogType = StackTraceLogType.ScriptOnly;
-        }
-
         /// Start the dialogue
         void Start ()
         {

@@ -8,6 +8,8 @@ public class ClickableTile : MonoBehaviour {
     public int tileZ;
     public Vector3 coords;
     public int tileClass;
+
+    private bool renderOn = false;
     private GameObject occupiedBy;
     public TileMap map;
     public TileType tileType;
@@ -20,10 +22,18 @@ public class ClickableTile : MonoBehaviour {
 
     private void Start()
     {
-        player = GameObject.FindWithTag("Player").GetComponent<Actor>();
-        enemy = GameObject.FindWithTag("Enemy").GetComponent<Actor>();
+        //player = GameObject.FindWithTag("Player").GetComponent<Actor>();
+        //enemy = GameObject.FindWithTag("Enemy").GetComponent<Actor>();
         //unit = GameObject.FindWithTag("Map").GetComponent<TileMap>().selectedUnit.GetComponent<Actor>();
         controller = GameObject.Find("GameController").GetComponent<StateMachine>();
+        TilePosGenerator generator = GetComponentInParent<TilePosGenerator>();
+        if (generator != null)
+            renderOn = generator.showTile;
+        Renderer rend = GetComponent<Renderer>();
+        if(rend != null)
+        {
+            rend.enabled = renderOn;
+        }
     }
 
     private void OnTriggerEnter(Collider other)

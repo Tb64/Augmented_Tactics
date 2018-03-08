@@ -8,7 +8,7 @@ public class LifeLeech : Ability
     Actor user;
     GameObject leech = Resources.Load<GameObject>("animation/Effect8_Optimized");
     private MonoBehaviour mB;
-    private PositionAllignment reposition;
+    //private PositionAllignment reposition;
 
     public LifeLeech(GameObject obj)
     {
@@ -20,14 +20,14 @@ public class LifeLeech : Ability
     {
         base.Initialize(obj);
         mB = GameObject.FindObjectOfType<MonoBehaviour>();
-        reposition = GameObject.FindObjectOfType<PositionAllignment>();
+        //reposition = GameObject.FindObjectOfType<PositionAllignment>();
         anim = gameObject.GetComponentInChildren<Animator>();
         dwell_time = 3.5f;
         abilityName = "lifeleech";
         range_max = 5;
         range_min = 0;
         damage = 10 + actor.getStrength() * 2;
-        abilityImage = Resources.Load<Sprite>("UI/Ability/assassinSkill10");
+        abilityImage = Resources.Load<Sprite>("UI/Ability/assassin/assassinSkill5");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
         manaCost = 20;

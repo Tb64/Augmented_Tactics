@@ -12,6 +12,8 @@ public class TEMP_Cam : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         body = GetComponent<Rigidbody>();
+        speed = speed * 100f;
+        angleDelta = angleDelta * 50f;
 	}
 	
 	// Update is called once per frame
@@ -25,7 +27,7 @@ public class TEMP_Cam : MonoBehaviour {
         float vert = Input.GetAxis("Vertical");
         float hori = Input.GetAxis("Horizontal");
 
-        Vector3 movement = (vert * transform.forward) + (hori * transform.right);
+        Vector3 movement = (vert * transform.forward * Time.deltaTime) + (hori * transform.right * Time.deltaTime);
 
         body.velocity = movement * speed;
 
@@ -33,7 +35,7 @@ public class TEMP_Cam : MonoBehaviour {
         {
             body.transform.rotation = Quaternion.Euler(
                 body.transform.rotation.eulerAngles.x,
-                body.transform.rotation.eulerAngles.y + angleDelta,
+                body.transform.rotation.eulerAngles.y + (angleDelta * Time.deltaTime),
                 body.transform.rotation.eulerAngles.z
                 );
         }
@@ -41,7 +43,7 @@ public class TEMP_Cam : MonoBehaviour {
         {
             body.transform.rotation = Quaternion.Euler(
                 body.transform.rotation.eulerAngles.x,
-                body.transform.rotation.eulerAngles.y - angleDelta,
+                body.transform.rotation.eulerAngles.y - (angleDelta * Time.deltaTime),
                 body.transform.rotation.eulerAngles.z
                 );
         }

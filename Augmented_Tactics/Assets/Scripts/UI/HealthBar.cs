@@ -13,7 +13,17 @@ public class HealthBar : MonoBehaviour
     private TileMap map;
     private Vector3 currentScale;
     private const string filename = "UI/HealthBarBase";
-     
+
+    private void Awake()
+    {
+        TurnBehaviour.OnActorAttacked += OnActorAttacked;
+    }
+
+    private void OnDestroy()
+    {
+        TurnBehaviour.OnActorAttacked -= OnActorAttacked;
+    }
+
     void Start()
     {
         map = GameObject.Find("Map").GetComponent<TileMap>();
@@ -47,12 +57,16 @@ public class HealthBar : MonoBehaviour
         
     }
 
-    public void updateHealth(float health)
+    public void OnActorAttacked()
     {
 
-        transform.Find("CurrentHealth").transform.localScale = new Vector3(health, 1f, 1f);
+    }
 
-       
+    public void updateHealth(float health)
+    {
+        if (health <= 0f)
+            health = 0f;
+        transform.Find("CurrentHealth").transform.localScale = new Vector3(health, 1f, 1f);
     }
         
 

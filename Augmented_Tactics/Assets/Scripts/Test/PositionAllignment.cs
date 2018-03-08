@@ -10,8 +10,17 @@ public class PositionAllignment : MonoBehaviour {
         TurnBehaviour.OnActorAttacked += this.AlignUnit;
     }
 	
+
+    void OnDestroy()
+    {
+        TurnBehaviour.OnActorFinishedMove -= this.AlignUnit;
+        TurnBehaviour.OnActorAttacked -= this.AlignUnit;
+    }
+
 	void AlignUnit()
     {
+        if (transform == null)
+            return;
         Vector3 localPos = transform.localPosition;
         localPos.x = 0f;
         localPos.z = 0f;
