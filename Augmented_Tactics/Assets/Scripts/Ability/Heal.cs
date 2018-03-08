@@ -20,6 +20,7 @@ public class Heal : Ability {
         dwell_time = 1.0f;
         abilityName = "Heal";
         manaCost = 10;
+        heal = actor.getWisdom();
         abilityImage = Resources.Load<Sprite>("UI/Ability/magician/magicianSkill5");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
@@ -35,7 +36,7 @@ public class Heal : Ability {
         if (target.tag == "Player" || target.tag == "Enemy")
         {
             target.GetComponent<Actor>().HealHealth(heal);
-
+            DwellTime.Attack(dwell_time);
             return true;
         }
         return false;
