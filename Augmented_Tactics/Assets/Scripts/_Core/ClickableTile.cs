@@ -28,7 +28,7 @@ public class ClickableTile : MonoBehaviour {
         controller = GameObject.Find("GameController").GetComponent<StateMachine>();
         TilePosGenerator generator = GetComponentInParent<TilePosGenerator>();
         if (generator != null)
-            renderOn = generator.showTile;
+            renderOn = generator.showTileInGame;
         Renderer rend = GetComponent<Renderer>();
         if(rend != null)
         {
@@ -111,6 +111,42 @@ public class ClickableTile : MonoBehaviour {
     {
         Vector3 output = new Vector3(tileX, 0f, tileZ);
         return output;
+    }
+
+    public void SetWalkable()
+    {
+        if (((coords.x + coords.z) % 2) == 0)
+        {
+            Debug.Log("setting black");
+            setMaterials(Color.black);
+        }
+        else
+        {
+            setMaterials(Color.white);
+        }
+        tileType.isWalkable = true;
+    }
+
+    public void SetUnwalkable()
+    {
+        tileType.isWalkable = false;
+        if (((coords.x + coords.z) % 2) == 0)
+        {
+            setMaterials(Color.red);
+        }
+        else
+        {
+            setMaterials(Color.yellow);
+        }
+    }
+
+    private void setMaterials(Color color)
+    {
+        Renderer rend = GetComponent<Renderer>();
+        foreach (Material material in rend.materials)
+        {
+            material.color = color;
+        }
     }
 }
 
