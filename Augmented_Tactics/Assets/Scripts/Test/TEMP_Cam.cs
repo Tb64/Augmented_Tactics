@@ -12,7 +12,7 @@ public class TEMP_Cam : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         body = GetComponent<Rigidbody>();
-        speed = speed * 50f;
+        speed = speed * 100f;
         angleDelta = angleDelta * 50f;
 	}
 	
