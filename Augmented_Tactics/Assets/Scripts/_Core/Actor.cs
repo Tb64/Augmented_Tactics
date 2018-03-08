@@ -459,6 +459,10 @@ public class Actor : MonoBehaviour
         {
             health_current = health_max;
         }
+        if (gameObject.GetComponentInChildren<HealthBar>() != null)
+        {
+            gameObject.GetComponentInChildren<HealthBar>().updateHealth(GetHealthPercent());
+        }
         damageNumber(heal, new Color(0, 255, 0, 1));
     }
 

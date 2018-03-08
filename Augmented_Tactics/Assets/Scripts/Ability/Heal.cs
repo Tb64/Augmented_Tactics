@@ -20,7 +20,7 @@ public class Heal : Ability {
         dwell_time = 1.0f;
         abilityName = "Heal";
         manaCost = 10;
-        heal = actor.getWisdom();
+        heal = actor.getWisdom() + actor.getLevel();
         abilityImage = Resources.Load<Sprite>("UI/Ability/magician/magicianSkill5");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
@@ -29,7 +29,7 @@ public class Heal : Ability {
 
     public override bool UseSkill(GameObject target)
     {
-        if(base.UseSkill(target))
+        if(!base.UseSkill(target))
         {
             return false;
         }

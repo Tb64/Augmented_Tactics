@@ -70,17 +70,17 @@ public class Ability
 
         if (SkillInRange(gameObject, target) == false)
         {
-            Debug.Log("Out of range.");
+            Debug.Log("Out of range. " + abilityName);
             return false;
         }
         if(!actor.UseMana(manaCost))
         {
-            Debug.Log("Not enough mana");
+            Debug.Log("Not enough mana. " + abilityName);
             return false;
         }
         if (!actor.useAction())
         {
-            Debug.Log("Not enough actions");
+            Debug.Log("Not enough actions. " + abilityName);
             return false;
         }
 
@@ -111,20 +111,20 @@ public class Ability
 
         if (SkillInRange(gameObject, target) == false)
         {
-            Debug.Log("Out of range.");
+            Debug.Log("Out of range. " + abilityName);
             return false;
         }
         if (manaCost != 0)
         {
             if (manaCost > actor.getManaCurrent())
             {
-                Debug.Log("Not Enough mana");
+                Debug.Log("Not Enough mana. " + abilityName);
                 return false;
             }
         }
         if (actor.getMoves() <= 0)
         {
-            Debug.Log("Not enough actions");
+            Debug.Log("Not enough actions. " + abilityName);
             return false;
         }
 
@@ -159,7 +159,7 @@ public class Ability
         start.y = 0f;
         end.y = 0f;
         float distance = Vector3.Distance(start, end);
-        Debug.Log("Skill Range Check: Start:" + start + " End:" + end + " Distance:" + distance);
+        Debug.Log(abilityName + " Skill Range Check: Start:" + start + " End:" + end + " Distance:" + distance);
         return (distance <= (float)range_max && distance >= (float)range_min );
     }
 
