@@ -27,7 +27,7 @@ public class LifeLeech : Ability
         range_max = 5;
         range_min = 0;
         damage = 10 + actor.getStrength() * 2;
-        abilityImage = Resources.Load<Sprite>("UI/Ability/assassinSkill10");
+        abilityImage = Resources.Load<Sprite>("UI/Ability/assassin/assassinSkill5");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
         manaCost = 20;
