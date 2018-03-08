@@ -10,7 +10,7 @@ public class TilePosGenerator : MonoBehaviour {
     public int max_x;
     public int max_y;
     public bool generateMap;
-    public bool showTile;
+    public bool showTileInGame;
 
     Material m_Material;
 
@@ -54,14 +54,27 @@ public class TilePosGenerator : MonoBehaviour {
                 {
                     m_render.material = white;
                 }
-                if(showTile)
+                if(showTileInGame)
                     m_render.enabled = true;
             }
         }
     }
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
+    public void ShowTiles()
+    {
+        ClickableTile[] loadedTiles = GetComponentsInChildren<ClickableTile>();
+        foreach (ClickableTile tile in loadedTiles)
+        {
+            tile.GetComponent<Renderer>().enabled = true;
+        }
+    }
+
+    public void HideTiles()
+    {
+        ClickableTile[] loadedTiles = GetComponentsInChildren<ClickableTile>();
+        foreach (ClickableTile tile in loadedTiles)
+        {
+            tile.GetComponent<Renderer>().enabled = false;
+        }
+    }
 }

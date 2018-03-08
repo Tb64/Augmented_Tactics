@@ -28,7 +28,7 @@ public class ClickableTile : MonoBehaviour {
         controller = GameObject.Find("GameController").GetComponent<StateMachine>();
         TilePosGenerator generator = GetComponentInParent<TilePosGenerator>();
         if (generator != null)
-            renderOn = generator.showTile;
+            renderOn = generator.showTileInGame;
         Renderer rend = GetComponent<Renderer>();
         if(rend != null)
         {
