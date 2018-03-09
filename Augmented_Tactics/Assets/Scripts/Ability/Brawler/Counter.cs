@@ -50,7 +50,7 @@ public class Counter : Ability {
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
         //target.GetComponent<Actor>().TakeDamage(damage, gameObject);
-        actor.setCounterAttack(1);
+        actor.setCounterAttack(2);
         DwellTime.Attack(dwell_time);
     }
 }

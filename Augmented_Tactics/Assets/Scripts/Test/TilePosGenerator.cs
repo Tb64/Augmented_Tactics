@@ -10,7 +10,8 @@ public class TilePosGenerator : MonoBehaviour {
     public int max_x;
     public int max_y;
     public bool generateMap;
-    public bool showTile;
+    public bool showTileInGame;
+    public string DEBUG;
 
     Material m_Material;
 
@@ -32,36 +33,72 @@ public class TilePosGenerator : MonoBehaviour {
         if (!generateMap)
             return;
 
+        //GenerateTiles();
+    }
+
+    public void GenerateTiles()
+    {
+        ClickableTile[] loadedTiles = GetComponentsInChildren<ClickableTile>();
+        if(loadedTiles != null)
+        {
+            DEBUG = "ABORTING!! TILES EXIST ALREADY!!";
+            Debug.Log(DEBUG);
+            return;
+        }
         for (int x = 0; x < max_x; x++)
         {
             for (int z = 0; z < max_y; z++)
             {
-                Vector3 localPos = new Vector3((float)x, 0f,(float)z);
+                Vector3 localPos = new Vector3((float)x, 0f, (float)z);
                 GameObject newtile = Instantiate(tile);
                 newtile.transform.parent = transform;
-                
+
                 newtile.transform.localPosition = localPos;
 
                 newtile.GetComponent<ClickableTile>().coords = localPos;
 
                 Renderer m_render = newtile.GetComponent<Renderer>();
-                if ( ((x + z) % 2) == 0 )
+                if (((x + z) % 2) == 0)
                 {
-                    //Debug.Log("setting black");
-                    m_render.material = black;
+                    Debug.Log("setting black");
+                    setMaterials(Color.black);
                 }
                 else
                 {
-                    m_render.material = white;
+                    setMaterials(Color.white);
                 }
-                if(showTile)
+                if (showTileInGame)
                     m_render.enabled = true;
             }
         }
     }
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
+    private void setMaterials(Color color)
+    {
+        Renderer rend = GetComponent<Renderer>();
+        foreach (Material material in rend.materials)
+        {
+            material.color = color;
+        }
+    }
+
+    public void ShowTiles()
+    {
+        DEBUG = "Showing Tiles";
+        ClickableTile[] loadedTiles = GetComponentsInChildren<ClickableTile>();
+        foreach (ClickableTile tile in loadedTiles)
+        {
+            tile.GetComponent<Renderer>().enabled = true;
+        }
+    }
+
+    public void HideTiles()
+    {
+        DEBUG = "Hiding Tiles";
+        ClickableTile[] loadedTiles = GetComponentsInChildren<ClickableTile>();
+        foreach (ClickableTile tile in loadedTiles)
+        {
+            tile.GetComponent<Renderer>().enabled = false;
+        }
+    }
 }

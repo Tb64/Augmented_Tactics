@@ -145,18 +145,31 @@ public class TileMap : MonoBehaviour {
         //}
     }
 
+    /// <summary>
+    /// Returns the Global Position for a given Tile Coordinate.
+    /// NOTE: Height/y adds 0.5f
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="z"></param>
+    /// <returns></returns>
     public Vector3 TileCoordToWorldCoord(int x, int z)
     {
-        //Vector3 output = map[x, z].GetGameObject().transform.position;
-        //return output;
-        return new Vector3(x, .5f, z);
+        Vector3 coords = new Vector3(x, 0f, z);
+        return TileCoordToWorldCoord(coords);
     }
 
+    /// <summary>
+    /// Returns the Global Position for a given Tile Coordinate.
+    /// NOTE: Height/y adds 0.5f
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="z"></param>
+    /// <returns></returns>
     public Vector3 TileCoordToWorldCoord(Vector3 input)
     {
-        //Vector3 output = map[(int)input.x, (int)input.z].GetGameObject().transform.position;
-        //return output;
-        return new Vector3(input.x, .5f, input.z);
+        Vector3 worldCoords = getTileAtCoord(input).transform.position;
+        worldCoords.y += 0.5f;
+        return worldCoords;
     }
 
     public bool IsValidCoord(Vector3 input)

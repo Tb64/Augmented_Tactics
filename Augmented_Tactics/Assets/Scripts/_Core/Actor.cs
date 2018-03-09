@@ -373,10 +373,11 @@ public class Actor : MonoBehaviour
     public virtual void TakeDamage(float damage, GameObject attacker)
     {
         float dist = Vector3.Distance(getCoords(), attacker.GetComponent<Actor>().getCoords());
-        if (counterAttack > 0 )
+        if (counterAttack > 0  && dist <= 1f)
         {
             Debug.Log("Attempting Counter Attack. " + dist);
             CounterAttack(attacker);
+            counterAttack--;
             return;
         }
         if (damage < 0)

@@ -16,12 +16,12 @@ public class HealthBar : MonoBehaviour
 
     private void Awake()
     {
-        TurnBehaviour.OnActorAttacked += OnActorAttacked;
+        //TurnBehaviour.OnActorAttacked += OnActorAttacked;
     }
 
     private void OnDestroy()
     {
-        TurnBehaviour.OnActorAttacked -= OnActorAttacked;
+        //TurnBehaviour.OnActorAttacked -= OnActorAttacked;
     }
 
     void Start()

@@ -594,8 +594,8 @@ public class Enemy : Actor
             // Debug.Log(abilitySet[ability].SkillInRange(getCoords(), currentTarget.getCoords()));
                 if (abilitySet[ability].abilityName == "Heal" && CheckHeal())
                 {
-                    abilitySet[ability].UseSkill(gameObject);
-                    return true;
+                    if(abilitySet[ability].UseSkill(gameObject))
+                        return true;
                 }   
                     
                 if (abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))

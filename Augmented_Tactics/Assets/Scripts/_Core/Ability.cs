@@ -159,7 +159,7 @@ public class Ability
         start.y = 0f;
         end.y = 0f;
         float distance = Vector3.Distance(start, end);
-        Debug.Log(abilityName + " Skill Range Check: Start:" + start + " End:" + end + " Distance:" + distance);
+        //Debug.Log(abilityName + " Skill Range Check: Start:" + start + " End:" + end + " Distance:" + distance);
         return (distance <= (float)range_max && distance >= (float)range_min );
     }
 
