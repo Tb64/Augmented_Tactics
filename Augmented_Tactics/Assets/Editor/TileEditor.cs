@@ -25,5 +25,9 @@ public class TileEditor : Editor {
         {
             myScript.GenerateTiles();
         }
+        if (GUILayout.Button("Add missing tools"))
+        {
+            myScript.ToolCalibration();
+        }
     }
 }

@@ -20,7 +20,7 @@ public class GutPunch : Ability
         dwell_time = 1.0f;
         abilityName = "Gut Punch";
         abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill1");
-        handVFX = Resources.Load<GameObject>("Effects/Effect13_Hand_Optimized");
+        handVFX = Resources.Load<GameObject>("Effects/HandEffects/Effect13_Hand_Optimized");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
     }

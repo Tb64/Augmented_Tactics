@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DragonKick : Ability
 {
+    string animTrigger = "AttackKick1Trigger";
+    GameObject footVFX;
 
     public DragonKick(GameObject obj)
     {
@@ -17,6 +19,8 @@ public class DragonKick : Ability
         range_max = 1;
         range_min = 0;
         dwell_time = 1.0f;
+        damage = 10f + ((float)actor.getStrength() * 0.5f);
+        footVFX = Resources.Load<GameObject>("Effects/HandEffects/Effect6_Hand");
         abilityName = "Dragon Kick";
         abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill1");
         if (abilityImage == null)
@@ -38,16 +42,25 @@ public class DragonKick : Ability
 
     private void Skill(GameObject target)
     {
+        Actor targetActor = target.GetComponent<Actor>();
+        Vector3 delta = targetActor.getCoords() - actor.getCoords();
+        delta += targetActor.getCoords();
+        delta.y = 0f;
+
         if (anim != null)
         {
             Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, gameObject.name, target.name));
             rotateAtObj(target);
-            anim.SetTrigger("AttacKick1Trigger");
+            if (footVFX != null)
+                GameObject.Instantiate<GameObject>(footVFX, actor.LeftFootTransform());
+            anim.SetTrigger(animTrigger);
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
-        float damage = 10f + ((float)actor.getStrength() * 0.5f);
-        
-        target.GetComponent<Actor>().TakeDamage(damage, gameObject);
+
+        if (!targetActor.KnockBack(delta))
+            targetActor.TakeDamage(damage * 1.25f, gameObject);
+        else 
+            targetActor.TakeDamage(damage, gameObject);
 
         DwellTime.Attack(dwell_time);
     }
