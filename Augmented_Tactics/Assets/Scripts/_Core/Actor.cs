@@ -82,6 +82,9 @@ public class Actor : MonoBehaviour
     protected Transform leftHand;
     protected Transform rightHand;
 
+    protected Transform leftFoot;
+    protected Transform rightFoot;
+
     //Audio clips
 
     [System.Serializable]
@@ -420,6 +423,11 @@ public class Actor : MonoBehaviour
         //Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
     }
 
+    /// <summary>
+    /// Attempts to use mana, if fails returns false
+    /// </summary>
+    /// <param name="cost"></param>
+    /// <returns></returns>
     public bool UseMana(float cost)
     {
         if (cost == 0)
@@ -431,6 +439,17 @@ public class Actor : MonoBehaviour
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// Gives mana to the actor,
+    /// </summary>
+    /// <param name="mana"></param>
+    public void GiveMana(float mana)
+    {
+        mana_current += mana;
+        if (mana_current >= mana_max)
+            mana_current = mana_max;
     }
 
     public void CounterAttack(GameObject target)
@@ -486,6 +505,24 @@ public class Actor : MonoBehaviour
         Debug.Log(this + " has died");
         anim.SetTrigger("Death");
         PlaySound("death");
+    }
+
+    /// <summary>
+    /// Knocks the actor back to the coords listed
+    /// </summary>
+    /// <param name="toCoords"></param>
+    /// <returns></returns>
+    public bool KnockBack(Vector3 toCoords)
+    {
+        Debug.Log("KnockingBack " + coords + " to " + toCoords);
+        if (!map.UnitCanEnterTile(toCoords))
+            return false;
+        map.SetOcc(gameObject, coords, toCoords);
+        setCoords(toCoords);
+        //need animation for transition, threaded?
+        transform.position = this.getWorldCoords();
+
+        return true;
     }
     #endregion
     
@@ -649,13 +686,6 @@ public class Actor : MonoBehaviour
         return mana_current;
     }
 
-    public void giveMana(float mana)
-    {
-        mana_current += mana;
-        if (mana_current >= mana_max)
-            mana_current = mana_max;
-    }
-
     public void setManaCurrent(float mana)
     {
         mana_current = mana;
@@ -706,6 +736,17 @@ public class Actor : MonoBehaviour
     {
         return this.rightHand;
     }
+
+    public Transform LeftFootTransform()
+    {
+        return leftFoot;
+    }
+
+    public Transform RightFootTransform()
+    {
+        return rightFoot;
+    }
+
 
     //justin added v
     public bool getCurrentTurn()
