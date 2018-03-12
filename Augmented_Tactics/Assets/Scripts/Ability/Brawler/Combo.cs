@@ -41,8 +41,7 @@ public class Combo : Ability {
         {
             Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, gameObject.name, target.name));
             rotateAtObj(target);
-            anim.SetTrigger("MeleeAttack");
-            //justin set attack string array choice hereS
+            anim.SetTrigger("Attack1Trigger");
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
         float damage = 10f + ((float)actor.getStrength() * 0.5f);
