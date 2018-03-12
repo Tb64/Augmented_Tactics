@@ -43,6 +43,7 @@ public class CycloneKick : Ability {
 
     private void Skill(GameObject target)
     {
+
         float damage =
             BASE_DAMAGE * actor.getLevel() +
             DEX_SCALER * actor.getDexterity() +
@@ -51,6 +52,11 @@ public class CycloneKick : Ability {
         targetActor = target.GetComponent<Actor>();
 
         Vector3 location = new Vector3();
-        targetActor.map.getTileAtCoord(location);
+        actor.map.getTileAtCoord(location);
+    }
+
+    private void SkillOnLocation(GameObject target)
+    {
+
     }
 }

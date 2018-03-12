@@ -23,6 +23,10 @@ public class DefaultUnit : PlayerControlled
         mana_current = setMana;
         mana_max = setMana;
 
+        leftHand = transform.Find("HumanMale3/Bip01/Bip01_Spine/Bip01_Spine1/Bip01_Spine2/Bip01_Spine3/Bip01_L_Clavicle/Bip01_L_UpperArm/Bip01_L_Forearm/Bip01_L_Hand/Bip01_L_Weapon");
+        rightHand = transform.Find("HumanMale3/Bip01/Bip01_Spine/Bip01_Spine1/Bip01_Spine2/Bip01_Spine3/Bip01_R_Clavicle/Bip01_R_UpperArm/Bip01_R_Forearm/Bip01_R_Hand/Bip01_R_Weapon");
+
+
         Debug.Log("Abilities = " + abilitySet.Length);
 
         if(ability1.Length != 0 
