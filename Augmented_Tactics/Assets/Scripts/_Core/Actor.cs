@@ -38,6 +38,15 @@ public class Actor : MonoBehaviour
 
     //stats
     protected int level;            //current actor's level
+
+    protected int pDefense;
+    protected int mDefense;
+
+    protected int pAttack_min;
+    protected int pAttack_max;
+    protected int mAttack_min;
+    protected int mAttack_max;
+
     protected int strength;         //measuring physical power
     protected int dexterity;        //measuring agility
     protected int constitution;     //measuring endurance
@@ -69,6 +78,10 @@ public class Actor : MonoBehaviour
     private int aggro; //for A.I use only. Measures highest threat for targeting
     protected int deathTimer;
     private Transform mainCamera;
+
+    protected Transform leftHand;
+    protected Transform rightHand;
+
     //Audio clips
 
     [System.Serializable]
@@ -174,7 +187,7 @@ public class Actor : MonoBehaviour
         health_current = health_max;
         remainingMovement = moveDistance;
         numOfActions = 2;
-
+        
 
         anim = GetComponentInChildren<Animator>();
         playerAgent = GetComponent<NavMeshAgent>();
@@ -536,6 +549,15 @@ public class Actor : MonoBehaviour
         return coords;
     }
 
+    /// <summary>
+    /// This will give the world coords of the tile that the person is standing on
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 getWorldCoords()
+    {
+        return map.TileCoordToWorldCoord(coords);
+    }
+
     public void setSpeed(int num)
     {
         speed = num;
@@ -627,6 +649,13 @@ public class Actor : MonoBehaviour
         return mana_current;
     }
 
+    public void giveMana(float mana)
+    {
+        mana_current += mana;
+        if (mana_current >= mana_max)
+            mana_current = mana_max;
+    }
+
     public void setManaCurrent(float mana)
     {
         mana_current = mana;
@@ -643,14 +672,19 @@ public class Actor : MonoBehaviour
         return manaPercent;
     }
 
-    public void setArmorClass(float aClass)
+    public void setPhysicalDefense(int aClass)
     {
-        armor_class = aClass;
+        this.pDefense = aClass;
     }
 
-    public float getArmorClass()
+    public int getPhysicalDefense()
     {
-        return armor_class;
+        return this.pDefense;
+    }
+
+    public int getMagicalDefense()
+    {
+        return this.mDefense;
     }
     
     public int getNumofActors()
@@ -661,6 +695,16 @@ public class Actor : MonoBehaviour
     public ClickableTile GetTileStandingOn()
     {
         return map.getTileAtCoord(getCoords());
+    }
+
+    public Transform LeftHandTransform()
+    {
+        return this.leftHand;
+    }
+
+    public Transform RightHandTransform()
+    {
+        return this.rightHand;
     }
 
     //justin added v
@@ -760,6 +804,16 @@ public class Actor : MonoBehaviour
     public int getLevel()
     {
         return this.level;
+    }
+
+    public int getArmorClass()
+    {
+        return 0;
+    }
+
+    public void setArmorClass(int input)
+    {
+
     }
     #endregion
 }
