@@ -7,10 +7,14 @@ public class PlayerData
     public PlayerData(string name)
     {
         playerName = name;
+        unlocked = false;
     }
+    private bool unlocked;
+    public void unlockPlayer() { unlocked = true; }
     public string playerName;
     public void setPlayerName(string name) { playerName = name; }
     public string getPlayerName() { return playerName; }
+    public int cost;
 
     public KeyValuePair<string, float>[] numberData = {new KeyValuePair<string, float>("Health", 0),
     new KeyValuePair<string, float>("Mana", 0), new KeyValuePair<string, float>("Experience", 0),
