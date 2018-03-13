@@ -28,14 +28,13 @@ public class CycloneKick : Ability {
         dwell_time = 1.0f;
         abilityName = "Cyclone Kick";
         abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill1");
-
+        if (abilityImage == null)
+            Debug.Log("Unable to load image");
         float damage =
             BASE_DAMAGE * actor.getLevel() +
             DEX_SCALER * actor.getDexterity() +
             STR_SCALER * actor.getStrength();
 
-        if (abilityImage == null)
-            Debug.Log("Unable to load image");
     }
 
     public override bool UseSkill(GameObject target)

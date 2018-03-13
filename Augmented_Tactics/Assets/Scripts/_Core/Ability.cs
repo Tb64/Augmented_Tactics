@@ -10,6 +10,7 @@ public class Ability
     public int range_min;
     public float dwell_time;
     public float damage = 10; // temp to test AI
+    public float heal = 0;
     public float manaCost = 0;
 
     public Animator anim;
@@ -85,7 +86,7 @@ public class Ability
             Debug.Log("Not enough actions. " + abilityName);
             return false;
         }
-
+        ActionSkill(target);
         return true;
 
     }
@@ -129,8 +130,12 @@ public class Ability
             Debug.Log("Not enough actions. " + abilityName);
             return false;
         }
-
         return true;
+    }
+
+    public virtual void ActionSkill(GameObject target)
+    {
+
     }
 
     /// <summary>
