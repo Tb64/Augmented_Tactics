@@ -18,6 +18,10 @@ public class AnimActor : PlayerControlled
         Init();
         PlayerInitialize();
 
+        animHit = "Attack5Trigger";
+        animDmg = "GetHit1Trigger";
+        animDeath = "Death1Trigger";
+
         health_current = setHealth;
         health_max = setHealth;
 

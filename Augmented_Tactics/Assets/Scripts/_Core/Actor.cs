@@ -85,6 +85,11 @@ public class Actor : MonoBehaviour
     protected Transform leftFoot;
     protected Transform rightFoot;
 
+    //Anim triggers
+    protected string animHit = "MeleeAttack";
+    protected string animDmg = "Hit";
+    protected string animDeath = "Death";
+
     //Audio clips
 
     [System.Serializable]
@@ -388,6 +393,7 @@ public class Actor : MonoBehaviour
     /// <param name="damage">Damage the Actor will take as a float</param>
     public virtual void TakeDamage(float damage, GameObject attacker)
     {
+        rotateAtObj(attacker);
         float dist = Vector3.Distance(getCoords(), attacker.GetComponent<Actor>().getCoords());
         if (counterAttack > 0  && dist <= 1f)
         {
@@ -417,7 +423,7 @@ public class Actor : MonoBehaviour
             return;
         }
         
-        anim.SetTrigger("Hit");
+        anim.SetTrigger(animDmg);
         //justin set damage string array here
         PlaySound("damage");
         //Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
@@ -459,7 +465,7 @@ public class Actor : MonoBehaviour
         {
             Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", "Counter Attack", gameObject.name, target.name));
             rotateAtObj(target);
-            anim.SetTrigger("MeleeAttack");
+            anim.SetTrigger(animHit);
             //justin set attack string array choice hereS
             PlaySound("attack");
         }
@@ -503,7 +509,7 @@ public class Actor : MonoBehaviour
     {
         incapacitated = true;
         Debug.Log(this + " has died");
-        anim.SetTrigger("Death");
+        anim.SetTrigger(animDeath);
         PlaySound("death");
     }
 

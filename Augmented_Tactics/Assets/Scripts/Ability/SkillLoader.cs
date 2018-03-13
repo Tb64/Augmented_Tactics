@@ -79,6 +79,18 @@ public class SkillLoader : MonoBehaviour {
                 return new FireBall(gObj);
 
 
+            //Cleric
+            case "curewounds":
+                return new CureWounds(gObj);
+            case "healingword":
+                return new HealingWord(gObj);
+            case "beaconofhope":
+                return new BeaconOfHope(gObj);
+            case "spikegrowth":
+                return new SpikeGrowth(gObj);
+            case "shieldoffaith":
+                return new ShieldOfFaith(gObj);
+
             default:
                 return null;
         }
