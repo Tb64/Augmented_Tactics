@@ -8,7 +8,11 @@ public class CycloneKick : Ability {
     float DEX_SCALER = 0.5f;
     float STR_SCALER = 0.5f;
 
+    float damage;
+
     Actor targetActor;
+
+    string animTrigger = "";
 
     public CycloneKick(GameObject obj)
     {
@@ -26,6 +30,11 @@ public class CycloneKick : Ability {
         abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill1");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
+        float damage =
+            BASE_DAMAGE * actor.getLevel() +
+            DEX_SCALER * actor.getDexterity() +
+            STR_SCALER * actor.getStrength();
+
     }
 
     public override bool UseSkill(GameObject target)
@@ -43,14 +52,15 @@ public class CycloneKick : Ability {
 
     private void Skill(GameObject target)
     {
-        float damage =
-            BASE_DAMAGE * actor.getLevel() +
-            DEX_SCALER * actor.getDexterity() +
-            STR_SCALER * actor.getStrength();
 
         targetActor = target.GetComponent<Actor>();
 
         Vector3 location = new Vector3();
-        targetActor.map.getTileAtCoord(location);
+        actor.map.getTileAtCoord(location);
+    }
+
+    private void SkillOnLocation(GameObject target)
+    {
+
     }
 }

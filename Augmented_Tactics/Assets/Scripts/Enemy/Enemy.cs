@@ -600,7 +600,7 @@ public class Enemy : Actor
                     
                 if (abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
                 {
-                    bestAttack = abilitySet[ability].damage;
+                    bestAttack = (int)abilitySet[ability].damage;
                     choice = ability;
                     chosen = true;
                 }

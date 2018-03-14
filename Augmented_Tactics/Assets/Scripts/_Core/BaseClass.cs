@@ -115,7 +115,7 @@ public class BaseClass : MonoBehaviour {
             player.setSpeed((int)character.getStatByKey("Speed"));
             player.setStrength((int)character.getStatByKey("Strength"));
             player.setWisdom((int)character.getStatByKey("Wisdom"));
-            player.setArmorClass(character.getStatByKey("Armor Class"));
+            player.setArmorClass((int)character.getStatByKey("Armor Class"));
             player.setHealthCurrent((int)character.getStatByKey("Health"));
             player.setManaCurrent((character.getStatByKey("Mana")));
             return true;
