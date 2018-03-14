@@ -5,7 +5,8 @@ using UnityEngine;
 public class GameData
 {
     public List<PlayerData> armyList = new List<PlayerData>();
-    private KeyValuePair<string, string>[] currentTeam = { new KeyValuePair<string, string>("Player0", ""),
+    public int Shards;
+    public KeyValuePair<string, string>[] currentTeam = { new KeyValuePair<string, string>("Player0", ""),
     new KeyValuePair<string, string>("Player1", ""), new KeyValuePair<string, string>("Player2", ""),
     new KeyValuePair<string, string>("Player3", "")};
     public bool loaded = false;
@@ -28,7 +29,6 @@ public class GameData
         armyList = tempPlayers;*/
         //Debug.Log("added all players")
         // sendData();
-
     }
     #region set/gets
     public PlayerData[] getCurrentTeam()
@@ -57,6 +57,11 @@ public class GameData
         armyList = army;
     }
     #endregion
+
+    public static void replacePlayer(int teamPosition, PlayerData replacement)
+    {
+        PlayerPrefs.SetString("Player" + teamPosition, replacement.playerName);
+    }
     public PlayerData[] getNextSix(int playerNum)
     {
         PlayerData[] next = new PlayerData[6];
