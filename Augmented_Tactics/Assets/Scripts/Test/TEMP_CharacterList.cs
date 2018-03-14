@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TEMP_CharacterList : MonoBehaviour {
 
-    public static TEMP_CharacterData[] dataArr;
+    public static PlayerData[] characterData;
 
 	// Use this for initialization
 	void Start () {
@@ -13,32 +13,85 @@ public class TEMP_CharacterList : MonoBehaviour {
 
     public static void Init()
     {
-        dataArr = new TEMP_CharacterData[4];
+        int index;
+        characterData = new PlayerData[4];
 
-        dataArr[0].name = "Person1";
-        dataArr[1].name = "Person2";
-        dataArr[2].name = "Person3";
-        dataArr[3].name = "Person4";
+        index = 0;
+        characterData[index] = new PlayerData("TEST1");
+        characterData[index].setStatbyKey(PlayerKey.DisplayName, "TEST1");
+        characterData[index].setStatbyKey(PlayerKey.Health, 100);
+        characterData[index].setStatbyKey(PlayerKey.Mana, 20);
+        characterData[index].setStatbyKey(PlayerKey.Level, 1);
+        characterData[index].setStatbyKey(PlayerKey.Strength, 5);
+        characterData[index].setStatbyKey(PlayerKey.Dexterity, 5);
+        characterData[index].setStatbyKey(PlayerKey.Constitution, 5);
+        characterData[index].setStatbyKey(PlayerKey.Intelligence, 5);
+        characterData[index].setStatbyKey(PlayerKey.Wisdom, 5);
+        characterData[index].setStatbyKey(PlayerKey.ClassName, "Knight");
+        characterData[index].setStatbyKey(PlayerKey.Icon, "UI/Ability/priest/priestSkill5");
+        characterData[index].setStatbyKey(PlayerKey.Prefab, "PlayerClasses/ThiefModelTemp");
+        characterData[index].setStatbyKey(PlayerKey.Skill1, "basicattack");
+        characterData[index].setStatbyKey(PlayerKey.Skill2, "basicattack");
+        characterData[index].setStatbyKey(PlayerKey.Skill3, "basicattack");
+        characterData[index].setStatbyKey(PlayerKey.Skill4, "basicattack");
 
-        dataArr[0].level = 1;
-        dataArr[1].level = 1;
-        dataArr[2].level = 1;
-        dataArr[3].level = 1;
+        index = 1;
+        characterData[index] = new PlayerData("TEST2");
+        characterData[index].setStatbyKey(PlayerKey.DisplayName, "TEST2");
+        characterData[index].setStatbyKey(PlayerKey.Health, 100);
+        characterData[index].setStatbyKey(PlayerKey.Mana, 20);
+        characterData[index].setStatbyKey(PlayerKey.Level, 1);
+        characterData[index].setStatbyKey(PlayerKey.Strength, 5);
+        characterData[index].setStatbyKey(PlayerKey.Dexterity, 5);
+        characterData[index].setStatbyKey(PlayerKey.Constitution, 5);
+        characterData[index].setStatbyKey(PlayerKey.Intelligence, 5);
+        characterData[index].setStatbyKey(PlayerKey.Wisdom, 5);
+        characterData[index].setStatbyKey(PlayerKey.ClassName, "Brawler");
+        characterData[index].setStatbyKey(PlayerKey.Icon, "UI/Ability/priest/priestSkill5");
+        characterData[index].setStatbyKey(PlayerKey.Prefab, "PlayerClasses/ThiefModelTemp");
+        characterData[index].setStatbyKey(PlayerKey.Skill1, "basicattack");
+        characterData[index].setStatbyKey(PlayerKey.Skill2, "basicattack");
+        characterData[index].setStatbyKey(PlayerKey.Skill3, "basicattack");
+        characterData[index].setStatbyKey(PlayerKey.Skill4, "basicattack");
 
-        dataArr[0].classType = "Thief";
-        dataArr[1].classType = "Thief";
-        dataArr[2].classType = "Thief";
-        dataArr[3].classType = "Thief";
+        index = 2;
+        characterData[index] = new PlayerData("TEST3");
+        characterData[index].setStatbyKey(PlayerKey.DisplayName, "TEST3");
+        characterData[index].setStatbyKey(PlayerKey.Health, 100);
+        characterData[index].setStatbyKey(PlayerKey.Mana, 20);
+        characterData[index].setStatbyKey(PlayerKey.Level, 1);
+        characterData[index].setStatbyKey(PlayerKey.Strength, 5);
+        characterData[index].setStatbyKey(PlayerKey.Dexterity, 5);
+        characterData[index].setStatbyKey(PlayerKey.Constitution, 5);
+        characterData[index].setStatbyKey(PlayerKey.Intelligence, 5);
+        characterData[index].setStatbyKey(PlayerKey.Wisdom, 5);
+        characterData[index].setStatbyKey(PlayerKey.ClassName, "Cleric");
+        characterData[index].setStatbyKey(PlayerKey.Icon, "UI/Ability/priest/priestSkill5");
+        characterData[index].setStatbyKey(PlayerKey.Prefab, "PlayerClasses/ThiefModelTemp");
+        characterData[index].setStatbyKey(PlayerKey.Skill1, "basicattack");
+        characterData[index].setStatbyKey(PlayerKey.Skill2, "basicattack");
+        characterData[index].setStatbyKey(PlayerKey.Skill3, "basicattack");
+        characterData[index].setStatbyKey(PlayerKey.Skill4, "basicattack");
 
-        dataArr[0].icon = "UI/Ability/warriorSkill3";
-        dataArr[1].icon = "UI/Ability/warriorSkill3";
-        dataArr[2].icon = "UI/Ability/warriorSkill3";
-        dataArr[3].icon = "UI/Ability/warriorSkill3";
+        index = 3;
+        characterData[index] = new PlayerData("TEST4");
+        characterData[index].setStatbyKey(PlayerKey.DisplayName, "TEST4");
+        characterData[index].setStatbyKey(PlayerKey.Health, 100);
+        characterData[index].setStatbyKey(PlayerKey.Mana, 20);
+        characterData[index].setStatbyKey(PlayerKey.Level, 1);
+        characterData[index].setStatbyKey(PlayerKey.Strength, 5);
+        characterData[index].setStatbyKey(PlayerKey.Dexterity, 5);
+        characterData[index].setStatbyKey(PlayerKey.Constitution, 5);
+        characterData[index].setStatbyKey(PlayerKey.Intelligence, 5);
+        characterData[index].setStatbyKey(PlayerKey.Wisdom, 5);
+        characterData[index].setStatbyKey(PlayerKey.ClassName, "Thief");
+        characterData[index].setStatbyKey(PlayerKey.Icon, "UI/Ability/priest/priestSkill5");
+        characterData[index].setStatbyKey(PlayerKey.Prefab, "PlayerClasses/ThiefModelTemp");
+        characterData[index].setStatbyKey(PlayerKey.Skill1, "basicattack");
+        characterData[index].setStatbyKey(PlayerKey.Skill2, "basicattack");
+        characterData[index].setStatbyKey(PlayerKey.Skill3, "basicattack");
+        characterData[index].setStatbyKey(PlayerKey.Skill4, "basicattack");
 
-        dataArr[0].prefab = "PlayerClasses/ThiefModelTemp";
-        dataArr[1].prefab = "PlayerClasses/ThiefModelTemp";
-        dataArr[2].prefab = "PlayerClasses/ThiefModelTemp";
-        dataArr[3].prefab = "PlayerClasses/ThiefModelTemp";
     }
 
     // Update is called once per frame
