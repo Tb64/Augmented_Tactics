@@ -9,7 +9,8 @@ public class GameDataController: MonoBehaviour
     public static GameData gameData;
     private void Start()
     {
-        filePath = Application.dataPath + "/StreamingAssets\\Saves\\data.json";
+        //filePath = Application.dataPath + "/StreamingAssets\\Saves\\data.json";
+        filePath = Path.Combine(Application.streamingAssetsPath, "data.json");
         gameData = loadPlayerData();
         ShardController.setShards(gameData.Shards);
     }
@@ -20,12 +21,14 @@ public class GameDataController: MonoBehaviour
         if (File.Exists(GameDataController.filePath))
         {
             string jsonData= File.ReadAllText(filePath);
+            gameData = JsonUtility.FromJson<GameData>(jsonData);
             return JsonUtility.FromJson<GameData>(jsonData);
         }
         else
         {
-            Debug.LogError("Can't Find Game Data");
-            return null;
+            Debug.Log("Can't Find Game Data, making new data at " + filePath);
+            gameData = new GameData();
+            return gameData;
         }
     }
 
