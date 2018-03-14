@@ -11,6 +11,9 @@ public class GameData
     public bool loaded = false;
     public GameData()
     {
+        Debug.Log("Generating New GameDat");
+        armyList = new List<PlayerData>();
+
         //if (!loaded)
         //{
         // loaded = true;
@@ -100,6 +103,15 @@ public class GameData
 
         //Debug.LogError("Unable to save");
 
+        return false;
+    }
+
+    public bool addPlayer(PlayerData newCharacter)
+    {
+        if(armyList != null)
+        {
+            armyList.Add(newCharacter);
+        }
         return false;
     }
 
