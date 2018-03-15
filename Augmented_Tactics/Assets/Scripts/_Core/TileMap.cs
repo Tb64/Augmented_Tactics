@@ -615,6 +615,7 @@ public class TileMap : MonoBehaviour {
     {
         Actor unit = Actor.GetComponent<Actor>();
         //Debug.Log("SETOCC INITIALIZED");
+        unit.setCoords(targetCoords);
         map[(int)currentCoords.x, (int)currentCoords.y, (int)currentCoords.z].setOccupiedFalse();
         Debug.Log("current coords" + currentCoords);
         map[(int)targetCoords.x, (int)targetCoords.y, (int)targetCoords.z].setOccupiedTrue(Actor);
