@@ -15,20 +15,21 @@ public class GameData
         Debug.Log("Generating New GameDat");
         armyList = new List<PlayerData>();
 
-        //if (!loaded)
-        //{
-        // loaded = true;
-        //   armyList = retrieveData();
-        // }
-        //Debug.Log(armyList[0]);
-        /*List<PlayerData> tempPlayers = armyList;
+        /*if (!loaded)
+        {
+          loaded = true;
+          armyList = retrieveData();
+         }
+        Debug.Log(armyList[0]);
+        List<PlayerData> tempPlayers = armyList;
         tempPlayers.Add(new PlayerData("Doogy"));
         tempPlayers.Add(new PlayerData("Testing"));
         tempPlayers.Add(new PlayerData("Saving"));
         tempPlayers.Add(new PlayerData("Loading"));
-        armyList = tempPlayers;*/
-        //Debug.Log("added all players")
-        // sendData();
+        armyList = tempPlayers;
+        Debug.Log("added all players")
+        sendData();*/
+
     }
     #region set/gets
     public PlayerData[] getCurrentTeam()
@@ -105,9 +106,7 @@ public class GameData
             }
             playerIndex++;
         }
-
         //Debug.LogError("Unable to save");
-
         return false;
     }
 
