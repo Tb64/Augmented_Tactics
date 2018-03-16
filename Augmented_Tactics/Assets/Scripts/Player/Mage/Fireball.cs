@@ -21,10 +21,10 @@ public class FireBall : Ability
 
         anim = gameObject.GetComponentInChildren<Animator>();
         dwell_time = 1.0f;
-        abilityName = "eviscerate";
-        range_max = 1;
+        abilityName = "fireball";
+        range_max = 7;
         range_min = 0;
-        damage = 50 + actor.getStrength() * 2;
+        damage = 50 + actor.getIntelligence() * 2;
         abilityImage = Resources.Load<Sprite>("UI/Ability/assassinSkill10");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
@@ -42,10 +42,27 @@ public class FireBall : Ability
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
 
-        GameObject effect = GameObject.Instantiate(fireBall, gameObject.transform);
-
-
+        GameObject effect = GameObject.Instantiate(fireBall, user.transform);
+        
+        //effect.transform.LookAt(target.transform.position);
+        float distance = Vector3.Distance(target.GetComponent<Actor>().getCoords(), gameObject.transform.position);
+        distance = (int)distance;
+        //gameObject.GetComponentInChildren<RFX4_TransformMotion>().Distance = distance;
         DwellTime.Attack(dwell_time);
+    }
+
+    public override bool UseSkill(GameObject target)
+    {
+        if (base.UseSkill(target))
+        {
+            Skill(target);
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 }

@@ -237,7 +237,7 @@ ModelImporter:
     4300010: Soldier_Mesh
     4300012: RPG-Character-Mesh
     4300014: Spear
-    7400000: 2Hand-Spear-Unsheath-Hips
+    7400000: 2Hand-Spear-Unsheath-Hips-Unarmed
     9500000: //RootNode
     11100000: //RootNode
     13700000: Soldier_Mesh
@@ -259,18 +259,17 @@ ModelImporter:
       might lower retargeting quality:\nNote: Activate translation DOF on avatar to
       improve retargeting quality.\n\t'B_Spine2' is inbetween humanoid transforms
       and has rotation animation that will be discarded.\n"
-    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftLowerLeg
-      average position error 0.3 mm and maximum position error 1.1 mm at time 0:17
-      (56.7%) Frame 17\n\tLeftUpperArm average position error 22.3 mm and maximum
-      position error 36.8 mm at time 0:27 (90.0%) Frame 27\n\tLeftLowerArm average
-      position error 15.5 mm and maximum position error 28.3 mm at time 0:25 (83.3%)
-      Frame 25\n\tLeftHand average position error 13.0 mm and maximum position error
-      27.7 mm at time 0:25 (83.3%) Frame 25\n\tRightUpperArm average position error
-      15.7 mm and maximum position error 23.7 mm at time 0:27 (90.0%) Frame 27\n\tRightLowerArm
-      average position error 10.4 mm and maximum position error 20.6 mm at time 0:24
-      (80.0%) Frame 24\n\tRightHand average position error 8.2 mm and maximum position
-      error 20.2 mm at time 0:24 (80.0%) Frame 24\n\tHead average position error 52.7
-      mm and maximum position error 84.3 mm at time 0:27 (90.0%) Frame 27\n"
+    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftUpperArm
+      average position error 22.8 mm and maximum position error 37.0 mm at time 0:27
+      (90.0%) Frame 27\n\tLeftLowerArm average position error 13.9 mm and maximum
+      position error 24.5 mm at time 0:25 (83.3%) Frame 25\n\tLeftHand average position
+      error 11.6 mm and maximum position error 22.9 mm at time 1: 0 (100.0%) Frame
+      30\n\tRightUpperArm average position error 16.0 mm and maximum position error
+      23.8 mm at time 0:27 (90.0%) Frame 27\n\tRightLowerArm average position error
+      9.6 mm and maximum position error 17.2 mm at time 0:27 (90.0%) Frame 27\n\tRightHand
+      average position error 6.4 mm and maximum position error 14.4 mm at time 0:27
+      (90.0%) Frame 27\n\tHead average position error 53.9 mm and maximum position
+      error 84.7 mm at time 0:27 (90.0%) Frame 27\n"
     animationDoRetargetingWarnings: 1
     animationCompression: 0
     animationRotationError: 0.5
@@ -280,7 +279,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: 2Hand-Spear-Unsheath-Hips
+      name: 2Hand-Spear-Unsheath-Hips-Unarmed
       takeName: Take 001
       firstFrame: 0
       lastFrame: 30
