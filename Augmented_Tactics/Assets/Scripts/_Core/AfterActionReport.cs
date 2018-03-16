@@ -16,7 +16,7 @@ public class AfterActionReport : MonoBehaviour {
             manager = GameObject.Find("SceneManager").GetComponent<SceneManagement>();
         }
         camera = GameObject.Find("CamFocus");
-        cameraPosition = GameObject.Find("cameraLocation").transform;
+       // cameraPosition = GameObject.Find("cameraLocation").transform;
     }
 
     public bool win()
