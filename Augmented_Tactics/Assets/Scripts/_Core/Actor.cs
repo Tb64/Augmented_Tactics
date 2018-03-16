@@ -82,6 +82,14 @@ public class Actor : MonoBehaviour
     protected Transform leftHand;
     protected Transform rightHand;
 
+    protected Transform leftFoot;
+    protected Transform rightFoot;
+
+    //Anim triggers
+    protected string animHit = "MeleeAttack";
+    protected string animDmg = "Hit";
+    protected string animDeath = "Death";
+
     //Audio clips
 
     [System.Serializable]
@@ -385,6 +393,7 @@ public class Actor : MonoBehaviour
     /// <param name="damage">Damage the Actor will take as a float</param>
     public virtual void TakeDamage(float damage, GameObject attacker)
     {
+        rotateAtObj(attacker);
         float dist = Vector3.Distance(getCoords(), attacker.GetComponent<Actor>().getCoords());
         if (counterAttack > 0  && dist <= 1f)
         {
@@ -414,12 +423,17 @@ public class Actor : MonoBehaviour
             return;
         }
         
-        anim.SetTrigger("Hit");
+        anim.SetTrigger(animDmg);
         //justin set damage string array here
         PlaySound("damage");
         //Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
     }
 
+    /// <summary>
+    /// Attempts to use mana, if fails returns false
+    /// </summary>
+    /// <param name="cost"></param>
+    /// <returns></returns>
     public bool UseMana(float cost)
     {
         if (cost == 0)
@@ -433,6 +447,17 @@ public class Actor : MonoBehaviour
         return false;
     }
 
+    /// <summary>
+    /// Gives mana to the actor,
+    /// </summary>
+    /// <param name="mana"></param>
+    public void GiveMana(float mana)
+    {
+        mana_current += mana;
+        if (mana_current >= mana_max)
+            mana_current = mana_max;
+    }
+
     public void CounterAttack(GameObject target)
     {
         float damage = 5f + ((float)this.strength * 0.5f);
@@ -440,7 +465,7 @@ public class Actor : MonoBehaviour
         {
             Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", "Counter Attack", gameObject.name, target.name));
             rotateAtObj(target);
-            anim.SetTrigger("MeleeAttack");
+            anim.SetTrigger(animHit);
             //justin set attack string array choice hereS
             PlaySound("attack");
         }
@@ -484,8 +509,26 @@ public class Actor : MonoBehaviour
     {
         incapacitated = true;
         Debug.Log(this + " has died");
-        anim.SetTrigger("Death");
+        anim.SetTrigger(animDeath);
         PlaySound("death");
+    }
+
+    /// <summary>
+    /// Knocks the actor back to the coords listed
+    /// </summary>
+    /// <param name="toCoords"></param>
+    /// <returns></returns>
+    public bool KnockBack(Vector3 toCoords)
+    {
+        Debug.Log("KnockingBack " + coords + " to " + toCoords);
+        if (!map.UnitCanEnterTile(toCoords))
+            return false;
+        map.SetOcc(gameObject, coords, toCoords);
+        setCoords(toCoords);
+        //need animation for transition, threaded?
+        transform.position = this.getWorldCoords();
+
+        return true;
     }
     #endregion
     
@@ -649,13 +692,6 @@ public class Actor : MonoBehaviour
         return mana_current;
     }
 
-    public void giveMana(float mana)
-    {
-        mana_current += mana;
-        if (mana_current >= mana_max)
-            mana_current = mana_max;
-    }
-
     public void setManaCurrent(float mana)
     {
         mana_current = mana;
@@ -706,6 +742,17 @@ public class Actor : MonoBehaviour
     {
         return this.rightHand;
     }
+
+    public Transform LeftFootTransform()
+    {
+        return leftFoot;
+    }
+
+    public Transform RightFootTransform()
+    {
+        return rightFoot;
+    }
+
 
     //justin added v
     public bool getCurrentTurn()

@@ -9,7 +9,8 @@ public class Ability
     public int range_max;
     public int range_min;
     public float dwell_time;
-    public int damage = 10; // temp to test AI
+    public float damage = 10; // temp to test AI
+    public float heal = 0;
     public float manaCost = 0;
 
     public Animator anim;
@@ -18,6 +19,7 @@ public class Ability
 
     protected GameObject gameObject;
     protected Actor actor;
+    protected MonoBehaviour monoBehaviour;
     protected bool canTargetTile;
     protected bool canTargetFriendly;
     protected bool canTargetEnemy;
@@ -35,6 +37,7 @@ public class Ability
         gameObject = obj;
         actor = obj.GetComponent<Actor>();
         anim = gameObject.GetComponentInChildren<Animator>();
+        monoBehaviour = actor.GetComponent<MonoBehaviour>();
     }
 
     /// <summary>
@@ -83,7 +86,7 @@ public class Ability
             Debug.Log("Not enough actions. " + abilityName);
             return false;
         }
-
+        ActionSkill(target);
         return true;
 
     }
@@ -127,8 +130,12 @@ public class Ability
             Debug.Log("Not enough actions. " + abilityName);
             return false;
         }
-
         return true;
+    }
+
+    public virtual void ActionSkill(GameObject target)
+    {
+
     }
 
     /// <summary>

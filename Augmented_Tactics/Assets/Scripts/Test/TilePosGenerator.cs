@@ -101,4 +101,16 @@ public class TilePosGenerator : MonoBehaviour {
             tile.GetComponent<Renderer>().enabled = false;
         }
     }
+
+    public void ToolCalibration()
+    {
+        DEBUG = "Adding Tools Tiles";
+        ClickableTile[] loadedTiles = GetComponentsInChildren<ClickableTile>();
+        foreach (ClickableTile tile in loadedTiles)
+        {
+            TileTool tool = tile.gameObject.GetComponent<TileTool>();
+            if (tool == null)
+                tile.gameObject.AddComponent<TileTool>();
+        }
+    }
 }

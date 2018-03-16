@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Counter : Ability {
 
-    float damage = 20f;
+    string animTrigger = "CastAttack1Trigger";
 
     public Counter(GameObject obj)
     {
@@ -15,7 +15,7 @@ public class Counter : Ability {
     {
         base.Initialize(obj);
 
-        damage = actor.getIntelligence();
+        damage = 0f;
 
         anim = gameObject.GetComponentInChildren<Animator>();
         range_max = 0;
@@ -46,7 +46,7 @@ public class Counter : Ability {
         {
             Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, gameObject.name, target.name));
             rotateAtObj(target);
-            //anim.SetTrigger("MeleeAttack");
+            anim.SetTrigger(animTrigger);
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
         //target.GetComponent<Actor>().TakeDamage(damage, gameObject);
