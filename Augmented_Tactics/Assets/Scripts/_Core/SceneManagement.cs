@@ -10,8 +10,4 @@ public class SceneManagement : MonoBehaviour {
         SceneManager.LoadSceneAsync("castle_hub");
     }
 
-    
-
-   
-
 }

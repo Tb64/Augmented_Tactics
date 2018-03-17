@@ -7,13 +7,16 @@ using UnityEngine;
 public class AfterActionReport : MonoBehaviour {
 
     SceneManagement manager;
-
+    GameObject camera;
+    Transform cameraPosition;
     private void Start()
     {
         if (GameObject.Find("SceneManager") != null)
         {
             manager = GameObject.Find("SceneManager").GetComponent<SceneManagement>();
         }
+        camera = GameObject.Find("CamFocus");
+       // cameraPosition = GameObject.Find("cameraLocation").transform;
     }
 
     public bool win()
@@ -140,6 +143,15 @@ public class AfterActionReport : MonoBehaviour {
 
     }
 
+    void movePlayers()
+    {
+        camera.transform.position = cameraPosition.position;
+        //PlayerControlled.playerObjs[0].transform
+
+
+    }
+
+
     public void BattleOver()
     {
         GameObject screen = transform.Find("EndofBattleScreen").gameObject;
@@ -150,6 +162,8 @@ public class AfterActionReport : MonoBehaviour {
             screen.GetComponent<Canvas>().enabled = true;
             DisplayExp();
             Time.timeScale = 0;
+
+            movePlayers();
 
         }
     }
