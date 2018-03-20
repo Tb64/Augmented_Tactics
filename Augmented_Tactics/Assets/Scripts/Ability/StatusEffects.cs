@@ -3,68 +3,60 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
 
-public class StatusEffects : MonoBehaviour
+public class StatusEffects
 {
     //private FieldInfo fld;
-    public virtual void Start()
+   /* public virtual void Start()
     {
-        TurnBehaviour.OnTurnStart += this.decreaseTimeCounter;
-        SM = GameObject.FindGameObjectWithTag("GameController").GetComponent<StateMachine>();
-    }
+        
+    }*/
     public virtual void OnDestroy()
     {
         TurnBehaviour.OnTurnStart -= this.decreaseTimeCounter;
-        
-       /* if (added)
-        {
-            fld = effectedPlayer.GetType().GetField(effectedStat);
-            fld.SetValue((float)fld.GetValue(effectedStat) - effect);
-        }    
-        if (subtracted)
-            effectedStat += effect;
-        if (multiplied)
-            effectedStat /= effect;
-        if (divided)
-            effectedStat *= effect;
-       */
     }
 
     protected int duration;
    // private string effectedStat; useless now due to new method
     protected float effect; //degree of effect
-    protected string effectName;
+    protected string effectText;
     protected Actor effectedPlayer, effectorPlayer;
     protected GameObject effectedObject, effectorObject; // for areas or spots on the map
     protected bool isEnemy;
     StateMachine SM;
     internal string ID;
 
-    /*public StatusEffect(how many turns, name of variable,text to display when triggered, + - * / in a string, the effected actor,
-enemy or player, state machine)*/
-    public StatusEffects(int dur, string stat, string name, float effect, string operation,Actor effector, Actor effected, bool isEnemy)
+    /*public StatusEffect(degree of effect (damage or multiplier etc.) the actor doing damage, the effected actor, enemy or player?)*/
+    public StatusEffects(float effect, Actor effector, Actor effected, bool isEnemy)
     {
-        duration = dur;
+        TurnBehaviour.OnTurnStart += this.decreaseTimeCounter;
+        SM = GameObject.FindGameObjectWithTag("GameController").GetComponent<StateMachine>();
+        //duration = dur;
         this.effect = effect;
-        effectName = name;
+        //effectName = name;
         effectedPlayer = effected;
         effectorPlayer = effector;
         this.isEnemy = isEnemy;
     }
-    public StatusEffects(int dur, string stat, string name, float effect, string operation,GameObject effector, GameObject effected, bool isEnemy)
+    public StatusEffects(float effect,GameObject effector, GameObject effected, bool isEnemy)
     {
-        duration = dur;
+        TurnBehaviour.OnTurnStart += this.decreaseTimeCounter;
+        SM = GameObject.FindGameObjectWithTag("GameController").GetComponent<StateMachine>();
+        //duration = dur;
         this.effect = effect;
-        effectName = name;
+        //effectName = name;
         effectedObject = effected;
         effectorObject = effector;
         this.isEnemy = isEnemy;
     }
     public void decreaseTimeCounter()
     {
+        Debug.Log("Time Counter Triggered: " + duration);
         if (duration <= 0)
         {
             ReverseEffect();
-            Destroy(this);
+            OnDestroy();
+            //TurnBehaviour.OnTurnStart -= this.decreaseTimeCounter;
+            
         }
         if (!isEnemy && SM.checkTurn() || isEnemy && !SM.checkTurn())
         {
@@ -82,40 +74,5 @@ enemy or player, state machine)*/
        //just a template. overload this with an undo of your effect if necessary 
     }
 
-   /* public void addToStat()
-    {
-        effectedStat += effect;
-        added = true;
-    }
-
-    public void multiplyStat()
-    {
-        effectedStat *= effect;
-        multiplied = true;
-    }
-
-    public void subtractFromStat()
-    {
-        effectedStat -= effect;
-        subtracted = true;
-    }
-
-    public void divideStat()
-    {
-        effectedStat /= effect;
-        divided = true;
-    }
-
-    private void decideOperation(string op)
-    {
-        if (op == "+")
-            addToStat();
-        else if (op == "-")
-            subtractFromStat();
-        else if (op == "*")
-            multiplyStat();
-        else if (op == "/")
-            divideStat();
-        Debug.LogError("Incorrect Operation Given");
-    }*/
+   
 }
