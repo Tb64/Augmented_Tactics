@@ -6,12 +6,12 @@ using System.Reflection;
 public class StatusEffects : MonoBehaviour
 {
     //private FieldInfo fld;
-    private void Start()
+    public virtual void Start()
     {
         TurnBehaviour.OnTurnStart += this.decreaseTimeCounter;
         SM = GameObject.FindGameObjectWithTag("GameController").GetComponent<StateMachine>();
     }
-    public void OnDestroy()
+    public virtual void OnDestroy()
     {
         TurnBehaviour.OnTurnStart -= this.decreaseTimeCounter;
         
@@ -29,47 +29,55 @@ public class StatusEffects : MonoBehaviour
        */
     }
 
-    private int duration;
-    private string effectedStat;
-    private float effect;
-    string effectName;
-    Actor effectedPlayer;
-    bool isEnemy;
+    protected int duration;
+   // private string effectedStat; useless now due to new method
+    protected float effect; //degree of effect
+    protected string effectName;
+    protected Actor effectedPlayer, effectorPlayer;
+    protected GameObject effectedObject, effectorObject; // for areas or spots on the map
+    protected bool isEnemy;
     StateMachine SM;
     internal string ID;
 
     /*public StatusEffect(how many turns, name of variable,text to display when triggered, + - * / in a string, the effected actor,
 enemy or player, state machine)*/
- /*   public StatusEffects(int dur, string stat, string name, float effect, string operation, Actor effected, bool isEnemy)
+    public StatusEffects(int dur, string stat, string name, float effect, string operation,Actor effector, Actor effected, bool isEnemy)
     {
-        this.duration = dur;
-        //effected.GetType().GetField(stat);
-        this.effectedStat = stat; //operation that takes in the stat name and returns the variable using the actor
+        duration = dur;
         this.effect = effect;
-        this.effectName = name;
-        this.effectedPlayer = effected;
+        effectName = name;
+        effectedPlayer = effected;
+        effectorPlayer = effector;
         this.isEnemy = isEnemy;
-       // decideOperation(operation);
-    }*/
+    }
+    public StatusEffects(int dur, string stat, string name, float effect, string operation,GameObject effector, GameObject effected, bool isEnemy)
+    {
+        duration = dur;
+        this.effect = effect;
+        effectName = name;
+        effectedObject = effected;
+        effectorObject = effector;
+        this.isEnemy = isEnemy;
+    }
     public void decreaseTimeCounter()
     {
         if (duration <= 0)
         {
-            reverseEffect();
+            ReverseEffect();
             Destroy(this);
         }
         if (!isEnemy && SM.checkTurn() || isEnemy && !SM.checkTurn())
         {
-            induceEffect();
+            InduceEffect();
             duration--;
         }      
     }
 
-    public void induceEffect()
+    public virtual void InduceEffect()
     {
         //another template: use this to process turn based damage loss etc if necessary
     }
-    public void reverseEffect()
+    public virtual void ReverseEffect()
     {
        //just a template. overload this with an undo of your effect if necessary 
     }

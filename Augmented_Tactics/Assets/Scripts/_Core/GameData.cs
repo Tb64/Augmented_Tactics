@@ -88,6 +88,8 @@ public class GameData
         PlayerData[] next = new PlayerData[6];
         for (int x = 0; x < 6; x++)
         {
+            if (playerNum >= armyList.Count || armyList[playerNum] == null)
+                break;
             next[x] = armyList[playerNum];
             playerNum++;
         }
