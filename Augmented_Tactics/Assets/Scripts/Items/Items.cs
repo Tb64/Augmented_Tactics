@@ -8,4 +8,5 @@ public class Items : System.Object
     public string name;
     public string image;
     public int id;
+    public int cost;
 }
