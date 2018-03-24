@@ -85,4 +85,24 @@ public class CSVReader : MonoBehaviour
         System.Text.RegularExpressions.RegexOptions.ExplicitCapture)
                 select m.Groups[1].Value).ToArray();
     }
+
+    static public string[] GetRowFrom2DArray(int row, string[,] data)
+    {
+        //Debug.Log("Row: " + row);
+
+        //DebugOutputGrid(data);
+
+        //Debug.Log("GetRowFrom2DArray " + data.GetLength(0));
+        //Debug.Log("GetRowFrom2DArray " + data.GetLength(1));
+
+
+        string[] output = new string[data.GetLength(0)];
+        for (int index = 0; index < data.GetLength(0) - 2; index++)
+        {
+            output[index] = data[index,row];
+            //Debug.Log("adding " + output[index] + " index: " + index);
+        }
+
+        return output;
+    }
 }
