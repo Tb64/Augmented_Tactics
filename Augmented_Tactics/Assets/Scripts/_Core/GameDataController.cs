@@ -16,7 +16,8 @@ public class GameDataController: MonoBehaviour
     }
     public static GameData loadPlayerData()
     {
-        
+        //Static Functions do not call start
+        filePath = Path.Combine(Application.streamingAssetsPath, "data.json");
         //Debug.Log(filePath);
         if (File.Exists(filePath))
         {
@@ -34,8 +35,35 @@ public class GameDataController: MonoBehaviour
 
     public static bool savePlayerData(GameData gameData)
     {
+        //Static Functions do not call start
+        filePath = Path.Combine(Application.streamingAssetsPath, "data.json");
         //Debug.Log(GameDataController.filePath);
-        if(filePath == null)
+        if (filePath == null)
+        {
+            Debug.LogError("Can't Find Game Data");
+            return false;
+        }
+        if (File.Exists(GameDataController.filePath))
+        {
+            string jsonData = JsonUtility.ToJson(gameData);
+            File.WriteAllText(GameDataController.filePath, jsonData);
+            return true;
+        }
+        else
+        {
+            File.Create(GameDataController.filePath);
+            string jsonData = JsonUtility.ToJson(gameData);
+            File.WriteAllText(GameDataController.filePath, jsonData);
+            return true;
+        }
+    }
+
+    public static bool savePlayerData()
+    {
+        //Static Functions do not call start
+        filePath = Path.Combine(Application.streamingAssetsPath, "data.json");
+        //Debug.Log(GameDataController.filePath);
+        if (filePath == null)
         {
             Debug.LogError("Can't Find Game Data");
             return false;

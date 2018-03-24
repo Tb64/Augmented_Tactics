@@ -28,8 +28,8 @@ public class TEMP_CharacterList : MonoBehaviour {
         characterData[index].setStatbyKey(PlayerKey.Intelligence, 5);
         characterData[index].setStatbyKey(PlayerKey.Wisdom, 5);
         characterData[index].setStatbyKey(PlayerKey.ClassName, "Knight");
-        characterData[index].setStatbyKey(PlayerKey.Icon, "UI/Ability/priest/priestSkill5");
-        characterData[index].setStatbyKey(PlayerKey.Prefab, "PlayerClasses/ThiefModelTemp");
+        characterData[index].setStatbyKey(PlayerKey.Icon, "UI/Ability/warrior/warriorSkill6");
+        characterData[index].setStatbyKey(PlayerKey.Prefab, "PlayerClasses/Thief");
         characterData[index].setStatbyKey(PlayerKey.Skill1, "basicattack");
         characterData[index].setStatbyKey(PlayerKey.Skill2, "basicattack");
         characterData[index].setStatbyKey(PlayerKey.Skill3, "basicattack");
@@ -47,8 +47,8 @@ public class TEMP_CharacterList : MonoBehaviour {
         characterData[index].setStatbyKey(PlayerKey.Intelligence, 5);
         characterData[index].setStatbyKey(PlayerKey.Wisdom, 5);
         characterData[index].setStatbyKey(PlayerKey.ClassName, "Brawler");
-        characterData[index].setStatbyKey(PlayerKey.Icon, "UI/Ability/priest/priestSkill5");
-        characterData[index].setStatbyKey(PlayerKey.Prefab, "PlayerClasses/ThiefModelTemp");
+        characterData[index].setStatbyKey(PlayerKey.Icon, "UI/Ability/warrior/warriorSkill5");
+        characterData[index].setStatbyKey(PlayerKey.Prefab, "PlayerClasses/Brawler");
         characterData[index].setStatbyKey(PlayerKey.Skill1, "basicattack");
         characterData[index].setStatbyKey(PlayerKey.Skill2, "basicattack");
         characterData[index].setStatbyKey(PlayerKey.Skill3, "basicattack");
@@ -66,8 +66,8 @@ public class TEMP_CharacterList : MonoBehaviour {
         characterData[index].setStatbyKey(PlayerKey.Intelligence, 5);
         characterData[index].setStatbyKey(PlayerKey.Wisdom, 5);
         characterData[index].setStatbyKey(PlayerKey.ClassName, "Cleric");
-        characterData[index].setStatbyKey(PlayerKey.Icon, "UI/Ability/priest/priestSkill5");
-        characterData[index].setStatbyKey(PlayerKey.Prefab, "PlayerClasses/ThiefModelTemp");
+        characterData[index].setStatbyKey(PlayerKey.Icon, "UI/Ability/priest/priestSkill7");
+        characterData[index].setStatbyKey(PlayerKey.Prefab, "PlayerClasses/Cleric");
         characterData[index].setStatbyKey(PlayerKey.Skill1, "basicattack");
         characterData[index].setStatbyKey(PlayerKey.Skill2, "basicattack");
         characterData[index].setStatbyKey(PlayerKey.Skill3, "basicattack");
@@ -85,8 +85,8 @@ public class TEMP_CharacterList : MonoBehaviour {
         characterData[index].setStatbyKey(PlayerKey.Intelligence, 5);
         characterData[index].setStatbyKey(PlayerKey.Wisdom, 5);
         characterData[index].setStatbyKey(PlayerKey.ClassName, "Thief");
-        characterData[index].setStatbyKey(PlayerKey.Icon, "UI/Ability/priest/priestSkill5");
-        characterData[index].setStatbyKey(PlayerKey.Prefab, "PlayerClasses/ThiefModelTemp");
+        characterData[index].setStatbyKey(PlayerKey.Icon, "UI/Ability/assassin/assassinSkill4");
+        characterData[index].setStatbyKey(PlayerKey.Prefab, "PlayerClasses/Thief");
         characterData[index].setStatbyKey(PlayerKey.Skill1, "basicattack");
         characterData[index].setStatbyKey(PlayerKey.Skill2, "basicattack");
         characterData[index].setStatbyKey(PlayerKey.Skill3, "basicattack");

@@ -10,6 +10,9 @@ public class GameData
     public KeyValuePair<string, string>[] currentTeam = { new KeyValuePair<string, string>("Player0", ""),
     new KeyValuePair<string, string>("Player1", ""), new KeyValuePair<string, string>("Player2", ""),
     new KeyValuePair<string, string>("Player3", "")};
+
+    public KeyValuePair<string, string>[] usableItems;
+
     public bool loaded = false;
     public GameData()
     {

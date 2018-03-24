@@ -10,6 +10,7 @@ for all player controlled actors
 
 public class PlayerControlled : Actor
 {
+    public bool combatOn = true;
     public static int playerNum;
     public static Actor[] playerList;
     public static GameObject[] playerObjs;
@@ -17,12 +18,15 @@ public class PlayerControlled : Actor
     // Use this for initialization
     new void Start ()
     {
+        if (!combatOn)
+            return;
         base.Init();
         PlayerInitialize();
     }
 
     public void PlayerInitialize()
     {
+        
         TurnBehaviour.OnPlayerTurnStart += this.OnPlayerTurnStart;
 
         abilitySet = new Ability[4];  //test
@@ -79,7 +83,7 @@ public class PlayerControlled : Actor
     void Update ()
     {
         base.Update();
-        turnControl();
+        //turnControl();
     }
 
     void turnControl()
