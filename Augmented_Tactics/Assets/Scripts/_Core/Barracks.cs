@@ -4,7 +4,6 @@ using UnityEngine;
 
 public static class Barracks
 {
-
     public static bool purchasePlayer(PlayerData player)
     {
         if(player.cost > ShardController.getShards())
@@ -20,8 +19,7 @@ public static class Barracks
             return true;
         }
     }
-
-    /* public static bool purchaseItem(Item goods)
+    /*public static bool purchaseItem(Item goods)
       {
          if(goods.cost > ShardController.getShards())
          { 
@@ -37,5 +35,4 @@ public static class Barracks
              return true;
          }
       }*/
-
 }

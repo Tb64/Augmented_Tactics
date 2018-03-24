@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 [System.Serializable]
 public class GameData
 {
@@ -14,21 +15,41 @@ public class GameData
     {
         Debug.Log("Generating New GameDat");
         armyList = new List<PlayerData>();
+        //generateArmy();
 
-        //if (!loaded)
-        //{
-        // loaded = true;
-        //   armyList = retrieveData();
-        // }
-        //Debug.Log(armyList[0]);
-        /*List<PlayerData> tempPlayers = armyList;
+        /*if (!loaded)
+        {
+          loaded = true;
+          armyList = retrieveData();
+         }
+        Debug.Log(armyList[0]);
+        List<PlayerData> tempPlayers = armyList;
         tempPlayers.Add(new PlayerData("Doogy"));
         tempPlayers.Add(new PlayerData("Testing"));
         tempPlayers.Add(new PlayerData("Saving"));
         tempPlayers.Add(new PlayerData("Loading"));
-        armyList = tempPlayers;*/
-        //Debug.Log("added all players")
-        // sendData();
+        armyList = tempPlayers;
+        Debug.Log("added all players")*/
+       // sendData();
+
+    }
+
+    public void generateArmy()
+    {
+        string temp = File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "armyNames.txt"));
+        StringReader stringReader = new StringReader(temp);
+        string charName;
+        charName = stringReader.ReadLine();
+        while(charName != null)
+        {
+            Debug.Log(charName);
+            armyList.Add(new PlayerData(charName));
+            charName = stringReader.ReadLine();
+        }
+        /*for(int line = 0; line < 137; line++)
+        {
+            string tempName = charNames.
+        }*/
     }
     #region set/gets
     public PlayerData[] getCurrentTeam()
@@ -67,6 +88,8 @@ public class GameData
         PlayerData[] next = new PlayerData[6];
         for (int x = 0; x < 6; x++)
         {
+            if (playerNum >= armyList.Count || armyList[playerNum] == null)
+                break;
             next[x] = armyList[playerNum];
             playerNum++;
         }
@@ -105,9 +128,7 @@ public class GameData
             }
             playerIndex++;
         }
-
         //Debug.LogError("Unable to save");
-
         return false;
     }
 

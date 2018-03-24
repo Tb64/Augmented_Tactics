@@ -18,22 +18,22 @@ public class PlayerData
 
     public KeyValuePair<string, float>[] numberData = 
     {
-        new KeyValuePair<string, float>("Health", 0),
-        new KeyValuePair<string, float>("Mana", 0),
+        new KeyValuePair<string, float>("Health", 20),
+        new KeyValuePair<string, float>("Mana", 15),
         new KeyValuePair<string, float>("Experience", 0),
-        new KeyValuePair<string, float>("Level",0 ),
-        new KeyValuePair<string, float>("Strength",0),
-        new KeyValuePair<string, float>("Dexterity",0),
-        new KeyValuePair<string, float>("Constitution",0),
-        new KeyValuePair<string, float>("Intelligence",0),
-        new KeyValuePair<string, float>("Wisdom",0),
-        new KeyValuePair<string, float>("Charisma",0),
+        new KeyValuePair<string, float>("Level",1 ),
+        new KeyValuePair<string, float>("Strength",10),
+        new KeyValuePair<string, float>("Dexterity",13),
+        new KeyValuePair<string, float>("Constitution",14),
+        new KeyValuePair<string, float>("Intelligence",15),
+        new KeyValuePair<string, float>("Wisdom",20),
+        new KeyValuePair<string, float>("Charisma",5),
         new KeyValuePair<string, float>("Stealth",0),
         new KeyValuePair<string, float>("Armor Class",0),
-        new KeyValuePair<string, float>("Speed",0),
+        new KeyValuePair<string, float>("Speed",15),
         new KeyValuePair<string, float>("Skill Points",0),
         new KeyValuePair<string, float>("Class", 0),
-        new KeyValuePair<string, float>("Player Level",0)
+        new KeyValuePair<string, float>("Player Level",1)
     };
     
     private KeyValuePair<string, string>[] stringData =
