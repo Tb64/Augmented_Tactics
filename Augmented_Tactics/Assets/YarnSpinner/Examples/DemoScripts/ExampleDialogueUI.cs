@@ -47,7 +47,7 @@ namespace Yarn.Unity.Example {
          * disabled when it ends.
          */
         public GameObject dialogueContainer;
-
+        static public int linecount = 0;
         /// The UI element that displays lines
         public Text lineText;
 
@@ -105,8 +105,10 @@ namespace Yarn.Unity.Example {
             } else {
                 // Display the line immediately if textSpeed == 0
                 lineText.text = line.text;
+                
             }
-
+            linecount++;
+            Debug.Log("line count" + linecount);
             // Show the 'press any key' prompt when done, if we have one
             if (continuePrompt != null)
                 continuePrompt.SetActive (true);
@@ -192,6 +194,11 @@ namespace Yarn.Unity.Example {
             }
 
             yield break;
+        }
+        
+       static public int GetLineCount()
+        {
+            return linecount;
         }
 
         /// Called when the dialogue system has finished running.
