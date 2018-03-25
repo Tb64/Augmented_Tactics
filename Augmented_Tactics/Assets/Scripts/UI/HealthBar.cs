@@ -26,7 +26,7 @@ public class HealthBar : MonoBehaviour
 
     void Start()
     {
-        map = GameObject.Find("Map").GetComponent<TileMap>();
+        //map = GameObject.Find("Map").GetComponent<TileMap>();
         mainCamera = GameObject.FindWithTag("MainCamera").transform;
         currentScale = transform.localScale;
         /*

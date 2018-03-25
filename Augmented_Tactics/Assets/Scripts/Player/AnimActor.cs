@@ -15,6 +15,8 @@ public class AnimActor : PlayerControlled
     // Use this for initialization
     new void Start()
     {
+        if (!combatOn)
+            return;
         Init();
         PlayerInitialize();
 
