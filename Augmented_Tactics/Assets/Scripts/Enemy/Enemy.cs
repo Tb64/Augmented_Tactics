@@ -595,7 +595,8 @@ public class Enemy : Actor
                 if (abilitySet[ability].abilityName == "Heal" && CheckHeal() && abilitySet[ability].CanUseSkill(this.gameObject))
                 {
                     abilitySet[ability].UseSkill(gameObject);
-                        return true;
+                    Debug.Log(this + " Healed");    
+                    return true;
                 }   
                     
                 if (abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
@@ -613,6 +614,8 @@ public class Enemy : Actor
             {
                 Debug.Log(this + " using skill: " + abilitySet[choice] + " on " + currentTarget);
                 abilitySet[choice].UseSkill(currentTarget.gameObject); //test
+                // testing statusEffect
+               // Burn burn = new Burn(getWisdom(),this, currentTarget,false);
                // TurnBehaviour.EnemyHasJustAttacked();
                 return true;
             }

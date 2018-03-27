@@ -8,7 +8,7 @@ public class LifeLeech : Ability
     Actor user;
     GameObject leech = Resources.Load<GameObject>("animation/Effect8_Optimized");
     private MonoBehaviour mB;
-    //private PositionAllignment reposition;
+    
 
     public LifeLeech(GameObject obj)
     {
@@ -20,7 +20,6 @@ public class LifeLeech : Ability
     {
         base.Initialize(obj);
         mB = GameObject.FindObjectOfType<MonoBehaviour>();
-        //reposition = GameObject.FindObjectOfType<PositionAllignment>();
         anim = gameObject.GetComponentInChildren<Animator>();
         dwell_time = 3.5f;
         abilityName = "lifeleech";

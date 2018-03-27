@@ -9,8 +9,7 @@ public class Equipable : Items {
 
     public string class_req;
     public int level_req;
-
-    public float crit_chance;
+    public int rarity;
 
     public int str_bonus;
     public int dex_bonus;
@@ -20,4 +19,5 @@ public class Equipable : Items {
     public float eva_bonus;
     public float block_bonus;
     public float acc_bonus;
+    public float crit_chance;
 }
