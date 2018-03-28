@@ -1638,7 +1638,6 @@ GameObject:
   - component: {fileID: 114652606664108652}
   - component: {fileID: 114682726886335100}
   - component: {fileID: 114742059151809280}
-  - component: {fileID: 114344008645120772}
   m_Layer: 0
   m_Name: Brawler
   m_TagString: Player
@@ -4172,37 +4171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64d360df2c6268948a333224a3f4a30c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114344008645120772
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1932311386687428}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e6e124f1e1fee64ba73ee6edc138b9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health_current: 100
-  map: {fileID: 0}
-  coords: {x: 15, y: 0, z: 7}
-  speed: 3
-  moveDistance: 4
-  remainingMovement: 0
-  numOfActions: 0
-  SM: {fileID: 0}
-  soundFx:
-    Move: {fileID: 0}
-    Attack: {fileID: 0}
-    Damage: {fileID: 0}
-    Death: {fileID: 0}
-  combatOn: 1
-  setHealth: 100
-  setMana: 10
-  ability1: DragonKick
-  ability2: combo
-  ability3: gutpunch
-  ability4: counter
 --- !u!114 &114611831375880154
 MonoBehaviour:
   m_ObjectHideFlags: 1
