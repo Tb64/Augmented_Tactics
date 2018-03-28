@@ -103,10 +103,16 @@ public class TileMap : MonoBehaviour {
     }
 
     public ClickableTile getTileAtCoord(Vector3 coords) {
-        if (!IsValidCoord(coords))
+        if (coords.x < 0 || coords.x > mapSizeX)
             return null;
-        else
-            return map[(int)coords.x, (int)coords.y, (int)coords.z];
+
+        if (coords.y < 0 || coords.y > mapSizeY)
+            return null;
+
+        if (coords.z < 0 || coords.z > mapSizeZ)
+            return null;
+
+        return map[(int)coords.x, (int)coords.y, (int)coords.z];
     }
 
     public void setTileAtCoord(Vector3 coords, ClickableTile cT)

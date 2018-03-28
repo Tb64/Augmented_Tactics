@@ -17,7 +17,6 @@ public class AnimActor : PlayerControlled
     {
         if (!combatOn)
             return;
-        Init();
         PlayerInitialize();
 
         animHit = "Attack5Trigger";
