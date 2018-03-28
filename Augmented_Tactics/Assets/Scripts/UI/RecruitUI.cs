@@ -75,7 +75,7 @@ public class RecruitUI : MonoBehaviour
             obj.transform.SetParent(ListWindow.transform, false);
             obj.GetComponent<RectTransform>().anchoredPosition3D = chrListPos;
             DeployCharacterButton btn = obj.GetComponent<DeployCharacterButton>();
-            btn.LoadCharacter(pData, this);
+            //btn.LoadCharacter(pData, this);
             obj.GetComponent<Button>().onClick.AddListener(btn.ChangeSelected);
             chrListPos.y += chrListDelta;
             index++;
