@@ -34,6 +34,13 @@ public class WeaponGen : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Generates a random weapon based off CSV file data
+    /// </summary>
+    /// <param name="level">The level you want to make the weapon</param>
+    /// <param name="characterClass">The weapon's class</param>
+    /// <param name="rarity">How many random stat boosts</param>
+    /// <returns></returns>
     public Weapons WeaponGenerate(int level, string characterClass, int rarity)
     {
         // search for weapon of this level and class
@@ -48,10 +55,6 @@ public class WeaponGen : MonoBehaviour {
         //weapon.name = GetName();
         randomGenDamage();
         SetWeaponData();
-        //for (int index = 0; index < rarity; index++)
-        //{
-        //    randomStatBoost();
-        //}
 
         //DebugPrint(weapon);
         weapon.rarity = rarity;
