@@ -12,7 +12,8 @@ public class GameDataController: MonoBehaviour
         //filePath = Application.dataPath + "/StreamingAssets\\Saves\\data.json";
         filePath = Path.Combine(Application.streamingAssetsPath, "Saves\\data.json");
         gameData = loadPlayerData();
-        ShardController.setShards(gameData.Shards);
+        if(gameData != null)
+            ShardController.setShards(gameData.Shards);
     }
     public static GameData loadPlayerData()
     {
