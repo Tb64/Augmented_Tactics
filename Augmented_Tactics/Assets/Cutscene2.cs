@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections.Generic;
 using Yarn.Unity.Example;
 
-public class Cutscene1 : MonoBehaviour
+public class Cutscene2 : MonoBehaviour
 {
 
     public Animator anim;
@@ -29,75 +29,104 @@ public class Cutscene1 : MonoBehaviour
             switch (currentline)
             {
                 case 0:
-                    StartWalking("You");
-                    StartTalking("Lord Abaddon");
+                    StartWalking("Frederick Decet");
+                    StartWalking("John Causion");
+                    StartTalking("John Causion");
                     temp = currentline;
                     break;
+
                 case 2:
+                    StopTalking("John Causion");
                     if (Input.GetMouseButtonDown(0))
                     {
-                        StopTalking("Lord Abaddon");
-                        StartTalking("Grandfather");
+                        StartTalking("Frederick Decet");
                         temp = currentline;
                     }
                     break;
-                case 5:
+                case 4:
+                    StopTalking("Frederick Decet");
                     if (Input.GetMouseButtonDown(0))
                     {
-                        StopTalking("Grandfather");
-                        StartTalking("Lord Abaddon");
+                        StartTalking("John Causion");
                         temp = currentline;
                     }
                     break;
                 case 6:
+                    StopTalking("John Causion");
                     if (Input.GetMouseButtonDown(0))
                     {
-                        StopTalking("Lord Abaddon");
-                        StartTalking("Grandfather");
+                        StartTalking("Frederick Decet");
                         temp = currentline;
                     }
                     break;
-                case 9:
+                case 8:
+                    StopTalking("Frederick Decet");
                     if (Input.GetMouseButtonDown(0))
                     {
-                        StopTalking("Grandfather");
-                        StartTalking("Lord Abaddon");
+                        StartTalking("John Causion");
                         temp = currentline;
                     }
                     break;
                 case 10:
+                    StopTalking("John Causion");
                     if (Input.GetMouseButtonDown(0))
                     {
-                        StopTalking("Lord Abaddon");
-                        StartTalking("Grandfather");
-                        StartWalkingDoogy();
+                        StartTalking("Frederick Decet");
                         temp = currentline;
                     }
                     break;
+
                 case 11:
+                    StopTalking("Frederick Decet");
                     if (Input.GetMouseButtonDown(0))
                     {
-                        StopTalking("Grandfather");
-                        StartTalking("Lord Abaddon");
+                        StartTalking("John Causion");
                         temp = currentline;
                     }
                     break;
                 case 12:
+                    StopTalking("John Causion");
                     if (Input.GetMouseButtonDown(0))
                     {
-                        StopTalking("Lord Abaddon");
-                        StartTalking("You");
+                        StartTalking("Frederick Decet");
+                        temp = currentline;
+                    }
+                    break;
+                case 13:
+                    StopTalking("Frederick Decet");
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        StartTalking("John Causion");
                         temp = currentline;
                     }
                     break;
                 case 14:
+                    StopTalking("John Causion");
                     if (Input.GetMouseButtonDown(0))
                     {
-                        StopTalking("You");
-                        EndSceneAnims();
-
+                        StartTalking("Frederick Decet");
                         temp = currentline;
                     }
+                    break;
+                case 15:
+                    StopTalking("Frederick Decet");
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        StartTalking("John Causion");
+                        temp = currentline;
+                    }
+                    break;
+                case 16:
+                    StopTalking("John Causion");
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        StartTalking("Frederick Decet");
+                        temp = currentline;
+                    }
+                    break;
+                case 17:
+                    StopTalking("John Causion");
+                    
                     break;
 
                 default:
@@ -107,12 +136,12 @@ public class Cutscene1 : MonoBehaviour
 
         }
     }
+    
 
     void StartTalking(string s)
     {
-        string theguy = s;
-        string choice = "Talk" + Random.Range(1, 8).ToString();
-
+        anim.ResetTrigger("LinesDone");
+        string choice = "Talk" + Random.Range(2, 3).ToString();
         if (gameObject.name == s)
         {
             anim.Play(choice, -1, 0f);
@@ -120,45 +149,21 @@ public class Cutscene1 : MonoBehaviour
     }
     void StopTalking(string s)
     {
-        string theguy = s;
         if (gameObject.name == s)
         {
             anim.Play("Idle", -1, 0f);
         }
+
+
     }
 
     void StartWalking(string s)
     {
-        string theguy = s;
         if (gameObject.name == s)
         {
             anim.Play("Walk", -1, 0f);
         }
     }
-
-    void StartWalkingDoogy()
-    {
-        if (gameObject.name == "Doogy")
-        {
-            anim.Play("Walk 3", -1, 0f);
-        }
-    }
-
-    void EndSceneAnims()
-    {
-        if (gameObject.name == "Doogy")
-        {
-            anim.Play("Idle 0", -1, 0f);
-        }
-
-        if (gameObject.name == "You")
-        {
-            anim.Play("StandQuarterTurnLeft");
-
-        }
-
-    }
-
-
+    
 
 }
