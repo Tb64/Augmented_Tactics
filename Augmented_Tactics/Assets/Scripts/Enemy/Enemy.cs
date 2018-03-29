@@ -170,12 +170,10 @@ public class Enemy : Actor
             currentTarget = nearest;
             if (currentTarget != weakest || cantTarget.Contains(currentTarget) || currentTarget.isIncapacitated() || currentTarget.isDead())
                 findTarget();
-
             //Debug.Log("Found Target = " + currentTarget.name + " at " + currentTarget.transform.position + currentTarget.getCoords());
             //currentTarget = currentTarget;
         }
-        
-
+ 
         if (currentTarget == null)
         {
             Debug.LogError("no player team");
@@ -582,7 +580,7 @@ public class Enemy : Actor
         /// //////////////////////// where to add attacking
         /// </summary>
         /// <param name="currentTarget"></param>
-        public bool attemptAttack() //thinkiing of changing to attemptAction. Also covers heal
+        public virtual bool attemptAttack() //thinkiing of changing to attemptAction. Also covers heal
         {
             if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
                 return false;

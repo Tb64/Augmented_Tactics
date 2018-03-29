@@ -8,6 +8,7 @@ public class EnemyController : MonoBehaviour
     public TileMap map;
     private static int enemyCount; //number of foes
     public static Actor[] userTeam; // player controlled team
+    private static Actor aggro;
     public Actor weakest, nearest; //for attacking together later. not useful now
     public static int enemyNum; // current enemy in enemyList
     public static Enemy[] enemyList;
