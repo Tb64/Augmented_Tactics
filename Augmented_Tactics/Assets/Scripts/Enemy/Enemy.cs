@@ -27,11 +27,10 @@ public class Enemy : Actor
     private List<Actor> cantTarget;
     private bool targetLocked;
 
-    private Actor currentTarget;
+    public Actor currentTarget;
     // Use this for initialization
-    new
     // Use this for initialization
-    void Start()
+    new public virtual void Start()
     {
         EnemyInitialize();
 
@@ -159,7 +158,7 @@ public class Enemy : Actor
 
     }
 
-    public void EnemyActions()
+    public virtual void EnemyActions()
     {
         //Debug.Log("NON-PROXIMITY");
         if (getMoves() == 0)
@@ -179,7 +178,7 @@ public class Enemy : Actor
             Debug.LogError("no player team");
             return;
         }
-        if (attemptAttack())
+        if (AttemptAttack())
             return;
         Vector3 movingTo = PosCloseTo(currentTarget.getCoords());
         if (movingTo == new Vector3(-1, -1, -1))
@@ -345,7 +344,7 @@ public class Enemy : Actor
         }
     }
 
-    private bool moveEnemy()
+    /*private bool moveEnemy()
     {
         if (currentTarget == null)
             return false;
@@ -365,7 +364,7 @@ public class Enemy : Actor
         //NextTurn();
         return isFinshed;
     }
-
+    */
 
 
     /// <summary>
@@ -580,7 +579,7 @@ public class Enemy : Actor
         /// //////////////////////// where to add attacking
         /// </summary>
         /// <param name="currentTarget"></param>
-        public virtual bool attemptAttack() //thinkiing of changing to attemptAction. Also covers heal
+        public virtual bool AttemptAttack() //thinkiing of changing to attemptAction. Also covers heal
         {
             if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
                 return false;
@@ -624,6 +623,12 @@ public class Enemy : Actor
             }
     }
 
+    public override void TakeDamage(float damage, GameObject attacker)
+    {
+        base.TakeDamage(damage, attacker);
+        EnemyController.CheckTargeted(enemyID);
+        attacker.GetComponent<Actor>().aggroScore++;
+    }
     public bool CheckHeal()
     {
         if (GetHealthPercent() < 50 && GetHealthPercent() < nearest.GetHealthPercent() && !TargetInRange())

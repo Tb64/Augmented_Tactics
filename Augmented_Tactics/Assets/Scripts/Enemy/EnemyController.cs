@@ -8,7 +8,9 @@ public class EnemyController : MonoBehaviour
     public TileMap map;
     private static int enemyCount; //number of foes
     public static Actor[] userTeam; // player controlled team
-    private static Actor aggro;
+    public static Actor aggro;
+    public static Enemy target;
+    public static bool targeted;
     public Actor weakest, nearest; //for attacking together later. not useful now
     public static int enemyNum; // current enemy in enemyList
     public static Enemy[] enemyList;
@@ -209,7 +211,32 @@ public class EnemyController : MonoBehaviour
         TurnBehaviour.EnemyTurnFinished();
         return;
     }
+    public static void CheckTargeted(int id)
+    {
+        enemyList[id].aggroScore++;
+        foreach(Enemy enemy in enemyList)
+        {
+            if (!(enemyList[id].aggroScore - enemy.aggroScore <= 2))
+                return;
+            else
+            {
+                targeted = true;
+                target = enemyList[id];
+            }
 
+        }
+    }
+    public static void UpdateAggro()
+    {
+        aggro = userTeam[0];
+        foreach (Actor player in userTeam)
+        {
+            if (aggro.aggroScore < player.aggroScore)
+            {
+                aggro = player;
+            }
+        }
+    }
     /* private void EnemyMoved()
      {
          if (SM.checkTurn())
