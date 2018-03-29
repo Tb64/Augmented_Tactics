@@ -34,7 +34,7 @@ public class DeployController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        emptySlot = deployedImage[0].sprite;
+        emptySlot = deployedImage[0].sprite; //
         deployed = new PlayerData[4];
         chrListPos = new Vector3(0f,-60f,0f);
         models = new GameObject[4];
