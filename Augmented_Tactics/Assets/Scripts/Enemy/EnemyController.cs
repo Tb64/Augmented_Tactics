@@ -8,13 +8,14 @@ public class EnemyController : MonoBehaviour
     public TileMap map;
     private static int enemyCount; //number of foes
     public static Actor[] userTeam; // player controlled team
-    public static Actor aggro;
+    public static Actor aggro; //not implemented fully yet
     public static Enemy target;
-    public static bool targeted;
+    public static bool targeted, canChangeTarget;
     public Actor weakest, nearest; //for attacking together later. not useful now
     public static int enemyNum; // current enemy in enemyList
     public static Enemy[] enemyList;
     public static int currentEnemy = 0;
+    public static float aggroRange;
     //public Actor getWeakest() { return weakest; }
     //public void setWeakest(Actor weakestPlayer) { weakest = weakestPlayer; }
     // Use this for initialization
@@ -93,7 +94,7 @@ public class EnemyController : MonoBehaviour
 
     }
 
-    public Actor findWeakestPlayer()
+    public Actor FindWeakestPlayer()
     {
         //Actor[] users = PlayerControlled.playerList;
         float lowestHealth = userTeam[0].GetHealthPercent();
@@ -109,6 +110,22 @@ public class EnemyController : MonoBehaviour
             }
         }
         return weakest;
+    }
+
+    public static Enemy FindWeakestEnemy()
+    {
+        Enemy weakling = null;
+        float lowestHealth = enemyList[0].GetHealthPercent();
+        foreach (Enemy enemy in enemyList)
+        {
+            float playerHealth = enemy.GetHealthPercent();
+            if (playerHealth < lowestHealth)
+            {
+                weakling = enemy;
+                lowestHealth = playerHealth;
+            }
+        }
+        return weakling;
     }
 
     private void DecideOrder(List<Enemy> enemies) //decide which order the enemies attack based on dexterity and
@@ -142,7 +159,7 @@ public class EnemyController : MonoBehaviour
          }*/
         Debug.Log("1EnemyTurnStart");
         //int[] attackOrder = DecideOrder()
-        //also need to add some advanced decision making for attacking a target together #notfirstplayable
+        UpdateAggro();
         EnemyAction();
     }
     #endregion
@@ -216,7 +233,7 @@ public class EnemyController : MonoBehaviour
         enemyList[id].aggroScore++;
         foreach(Enemy enemy in enemyList)
         {
-            if (!(enemyList[id].aggroScore - enemy.aggroScore <= 2))
+            if (!(enemyList[id].aggroScore - enemy.aggroScore <= 2) || canChangeTarget)
                 return;
             else
             {
@@ -226,6 +243,15 @@ public class EnemyController : MonoBehaviour
 
         }
     }
+    public static bool CheckTargetChange(int id)
+    {
+        if(!targeted)
+            return true;
+        if (target.isIncapacitated() && target.getLevel() >= enemyList[id].getLevel())
+            return false;
+        else
+            return true;
+    }
     public static void UpdateAggro()
     {
         aggro = userTeam[0];
@@ -234,6 +260,18 @@ public class EnemyController : MonoBehaviour
             if (aggro.aggroScore < player.aggroScore)
             {
                 aggro = player;
+                UpdateAggroRange();
+            }
+        }
+    }
+    public static void UpdateAggroRange()
+    {
+        aggroRange = 0;
+        foreach(Ability ability in aggro.abilitySet)
+        {
+            if(ability.range_max > aggroRange)
+            {
+                aggroRange = ability.range_max;
             }
         }
     }
