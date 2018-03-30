@@ -308,7 +308,10 @@ public class Actor : MonoBehaviour
             || soundFx.Damage == null
             || soundFx.Death == null
             || audio == null)
+        {
+            Debug.Log("!!!NULL AUDIO");
             return false;
+        }
         //justin audio garbage - ignore until fixed
         //   int n;
         //   n = UnityEngine.Random.Range(1, 6);
