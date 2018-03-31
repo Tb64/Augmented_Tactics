@@ -7,11 +7,15 @@ public class GameData
 {
     public List<PlayerData> armyList = new List<PlayerData>();
     public int Shards;
-    public KeyValuePair<string, string>[] currentTeam = { new KeyValuePair<string, string>("Player0", ""),
-    new KeyValuePair<string, string>("Player1", ""), new KeyValuePair<string, string>("Player2", ""),
-    new KeyValuePair<string, string>("Player3", "")};
+    public PlayerData[] currentTeam = 
+   {
+        new PlayerData("Player0"),
+        new PlayerData("Player1"),
+        new PlayerData("Player2"),
+        new PlayerData("Player3")
+    };
 
-    public KeyValuePair<string, string>[] usableItems;
+    public UsableItem[] usableItems;
 
     public bool loaded = false;
     public GameData()

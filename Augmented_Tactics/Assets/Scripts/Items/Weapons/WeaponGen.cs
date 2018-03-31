@@ -26,7 +26,7 @@ public class WeaponGen : MonoBehaviour {
 
         for (int index = 0; index < rawData.GetLength(1) - 2; index++)
         {
-            if(rawData[ItemKey.ClassType,index].ToLower() == characterClass.ToLower() && rawData[ItemKey.Level, index] == level.ToString())
+            if(rawData[ItemKey.Weapon.ClassType,index].ToLower() == characterClass.ToLower() && rawData[ItemKey.Weapon.Level, index] == level.ToString())
             {
                 string[] newData = CSVReader.GetRowFrom2DArray(index, rawData);
                 wList.Add(newData);
@@ -68,8 +68,8 @@ public class WeaponGen : MonoBehaviour {
 
     public void randomGenDamage()
     {
-        int pDmgMin = int.Parse(wData[ItemKey.PhysicalDamageMin]);
-        int pDmgMax = int.Parse(wData[ItemKey.PhysicalDamageMax]);
+        int pDmgMin = int.Parse(wData[ItemKey.Weapon.PhysicalDamageMin]);
+        int pDmgMax = int.Parse(wData[ItemKey.Weapon.PhysicalDamageMax]);
 
         int dmg1 = (int)Random.Range(pDmgMin, pDmgMax + 1f);
         int dmg2 = (int)Random.Range(pDmgMin, pDmgMax + 1f);
@@ -89,8 +89,8 @@ public class WeaponGen : MonoBehaviour {
             weapon.physical_dmg_min = dmg2;
         }
 
-        int mDmgMin = int.Parse(wData[ItemKey.MagicDamageMin]);
-        int mDmgMax = int.Parse(wData[ItemKey.MagicDamageMax]);
+        int mDmgMin = int.Parse(wData[ItemKey.Weapon.MagicDamageMin]);
+        int mDmgMax = int.Parse(wData[ItemKey.Weapon.MagicDamageMax]);
 
         dmg1 = (int)Random.Range(mDmgMin, mDmgMax + 1f);
         dmg2 = (int)Random.Range(mDmgMin, mDmgMax + 1f);
@@ -120,43 +120,43 @@ public class WeaponGen : MonoBehaviour {
         switch (selected)
         {
             case 0:     //str
-                bonus = int.Parse(wData[ItemKey.StrBonus]) + 1;
+                bonus = int.Parse(wData[ItemKey.Weapon.StrBonus]) + 1;
                 weapon.str_bonus = (int)Random.Range(1, bonus);
                 break;
 
             case 1:     //dex
-                bonus = int.Parse(wData[ItemKey.DexBonus]) + 1;
+                bonus = int.Parse(wData[ItemKey.Weapon.DexBonus]) + 1;
                 weapon.dex_bonus = (int)Random.Range(1, bonus);
                 break;
 
             case 2:     //con
-                bonus = int.Parse(wData[ItemKey.ConBonus]) + 1; ;
+                bonus = int.Parse(wData[ItemKey.Weapon.ConBonus]) + 1; ;
                 weapon.con_bonus = (int)Random.Range(1, bonus);
                 break;
 
             case 3:     //wis
-                bonus = int.Parse(wData[ItemKey.WisBonus]) + 1;
+                bonus = int.Parse(wData[ItemKey.Weapon.WisBonus]) + 1;
                 weapon.wis_bonus = (int)Random.Range(1, bonus);
                 break;
 
             case 4:     //int
-                bonus = int.Parse(wData[ItemKey.IntBonus]) + 1;
+                bonus = int.Parse(wData[ItemKey.Weapon.IntBonus]) + 1;
                 weapon.int_bonus = (int)Random.Range(1, bonus);
                 break;
 
             case 5:     //eva
-                bonus = int.Parse(wData[ItemKey.EvaBonus]) + 1;
+                bonus = int.Parse(wData[ItemKey.Weapon.EvaBonus]) + 1;
                 weapon.eva_bonus = (int)Random.Range(1, bonus);
                 break;
 
             case 6:     //acc
-                bonus = int.Parse(wData[ItemKey.AccBonus]) + 1;
-                weapon.str_bonus = (int)Random.Range(1, bonus);
+                bonus = int.Parse(wData[ItemKey.Weapon.AccBonus]) + 1;
+                weapon.acc_bonus = (int)Random.Range(1, bonus);
                 break;
 
             case 7:     //crit
-                bonus = int.Parse(wData[ItemKey.CritBonus]) + 1;
-                weapon.str_bonus = (int)Random.Range(1, bonus);
+                bonus = int.Parse(wData[ItemKey.Weapon.CritBonus]) + 1;
+                weapon.crit_chance = (int)Random.Range(1, bonus);
                 break;
 
             default:
@@ -167,15 +167,15 @@ public class WeaponGen : MonoBehaviour {
 
     private void SetWeaponData()
     {
-        weapon.name = wData[ItemKey.Name];
-        weapon.class_req = wData[ItemKey.ClassType];
-        weapon.type = wData[ItemKey.Type];
-        weapon.image = wData[ItemKey.IconPath];
-        weapon.model = wData[ItemKey.ModelPath];
+        weapon.name = wData[ItemKey.Weapon.Name];
+        weapon.class_req = wData[ItemKey.Weapon.ClassType];
+        weapon.type = wData[ItemKey.Weapon.Type];
+        weapon.image = wData[ItemKey.Weapon.IconPath];
+        weapon.model = wData[ItemKey.Weapon.ModelPath];
         weapon.slot = "Weapon";
 
-        weapon.cost = int.Parse(wData[ItemKey.Cost]);
-        weapon.level_req = int.Parse(wData[ItemKey.Level]);
+        weapon.cost = int.Parse(wData[ItemKey.Weapon.Cost]);
+        weapon.level_req = int.Parse(wData[ItemKey.Weapon.Level]);
     }
 
     private void DebugPrint(Weapons weap)
