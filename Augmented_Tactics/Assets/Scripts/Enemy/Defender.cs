@@ -15,7 +15,7 @@ public class Defender : Enemy {
     //else attampt strongest attack then move in the direction of the tank to draw fire
     //if no tank draw fire away from targeted / weakest
     private bool aidLocked, hit;
-    private Ability strongest, mostDistance, heal;
+    private Ability strongest, mostDistance,lastResort, heal;
     private Enemy aiding;
 
 	// Use this for initialization
@@ -24,6 +24,7 @@ public class Defender : Enemy {
         base.Start();
         TurnBehaviour.OnEnemyOutOfMoves += this.ResetValues;
         FindRanges();
+        //add buffs
         heal = GetHeal();
     }
 
@@ -32,7 +33,10 @@ public class Defender : Enemy {
         base.OnDestroy();
         TurnBehaviour.OnEnemyOutOfMoves -= this.ResetValues;
     }
+   /* public override void EnemyInitialize() //temp until all abilities and items are done.  initialize attacks / stats based on lvl and archetype
+    {
 
+    }*/
     public override string GetArchetype()
     {
         return "defender";
@@ -41,13 +45,14 @@ public class Defender : Enemy {
     public override void EnemyTurnStartActions()
     {
         base.EnemyTurnStartActions();
-        aggro = EnemyController.aggro;
         aidLocked = false;
         hit = false;
     }
 
     public override void EnemyActions()
     {
+        if (getMoves() == 0)
+            return;
         if (aidLocked)
         {
             DrawFire();
@@ -58,7 +63,7 @@ public class Defender : Enemy {
             DrawFire();
             return;
         }
-        else if (CheckAggressive())
+        else if (CheckStrategy("aggressive"))
         {
             DrawFire();
             return;
@@ -114,7 +119,7 @@ public class Defender : Enemy {
     {
         if (hit)
         {
-            FindSweetSpot();
+            FindShweetSpot();
             return;
         }
 
@@ -125,20 +130,20 @@ public class Defender : Enemy {
         }
         if(GetHealthPercent() > 50)
         {
-            Support.FindSweetSpot(this, currentTarget, strongest, map);
+            Support.FindShweetSpot(this, currentTarget, strongest, map);
             return;
         }
         else
         {
-            Support.FindSweetSpot(this, currentTarget, mostDistance, map);
+            Support.FindShweetSpot(this, currentTarget, mostDistance, map);
             return;
         }
             
     }
 
-    private void FindSweetSpot() //lure attacker to other area after successful attack / aggro gain
+    private void FindShweetSpot() //lure attacker to other area after successful attack / aggro gain
     {
-        if (CheckHeal())
+        if (CheckHeal()) //add heal of person defending
         {
             if (heal.CanUseSkill(gameObject))
             {
@@ -211,12 +216,12 @@ public class Defender : Enemy {
         }
        
     }
-    private bool CheckAggressive()
+    private bool CheckStrategy(string type)
     {
         aiding = null;
         foreach (Enemy enemy in EnemyController.enemyList)
         {
-            if(enemy.getEnemyID() != this.enemyID && enemy.GetArchetype()== "aggressive")
+            if(enemy.getEnemyID() != this.enemyID && enemy.GetArchetype()== type)
             {
                 if(aiding == null)
                 {
@@ -239,7 +244,7 @@ public class Defender : Enemy {
 
     public bool CheckDefense()
     {
-        if (EnemyController.targeted && !EnemyController.target.aided)
+        if (EnemyController.targeted && !EnemyController.target.aided) // only attach one defender per person or n supports
         {
             aiding = EnemyController.target;
             aiding.aided = true;
@@ -266,6 +271,9 @@ public class Defender : Enemy {
 
     public void ResetValues()
     {
-        aiding.aided = false;
+        if (SM.checkTurn())
+            return;
+        if(EnemyController.currentEnemy == enemyID)
+            aiding.aided = false;
     }
 }

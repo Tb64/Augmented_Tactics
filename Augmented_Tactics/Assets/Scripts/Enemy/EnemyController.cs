@@ -10,7 +10,7 @@ public class EnemyController : MonoBehaviour
     public static Actor[] userTeam; // player controlled team
     public static Actor aggro; //not implemented fully yet
     public static Enemy target;
-    public static bool targeted, canChangeTarget;
+    public static bool targeted, canChangeTarget, aggroAggressive;
     public Actor weakest, nearest; //for attacking together later. not useful now
     public static int enemyNum; // current enemy in enemyList
     public static Enemy[] enemyList;
@@ -254,15 +254,24 @@ public class EnemyController : MonoBehaviour
     }
     public static void UpdateAggro()
     {
-        aggro = userTeam[0];
+        int score = 0, secondScore=0;
+        Actor second = null;
         foreach (Actor player in userTeam)
         {
-            if (aggro.aggroScore < player.aggroScore)
+            if (score < player.aggroScore)
             {
                 aggro = player;
-                UpdateAggroRange();
+            }
+            else if(secondScore < player.aggroScore)
+            {
+                second = player;
             }
         }
+        if (aggro.aggroScore - second.aggroScore > 2)// might be temp if aggro changes drastically
+            aggroAggressive = true;
+        else
+            aggroAggressive = false;
+        UpdateAggroRange();
     }
     public static void UpdateAggroRange()
     {

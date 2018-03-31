@@ -14,7 +14,7 @@ public class Support : Enemy {
     private float distanceFromAggro;
     //private Actor aggro;
     private Enemy aiding;
-    private Ability strongest, mostDistance;
+    private Ability strongest,backup, mostDistance,heal; //backup's range should ideally be in between strongest and mostDistance and require less mana
     private bool regularMode, hasHeal,aidLocked;
 
     public override void Start()
@@ -62,7 +62,7 @@ public class Support : Enemy {
                 targetLocked = true;
                 if (CheckHeal())
                     return;
-                else if (TryStrongest())
+                else if (TryStrongestAndBackup())
                 {
                     return;
                 }
@@ -72,7 +72,7 @@ public class Support : Enemy {
                 }
                 else
                 {
-                    FindSweetSpot();
+                    FindShweetSpot(this,currentTarget,mostDistance,map);
                     return;
                 }
             }
@@ -118,7 +118,7 @@ public class Support : Enemy {
             currentTarget = aiding.getNearest();
             aidLocked = true;
         }
-        if (TryStrongest())
+        if (TryStrongestAndBackup())
         {
             return;
         }
@@ -128,11 +128,14 @@ public class Support : Enemy {
         }
             
     }
-    private bool TryStrongest()
+    private bool TryStrongestAndBackup()
     {
-        if (strongest.CanUseSkill(currentTarget.gameObject))
+        if (Enemy.AttemptAbility(strongest,currentTarget))
         {
-            strongest.UseSkill(currentTarget.gameObject);
+            return true;
+        }
+        else if (Enemy.AttemptAbility(backup,currentTarget))
+        {
             return true;
         }
         else
@@ -143,7 +146,7 @@ public class Support : Enemy {
         Debug.Log(this + " is Running and Gunning");
         if (!mostDistance.SkillInRange(getCoords(),aggro.getCoords()) || distanceFromAggro - mostDistance.range_max > 10 && mostDistance.CanUseSkill(currentTarget.gameObject))
         {
-            FindSweetSpot(this,currentTarget,mostDistance,map); // get closer so attack is possible, or further to stay away from enemies
+            FindShweetSpot(this,currentTarget,mostDistance,map); // get closer so attack is possible, or further to stay away from enemies
             return;
         }    
         else if (mostDistance.CanUseSkill(currentTarget.gameObject))
@@ -159,7 +162,7 @@ public class Support : Enemy {
             return;
         }
     }
-    public static bool FindSweetSpot(Enemy self,Actor currentTarget, Ability mostDistance, TileMap map )
+    public static bool FindShweetSpot(Enemy self,Actor currentTarget, Ability mostDistance, TileMap map )
     {
         Vector3 position = (self.getCoords()-currentTarget.getCoords()).normalized;
         float xDistance = position.x;
@@ -227,6 +230,7 @@ public class Support : Enemy {
         {
             if (ability.range_max > mostRange)
             {
+                backup = mostDistance;
                 mostRange = ability.range_max;
                 mostDistance = ability;
             }
@@ -236,7 +240,23 @@ public class Support : Enemy {
                 strongest = ability;
             }
             if (ability.abilityName == "Heal")
+            {
                 hasHeal = true;
+                heal = ability;
+            }
+                
+        }
+        if(backup == strongest)
+        {
+            bestRange = 0;
+            foreach (Ability ability in abilitySet)
+            {
+                if(ability != strongest && ability != mostDistance && ability.damage > bestRange)
+                {
+                    bestRange = ability.damage;
+                    backup = ability;
+                }
+            }
         }
     }
 

@@ -11,7 +11,7 @@ public class Enemy : Actor
 {
     protected int enemyID;
     protected Actor nearest, weakest, aggro;
-    private Vector3 playerPosition, enemyPosition;
+    protected Vector3 playerPosition, enemyPosition;
     public float distanceToNearest;
     public Actor getNearest() { return nearest; }
     public void setNearest(Actor nearestPlayer) { nearest = nearestPlayer; }
@@ -24,7 +24,7 @@ public class Enemy : Actor
     public Actor getWeakest() { return weakest; }
     public void setWeakest(Actor weakestPlayer) { weakest = weakestPlayer; }
     private int expGiven;
-    private List<Actor> cantTarget;
+    protected List<Actor> cantTarget;
     protected bool targetLocked;
     public bool aided;
 
@@ -46,7 +46,7 @@ public class Enemy : Actor
         //TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStart;
     }
 
-    public void EnemyInitialize()
+    public virtual void EnemyInitialize()
     {
         base.Init();
         expGiven = 10;
@@ -111,6 +111,7 @@ public class Enemy : Actor
         cantTarget = new List<Actor>();
         targetLocked = false;
         Debug.Log("Enemy " + enemyID + " turn started");
+        aggro = EnemyController.aggro;
         if (GetHealthPercent() == 0f)
         {
             //SM.setTurn();
@@ -259,7 +260,7 @@ public class Enemy : Actor
     //    }
     //}
 
-    private Actor findNearestPlayer()
+    protected Actor findNearestPlayer()
     {
         Actor nearest = null;
         float currentNearest = 10000000;
@@ -283,6 +284,7 @@ public class Enemy : Actor
         }
         return nearest;
     }
+
     public void UpdateNearest()
     {
         findNearestPlayer();
@@ -332,7 +334,7 @@ public class Enemy : Actor
             return false;
     }*/
 
-    private void findTarget()
+    protected void findTarget()
     {
         //Debug.Log(currentTarget.coords);
         currentTarget = weakest;
@@ -494,7 +496,7 @@ public class Enemy : Actor
              Debug.Log("first enemy " + EnemyController.enemyList[EnemyController.currentEnemy].getCoords());
          return output;
      }*/
-    public static Vector3 PosCloseTo(Enemy self,Vector3 mapPos, TileMap map)
+    public static Vector3 PosCloseTo(Actor self,Vector3 mapPos, TileMap map)
     {
         Vector3 output = self.getCoords() - mapPos;
         output = output.normalized;
@@ -645,6 +647,17 @@ public class Enemy : Actor
                 Debug.Log("No Possible Attacks");
                 return false;
             }
+    }
+
+    protected static bool AttemptAbility(Ability strongest, Actor currentTarget)
+    {
+        if (strongest.CanUseSkill(currentTarget.gameObject))
+        {
+            strongest.UseSkill(currentTarget.gameObject);
+            return true;
+        }
+        else
+            return false;
     }
 
     public override void TakeDamage(float damage, GameObject attacker)
