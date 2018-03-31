@@ -75,7 +75,7 @@ public class Actor : MonoBehaviour
     protected RangeHighlight rangeMarker;
     private bool incapacitated;
     private bool dead;
-    private int aggro; //for A.I use only. Measures highest threat for targeting
+    public int aggroScore; //for A.I use only. Measures highest threat for targeting
     protected int deathTimer;
     private Transform mainCamera;
 
