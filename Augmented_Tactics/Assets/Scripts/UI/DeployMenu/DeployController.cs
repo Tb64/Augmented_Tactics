@@ -69,6 +69,7 @@ public class DeployController : MonoBehaviour {
         GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[3]);
 
         army = GameDataController.gameData.getArmyList();
+        GameDataController.savePlayerData();
     }
 
     private void MakeList()

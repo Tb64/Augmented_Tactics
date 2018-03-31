@@ -15,7 +15,8 @@ public class GameData
         new PlayerData("Player3")
     };
 
-    public UsableItem[] usableItems;
+    public List<UsableItem> usableItems = new List<UsableItem>();
+    public List<Equipable> equipableItems = new List<Equipable>();
 
     public bool loaded = false;
     public GameData()

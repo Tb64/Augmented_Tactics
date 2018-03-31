@@ -159,7 +159,7 @@ public class EnemyController : MonoBehaviour
          }*/
         Debug.Log("1EnemyTurnStart");
         //int[] attackOrder = DecideOrder()
-        UpdateAggro();
+        //UpdateAggro();
         EnemyAction();
     }
     #endregion
@@ -233,6 +233,8 @@ public class EnemyController : MonoBehaviour
         enemyList[id].aggroScore++;
         foreach(Enemy enemy in enemyList)
         {
+            if (enemy == null)
+                break;
             if (!(enemyList[id].aggroScore - enemy.aggroScore <= 2) || canChangeTarget)
                 return;
             else
