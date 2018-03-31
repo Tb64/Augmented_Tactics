@@ -43,6 +43,9 @@ public class PlayerData
     public string Skill3;
     public string Skill4;
 
+    public Armor armor;
+    public Weapons weapon;
+
     private static string[] classNames =
     {
         "Mage",
