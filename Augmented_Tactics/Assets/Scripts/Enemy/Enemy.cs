@@ -664,7 +664,7 @@ public class Enemy : Actor
     {
         base.TakeDamage(damage, attacker);
         EnemyController.CheckTargeted(enemyID);
-        attacker.GetComponent<Actor>().aggroScore++;
+        attacker.GetComponent<Actor>().aggroScore++; //updating for actual function based on action / damage
     }
     public virtual bool CheckHeal()
     {

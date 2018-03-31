@@ -7,7 +7,7 @@ public class Disintegrate : Ability {
 
     static public Disintegrate instance;
 
-    float damage = 10f;
+    //float damage = 10f;
     StateMachine SM = GameObject.Find("GameController").GetComponent<StateMachine>();
     GameObject bloodEffect = Resources.Load<GameObject>("animation/effect26");
     TileMap map = GameObject.FindGameObjectWithTag("Map").GetComponent<TileMap>();

@@ -91,8 +91,14 @@ public class SkillLoader : MonoBehaviour {
             case "shieldoffaith":
                 return new ShieldOfFaith(gObj);
 
+            //Thief
+            case "flamingarrow":
+                return new FlamingArrow(gObj);
+
             default:
                 return null;
+
+           
         }
     }
 }
