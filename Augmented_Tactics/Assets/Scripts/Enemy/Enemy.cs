@@ -592,15 +592,16 @@ public class Enemy : Actor
             for (int ability = 0; ability < 4; ability++)
             {
             // Debug.Log(abilitySet[ability].SkillInRange(getCoords(), currentTarget.getCoords()));
-                if (abilitySet[ability].abilityName == "Heal" && CheckHeal())
+                if (abilitySet[ability].abilityName == "Heal" && CheckHeal() && abilitySet[ability].CanUseSkill(this.gameObject))
                 {
                     abilitySet[ability].UseSkill(gameObject);
+                    Debug.Log(this + " Healed");    
                     return true;
                 }   
                     
                 if (abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
                 {
-                    bestAttack = abilitySet[ability].damage;
+                    bestAttack = (int)abilitySet[ability].damage;
                     choice = ability;
                     chosen = true;
                 }
@@ -613,6 +614,8 @@ public class Enemy : Actor
             {
                 Debug.Log(this + " using skill: " + abilitySet[choice] + " on " + currentTarget);
                 abilitySet[choice].UseSkill(currentTarget.gameObject); //test
+                // testing statusEffect
+               // Burn burn = new Burn(getWisdom(),this, currentTarget,false);
                // TurnBehaviour.EnemyHasJustAttacked();
                 return true;
             }

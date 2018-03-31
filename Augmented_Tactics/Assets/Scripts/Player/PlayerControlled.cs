@@ -10,6 +10,7 @@ for all player controlled actors
 
 public class PlayerControlled : Actor
 {
+    public bool combatOn = true;
     public static int playerNum;
     public static Actor[] playerList;
     public static GameObject[] playerObjs;
@@ -17,12 +18,14 @@ public class PlayerControlled : Actor
     // Use this for initialization
     new void Start ()
     {
-        base.Init();
+        if (!combatOn)
+            return;
         PlayerInitialize();
     }
 
     public void PlayerInitialize()
     {
+        base.Init();
         TurnBehaviour.OnPlayerTurnStart += this.OnPlayerTurnStart;
 
         abilitySet = new Ability[4];  //test
@@ -43,6 +46,11 @@ public class PlayerControlled : Actor
             playerList = new Actor[4];
         if (playerObjs == null)
             playerObjs = new GameObject[4];
+
+        if(playerNum == 4)
+        {
+            Debug.Log("More than 4 players attempting to add: " + name);
+        }
         playerObjs[playerNum] = gameObject;
         playerList[playerNum] = this;
         playerID = playerNum;
@@ -79,7 +87,7 @@ public class PlayerControlled : Actor
     void Update ()
     {
         base.Update();
-        turnControl();
+        //turnControl();
     }
 
     void turnControl()

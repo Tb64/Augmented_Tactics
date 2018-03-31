@@ -16,17 +16,17 @@ public class HealthBar : MonoBehaviour
 
     private void Awake()
     {
-        TurnBehaviour.OnActorAttacked += OnActorAttacked;
+        //TurnBehaviour.OnActorAttacked += OnActorAttacked;
     }
 
     private void OnDestroy()
     {
-        TurnBehaviour.OnActorAttacked -= OnActorAttacked;
+        //TurnBehaviour.OnActorAttacked -= OnActorAttacked;
     }
 
     void Start()
     {
-        map = GameObject.Find("Map").GetComponent<TileMap>();
+        //map = GameObject.Find("Map").GetComponent<TileMap>();
         mainCamera = GameObject.FindWithTag("MainCamera").transform;
         currentScale = transform.localScale;
         /*

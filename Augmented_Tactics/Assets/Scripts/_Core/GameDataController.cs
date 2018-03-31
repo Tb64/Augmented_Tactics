@@ -9,29 +9,37 @@ public class GameDataController: MonoBehaviour
     public static GameData gameData;
     private void Start()
     {
-        filePath = Application.dataPath + "/StreamingAssets\\Saves\\data.json";
+        //filePath = Application.dataPath + "/StreamingAssets\\Saves\\data.json";
+        filePath = Path.Combine(Application.streamingAssetsPath, "Saves\\data.json");
         gameData = loadPlayerData();
+        if(gameData != null)
+            ShardController.setShards(gameData.Shards);
     }
     public static GameData loadPlayerData()
     {
-        
+        //Static Functions do not call start
+        filePath = Path.Combine(Application.streamingAssetsPath, "data.json");
         //Debug.Log(filePath);
-        if (File.Exists(GameDataController.filePath))
+        if (File.Exists(filePath))
         {
             string jsonData= File.ReadAllText(filePath);
+            gameData = JsonUtility.FromJson<GameData>(jsonData);
             return JsonUtility.FromJson<GameData>(jsonData);
         }
         else
         {
-            Debug.LogError("Can't Find Game Data");
-            return null;
+            Debug.Log("Can't Find Game Data, making new data at " + filePath);
+            gameData = new GameData();
+            return gameData;
         }
     }
 
     public static bool savePlayerData(GameData gameData)
     {
+        //Static Functions do not call start
+        filePath = Path.Combine(Application.streamingAssetsPath, "data.json");
         //Debug.Log(GameDataController.filePath);
-        if(filePath == null)
+        if (filePath == null)
         {
             Debug.LogError("Can't Find Game Data");
             return false;
@@ -47,6 +55,31 @@ public class GameDataController: MonoBehaviour
             File.Create(GameDataController.filePath);
             string jsonData = JsonUtility.ToJson(gameData);
             File.WriteAllText(GameDataController.filePath, jsonData);
+            return true;
+        }
+    }
+
+    public static bool savePlayerData()
+    {
+        //Static Functions do not call start
+        filePath = Path.Combine(Application.streamingAssetsPath, "data.json");
+        //Debug.Log(GameDataController.filePath);
+        if (filePath == null)
+        {
+            Debug.LogError("Can't Find Game Data");
+            return false;
+        }
+        if (File.Exists(filePath))
+        {
+            string jsonData = JsonUtility.ToJson(gameData);
+            File.WriteAllText(filePath, jsonData);
+            return true;
+        }
+        else
+        {
+            File.Create(filePath);
+            string jsonData = JsonUtility.ToJson(gameData);
+            File.WriteAllText(filePath, jsonData);
             return true;
         }
     }
