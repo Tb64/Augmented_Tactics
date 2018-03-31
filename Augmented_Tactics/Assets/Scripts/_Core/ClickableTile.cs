@@ -39,21 +39,14 @@ public class ClickableTile : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collided with " + other.gameObject.name);
+        //Debug.Log("Collided with " + other.gameObject.name);
         if (other.gameObject.tag == "Player" || other.gameObject.tag == "Enemy")
         {
-            Debug.Log("Collison with actor.");
+            Debug.Log("Tile " + coords + " has " + other.name + " on it.");
+            other.GetComponent<Actor>().setCoords(coords);
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("Collided with " + collision.gameObject.name);
-        if(collision.gameObject.tag == "Player" || collision.gameObject.tag == "Enemy")
-        {
-            Debug.Log("Collison with actor.");
-        }
-    }
 
     private void Update()
     {
