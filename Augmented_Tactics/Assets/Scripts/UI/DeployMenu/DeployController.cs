@@ -59,13 +59,17 @@ public class DeployController : MonoBehaviour {
             Debug.Log("Data failed to gerenate");
 
         if(GameDataController.gameData == null)
+        {
             Debug.Log("Data failed to make Game Date");
+            GameDataController.gameData = new GameData();
+        }
         GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[0]);
         GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[1]);
         GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[2]);
         GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[3]);
 
         army = GameDataController.gameData.getArmyList();
+        GameDataController.savePlayerData();
     }
 
     private void MakeList()
