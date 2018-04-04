@@ -6,12 +6,12 @@ using UnityEngine.UI;
 public class RecruitUI : MonoBehaviour
 {
 
-    private const float chrListDelta = -100f;
+    private const float recrListDelta = -100f;
 
     public Image slotHighlight;
 
     public GameObject ListWindow;
-    public GameObject PlayerListObj;
+    public GameObject UnitDisplayObj;
 
     public Image[] deployedImage;
     public PlayerData[] deployed;
@@ -33,8 +33,9 @@ public class RecruitUI : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        deployed = new PlayerData[4];
-        chrListPos = new Vector3(0f, -60f, 0f);
+        deployed = new PlayerData[5];
+        deployedImage = new Image[5];
+        chrListPos = new Vector3(0f, 0f, 0f);
         LoadData();
         MakeList();
 
@@ -61,23 +62,27 @@ public class RecruitUI : MonoBehaviour
         GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[1]);
         GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[2]);
         GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[3]);
-
+        GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[0]);
         army = GameDataController.gameData.getArmyList();
     }
 
+    //this fills the list with loaded objects, in the test case it loads 5 temp chars
     private void MakeList()
     {
         int index = 0;
         foreach (PlayerData pData in army)
         {
-            Debug.Log("Adding char to list");
-            GameObject obj = Instantiate<GameObject>(PlayerListObj);
+            Debug.Log("Adding char to recruit ui");
+            //instantiate the unit display opbject, set its transform stuff
+            GameObject obj = Instantiate<GameObject>(UnitDisplayObj);
             obj.transform.SetParent(ListWindow.transform, false);
             obj.GetComponent<RectTransform>().anchoredPosition3D = chrListPos;
-            DeployCharacterButton btn = obj.GetComponent<DeployCharacterButton>();
-            //btn.LoadCharacter(pData, this);
+
+            //get the RecruitButton script component off obj
+            RecruitButton btn = obj.GetComponent<RecruitButton>();
+            btn.LoadCharacter(pData, this);
             obj.GetComponent<Button>().onClick.AddListener(btn.ChangeSelected);
-            chrListPos.y += chrListDelta;
+            chrListPos.y += recrListDelta;
             index++;
         }
     }
