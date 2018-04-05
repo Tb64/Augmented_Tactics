@@ -8,11 +8,22 @@ public class RecruitUI : MonoBehaviour
 
     private const float recrListDelta = -100f;
 
+    public Text shards;
+    public Text currentUnitsOwned;
+    public Text selectedName;
+    public Text selectedClass;
+    public Text selectedCost;
+
     public Image slotHighlight;
 
     public GameObject ListWindow;
     public GameObject UnitDisplayObj;
+    public GameObject cameraSetViewObj;
+    public GameObject modelTansformObj;
 
+    public Image[] equipmentSlots;
+    public Image[] itemSlots;
+    public Image[] skillsSlots;
     public Image[] deployedImage;
     public PlayerData[] deployed;
 
@@ -25,6 +36,8 @@ public class RecruitUI : MonoBehaviour
 
     private List<PlayerData> army;
 
+    private GameObject modelObj;
+
     private void Awake()
     {
         Application.stackTraceLogType = StackTraceLogType.ScriptOnly;
@@ -36,9 +49,9 @@ public class RecruitUI : MonoBehaviour
         deployed = new PlayerData[5];
         deployedImage = new Image[5];
         chrListPos = new Vector3(0f, 0f, 0f);
+        GameObject obj = Instantiate<GameObject>(cameraSetViewObj);
         LoadData();
         MakeList();
-
     }
 
     public void OnSlotSelected(int slot)
@@ -64,6 +77,8 @@ public class RecruitUI : MonoBehaviour
         GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[3]);
         GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[0]);
         army = GameDataController.gameData.getArmyList();
+
+        //load current shards and units in army
     }
 
     //this fills the list with loaded objects, in the test case it loads 5 temp chars
@@ -89,14 +104,33 @@ public class RecruitUI : MonoBehaviour
 
     public void ChangeSelected()
     {
-        Debug.Log("Clicked on " + name);
+        //Debug.Log("Clicked on " + name);
     }
 
     public void ChangeSelected(PlayerData input, Sprite img)
     {
         currentSelected = input;
-        Debug.Log("Setting slot #" + slotSelected + " to " + currentSelected.playerName);
-        deployedImage[slotSelected].sprite = img;
+        //Debug.Log("Setting slot #" + slotSelected + " to " + currentSelected.playerName);
+        //load character into soldier view, load name/cost/class
+        //load equipment, item, skills
+        selectedName.text = "Name: " + input.getStringByKey(PlayerKey.DisplayName);
+        selectedCost.text = "Cost: " + 500;
+        selectedClass.text = "Class: " + input.getStringByKey(PlayerKey.ClassName);
+        foreach (Image skillImg in skillsSlots) {
+            //get a string for each skill, apply an image to it
+            string skillStr = input.getStringByKey(PlayerKey.Icon);
+            //string skillStr = "sword";
+            Debug.Log("setting an image for skills: "+ skillStr);
+            skillImg.sprite = Resources.Load<Sprite>(skillStr);
+        }
+
+        //load model into soldierview, if one is active, destory it.
+        if (modelObj != null) { Destroy(modelObj)};
+        GameObject model = Resources.Load<GameObject>(input.getStringByKey(PlayerKey.Prefab));
+        model.GetComponent<PlayerControlled>().combatOn = false;
+        modelObj = Instantiate<GameObject>(model);
+        modelObj.transform.localScale = modelTansformObj.transform.lossyScale;
+        modelObj.transform.SetPositionAndRotation(modelTansformObj.transform.position, modelTansformObj.transform.rotation);
     }
 
     public void setSelcted(PlayerData input)

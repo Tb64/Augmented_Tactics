@@ -31,7 +31,7 @@ public class RecruitButton : MonoBehaviour {
         nameText.text = "Name: " + input.getStringByKey(PlayerKey.DisplayName);
         level.text = "Level: " + input.getStatByKey(PlayerKey.Level);
         classType.text = "Class: " + input.getStringByKey(PlayerKey.ClassName);
-        cost.text = "Cost" + input.getStringByKey(PlayerKey.Constitution);//change to cost later
+        cost.text = "Cost: " + 500;//change to cost later
         exp.fillAmount = .4f;//input.getStringByKey(PlayerKey.);
 
         string icon = input.getStringByKey(PlayerKey.Icon);
