@@ -36,6 +36,7 @@ public class StatusEffects
         effectedPlayer = effected;
         effectorPlayer = effector;
         this.isEnemy = isEnemy;
+        InitialEffect();
     }
     public StatusEffects(float effect,GameObject effector, GameObject effected, bool isEnemy)
     {
@@ -47,6 +48,7 @@ public class StatusEffects
         effectedObject = effected;
         effectorObject = effector;
         this.isEnemy = isEnemy;
+        InitialEffect();
     }
     public void decreaseTimeCounter()
     {
@@ -65,6 +67,11 @@ public class StatusEffects
         }      
     }
 
+    public virtual void InitialEffect()
+    {
+
+    }
+
     public virtual void InduceEffect()
     {
         //another template: use this to process turn based damage loss etc if necessary
@@ -74,5 +81,5 @@ public class StatusEffects
        //just a template. overload this with an undo of your effect if necessary 
     }
 
-   
+    
 }
