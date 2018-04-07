@@ -10,9 +10,9 @@ public class RecruitUI : MonoBehaviour
 
     public Text shards;
     public Text currentUnitsOwned;
-    public Text selectedName;
+    /*public Text selectedName;
     public Text selectedClass;
-    public Text selectedCost;
+    public Text selectedCost;*/
 
     public Image slotHighlight;
 
@@ -48,7 +48,7 @@ public class RecruitUI : MonoBehaviour
     {
         deployed = new PlayerData[5];
         deployedImage = new Image[5];
-        chrListPos = new Vector3(0f, 0f, 0f);
+        chrListPos = new Vector3(0f, 100f, 0f);
         GameObject obj = Instantiate<GameObject>(cameraSetViewObj);
         LoadData();
         MakeList();
@@ -113,19 +113,19 @@ public class RecruitUI : MonoBehaviour
         //Debug.Log("Setting slot #" + slotSelected + " to " + currentSelected.playerName);
         //load character into soldier view, load name/cost/class
         //load equipment, item, skills
-        selectedName.text = "Name: " + input.getStringByKey(PlayerKey.DisplayName);
-        selectedCost.text = "Cost: " + 500;
-        selectedClass.text = "Class: " + input.getStringByKey(PlayerKey.ClassName);
+
+        //selectedName.text = "Name: " + input.getStringByKey(PlayerKey.DisplayName);
+        //selectedCost.text = "Cost: " + 500;
+        //selectedClass.text = "Class: " + input.getStringByKey(PlayerKey.ClassName);
         foreach (Image skillImg in skillsSlots) {
             //get a string for each skill, apply an image to it
             string skillStr = input.getStringByKey(PlayerKey.Icon);
-            //string skillStr = "sword";
             Debug.Log("setting an image for skills: "+ skillStr);
             skillImg.sprite = Resources.Load<Sprite>(skillStr);
         }
 
         //load model into soldierview, if one is active, destory it.
-        if (modelObj != null) { Destroy(modelObj)};
+        if (modelObj != null) { Destroy(modelObj); }
         GameObject model = Resources.Load<GameObject>(input.getStringByKey(PlayerKey.Prefab));
         model.GetComponent<PlayerControlled>().combatOn = false;
         modelObj = Instantiate<GameObject>(model);
