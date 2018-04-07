@@ -5,101 +5,67 @@ using System.Text;
 using System.Collections.Generic;
 using Yarn.Unity.Example;
 
-public class Cutscene1 : MonoBehaviour {
+public class Cutscene1 : MonoBehaviour
+{
 
     public Animator anim;
     int currentline;
     int temp = -1;
 
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
         anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
-    void Update() {
+    void Update()
+    {
         currentline = ExampleDialogueUI.GetLineCount();
         if (temp != currentline)
         {
 
             //start
-            if (currentline == 0)
+            switch (currentline)
             {
-                StartWalking("You");
-                StartTalking("Lord Abaddon");
-                temp = currentline;
-            }
-
-            //line 2
-            if (currentline == 2)
-            {
-                int i = 0;
-                while (i == 0)
-                {
+                case 0:
+                    StartWalking("You");
+                    StartTalking("Lord Abaddon");
+                    temp = currentline;
+                    break;
+                case 2:
                     if (Input.GetMouseButtonDown(0))
                     {
                         StopTalking("Lord Abaddon");
                         StartTalking("Grandfather");
                         temp = currentline;
                     }
-                    i = 1;
-                }
-            }
-
-            // line 5
-            if (currentline == 5)
-            {
-                int i = 0;
-                while (i == 0)
-                {
+                    break;
+                case 5:
                     if (Input.GetMouseButtonDown(0))
                     {
                         StopTalking("Grandfather");
                         StartTalking("Lord Abaddon");
                         temp = currentline;
                     }
-                    i = 1;
-                }
-            }
-
-            // line 6
-            if (currentline == 6)
-            {
-                int i = 0;
-                while (i == 0)
-                {
+                    break;
+                case 6:
                     if (Input.GetMouseButtonDown(0))
                     {
                         StopTalking("Lord Abaddon");
                         StartTalking("Grandfather");
                         temp = currentline;
                     }
-                    i = 1;
-                }
-            }
-
-            //line 9
-            if (currentline == 9)
-            {
-                int i = 0;
-                while (i == 0)
-                {
+                    break;
+                case 9:
                     if (Input.GetMouseButtonDown(0))
                     {
                         StopTalking("Grandfather");
                         StartTalking("Lord Abaddon");
                         temp = currentline;
                     }
-                    i = 1;
-                }
-            }
-
-            //line 10
-            if (currentline == 10)
-            {
-                int i = 0;
-                while (i == 0)
-                {
+                    break;
+                case 10:
                     if (Input.GetMouseButtonDown(0))
                     {
                         StopTalking("Lord Abaddon");
@@ -107,53 +73,24 @@ public class Cutscene1 : MonoBehaviour {
                         StartWalkingDoogy();
                         temp = currentline;
                     }
-                    i = 1;
-                }
-            }
-
-            //line 11
-            if (currentline == 11)
-            {
-                int i = 0;
-                while (i == 0)
-                {
+                    break;
+                case 11:
                     if (Input.GetMouseButtonDown(0))
                     {
                         StopTalking("Grandfather");
                         StartTalking("Lord Abaddon");
                         temp = currentline;
                     }
-                    i = 1;
-                }
-            }
-
-            //line 12
-            if (currentline == 12)
-            {
-                int i = 0;
-                while (i == 0)
-                {
+                    break;
+                case 12:
                     if (Input.GetMouseButtonDown(0))
                     {
                         StopTalking("Lord Abaddon");
                         StartTalking("You");
-
                         temp = currentline;
                     }
-                    i = 1;
-                }
-            }
-
-            
-
-
-
-            //line 14
-            if (currentline == 14)
-            {
-                int i = 0;
-                while (i == 0)
-                {
+                    break;
+                case 14:
                     if (Input.GetMouseButtonDown(0))
                     {
                         StopTalking("You");
@@ -161,8 +98,11 @@ public class Cutscene1 : MonoBehaviour {
 
                         temp = currentline;
                     }
-                    i = 1;
-                }
+                    break;
+
+                default:
+                    break;
+
             }
 
         }
@@ -172,7 +112,7 @@ public class Cutscene1 : MonoBehaviour {
     {
         string theguy = s;
         string choice = "Talk" + Random.Range(1, 8).ToString();
-        
+
         if (gameObject.name == s)
         {
             anim.Play(choice, -1, 0f);

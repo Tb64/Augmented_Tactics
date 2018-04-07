@@ -103,10 +103,16 @@ public class TileMap : MonoBehaviour {
     }
 
     public ClickableTile getTileAtCoord(Vector3 coords) {
-        if (!IsValidCoord(coords))
+        if (coords.x < 0 || coords.x > mapSizeX)
             return null;
-        else
-            return map[(int)coords.x, (int)coords.y, (int)coords.z];
+
+        if (coords.y < 0 || coords.y > mapSizeY)
+            return null;
+
+        if (coords.z < 0 || coords.z > mapSizeZ)
+            return null;
+
+        return map[(int)coords.x, (int)coords.y, (int)coords.z];
     }
 
     public void setTileAtCoord(Vector3 coords, ClickableTile cT)
@@ -224,13 +230,13 @@ public class TileMap : MonoBehaviour {
     public void GeneratePathTo(Vector3 targetCoords, GameObject actor)
     {
         unit = actor.GetComponent<Actor>();
-        Vector3 coordinates = new Vector3();
+        //Vector3 coordinates = new Vector3();
         
         //initializes coordinates vector to selected units transform
-        coordinates.x = (int)unit.transform.position.x;
-        coordinates.z = (int)unit.transform.position.z;
+        //coordinates.x = (int)unit.transform.position.x;
+        //coordinates.z = (int)unit.transform.position.z;
         //passes coordinates vector to unit to set units coords
-        unit.setCoords(coordinates); 
+        //unit.setCoords(coordinates); 
         unit.setPathNull();
 
         if (UnitCanEnterTile(targetCoords) == false || getTileAtCoord(targetCoords).isOccupied() == true)
@@ -312,9 +318,95 @@ public class TileMap : MonoBehaviour {
             currentPath.Add(curr);
             curr = prev[curr];
         }
-       
+
         currentPath.Reverse(); //inverts the path
         unit.setCurrentPath(currentPath);
+    }
+
+    public List<Nodes> GeneratePathTo(Vector3 targetCoords, Vector3 startingCoords)
+    {
+
+        if (UnitCanEnterTile(targetCoords) == false || getTileAtCoord(targetCoords).isOccupied() == true)
+        {//tile is not walkable
+            //Debug.Log("Unable to generate path");
+            return null;
+        }
+
+        Dictionary<Nodes, float> dist = new Dictionary<Nodes, float>();
+        Dictionary<Nodes, Nodes> prev = new Dictionary<Nodes, Nodes>();
+
+        //Actor uXZ = selectedUnit.GetComponent<Actor>();
+
+        List<Nodes> unvisited = new List<Nodes>();
+
+        Nodes source = graph[(int)startingCoords.x, (int)startingCoords.y, (int)startingCoords.z];
+        Nodes target = graph[(int)targetCoords.x, (int)targetCoords.y, (int)targetCoords.z];
+        dist[source] = 0;
+        prev[source] = null;
+
+        foreach (Nodes v in graph)
+        {
+            if (v != source)
+            {
+                dist[v] = Mathf.Infinity;
+                prev[v] = null;
+            }
+            unvisited.Add(v);
+        }
+
+        while (unvisited.Count > 0)
+        {
+            //u is unvisited node with the smallest distance
+            Nodes u = null;
+
+            foreach (Nodes possibleU in unvisited)
+            {
+                if (u == null || dist[possibleU] < dist[u])
+                {
+                    u = possibleU;
+                }
+            }
+
+            if (u == target)
+            {
+                break;
+            }
+
+            unvisited.Remove(u);
+
+            foreach (Nodes v in u.neighbors)
+            {
+                //float alt = dist[u] + u.DistanceTo(v);
+                float alt = dist[u] + costToEnterTile(u.coords, v.coords);
+
+                if (alt < dist[v])
+                {
+                    dist[v] = alt;
+                    prev[v] = u;
+                }
+            }
+        }
+
+        //check if there is no route
+        if (prev[target] == null)
+        {
+            //no route to target
+            return null;
+        }
+
+        List<Nodes> currentPath = new List<Nodes>();
+
+        Nodes curr = target;
+
+        //step through prev chain and add it to path
+
+        while (curr != null)
+        {
+            currentPath.Add(curr);
+            curr = prev[curr];
+        }
+
+        return currentPath;
     }
 
     void generatePathFindingGraph()
@@ -628,6 +720,15 @@ public class TileMap : MonoBehaviour {
     {
         //selectedUnit = actor;
         GeneratePathTo(target, actor);
+        List<Nodes> path = actor.GetComponent<Actor>().getCurrentPath();
+        string debugout = "Generated Path: ";
+        foreach (Nodes node in path)
+        {
+            debugout += node.coords + " >> ";
+        }
+
+        Debug.Log(debugout);
+
         Vector3 currentCoords = actor.GetComponent<Actor>().getCoords();
 
         TurnBehaviour.ActorBeginsMoving();
@@ -645,7 +746,7 @@ public class TileMap : MonoBehaviour {
 
         Vector3 newCoords = actor.GetComponent<Actor>().getCoords();
 
-        Debug.Log("Moved " + actor.name + " to " + target);
+        Debug.Log("Moved " + actor.name + " to " + target + " from " + currentCoords);
         SetOcc(actor, currentCoords, newCoords);
         //getTileAtCoord(unit.getCoords()).setOccupiedTrue(actor);
         TurnBehaviour.ActorHasJustMoved();

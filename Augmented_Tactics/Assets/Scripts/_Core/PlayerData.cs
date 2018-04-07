@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+
 [System.Serializable]
 public class PlayerData
 {
@@ -15,6 +17,44 @@ public class PlayerData
     public void setPlayerName(string name) { playerName = name; }
     public string getPlayerName() { return playerName; }
     public int cost;
+    public int Health;
+    public int Mana;
+    public int Experience;
+    public int Level;
+    public int Strength;
+    public int Dexterity;
+    public int Constitution;
+    public int Intelligence;
+    public int Wisdom;
+    public int coCharismast;
+    public int Stealth;
+    public int ArmorClass;
+    public int Speed;
+    public int SkillPoints;
+    public int Class;
+    public int PlayerLevel;
+
+    public string DisplayName;
+    public string ClassName;
+    public string Icon;
+    public string Prefab;
+    public string Skill1;
+    public string Skill2;
+    public string Skill3;
+    public string Skill4;
+
+    public Armor armor;
+    public Weapons weapon;
+
+    private static string[] classNames =
+    {
+        "Mage",
+        "Cleric",
+        "Thief",
+        "Brawler",
+        "Paladin",
+        "Dark Knight"
+    };
 
     public KeyValuePair<string, float>[] numberData = 
     {
@@ -50,7 +90,7 @@ public class PlayerData
 
     public KeyValuePair<string, float>[] getNumberData(){return numberData;}
     public KeyValuePair<string, string>[] getStringData() {return stringData; }
-   
+
     //All of this code seems unncecessary now so I left it
     /*public float getValueByKey(string key)
     {
@@ -66,31 +106,187 @@ public class PlayerData
         return value;
     }*/
 
+
+    public static PlayerData GenerateNewPlayer()
+    {
+        PlayerData player = null;
+
+        string name = RandomName();
+        player = new PlayerData(name);
+        player.DisplayName = name;
+        player.playerName = name; //this can be a problem because playerName must be unique
+        player.ClassName = RandomClass();
+        PlayerBaseLine(player);
+        RandomStatBoost(player);
+
+
+        player.Health = player.Constitution * 10;
+
+        player.Mana = (player.Intelligence + player.Wisdom) * 5;
+
+        return player;
+    }
+
+    private static void PlayerBaseLine(PlayerData input)
+    {
+        input.Strength = 5;
+        input.Dexterity = 5;
+        input.Constitution = 5;
+        input.Intelligence = 5;
+        input.Wisdom = 5;
+        input.Speed = 3;
+        input.SkillPoints = 1;
+        input.Level = 1;
+        input.PlayerLevel = 1;
+    }
+
+    private static void RandomStatBoost(PlayerData input)
+    {
+        int randomStat;
+        for (int index = 0; index < 5; index++)
+        {
+            randomStat = (int)Random.Range(0, 5);
+            switch (randomStat)
+            {
+                case 0:
+                    input.Strength++;
+                    break;
+
+                case 1:
+                    input.Dexterity++;
+                    break;
+
+                case 2:
+                    input.Constitution++;
+                    break;
+
+                case 3:
+                    input.Intelligence++;
+                    break;
+
+                case 4:
+                    input.Wisdom++;
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+    private static string RandomClass()
+    {
+        int randomIndex = (int)Random.Range(0, classNames.Length);
+        return classNames[randomIndex];
+    }
+
+    private static string RandomName()
+    {
+        string filePath = Application.streamingAssetsPath + "/armyNames.txt";
+        //Debug.Log(filePath);
+        if (File.Exists(filePath))
+        {
+            string[] nameData = File.ReadAllLines(filePath);
+
+            int randomIndex = (int)Random.Range(0,nameData.Length);
+
+            return nameData[randomIndex];
+
+        }
+        else
+        {
+            Debug.Log("Can't Find Name Data at " + filePath);
+            return "";
+        }
+    }
+
     public float getStatByKey(string key)
     {
         float stat = -1;
-        foreach(KeyValuePair<string, float> stats in numberData)
+        switch(key)
         {
-            if(stats.Key == key)
-            {
-                stat = stats.Value;
-                return stat;
-            }
+            case PlayerKey.Health:
+                return this.Health;
+
+            case PlayerKey.Mana:
+                return this.Mana;
+
+            case PlayerKey.Experience:
+                return this.Experience;
+
+            case PlayerKey.Level:
+                return this.Level;
+
+            case PlayerKey.Strength:
+                return this.Strength;
+
+            case PlayerKey.Dexterity:
+                return this.Dexterity;
+
+            case PlayerKey.Constitution:
+                return this.Constitution;
+
+            case PlayerKey.Intelligence:
+                return this.Intelligence;
+
+            case PlayerKey.Wisdom:
+                return this.Wisdom;
+
+            case PlayerKey.Stealth:
+                return this.Stealth;
+
+            case PlayerKey.ArmorClass:
+                return this.ArmorClass;
+
+            case PlayerKey.Speed:
+                return this.Speed;
+
+            case PlayerKey.SkillPoints:
+                return this.SkillPoints;
+
+            case PlayerKey.Class:
+                return this.Class;
+
+            case PlayerKey.PlayerLevel:
+                return this.PlayerLevel;
+
+            default:
+                break;
         }
-        Debug.LogError("Failed to load " + key + " from GameData");
         return stat;
     }
 
     public string getStringByKey(string key)
     {
         string stat = "";
-        foreach (KeyValuePair<string, string> stats in stringData)
+        switch (key)
         {
-            if (stats.Key == key)
-            {
-                stat = stats.Value;
-                return stat;
-            }
+            case PlayerKey.DisplayName:
+                return this.DisplayName;
+
+            case PlayerKey.ClassName:
+                return this.ClassName;
+
+            case PlayerKey.Icon:
+                return this.Icon;
+
+            case PlayerKey.Prefab:
+                return this.Prefab;
+
+            case PlayerKey.Skill1:
+                return this.Skill1;
+
+            case PlayerKey.Skill2:
+                return this.Skill2;
+
+            case PlayerKey.Skill3:
+                return this.Skill3;
+
+            case PlayerKey.Skill4:
+                return this.Skill4;
+
+            default:
+                break;
         }
         Debug.LogError("Failed to load " + key + " from GameData");
         return stat;
@@ -98,30 +294,112 @@ public class PlayerData
 
     public void setStatbyKey(string key, float stat)
     {
-        int statIndex = 0;
-        foreach (KeyValuePair<string, float> stats in numberData)
+        switch (key)
         {
-            if (stats.Key == key)
-            {
-                numberData[statIndex] = new KeyValuePair<string, float>(key, stat);
+            case PlayerKey.Health:
+                this.Health = (int)stat;
                 return;
-            }
-            statIndex++;
+
+            case PlayerKey.Mana:
+                this.Mana = (int)stat;
+                return;
+
+            case PlayerKey.Experience:
+                this.Experience = (int)stat;
+                return;
+
+            case PlayerKey.Level:
+                this.Level = (int)stat;
+                return;
+
+            case PlayerKey.Strength:
+                this.Strength = (int)stat;
+                return;
+
+            case PlayerKey.Dexterity:
+                this.Dexterity = (int)stat;
+                return;
+
+            case PlayerKey.Constitution:
+                this.Constitution = (int)stat;
+                return;
+
+            case PlayerKey.Intelligence:
+                this.Intelligence = (int)stat;
+                return;
+
+            case PlayerKey.Wisdom:
+                this.Wisdom = (int)stat;
+                return;
+
+            case PlayerKey.Stealth:
+                this.Stealth = (int)stat;
+                return;
+
+            case PlayerKey.ArmorClass:
+                this.ArmorClass = (int)stat;
+                return;
+
+            case PlayerKey.Speed:
+                this.Speed = (int)stat;
+                return;
+
+            case PlayerKey.SkillPoints:
+                this.SkillPoints = (int)stat;
+                return;
+
+            case PlayerKey.Class:
+                this.Class = (int)stat;
+                return;
+
+            case PlayerKey.PlayerLevel:
+                this.PlayerLevel = (int)stat;
+                return;
+
+            default:
+                break;
         }
         Debug.LogError("Unable to save " + key + " stat");
     }
 
     public void setStatbyKey(string key, string stat)
     {
-        int statIndex = 0;
-        foreach (KeyValuePair<string, string> stats in stringData)
+        switch (key)
         {
-            if (stats.Key == key)
-            {
-                stringData[statIndex] = new KeyValuePair<string, string>(key, stat);
+            case PlayerKey.DisplayName:
+                this.DisplayName = stat;
                 return;
-            }
-            statIndex++;
+
+            case PlayerKey.ClassName:
+                this.ClassName = stat;
+                return;
+
+            case PlayerKey.Icon:
+                this.Icon = stat;
+                return;
+
+            case PlayerKey.Prefab:
+                this.Prefab = stat;
+                return;
+
+            case PlayerKey.Skill1:
+                this.Skill1 = stat;
+                return;
+
+            case PlayerKey.Skill2:
+                this.Skill2 = stat;
+                return;
+
+            case PlayerKey.Skill3:
+                this.Skill3 = stat;
+                return;
+
+            case PlayerKey.Skill4:
+                this.Skill4 = stat;
+                return;
+
+            default:
+                break;
         }
         Debug.LogError("Unable to save " + key + " stat");
     }
