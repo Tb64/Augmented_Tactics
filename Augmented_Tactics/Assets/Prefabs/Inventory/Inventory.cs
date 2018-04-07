@@ -20,8 +20,6 @@ public class Inventory : MonoBehaviour {
         invTransform = inventory.GetComponent<Transform>();
 
     }
-
-
     
     public void updateInventory()
     {
@@ -31,15 +29,23 @@ public class Inventory : MonoBehaviour {
             Debug.Log("ITEM NOT FOUND");
             return;
         }
-        Vector3 iconPlacement = new Vector3(40f, -30f, 0f);
-        for (int index = 0; index < inventorySize; index++)
+        
+        inventoryArray[0, 0] = Instantiate(item);
+        inventoryArray[0, 0].transform.SetParent(inventory.transform, false);
+        Vector3 iconPlacement = inventoryArray[0, 0].transform.localPosition;
+        iconPlacement += new Vector3(50f, 0f, 0f);
+
+        for (int index = 0; index < 5; index++)
         {
-            inventoryArray[0, index] = Instantiate(item);
-            inventoryArray[0, index].transform.parent = invTransform;
-            inventoryArray[0, index].transform.position = new Vector3(0f, -30f, 0f);
-            inventoryArray[0, index].transform.position = iconPlacement + new Vector3(50f, 0f, 0f);
-            
-            iconPlacement += new Vector3(50f, 0f, 0f);
+            for (int jindex = 0; jindex < inventorySize; jindex++)
+            {
+                inventoryArray[0, jindex] = Instantiate(item);
+                inventoryArray[0, jindex].transform.SetParent(inventory.transform, false);
+                inventoryArray[0, jindex].transform.localPosition = iconPlacement;
+                iconPlacement += new Vector3(50f, 0f, 0f);
+            }
+            iconPlacement.x = 0f;
+            iconPlacement += new Vector3(0, -80f, 0);
         }
        
         
