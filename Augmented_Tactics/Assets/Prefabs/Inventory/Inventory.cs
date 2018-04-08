@@ -25,10 +25,7 @@ public class Inventory : MonoBehaviour {
 
     public void addItem()
     {
-        for(int index = 0; index < inventorySize; index++)
-        {
-
-        }
+        //will iterate through array until it finds an open slot
 
     }
 
