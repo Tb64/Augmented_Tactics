@@ -22,6 +22,7 @@ public class StatusEffects
     protected Actor effectedPlayer, effectorPlayer;
     protected GameObject effectedObject, effectorObject; // for areas or spots on the map
     protected bool isEnemy;
+    protected Animator anim;
     StateMachine SM;
     internal string ID;
 
@@ -71,7 +72,8 @@ public class StatusEffects
     }
     public virtual void ReverseEffect()
     {
-       //just a template. overload this with an undo of your effect if necessary 
+        TurnBehaviour.OnTurnStart -= this.decreaseTimeCounter;
+        //just a template. overload this with an undo of your effect if necessary 
     }
 
    

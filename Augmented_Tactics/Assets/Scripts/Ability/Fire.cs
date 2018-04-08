@@ -35,9 +35,10 @@ public class Fire : Ability
         {
             return false;
         }
-
+       
         if (target.tag == "Player" || target.tag == "Enemy")
         {
+            Actor targeta = target.GetComponent<Actor>();
             if (anim != null)
             {
                 rotateAtObj(target);
@@ -49,7 +50,13 @@ public class Fire : Ability
 
                 actor.PlaySound("attack");
             }
-            target.GetComponent<Actor>().TakeDamage(damage,gameObject);
+            targeta.TakeDamage(damage,gameObject);
+            if (Ability.DiceRoll(actor.getDexterity(), targeta.getDexterity()))
+            {
+                new Burn(actor.getDexterity() / 3, actor, targeta, target.tag == "Enemy");
+                Debug.Log("Burn Initiated. Stop Drop and Roll Bitch");
+            }
+
             DwellTime.Attack(dwell_time);
             return true;
         }

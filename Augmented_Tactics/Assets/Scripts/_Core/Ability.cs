@@ -191,6 +191,15 @@ public class Ability
         gameObject.transform.LookAt(newDir);
     }
 
+    public static bool DiceRoll(float attackerDex, float targetDex)
+    {
+        float buff = attackerDex - targetDex;
+        //whomever has higher dexterity gets the buff. so if attacker has more dexterity it adds positive and vice versa
+        if (Random.Range(1, 20) + buff < Random.Range(1, 20)) //simulated 20 dice roll
+            return false;
+        return true;
+    }
+
     //////////////////
     //  Set/Get     //
     //////////////////

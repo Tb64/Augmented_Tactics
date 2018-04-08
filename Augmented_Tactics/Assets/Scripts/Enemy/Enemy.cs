@@ -69,7 +69,7 @@ public class Enemy : Actor
         //FOR DEMO ONLY
         abilitySet[0] = SkillLoader.LoadSkill("basicattack", gameObject);
         abilitySet[1] = SkillLoader.LoadSkill("heal", gameObject);
-        abilitySet[2] = SkillLoader.LoadSkill("fire", gameObject);
+        abilitySet[2] = SkillLoader.LoadSkill("flamingarrow", gameObject);
         abilitySet[3] = SkillLoader.LoadSkill("combo", gameObject);
         setManaCurrent(30);
         setMaxMana(30);
@@ -356,12 +356,11 @@ public class Enemy : Actor
         }
         else
         {
-            Actor[] userTeam = EnemyController.userTeam;
-            for (int player = 0; player < 4; player++)
+            foreach (Actor user in EnemyController.userTeam)
             {
-                if (!cantTarget.Contains(userTeam[player]) && !userTeam[player].isDead() && !userTeam[player].isIncapacitated())
+                if (!cantTarget.Contains(user) && !user.isDead() && !user.isIncapacitated())
                 {
-                    currentTarget = userTeam[player];
+                    currentTarget = user;
                     targetLocked = true;
                     return;
                 }
@@ -622,7 +621,7 @@ public class Enemy : Actor
                     return true;
                 }   
                     
-                if (abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
+                if (!(abilitySet[ability].abilityName == "Heal") && abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
                 {
                     bestAttack = (int)abilitySet[ability].damage;
                     choice = ability;
