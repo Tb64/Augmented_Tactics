@@ -57,6 +57,9 @@ public class Actor : MonoBehaviour
     public Ability[] abilitySet;
     private int experience;
 
+    private Weapons weapon;
+    private Armor armor;
+
     //Movement 
     public TileMap map;
     public Vector3 coords;
@@ -933,6 +936,26 @@ public class Actor : MonoBehaviour
     public void setArmorClass(int input)
     {
 
+    }
+
+    public Weapons getWeapon()
+    {
+        return weapon;
+    }
+
+    public Armor getArmor()
+    {
+        return armor;
+    }
+
+    public void setWeapon(Weapons input)
+    {
+        weapon = input;
+    }
+
+    public void setArmor(Armor input)
+    {
+        armor = input;
     }
     #endregion
 }

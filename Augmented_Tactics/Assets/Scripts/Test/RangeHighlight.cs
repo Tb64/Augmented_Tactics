@@ -46,14 +46,20 @@ public class RangeHighlight : MonoBehaviour {
                 {
                     if(map.UnitCanEnterTile(spawnPosition2))
                     {
-                        obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition2), hightlightObj.transform.rotation);
-                        obj.transform.parent = gameObject.transform;
+                        if(map.GeneratePathTo(spawnPosition2,positionInput).Count <= range + 1)
+                        {
+                            obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition2), hightlightObj.transform.rotation);
+                            obj.transform.parent = gameObject.transform;
+                        }
                     }
                 }
                 if (map.UnitCanEnterTile(spawnPosition1))
                 {
-                    obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition1), hightlightObj.transform.rotation);
-                    obj.transform.parent = gameObject.transform;
+                    if (map.GeneratePathTo(spawnPosition1, positionInput).Count <= range + 1)
+                    {
+                        obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition1), hightlightObj.transform.rotation);
+                        obj.transform.parent = gameObject.transform;
+                    }
                 }
             }
             rangeDelta--;
