@@ -473,6 +473,10 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1061947660378306, guid: 28a14b2d07acad642a00ccea62c94078, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 28a14b2d07acad642a00ccea62c94078, type: 2}
   m_IsPrefabParent: 0
@@ -710,7 +714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.83823526, g: 0.40951106, b: 0.08012541, a: 1}
+  m_Color: {r: 0.8455882, g: 0.8174591, b: 0.7958477, a: 0.688}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
