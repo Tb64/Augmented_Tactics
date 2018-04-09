@@ -5,13 +5,11 @@ using UnityEngine;
 public class FlamingArrow : Ability {
 
     private string animTrigger = "Arrow";
-    private GameObject effect1, effect2; 
+    private GameObject effect1 = Resources.Load<GameObject>("Effects/Effect23"), effect2 = Resources.Load<GameObject>("Effects/ArrowShot");
 
     public FlamingArrow(GameObject obj)
     {
         Initialize(obj);
-        effect1 = null;
-        effect2 = null;
     }
     public override void ActionSkill(GameObject target)
     {
@@ -58,7 +56,5 @@ public class FlamingArrow : Ability {
         abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill8");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
-        effect1 = Resources.Load<GameObject>("Effects/Effect15_Optimized");
-        //effect2 = Resources.Load<GameObject>();
     }
 }
