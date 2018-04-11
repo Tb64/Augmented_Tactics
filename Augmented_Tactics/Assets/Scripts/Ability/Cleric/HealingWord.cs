@@ -6,6 +6,7 @@ public class HealingWord : Ability {
 
     private string animTrigger = "CastAttack1Trigger";
     private GameObject handVFX;
+    private HealOverTime statuseffect;
 
     public HealingWord(GameObject obj)
     {
@@ -15,6 +16,7 @@ public class HealingWord : Ability {
     public override void Initialize(GameObject obj)
     {
         base.Initialize(obj);
+        
         anim = gameObject.GetComponentInChildren<Animator>();
         range_max = 3;
         range_min = 0;
@@ -42,8 +44,8 @@ public class HealingWord : Ability {
         }
         float damage = 10f + ((float)actor.getStrength() * 0.5f);
         //Debug.Log("combo damage = " + damage + " " + actor.getStrength());
-        target.GetComponent<Actor>().HealHealth(heal);
-
+        //target.GetComponent<Actor>().HealHealth(heal);
+        statuseffect = new HealOverTime(heal, actor, target.GetComponent<Actor>(), false);
         DwellTime.Attack(dwell_time);
     }
 }
