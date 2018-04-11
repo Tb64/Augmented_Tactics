@@ -94,6 +94,20 @@ public class SkillLoader : MonoBehaviour {
             //Thief
             case "flamingarrow":
                 return new FlamingArrow(gObj);
+            case "vortexarrow":
+                return new VortexArrow(gObj);
+            case "steal":
+                return new Steal(gObj);
+            case "sneak":
+                return new Sneak(gObj);
+            case "quickstab":
+                return new QuickStab(gObj);
+            case "poisonarrow":
+                return new PoisonArrow(gObj);
+            case "multiarrow":
+                return new MultiArrow(gObj);
+            case "icearrow":
+                return new IceArrow(gObj);
 
             default:
                 return null;

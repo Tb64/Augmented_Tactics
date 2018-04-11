@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FlamingArrow : Ability {
+public class PoisonArrow : Ability
+{
 
     private string animTrigger = "Arrow";
-    private GameObject effect1 = Resources.Load<GameObject>("Effects/Effect23"), effect2 = Resources.Load<GameObject>("Effects/ArrowShot");
+    private GameObject effect1 = Resources.Load<GameObject>("Effects/Effect12_Optimized"), effect2 = Resources.Load<GameObject>("Effects/ArrowShot");
 
-    public FlamingArrow(GameObject obj)
+    public PoisonArrow(GameObject obj)
     {
         Initialize(obj);
     }
@@ -34,9 +35,12 @@ public class FlamingArrow : Ability {
         targeta.TakeDamage(damage, target);
         if (Ability.DiceRoll(actor.getDexterity(), targeta.getDexterity()))
         {
-            new Burn(actor.getDexterity() / 2, actor, targeta, target.tag == "Enemy");
-            Debug.Log("Burn Initiated. Stop Drop and Roll Bitch");
+            //new Burn(actor.getDexterity() / 3, actor, targeta, target.tag == "Enemy");
+            Debug.Log("{0} poisioned. Suck Out The Venom?");
         }
+
+
+
         DwellTime.Attack(dwell_time);
     }
 
@@ -45,13 +49,14 @@ public class FlamingArrow : Ability {
         base.Initialize(obj);
         anim = gameObject.GetComponentInChildren<Animator>();
         manaCost = 10;
-        range_max = 6;
+        range_max = 7;
         range_min = 1;
-        damage = 10f + actor.getDexterity() * 2;
-        dwell_time = 1.5f;
-        abilityName = "Flaming Arrow";
-        abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill8");
+        damage = 10f + actor.getDexterity() * 1.5f;
+        dwell_time = 1.0f;
+        abilityName = "Poison Arrow";
+        abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill2");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
     }
 }
+

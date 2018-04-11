@@ -191,6 +191,11 @@ public class Ability
         gameObject.transform.LookAt(newDir);
     }
 
+    protected void rotateAtObj(Vector3 pos)
+    {
+        gameObject.transform.LookAt(pos);
+    }
+
     public static bool DiceRoll(float attackerDex, float targetDex)
     {
         float buff = attackerDex - targetDex;
