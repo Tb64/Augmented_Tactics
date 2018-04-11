@@ -48,12 +48,12 @@ public class PlayerData
 
     private static string[] classNames =
     {
-        "Mage",
-        "Cleric",
-        "Thief",
-        "Brawler",
         "Paladin",
-        "Dark Knight"
+        "Dark Knight",
+        "Brawler",
+        "Thief",
+        "Cleric",
+        "Mage"
     };
 
     public KeyValuePair<string, float>[] numberData = 
@@ -115,10 +115,9 @@ public class PlayerData
         player = new PlayerData(name);
         player.DisplayName = name;
         player.playerName = name; //this can be a problem because playerName must be unique
-        player.ClassName = RandomClass();
+        RandomClass(player);
         PlayerBaseLine(player);
         RandomStatBoost(player);
-
 
         player.Health = player.Constitution * 10;
 
@@ -143,7 +142,7 @@ public class PlayerData
     private static void RandomStatBoost(PlayerData input)
     {
         int randomStat;
-        for (int index = 0; index < 5; index++)
+        for (int index = 0; index < 3; index++)
         {
             randomStat = (int)Random.Range(0, 5);
             switch (randomStat)
@@ -172,12 +171,56 @@ public class PlayerData
                     break;
             }
         }
+
+        switch (input.Class)
+        {
+            case CharacterClasses.PaladinKey:
+                input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.PaladinKey];
+                input.Icon = CharacterClasses.IconPath[CharacterClasses.PaladinKey];
+                input.Constitution += 2;
+                break;
+
+            case CharacterClasses.DarkKnightKey:
+                input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.DarkKnightKey];
+                input.Icon = CharacterClasses.IconPath[CharacterClasses.DarkKnightKey];
+                input.Strength += 2;
+                break;
+
+            case CharacterClasses.ThiefKey:
+                input.Dexterity += 2;
+                input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.ThiefKey];
+                input.Icon = CharacterClasses.IconPath[CharacterClasses.ThiefKey];
+                break;
+
+            case CharacterClasses.BrawlerKey:
+                input.Constitution += 1;
+                input.Strength += 1;
+                input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.BrawlerKey];
+                input.Icon = CharacterClasses.IconPath[CharacterClasses.BrawlerKey];
+                break;
+
+            case CharacterClasses.ClericKey:
+                input.Wisdom += 2;
+                input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.ClericKey];
+                input.Icon = CharacterClasses.IconPath[CharacterClasses.ClericKey];
+                break;
+
+            case CharacterClasses.MageKey:
+                input.Intelligence += 2;
+                input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.MageKey];
+                input.Icon = CharacterClasses.IconPath[CharacterClasses.MageKey];
+                break;
+
+            default:
+                break;
+        }
     }
 
-    private static string RandomClass()
+    private static void RandomClass(PlayerData input)
     {
         int randomIndex = (int)Random.Range(0, classNames.Length);
-        return classNames[randomIndex];
+        input.Class = randomIndex;
+        input.ClassName = classNames[randomIndex];
     }
 
     private static string RandomName()
