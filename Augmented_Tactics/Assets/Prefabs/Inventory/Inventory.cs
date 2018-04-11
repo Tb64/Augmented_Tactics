@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour {
@@ -10,19 +11,20 @@ public class Inventory : MonoBehaviour {
     GameObject item;
     Transform invTransform;
     GameObject[,] inventoryArray = new GameObject[7, 7];
+    GameObject backgroundImage;
     private float inventorySize;
 
     private void Start()
     {
         inventorySize = 39;
         item = Resources.Load<GameObject>("Prefabs/Item");
-       
+        backgroundImage = GameObject.Find("InventoryBackground");
         inventory = GameObject.Find("Inventory");
         invTransform = inventory.GetComponent<Transform>();
 
     }
-    
 
+  
     public void addItem()
     {
         //will iterate through array until it finds an open slot
@@ -31,6 +33,11 @@ public class Inventory : MonoBehaviour {
 
     public void updateInventory()
     {
+
+        //if (backgroundImage.GetComponent<Image>() == true)
+        //    backgroundImage.SetActive(false);
+        //else
+        //    backgroundImage.GetComponent<Image>().enabled = true;
 
         if (item == null)
         {
