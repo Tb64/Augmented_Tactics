@@ -20,6 +20,8 @@ public class Combo : Ability {
         range_min = 0;
         dwell_time = 3.0f;
         abilityName = "Combo";
+        manaCost = actor.getMaxMana() / actor.getLevel();
+        manaCost = manaCost * 2;
         abilityImage = Resources.Load<Sprite>("UI/Ability/warrior/warriorSkill2");
         handVFX = Resources.Load<GameObject>("Effects/HandEffects/Effect4_Hand_Optimized");
         if (abilityImage == null)

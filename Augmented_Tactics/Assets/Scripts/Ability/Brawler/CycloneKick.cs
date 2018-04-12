@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CycloneKick : Ability {
+public class CycloneKick : AOE {
 
     float BASE_DAMAGE = 10f;
     float DEX_SCALER = 0.5f;
@@ -23,9 +23,13 @@ public class CycloneKick : Ability {
     {
         base.Initialize(obj);
         anim = gameObject.GetComponentInChildren<Animator>();
-        range_max = 1;
+        range_max = 0;
         range_min = 0;
+        AOESizeMin = 0;
+        AOESizeMax = 2;
         dwell_time = 1.0f;
+        manaCost = actor.getMaxMana() / actor.getLevel();
+        manaCost = manaCost * 4;
         abilityName = "Cyclone Kick";
         abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill1");
         if (abilityImage == null)
@@ -52,15 +56,20 @@ public class CycloneKick : Ability {
 
     private void Skill(GameObject target)
     {
+        if (anim != null)
+        {
+            Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, gameObject.name, target.name));
+            rotateAtObj(target);
+            anim.SetTrigger("MagicCast");
+            gameObject.GetComponent<Actor>().PlaySound("attack");
+        }
 
-        targetActor = target.GetComponent<Actor>();
+        for (int i = 0; i < listIterActor; i++)
+        {
+            if (listOfActorsAffected[i] != null && listOfActorsAffected[i].tag != actor.tag)
+                listOfActorsAffected[i].TakeDamage(damage, gameObject);
+        }
 
-        Vector3 location = new Vector3();
-        actor.map.getTileAtCoord(location);
-    }
-
-    private void SkillOnLocation(GameObject target)
-    {
-
+        DwellTime.Attack(dwell_time);
     }
 }
