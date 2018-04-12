@@ -35,7 +35,7 @@ public class VortexArrow : Ability
         targeta.TakeDamage(damage, target);
         if (Ability.DiceRoll(actor.getDexterity(), targeta.getDexterity()))
         {
-            new Beaconed(actor.getDexterity() / 3, actor, targeta, target.tag == "Enemy");
+            StatusEffectsController.AddEffect(new Beaconed(actor.getDexterity() / 3, actor, targeta, target.tag == "Enemy"));
             Debug.Log("{0} now caught in a vortex!",targeta);
         }
         DwellTime.Attack(dwell_time);

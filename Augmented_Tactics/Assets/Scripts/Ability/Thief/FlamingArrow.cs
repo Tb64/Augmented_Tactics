@@ -34,7 +34,7 @@ public class FlamingArrow : Ability {
         targeta.TakeDamage(damage, target);
         if (Ability.DiceRoll(actor.getDexterity(), targeta.getDexterity()))
         {
-            new Burn(actor.getDexterity() / 2, actor, targeta, target.tag == "Enemy");
+            StatusEffectsController.AddEffect(new Burn(actor.getDexterity() / 2, actor, targeta, target.tag == "Enemy"));
             Debug.Log("Burn Initiated. Stop Drop and Roll Bitch");
         }
         DwellTime.Attack(dwell_time);

@@ -35,7 +35,7 @@ public class IceArrow : Ability
         targeta.TakeDamage(damage, target);
         if (Ability.DiceRoll(actor.getDexterity(), targeta.getDexterity()))
         {
-            new Frozen(0, actor, targeta, target.tag == "Enemy");
+            StatusEffectsController.AddEffect(new Frozen(0, actor, targeta, target.tag == "Enemy"));
             Debug.Log("{0} is frozen solid!");
         }
 

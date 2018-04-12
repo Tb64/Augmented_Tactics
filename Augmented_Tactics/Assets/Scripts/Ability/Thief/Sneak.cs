@@ -24,7 +24,7 @@ public class Sneak : Ability {
                 Debug.Log("effect1 null");
             gameObject.GetComponent<Renderer>().enabled = false;
             DwellTime.Attack(.3f);
-            new Disappear(0,attacker,null,gameObject.tag == "Enemy",effect1);
+            StatusEffectsController.AddEffect(new Disappear(0,attacker,null,gameObject.tag == "Enemy",effect1));
         }
     }
     public override void Initialize(GameObject obj)

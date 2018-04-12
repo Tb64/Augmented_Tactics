@@ -15,12 +15,12 @@ public class StatusEffects
         TurnBehaviour.OnTurnStart -= this.decreaseTimeCounter;
     }
 
-    protected int duration;
+    public int duration;
    // private string effectedStat; useless now due to new method
     protected float effect; //degree of effect
     protected string effectText;
-    protected Actor effectedPlayer, effectorPlayer;
-    protected GameObject effectedObject, effectorObject; // for areas or spots on the map
+    public Actor effectedPlayer, effectorPlayer;
+    public GameObject effectedObject, effectorObject; // for areas or spots on the map
     protected bool isEnemy;
     protected Animator anim;
     StateMachine SM;

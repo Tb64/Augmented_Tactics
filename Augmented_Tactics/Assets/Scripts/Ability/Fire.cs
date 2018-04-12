@@ -53,7 +53,7 @@ public class Fire : Ability
             targeta.TakeDamage(damage,gameObject);
             if (Ability.DiceRoll(actor.getDexterity(), targeta.getDexterity()))
             {
-                new Burn(actor.getDexterity() / 3, actor, targeta, target.tag == "Enemy");
+                StatusEffectsController.AddEffect(new Burn(actor.getDexterity() / 3, actor, targeta, target.tag == "Enemy"));
                 Debug.Log("Burn Initiated. Stop Drop and Roll Bitch");
             }
 
