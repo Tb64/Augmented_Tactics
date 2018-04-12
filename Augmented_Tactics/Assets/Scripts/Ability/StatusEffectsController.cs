@@ -29,15 +29,19 @@ public class StatusEffectsController : MonoBehaviour
         status.duration = 0;
     }
 
-    public static bool Effected(Actor actor)
+    public static List<StatusEffects> Effected(Actor actor)
     {
+        List<StatusEffects> statuses = new List<StatusEffects>();
         foreach(StatusEffects status in allEffects)
         {
             if(status.effectedPlayer == actor)
             {
-                return true;
+                statuses.Add(status);
             }
         }
-        return false;
+        if(statuses.Count() == 0)
+            return null;
+        else
+            return statuses;
     }
 }
