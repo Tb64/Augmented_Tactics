@@ -16,6 +16,7 @@ public class RecruitUI : MonoBehaviour
 
     public Image slotHighlight;
 
+    public GameObject statsPanel;
     public GameObject ListWindow;
     public GameObject UnitDisplayObj;
     public GameObject cameraSetViewObj;
@@ -117,12 +118,36 @@ public class RecruitUI : MonoBehaviour
         //selectedName.text = "Name: " + input.getStringByKey(PlayerKey.DisplayName);
         //selectedCost.text = "Cost: " + 500;
         //selectedClass.text = "Class: " + input.getStringByKey(PlayerKey.ClassName);
+
+        Text[] textComponents = statsPanel.GetComponentsInChildren<Text>();
+
+        //get the info for the character
+        foreach (Text textComp in textComponents)
+        {
+            if(textComp.name == "Health")
+                textComp.text = "Health: " + input.getStatByKey(PlayerKey.Health);
+            else if (textComp.name == "Mana")
+                textComp.text = "Mana: " + input.getStatByKey(PlayerKey.Mana);
+            else if (textComp.name == "Strength")
+                textComp.text = "Strength: " + input.getStatByKey(PlayerKey.Strength);
+            else if (textComp.name == "Dexterity")
+                textComp.text = "Dexterity: " + input.getStatByKey(PlayerKey.Dexterity);
+            else if (textComp.name == "Constitution")
+                textComp.text = "Constitution: " + input.getStatByKey(PlayerKey.Constitution);
+            else if (textComp.name == "Intelligence")
+                textComp.text = "Intelligence: " + input.getStatByKey(PlayerKey.Intelligence);
+            else if (textComp.name == "Wisdom")
+                textComp.text = "Wisdom: " + input.getStatByKey(PlayerKey.Wisdom);
+        }
+
+        //get a string for each skill, apply an image to it
         foreach (Image skillImg in skillsSlots) {
-            //get a string for each skill, apply an image to it
+            
             string skillStr = input.getStringByKey(PlayerKey.Icon);
             Debug.Log("setting an image for skills: "+ skillStr);
-            skillImg.sprite = Resources.Load<Sprite>(skillStr);
-        }
+            skillImg.sprite = Resources.Load<Sprite>(skillStr);        }
+
+       
 
         //load model into soldierview, if one is active, destory it.
         if (modelObj != null) { Destroy(modelObj); }
