@@ -4,12 +4,7 @@ using UnityEngine;
 
 public class Burn : StatusEffects
 {
-    // Use this for initialization
-    /*public override void Start ()
-    {
-        //base.Start();
-        
-	}*/
+   
     private GameObject effect1 = Resources.Load<GameObject>("Effects/Effect3_Optimized");
 
     // the only way I could find to solve the constructor issue. necessary for every effect
@@ -17,7 +12,7 @@ public class Burn : StatusEffects
     {
         TurnBehaviour.OnTurnStart += this.decreaseTimeCounter;
         effectText = "Burning";
-        duration = 3; //placeholder until a method for determining this is decided
+        duration = Random.Range(2, 4);
         this.effect = effect;
         //this.effectName = name;
         effectedPlayer = effected;

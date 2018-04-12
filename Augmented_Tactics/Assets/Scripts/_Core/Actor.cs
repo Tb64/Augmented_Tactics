@@ -55,6 +55,7 @@ public class Actor : MonoBehaviour
     protected int charisma;         //measuring force of personality (Buffs and Debuffs)
 
     public Ability[] abilitySet;
+    public List<UsableItem> usableItems;
     private int experience;
 
     private Weapons weapon;

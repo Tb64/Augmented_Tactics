@@ -13,41 +13,45 @@ public class Steal : Ability {
 
     public override void ActionSkill(GameObject target)
     {
-        Actor targeta = target.GetComponent<Actor>();
+        Actor targeta = target.GetComponent<Actor>(),attacker = gameObject.GetComponent<Actor>();
         if (anim != null)
         {
             Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, gameObject.name, target.name));
+            attacker.PlaySound("move");
             rotateAtObj(target);
             if (effect1 != null)
                 GameObject.Instantiate<GameObject>(effect1, gameObject.transform);
             else
                 Debug.Log("effect1 null");
-            //gameObject.GetComponent<Actor>().PlaySound("attack");
-            gameObject.SetActive(false);
-            DwellTime.Attack(.5f);
-            Actor attacker = gameObject.GetComponent<Actor>();
+            gameObject.GetComponent<Renderer>().enabled = false;
+            DwellTime.Attack(.3f);
             Vector3 initCoords = attacker.getCoords();
             attacker.setCoords(Enemy.PosCloseTo(attacker, targeta.getCoords(), map));
             if (effect1 != null)
                 GameObject.Instantiate<GameObject>(effect1, gameObject.transform);
             else
                 Debug.Log("effect1 null");
-            gameObject.SetActive(true);
+            gameObject.GetComponent<Renderer>().enabled = true;
             targeta.TakeDamage(damage, target);
-            TakeSomething(targeta);
-            DwellTime.Attack(.5f);
+            attacker.PlaySound("attack");
+            int choice = Random.Range(0, targeta.usableItems.Count - 1);
+            attacker.usableItems.Add(targeta.usableItems[choice]);
+            Debug.Log(string.Format("{0} Has Pilfered {1} from {2}", attacker, targeta.usableItems[choice],targeta));
+            targeta.usableItems.Remove(targeta.usableItems[choice]);
             rotateAtObj(initCoords);
             if (effect1 != null)
                 GameObject.Instantiate<GameObject>(effect1, gameObject.transform);
             else
                 Debug.Log("effect1 null");
-            gameObject.SetActive(false);
+            gameObject.GetComponent<Renderer>().enabled = false;
+            DwellTime.Attack(.3f);
             attacker.setCoords(initCoords);
             if (effect1 != null)
                 GameObject.Instantiate<GameObject>(effect1, gameObject.transform);
             else
                 Debug.Log("effect1 null");
-            gameObject.SetActive(true);
+            gameObject.GetComponent<Renderer>().enabled = true;
+            DwellTime.Attack(.3f);
         }
         
     }
@@ -65,10 +69,5 @@ public class Steal : Ability {
         abilityImage = Resources.Load<Sprite>("UI/Ability/assassin/assassinSkill6");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
-    }
-
-    private void TakeSomething(Actor victim)
-    {
-        //add here once items are working. take item from person 0d
     }
 }

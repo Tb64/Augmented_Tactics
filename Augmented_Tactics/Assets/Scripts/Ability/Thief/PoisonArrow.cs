@@ -35,7 +35,7 @@ public class PoisonArrow : Ability
         targeta.TakeDamage(damage, target);
         if (Ability.DiceRoll(actor.getDexterity(), targeta.getDexterity()))
         {
-            //new Burn(actor.getDexterity() / 3, actor, targeta, target.tag == "Enemy");
+            new Poisoned(actor.getDexterity() / 4, actor, targeta, target.tag == "Enemy");
             Debug.Log("{0} poisioned. Suck Out The Venom?");
         }
 
