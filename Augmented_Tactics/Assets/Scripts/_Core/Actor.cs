@@ -55,6 +55,7 @@ public class Actor : MonoBehaviour
     protected int charisma;         //measuring force of personality (Buffs and Debuffs)
 
     public Ability[] abilitySet;
+    public UsableItem[] usableItems;
     private int experience;
 
     private Weapons weapon;
@@ -229,6 +230,15 @@ public class Actor : MonoBehaviour
     {
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
         audio = GetComponent<AudioSource>();
+        map = GameObject.Find("Map").GetComponent<TileMap>();
+
+        if (map.IsValidCoord(coords) == true)
+        {
+            Debug.Log("Coords: " + coords);
+            map.GetTileAt(coords).setOccupiedTrue(gameObject);
+            Debug.Log("Occupied = " + map.GetTileAt(coords).isOccupied());
+        }
+
         if (GameObject.Find("SceneManager") != null)
         {
             report = GameObject.Find("SceneManager").GetComponent<AfterActionReport>();
@@ -286,15 +296,7 @@ public class Actor : MonoBehaviour
         {
             return;
         }
-        map = GameObject.Find("Map").GetComponent<TileMap>();
-
-        if (map.IsValidCoord(coords) == true)
-        {
-            Debug.Log("Coords: " + coords);
-            map.GetTileAt(coords).setOccupiedTrue(gameObject);
-            Debug.Log("Occupied = " + map.GetTileAt(coords).isOccupied());
-        }
-
+        
 
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);

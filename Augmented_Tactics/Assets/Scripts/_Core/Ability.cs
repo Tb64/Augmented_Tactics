@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Ability
 {
+    public int levelRequired;
     public int range_max;
     public int range_min;
     public float dwell_time;

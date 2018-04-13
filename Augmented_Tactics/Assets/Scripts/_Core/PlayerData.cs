@@ -12,6 +12,7 @@ public class PlayerData
         unlocked = false;
     }
     private bool unlocked;
+    //public bool[] unlockedSkills;
     public void unlockPlayer() { unlocked = true; }
     public string playerName;
     public void setPlayerName(string name) { playerName = name; }
@@ -42,6 +43,19 @@ public class PlayerData
     public string Skill2;
     public string Skill3;
     public string Skill4;
+    public string Item1;
+    public string Item2;
+    public string Item3;
+    public string Item4;
+
+    public bool UnlockSkill1 = false;
+    public bool UnlockSkill2 = false;
+    public bool UnlockSkill3 = false;
+    public bool UnlockSkill4 = false;
+    public bool UnlockSkill5 = false;
+    public bool UnlockSkill6 = false;
+    public bool UnlockSkill7 = false;
+    public bool UnlockSkill8 = false;
 
     public Armor armor;
     public Weapons weapon;
@@ -327,6 +341,18 @@ public class PlayerData
 
             case PlayerKey.Skill4:
                 return this.Skill4;
+
+            case PlayerKey.Item1:
+                return this.Item1;
+
+            case PlayerKey.Item2:
+                return this.Item2;
+
+            case PlayerKey.Item3:
+                return this.Item3;
+
+            case PlayerKey.Item4:
+                return this.Item4;
 
             default:
                 break;
