@@ -36,12 +36,12 @@ public class Inventory : MonoBehaviour {
     public void addEquipable(Equipable item)
     {
 
-        for(int index = 4; index >= 0; index--)
+        for(int index = 0; index < 5; index++)
         {
             Debug.Log("index:" + index);
             for(int jindex = 0; jindex < 5; jindex++)
             {
-                Debug.Log("jindex:" + index);
+                Debug.Log("jindex:" + jindex);
                 if (inventoryArray[index, jindex].GetComponent<Item>().isOccupied() == false)
                 {
                     inventoryArray[index, jindex].GetComponent<Item>().setEquipable(item);
@@ -97,7 +97,7 @@ public class Inventory : MonoBehaviour {
 
         float inventoryRows = (inventorySize / 5f);
         double numRows = Math.Ceiling(inventoryRows);
-        int numItems = 7;
+        int numItems = 5;
         float inventoryCounter = inventorySize;
 
         for (int index = 0; index < numRows; index++)
@@ -106,11 +106,12 @@ public class Inventory : MonoBehaviour {
                 numItems = 5;
             else
                 numItems = (int)inventoryCounter;
+
             for (int jindex = 0; jindex < numItems; jindex++)
             {
-                inventoryArray[0, jindex] = Instantiate(item);
-                inventoryArray[0, jindex].transform.SetParent(inventoryBackground.transform, false);
-                inventoryArray[0, jindex].transform.localPosition = iconPlacement;
+                inventoryArray[index, jindex] = Instantiate(item);
+                inventoryArray[index, jindex].transform.SetParent(inventoryBackground.transform, false);
+                inventoryArray[index, jindex].transform.localPosition = iconPlacement;
                 iconPlacement += new Vector3(70f, 0f, 0f);
                 inventoryCounter--;
             }
