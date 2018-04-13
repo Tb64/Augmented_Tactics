@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealOverTime : StatusEffects {
+public class Bind : StatusEffects {
 
-    float heal;
+    private int savedMoveDist;
+    private GameObject visualEffect;
 
     public override void OnDestroy()
     {
@@ -12,17 +13,18 @@ public class HealOverTime : StatusEffects {
         //base.OnDestroy();
     }
     // the only way I could find to solve the constructor issue. necessary for every effect
-    public HealOverTime(float effect, Actor effector, Actor effected, bool isEnemy) : base(effect, effector, effected, isEnemy)
+    public Bind(float effect, Actor effector, Actor effected, bool isEnemy) : base(effect, effector, effected, isEnemy)
     {
         TurnBehaviour.OnTurnStart += this.decreaseTimeCounter;
-        effectText = "Scorched";
-        duration = 3; //placeholder until a method for determining this is decided
+        effectText = "Bind";
+        duration = 1; //placeholder until a method for determining this is decided
         this.effect = effect;
         //this.effectName = name;
         effectedPlayer = effected;
         effectorPlayer = effector;
         this.isEnemy = isEnemy;
-        heal = effector.getLevel() + effector.getWisdom();
+        visualEffect = Resources.Load<GameObject>("Effects/HandEffects/Effect13_Hand_Optimized");
+        savedMoveDist = effected.moveDistance;
     }
 
     public override void InitialEffect()
@@ -39,25 +41,15 @@ public class HealOverTime : StatusEffects {
 
     public override void ReverseEffect()
     {
-        //usually change stat back here but this one didn't require it
+        effectedPlayer.moveDistance = savedMoveDist;
         return;
     }
 
     private void Effect()
     {
-        heal = HealCalc();
-        Debug.Log(effectedPlayer + " healed " + effectorPlayer + "'s from Heal Over Time statuseffect");
-        effectedPlayer.HealHealth(HealCalc());
-    }
-
-    private float HealCalc()
-    {
-        float num1 = effectorPlayer.getLevel();
-        float num2 = effectorPlayer.getWisdom();
-
-        if (num1 < num2)
-            return Random.Range(num1, num2);
-        else
-            return Random.Range(num2, num1);
+        if(visualEffect != null)
+            GameObject.Instantiate<GameObject>(visualEffect, effectedPlayer.transform);
+        effectedPlayer.TakeDamage(effectorPlayer.getLevel(),effectorObject);
+        effectedPlayer.moveDistance = 0;
     }
 }

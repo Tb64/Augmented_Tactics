@@ -60,16 +60,6 @@ public class PlayerData
     public Armor armor;
     public Weapons weapon;
 
-    private static string[] classNames =
-    {
-        "Paladin",
-        "Dark Knight",
-        "Brawler",
-        "Thief",
-        "Cleric",
-        "Mage"
-    };
-
     public KeyValuePair<string, float>[] numberData = 
     {
         new KeyValuePair<string, float>("Health", 20),
@@ -232,9 +222,9 @@ public class PlayerData
 
     private static void RandomClass(PlayerData input)
     {
-        int randomIndex = (int)Random.Range(0, classNames.Length);
+        int randomIndex = (int)Random.Range(0, CharacterClasses.classNames.Length);
         input.Class = randomIndex;
-        input.ClassName = classNames[randomIndex];
+        input.ClassName = CharacterClasses.classNames[randomIndex];
     }
 
     private static string RandomName()

@@ -11,6 +11,16 @@ public class CharacterClasses : MonoBehaviour {
     public const int MageKey = 4;
     public const int ClericKey = 5;
 
+    public static string[] classNames =
+    {
+        "Paladin",
+        "Dark Knight",
+        "Brawler",
+        "Thief",
+        "Mage",
+        "Cleric"
+    };
+
     public static string[] PrefabPath =
     {
         "", //Paladin
@@ -31,5 +41,42 @@ public class CharacterClasses : MonoBehaviour {
         ""  //cleric
     };
 
+    public static string KeyToString(int key)
+    {
+        switch (key)
+        {
+            case PaladinKey:
+                return "Paladin";
+
+            case DarkKnightKey:
+                return "Dark Knight";
+
+            case ThiefKey:
+                return "Theif";
+
+            case BrawlerKey:
+                return "Brawler";
+                
+            case MageKey:
+                return "Mage";
+
+            case ClericKey:
+                return "Cleric";
+
+            default:
+                break;
+        }
+        return "";
+    }
+
+    public static int StringToKey(string className)
+    {
+        for (int index = 0; index < classNames.Length; index++)
+        {
+            if (className.ToLower() == classNames[index].ToLower())
+                return index;
+        }
+        return -1;
+    }
     
 }
