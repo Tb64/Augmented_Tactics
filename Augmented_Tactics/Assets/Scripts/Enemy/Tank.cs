@@ -178,7 +178,7 @@ public class Tank : Enemy{
     }
     private bool CheckTeamStrat() // see if searching for clusters is possible
     {
-        if(EnemyController.enemyList.Length < 4)
+        if(EnemyController.enemyList.Count < 4)
             return false;
         int aliveCount=0;
         foreach(Enemy enemy in EnemyController.enemyList)

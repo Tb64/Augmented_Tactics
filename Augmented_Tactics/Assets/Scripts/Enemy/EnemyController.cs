@@ -13,7 +13,7 @@ public class EnemyController : MonoBehaviour
     public static bool targeted, canChangeTarget, aggroAggressive;
     public Actor weakest, nearest; //for attacking together later. not useful now
     public static int enemyNum; // current enemy in enemyList
-    public static Enemy[] enemyList;
+    public static List<Enemy> enemyList; //Updated to List from array
     public static int currentEnemy = 0;
     public static float aggroRange;
     //public Actor getWeakest() { return weakest; }
@@ -61,7 +61,7 @@ public class EnemyController : MonoBehaviour
         }
         SM = GameObject.FindWithTag("GameController").GetComponent<StateMachine>();
         if (enemyList == null)
-            enemyList = new Enemy[15];
+            enemyList = new List<Enemy>();
         GameObject[] tempEnemyTeam = GameObject.FindGameObjectsWithTag("Enemy");
         List<Enemy> findOrder = new List<Enemy>();
         foreach (GameObject orderChoice in tempEnemyTeam)
@@ -142,11 +142,11 @@ public class EnemyController : MonoBehaviour
                     chosen = y;
                 }
             }
-            enemyList[x] = enemies[chosen];
+            enemyList.Add(enemies[chosen]);
             enemies.Remove(enemies[chosen]);
             enemyList[x].EnemyInitialize();
             enemyList[x].setEnemyId(x);
-            Debug.Log("Enemy added: " + enemyNum + ") " + enemyList[enemyNum]);
+            Debug.Log("Enemy added: " + x + ") " + enemyList[x]);
         }
     }
 
