@@ -877,6 +877,7 @@ public class Actor : MonoBehaviour
     public void setConstitution(int con)
     {
         constitution = con;
+        health_max = con * 10f;
     }
 
     public int getConstitution()
