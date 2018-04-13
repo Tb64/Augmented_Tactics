@@ -19,6 +19,8 @@ public class DragonKick : Ability
         range_max = 1;
         range_min = 0;
         dwell_time = 1.0f;
+        manaCost = actor.getMaxMana() / actor.getLevel();
+        manaCost = manaCost * 3;
         damage = 10f + ((float)actor.getStrength() * 0.5f);
         footVFX = Resources.Load<GameObject>("Effects/HandEffects/Effect6_Hand");
         abilityName = "Dragon Kick";
