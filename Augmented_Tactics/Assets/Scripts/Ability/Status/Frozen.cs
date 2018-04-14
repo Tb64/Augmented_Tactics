@@ -28,7 +28,7 @@ public class Frozen : StatusEffects {
             effectedPlayer.remainingMovement = 0;
         }
         else
-            Debug.Log("effect1 null");
+            Debug.LogError("effect1 null");
 
     }
 

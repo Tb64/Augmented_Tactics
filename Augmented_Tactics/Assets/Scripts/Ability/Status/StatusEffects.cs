@@ -5,18 +5,7 @@ using System.Reflection;
 
 public class StatusEffects
 {
-    //private FieldInfo fld;
-   /* public virtual void Start()
-    {
-        
-    }*/
-    public virtual void OnDestroy()
-    {
-        TurnBehaviour.OnTurnStart -= this.decreaseTimeCounter;
-    }
-
     public int duration;
-   // private string effectedStat; useless now due to new method
     protected float effect; //degree of effect
     protected string effectText;
     public Actor effectedPlayer, effectorPlayer;
@@ -27,7 +16,7 @@ public class StatusEffects
     internal string ID;
 
     /*public StatusEffect(degree of effect (damage or multiplier etc.) the actor doing damage, the effected actor, enemy or player?)*/
-    public StatusEffects(float effect, Actor effector, Actor effected, bool isEnemy)
+    public StatusEffects(float effect, Actor effector, Actor effected, bool isEnemy) // person on person
     {
         TurnBehaviour.OnTurnStart += this.decreaseTimeCounter;
         SM = GameObject.FindGameObjectWithTag("GameController").GetComponent<StateMachine>();
@@ -39,7 +28,17 @@ public class StatusEffects
         this.isEnemy = isEnemy;
         InitialEffect();
     }
-    public StatusEffects(float effect,GameObject effector, GameObject effected, bool isEnemy)
+    public StatusEffects(float effect, Actor effector, GameObject effected, bool isEnemy) //person on object or map
+    {
+        TurnBehaviour.OnTurnStart += this.decreaseTimeCounter;
+        SM = GameObject.FindGameObjectWithTag("GameController").GetComponent<StateMachine>();
+        this.effect = effect;
+        effectedObject = effected;
+        effectorPlayer = effector;
+        this.isEnemy = isEnemy;
+        InitialEffect();
+    }
+    public StatusEffects(float effect,GameObject effector, GameObject effected, bool isEnemy) //object / map on map
     {
         TurnBehaviour.OnTurnStart += this.decreaseTimeCounter;
         SM = GameObject.FindGameObjectWithTag("GameController").GetComponent<StateMachine>();
@@ -56,10 +55,7 @@ public class StatusEffects
         Debug.Log("Time Counter Triggered: " + duration);
         if (duration <= 0)
         {
-            ReverseEffect();
-            OnDestroy();
-            //TurnBehaviour.OnTurnStart -= this.decreaseTimeCounter;
-            
+            ReverseEffect();    
         }
         if (!isEnemy && SM.checkTurn() || isEnemy && !SM.checkTurn())
         {

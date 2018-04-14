@@ -110,6 +110,7 @@ public class SkillLoader : MonoBehaviour {
                 return new IceArrow(gObj);
 
             default:
+                Debug.LogError("Ability " + skillID + " Does NOT Exist");
                 return null;
 
            
