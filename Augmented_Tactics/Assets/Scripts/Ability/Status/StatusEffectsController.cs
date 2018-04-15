@@ -5,10 +5,15 @@ using UnityEngine;
 
 public class StatusEffectsController : MonoBehaviour
 {
-    private static bool instantiated = false;
+    public void Start()
+    {
+        instantiated = false;
+    }
+    private static bool instantiated;
     public static List<Enemy> enemyList;
     public static Actor[] playerList;
     public static List<StatusEffects> allEffects;
+    public static List<Actor[]> bonded;
 
     public static void AddEffect(StatusEffects status)
     {
@@ -17,9 +22,9 @@ public class StatusEffectsController : MonoBehaviour
             enemyList = EnemyController.enemyList;
             playerList = EnemyController.userTeam;
             allEffects = new List<StatusEffects>();
+            bonded = new List<Actor[]>();
             instantiated = true;
         }
-
         allEffects.Add(status);
     }
 
@@ -29,7 +34,7 @@ public class StatusEffectsController : MonoBehaviour
         status.duration = 0;
     }
 
-    public static List<StatusEffects> Effected(Actor actor)
+    public static List<StatusEffects> GetEffects(Actor actor)
     {
         List<StatusEffects> statuses = new List<StatusEffects>();
         foreach(StatusEffects status in allEffects)
@@ -39,7 +44,7 @@ public class StatusEffectsController : MonoBehaviour
                 statuses.Add(status);
             }
         }
-        if(statuses.Count() == 0)
+        if(statuses.Count == 0)
             return null;
         else
             return statuses;

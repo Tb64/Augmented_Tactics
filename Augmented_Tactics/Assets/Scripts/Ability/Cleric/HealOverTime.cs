@@ -6,11 +6,11 @@ public class HealOverTime : StatusEffects {
 
     float heal;
 
-    public override void OnDestroy()
+    /*public override void OnDestroy() no need for onDestroy. base.ReverseEffect() does this already
     {
         TurnBehaviour.OnTurnStart -= this.decreaseTimeCounter;
         //base.OnDestroy();
-    }
+    }*/
     // the only way I could find to solve the constructor issue. necessary for every effect
     public HealOverTime(float effect, Actor effector, Actor effected, bool isEnemy) : base(effect, effector, effected, isEnemy)
     {
@@ -40,6 +40,7 @@ public class HealOverTime : StatusEffects {
     public override void ReverseEffect()
     {
         //usually change stat back here but this one didn't require it
+        base.ReverseEffect();
         return;
     }
 
