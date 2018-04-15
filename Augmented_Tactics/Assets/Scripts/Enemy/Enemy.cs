@@ -67,10 +67,10 @@ public class Enemy : Actor
          type of enemy as they are created to load correct attacks*/
          
         //FOR DEMO ONLY
-        abilitySet[0] = SkillLoader.LoadSkill("basicattack", gameObject);
-        abilitySet[1] = SkillLoader.LoadSkill("heal", gameObject);
-        abilitySet[2] = SkillLoader.LoadSkill("fire", gameObject);
-        abilitySet[3] = SkillLoader.LoadSkill("combo", gameObject);
+        abilitySet[0] = SkillLoader.LoadSkill("quickstab", gameObject);
+        abilitySet[1] = SkillLoader.LoadSkill("icearrow", gameObject);
+        abilitySet[2] = SkillLoader.LoadSkill("flamingarrow", gameObject);
+        abilitySet[3] = SkillLoader.LoadSkill("sneak", gameObject);
         setManaCurrent(30);
         setMaxMana(30);
         setHealthCurrent(20);
@@ -168,7 +168,7 @@ public class Enemy : Actor
     public override void OnDeath()
     {
         base.OnDeath();
-        //added for defense classes. They will automatically protect and incapacitated teammate
+        //added for defense classes. They will automatically protect an incapacitated teammate
         //aggressives are the priority, and the highest level aggressive gets even more priority
         if(this.GetArchetype() == "aggressive" && EnemyController.CheckTargetChange(getEnemyID()))
         {
@@ -356,12 +356,11 @@ public class Enemy : Actor
         }
         else
         {
-            Actor[] userTeam = EnemyController.userTeam;
-            for (int player = 0; player < 4; player++)
+            foreach (Actor user in EnemyController.userTeam)
             {
-                if (!cantTarget.Contains(userTeam[player]) && !userTeam[player].isDead() && !userTeam[player].isIncapacitated())
+                if (!cantTarget.Contains(user) && !user.isDead() && !user.isIncapacitated())
                 {
-                    currentTarget = userTeam[player];
+                    currentTarget = user;
                     targetLocked = true;
                     return;
                 }
@@ -622,7 +621,7 @@ public class Enemy : Actor
                     return true;
                 }   
                     
-                if (abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
+                if (!(abilitySet[ability].abilityName == "Heal") && abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
                 {
                     bestAttack = (int)abilitySet[ability].damage;
                     choice = ability;
@@ -664,7 +663,7 @@ public class Enemy : Actor
     {
         base.TakeDamage(damage, attacker);
         EnemyController.CheckTargeted(enemyID);
-        attacker.GetComponent<Actor>().aggroScore++;
+        attacker.GetComponent<Actor>().aggroScore++; //updating for actual function based on action / damage
     }
     public virtual bool CheckHeal()
     {

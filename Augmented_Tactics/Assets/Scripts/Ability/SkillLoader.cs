@@ -91,8 +91,29 @@ public class SkillLoader : MonoBehaviour {
             case "shieldoffaith":
                 return new ShieldOfFaith(gObj);
 
+            //Thief
+            case "flamingarrow":
+                return new FlamingArrow(gObj);
+            case "vortexarrow":
+                return new VortexArrow(gObj);
+            case "steal":
+                return new Steal(gObj);
+            case "sneak":
+                return new Sneak(gObj);
+            case "quickstab":
+                return new QuickStab(gObj);
+            case "poisonarrow":
+                return new PoisonArrow(gObj);
+            case "multiarrow":
+                return new MultiArrow(gObj);
+            case "icearrow":
+                return new IceArrow(gObj);
+
             default:
+                Debug.LogError("Ability " + skillID + " Does NOT Exist");
                 return null;
+
+           
         }
     }
 

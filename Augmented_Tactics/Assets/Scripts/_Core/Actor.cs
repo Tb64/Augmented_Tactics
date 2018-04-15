@@ -55,7 +55,7 @@ public class Actor : MonoBehaviour
     protected int charisma;         //measuring force of personality (Buffs and Debuffs)
 
     public Ability[] abilitySet;
-    public UsableItem[] usableItems;
+    public List<UsableItem> usableItems;
     private int experience;
 
     private Weapons weapon;
@@ -136,6 +136,8 @@ public class Actor : MonoBehaviour
     public int AnimWeaponRight = 9;
     public int AnimWeaponLeft = 7;
     public bool AnimShield = true;
+    public bool bonded;
+    public bool counter;
 
     //Audio clips
 
@@ -470,6 +472,12 @@ public class Actor : MonoBehaviour
     /// <param name="damage">Damage the Actor will take as a float</param>
     public virtual void TakeDamage(float damage, GameObject attacker)
     {
+        if (counter)
+        {
+            counter = false;
+            attacker.GetComponent<Actor>().TakeDamage(2 * damage, gameObject);
+            return;
+        }
         rotateAtObj(attacker);
         float dist = Vector3.Distance(getCoords(), attacker.GetComponent<Actor>().getCoords());
         if (counterAttack > 0  && dist <= 1f)
@@ -588,6 +596,26 @@ public class Actor : MonoBehaviour
         Debug.Log(this + " has died");
         anim.SetTrigger(animDeath);
         PlaySound("death");
+        //for Destiny binder attacks /items
+        if (bonded)
+        {
+            foreach(Actor[] couple in StatusEffectsController.bonded)
+            {
+                if(couple[0] == this)
+                {
+                    Debug.Log(couple[1] + " is fated to die with " + this);
+                    couple[1].setHealthCurrent(0);
+                    couple[1].OnDeath();
+                }
+                else if(couple[1] == this)
+                {
+                    Debug.Log(couple[0] + " is fated to die with " + this);
+                    couple[0].setHealthCurrent(0);
+                    couple[0].OnDeath();
+                }
+            }
+        }
+
     }
 
     /// <summary>
@@ -793,6 +821,11 @@ public class Actor : MonoBehaviour
     public int getPhysicalDefense()
     {
         return this.pDefense;
+    }
+
+    public void setMagicalDefense(int aClass)
+    {
+        mDefense = aClass;
     }
 
     public int getMagicalDefense()
