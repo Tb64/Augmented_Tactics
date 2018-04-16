@@ -232,6 +232,15 @@ public class Actor : MonoBehaviour
     {
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
         audio = GetComponent<AudioSource>();
+        map = GameObject.Find("Map").GetComponent<TileMap>();
+
+        if (map.IsValidCoord(coords) == true)
+        {
+            Debug.Log("Coords: " + coords);
+            map.GetTileAt(coords).setOccupiedTrue(gameObject);
+            Debug.Log("Occupied = " + map.GetTileAt(coords).isOccupied());
+        }
+
         if (GameObject.Find("SceneManager") != null)
         {
             report = GameObject.Find("SceneManager").GetComponent<AfterActionReport>();
@@ -289,19 +298,25 @@ public class Actor : MonoBehaviour
         {
             return;
         }
-        map = GameObject.Find("Map").GetComponent<TileMap>();
-
-        if (map.IsValidCoord(coords) == true)
-        {
-            Debug.Log("Coords: " + coords);
-            map.GetTileAt(coords).setOccupiedTrue(gameObject);
-            Debug.Log("Occupied = " + map.GetTileAt(coords).isOccupied());
-        }
 
 
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
+        InitStats();
 
+    }
+
+    private void InitStats()
+    {
+        //load stats here
+
+        if (this.level == 0)
+            this.level = 1;
+
+        this.health_max = this.constitution * 10f;
+        this.health_current = this.health_max;
+        this.mana_max = this.intelligence * 5f + this.wisdom * 5f;
+        this.mana_current = this.mana_max;
     }
 
     //Player Spawn Event - Put any actions you want done upon player spawn in here

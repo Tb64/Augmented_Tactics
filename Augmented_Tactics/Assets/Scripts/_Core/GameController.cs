@@ -28,9 +28,9 @@ public class GameController : MonoBehaviour
     private RangeHighlight aoeMarker;
     private GameObject endOfBattleController;
 
-    private int currentAbility = 0;
+    private static int currentAbility = 0;
     private static bool abilityMode = false;
-    private int currentMode = MODE_SELECT_UNIT;
+    private static int currentMode = MODE_SELECT_UNIT;
 
     private void Awake()
     {
@@ -358,6 +358,16 @@ public class GameController : MonoBehaviour
         Debug.Log("Mode Changed to " + mode);
     }
 
+    public static int getMode()
+    {
+        return currentMode;
+    }
+
+    public static int getCurrentAbility()
+    {
+        return currentAbility;
+    }
+
     public void setMove()
     {
         currentMode = MODE_MOVE;
@@ -378,6 +388,11 @@ public class GameController : MonoBehaviour
             aoeMarker.AOE_Marker_On(markerCoor);
         }
 
+    }
+
+    public static GameObject getTargeted()
+    {
+        return targetObject;
     }
 
     /// <summary>
