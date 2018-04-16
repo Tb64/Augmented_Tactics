@@ -155,6 +155,17 @@ public class SkillLoader : MonoBehaviour {
                 skills[7] = "";
                 return skills;
 
+            case CharacterClasses.PaladinKey:
+                skills[0] = "";
+                skills[1] = "";
+                skills[2] = "";
+                skills[3] = "";
+                skills[4] = "";
+                skills[5] = "";
+                skills[6] = "";
+                skills[7] = "";
+                return skills;
+
             case CharacterClasses.ClericKey:
                 skills[0] = "curewounds";
                 skills[1] = "healingword";

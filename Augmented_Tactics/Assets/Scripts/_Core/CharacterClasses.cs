@@ -52,7 +52,7 @@ public class CharacterClasses : MonoBehaviour {
                 return "Dark Knight";
 
             case ThiefKey:
-                return "Theif";
+                return "Thief";
 
             case BrawlerKey:
                 return "Brawler";

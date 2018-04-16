@@ -23,7 +23,7 @@ public class Weapons : Equipable
         if(damage == physical_dmg_max)
         {
             //crit
-            damage = damage * (int)(1f + crit_scaler);
+            damage = (damage * (int)(1f + crit_scaler)) + (physical_dmg_max - physical_dmg_min);
         }
         return damage;
     }
@@ -34,7 +34,7 @@ public class Weapons : Equipable
         if (damage == magic_dmg_max)
         {
             //crit
-            damage = damage * (int)(1f + crit_scaler);
+            damage = (damage * (int)(1f + crit_scaler)) + (magic_dmg_max - magic_dmg_min);
         }
         return damage;
     }

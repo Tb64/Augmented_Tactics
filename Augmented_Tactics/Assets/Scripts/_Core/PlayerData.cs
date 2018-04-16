@@ -27,7 +27,7 @@ public class PlayerData
     public int Constitution;
     public int Intelligence;
     public int Wisdom;
-    public int coCharismast;
+    //public int Charismast;
     public int Stealth;
     public int ArmorClass;
     public int Speed;
@@ -141,6 +141,9 @@ public class PlayerData
         input.SkillPoints = 1;
         input.Level = 1;
         input.PlayerLevel = 1;
+
+        input.UnlockSkill1 = true;
+        input.Skill1 = SkillLoader.ClassSkills(input.Class)[0];
     }
 
     private static void RandomStatBoost(PlayerData input)
@@ -179,21 +182,27 @@ public class PlayerData
         switch (input.Class)
         {
             case CharacterClasses.PaladinKey:
-                input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.PaladinKey];
-                input.Icon = CharacterClasses.IconPath[CharacterClasses.PaladinKey];
+                input.Prefab = CharacterClasses.PrefabPath[input.Class];
+                input.Icon = CharacterClasses.IconPath[input.Class];
                 input.Constitution += 2;
+                input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
+                input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
                 break;
 
             case CharacterClasses.DarkKnightKey:
                 input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.DarkKnightKey];
                 input.Icon = CharacterClasses.IconPath[CharacterClasses.DarkKnightKey];
                 input.Strength += 2;
+                input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
+                input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
                 break;
 
             case CharacterClasses.ThiefKey:
                 input.Dexterity += 2;
                 input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.ThiefKey];
                 input.Icon = CharacterClasses.IconPath[CharacterClasses.ThiefKey];
+                input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
+                input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
                 break;
 
             case CharacterClasses.BrawlerKey:
@@ -201,18 +210,24 @@ public class PlayerData
                 input.Strength += 1;
                 input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.BrawlerKey];
                 input.Icon = CharacterClasses.IconPath[CharacterClasses.BrawlerKey];
+                input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
+                input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
                 break;
 
             case CharacterClasses.ClericKey:
                 input.Wisdom += 2;
                 input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.ClericKey];
                 input.Icon = CharacterClasses.IconPath[CharacterClasses.ClericKey];
+                input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
+                input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
                 break;
 
             case CharacterClasses.MageKey:
                 input.Intelligence += 2;
                 input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.MageKey];
                 input.Icon = CharacterClasses.IconPath[CharacterClasses.MageKey];
+                input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
+                input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
                 break;
 
             default:
