@@ -7,18 +7,15 @@ public class StatusEffects
 {
     private static List<StatusEffects> currentEffects;
     public int duration;
-    //private FieldInfo fld;
-   /* public virtual void Start()
-    {
-        
-    }*/
+
     public virtual void OnDestroy()
     {
+        ReverseEffect();
         if (currentEffects != null)
             currentEffects.Remove(this);
         TurnBehaviour.OnTurnStart -= this.decreaseTimeCounter;
     }
-   // private string effectedStat; useless now due to new method
+
     protected float effect; //degree of effect
     protected string effectText;
     public Actor effectedPlayer, effectorPlayer;
@@ -74,7 +71,7 @@ public class StatusEffects
         Debug.Log("Time Counter Triggered: " + duration);
         if (duration <= 0)
         {
-            ReverseEffect();    
+            OnDestroy();
         }
         if (!isEnemy && SM.checkTurn() || isEnemy && !SM.checkTurn())
         {

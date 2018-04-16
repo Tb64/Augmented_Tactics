@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class QuickStab : Ability {
 
-    TileMap map = GameObject.FindWithTag("map").GetComponent<TileMap>();
+    TileMap map = GameObject.FindWithTag("Map").GetComponent<TileMap>();
     public QuickStab(GameObject obj)
     {
         Initialize(obj);

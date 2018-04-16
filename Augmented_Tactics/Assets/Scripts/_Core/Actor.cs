@@ -298,11 +298,25 @@ public class Actor : MonoBehaviour
         {
             return;
         }
-        
+
 
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
+        InitStats();
 
+    }
+
+    private void InitStats()
+    {
+        //load stats here
+
+        if (this.level == 0)
+            this.level = 1;
+
+        this.health_max = this.constitution * 10f;
+        this.health_current = this.health_max;
+        this.mana_max = this.intelligence * 5f + this.wisdom * 5f;
+        this.mana_current = this.mana_max;
     }
 
     //Player Spawn Event - Put any actions you want done upon player spawn in here
