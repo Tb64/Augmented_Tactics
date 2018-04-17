@@ -27,8 +27,8 @@ public class Thief : BaseClass
         //jobs[1] is index for Thief class
         setJobName("Thief");
         setStrengthGain(2);
-        setDexterityGain(5);
-        setConstitutionGain(8);
+        setDexterityGain(8);
+        setConstitutionGain(5);
         setIntelligenceGain(2);
         setWisdomGain(2);
         setCharismaGain(5);

@@ -16,4 +16,26 @@ public class Weapons : Equipable
     public int magic_dmg_max;
 
     public float crit_scaler;
+
+    public int RollPhysicalDamage()
+    {
+        int damage = Random.Range(physical_dmg_min, physical_dmg_max);
+        if(damage == physical_dmg_max)
+        {
+            //crit
+            damage = (damage * (int)(1f + crit_scaler)) + (physical_dmg_max - physical_dmg_min);
+        }
+        return damage;
+    }
+
+    public int RollMagicDamage()
+    {
+        int damage = Random.Range(magic_dmg_min, magic_dmg_max);
+        if (damage == magic_dmg_max)
+        {
+            //crit
+            damage = (damage * (int)(1f + crit_scaler)) + (magic_dmg_max - magic_dmg_min);
+        }
+        return damage;
+    }
 }

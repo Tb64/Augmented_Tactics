@@ -1,0 +1,52 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+public class StatusEffectsController : MonoBehaviour
+{
+    public void Start()
+    {
+        instantiated = false;
+    }
+    private static bool instantiated;
+    public static List<Enemy> enemyList;
+    public static Actor[] playerList;
+    public static List<StatusEffects> allEffects;
+    public static List<Actor[]> bonded;
+
+    public static void AddEffect(StatusEffects status)
+    {
+        if (!instantiated)
+        {
+            enemyList = EnemyController.enemyList;
+            playerList = EnemyController.userTeam;
+            allEffects = new List<StatusEffects>();
+            bonded = new List<Actor[]>();
+            instantiated = true;
+        }
+        allEffects.Add(status);
+    }
+
+    public static void RemoveEffect(StatusEffects status)
+    {
+        allEffects.Remove(status);
+        status.duration = 0;
+    }
+
+    public static List<StatusEffects> GetEffects(Actor actor)
+    {
+        List<StatusEffects> statuses = new List<StatusEffects>();
+        foreach(StatusEffects status in allEffects)
+        {
+            if(status.effectedPlayer == actor)
+            {
+                statuses.Add(status);
+            }
+        }
+        if(statuses.Count == 0)
+            return null;
+        else
+            return statuses;
+    }
+}

@@ -9,9 +9,9 @@ This is the parent class of all enemies
 
 public class Enemy : Actor
 {
-    private int enemyID;
-    private Actor nearest, weakest;
-    private Vector3 playerPosition, enemyPosition;
+    protected int enemyID;
+    protected Actor nearest, weakest, aggro;
+    protected Vector3 playerPosition, enemyPosition;
     public float distanceToNearest;
     public Actor getNearest() { return nearest; }
     public void setNearest(Actor nearestPlayer) { nearest = nearestPlayer; }
@@ -20,18 +20,18 @@ public class Enemy : Actor
     public Vector3 getEnemyPosition() { return enemyPosition; }
     public void setEnemyPosition(Vector3 ePosition) { enemyPosition = ePosition; }
     public void setEnemyId(int id) { enemyID = id; }
-    public int getEnemyID(int id) { return enemyID; }
+    public int getEnemyID() { return enemyID; }
     public Actor getWeakest() { return weakest; }
     public void setWeakest(Actor weakestPlayer) { weakest = weakestPlayer; }
     private int expGiven;
-    private List<Actor> cantTarget;
-    private bool targetLocked;
+    protected List<Actor> cantTarget;
+    protected bool targetLocked;
+    public bool aided;
 
-    private Actor currentTarget;
+    public Actor currentTarget;
     // Use this for initialization
-    new
     // Use this for initialization
-    void Start()
+    new public virtual void Start()
     {
         EnemyInitialize();
 
@@ -46,7 +46,7 @@ public class Enemy : Actor
         //TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStart;
     }
 
-    public void EnemyInitialize()
+    public virtual void EnemyInitialize()
     {
         base.Init();
         expGiven = 10;
@@ -67,10 +67,10 @@ public class Enemy : Actor
          type of enemy as they are created to load correct attacks*/
          
         //FOR DEMO ONLY
-        abilitySet[0] = SkillLoader.LoadSkill("basicattack", gameObject);
-        abilitySet[1] = SkillLoader.LoadSkill("heal", gameObject);
-        abilitySet[2] = SkillLoader.LoadSkill("fire", gameObject);
-        abilitySet[3] = SkillLoader.LoadSkill("combo", gameObject);
+        abilitySet[0] = SkillLoader.LoadSkill("quickstab", gameObject);
+        abilitySet[1] = SkillLoader.LoadSkill("icearrow", gameObject);
+        abilitySet[2] = SkillLoader.LoadSkill("flamingarrow", gameObject);
+        abilitySet[3] = SkillLoader.LoadSkill("sneak", gameObject);
         setManaCurrent(30);
         setMaxMana(30);
         setHealthCurrent(20);
@@ -111,6 +111,7 @@ public class Enemy : Actor
         cantTarget = new List<Actor>();
         targetLocked = false;
         Debug.Log("Enemy " + enemyID + " turn started");
+        aggro = EnemyController.aggro;
         if (GetHealthPercent() == 0f)
         {
             //SM.setTurn();
@@ -159,31 +160,52 @@ public class Enemy : Actor
 
     }
 
-    public void EnemyActions()
+    public virtual string GetArchetype()
+    {
+        return "regular";
+    }
+
+    public override void OnDeath()
+    {
+        base.OnDeath();
+        //added for defense classes. They will automatically protect an incapacitated teammate
+        //aggressives are the priority, and the highest level aggressive gets even more priority
+        if(this.GetArchetype() == "aggressive" && EnemyController.CheckTargetChange(getEnemyID()))
+        {
+            EnemyController.targeted = true;
+            EnemyController.target = this;
+            EnemyController.canChangeTarget = false;
+        }
+        if (EnemyController.canChangeTarget)
+        {
+            EnemyController.targeted = true;
+            EnemyController.target = this;
+        }
+        
+    }
+
+    public virtual void EnemyActions()
     {
         //Debug.Log("NON-PROXIMITY");
         if (getMoves() == 0)
             return;
-        //add tree 
         if (!targetLocked)
         {
             currentTarget = nearest;
             if (currentTarget != weakest || cantTarget.Contains(currentTarget) || currentTarget.isIncapacitated() || currentTarget.isDead())
                 findTarget();
-
             //Debug.Log("Found Target = " + currentTarget.name + " at " + currentTarget.transform.position + currentTarget.getCoords());
             //currentTarget = currentTarget;
         }
-        
-
+ 
         if (currentTarget == null)
         {
             Debug.LogError("no player team");
             return;
         }
-        if (attemptAttack())
+        if (AttemptAttack())
             return;
-        Vector3 movingTo = PosCloseTo(currentTarget.getCoords());
+        Vector3 movingTo = PosCloseTo(this,currentTarget.getCoords(), map);
         if (movingTo == new Vector3(-1, -1, -1))
         {
             // movingTo = PosCloseTo(currentTarget.getCoords());
@@ -238,7 +260,7 @@ public class Enemy : Actor
     //    }
     //}
 
-    private Actor findNearestPlayer()
+    protected Actor findNearestPlayer()
     {
         Actor nearest = null;
         float currentNearest = 10000000;
@@ -262,6 +284,7 @@ public class Enemy : Actor
         }
         return nearest;
     }
+
     public void UpdateNearest()
     {
         findNearestPlayer();
@@ -311,7 +334,7 @@ public class Enemy : Actor
             return false;
     }*/
 
-    private void findTarget()
+    protected void findTarget()
     {
         //Debug.Log(currentTarget.coords);
         currentTarget = weakest;
@@ -333,12 +356,11 @@ public class Enemy : Actor
         }
         else
         {
-            Actor[] userTeam = EnemyController.userTeam;
-            for (int player = 0; player < 4; player++)
+            foreach (Actor user in EnemyController.userTeam)
             {
-                if (!cantTarget.Contains(userTeam[player]) && !userTeam[player].isDead() && !userTeam[player].isIncapacitated())
+                if (!cantTarget.Contains(user) && !user.isDead() && !user.isIncapacitated())
                 {
-                    currentTarget = userTeam[player];
+                    currentTarget = user;
                     targetLocked = true;
                     return;
                 }
@@ -347,7 +369,7 @@ public class Enemy : Actor
         }
     }
 
-    private bool moveEnemy()
+    /*private bool moveEnemy()
     {
         if (currentTarget == null)
             return false;
@@ -367,7 +389,7 @@ public class Enemy : Actor
         //NextTurn();
         return isFinshed;
     }
-
+    */
 
 
     /// <summary>
@@ -473,19 +495,19 @@ public class Enemy : Actor
              Debug.Log("first enemy " + EnemyController.enemyList[EnemyController.currentEnemy].getCoords());
          return output;
      }*/
-    public Vector3 PosCloseTo(Vector3 mapPos)
+    public static Vector3 PosCloseTo(Actor self,Vector3 mapPos, TileMap map)
     {
-        Vector3 output = getCoords() - mapPos;
+        Vector3 output = self.getCoords() - mapPos;
         output = output.normalized;
         if (output.x >= 0)
         {
             if (output.z >= 0)
             {
-                Vector3 temp = PosCloseTo("rightup", mapPos);
+                Vector3 temp = PosCloseTo("rightup", mapPos, map);
                 if (temp == new Vector3(-1, -1, -1))
                 {
                     Debug.Log("leftdown");
-                    return PosCloseTo("leftdown", mapPos);
+                    return PosCloseTo("leftdown", mapPos, map);
                 }
                 else
                 {
@@ -496,11 +518,11 @@ public class Enemy : Actor
             }
             else
             {
-                Vector3 temp = PosCloseTo("rightdown", mapPos);
+                Vector3 temp = PosCloseTo("rightdown", mapPos, map);
                 if (temp == new Vector3(-1, -1, -1))
                 {
                     Debug.Log("leftup");
-                    return PosCloseTo("leftup", mapPos);
+                    return PosCloseTo("leftup", mapPos, map);
 
                 }
                 else
@@ -515,11 +537,11 @@ public class Enemy : Actor
         {
             if (output.z >= 0)
             {
-                Vector3 temp = PosCloseTo("leftup", mapPos);
+                Vector3 temp = PosCloseTo("leftup", mapPos, map);
                 if (temp == new Vector3(-1, -1, -1))
                 {
                     Debug.Log("rightdown");
-                    return PosCloseTo("rightdown", mapPos);
+                    return PosCloseTo("rightdown", mapPos, map);
                 }
                 else
                 {
@@ -529,11 +551,11 @@ public class Enemy : Actor
             }
             else
             {
-                Vector3 temp = PosCloseTo("leftdown", mapPos);
+                Vector3 temp = PosCloseTo("leftdown", mapPos, map);
                 if (temp == new Vector3(-1, -1, -1))
                 {
                     Debug.Log("rightup");
-                    return PosCloseTo("rightup", mapPos);
+                    return PosCloseTo("rightup", mapPos, map);
                 }
                 else
                 {
@@ -544,19 +566,19 @@ public class Enemy : Actor
         }
     }
 
-    private Vector3 PosCloseTo(string directions, Vector3 pos)
+    public static Vector3 PosCloseTo(string directions, Vector3 pos, TileMap map)
     {
         if(directions == "rightup")
-           return checkDirections(pos + new Vector3(1f, 0f, 0f), pos + new Vector3(0f, 0f, 1f));
+           return checkDirections(pos + new Vector3(1f, 0f, 0f), pos + new Vector3(0f, 0f, 1f), map);
         else if (directions == "rightdown")
-            return checkDirections(pos + new Vector3(1f, 0f, 0f), pos + new Vector3(0f, 0f, -1f));
+            return checkDirections(pos + new Vector3(1f, 0f, 0f), pos + new Vector3(0f, 0f, -1f), map);
         else if (directions == "leftup")
-            return checkDirections(pos + new Vector3(-1f, 0f, 0f), pos + new Vector3(0f, 0f, 1f));
+            return checkDirections(pos + new Vector3(-1f, 0f, 0f), pos + new Vector3(0f, 0f, 1f), map);
         else
-            return checkDirections(pos + new Vector3(-1f, 0f, 0f), pos + new Vector3(0f, 0f, -1f));
+            return checkDirections(pos + new Vector3(-1f, 0f, 0f), pos + new Vector3(0f, 0f, -1f),map);
     }
 
-    private Vector3 checkDirections(Vector3 firstDir, Vector3 secDir)
+    public static Vector3 checkDirections(Vector3 firstDir, Vector3 secDir, TileMap map)
     {
         if (map.UnitCanEnterTile(firstDir))
             return firstDir;
@@ -582,7 +604,7 @@ public class Enemy : Actor
         /// //////////////////////// where to add attacking
         /// </summary>
         /// <param name="currentTarget"></param>
-        public bool attemptAttack() //thinkiing of changing to attemptAction. Also covers heal
+        public virtual bool AttemptAttack() //thinkiing of changing to attemptAction. Also covers heal
         {
             if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
                 return false;
@@ -599,7 +621,7 @@ public class Enemy : Actor
                     return true;
                 }   
                     
-                if (abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
+                if (!(abilitySet[ability].abilityName == "Heal") && abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
                 {
                     bestAttack = (int)abilitySet[ability].damage;
                     choice = ability;
@@ -626,9 +648,26 @@ public class Enemy : Actor
             }
     }
 
-    public bool CheckHeal()
+    protected static bool AttemptAbility(Ability strongest, Actor currentTarget)
     {
-        if (GetHealthPercent() < 50 && GetHealthPercent() < nearest.GetHealthPercent() && !TargetInRange())
+        if (strongest.CanUseSkill(currentTarget.gameObject))
+        {
+            strongest.UseSkill(currentTarget.gameObject);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public override void TakeDamage(float damage, GameObject attacker)
+    {
+        base.TakeDamage(damage, attacker);
+        EnemyController.CheckTargeted(enemyID);
+        attacker.GetComponent<Actor>().aggroScore++; //updating for actual function based on action / damage
+    }
+    public virtual bool CheckHeal()
+    {
+        if (GetHealthPercent() < 40 && GetHealthPercent() < nearest.GetHealthPercent() && !TargetInRange())
             return true;
         else
             return false;

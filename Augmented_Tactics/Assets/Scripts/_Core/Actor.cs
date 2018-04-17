@@ -55,7 +55,11 @@ public class Actor : MonoBehaviour
     protected int charisma;         //measuring force of personality (Buffs and Debuffs)
 
     public Ability[] abilitySet;
+    public List<UsableItem> usableItems;
     private int experience;
+
+    private Weapons weapon;
+    private Armor armor;
 
     //Movement 
     public TileMap map;
@@ -75,7 +79,7 @@ public class Actor : MonoBehaviour
     protected RangeHighlight rangeMarker;
     private bool incapacitated;
     private bool dead;
-    private int aggro; //for A.I use only. Measures highest threat for targeting
+    public int aggroScore; //for A.I use only. Measures highest threat for targeting
     protected int deathTimer;
     private Transform mainCamera;
 
@@ -89,6 +93,51 @@ public class Actor : MonoBehaviour
     protected string animHit = "MeleeAttack";
     protected string animDmg = "Hit";
     protected string animDeath = "Death";
+
+    //STANCES
+    //UNARMED = 0,
+	//TWOHANDSWORD = 1,
+	//TWOHANDSPEAR = 2,
+	//TWOHANDAXE = 3,
+	//TWOHANDBOW = 4,
+	//TWOHANDCROSSBOW = 5,
+	//STAFF = 6,
+	//ARMED/1Handed = 7,
+	//RELAX = 8,
+	//RIFLE = 9,
+	//TWOHANDCLUB = 10,
+	//SHIELD = 11,
+	//ARMEDSHIELD = 12
+    public int AnimStance = 7;
+
+    //WEAPONS
+    //weaponNumber -1 = Relax
+    //weaponNumber 0 = Unarmed
+    //weaponNumber 1 = 2H Sword
+    //weaponNumber 2 = 2H Spear
+    //weaponNumber 3 = 2H Axe
+    //weaponNumber 4 = 2H Bow
+    //weaponNumber 5 = 2H Crowwbow
+    //weaponNumber 6 = 2H Staff
+    //weaponNumber 7 = Shield
+    //weaponNumber 8 = L Sword
+    //weaponNumber 9 = R Sword
+    //weaponNumber 10 = L Mace
+    //weaponNumber 11 = R Mace
+    //weaponNumber 12 = L Dagger
+    //weaponNumber 13 = R Dagger
+    //weaponNumber 14 = L Item
+    //weaponNumber 15 = R Item
+    //weaponNumber 16 = L Pistol
+    //weaponNumber 17 = R Pistol
+    //weaponNumber 18 = Rifle
+    //weaponNumber 19 == Right Spear
+    //weaponNumber 20 == 2H Club
+    public int AnimWeaponRight = 9;
+    public int AnimWeaponLeft = 7;
+    public bool AnimShield = true;
+    public bool bonded;
+    public bool counter;
 
     //Audio clips
 
@@ -127,7 +176,11 @@ public class Actor : MonoBehaviour
     public virtual void Update()
     {
         if (playerAgent != null)
+        {
             anim.SetFloat("Speed", playerAgent.velocity.magnitude);
+            anim.SetFloat("Velocity Z", playerAgent.velocity.magnitude);
+            //anim.SetFloat("Velocity X", playerAgent.velocity.x);
+        }
     }
 
     public virtual void OnDestroy()
@@ -179,6 +232,15 @@ public class Actor : MonoBehaviour
     {
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
         audio = GetComponent<AudioSource>();
+        map = GameObject.Find("Map").GetComponent<TileMap>();
+
+        if (map.IsValidCoord(coords) == true)
+        {
+            Debug.Log("Coords: " + coords);
+            map.GetTileAt(coords).setOccupiedTrue(gameObject);
+            Debug.Log("Occupied = " + map.GetTileAt(coords).isOccupied());
+        }
+
         if (GameObject.Find("SceneManager") != null)
         {
             report = GameObject.Find("SceneManager").GetComponent<AfterActionReport>();
@@ -198,6 +260,28 @@ public class Actor : MonoBehaviour
         
 
         anim = GetComponentInChildren<Animator>();
+
+        animHit = "Attack5Trigger";
+        animDmg = "GetHit1Trigger";
+        animDeath = "Death1Trigger";
+
+        leftHand = transform.Find("Bip01/Bip01_Spine/Bip01_Spine1/Bip01_Spine2/Bip01_Spine3/Bip01_L_Clavicle/Bip01_L_UpperArm/Bip01_L_Forearm/Bip01_L_Hand");
+        rightHand = transform.Find("Bip01/Bip01_Spine/Bip01_Spine1/Bip01_Spine2/Bip01_Spine3/Bip01_R_Clavicle/Bip01_R_UpperArm/Bip01_R_Forearm/Bip01_R_Hand");
+
+        leftFoot = transform.Find("Bip01/Bip01_Pelvis/Bip01_L_Thigh/Bip01_L_Calf/Bip01_L_Foot/Bip01_L_Toe0");
+        rightFoot = transform.Find("Bip01/Bip01_Pelvis/Bip01_R_Thigh/Bip01_R_Calf/Bip01_R_Foot/Bip01_R_Toe0");
+
+        if(anim != null)
+        {
+            anim.SetBool("Moving", true);
+            anim.SetBool("Shield", AnimShield);
+            anim.SetInteger("Weapon", AnimStance);
+            anim.SetInteger("RightWeapon",AnimWeaponRight);
+            anim.SetInteger("LeftWeapon",AnimWeaponLeft);
+            anim.SetTrigger("InstantSwitchTrigger");
+            anim.SetTrigger("WeaponUnsheathTrigger");
+        }
+
         playerAgent = GetComponent<NavMeshAgent>();
         GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
         if (rangeMarkerObj != null)
@@ -214,19 +298,25 @@ public class Actor : MonoBehaviour
         {
             return;
         }
-        map = GameObject.Find("Map").GetComponent<TileMap>();
-
-        if (map.IsValidCoord(coords) == true)
-        {
-            Debug.Log("Coords: " + coords);
-            map.GetTileAt(coords).setOccupiedTrue(gameObject);
-            Debug.Log("Occupied = " + map.GetTileAt(coords).isOccupied());
-        }
 
 
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
+        InitStats();
 
+    }
+
+    private void InitStats()
+    {
+        //load stats here
+
+        if (this.level == 0)
+            this.level = 1;
+
+        this.health_max = this.constitution * 10f;
+        this.health_current = this.health_max;
+        this.mana_max = this.intelligence * 5f + this.wisdom * 5f;
+        this.mana_current = this.mana_max;
     }
 
     //Player Spawn Event - Put any actions you want done upon player spawn in here
@@ -259,8 +349,8 @@ public class Actor : MonoBehaviour
                 anim.SetFloat("Speed", scaleDist);
                 anim.SetBool("Moving", true);
                 anim.SetFloat("Velocity Z", scaleDist);
+                //anim.SetFloat("Velocity Z", playerAgent.velocity.magnitude);
             }
-
             return true;
         }
 
@@ -281,8 +371,8 @@ public class Actor : MonoBehaviour
                 anim.SetFloat("Speed", scaleDist);
                 anim.SetBool("Moving", true);
                 anim.SetFloat("Velocity Z", scaleDist);
+                //anim.SetFloat("Velocity Z", playerAgent.velocity.magnitude);
             }
-
             origin.position = Vector3.MoveTowards(origin.position, targetPos, step);
             Vector3 newDir = Vector3.RotateTowards(transform.forward, targetPos, speed, 0f);
             newDir = new Vector3(newDir.x, origin.position.y, newDir.z);
@@ -396,6 +486,12 @@ public class Actor : MonoBehaviour
     /// <param name="damage">Damage the Actor will take as a float</param>
     public virtual void TakeDamage(float damage, GameObject attacker)
     {
+        if (counter)
+        {
+            counter = false;
+            attacker.GetComponent<Actor>().TakeDamage(2 * damage, gameObject);
+            return;
+        }
         rotateAtObj(attacker);
         float dist = Vector3.Distance(getCoords(), attacker.GetComponent<Actor>().getCoords());
         if (counterAttack > 0  && dist <= 1f)
@@ -514,6 +610,26 @@ public class Actor : MonoBehaviour
         Debug.Log(this + " has died");
         anim.SetTrigger(animDeath);
         PlaySound("death");
+        //for Destiny binder attacks /items
+        if (bonded)
+        {
+            foreach(Actor[] couple in StatusEffectsController.bonded)
+            {
+                if(couple[0] == this)
+                {
+                    Debug.Log(couple[1] + " is fated to die with " + this);
+                    couple[1].setHealthCurrent(0);
+                    couple[1].OnDeath();
+                }
+                else if(couple[1] == this)
+                {
+                    Debug.Log(couple[0] + " is fated to die with " + this);
+                    couple[0].setHealthCurrent(0);
+                    couple[0].OnDeath();
+                }
+            }
+        }
+
     }
 
     /// <summary>
@@ -721,6 +837,11 @@ public class Actor : MonoBehaviour
         return this.pDefense;
     }
 
+    public void setMagicalDefense(int aClass)
+    {
+        mDefense = aClass;
+    }
+
     public int getMagicalDefense()
     {
         return this.mDefense;
@@ -804,6 +925,7 @@ public class Actor : MonoBehaviour
     public void setConstitution(int con)
     {
         constitution = con;
+        health_max = con * 10f;
     }
 
     public int getConstitution()
@@ -864,6 +986,26 @@ public class Actor : MonoBehaviour
     public void setArmorClass(int input)
     {
 
+    }
+
+    public Weapons getWeapon()
+    {
+        return weapon;
+    }
+
+    public Armor getArmor()
+    {
+        return armor;
+    }
+
+    public void setWeapon(Weapons input)
+    {
+        weapon = input;
+    }
+
+    public void setArmor(Armor input)
+    {
+        armor = input;
     }
     #endregion
 }

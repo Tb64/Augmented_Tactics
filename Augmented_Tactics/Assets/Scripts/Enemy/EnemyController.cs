@@ -8,10 +8,14 @@ public class EnemyController : MonoBehaviour
     public TileMap map;
     private static int enemyCount; //number of foes
     public static Actor[] userTeam; // player controlled team
+    public static Actor aggro; //not implemented fully yet
+    public static Enemy target;
+    public static bool targeted, canChangeTarget, aggroAggressive;
     public Actor weakest, nearest; //for attacking together later. not useful now
     public static int enemyNum; // current enemy in enemyList
-    public static Enemy[] enemyList;
+    public static List<Enemy> enemyList; //Updated to List from array
     public static int currentEnemy = 0;
+    public static float aggroRange;
     //public Actor getWeakest() { return weakest; }
     //public void setWeakest(Actor weakestPlayer) { weakest = weakestPlayer; }
     // Use this for initialization
@@ -57,7 +61,7 @@ public class EnemyController : MonoBehaviour
         }
         SM = GameObject.FindWithTag("GameController").GetComponent<StateMachine>();
         if (enemyList == null)
-            enemyList = new Enemy[15];
+            enemyList = new List<Enemy>();
         GameObject[] tempEnemyTeam = GameObject.FindGameObjectsWithTag("Enemy");
         List<Enemy> findOrder = new List<Enemy>();
         foreach (GameObject orderChoice in tempEnemyTeam)
@@ -90,7 +94,7 @@ public class EnemyController : MonoBehaviour
 
     }
 
-    public Actor findWeakestPlayer()
+    public Actor FindWeakestPlayer()
     {
         //Actor[] users = PlayerControlled.playerList;
         float lowestHealth = userTeam[0].GetHealthPercent();
@@ -108,6 +112,22 @@ public class EnemyController : MonoBehaviour
         return weakest;
     }
 
+    public static Enemy FindWeakestEnemy()
+    {
+        Enemy weakling = null;
+        float lowestHealth = enemyList[0].GetHealthPercent();
+        foreach (Enemy enemy in enemyList)
+        {
+            float playerHealth = enemy.GetHealthPercent();
+            if (playerHealth < lowestHealth)
+            {
+                weakling = enemy;
+                lowestHealth = playerHealth;
+            }
+        }
+        return weakling;
+    }
+
     private void DecideOrder(List<Enemy> enemies) //decide which order the enemies attack based on dexterity and
                                                  //initialize in order
     {
@@ -122,11 +142,11 @@ public class EnemyController : MonoBehaviour
                     chosen = y;
                 }
             }
-            enemyList[x] = enemies[chosen];
+            enemyList.Add(enemies[chosen]);
             enemies.Remove(enemies[chosen]);
             enemyList[x].EnemyInitialize();
             enemyList[x].setEnemyId(x);
-            Debug.Log("Enemy added: " + enemyNum + ") " + enemyList[enemyNum]);
+            Debug.Log("Enemy added: " + x + ") " + enemyList[x]);
         }
     }
 
@@ -139,7 +159,7 @@ public class EnemyController : MonoBehaviour
          }*/
         Debug.Log("1EnemyTurnStart");
         //int[] attackOrder = DecideOrder()
-        //also need to add some advanced decision making for attacking a target together #notfirstplayable
+        //UpdateAggro();
         EnemyAction();
     }
     #endregion
@@ -208,7 +228,64 @@ public class EnemyController : MonoBehaviour
         TurnBehaviour.EnemyTurnFinished();
         return;
     }
+    public static void CheckTargeted(int id)
+    {
+        enemyList[id].aggroScore++;
+        foreach(Enemy enemy in enemyList)
+        {
+            if (enemy == null)
+                break;
+            if (!(enemyList[id].aggroScore - enemy.aggroScore <= 2) || canChangeTarget)
+                return;
+            else
+            {
+                targeted = true;
+                target = enemyList[id];
+            }
 
+        }
+    }
+    public static bool CheckTargetChange(int id)
+    {
+        if(!targeted)
+            return true;
+        if (target.isIncapacitated() && target.getLevel() >= enemyList[id].getLevel())
+            return false;
+        else
+            return true;
+    }
+    public static void UpdateAggro()
+    {
+        int score = 0, secondScore=0;
+        Actor second = null;
+        foreach (Actor player in userTeam)
+        {
+            if (score < player.aggroScore)
+            {
+                aggro = player;
+            }
+            else if(secondScore < player.aggroScore)
+            {
+                second = player;
+            }
+        }
+        if (aggro.aggroScore - second.aggroScore > 2)// might be temp if aggro changes drastically
+            aggroAggressive = true;
+        else
+            aggroAggressive = false;
+        UpdateAggroRange();
+    }
+    public static void UpdateAggroRange()
+    {
+        aggroRange = 0;
+        foreach(Ability ability in aggro.abilitySet)
+        {
+            if(ability.range_max > aggroRange)
+            {
+                aggroRange = ability.range_max;
+            }
+        }
+    }
     /* private void EnemyMoved()
      {
          if (SM.checkTurn())

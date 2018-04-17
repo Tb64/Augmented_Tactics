@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Ability
 {
+    public int levelRequired;
     public int range_max;
     public int range_min;
     public float dwell_time;
@@ -78,7 +79,7 @@ public class Ability
         }
         if(!actor.UseMana(manaCost))
         {
-            Debug.Log("Not enough mana. " + abilityName);
+            Debug.Log("Not enough mana for " + abilityName + " Cost: " + manaCost + " Mana: " + actor.getManaCurrent());
             return false;
         }
         if (!actor.useAction())
@@ -90,7 +91,51 @@ public class Ability
         return true;
 
     }
-    
+
+    public virtual bool UseSkill(GameObject[] targets)
+    {
+        foreach (GameObject target in targets)
+        {
+            if (target == null)
+                return false;
+
+            if (!canTargetFriendly && target.tag == gameObject.tag)
+            {
+                return false;
+            }
+
+            if (!canTargetEnemy)
+            {
+                if ((gameObject.tag == "Player" && target.tag == "Enemy") || (gameObject.tag == "Enemy" && target.tag == "Player"))
+                    return false;
+            }
+
+            if (!canTargetTile && target.tag == "Tile")
+            {
+                return false;
+            }
+
+            if (SkillInRange(gameObject, target) == false)
+            {
+                Debug.Log("Out of range. " + abilityName);
+                return false;
+            }
+            if (!actor.UseMana(manaCost))
+            {
+                Debug.Log("Not enough mana. " + abilityName);
+                return false;
+            }
+            if (!actor.useAction())
+            {
+                Debug.Log("Not enough actions. " + abilityName);
+                return false;
+            }
+        }
+        ActionSkill(targets);
+        return true;
+
+    }
+
     public bool CanUseSkill(GameObject target)
     {
         if (target == null)
@@ -133,7 +178,57 @@ public class Ability
         return true;
     }
 
+    public bool CanUseSkill(GameObject[] targets)
+    {
+        foreach (GameObject target in targets)
+        {
+            if (target == null)
+                return false;
+
+            if (!canTargetFriendly && target.tag == gameObject.tag)
+            {
+                return false;
+            }
+
+            if (!canTargetEnemy)
+            {
+                if ((gameObject.tag == "Player" && target.tag == "Enemy") || (gameObject.tag == "Enemy" && target.tag == "Player"))
+                    return false;
+            }
+
+            if (!canTargetTile && target.tag == "Tile")
+            {
+                return false;
+            }
+
+            if (SkillInRange(gameObject, target) == false)
+            {
+                Debug.Log("Out of range. " + abilityName);
+                return false;
+            }
+            if (manaCost != 0)
+            {
+                if (manaCost > actor.getManaCurrent())
+                {
+                    Debug.Log("Not Enough mana. " + abilityName);
+                    return false;
+                }
+            }
+            if (actor.getMoves() <= 0)
+            {
+                Debug.Log("Not enough actions. " + abilityName);
+                return false;
+            }
+        }
+        return true;
+    }
+
     public virtual void ActionSkill(GameObject target)
+    {
+
+    }
+
+    public virtual void ActionSkill(GameObject[] targets)
     {
 
     }
@@ -189,6 +284,20 @@ public class Ability
 
         newDir = new Vector3(target.transform.position.x, gameObject.transform.position.y, target.transform.position.z);
         gameObject.transform.LookAt(newDir);
+    }
+
+    protected void rotateAtObj(Vector3 pos)
+    {
+        gameObject.transform.LookAt(pos);
+    }
+
+    public static bool DiceRoll(float attackerDex, float targetDex)
+    {
+        float buff = attackerDex - targetDex;
+        //whomever has higher dexterity gets the buff. so if attacker has more dexterity it adds positive and vice versa
+        if (Random.Range(1, 20) + buff < Random.Range(1, 20)) //simulated 20 dice roll
+            return false;
+        return true;
     }
 
     //////////////////

@@ -7,7 +7,7 @@ public class Disintegrate : Ability {
 
     static public Disintegrate instance;
 
-    float damage = 10f;
+    //float damage = 10f;
     StateMachine SM = GameObject.Find("GameController").GetComponent<StateMachine>();
     GameObject bloodEffect = Resources.Load<GameObject>("animation/effect26");
     TileMap map = GameObject.FindGameObjectWithTag("Map").GetComponent<TileMap>();
@@ -87,13 +87,13 @@ public class Disintegrate : Ability {
         Vector3 currentLoc = gameObject.GetComponent<Transform>().position;
         GameObject effect = GameObject.Instantiate(bloodEffect, actor.getCoords(), Quaternion.identity);
 
-        gameObject.GetComponent<Transform>().position = position.PosCloseTo(target.GetComponent<Actor>().getCoords());
-        map.SetOcc(gameObject, currentLoc, position.PosCloseTo(target.GetComponent<Actor>().getCoords()));
+        gameObject.GetComponent<Transform>().position = Enemy.PosCloseTo(position,target.GetComponent<Actor>().getCoords(),map);
+        map.SetOcc(gameObject, currentLoc, Enemy.PosCloseTo(position,target.GetComponent<Actor>().getCoords(), map));
         
         StartCoroutine(target);
         //gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
         anim.gameObject.SetActive(false);
-        gameObject.GetComponent<Actor>().setCoords(position.PosCloseTo(target.GetComponent<Actor>().getCoords()));
+        gameObject.GetComponent<Actor>().setCoords(Enemy.PosCloseTo(position,target.GetComponent<Actor>().getCoords(),map));
         
         DwellTime.Attack(dwell_time);
     }

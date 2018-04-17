@@ -9,4 +9,6 @@ public class Armor : Equipable
 
     public int physical_def;
     public int magic_def;
+
+    public string type;
 }

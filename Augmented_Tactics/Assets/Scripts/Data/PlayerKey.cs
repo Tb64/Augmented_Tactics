@@ -3,29 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerKey {
-    public static string Health = "Health";
-    public static string Mana = "Mana";
-    public static string Experience = "Experience";
-    public static string Level = "Level";
-    public static string Strength = "Strength";
-    public static string Dexterity = "Dexterity";
-    public static string Constitution = "Constitution";
-    public static string Intelligence = "Intelligence";
-    public static string Wisdom = "Wisdom";
-    public static string Charisma = "Charisma";
-    public static string Stealth = "Stealth";
-    public static string ArmorClass = "Armor Class";
-    public static string Speed = "Speed";
-    public static string SkillPoints = "Skill Points";
-    public static string Class = "Class";
-    public static string PlayerLevel = "Player Level";
+    public const string Health = "Health";
+    public const string Mana = "Mana";
+    public const string Experience = "Experience";
+    public const string Level = "Level";
+    public const string Strength = "Strength";
+    public const string Dexterity = "Dexterity";
+    public const string Constitution = "Constitution";
+    public const string Intelligence = "Intelligence";
+    public const string Wisdom = "Wisdom";
+    public const string Charisma = "Charisma";
+    public const string Stealth = "Stealth";
+    public const string ArmorClass = "Armor Class";
+    public const string Speed = "Speed";
+    public const string SkillPoints = "Skill Points";
+    public const string Class = "Class";
+    public const string PlayerLevel = "Player Level";
 
-    public static string DisplayName = "DisplayName";
-    public static string ClassName = "ClassName";
-    public static string Icon = "Icon";
-    public static string Prefab = "Prefab";
-    public static string Skill1 = "Skill1";
-    public static string Skill2 = "Skill2";
-    public static string Skill3 = "Skill3";
-    public static string Skill4 = "Skill4";
+    public const string DisplayName = "DisplayName";
+    public const string ClassName = "ClassName";
+    public const string Icon = "Icon";
+    public const string Prefab = "Prefab";
+    public const string Skill1 = "Skill1";
+    public const string Skill2 = "Skill2";
+    public const string Skill3 = "Skill3";
+    public const string Skill4 = "Skill4";
+    public const string Item1 = "Item1";
+    public const string Item2 = "Item2";
+    public const string Item3 = "Item3";
+    public const string Item4 = "Item4";
+
+
+
 }
