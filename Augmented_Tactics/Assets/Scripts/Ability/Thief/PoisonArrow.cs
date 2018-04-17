@@ -36,7 +36,7 @@ public class PoisonArrow : Ability
         if (Ability.DiceRoll(actor.getDexterity(), targeta.getDexterity()))
         {
             StatusEffectsController.AddEffect(new Poisoned(actor.getDexterity() / 4, actor, targeta, target.tag == "Enemy"));
-            Debug.Log("{0} poisioned. Suck Out The Venom?");
+            Debug.Log("{0} poisioned. Suck Out The Venom?",targeta);
         }
 
 
