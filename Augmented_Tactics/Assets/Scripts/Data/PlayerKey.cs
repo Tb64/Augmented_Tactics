@@ -28,6 +28,11 @@ public class PlayerKey {
     public const string Skill2 = "Skill2";
     public const string Skill3 = "Skill3";
     public const string Skill4 = "Skill4";
+    public const string Item1 = "Item1";
+    public const string Item2 = "Item2";
+    public const string Item3 = "Item3";
+    public const string Item4 = "Item4";
 
-     
+
+
 }

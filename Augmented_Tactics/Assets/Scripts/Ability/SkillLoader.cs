@@ -91,8 +91,114 @@ public class SkillLoader : MonoBehaviour {
             case "shieldoffaith":
                 return new ShieldOfFaith(gObj);
 
+            //Thief
+            case "flamingarrow":
+                return new FlamingArrow(gObj);
+            case "vortexarrow":
+                return new VortexArrow(gObj);
+            case "steal":
+                return new Steal(gObj);
+            case "sneak":
+                return new Sneak(gObj);
+            case "quickstab":
+                return new QuickStab(gObj);
+            case "poisonarrow":
+                return new PoisonArrow(gObj);
+            case "multiarrow":
+                return new MultiArrow(gObj);
+            case "icearrow":
+                return new IceArrow(gObj);
+
             default:
+                Debug.LogError("Ability " + skillID + " Does NOT Exist");
                 return null;
+
+           
         }
     }
+
+    public static string[] ClassSkills(int classID)
+    {
+        string[] skills = new string[8];
+        switch (classID)
+        {
+            case CharacterClasses.BrawlerKey:
+                skills[0] = "twinstrike";
+                skills[1] = "combo";
+                skills[2] = "dragonkick";
+                skills[3] = "counter";
+                skills[4] = "gutpunch";
+                skills[5] = "cyclonekick";
+                skills[6] = "";
+                skills[7] = "howlingfist";
+                return skills;
+
+            case CharacterClasses.ThiefKey:
+                skills[0] = "";
+                skills[1] = "";
+                skills[2] = "";
+                skills[3] = "";
+                skills[4] = "";
+                skills[5] = "";
+                skills[6] = "";
+                skills[7] = "";
+                return skills;
+
+            case CharacterClasses.DarkKnightKey:
+                skills[0] = "";
+                skills[1] = "";
+                skills[2] = "";
+                skills[3] = "";
+                skills[4] = "";
+                skills[5] = "";
+                skills[6] = "";
+                skills[7] = "";
+                return skills;
+
+            case CharacterClasses.PaladinKey:
+                skills[0] = "";
+                skills[1] = "";
+                skills[2] = "";
+                skills[3] = "";
+                skills[4] = "";
+                skills[5] = "";
+                skills[6] = "";
+                skills[7] = "";
+                return skills;
+
+            case CharacterClasses.ClericKey:
+                skills[0] = "curewounds";
+                skills[1] = "healingword";
+                skills[2] = "spikegrowth";
+                skills[3] = "";
+                skills[4] = "beaconofhope";
+                skills[5] = "";
+                skills[6] = "";
+                skills[7] = "shieldsoffaith";
+                return skills;
+
+            case CharacterClasses.MageKey:
+                skills[0] = "";
+                skills[1] = "";
+                skills[2] = "";
+                skills[3] = "";
+                skills[4] = "";
+                skills[5] = "";
+                skills[6] = "";
+                skills[7] = "";
+                return skills;
+
+
+            default:
+                break;
+        }
+
+        return null;
+    }
+
+    public static string[] ClassSkills(string input)
+    {
+        return ClassSkills(CharacterClasses.StringToKey(input));
+    }
+
 }
