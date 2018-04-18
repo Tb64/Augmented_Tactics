@@ -117,6 +117,11 @@ public class SkillLoader : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Please Add the skill names here in order of what level they unlock
+    /// </summary>
+    /// <param name="classID"></param>
+    /// <returns></returns>
     public static string[] ClassSkills(int classID)
     {
         string[] skills = new string[8];

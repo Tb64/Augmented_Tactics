@@ -35,9 +35,13 @@ public class PlayerControlled : Actor
         }
         // GameObject.FindWithTag("Map").GetComponent<TileMap>().Players.Add(this.GetComponent<Actor>());
 
-        if (map == null)
+        if (map == null && GameObject.Find("Map") != null)
         {
             map = GameObject.Find("Map").GetComponent<TileMap>();
+        }
+        else
+        {
+            return;
         }
 
         if (playerNum == null)

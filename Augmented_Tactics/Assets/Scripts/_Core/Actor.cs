@@ -232,6 +232,8 @@ public class Actor : MonoBehaviour
     {
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
         audio = GetComponent<AudioSource>();
+        if (GameObject.Find("Map") == null)
+            return;
         map = GameObject.Find("Map").GetComponent<TileMap>();
 
         if (map.IsValidCoord(coords) == true)
