@@ -110,8 +110,22 @@ public class PlayerData
         return value;
     }*/
 
-
+    /// <summary>
+    /// Creates random Level 1 player
+    /// </summary>
+    /// <returns></returns>
     public static PlayerData GenerateNewPlayer()
+    {
+        int randomIndex = (int)Random.Range(0, CharacterClasses.classNames.Length);
+        return GenerateNewPlayer(randomIndex);
+    }
+
+    /// <summary>
+    /// Creates random level 1 player of a selected class
+    /// </summary>
+    /// <param name="classID"></param>
+    /// <returns></returns>
+    public static PlayerData GenerateNewPlayer(int classID)
     {
         PlayerData player = null;
 
@@ -119,7 +133,8 @@ public class PlayerData
         player = new PlayerData(name);
         player.DisplayName = name;
         player.playerName = name; //this can be a problem because playerName must be unique
-        RandomClass(player);
+        player.Class = classID;
+        player.ClassName = CharacterClasses.classNames[classID];
         PlayerBaseLine(player);
         RandomStatBoost(player);
 
