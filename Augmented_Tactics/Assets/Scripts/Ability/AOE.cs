@@ -51,7 +51,8 @@ public class AOE : Ability
 
         listOfActorsAffected = new Actor[8];
         listOfTilesAffected = new ClickableTile[256];
-        gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
+        if(GameObject.FindGameObjectWithTag("GameController") != null)
+            gameController = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>();
     }
 
     /// <summary>

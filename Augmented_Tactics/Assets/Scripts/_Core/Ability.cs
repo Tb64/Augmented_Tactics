@@ -18,6 +18,8 @@ public class Ability
     public string abilityName;
     public Sprite abilityImage;
 
+    public string abilityDescription;
+
     protected GameObject gameObject;
     protected Actor actor;
     protected MonoBehaviour monoBehaviour;
