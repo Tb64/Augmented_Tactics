@@ -67,10 +67,10 @@ public class Enemy : Actor
          type of enemy as they are created to load correct attacks*/
          
         //FOR DEMO ONLY
-        abilitySet[0] = SkillLoader.LoadSkill("basicattack", gameObject);
-        abilitySet[1] = SkillLoader.LoadSkill("heal", gameObject);
+        abilitySet[0] = SkillLoader.LoadSkill("quickstab", gameObject);
+        abilitySet[1] = SkillLoader.LoadSkill("icearrow", gameObject);
         abilitySet[2] = SkillLoader.LoadSkill("flamingarrow", gameObject);
-        abilitySet[3] = SkillLoader.LoadSkill("combo", gameObject);
+        abilitySet[3] = SkillLoader.LoadSkill("sneak", gameObject);
         setManaCurrent(30);
         setMaxMana(30);
         setHealthCurrent(20);
@@ -168,7 +168,7 @@ public class Enemy : Actor
     public override void OnDeath()
     {
         base.OnDeath();
-        //added for defense classes. They will automatically protect and incapacitated teammate
+        //added for defense classes. They will automatically protect an incapacitated teammate
         //aggressives are the priority, and the highest level aggressive gets even more priority
         if(this.GetArchetype() == "aggressive" && EnemyController.CheckTargetChange(getEnemyID()))
         {

@@ -12,6 +12,7 @@ public class PlayerData
         unlocked = false;
     }
     private bool unlocked;
+    //public bool[] unlockedSkills;
     public void unlockPlayer() { unlocked = true; }
     public string playerName;
     public void setPlayerName(string name) { playerName = name; }
@@ -26,7 +27,7 @@ public class PlayerData
     public int Constitution;
     public int Intelligence;
     public int Wisdom;
-    public int coCharismast;
+    //public int Charismast;
     public int Stealth;
     public int ArmorClass;
     public int Speed;
@@ -42,19 +43,22 @@ public class PlayerData
     public string Skill2;
     public string Skill3;
     public string Skill4;
+    public string Item1;
+    public string Item2;
+    public string Item3;
+    public string Item4;
+
+    public bool UnlockSkill1 = false;
+    public bool UnlockSkill2 = false;
+    public bool UnlockSkill3 = false;
+    public bool UnlockSkill4 = false;
+    public bool UnlockSkill5 = false;
+    public bool UnlockSkill6 = false;
+    public bool UnlockSkill7 = false;
+    public bool UnlockSkill8 = false;
 
     public Armor armor;
     public Weapons weapon;
-
-    private static string[] classNames =
-    {
-        "Paladin",
-        "Dark Knight",
-        "Brawler",
-        "Thief",
-        "Cleric",
-        "Mage"
-    };
 
     public KeyValuePair<string, float>[] numberData = 
     {
@@ -106,22 +110,44 @@ public class PlayerData
         return value;
     }*/
 
-
+    /// <summary>
+    /// Creates random Level 1 player
+    /// </summary>
+    /// <returns></returns>
     public static PlayerData GenerateNewPlayer()
+    {
+        int randomIndex = (int)Random.Range(0, CharacterClasses.classNames.Length);
+        return GenerateNewPlayer(randomIndex);
+    }
+
+    /// <summary>
+    /// Creates random level 1 player of a selected class
+    /// </summary>
+    /// <param name="classID"></param>
+    /// <returns></returns>
+    public static PlayerData GenerateNewPlayer(int classID)
     {
         PlayerData player = null;
 
         string name = RandomName();
         player = new PlayerData(name);
         player.DisplayName = name;
-        player.playerName = name; //this can be a problem because playerName must be unique
-        RandomClass(player);
+        int randomNum = Random.Range(0, 100);
+        player.playerName = name + randomNum; //this can be a problem because playerName must be unique
+        player.Class = classID;
+        player.ClassName = CharacterClasses.classNames[classID];
         PlayerBaseLine(player);
         RandomStatBoost(player);
 
         player.Health = player.Constitution * 10;
 
         player.Mana = (player.Intelligence + player.Wisdom) * 5;
+
+        if (player.DisplayName.Length == 0)
+            Debug.Log("Empty Name");
+
+        if (player.ClassName.Length == 0)
+            Debug.Log("Empty Class " + player.Class);
 
         return player;
     }
@@ -137,6 +163,9 @@ public class PlayerData
         input.SkillPoints = 1;
         input.Level = 1;
         input.PlayerLevel = 1;
+
+        input.UnlockSkill1 = true;
+        input.Skill1 = SkillLoader.ClassSkills(input.Class)[0];
     }
 
     private static void RandomStatBoost(PlayerData input)
@@ -175,21 +204,27 @@ public class PlayerData
         switch (input.Class)
         {
             case CharacterClasses.PaladinKey:
-                input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.PaladinKey];
-                input.Icon = CharacterClasses.IconPath[CharacterClasses.PaladinKey];
+                input.Prefab = CharacterClasses.PrefabPath[input.Class];
+                input.Icon = CharacterClasses.IconPath[input.Class];
                 input.Constitution += 2;
+                input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
+                input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
                 break;
 
             case CharacterClasses.DarkKnightKey:
                 input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.DarkKnightKey];
                 input.Icon = CharacterClasses.IconPath[CharacterClasses.DarkKnightKey];
                 input.Strength += 2;
+                input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
+                input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
                 break;
 
             case CharacterClasses.ThiefKey:
                 input.Dexterity += 2;
                 input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.ThiefKey];
                 input.Icon = CharacterClasses.IconPath[CharacterClasses.ThiefKey];
+                input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
+                input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
                 break;
 
             case CharacterClasses.BrawlerKey:
@@ -197,18 +232,24 @@ public class PlayerData
                 input.Strength += 1;
                 input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.BrawlerKey];
                 input.Icon = CharacterClasses.IconPath[CharacterClasses.BrawlerKey];
+                input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
+                input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
                 break;
 
             case CharacterClasses.ClericKey:
                 input.Wisdom += 2;
                 input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.ClericKey];
                 input.Icon = CharacterClasses.IconPath[CharacterClasses.ClericKey];
+                input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
+                input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
                 break;
 
             case CharacterClasses.MageKey:
                 input.Intelligence += 2;
                 input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.MageKey];
                 input.Icon = CharacterClasses.IconPath[CharacterClasses.MageKey];
+                input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
+                input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
                 break;
 
             default:
@@ -218,9 +259,9 @@ public class PlayerData
 
     private static void RandomClass(PlayerData input)
     {
-        int randomIndex = (int)Random.Range(0, classNames.Length);
+        int randomIndex = (int)Random.Range(0, CharacterClasses.classNames.Length);
         input.Class = randomIndex;
-        input.ClassName = classNames[randomIndex];
+        input.ClassName = CharacterClasses.classNames[randomIndex];
     }
 
     private static string RandomName()
@@ -327,6 +368,18 @@ public class PlayerData
 
             case PlayerKey.Skill4:
                 return this.Skill4;
+
+            case PlayerKey.Item1:
+                return this.Item1;
+
+            case PlayerKey.Item2:
+                return this.Item2;
+
+            case PlayerKey.Item3:
+                return this.Item3;
+
+            case PlayerKey.Item4:
+                return this.Item4;
 
             default:
                 break;

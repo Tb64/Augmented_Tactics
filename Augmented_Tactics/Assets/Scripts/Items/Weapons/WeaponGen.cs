@@ -4,22 +4,24 @@ using UnityEngine;
 
 public class WeaponGen : MonoBehaviour {
 
-    private string FileLocation = "GameData/Weapon/weapons";
+    private static string FileLocation = "GameData/Weapon/weapons";
 
-    public Weapons weapon;
+    public Weapons weaponDis1, weaponDis2, weaponDis3;
 
-    private string[] wData;
-    private List<string[]> wList;
+    //private static string[] wData;
+    //private static List<string[]> wList;
 
     private void Start()
     {
-        WeaponGenerate(1, "Brawler", 1);
+        weaponDis1 = WeaponGenerate(1, "Cleric", 1);
+        weaponDis2 = WeaponGenerate(1, "Cleric", 1);
+        weaponDis3 = WeaponGenerate(1, "Cleric", 1);
     }
 
-    public void LoadData(int level, string characterClass)
+    public static List<string[]> LoadData(int level, string characterClass)
     {
         //set weapon data
-        wList = new List<string[]>();
+        List<string[]>  wList = new List<string[]>();
         string[,] rawData;
         TextAsset dataFile = Resources.Load<TextAsset>(FileLocation);
         rawData = CSVReader.SplitCsvGrid(dataFile.text);
@@ -32,6 +34,8 @@ public class WeaponGen : MonoBehaviour {
                 wList.Add(newData);
             }
         }
+
+        return wList;
     }
 
     /// <summary>
@@ -41,32 +45,39 @@ public class WeaponGen : MonoBehaviour {
     /// <param name="characterClass">The weapon's class</param>
     /// <param name="rarity">How many random stat boosts</param>
     /// <returns></returns>
-    public Weapons WeaponGenerate(int level, string characterClass, int rarity)
+    public static Weapons WeaponGenerate(int level, string characterClass, int rarity)
     {
         // search for weapon of this level and class
-        weapon = new Weapons();
-        LoadData(level, characterClass);
-
+        Debug.Log("Making Weapon for " + level + " " + characterClass + " " + rarity);
+        Weapons weapon = new Weapons();
+        List<string[]> wList = LoadData(level, characterClass);
+        if (wList.Count == 0)
+            Debug.Log("No data found for weapon");
         //random selection of weapon
         int randomNum = Random.Range(0, wList.Count);
-
-        wData = wList[randomNum];
+        Debug.Log(randomNum + " " + wList.Count);
+        string[] wData = wList[randomNum];
 
         //weapon.name = GetName();
-        randomGenDamage();
-        SetWeaponData();
+        randomGenDamage(weapon, wData);
+        SetWeaponData(weapon, wData);
 
         //DebugPrint(weapon);
         weapon.rarity = rarity;
         for (int index = 0; index < rarity; index++)
         {
-            randomStatBoost();
+            randomStatBoost(weapon, wData);
         }
 
         return weapon;
     }
 
-    public void randomGenDamage()
+    public static Weapons WeaponGenerate(int level, int characterClass, int rarity)
+    {
+        return WeaponGenerate(level, CharacterClasses.KeyToString(characterClass), rarity);
+    }
+
+    public static void randomGenDamage(Weapons weapon, string[] wData)
     {
         int pDmgMin = int.Parse(wData[ItemKey.Weapon.PhysicalDamageMin]);
         int pDmgMax = int.Parse(wData[ItemKey.Weapon.PhysicalDamageMax]);
@@ -111,7 +122,7 @@ public class WeaponGen : MonoBehaviour {
         }
     }
 
-    public void randomStatBoost()
+    public static void randomStatBoost(Weapons weapon, string[] wData)
     {
         // get value of bonus
         int selected = Random.Range(0, 7 + 1);
@@ -165,7 +176,7 @@ public class WeaponGen : MonoBehaviour {
 
     }
 
-    private void SetWeaponData()
+    private static void SetWeaponData(Weapons weapon, string[] wData)
     {
         weapon.name = wData[ItemKey.Weapon.Name];
         weapon.class_req = wData[ItemKey.Weapon.ClassType];
@@ -178,7 +189,7 @@ public class WeaponGen : MonoBehaviour {
         weapon.level_req = int.Parse(wData[ItemKey.Weapon.Level]);
     }
 
-    private void DebugPrint(Weapons weap)
+    private void DebugPrint(Weapons weap, string[] wData)
     {
         string weaponData = "";
 
@@ -207,5 +218,15 @@ public class WeaponGen : MonoBehaviour {
 
         output = "mDmg: " + weap.magic_dmg_min + "-" + weap.magic_dmg_max;
         Debug.Log(output);
+    }
+
+    private void DebugPrint(string[] wData)
+    {
+        string weaponData = "";
+
+        foreach (string str in wData)
+        {
+            weaponData += str + " ";
+        }
     }
 }

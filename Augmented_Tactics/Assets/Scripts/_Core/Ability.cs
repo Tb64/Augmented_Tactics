@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class Ability
 {
+    public int levelRequired;
     public int range_max;
     public int range_min;
     public float dwell_time;
@@ -16,6 +17,8 @@ public class Ability
     public Animator anim;
     public string abilityName;
     public Sprite abilityImage;
+
+    public string abilityDescription;
 
     protected GameObject gameObject;
     protected Actor actor;
@@ -78,7 +81,7 @@ public class Ability
         }
         if(!actor.UseMana(manaCost))
         {
-            Debug.Log("Not enough mana. " + abilityName);
+            Debug.Log("Not enough mana for " + abilityName + " Cost: " + manaCost + " Mana: " + actor.getManaCurrent());
             return false;
         }
         if (!actor.useAction())

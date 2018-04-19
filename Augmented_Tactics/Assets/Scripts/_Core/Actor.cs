@@ -27,7 +27,7 @@ public class Actor : MonoBehaviour
     #region Variables
 
     protected Animator anim;
-
+    public string actorName;
     public float health_current;    // temporary for debugging purposes(should be protected)
     protected float health_max; 
     protected float mana_current;
@@ -136,6 +136,8 @@ public class Actor : MonoBehaviour
     public int AnimWeaponRight = 9;
     public int AnimWeaponLeft = 7;
     public bool AnimShield = true;
+    public bool bonded;
+    public bool counter;
 
     //Audio clips
 
@@ -230,6 +232,17 @@ public class Actor : MonoBehaviour
     {
         mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Transform>();
         audio = GetComponent<AudioSource>();
+        if (GameObject.Find("Map") == null)
+            return;
+        map = GameObject.Find("Map").GetComponent<TileMap>();
+
+        if (map.IsValidCoord(coords) == true)
+        {
+            Debug.Log("Coords: " + coords);
+            map.GetTileAt(coords).setOccupiedTrue(gameObject);
+            Debug.Log("Occupied = " + map.GetTileAt(coords).isOccupied());
+        }
+
         if (GameObject.Find("SceneManager") != null)
         {
             report = GameObject.Find("SceneManager").GetComponent<AfterActionReport>();
@@ -268,7 +281,7 @@ public class Actor : MonoBehaviour
             anim.SetInteger("RightWeapon",AnimWeaponRight);
             anim.SetInteger("LeftWeapon",AnimWeaponLeft);
             anim.SetTrigger("InstantSwitchTrigger");
-            anim.SetTrigger("WeaponUnsheathTrigger");
+            anim.SetTrigger("WeaponUnshedfdddfdfddfddfdfdfddfdddfdfdfdfdfddffddfdcffathTrigger");
         }
 
         playerAgent = GetComponent<NavMeshAgent>();
@@ -287,19 +300,77 @@ public class Actor : MonoBehaviour
         {
             return;
         }
-        map = GameObject.Find("Map").GetComponent<TileMap>();
-
-        if (map.IsValidCoord(coords) == true)
-        {
-            Debug.Log("Coords: " + coords);
-            map.GetTileAt(coords).setOccupiedTrue(gameObject);
-            Debug.Log("Occupied = " + map.GetTileAt(coords).isOccupied());
-        }
 
 
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
+        InitStats();
 
+    }
+
+    private void InitStats()
+    {
+        //load stats here
+
+        if (this.level == 0)
+            this.level = 1;
+
+        this.health_max = this.constitution * 10f;
+        this.health_current = this.health_max;
+        this.mana_max = this.intelligence * 5f + this.wisdom * 5f;
+        this.mana_current = this.mana_max;
+    }
+
+    public void LoadStatsFromData(PlayerData pdata)
+    {
+        this.strength       = pdata.Strength;
+        this.dexterity      = pdata.Dexterity;
+        this.constitution   = pdata.Constitution;
+        this.wisdom         = pdata.Wisdom;
+        this.intelligence   = pdata.Intelligence;
+
+        this.level          = pdata.Level;
+        this.actorName      = pdata.DisplayName;
+
+        this.moveDistance   = pdata.Speed;
+
+        this.weapon         = pdata.weapon;
+        this.armor          = pdata.armor;
+
+        this.mDefense       = armor.magic_def;
+        this.pDefense       = armor.physical_def;
+
+        InitStats();
+
+        abilitySet = new Ability[4];
+
+        if (pdata.Skill1 != null && pdata.Skill1.Length != 0)
+        {
+            abilitySet[0] = SkillLoader.LoadSkill(pdata.Skill1, gameObject);
+        }
+        if (pdata.Skill2 != null && pdata.Skill2.Length != 0)
+        {
+            abilitySet[1] = SkillLoader.LoadSkill(pdata.Skill2, gameObject);
+        }
+        if (pdata.Skill3 != null && pdata.Skill3.Length != 0)
+        {
+            abilitySet[2] = SkillLoader.LoadSkill(pdata.Skill3, gameObject);
+        }
+        if (pdata.Skill4 != null && pdata.Skill4.Length != 0)
+        {
+            abilitySet[3] = SkillLoader.LoadSkill(pdata.Skill4, gameObject);
+        }
+
+        this.usableItems = new List<UsableItem>();
+
+        if (pdata.Item1 != null && pdata.Item1.Length != 0)
+            this.usableItems.Add(ItemLoader.LoadItem(pdata.Item1));
+        if (pdata.Item2 != null && pdata.Item2.Length != 0)
+            this.usableItems.Add(ItemLoader.LoadItem(pdata.Item2));
+        if (pdata.Item3 != null && pdata.Item3.Length != 0)
+            this.usableItems.Add(ItemLoader.LoadItem(pdata.Item3));
+        if (pdata.Item4 != null && pdata.Item4.Length != 0)
+            this.usableItems.Add(ItemLoader.LoadItem(pdata.Item4));
     }
 
     //Player Spawn Event - Put any actions you want done upon player spawn in here
@@ -469,6 +540,12 @@ public class Actor : MonoBehaviour
     /// <param name="damage">Damage the Actor will take as a float</param>
     public virtual void TakeDamage(float damage, GameObject attacker)
     {
+        if (counter)
+        {
+            counter = false;
+            attacker.GetComponent<Actor>().TakeDamage(2 * damage, gameObject);
+            return;
+        }
         rotateAtObj(attacker);
         float dist = Vector3.Distance(getCoords(), attacker.GetComponent<Actor>().getCoords());
         if (counterAttack > 0  && dist <= 1f)
@@ -587,6 +664,26 @@ public class Actor : MonoBehaviour
         Debug.Log(this + " has died");
         anim.SetTrigger(animDeath);
         PlaySound("death");
+        //for Destiny binder attacks /items
+        if (bonded)
+        {
+            foreach(Actor[] couple in StatusEffectsController.bonded)
+            {
+                if(couple[0] == this)
+                {
+                    Debug.Log(couple[1] + " is fated to die with " + this);
+                    couple[1].setHealthCurrent(0);
+                    couple[1].OnDeath();
+                }
+                else if(couple[1] == this)
+                {
+                    Debug.Log(couple[0] + " is fated to die with " + this);
+                    couple[0].setHealthCurrent(0);
+                    couple[0].OnDeath();
+                }
+            }
+        }
+
     }
 
     /// <summary>
@@ -792,6 +889,11 @@ public class Actor : MonoBehaviour
     public int getPhysicalDefense()
     {
         return this.pDefense;
+    }
+
+    public void setMagicalDefense(int aClass)
+    {
+        mDefense = aClass;
     }
 
     public int getMagicalDefense()

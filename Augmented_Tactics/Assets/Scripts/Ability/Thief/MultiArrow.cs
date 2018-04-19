@@ -43,7 +43,6 @@ public class MultiArrow : Ability {
         range_max = 5;
         range_min = 0;
         damage = 10f + obj.GetComponent<Actor>().getDexterity();
-        //dwell_time = 3.0f;
         abilityName = "Multi Arrow";
         abilityImage = Resources.Load<Sprite>("UI/Ability/assassin/archerSkill9");
         if (abilityImage == null)

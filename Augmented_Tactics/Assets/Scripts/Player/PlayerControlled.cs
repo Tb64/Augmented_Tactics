@@ -25,6 +25,7 @@ public class PlayerControlled : Actor
 
     public void PlayerInitialize()
     {
+        Debug.Log("Player Init");
         base.Init();
         TurnBehaviour.OnPlayerTurnStart += this.OnPlayerTurnStart;
 
@@ -35,9 +36,13 @@ public class PlayerControlled : Actor
         }
         // GameObject.FindWithTag("Map").GetComponent<TileMap>().Players.Add(this.GetComponent<Actor>());
 
-        if (map == null)
+        if (GameObject.Find("Map") != null)
         {
             map = GameObject.Find("Map").GetComponent<TileMap>();
+        }
+        else
+        {
+            return;
         }
 
         if (playerNum == null)
