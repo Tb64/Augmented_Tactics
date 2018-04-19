@@ -67,6 +67,8 @@ public class ArmorGen : MonoBehaviour {
             randomStatBoost(armor, aData);
         }
 
+        armor.cost += (int)(armor.cost * rarity * 0.25);
+
         return armor;
     }
 

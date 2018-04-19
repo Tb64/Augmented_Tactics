@@ -46,6 +46,8 @@ public class AnimActor : PlayerControlled
             abilitySet[3] = SkillLoader.LoadSkill("combo", gameObject);
         }
 
+        if (data != null)
+            LoadStatsFromData(data);
     }
 
     /***************

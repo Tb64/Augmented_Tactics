@@ -19,6 +19,9 @@ public class HowlingFist : Ability
         dwell_time = 1.0f;
         abilityName = "Cyclone Kick";
         abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill1");
+
+        actor.UseMana(actor.getManaCurrent());
+
         if (abilityImage == null)
             Debug.Log("Unable to load image");
     }

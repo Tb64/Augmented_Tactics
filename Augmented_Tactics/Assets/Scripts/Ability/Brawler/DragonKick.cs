@@ -25,6 +25,7 @@ public class DragonKick : Ability
         footVFX = Resources.Load<GameObject>("Effects/HandEffects/Effect6_Hand");
         abilityName = "Dragon Kick";
         abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill1");
+        actor.UseMana(actor.getManaCurrent());
         if (abilityImage == null)
             Debug.Log("Unable to load image");
     }

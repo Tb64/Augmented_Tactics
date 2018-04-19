@@ -24,6 +24,7 @@ public class Combo : Ability {
         manaCost = manaCost * 2;
         abilityImage = Resources.Load<Sprite>("UI/Ability/warrior/warriorSkill2");
         handVFX = Resources.Load<GameObject>("Effects/HandEffects/Effect4_Hand_Optimized");
+        actor.UseMana(actor.getManaCurrent());
         if (abilityImage == null)
             Debug.Log("Unable to load image");
 

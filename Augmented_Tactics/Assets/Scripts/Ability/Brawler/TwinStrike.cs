@@ -26,8 +26,13 @@ public class TwinStrike : Ability
         damage = actor.getLevel() + actor.getStrength();
         abilityName = "Twin Strikes";
         abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill1");
+
+        actor.UseMana(actor.getManaCurrent());
+
         if (abilityImage == null)
             Debug.Log("Unable to load image");
+
+        abilityDescription = "The basic left and right jab of the brawler used to generate mana to use other brawler skills.  Brawler's mana usage and generation is based on level. \nMana Generated: " + (int)manaGiven;
     }
 
     public override bool UseSkill(GameObject target)

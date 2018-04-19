@@ -24,6 +24,7 @@ public class Counter : Ability {
         dwell_time = 1.0f;
         abilityName = "Counter";
         abilityImage = Resources.Load<Sprite>("UI/Ability/warrior/warriorSkill5");
+        actor.UseMana(actor.getManaCurrent());
     }
 
     public override bool UseSkill(GameObject target)

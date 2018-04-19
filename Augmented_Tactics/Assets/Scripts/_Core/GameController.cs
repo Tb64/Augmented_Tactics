@@ -320,8 +320,12 @@ public class GameController : MonoBehaviour
         for (int index = 0; index < abilityImages.Length; index++)
         {
             //Debug.Log("Updating Ability Bar of " + selectedUnit.name);
-            abilityImages[index].sprite = selectedUnit.abilitySet[index].abilityImage;
-            abilityText[index].text = selectedUnit.abilitySet[index].abilityName;
+            if(selectedUnit.abilitySet[index] != null)
+            {
+                abilityImages[index].sprite = selectedUnit.abilitySet[index].abilityImage;
+                abilityText[index].text = selectedUnit.abilitySet[index].abilityName;
+            }
+            
         }
         //Debug.Log("Updating Ability Bar of " + selectedUnit.name);
     }

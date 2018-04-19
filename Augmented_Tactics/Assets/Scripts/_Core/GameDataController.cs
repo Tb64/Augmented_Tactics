@@ -17,6 +17,9 @@ public class GameDataController: MonoBehaviour
     }
     public static GameData loadPlayerData()
     {
+        //gameData = new GameData();
+        if (gameData == null)
+            Debug.Log("new data is null");
         //Static Functions do not call start
         filePath = Path.Combine(Application.streamingAssetsPath, "data.json");
         //Debug.Log(filePath);
@@ -24,12 +27,15 @@ public class GameDataController: MonoBehaviour
         {
             string jsonData= File.ReadAllText(filePath);
             gameData = JsonUtility.FromJson<GameData>(jsonData);
-            return JsonUtility.FromJson<GameData>(jsonData);
+            if (gameData == null)
+                gameData = new GameData();
+            return gameData;
         }
         else
         {
             Debug.Log("Can't Find Game Data, making new data at " + filePath);
             gameData = new GameData();
+            //this.gameData = gameData;
             return gameData;
         }
     }
