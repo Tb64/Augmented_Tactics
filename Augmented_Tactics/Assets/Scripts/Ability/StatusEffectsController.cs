@@ -39,7 +39,7 @@ public class StatusEffectsController : MonoBehaviour
                 statuses.Add(status);
             }
         }
-        if(statuses.Count() == 0)
+        if(statuses.Count == 0)
             return null;
         else
             return statuses;

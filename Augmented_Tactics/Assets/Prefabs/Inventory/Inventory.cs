@@ -35,7 +35,7 @@ public class Inventory : MonoBehaviour {
 
     public void addEquipable(Equipable item)
     {
-
+        
         for(int index = 0; index < 5; index++)
         {
             Debug.Log("index:" + index);
@@ -50,26 +50,23 @@ public class Inventory : MonoBehaviour {
             }
         }
 
-        //while (iterate == true)
-        //{
-        //    if (inventoryArray[index, jindex].GetComponent<Item>().isOccupied() == false)
-        //        iterate = false;
-
-        //    inventoryArray[index, jindex].GetComponent<Item>().setEquipable(item);
-        //    index++;
-        //    jindex++;
-        //}
+  
     }
 
     public void addUsable(UsableItem item)
     {
-        int index = 0;
-        int jindex = 0;
-
-        while (inventoryArray[index, jindex].GetComponent<Item>().isOccupied() != false)
+        for (int index = 0; index < 5; index++)
         {
-
-
+            Debug.Log("index:" + index);
+            for (int jindex = 0; jindex < 5; jindex++)
+            {
+                Debug.Log("jindex:" + jindex);
+                if (inventoryArray[index, jindex].GetComponent<Item>().isOccupied() == false)
+                {
+                    inventoryArray[index, jindex].GetComponent<Item>().setUsable(item);
+                    return;
+                }
+            }
         }
     }
 
@@ -131,6 +128,10 @@ public class Inventory : MonoBehaviour {
 
     }
 
-    
-
+    void loadGameData()
+    {
+        //will load data and place into inventory
+        GameDataController.loadPlayerData();
+        
+    }
 }

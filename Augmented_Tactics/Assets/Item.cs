@@ -39,12 +39,19 @@ public class Item : MonoBehaviour {
         useItem = item;
         setItemType("Usable");
         inventoryIcon = Resources.Load<Sprite>(item.image);
+
+        if (inventoryIcon != null)
+        {
+            gameObject.transform.GetChild(0).GetComponent<Image>().sprite = inventoryIcon;
+        }
+        slotOccupied = true;
     }
 
     public UsableItem getUsable()
     {
         return useItem;
     }
+
 
     public Equipable getEquipable()
     {
