@@ -9,18 +9,18 @@ public class ArmorGen : MonoBehaviour {
 
     //public Armor armor;
     public Armor publicArmor;
-    private static string[] aData;
-    private static List<string[]> aList;
+    //private static string[] aData;
+    //private static List<string[]> aList;
 
     private void Start()
     {
         publicArmor = ArmorGenerate(1, "Brawler", 1);
     }
 
-    public static void LoadData(int level, string characterClass)
+    public static List<string[]> LoadData(int level, string characterClass)
     {
         //set weapon data
-        aList = new List<string[]>();
+        List<string[]> aList = new List<string[]>();
         string[,] rawData;
         TextAsset dataFile = Resources.Load<TextAsset>(FileLocation);
         rawData = CSVReader.SplitCsvGrid(dataFile.text);
@@ -33,6 +33,8 @@ public class ArmorGen : MonoBehaviour {
                 aList.Add(newData);
             }
         }
+
+        return aList;
     }
 
     /// <summary>
@@ -46,23 +48,23 @@ public class ArmorGen : MonoBehaviour {
     {
         // search for weapon of this level and class
         Armor armor = new Armor();
-        LoadData(level, characterClass);
+        List<string[]> aList = LoadData(level, characterClass);
 
         //random selection of weapon
         int randomNum = Random.Range(0, aList.Count);
         if (aList.Count == 0)
             Debug.Log("No data found for Armor");
-        aData = aList[randomNum];
+        string[] aData = aList[randomNum];
 
         //weapon.name = GetName();
-        randomDef(armor);
-        SetWeaponData(armor);
+        randomDef(armor, aData);
+        SetWeaponData(armor, aData);
 
         //DebugPrint(weapon);
         armor.rarity = rarity;
         for (int index = 0; index < rarity; index++)
         {
-            randomStatBoost(armor);
+            randomStatBoost(armor, aData);
         }
 
         return armor;
@@ -74,7 +76,7 @@ public class ArmorGen : MonoBehaviour {
     }
 
 
-    public static void randomDef(Armor armor)
+    public static void randomDef(Armor armor, string[] aData)
     {
         int pDmgMin = int.Parse(aData[ItemKey.Armor.PhysicalDefenseMin]);
         int pDmgMax = int.Parse(aData[ItemKey.Armor.PhysicalDefenseMax]);
@@ -94,7 +96,7 @@ public class ArmorGen : MonoBehaviour {
 
     }
 
-    public static void randomStatBoost(Armor armor)
+    public static void randomStatBoost(Armor armor, string[] aData)
     {
         // get value of bonus
         int selected = Random.Range(0, 7 + 1);
@@ -148,7 +150,7 @@ public class ArmorGen : MonoBehaviour {
 
     }
 
-    private static void SetWeaponData(Armor armor)
+    private static void SetWeaponData(Armor armor, string[] aData)
     {
         armor.name = aData[ItemKey.Armor.Name];
         armor.class_req = aData[ItemKey.Armor.ClassType];
@@ -161,7 +163,7 @@ public class ArmorGen : MonoBehaviour {
         armor.level_req = int.Parse(aData[ItemKey.Armor.Level]);
     }
 
-    private void DebugPrint(Weapons weap)
+    private void DebugPrint(Weapons weap, string[] aData)
     {
         string weaponData = "";
 

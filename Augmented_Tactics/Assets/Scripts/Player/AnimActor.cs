@@ -13,8 +13,9 @@ public class AnimActor : PlayerControlled
     public string ability4;
 
     // Use this for initialization
-    new void Start()
+    public void Start()
     {
+        Debug.Log("CombatOn = " + combatOn);
         if (!combatOn)
             return;
         PlayerInitialize();

@@ -132,7 +132,8 @@ public class PlayerData
         string name = RandomName();
         player = new PlayerData(name);
         player.DisplayName = name;
-        player.playerName = name; //this can be a problem because playerName must be unique
+        int randomNum = Random.Range(0, 100);
+        player.playerName = name + randomNum; //this can be a problem because playerName must be unique
         player.Class = classID;
         player.ClassName = CharacterClasses.classNames[classID];
         PlayerBaseLine(player);
@@ -141,6 +142,12 @@ public class PlayerData
         player.Health = player.Constitution * 10;
 
         player.Mana = (player.Intelligence + player.Wisdom) * 5;
+
+        if (player.DisplayName.Length == 0)
+            Debug.Log("Empty Name");
+
+        if (player.ClassName.Length == 0)
+            Debug.Log("Empty Class " + player.Class);
 
         return player;
     }
