@@ -14,7 +14,7 @@ public class HeavyShield : UsableItem {
     public override void UseItem(GameObject user, GameObject target)
     {
         base.UseItem(user, target);
-        itemAbility = new BuffDebuff(user,"defense","dexterity",true,10);
+        itemAbility = new BuffDebuff(user,"defense","dexterity",true,10,true);
         itemAbility.UseSkill(target);
     }
 }
