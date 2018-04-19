@@ -196,6 +196,7 @@ public class TurnBehaviour : MonoBehaviour
     //calls New Player Added Event
     public static void NewPlayerAdded()
     {
+        Debug.Log("New Player added");
         if (OnPlayerSpawn != null)
             OnPlayerSpawn();
     }
