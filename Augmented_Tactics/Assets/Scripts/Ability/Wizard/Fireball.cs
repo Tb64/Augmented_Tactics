@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class FireBall : Ability
 {
-
-
     GameObject fireBall = Resources.Load<GameObject>("animation/effect15");
     Actor user;
 
@@ -31,6 +29,12 @@ public class FireBall : Ability
         manaCost = 0;
     }
 
+
+    void calculateDistance(GameObject target)
+    {
+        float distance = Vector3.Distance(target.GetComponent<Actor>().getCoords(), gameObject.transform.position);
+
+    }
 
 
     private void Skill(GameObject target)
