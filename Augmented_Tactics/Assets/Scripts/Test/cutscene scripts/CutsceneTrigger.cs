@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CutsceneTrigger1 : MonoBehaviour {
+public class CutsceneTrigger : MonoBehaviour {
     
     public bool exitedTrig = false;
     void OnTriggerEnter(Collider other)
