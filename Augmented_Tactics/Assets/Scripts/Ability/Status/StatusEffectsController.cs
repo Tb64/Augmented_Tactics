@@ -33,7 +33,7 @@ public class StatusEffectsController : MonoBehaviour
     {
         foreach(StatusEffects status in allEffects)
         {
-            if (status.getName() == status.getName() && ((stat.effectedPlayer == status.effectedPlayer) || (stat.effectedObject != null && status.effectedObject != null && stat.effectedObject == status.effectedObject)
+            if (status.getName() == status.getName() && ((stat.effectedPlayer == status.effectedPlayer) || (stat.effectedObject != null && status.effectedObject != null && stat.effectedObject == status.effectedObject)))
             {
                 return true;
             }
