@@ -720,6 +720,30 @@ public class Actor : MonoBehaviour
 
     #region SetGets
 
+    public int ExpToLevel()
+    {
+        switch (level)
+        {
+            case 1 :
+                return 300 - getExperience();
+            case 2 :
+                return 900 - getExperience();
+            case 3 :
+                return 2700 - getExperience();
+            case 4 :
+                return 6500 - getExperience();
+            case 5 :
+                return 14000 - getExperience();
+            case 6 :
+                return 23000 - getExperience();
+            case 7 :
+                return 34000- getExperience();
+            default :
+                Debug.LogError("LEVEL OUT OF RANGE" + level);
+                return -1;
+        }
+    }
+
     public bool canAct()
     {
         if(numOfActions > 0)
