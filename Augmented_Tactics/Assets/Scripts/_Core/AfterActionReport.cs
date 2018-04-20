@@ -27,7 +27,7 @@ public class AfterActionReport : MonoBehaviour {
         camera = GameObject.Find("CamFocus");
         // cameraPosition = GameObject.Find("cameraLocation").transform;
 
-        DisplayExp();
+        //DisplayExp();
     }
 
     public bool win()
@@ -105,12 +105,14 @@ public class AfterActionReport : MonoBehaviour {
         {
             expTotal += EnemyController.enemyList[index].getExpGiven();
         }
-
-        expTotal = (int)expTotal / PlayerControlled.playerNum;
-
-        for (int index = 0; index < PlayerControlled.playerNum; index++)
+        if (PlayerControlled.playerNum != 0)
         {
-            PlayerControlled.playerList[index].setExperience(expTotal);
+            expTotal = (int)expTotal / PlayerControlled.playerNum;
+
+            for (int index = 0; index < PlayerControlled.playerNum; index++)
+            {
+                PlayerControlled.playerList[index].setExperience(expTotal);
+            }
         }
 
         // Each first number in the array will correspond to a playerFrame (1-4)
