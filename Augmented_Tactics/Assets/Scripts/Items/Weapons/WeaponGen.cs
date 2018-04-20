@@ -6,14 +6,16 @@ public class WeaponGen : MonoBehaviour {
 
     private static string FileLocation = "GameData/Weapon/weapons";
 
-    public Weapons weaponDis;
+    public Weapons weaponDis1, weaponDis2, weaponDis3;
 
     //private static string[] wData;
     //private static List<string[]> wList;
 
     private void Start()
     {
-        weaponDis = WeaponGenerate(1, "Cleric", 1);
+        weaponDis1 = WeaponGenerate(1, "Cleric", 1);
+        weaponDis2 = WeaponGenerate(1, "Cleric", 1);
+        weaponDis3 = WeaponGenerate(1, "Cleric", 1);
     }
 
     public static List<string[]> LoadData(int level, string characterClass)

@@ -95,7 +95,7 @@ public class GameController : MonoBehaviour
         targetObject = null;
         BothMarkersOff();
       
-        endOfBattleController.GetComponent<AfterActionReport>().BattleOver();
+        //endOfBattleController.GetComponent<AfterActionReport>().BattleOver();
     }
 
     private void PlayerTurnStart()
@@ -224,7 +224,7 @@ public class GameController : MonoBehaviour
             BothMarkersOff();
             setMode(MODE_SELECT_UNIT);
             targetObject = null;
-            Debug.Log("Using ability " + selectedUnit.abilitySet[currentAbility].abilityName);
+            //Debug.Log("Using ability " + selectedUnit.abilitySet[currentAbility].abilityName);
         }
     }
 
@@ -372,7 +372,7 @@ public class GameController : MonoBehaviour
     {
         currentMode = MODE_MOVE;
         BothMarkersOff();
-        if(rangeMarker != null)
+        if(selectedUnit != null && rangeMarker != null)
             rangeMarker.Move_Marker_On(selectedUnit.getCoords(), selectedUnit.moveDistance); 
     }
 

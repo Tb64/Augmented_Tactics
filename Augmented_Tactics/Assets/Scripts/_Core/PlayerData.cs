@@ -110,22 +110,44 @@ public class PlayerData
         return value;
     }*/
 
-
+    /// <summary>
+    /// Creates random Level 1 player
+    /// </summary>
+    /// <returns></returns>
     public static PlayerData GenerateNewPlayer()
+    {
+        int randomIndex = (int)Random.Range(0, CharacterClasses.classNames.Length);
+        return GenerateNewPlayer(randomIndex);
+    }
+
+    /// <summary>
+    /// Creates random level 1 player of a selected class
+    /// </summary>
+    /// <param name="classID"></param>
+    /// <returns></returns>
+    public static PlayerData GenerateNewPlayer(int classID)
     {
         PlayerData player = null;
 
         string name = RandomName();
         player = new PlayerData(name);
         player.DisplayName = name;
-        player.playerName = name; //this can be a problem because playerName must be unique
-        RandomClass(player);
+        int randomNum = Random.Range(0, 100);
+        player.playerName = name + randomNum; //this can be a problem because playerName must be unique
+        player.Class = classID;
+        player.ClassName = CharacterClasses.classNames[classID];
         PlayerBaseLine(player);
         RandomStatBoost(player);
 
         player.Health = player.Constitution * 10;
 
         player.Mana = (player.Intelligence + player.Wisdom) * 5;
+
+        if (player.DisplayName.Length == 0)
+            Debug.Log("Empty Name");
+
+        if (player.ClassName.Length == 0)
+            Debug.Log("Empty Class " + player.Class);
 
         return player;
     }

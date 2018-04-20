@@ -11,9 +11,9 @@ public class Tank : Enemy{
     //buff defense on health low
     //else: buff offense
     //use last resort action if all else fails
-    private bool regularMode, inPosition, sameTurn;
-    private Enemy closestAggro;
-    private Ability buff, debuff, heal, lastResort; //needs one buff, one debuff, heal(multiple if possible),basic attack or similar
+    protected bool regularMode, inPosition, sameTurn;
+    protected Enemy closestAggro;
+    protected Ability buff, debuff, heal, lastResort; //needs one buff, one debuff, heal(multiple if possible),basic attack or similar
                                                     //should be slow and attack last so allies are in position
     public override void Start()
     {

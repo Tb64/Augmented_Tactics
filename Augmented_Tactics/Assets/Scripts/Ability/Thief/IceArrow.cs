@@ -36,7 +36,7 @@ public class IceArrow : Ability
         if (Ability.DiceRoll(actor.getDexterity(), targeta.getDexterity()))
         {
             StatusEffectsController.AddEffect(new Frozen(0, actor, targeta, target.tag == "Enemy"));
-            Debug.Log("{0} is frozen solid!");
+            Debug.Log("{0} is frozen solid!",targeta); //issue here with animation
         }
 
 
