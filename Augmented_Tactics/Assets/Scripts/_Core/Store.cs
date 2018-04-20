@@ -16,7 +16,7 @@ public class Store : MonoBehaviour
     GameObject backgroundImage;
     GameObject StoreBackground;
     //1 for armorer, 2 for weaponsmith, 3 for generalStore
-    public string storeType;
+    public int storeType;
     public Image storeImage;
     public Text storeText;
     private float inventorySize;
@@ -38,11 +38,8 @@ public class Store : MonoBehaviour
         armorgen = new ArmorGen();
         weapon = ArmorGen.ArmorGenerate(1, "Brawler", 1);
         addEquipable(weapon);
-
-        if(storeType == null)
-        {
-            storeType = "Armory";
-        }
+        storeType = 1;
+       
     }
 
     public void addEquipable(Equipable item)
@@ -108,16 +105,17 @@ public class Store : MonoBehaviour
                 inventoryArray[index, jindex].transform.localPosition = iconPlacement;
                 inventoryArray[index, jindex].GetComponent<Item>().setStore(gameObject);
                 iconPlacement += new Vector3(70f, 0f, 0f);
-                Armor newArmor = ArmorGen.ArmorGenerate(1, "Brawler", UnityEngine.Random.Range(0, storeLevel));
-                
-                inventoryArray[index, jindex].GetComponent<Item>().setEquipable(newArmor);
+               
+
                 switch (storeType)
                 {
-                    case "1":
+                    case 1:   //Armorer
+                        inventoryArray[index, jindex].GetComponent<Item>().setEquipable(generateArmor());
                         break;
-                    case "2":
+                    case 2:   //Weaponsmith
+                        inventoryArray[index, jindex].GetComponent<Item>().setEquipable(generateWeapon());
                         break;
-                    case "3":
+                    case 3:
                         break;
                 }
 
