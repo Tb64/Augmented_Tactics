@@ -34,6 +34,7 @@ public class TEMP_CharacterList : MonoBehaviour {
         characterData[index].setStatbyKey(PlayerKey.Skill2, "basicattack");
         characterData[index].setStatbyKey(PlayerKey.Skill3, "basicattack");
         characterData[index].setStatbyKey(PlayerKey.Skill4, "basicattack");
+        characterData[index] = PlayerData.GenerateNewPlayer();
 
         index = 1;
         characterData[index] = new PlayerData("TEST2");
@@ -53,6 +54,7 @@ public class TEMP_CharacterList : MonoBehaviour {
         characterData[index].setStatbyKey(PlayerKey.Skill2, "basicattack");
         characterData[index].setStatbyKey(PlayerKey.Skill3, "basicattack");
         characterData[index].setStatbyKey(PlayerKey.Skill4, "basicattack");
+        characterData[index] = PlayerData.GenerateNewPlayer();
 
         index = 2;
         characterData[index] = new PlayerData("TEST3");
@@ -72,6 +74,7 @@ public class TEMP_CharacterList : MonoBehaviour {
         characterData[index].setStatbyKey(PlayerKey.Skill2, "basicattack");
         characterData[index].setStatbyKey(PlayerKey.Skill3, "basicattack");
         characterData[index].setStatbyKey(PlayerKey.Skill4, "basicattack");
+        characterData[index] = PlayerData.GenerateNewPlayer();
 
         index = 3;
         characterData[index] = new PlayerData("TEST4");
@@ -91,6 +94,7 @@ public class TEMP_CharacterList : MonoBehaviour {
         characterData[index].setStatbyKey(PlayerKey.Skill2, "basicattack");
         characterData[index].setStatbyKey(PlayerKey.Skill3, "basicattack");
         characterData[index].setStatbyKey(PlayerKey.Skill4, "basicattack");
+        characterData[index] = PlayerData.GenerateNewPlayer();
 
     }
 

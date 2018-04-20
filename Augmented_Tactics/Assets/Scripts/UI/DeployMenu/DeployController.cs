@@ -52,24 +52,24 @@ public class DeployController : MonoBehaviour {
     void LoadData()
     {
         GameDataController.loadPlayerData();
-        TEMP_CharacterList.Init();
-        PlayerData data = TEMP_CharacterList.characterData[0];
+        //TEMP_CharacterList.Init();
+        //PlayerData data = TEMP_CharacterList.characterData[0];
 
-        if (data == null)
-            Debug.Log("Data failed to gerenate");
+        //if (data == null)
+        //    Debug.Log("Data failed to gerenate");
 
-        if(GameDataController.gameData == null)
-        {
-            Debug.Log("Data failed to make Game Date");
-            GameDataController.gameData = new GameData();
-        }
-        GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[0]);
-        GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[1]);
-        GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[2]);
-        GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[3]);
+        //if(GameDataController.gameData == null)
+        //{
+        //    Debug.Log("Data failed to make Game Date");
+        //    GameDataController.gameData = new GameData();
+        //}
+        //GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[0]);
+        //GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[1]);
+        //GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[2]);
+        //GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[3]);
 
         army = GameDataController.gameData.getArmyList();
-        GameDataController.savePlayerData();
+        //GameDataController.savePlayerData();
     }
 
     private void MakeList()
@@ -140,5 +140,22 @@ public class DeployController : MonoBehaviour {
         }
 
         return -1;
+    }
+
+    public void SaveDeployed()
+    {
+        GameDataController.loadPlayerData();
+        for (int index = 0; index < 4; index++)
+        {
+            GameDataController.gameData.currentTeam[index] = this.deployed[index];
+        }
+        GameDataController.savePlayerData();
+    }
+
+    public void SaveThenLoad(string levelName)
+    {
+        SaveDeployed();
+
+
     }
 }

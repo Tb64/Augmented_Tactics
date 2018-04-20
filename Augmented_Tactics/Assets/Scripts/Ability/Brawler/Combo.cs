@@ -24,10 +24,13 @@ public class Combo : Ability {
         manaCost = manaCost * 2;
         abilityImage = Resources.Load<Sprite>("UI/Ability/warrior/warriorSkill2");
         handVFX = Resources.Load<GameObject>("Effects/HandEffects/Effect4_Hand_Optimized");
+        actor.UseMana(actor.getManaCurrent());
         if (abilityImage == null)
             Debug.Log("Unable to load image");
 
         damage = 10f + ((float)actor.getStrength() * 0.5f);
+        int manaPercent = (int)((manaCost * 100f) / actor.getMaxMana());
+        abilityDescription = "A three hit combo. Cost is a percentage that depends on the level of the brawler. \nMana: " + manaPercent + "%";
     }
 
     public override bool UseSkill(GameObject target)

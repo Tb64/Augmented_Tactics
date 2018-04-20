@@ -25,8 +25,13 @@ public class DragonKick : Ability
         footVFX = Resources.Load<GameObject>("Effects/HandEffects/Effect6_Hand");
         abilityName = "Dragon Kick";
         abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill1");
+        actor.UseMana(actor.getManaCurrent());
         if (abilityImage == null)
             Debug.Log("Unable to load image");
+
+        int manaPercent = (int)((manaCost * 100f) / actor.getMaxMana());
+
+        abilityDescription = "Dragon Kick will knockback a target 1 block away from the Brawler. If the target can not be knocked back they will take 25% more damage. Cost is a percentage that depends on the level of the brawler.\nMana: " + manaPercent + "%";
     }
 
     public override bool UseSkill(GameObject target)

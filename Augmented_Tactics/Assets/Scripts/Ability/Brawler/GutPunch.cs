@@ -21,6 +21,9 @@ public class GutPunch : Ability
         abilityName = "Gut Punch";
         abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill1");
         handVFX = Resources.Load<GameObject>("Effects/HandEffects/Effect13_Hand_Optimized");
+
+        actor.UseMana(actor.getManaCurrent());
+
         if (abilityImage == null)
             Debug.Log("Unable to load image");
     }
