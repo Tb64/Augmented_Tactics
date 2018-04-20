@@ -20,6 +20,8 @@ public class SkillSelectionMenu : MonoBehaviour {
     public Image selectedAllSkillMarker;
     public Image selectedCurrentSkillMarker;
 
+    public ArmyList armyListUI;
+
     public PlayerData selectedPlayer;
 
     private int allSkillSelected;
@@ -35,12 +37,21 @@ public class SkillSelectionMenu : MonoBehaviour {
         dummy = GameObject.FindGameObjectWithTag("Player");
         dummyActor = dummy.GetComponent<Actor>();
         GenerateUI();
-	}
+        GameDataController.loadPlayerData();
+        armyListUI.LoadList(GameDataController.gameData.armyList);
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    public void UnitButtonClicked(PlayerData pdata)
+    {
+        selectedPlayer = pdata;
+        GenerateUI();
+    }
 
     void GenerateUI()
     {
