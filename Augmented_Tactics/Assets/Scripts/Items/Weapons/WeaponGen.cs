@@ -6,14 +6,16 @@ public class WeaponGen : MonoBehaviour {
 
     private static string FileLocation = "GameData/Weapon/weapons";
 
-    public Weapons weaponDis;
+    public Weapons weaponDis1, weaponDis2, weaponDis3;
 
     //private static string[] wData;
     //private static List<string[]> wList;
 
     private void Start()
     {
-        weaponDis = WeaponGenerate(1, "Cleric", 1);
+        weaponDis1 = WeaponGenerate(1, "Cleric", 1);
+        weaponDis2 = WeaponGenerate(1, "Cleric", 1);
+        weaponDis3 = WeaponGenerate(1, "Cleric", 1);
     }
 
     public static List<string[]> LoadData(int level, string characterClass)
@@ -53,7 +55,7 @@ public class WeaponGen : MonoBehaviour {
             Debug.Log("No data found for weapon");
         //random selection of weapon
         int randomNum = Random.Range(0, wList.Count);
-        Debug.Log(randomNum + " " + wList.Count);
+        //Debug.Log(randomNum + " " + wList.Count);
         string[] wData = wList[randomNum];
 
         //weapon.name = GetName();
@@ -66,6 +68,8 @@ public class WeaponGen : MonoBehaviour {
         {
             randomStatBoost(weapon, wData);
         }
+
+        weapon.cost += (int)(weapon.cost * rarity * 0.25);
 
         return weapon;
     }
@@ -123,7 +127,7 @@ public class WeaponGen : MonoBehaviour {
     public static void randomStatBoost(Weapons weapon, string[] wData)
     {
         // get value of bonus
-        int selected = Random.Range(0, 7 + 1);
+        int selected = Random.Range(0, 4 + 1);
         int bonus = 0;
 
         switch (selected)

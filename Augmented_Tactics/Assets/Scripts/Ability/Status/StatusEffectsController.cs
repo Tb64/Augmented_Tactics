@@ -25,7 +25,20 @@ public class StatusEffectsController : MonoBehaviour
             bonded = new List<Actor[]>();
             instantiated = true;
         }
-        allEffects.Add(status);
+        if(!SameEffect(status))
+            allEffects.Add(status);
+    }
+
+    public static bool SameEffect(StatusEffects stat)
+    {
+        foreach(StatusEffects status in allEffects)
+        {
+            if (status.getName() == status.getName() && ((stat.effectedPlayer == status.effectedPlayer) || (stat.effectedObject != null && status.effectedObject != null && stat.effectedObject == status.effectedObject)))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void RemoveEffect(StatusEffects status)

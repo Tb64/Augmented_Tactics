@@ -26,8 +26,10 @@ public class Actor : MonoBehaviour
 
     #region Variables
 
-    protected Animator anim;
+    public PlayerData data;
 
+    protected Animator anim;
+    public string actorName;
     public float health_current;    // temporary for debugging purposes(should be protected)
     protected float health_max; 
     protected float mana_current;
@@ -273,16 +275,16 @@ public class Actor : MonoBehaviour
         leftFoot = transform.Find("Bip01/Bip01_Pelvis/Bip01_L_Thigh/Bip01_L_Calf/Bip01_L_Foot/Bip01_L_Toe0");
         rightFoot = transform.Find("Bip01/Bip01_Pelvis/Bip01_R_Thigh/Bip01_R_Calf/Bip01_R_Foot/Bip01_R_Toe0");
 
-        if(anim != null)
-        {
-            anim.SetBool("Moving", true);
-            anim.SetBool("Shield", AnimShield);
-            anim.SetInteger("Weapon", AnimStance);
-            anim.SetInteger("RightWeapon",AnimWeaponRight);
-            anim.SetInteger("LeftWeapon",AnimWeaponLeft);
-            anim.SetTrigger("InstantSwitchTrigger");
-            anim.SetTrigger("WeaponUnsheathTrigger");
-        }
+        //if(anim != null)
+        //{
+        //    anim.SetBool("Moving", true);
+        //    anim.SetBool("Shield", AnimShield);
+        //    anim.SetInteger("Weapon", AnimStance);
+        //    anim.SetInteger("RightWeapon",AnimWeaponRight);
+        //    anim.SetInteger("LeftWeapon",AnimWeaponLeft);
+        //    anim.SetTrigger("InstantSwitchTrigger");
+        //    anim.SetTrigger("WeaponUnsheathTrigger");
+        //}
 
         playerAgent = GetComponent<NavMeshAgent>();
         GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
@@ -304,6 +306,10 @@ public class Actor : MonoBehaviour
 
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
+
+        if (data != null)
+            LoadStatsFromData(data);
+
         InitStats();
 
     }
@@ -319,6 +325,61 @@ public class Actor : MonoBehaviour
         this.health_current = this.health_max;
         this.mana_max = this.intelligence * 5f + this.wisdom * 5f;
         this.mana_current = this.mana_max;
+    }
+
+    public void LoadStatsFromData(PlayerData pdata)
+    {
+        if (pdata == null || pdata.playerName.Length == 0)
+            return;
+        data = pdata;
+        this.weapon = pdata.weapon;
+        this.armor = pdata.armor;
+
+        this.strength       = pdata.Strength + weapon.str_bonus + armor.str_bonus;
+        this.dexterity      = pdata.Dexterity + weapon.dex_bonus + armor.dex_bonus;
+        this.constitution   = pdata.Constitution + weapon.con_bonus + armor.con_bonus;
+        this.wisdom         = pdata.Wisdom + weapon.wis_bonus + armor.wis_bonus;
+        this.intelligence   = pdata.Intelligence + weapon.int_bonus + armor.int_bonus;
+
+        this.level          = pdata.Level;
+        this.actorName      = pdata.DisplayName;
+
+        this.moveDistance   = pdata.Speed;
+
+        this.mDefense       = armor.magic_def;
+        this.pDefense       = armor.physical_def;
+
+        InitStats();
+
+        abilitySet = new Ability[4];
+
+        if (pdata.Skill1 != null && pdata.Skill1.Length != 0)
+        {
+            abilitySet[0] = SkillLoader.LoadSkill(pdata.Skill1, gameObject);
+        }
+        if (pdata.Skill2 != null && pdata.Skill2.Length != 0)
+        {
+            abilitySet[1] = SkillLoader.LoadSkill(pdata.Skill2, gameObject);
+        }
+        if (pdata.Skill3 != null && pdata.Skill3.Length != 0)
+        {
+            abilitySet[2] = SkillLoader.LoadSkill(pdata.Skill3, gameObject);
+        }
+        if (pdata.Skill4 != null && pdata.Skill4.Length != 0)
+        {
+            abilitySet[3] = SkillLoader.LoadSkill(pdata.Skill4, gameObject);
+        }
+
+        this.usableItems = new List<UsableItem>();
+
+        if (pdata.Item1 != null && pdata.Item1.Length != 0)
+            this.usableItems.Add(ItemLoader.LoadItem(pdata.Item1));
+        if (pdata.Item2 != null && pdata.Item2.Length != 0)
+            this.usableItems.Add(ItemLoader.LoadItem(pdata.Item2));
+        if (pdata.Item3 != null && pdata.Item3.Length != 0)
+            this.usableItems.Add(ItemLoader.LoadItem(pdata.Item3));
+        if (pdata.Item4 != null && pdata.Item4.Length != 0)
+            this.usableItems.Add(ItemLoader.LoadItem(pdata.Item4));
     }
 
     //Player Spawn Event - Put any actions you want done upon player spawn in here

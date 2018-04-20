@@ -25,6 +25,7 @@ public class PlayerControlled : Actor
 
     public void PlayerInitialize()
     {
+        Debug.Log("Player Init");
         base.Init();
         TurnBehaviour.OnPlayerTurnStart += this.OnPlayerTurnStart;
 
@@ -35,7 +36,7 @@ public class PlayerControlled : Actor
         }
         // GameObject.FindWithTag("Map").GetComponent<TileMap>().Players.Add(this.GetComponent<Actor>());
 
-        if (map == null && GameObject.Find("Map") != null)
+        if (GameObject.Find("Map") != null)
         {
             map = GameObject.Find("Map").GetComponent<TileMap>();
         }
@@ -69,6 +70,10 @@ public class PlayerControlled : Actor
             map.GetTileAt(coords).setOccupiedTrue(gameObject);
             Debug.Log("Occupied = " + map.GetTileAt(coords).isOccupied());
         }
+
+
+        if (data != null)
+            LoadStatsFromData(data);
     }
 
     public void OnDestroy()

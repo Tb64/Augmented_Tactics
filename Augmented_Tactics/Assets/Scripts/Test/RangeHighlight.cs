@@ -55,7 +55,7 @@ public class RangeHighlight : MonoBehaviour {
                 }
                 if (map.UnitCanEnterTile(spawnPosition1))
                 {
-                    if (map.GeneratePathTo(spawnPosition1, positionInput).Count <= range + 1)
+                    if (spawnPosition1 != positionInput && map.GeneratePathTo(spawnPosition1, positionInput).Count <= range + 1)
                     {
                         obj = Instantiate(hightlightObj, map.TileCoordToWorldCoord(spawnPosition1), hightlightObj.transform.rotation);
                         obj.transform.parent = gameObject.transform;

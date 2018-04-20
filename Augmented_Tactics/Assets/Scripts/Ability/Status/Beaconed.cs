@@ -25,7 +25,7 @@ public class Beaconed : StatusEffects {
             GameObject.Instantiate<GameObject>(effect1, effectedPlayer.gameObject.transform);
             Debug.Log(effectedPlayer + " taking vortex damage from " + effectorPlayer + "'s statuseffect");
             effectedPlayer.TakeDamage(effect, effectorPlayer.gameObject);
-            effectedPlayer.UseMana(effect);
+            effectedPlayer.UseMana((int)effect/2);
         }
         else
             Debug.Log("effect1 null");

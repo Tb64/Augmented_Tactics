@@ -5,13 +5,14 @@ using UnityEngine;
 public class BuffDebuff : Ability {
 
     private string type, type2;
-    private bool price;
+    private bool price,item;
     private float effect;
-    public BuffDebuff(GameObject obj, string type,string type2, bool sacrifice, float effect)
+    public BuffDebuff(GameObject obj, string type,string type2, bool sacrifice, float effect,bool item)
     {
         this.type = type;
-        this.type2 = type2; // if none type just send null or ""
+        this.type2 = type2; 
         this.effect = effect;
+        this.item = item;
         price = sacrifice;
         Initialize(obj);
     }
@@ -88,7 +89,10 @@ public class BuffDebuff : Ability {
         range_min = 0;
         dwell_time = 1.0f;
         abilityName = "Buff Debuff";
-        manaCost = 0;
+        if (item)
+            manaCost = 0;
+        else
+            manaCost = 8;
         abilityImage = Resources.Load<Sprite>("UI/Ability/magician/magicianSkill7");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
