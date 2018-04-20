@@ -14,7 +14,7 @@ public class DoublleEdgedSword : UsableItem {
     public override void UseItem(GameObject user, GameObject target)
     {
         base.UseItem(user, target);
-        itemAbility = new BuffDebuff(user, "strength", "defense", true, 10);
+        itemAbility = new BuffDebuff(user, "strength", "defense", true, 10,true);
         itemAbility.UseSkill(target);
     }
 }

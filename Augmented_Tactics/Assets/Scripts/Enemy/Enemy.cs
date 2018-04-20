@@ -23,7 +23,7 @@ public class Enemy : Actor
     public int getEnemyID() { return enemyID; }
     public Actor getWeakest() { return weakest; }
     public void setWeakest(Actor weakestPlayer) { weakest = weakestPlayer; }
-    private int expGiven;
+    protected int expGiven;
     protected List<Actor> cantTarget;
     protected bool targetLocked;
     public bool aided;
@@ -50,6 +50,7 @@ public class Enemy : Actor
     {
         base.Init();
         expGiven = 10;
+        aggroScore = 0;
         //TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStartActions;
         //TurnBehaviour.OnUnitMoved += this.EnemyMoved;
         //TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
@@ -68,8 +69,8 @@ public class Enemy : Actor
          
         //FOR DEMO ONLY
         abilitySet[0] = SkillLoader.LoadSkill("quickstab", gameObject);
-        abilitySet[1] = SkillLoader.LoadSkill("icearrow", gameObject);
-        abilitySet[2] = SkillLoader.LoadSkill("flamingarrow", gameObject);
+        abilitySet[1] = SkillLoader.LoadSkill("poisonarrow", gameObject);
+        abilitySet[2] = SkillLoader.LoadSkill("vortexarrow", gameObject);
         abilitySet[3] = SkillLoader.LoadSkill("sneak", gameObject);
         setManaCurrent(30);
         setMaxMana(30);

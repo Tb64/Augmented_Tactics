@@ -146,7 +146,7 @@ public class EnemyController : MonoBehaviour
             enemies.Remove(enemies[chosen]);
             enemyList[x].EnemyInitialize();
             enemyList[x].setEnemyId(x);
-            Debug.Log("Enemy added: " + x + ") " + enemyList[x]);
+            Debug.Log("Enemy added: " + enemyList[x].getEnemyID() + ") " + enemyList[x]);
         }
     }
 

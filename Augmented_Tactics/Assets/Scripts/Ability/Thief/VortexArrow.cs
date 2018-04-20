@@ -20,7 +20,10 @@ public class VortexArrow : Ability
             Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, gameObject.name, target.name));
             rotateAtObj(target);
             if (effect1 != null)
-                GameObject.Instantiate<GameObject>(effect1, gameObject.transform);
+            {
+                GameObject.Destroy(GameObject.Instantiate<GameObject>(effect1, gameObject.transform), 1);
+                //GameObject.Destroy(GameObject.Instantiate<GameObject>(effect1, gameObject.GetComponent<Actor>().getCoords(), Quaternion.RotateTowards(gameObject.transform.rotation, target.transform.rotation, 0)),1);
+            }   
             else
                 Debug.Log("effect1 null");
 

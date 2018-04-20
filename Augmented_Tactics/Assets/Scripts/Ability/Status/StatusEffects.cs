@@ -18,6 +18,7 @@ public class StatusEffects
 
     protected float effect; //degree of effect
     protected string effectText;
+    public string getName() { return effectText; }
     public Actor effectedPlayer, effectorPlayer;
     public GameObject effectedObject, effectorObject; // for areas or spots on the map
     protected bool isEnemy;
