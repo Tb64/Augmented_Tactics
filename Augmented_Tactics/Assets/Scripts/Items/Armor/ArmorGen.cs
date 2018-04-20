@@ -67,6 +67,8 @@ public class ArmorGen : MonoBehaviour {
             randomStatBoost(armor, aData);
         }
 
+        armor.cost += (int)(armor.cost * rarity * 0.25);
+
         return armor;
     }
 
@@ -99,7 +101,7 @@ public class ArmorGen : MonoBehaviour {
     public static void randomStatBoost(Armor armor, string[] aData)
     {
         // get value of bonus
-        int selected = Random.Range(0, 7 + 1);
+        int selected = Random.Range(0, 4 + 1);
         int bonus = 0;
 
         switch (selected)

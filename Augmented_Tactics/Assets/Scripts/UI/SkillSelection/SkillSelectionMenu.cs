@@ -45,6 +45,7 @@ public class SkillSelectionMenu : MonoBehaviour {
     void GenerateUI()
     {
         //selectedPlayer.Class;
+        dummyActor.LoadStatsFromData(selectedPlayer);
         string[] abilityKeys = SkillLoader.ClassSkills(selectedPlayer.Class);
         abilities = new Ability[8];
 

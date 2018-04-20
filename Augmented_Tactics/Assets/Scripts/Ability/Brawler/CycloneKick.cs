@@ -32,12 +32,17 @@ public class CycloneKick : AOE {
         manaCost = manaCost * 4;
         abilityName = "Cyclone Kick";
         abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill1");
+        actor.UseMana(actor.getManaCurrent());
+
         if (abilityImage == null)
             Debug.Log("Unable to load image");
         float damage =
             BASE_DAMAGE * actor.getLevel() +
             DEX_SCALER * actor.getDexterity() +
             STR_SCALER * actor.getStrength();
+        int manaPercent = (int)((manaCost * 100f) / actor.getMaxMana());
+
+        abilityDescription = "An area attack that attacks all adjacent enemies. Cost is a percentage that depends on the level of the brawler.\nMana: " + manaPercent + "%";
 
     }
 

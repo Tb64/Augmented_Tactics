@@ -11,6 +11,13 @@ public class CharacterClasses : MonoBehaviour {
     public const int MageKey = 4;
     public const int ClericKey = 5;
 
+    public const string PaladinString = "Paladin";
+    public const string DarkKnightString = "Dark Knight";
+    public const string BrawlerString = "Brawler";
+    public const string ThiefString = "Thief";
+    public const string MageString = "Mage";
+    public const string ClericString = "Cleric";
+
     public static string[] classNames =
     {
         "Paladin",

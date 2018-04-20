@@ -26,6 +26,8 @@ public class Actor : MonoBehaviour
 
     #region Variables
 
+    public PlayerData data;
+
     protected Animator anim;
     public string actorName;
     public float health_current;    // temporary for debugging purposes(should be protected)
@@ -273,16 +275,16 @@ public class Actor : MonoBehaviour
         leftFoot = transform.Find("Bip01/Bip01_Pelvis/Bip01_L_Thigh/Bip01_L_Calf/Bip01_L_Foot/Bip01_L_Toe0");
         rightFoot = transform.Find("Bip01/Bip01_Pelvis/Bip01_R_Thigh/Bip01_R_Calf/Bip01_R_Foot/Bip01_R_Toe0");
 
-        if(anim != null)
-        {
-            anim.SetBool("Moving", true);
-            anim.SetBool("Shield", AnimShield);
-            anim.SetInteger("Weapon", AnimStance);
-            anim.SetInteger("RightWeapon",AnimWeaponRight);
-            anim.SetInteger("LeftWeapon",AnimWeaponLeft);
-            anim.SetTrigger("InstantSwitchTrigger");
-            anim.SetTrigger("WeaponUnshedfdddfdfddfddfdfdfddfdddfdfdfdfdfddffddfdcffathTrigger");
-        }
+        //if(anim != null)
+        //{
+        //    anim.SetBool("Moving", true);
+        //    anim.SetBool("Shield", AnimShield);
+        //    anim.SetInteger("Weapon", AnimStance);
+        //    anim.SetInteger("RightWeapon",AnimWeaponRight);
+        //    anim.SetInteger("LeftWeapon",AnimWeaponLeft);
+        //    anim.SetTrigger("InstantSwitchTrigger");
+        //    anim.SetTrigger("WeaponUnsheathTrigger");
+        //}
 
         playerAgent = GetComponent<NavMeshAgent>();
         GameObject rangeMarkerObj = GameObject.Find("RangeMarker");
@@ -304,6 +306,10 @@ public class Actor : MonoBehaviour
 
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
+
+        if (data != null)
+            LoadStatsFromData(data);
+
         InitStats();
 
     }
@@ -323,19 +329,22 @@ public class Actor : MonoBehaviour
 
     public void LoadStatsFromData(PlayerData pdata)
     {
-        this.strength       = pdata.Strength;
-        this.dexterity      = pdata.Dexterity;
-        this.constitution   = pdata.Constitution;
-        this.wisdom         = pdata.Wisdom;
-        this.intelligence   = pdata.Intelligence;
+        if (pdata == null || pdata.playerName.Length == 0)
+            return;
+        data = pdata;
+        this.weapon = pdata.weapon;
+        this.armor = pdata.armor;
+
+        this.strength       = pdata.Strength + weapon.str_bonus + armor.str_bonus;
+        this.dexterity      = pdata.Dexterity + weapon.dex_bonus + armor.dex_bonus;
+        this.constitution   = pdata.Constitution + weapon.con_bonus + armor.con_bonus;
+        this.wisdom         = pdata.Wisdom + weapon.wis_bonus + armor.wis_bonus;
+        this.intelligence   = pdata.Intelligence + weapon.int_bonus + armor.int_bonus;
 
         this.level          = pdata.Level;
         this.actorName      = pdata.DisplayName;
 
         this.moveDistance   = pdata.Speed;
-
-        this.weapon         = pdata.weapon;
-        this.armor          = pdata.armor;
 
         this.mDefense       = armor.magic_def;
         this.pDefense       = armor.physical_def;

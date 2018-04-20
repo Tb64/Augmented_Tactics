@@ -70,6 +70,10 @@ public class PlayerControlled : Actor
             map.GetTileAt(coords).setOccupiedTrue(gameObject);
             Debug.Log("Occupied = " + map.GetTileAt(coords).isOccupied());
         }
+
+
+        if (data != null)
+            LoadStatsFromData(data);
     }
 
     public void OnDestroy()

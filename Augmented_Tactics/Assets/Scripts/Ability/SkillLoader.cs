@@ -109,6 +109,22 @@ public class SkillLoader : MonoBehaviour {
             case "icearrow":
                 return new IceArrow(gObj);
 
+            //Paladin
+            case "vengeance":
+                return new Vengeance(gObj);
+            case "ward":
+                return new Ward(gObj);
+            case "smite":
+                return new Smite(gObj);
+            case "aid":
+                return new Aid(gObj);
+            case "divinefavor":
+                return new DivineFavor(gObj);
+            case "heroism":
+                return new Heroism(gObj);
+            case "fortifiedstrike":
+                return new FortifiedStrike(gObj);
+
             default:
                 Debug.LogError("Ability " + skillID + " Does NOT Exist");
                 return null;
@@ -161,14 +177,14 @@ public class SkillLoader : MonoBehaviour {
                 return skills;
 
             case CharacterClasses.PaladinKey:
-                skills[0] = "";
-                skills[1] = "";
-                skills[2] = "";
-                skills[3] = "";
-                skills[4] = "";
-                skills[5] = "";
+                skills[0] = "vengeance";
+                skills[1] = "aid";
+                skills[2] = "divinefavor";
+                skills[3] = "heroism";
+                skills[4] = "smite";
+                skills[5] = "fortifiedstrike";
                 skills[6] = "";
-                skills[7] = "";
+                skills[7] = "ward";
                 return skills;
 
             case CharacterClasses.ClericKey:
