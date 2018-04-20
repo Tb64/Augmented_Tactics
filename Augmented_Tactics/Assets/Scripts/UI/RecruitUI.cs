@@ -70,7 +70,7 @@ public class RecruitUI : UnitDisplayButton
     //this fills the list with loaded objects
     private void MakeList(List<PlayerData> playerList)
     {
-        armyListObj.GetComponent<ArmyList>().LoadList(playerList, this);
+        armyListObj.GetComponent<ArmyList>().LoadList(playerList);
     }
     
     public void UnitButtonClicked(PlayerData data)

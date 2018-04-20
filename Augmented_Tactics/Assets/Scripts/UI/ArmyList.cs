@@ -19,13 +19,13 @@ public class ArmyList : MonoBehaviour
     private List<PlayerData> army;
     private List<GameObject> playersInScrollview;
 
-    void Start()
+    void Awake()
     {
         chrListPos = new Vector3(0f, 100f, 0f);
         playersInScrollview = new List<GameObject>();
     }
 
-    public void LoadList<T>(List<PlayerData> army, T controller)
+    public void LoadList(List<PlayerData> army)
     {
         this.army = army;
 
