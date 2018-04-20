@@ -28,8 +28,8 @@ public class Inventory : MonoBehaviour {
         inventoryHead = GameObject.Find("Inventory");
         invTransform = inventory.GetComponent<Transform>();
         updateInventory();
-        armorgen = new ArmorGen();
-        armor = armorgen.ArmorGenerate(1,"Brawler",1);
+        //armorgen = new ArmorGen();
+        armor = ArmorGen.ArmorGenerate(1,"Brawler",1);
         addEquipable(armor);
     }
 

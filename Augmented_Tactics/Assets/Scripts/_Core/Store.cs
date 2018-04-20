@@ -7,44 +7,50 @@ using UnityEngine;
 public class Store : MonoBehaviour
 {
 
-
+    public int storeLevel;
     GameObject inventory;
     GameObject inventoryHead;
     GameObject item;
     Transform invTransform;
     GameObject[,] inventoryArray = new GameObject[5, 5];
     GameObject backgroundImage;
-    GameObject inventoryBackground;
-    GameObject storeImage;
+    GameObject StoreBackground;
+    //1 for armorer, 2 for weaponsmith, 3 for generalStore
+    public string storeType;
+    public Image storeImage;
+    public Text storeText;
     private float inventorySize;
     //test
     ArmorGen armorgen;
-    Armor armor;
+    Armor weapon;
 
     private void Start()
     {
+        storeLevel = 3;
         inventorySize = 10;
         item = Resources.Load<GameObject>("Prefabs/Item");
-        inventoryBackground = GameObject.Find("InventoryBackground");
-        inventory = GameObject.Find("Inventory");
+        StoreBackground = GameObject.Find("StoreBackground");
+        inventory = GameObject.Find("StoreUI");
         inventoryHead = GameObject.Find("Inventory");
-        storeImage = GameObject.Find("StoreImage");
+        //storeImage = transform.Find("Store/StoreUI/StoreImage").GetComponent<Image>();
         invTransform = inventory.GetComponent<Transform>();
         updateInventory();
         armorgen = new ArmorGen();
-        armor = armorgen.ArmorGenerate(1, "Brawler", 1);
-        addEquipable(armor);
+        weapon = ArmorGen.ArmorGenerate(1, "Brawler", 1);
+        addEquipable(weapon);
+
+        if(storeType == null)
+        {
+            storeType = "Armory";
+        }
     }
 
     public void addEquipable(Equipable item)
     {
-
         for (int index = 0; index < 2; index++)
         {
-            Debug.Log("index:" + index);
             for (int jindex = 0; jindex < 5; jindex++)
             {
-                Debug.Log("jindex:" + jindex);
                 if (inventoryArray[index, jindex].GetComponent<Item>().isOccupied() == false)
                 {
                     inventoryArray[index, jindex].GetComponent<Item>().setEquipable(item);
@@ -52,8 +58,6 @@ public class Store : MonoBehaviour
                 }
             }
         }
-
-
     }
 
     public void addUsable(UsableItem item)
@@ -78,7 +82,7 @@ public class Store : MonoBehaviour
         }
 
         inventoryArray[0, 0] = Instantiate(item);
-        inventoryArray[0, 0].transform.SetParent(inventoryBackground.transform, false);
+        inventoryArray[0, 0].transform.SetParent(StoreBackground.transform, false);
         float initialX = inventoryArray[0, 0].transform.localPosition.x;
         float initialY = inventoryArray[0, 0].transform.localPosition.y;
         inventoryArray[0, 0].transform.localPosition = new Vector3(initialX + 25f, initialY - 250f, 0);
@@ -100,18 +104,28 @@ public class Store : MonoBehaviour
             for (int jindex = 0; jindex < numItems; jindex++)
             {
                 inventoryArray[index, jindex] = Instantiate(item);
-                inventoryArray[index, jindex].transform.SetParent(inventoryBackground.transform, false);
+                inventoryArray[index, jindex].transform.SetParent(StoreBackground.transform, false);
                 inventoryArray[index, jindex].transform.localPosition = iconPlacement;
+                inventoryArray[index, jindex].GetComponent<Item>().setStore(gameObject);
                 iconPlacement += new Vector3(70f, 0f, 0f);
-                //Armor newArmor = armorgen.ArmorGenerate(1, "Brawler", 1);
-                //inventoryArray[index, jindex].GetComponent<Item>().setEquipable(newArmor);
+                Armor newArmor = ArmorGen.ArmorGenerate(1, "Brawler", UnityEngine.Random.Range(0, storeLevel));
+                
+                inventoryArray[index, jindex].GetComponent<Item>().setEquipable(newArmor);
+                switch (storeType)
+                {
+                    case "1":
+                        break;
+                    case "2":
+                        break;
+                    case "3":
+                        break;
+                }
+
                 inventoryCounter--;
             }
             iconPlacement.x = inventoryArray[0, 0].transform.localPosition.x;
             iconPlacement += new Vector3(0, -80f, 0);
         }
-
-
     }
 
     public void toggleInventory()
@@ -123,14 +137,109 @@ public class Store : MonoBehaviour
 
     }
 
-    void populateStore()
+
+
+    public Armor generateArmor()
     {
-        armorgen = new ArmorGen();
+        string className = CharacterClasses.classNames[UnityEngine.Random.Range(0, CharacterClasses.classNames.Length)];
+        Armor newArmor = ArmorGen.ArmorGenerate(1, className, UnityEngine.Random.Range(0, storeLevel));
+        return newArmor;
+    }
+
+    public Weapons generateWeapon()
+    {
+        string className = CharacterClasses.classNames[UnityEngine.Random.Range(0, CharacterClasses.classNames.Length)];
+        Weapons newWeapon = WeaponGen.WeaponGenerate(1, className, UnityEngine.Random.Range(0, storeLevel));
+        return newWeapon;
+    }
+
+    public void populateStore(Item item)
+    {
+        storeImage.sprite = item.inventoryIcon;
+
+        switch (item.getItemType())
+        {
+            case "Usable":
+                displayUsable(item);
+                break;
+            case "Equipable":
+                displayEquiable(item);
+                break;
+        }
+    }
+
+    void displayEquiable(Item item)
+    {
+        switch (item.getEquipable().slot)
+        {
+            case "Armor":
+                displayArmor(item.getArmor());
+                break;
+
+            case "Weapon":
+                displayWeapon(item.getWeapon());
+                break;
+        }
+    }
+
+    void displayArmor(Armor armor)
+    {
+        storeText.text = "";
+
+        storeText.text += "Name: " + armor.name + "\n";
+        storeText.text += "Cost: " + armor.cost + "\n";
+
+        if (armor.str_bonus != 0)
+            storeText.text += "Strength Bonus: " + armor.str_bonus + "\n";
+
+        if (armor.dex_bonus != 0)
+            storeText.text += "Dexterity Bonus: " + armor.dex_bonus + "\n";
+
+        if (armor.con_bonus != 0)
+            storeText.text += "Constitution Bonus: " + armor.con_bonus + "\n";
+
+        if (armor.wis_bonus != 0)
+            storeText.text += "Wisdom Bonus: " + armor.wis_bonus + "\n";
+
+        if (armor.int_bonus != 0)
+            storeText.text += "Intelligence Bonus: " + armor.int_bonus + "\n";
+
+        if (armor.physical_def != 0)
+            storeText.text += "Physical Defense: " + armor.physical_def + "\n";
+
+        if (armor.magic_def != 0)
+            storeText.text += "Magic Resistance: " + armor.magic_def + "\n";
+
+
+    }
+
+    void displayWeapon(Weapons weapon)
+    {
+        if (weapon.str_bonus != 0)
+            storeText.text += "Strength Bonus: " + weapon.str_bonus + "\n";
+
+        if (weapon.dex_bonus != 0)
+            storeText.text += "Dexterity Bonus: " + weapon.dex_bonus + "\n";
+
+        if (weapon.con_bonus != 0)
+            storeText.text += "Constitution Bonus: " + weapon.con_bonus + "\n";
+
+        if (weapon.wis_bonus != 0)
+            storeText.text += "Wisdom Bonus: " + weapon.wis_bonus + "\n";
+
+        if (weapon.int_bonus != 0)
+            storeText.text += "Intelligence Bonus: " + weapon.int_bonus + "\n";
+
+       
+    }
+
+    void displayUsable(Item item)
+    {
 
     }
 
     void displayStats()
     {
-        
+
     }
 }
