@@ -40,6 +40,9 @@ public class CycloneKick : AOE {
             BASE_DAMAGE * actor.getLevel() +
             DEX_SCALER * actor.getDexterity() +
             STR_SCALER * actor.getStrength();
+        int manaPercent = (int)((manaCost * 100f) / actor.getMaxMana());
+
+        abilityDescription = "An area attack that attacks all adjacent enemies. Cost is a percentage that depends on the level of the brawler.\nMana: " + manaPercent + "%";
 
     }
 

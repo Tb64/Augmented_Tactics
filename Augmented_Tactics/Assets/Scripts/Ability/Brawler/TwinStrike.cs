@@ -32,7 +32,8 @@ public class TwinStrike : Ability
         if (abilityImage == null)
             Debug.Log("Unable to load image");
 
-        abilityDescription = "The basic left and right jab of the brawler used to generate mana to use other brawler skills.  Brawler's mana usage and generation is based on level. \nMana Generated: " + (int)manaGiven;
+        int manaPercent = (int)((manaGiven * 100f) / actor.getMaxMana());
+        abilityDescription = "The basic left and right jab of the brawler's strength used to generate mana to use other brawler skills.  Brawler's mana usage and generation is based on level. \nMana Generated: " + (int)manaGiven + " (" + manaPercent + "%)";
     }
 
     public override bool UseSkill(GameObject target)

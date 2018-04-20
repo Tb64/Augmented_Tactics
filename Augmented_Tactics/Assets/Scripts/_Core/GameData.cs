@@ -16,7 +16,8 @@ public class GameData
     };
 
     public List<UsableItem> usableItems = new List<UsableItem>();
-    public List<Equipable> equipableItems = new List<Equipable>();
+    public List<Armor> armors = new List<Armor>();
+    public List<Weapons> weapons = new List<Weapons>();
 
     public bool loaded = false;
     public GameData()

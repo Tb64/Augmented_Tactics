@@ -101,7 +101,7 @@ public class ArmorGen : MonoBehaviour {
     public static void randomStatBoost(Armor armor, string[] aData)
     {
         // get value of bonus
-        int selected = Random.Range(0, 7 + 1);
+        int selected = Random.Range(0, 4 + 1);
         int bonus = 0;
 
         switch (selected)

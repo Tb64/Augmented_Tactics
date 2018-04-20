@@ -29,6 +29,8 @@ public class Combo : Ability {
             Debug.Log("Unable to load image");
 
         damage = 10f + ((float)actor.getStrength() * 0.5f);
+        int manaPercent = (int)((manaCost * 100f) / actor.getMaxMana());
+        abilityDescription = "A three hit combo. Cost is a percentage that depends on the level of the brawler. \nMana: " + manaPercent + "%";
     }
 
     public override bool UseSkill(GameObject target)

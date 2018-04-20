@@ -127,7 +127,7 @@ public class WeaponGen : MonoBehaviour {
     public static void randomStatBoost(Weapons weapon, string[] wData)
     {
         // get value of bonus
-        int selected = Random.Range(0, 7 + 1);
+        int selected = Random.Range(0, 4 + 1);
         int bonus = 0;
 
         switch (selected)
