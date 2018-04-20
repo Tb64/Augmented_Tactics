@@ -6,7 +6,7 @@ using UnityEngine.UI;
 //this class will handle all the updating of the healthbars and action markers for each unit, dimming them and activating them as necessary
 public class HealthBarUIManager : MonoBehaviour {
 
-    private static GameObject[] barFolders;
+    private static GameObject[] healthBarObj;
     private static Image[] playerHealthImg;
     private static Image[] playerManaImg;
     private static Image[] healthCircleImg;
@@ -78,11 +78,17 @@ public class HealthBarUIManager : MonoBehaviour {
         }
     }
 
-    //updates mana after a player attacks
+    //updates mana after a player attacks, loads a status effect image if one is active
     public static void OnActorAttacked()
     {
         updateHealth();
         updateMana();
+        //check for a status effect. If one exists instantiate a status effect game object
+        //Load the status effect prefab, then instantiate it. Set its transform to the appropriate health bar, finally add some force to make it spin
+        /*GameObject statEffectObj = Instantiate<GameObject>(Resources.Load<GameObject>("UI/StatusEffect"));
+        statEffectObj.transform.SetParent(healthBarObj[i].transform, false);
+        statEffectObj.GetComponent<Rigidbody2D>().AddTorque(5);*/
+        // spawn status effect sprue
     }
 
     //refresh movements
@@ -115,15 +121,15 @@ public class HealthBarUIManager : MonoBehaviour {
             {
                 init();
                 ranAlready = true;
-                if(barFolders!=null)
-                    barFolders[numPlayers].SetActive(true);
+                if(healthBarObj!=null)
+                    healthBarObj[numPlayers].SetActive(true);
                 numPlayers++;
             }
             else
             {
-                if (barFolders != null)
+                if (healthBarObj != null)
                 {
-                    barFolders[numPlayers].SetActive(true);
+                    healthBarObj[numPlayers].SetActive(true);
                     healthCircleImg[numPlayers].color = dimCircleColor; //dim the bar of the unit not selected
                 }
                 numPlayers++;
@@ -139,7 +145,7 @@ public class HealthBarUIManager : MonoBehaviour {
         if (tempObjs != null)
         {            
             playerActionsMarker = new Image[tempObjs.Length, MAXACTIONS];
-            barFolders = new GameObject[tempObjs.Length];
+            healthBarObj = new GameObject[tempObjs.Length];
             playerHealthImg = new Image[tempObjs.Length];
             playerManaImg = new Image[tempObjs.Length];
             healthCircleImg = new Image[tempObjs.Length];
@@ -148,19 +154,19 @@ public class HealthBarUIManager : MonoBehaviour {
                 switch (tempObjs[i].gameObject.name)
                 {
                     case "Bar1":
-                        barFolders[0] = tempObjs[i];
+                        healthBarObj[0] = tempObjs[i];
                         getBars(0);
                         break;
                     case "Bar2":
-                        barFolders[1] = tempObjs[i];
+                        healthBarObj[1] = tempObjs[i];
                         getBars(1);
                         break;
                     case "Bar3":
-                        barFolders[2] = tempObjs[i];
+                        healthBarObj[2] = tempObjs[i];
                         getBars(2);
                         break;
                     case "Bar4":
-                        barFolders[3] = tempObjs[i];
+                        healthBarObj[3] = tempObjs[i];
                         getBars(3);
                         break;
                     default:
@@ -173,7 +179,7 @@ public class HealthBarUIManager : MonoBehaviour {
     //assistant method to init
     private void getBars(int arraySlot)
     {
-        Image[] bars = barFolders[arraySlot].GetComponentsInChildren<Image>();
+        Image[] bars = healthBarObj[arraySlot].GetComponentsInChildren<Image>();
         //Looks for all the images in the BarX game objects
         if (bars != null)
             for (int i = 0; i < bars.Length; i++)
@@ -187,6 +193,6 @@ public class HealthBarUIManager : MonoBehaviour {
                     playerActionsMarker[arraySlot, 1] = bars[i];
                 else if (bars[i].name == ("HC" + (arraySlot + 1).ToString()))
                     healthCircleImg[arraySlot] = bars[i];
-        barFolders[arraySlot].SetActive(false);
+        healthBarObj[arraySlot].SetActive(false);
     }
 }
