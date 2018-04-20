@@ -9,7 +9,7 @@ public class Store : MonoBehaviour
 
     public int storeLevel;
     GameObject inventory;
-    GameObject inventoryHead;
+    public GameObject inventoryHead;
     GameObject item;
     Transform invTransform;
     GameObject[,] inventoryArray = new GameObject[5, 5];
@@ -31,7 +31,7 @@ public class Store : MonoBehaviour
         item = Resources.Load<GameObject>("Prefabs/Item");
         StoreBackground = GameObject.Find("StoreBackground");
         inventory = GameObject.Find("StoreUI");
-        inventoryHead = GameObject.Find("Inventory");
+        inventoryHead = GameObject.Find("Store");
         //storeImage = transform.Find("Store/StoreUI/StoreImage").GetComponent<Image>();
         invTransform = inventory.GetComponent<Transform>();
         updateInventory();
@@ -128,14 +128,17 @@ public class Store : MonoBehaviour
 
     public void toggleInventory()
     {
+       
         if (inventoryHead.transform.GetChild(0).gameObject.activeSelf == true)
+        {
+            Debug.Log("Toggle Inventory running");
             inventoryHead.transform.GetChild(0).gameObject.SetActive(false);
+        }
         else
+        {
             inventoryHead.transform.GetChild(0).gameObject.SetActive(true);
-
+        }
     }
-
-
 
     public Armor generateArmor()
     {
@@ -230,6 +233,8 @@ public class Store : MonoBehaviour
 
        
     }
+
+   
 
     void displayUsable(Item item)
     {
