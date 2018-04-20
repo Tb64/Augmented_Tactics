@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RecruitUI : MonoBehaviour
+public class RecruitUI : UnitDisplayButton
 {
 
     private const float recrListDelta = -100f;
 
+    public int charactersToLoad;
     public Text shards;
     public Text currentUnitsOwned;
-    /*public Text selectedName;
-    public Text selectedClass;
-    public Text selectedCost;*/
 
     public Image slotHighlight;
 
@@ -21,12 +19,11 @@ public class RecruitUI : MonoBehaviour
     public GameObject UnitDisplayObj;
     public GameObject cameraSetViewObj;
     public GameObject modelTansformObj;
+    public GameObject armyListObj;
 
     public Image[] equipmentSlots;
     public Image[] itemSlots;
     public Image[] skillsSlots;
-    public Image[] deployedImage;
-    public PlayerData[] deployed;
 
     private int slotSelected = 0;
 
@@ -36,6 +33,8 @@ public class RecruitUI : MonoBehaviour
     private PlayerData currentSelected;
 
     private List<PlayerData> army;
+    private List<PlayerData> recruits;
+    private List<GameObject> recruitsInList;
 
     private GameObject modelObj;
 
@@ -47,77 +46,43 @@ public class RecruitUI : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        deployed = new PlayerData[5];
-        deployedImage = new Image[5];
         chrListPos = new Vector3(0f, 100f, 0f);
         GameObject obj = Instantiate<GameObject>(cameraSetViewObj);
+        recruitsInList = new List<GameObject>();
         LoadData();
-        MakeList();
-    }
-
-    public void OnSlotSelected(int slot)
-    {
-        slotHighlight.rectTransform.anchoredPosition = new Vector2(slotXPos[slot], 0f);
-        slotSelected = slot;
+        MakeList(recruits);
     }
 
     void LoadData()
     {
+        recruits = new List<PlayerData>();
         GameDataController.loadPlayerData();
-        TEMP_CharacterList.Init();
-        PlayerData data = TEMP_CharacterList.characterData[0];
-
-        if (data == null)
-            Debug.Log("Data failed to gerenate");
 
         if (GameDataController.gameData == null)
             Debug.Log("Data failed to make Game Date");
-        GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[0]);
-        GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[1]);
-        GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[2]);
-        GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[3]);
-        GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[0]);
-        army = GameDataController.gameData.getArmyList();
-
-        //load current shards and units in army
-    }
-
-    //this fills the list with loaded objects, in the test case it loads 5 temp chars
-    private void MakeList()
-    {
-        int index = 0;
-        foreach (PlayerData pData in army)
+        for (int i = 0; i < charactersToLoad; i++)
         {
-            Debug.Log("Adding char to recruit ui");
-            //instantiate the unit display opbject, set its transform stuff
-            GameObject obj = Instantiate<GameObject>(UnitDisplayObj);
-            obj.transform.SetParent(ListWindow.transform, false);
-            obj.GetComponent<RectTransform>().anchoredPosition3D = chrListPos;
-
-            //get the RecruitButton script component off obj
-            RecruitButton btn = obj.GetComponent<RecruitButton>();
-            btn.LoadCharacter(pData, this);
-            obj.GetComponent<Button>().onClick.AddListener(btn.ChangeSelected);
-            chrListPos.y += recrListDelta;
-            index++;
+            recruits.Add(PlayerData.GenerateNewPlayer());
         }
+        
     }
 
-    public void ChangeSelected()
+    //this fills the list with loaded objects
+    private void MakeList(List<PlayerData> playerList)
     {
-        //Debug.Log("Clicked on " + name);
+        armyListObj.GetComponent<ArmyList>().LoadList(playerList);
+    }
+    
+    public void UnitButtonClicked(PlayerData data)
+    {
+        ChangeSelected(data);
     }
 
-    public void ChangeSelected(PlayerData input, Sprite img)
+
+
+    public void ChangeSelected(PlayerData input)
     {
         currentSelected = input;
-        //Debug.Log("Setting slot #" + slotSelected + " to " + currentSelected.playerName);
-        //load character into soldier view, load name/cost/class
-        //load equipment, item, skills
-
-        //selectedName.text = "Name: " + input.getStringByKey(PlayerKey.DisplayName);
-        //selectedCost.text = "Cost: " + 500;
-        //selectedClass.text = "Class: " + input.getStringByKey(PlayerKey.ClassName);
 
         Text[] textComponents = statsPanel.GetComponentsInChildren<Text>();
 
@@ -141,11 +106,12 @@ public class RecruitUI : MonoBehaviour
         }
 
         //get a string for each skill, apply an image to it
-        foreach (Image skillImg in skillsSlots) {
-            
+        foreach (Image skillImg in skillsSlots)
+        {
             string skillStr = input.getStringByKey(PlayerKey.Icon);
             Debug.Log("setting an image for skills: "+ skillStr);
-            skillImg.sprite = Resources.Load<Sprite>(skillStr);        }
+            skillImg.sprite = Resources.Load<Sprite>(skillStr);
+        }
 
        
 
@@ -163,4 +129,12 @@ public class RecruitUI : MonoBehaviour
         currentSelected = input;
     }
 
+    public void BuySelected()
+    {
+        recruits.Remove(currentSelected);
+        MakeList(recruits);
+        if (modelObj != null) { Destroy(modelObj); }
+        GameDataController.gameData.addPlayer(currentSelected);
+        GameDataController.savePlayerData();
+    }
 }
