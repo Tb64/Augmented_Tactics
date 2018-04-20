@@ -8,21 +8,22 @@ public class UnitDisplayButton : MonoBehaviour {
     public Text nameText;
     public Text level;
     public Text classType;
-    public Text cost;
 
     public Image exp;
     public Image image;
 
     protected PlayerData data;
 
-    public void LoadCharacter(PlayerData input)
+    public virtual void LoadCharacter(PlayerData input)
     {
         data = input;
-        nameText.text = "Name: " + input.getStringByKey(PlayerKey.DisplayName);
+        nameText.text = "" + input.getStringByKey(PlayerKey.DisplayName);
         level.text = "" + input.getStatByKey(PlayerKey.Level);
-        classType.text = "Class: " + input.getStringByKey(PlayerKey.ClassName);
-        cost.text = "Cost: " + 500;//change to cost later
-        exp.fillAmount = .4f;//input.getStringByKey(PlayerKey.);
+        classType.text = "" + input.getStringByKey(PlayerKey.ClassName);
+        if (input.Experience == 0)
+            exp.fillAmount = 0f;
+        else
+            exp.fillAmount = input.Experience/input.Experience;//input.getStringByKey(PlayerKey.);
 
         string icon = input.getStringByKey(PlayerKey.Icon);
 
