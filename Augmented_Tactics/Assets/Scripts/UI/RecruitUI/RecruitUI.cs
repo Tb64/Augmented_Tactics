@@ -90,19 +90,21 @@ public class RecruitUI : UnitDisplayButton
         foreach (Text textComp in textComponents)
         {
             if(textComp.name == "Health")
-                textComp.text = "Health: " + input.getStatByKey(PlayerKey.Health);
+                textComp.text = "Health: " + input.Health;
             else if (textComp.name == "Mana")
-                textComp.text = "Mana: " + input.getStatByKey(PlayerKey.Mana);
+                textComp.text = "Mana: " + input.Mana;
+            else if (textComp.name == "Experience")
+                textComp.text = "Experience: " + input.Experience;
             else if (textComp.name == "Strength")
-                textComp.text = "Strength: " + input.getStatByKey(PlayerKey.Strength);
+                textComp.text = "Strength: " + input.Strength;
             else if (textComp.name == "Dexterity")
-                textComp.text = "Dexterity: " + input.getStatByKey(PlayerKey.Dexterity);
+                textComp.text = "Dexterity: " + input.Dexterity;
             else if (textComp.name == "Constitution")
-                textComp.text = "Constitution: " + input.getStatByKey(PlayerKey.Constitution);
+                textComp.text = "Constitution: " + input.Constitution;
             else if (textComp.name == "Intelligence")
-                textComp.text = "Intelligence: " + input.getStatByKey(PlayerKey.Intelligence);
+                textComp.text = "Intelligence: " + input.Intelligence;
             else if (textComp.name == "Wisdom")
-                textComp.text = "Wisdom: " + input.getStatByKey(PlayerKey.Wisdom);
+                textComp.text = "Wisdom: " + input.Wisdom;
         }
 
         //get a string for each skill, apply an image to it
