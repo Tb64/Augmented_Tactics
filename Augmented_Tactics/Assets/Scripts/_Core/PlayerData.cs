@@ -500,6 +500,64 @@ public class PlayerData
         Debug.LogError("Unable to save " + key + " stat");
     }
 
+
+    /// <summary>
+    /// Character stats + item bonus
+    /// </summary>
+    /// <returns></returns>
+    public int getTotalStr()
+    {
+        return Strength + armor.str_bonus + weapon.str_bonus;
+    }
+    /// <summary>
+    /// Character stats + item bonus
+    /// </summary>
+    /// <returns></returns>
+    public int getTotalDex()
+    {
+        return Dexterity + armor.dex_bonus + weapon.dex_bonus;
+    }
+    /// <summary>
+    /// Character stats + item bonus
+    /// </summary>
+    /// <returns></returns>
+    public int getTotalCon()
+    {
+        return Constitution + armor.con_bonus + weapon.con_bonus;
+    }
+    /// <summary>
+    /// Character stats + item bonus
+    /// </summary>
+    /// <returns></returns>
+    public int getTotalWis()
+    {
+        return Wisdom + armor.wis_bonus + weapon.wis_bonus;
+    }
+    /// <summary>
+    /// Character stats + item bonus
+    /// </summary>
+    /// <returns></returns>
+    public int getTotalInt()
+    {
+        return Intelligence + armor.int_bonus + weapon.int_bonus;
+    }
+    /// <summary>
+    /// Character stats + item bonus
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public int getTotalMaxHealth()
+    {
+        return getTotalCon() * 10;
+    }
+    /// <summary>
+    /// Character stats + item bonus
+    /// </summary>
+    /// <returns></returns>
+    public int getTotalMaxMana()
+    {
+        return (getTotalWis() + getTotalInt()) * 5;
+    }
     /*public string getTraitByKey(string key)
     {
         string trait = null;
