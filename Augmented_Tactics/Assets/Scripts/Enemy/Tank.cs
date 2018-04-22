@@ -12,7 +12,8 @@ public class Tank : Enemy{
     //else: buff offense
     //use last resort action if all else fails
     protected List<Vector3> cantMove;
-    protected bool regularMode, inPosition, sameTurn,firstMove, firstDebuffed;
+    protected UsableItem healItem;
+    protected bool regularMode, inPosition, sameTurn,firstMove, firstDebuffed,healMode,healPossible;
     protected Enemy closestAggro;
     protected Ability buff, debuff, heal, lastResort; //needs one buff, one debuff, heal(multiple if possible),basic attack or similar
                                                     //should be slow and attack last so allies are in position
@@ -25,17 +26,57 @@ public class Tank : Enemy{
     public override void EnemyTurnStartActions()
     {
         base.EnemyTurnStartActions();
+        
         FindAggroCluster();
         currentTarget = aggro;
         inPosition = false;
         sameTurn = false;
         firstMove = true;
         firstDebuffed = false;
+        healMode = false;
+        healPossible = true;
         cantMove = new List<Vector3>();
     }
 
     public override void EnemyActions()
     {
+
+        if (Random.Range(0, 1000) <= 500 && GetHealthPercent() < 35 || closestAggro.GetHealthPercent() < 45 && healPossible)
+            healMode = true;
+
+        if (healMode)
+        {
+            if (closestAggro.GetHealthPercent() < 45)
+            {
+                if (HealSelfOrPartner(0))
+                {
+                    if (GetHealthPercent() > 45)
+                    {
+                        healMode = false;
+                        return;
+                    }
+                    else
+                        return;
+                }
+                else
+                    healPossible = false;
+            }
+            else
+            {
+                if (HealSelfOrPartner(1))
+                {
+                    healMode = false;
+                    return;
+                }
+                else
+                {
+                    healMode = false;
+                    healPossible = false;
+                    return;
+                }
+            }       
+        }
+
 
         if (firstDebuffed)
         {
@@ -49,8 +90,11 @@ public class Tank : Enemy{
                 debuff.UseSkill(nearest.gameObject);
                 return;
             }
-
-
+            else
+            {
+                setNumOfActions(0);
+                return;
+            }
         }
         if (inPosition && CheckInPosition())
         {
@@ -70,10 +114,6 @@ public class Tank : Enemy{
         if (!inPosition)
         {
             GetInPosition();
-            if (firstMove)
-            {
-                firstMove = false;
-            }
             return;
         }   
         else if (BuffOrDebuff())
@@ -114,6 +154,51 @@ public class Tank : Enemy{
 
 
     }
+
+    private bool HealSelfOrPartner(int choice)
+    {
+        if (choice == 0)
+        {
+            if (heal.CanUseSkill(closestAggro.gameObject))
+                return heal.UseSkill(closestAggro.gameObject);
+            else if (GetHealItem())
+            {
+                if (closestAggro.GetHealthPercent() < 45 && healItem.CanUseItem(gameObject, closestAggro.gameObject))
+                    return healItem.UseItem(gameObject, closestAggro.gameObject);
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+        else
+        {
+            if (heal.CanUseSkill(gameObject))
+                return heal.UseSkill(gameObject);
+            else if (GetHealItem())
+            {
+                if (healItem.CanUseItem(gameObject, gameObject))
+                    return healItem.UseItem(gameObject, gameObject);
+            }
+            else
+                return false;
+        }
+        return false;
+    }
+
+    private bool GetHealItem()
+    {
+        foreach(UsableItem item in usableItems)
+        {
+            if (item.isHealItem)
+            {
+                healItem = item;
+                return true;
+            }    
+        }
+        return false;
+    }
+
     private bool CheckInPosition()
     {
         if (Vector3.Distance(getCoords(), closestAggro.getCoords()) <= buff.range_max)
@@ -151,6 +236,8 @@ public class Tank : Enemy{
         }
         Debug.Log("Attempting to move " + this + " from " + this.getCoords() + " to " + movingTo);
         map.moveActorAsync(gameObject, movingTo);
+        if (firstMove)
+            firstMove = false;
         inPosition = true;
     }
     public virtual bool BuffOrDebuff() //I'm not 100% on this, just a basic algorithm. starting with just closest instead of AOE buff / debuff
@@ -160,14 +247,14 @@ public class Tank : Enemy{
             buff.UseSkill(closestAggro.gameObject);
             return true;
         }
-        else if (closestAggro.GetHealthPercent() < 60 && heal.CanUseSkill(closestAggro.gameObject))
-        {
-            heal.UseSkill(closestAggro.gameObject);
-            return true;
-        }
         else if (debuff.CanUseSkill(currentTarget.gameObject))
         {
             debuff.UseSkill(currentTarget.gameObject);
+            return true;
+        }
+        else if (closestAggro.GetHealthPercent() < 60 && heal.CanUseSkill(closestAggro.gameObject))
+        {
+            heal.UseSkill(closestAggro.gameObject);
             return true;
         }
         else

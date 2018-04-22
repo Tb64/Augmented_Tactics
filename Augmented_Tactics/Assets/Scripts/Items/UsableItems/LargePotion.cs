@@ -12,10 +12,11 @@ public class LargePotion : UsableItem {
         image = "";
     }
 
-    public override void UseItem(GameObject user, GameObject target)
+    public override bool UseItem(GameObject user, GameObject target)
     {
-        base.UseItem(user, target);
-        itemAbility = new PotionSkill(user, 3, false);
-        itemAbility.UseSkill(target);
+        itemAbility = new PotionSkill(user,3, false);
+        if (!base.UseItem(user, target))
+            return false;
+        return itemAbility.UseSkill(target);
     }
 }

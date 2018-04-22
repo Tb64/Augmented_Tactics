@@ -120,7 +120,7 @@ public class Enemy : Actor
         }
         //base.EnemyTurnStart();
         //map.selectedUnit = gameObject;
-        nearest = findNearestPlayer();
+        nearest = FindNearestPlayer();
         weakest = findWeakestPlayer();
         //Debug.Log(weakest);
         enemyPosition = getCoords();
@@ -260,12 +260,32 @@ public class Enemy : Actor
     //        Debug.LogError("stupid code");
     //    }
     //}
-
-    protected Actor findNearestPlayer()
+    protected Enemy FindNearestEnemy()
+    {
+        Enemy nearest = null;
+        float currentNearest = 10000000;
+        foreach (Enemy user in EnemyController.enemyList)
+        {
+            enemyPosition = getCoords();
+            if (user == null)
+            {
+                Debug.LogError("null user");
+                return null;
+            }
+            playerPosition = user.getCoords();
+            float distanceFromPlayer = Vector3.Distance(playerPosition, enemyPosition);
+            if (distanceFromPlayer < currentNearest && !user.isDead())
+            {
+                nearest = user;
+                currentNearest = distanceFromPlayer;
+            }
+        }
+        return nearest;
+    }
+    protected Actor FindNearestPlayer()
     {
         Actor nearest = null;
         float currentNearest = 10000000;
-        //Actor[] userTeam = EnemyController.userTeam;
         foreach (Actor user in EnemyController.userTeam)
         {
             enemyPosition = getCoords();
@@ -288,7 +308,7 @@ public class Enemy : Actor
 
     public void UpdateNearest()
     {
-        findNearestPlayer();
+        FindNearestPlayer();
         distanceToNearest = Vector3.Distance(playerPosition, enemyPosition);
     }
     public Actor findWeakestPlayer()

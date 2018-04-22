@@ -108,27 +108,27 @@ public class ArmorGen : MonoBehaviour {
         {
             case 0:     //str
                 bonus = int.Parse(aData[ItemKey.Armor.StrBonus]) + 1;
-                armor.str_bonus = (int)Random.Range(1, bonus);
+                armor.str_bonus += (int)Random.Range(1, bonus);
                 break;
 
             case 1:     //dex
                 bonus = int.Parse(aData[ItemKey.Armor.DexBonus]) + 1;
-                armor.dex_bonus = (int)Random.Range(1, bonus);
+                armor.dex_bonus += (int)Random.Range(1, bonus);
                 break;
 
             case 2:     //con
-                bonus = int.Parse(aData[ItemKey.Armor.ConBonus]) + 1; ;
-                armor.con_bonus = (int)Random.Range(1, bonus);
+                bonus = int.Parse(aData[ItemKey.Armor.ConBonus]) + 1;
+                armor.con_bonus += (int)Random.Range(1, bonus);
                 break;
 
             case 3:     //wis
                 bonus = int.Parse(aData[ItemKey.Armor.WisBonus]) + 1;
-                armor.wis_bonus = (int)Random.Range(1, bonus);
+                armor.wis_bonus += (int)Random.Range(1, bonus);
                 break;
 
             case 4:     //int
                 bonus = int.Parse(aData[ItemKey.Armor.IntBonus]) + 1;
-                armor.int_bonus = (int)Random.Range(1, bonus);
+                armor.int_bonus += (int)Random.Range(1, bonus);
                 break;
 
             case 5:     //eva

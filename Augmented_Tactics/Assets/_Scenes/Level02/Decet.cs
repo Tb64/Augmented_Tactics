@@ -54,8 +54,7 @@ public class Decet : Tank {
             regularMode = false;
         }
         inPosition = false;
-        sameTurn = false;
-        
+        sameTurn = false;   
     }
 
     public override bool BuffOrDebuff() 
@@ -74,7 +73,5 @@ public class Decet : Tank {
             else
                 return false;
         }
-            
-
     }
 }
