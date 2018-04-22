@@ -21,4 +21,9 @@ public class Eery : Support {
         setConstitution(20);
         setIntelligence(30);
     }
+
+    public override void EnemyTurnStartActions()
+    {
+        base.EnemyTurnStartActions();
+    }
 }

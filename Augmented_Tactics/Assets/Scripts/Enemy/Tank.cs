@@ -11,7 +11,8 @@ public class Tank : Enemy{
     //buff defense on health low
     //else: buff offense
     //use last resort action if all else fails
-    protected bool regularMode, inPosition, sameTurn;
+    protected List<Vector3> cantMove;
+    protected bool regularMode, inPosition, sameTurn,firstMove, firstDebuffed;
     protected Enemy closestAggro;
     protected Ability buff, debuff, heal, lastResort; //needs one buff, one debuff, heal(multiple if possible),basic attack or similar
                                                     //should be slow and attack last so allies are in position
@@ -28,10 +29,29 @@ public class Tank : Enemy{
         currentTarget = aggro;
         inPosition = false;
         sameTurn = false;
+        firstMove = true;
+        firstDebuffed = false;
+        cantMove = new List<Vector3>();
     }
 
     public override void EnemyActions()
     {
+
+        if (firstDebuffed)
+        {
+            if (lastResort.CanUseSkill(nearest.gameObject))
+            {
+                lastResort.UseSkill(nearest.gameObject);
+                return;
+            }
+            else if (debuff.CanUseSkill(nearest.gameObject))
+            {
+                debuff.UseSkill(nearest.gameObject);
+                return;
+            }
+
+
+        }
         if (inPosition && CheckInPosition())
         {
             inPosition = true;
@@ -50,19 +70,45 @@ public class Tank : Enemy{
         if (!inPosition)
         {
             GetInPosition();
+            if (firstMove)
+            {
+                firstMove = false;
+            }
             return;
         }   
         else if (BuffOrDebuff())
+        {
+            if (firstMove)
+            {
+                firstDebuffed = true;
+                firstMove = false;
+            }
             return;
+        }
         else
         {
-            if (AttemptAbility(lastResort, nearest)) //need ability to pass on turn for this to be optimal
+            if (AttemptAbility(lastResort, nearest))
+            {
+                if (firstMove)
+                {
+                    firstMove = false;
+                }
                 return;
+            }
             else
             {
-                regularMode = true;
-                sameTurn = true;
-                return;
+                if(getManaCurrent() <= buff.manaCost && getManaCurrent()<= debuff.manaCost && !CheckManaReplenish())
+                {
+                    regularMode = true;
+                    sameTurn = true;
+                    return;
+                }
+                else
+                {
+                    setNumOfActions(0);
+                    return;
+                }
+                
             }
         }
 
@@ -70,7 +116,7 @@ public class Tank : Enemy{
     }
     private bool CheckInPosition()
     {
-        if (Vector3.Distance(getCoords(), closestAggro.getCoords()) <= 5)
+        if (Vector3.Distance(getCoords(), closestAggro.getCoords()) <= buff.range_max)
             return true;
         else
             return false;
@@ -80,16 +126,16 @@ public class Tank : Enemy{
         Vector3 output = closestAggro.getCoords() - currentTarget.getCoords();
         output = output.normalized;
         Vector3 movingTo;
-        if (Mathf.Abs(output.x) > Mathf.Abs(output.z))
+        if (Mathf.Abs(output.x) > Mathf.Abs(output.z) && !cantMove.Contains(new Vector3(output.x - 3, output.y, output.z)) || !cantMove.Contains(new Vector3(output.x + 3, output.y, output.z)))
         {
-            if (output.x > 0)
+            if (output.x > 0 && !cantMove.Contains(new Vector3(output.x - 3, output.y, output.z)))
                 movingTo = new Vector3(output.x-3,output.y,output.z);
             else
                 movingTo = new Vector3(output.x + 3, output.y, output.z);
         }
         else
         {
-            if (output.z > 0)
+            if (output.z > 0 && !cantMove.Contains(new Vector3(output.x, output.y, output.z - 3)))
                 movingTo = new Vector3(output.x, output.y, output.z-3);
             else
                 movingTo = new Vector3(output.x, output.y, output.z+3);
@@ -97,11 +143,17 @@ public class Tank : Enemy{
         Vector3 temp = Support.SetPosition(this, movingTo, map);
         if(temp != new Vector3(-1,-1,-1))
             movingTo = temp;
+        else
+        {
+            cantMove.Add(temp);
+            GetInPosition();
+            return;
+        }
         Debug.Log("Attempting to move " + this + " from " + this.getCoords() + " to " + movingTo);
         map.moveActorAsync(gameObject, movingTo);
         inPosition = true;
     }
-    private bool BuffOrDebuff() //I'm not 100% on this, just a basic algorithm. starting with just closest instead of AOE buff / debuff
+    public virtual bool BuffOrDebuff() //I'm not 100% on this, just a basic algorithm. starting with just closest instead of AOE buff / debuff
     {
         if (buff.CanUseSkill(closestAggro.gameObject))
         {
@@ -196,8 +248,33 @@ public class Tank : Enemy{
         if (getManaCurrent() >= buff.manaCost)
             return true;
         else
-            return false;
+        {
+            if (!ManaReplenish())
+                return false;
+            else
+                return true;
+        }
+            
     }
+
+    private bool ManaReplenish()
+    {
+        foreach (UsableItem usable in usableItems)
+            if (usable.name.Equals("Large Mana Tonic") || usable.name.Equals("Medium Mana Tonic") || usable.name.Equals("Small Mana Tonic"))
+            {
+                usable.UseItem(gameObject, gameObject);
+                return true;
+            }
+        foreach (Ability ability in abilitySet)
+            if (ability.abilityName == "Mana Replenish" && ability.CanUseSkill(gameObject))//ability has to have this name in future
+            {
+                ability.UseSkill(gameObject);
+                return true;
+            }   
+        return false;
+                
+    }
+
     public override string GetArchetype()
     {
         return "tank";
