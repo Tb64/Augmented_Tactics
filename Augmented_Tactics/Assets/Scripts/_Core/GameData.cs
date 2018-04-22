@@ -22,6 +22,7 @@ public class GameData
     public bool loaded = false;
     public GameData()
     {
+
         Debug.Log("Generating New GameDat");
         armyList = new List<PlayerData>();
         //generateArmy();

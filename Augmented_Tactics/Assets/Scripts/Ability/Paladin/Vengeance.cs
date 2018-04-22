@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Vengeance : Ability {
     private string animTrigger = "CastAttack2Trigger";
-    const string SpiriteDir = "UI/Ability/priest/priestSkill1";
+    const string SpiriteDir = "UI/Skill_Icon_Pack/yellow/yellow_12";
 
     public Vengeance(GameObject obj)
     {
@@ -15,7 +15,7 @@ public class Vengeance : Ability {
     {
         base.Initialize(obj);
         anim = gameObject.GetComponentInChildren<Animator>();
-        range_max = 3;
+        range_max = 1;
         range_min = 0;
         dwell_time = 1.0f;
         damage = actor.getConstitution() + actor.getStrength();
