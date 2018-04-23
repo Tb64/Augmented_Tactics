@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Smite : Ability
 {
-    private string animTrigger = "CastAttack2Trigger";
+    private string animTrigger = "Attack4Trigger";
     const string SpiriteDir = "UI/Skill_Icon_Pack/yellow/yellow_24";
 
     public Smite(GameObject obj)
@@ -19,7 +19,7 @@ public class Smite : Ability
         range_max = 1;
         range_min = 0;
         dwell_time = 1.0f;
-        damage = 5f + (float)actor.getConstitution() * 1.25f;
+        damage = (float)actor.getStrength() + (float)actor.getConstitution() + (float)actor.getWisdom();
         manaCost = 4f + actor.getLevel();
         abilityName = "Smite";
         abilityImage = Resources.Load<Sprite>(SpiriteDir);
