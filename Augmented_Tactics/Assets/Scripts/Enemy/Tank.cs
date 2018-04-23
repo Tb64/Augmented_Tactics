@@ -12,7 +12,7 @@ public class Tank : Enemy{
     //else: buff offense
     //use last resort action if all else fails
     protected List<Vector3> cantMove;
-    protected UsableItem healItem;
+    //protected UsableItem healItem;
     protected bool regularMode, inPosition, sameTurn,firstMove, firstDebuffed,healMode,healPossible;
     protected Enemy closestAggro;
     protected Ability buff, debuff, heal, lastResort; //needs one buff, one debuff, heal(multiple if possible),basic attack or similar
@@ -182,19 +182,6 @@ public class Tank : Enemy{
             }
             else
                 return false;
-        }
-        return false;
-    }
-
-    private bool GetHealItem()
-    {
-        foreach(UsableItem item in usableItems)
-        {
-            if (item.isHealItem)
-            {
-                healItem = item;
-                return true;
-            }    
         }
         return false;
     }

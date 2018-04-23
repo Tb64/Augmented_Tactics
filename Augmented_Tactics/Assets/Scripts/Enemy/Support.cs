@@ -11,11 +11,11 @@ public class Support : Enemy {
     //stay barely in range of best distance / strongest attack
     //stay away and out of most aggro's path
     //only use close range attacks when absolutely necessary even if stronger
-    private float distanceFromAggro;
+    protected float distanceFromAggro;
     //private Actor aggro;
-    private Enemy aiding;
-    private Ability strongest,backup, mostDistance,heal; //backup's range should ideally be in between strongest and mostDistance and require less mana
-    private bool regularMode, hasHeal,aidLocked;
+    protected Enemy aiding;
+    protected Ability strongest,backup, mostDistance,heal; //backup's range should ideally be in between strongest and mostDistance and require less mana
+    protected bool regularMode, hasHeal,aidLocked;
 
     public override void Start()
     {
@@ -24,36 +24,43 @@ public class Support : Enemy {
         TurnBehaviour.OnEnemyOutOfMoves += this.ResetValues;
         FindRanges();
     }
+
     public override void OnDestroy()
     {
         base.OnDestroy();
         TurnBehaviour.OnEnemyOutOfMoves -= this.ResetValues;
     }
+
     public override void EnemyTurnStartActions()
     {
         base.EnemyTurnStartActions();
         GetAggroDistance();
         aidLocked = false;
     }
+
     public override void EnemyActions()
     {
         if (getMoves() == 0)
             return;
+
         if (regularMode)
         {
             base.EnemyActions();
             return;
         }
+
         if (targetLocked && !currentTarget.isDead() && !currentTarget.isIncapacitated())
         {
             RunAndGun();
             return;
         }
+
         if (aidLocked)
         {
             SaveFriendly();
             return;
         }
+
         if (!targetLocked && !aidLocked)
         {
             currentTarget = PlayerTooClose();
@@ -66,10 +73,10 @@ public class Support : Enemy {
                 {
                     return;
                 }
-                else if (AttemptAttack())
+                /*else if (AttemptAttack())
                 {
                     return;
-                }
+                }*/
                 else
                 {
                     FindShweetSpot(this,currentTarget,mostDistance,map);
@@ -92,15 +99,18 @@ public class Support : Enemy {
         }
         
     }
+
     public override string GetArchetype()
     {
         return "support";
     }
+
     public void ResetValues()
     {
         aiding.aided = false;
     }
-    private Actor PlayerTooClose()
+
+    protected Actor PlayerTooClose()
     {
         foreach(Actor player in EnemyController.userTeam)
         {
@@ -110,7 +120,8 @@ public class Support : Enemy {
         }
         return null;
     }
-    private void SaveFriendly()
+
+    protected void SaveFriendly()
     {
         if (!aidLocked || !currentTarget.isDead() && !currentTarget.isIncapacitated())
         {
@@ -128,7 +139,8 @@ public class Support : Enemy {
         }
             
     }
-    private bool TryStrongestAndBackup()
+
+    protected bool TryStrongestAndBackup()
     {
         if (Enemy.AttemptAbility(strongest,currentTarget))
         {
@@ -141,7 +153,8 @@ public class Support : Enemy {
         else
             return false;
     }
-    private void RunAndGun() //Default Tactic of Support if no teammate needs help
+
+    protected void RunAndGun() //Default Tactic of Support if no teammate needs help
     {
         Debug.Log(this + " is Running and Gunning");
         if (!mostDistance.SkillInRange(getCoords(),aggro.getCoords()) || distanceFromAggro - mostDistance.range_max > 10 && mostDistance.CanUseSkill(currentTarget.gameObject))
@@ -222,7 +235,8 @@ public class Support : Enemy {
         else
             return PosCloseTo(self,pos,map);
     }
-    private void FindRanges()
+
+    protected void FindRanges()
     {
         float bestRange = 0, mostRange=0;
  
@@ -239,7 +253,7 @@ public class Support : Enemy {
                 bestRange = ability.range_max;
                 strongest = ability;
             }
-            if (ability.abilityName == "Heal")
+            if (ability.canHeal)
             {
                 hasHeal = true;
                 heal = ability;
@@ -260,7 +274,7 @@ public class Support : Enemy {
         }
     }
 
-    private Enemy CheckSupport()
+    protected Enemy CheckSupport()
     {
         if (!EnemyController.targeted)
             return null;

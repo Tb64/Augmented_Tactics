@@ -143,19 +143,39 @@ public class Defender : Enemy {
 
     private void FindShweetSpot() //lure attacker to other area after successful attack / aggro gain
     {
-        if (CheckHeal()) //add heal of person defending
+        if (aiding.CheckHeal() && Vector3.Distance(getCoords(),aiding.getCoords())<3) //add heal of person defending
         {
+            if (GetHealItem())
+            {
+                healItem.UseItem(gameObject, aiding.gameObject);
+                return;
+            }
+
+            if (heal.CanUseSkill(aiding.gameObject))
+            {
+                heal.UseSkill(aiding.gameObject);
+                return;
+            }
+        }
+        if (CheckHeal() || aiding.CheckHeal()) //add heal of person defending
+        {
+            if (GetHealItem())
+            {
+                healItem.UseItem(gameObject, gameObject);
+                return;
+            }
+
             if (heal.CanUseSkill(gameObject))
             {
                 heal.UseSkill(gameObject);
                 return;
             }  
         }
-        if (!AggroInRange())
+        /*if (!AggroInRange())
         {
             if (AttemptAttack())
                 return;    
-        }
+        }*/
         Vector3 stayAway = currentTarget.getCoords();
         Vector3 output = aiding.getCoords() - currentTarget.getCoords();
         //stayAway = stayAway.normalized;

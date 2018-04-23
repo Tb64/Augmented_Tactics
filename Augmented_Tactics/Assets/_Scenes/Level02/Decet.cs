@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Decet : Tank {
-    //Decet is a special type of tank that protects only Eery unless he dies
-    private Enemy decet;
+    //Eery is a special type of tank that protects only Eery unless he dies
+    private Enemy eery;
     
     public override void EnemyInitialize()
     {
@@ -14,6 +14,7 @@ public class Decet : Tank {
         heal = SkillLoader.LoadSkill("curewounds", gameObject);
         debuff = new BuffDebuff(gameObject, "dexterity", "defense", true, getWisdom() / 2, false);
         lastResort = SkillLoader.LoadSkill("poisonarrow", gameObject);
+        name = "Lord Decet";
         setManaCurrent(100);
         setMaxMana(100);
         setHealthCurrent(150);
@@ -22,16 +23,16 @@ public class Decet : Tank {
         setDexterity(15);
         setConstitution(20);
         setIntelligence(25);
-        FindDecet();
-        closestAggro = decet;
+        FindEery();
+        closestAggro = eery;
     }
 
-    private void FindDecet()
+    private void FindEery()
     {
         foreach (Enemy enemy in EnemyController.enemyList)
-            if (enemy.name == "Lord Decet")
-                decet = enemy;
-        Debug.LogError("No Decet character. Level Not Loaded Correctly");
+            if (enemy.name == "Lord Eery")
+                eery = enemy;
+        Debug.LogError("No Eery character. Level Not Loaded Correctly");
     }
 
     public override void EnemyActions()
@@ -47,8 +48,8 @@ public class Decet : Tank {
             setNumOfActions(0);
             return;
         }
-        currentTarget = decet;    
-        if (decet.isDead())
+        currentTarget = eery;    
+        if (eery.isDead())
         {
             base.EnemyTurnStartActions();
             regularMode = false;
@@ -61,14 +62,14 @@ public class Decet : Tank {
     {
         if (Random.Range(0, 1000) <= 500)
         {
-            if (buff.UseSkill(decet.gameObject))
+            if (buff.UseSkill(eery.gameObject))
                 return true;
             else
                 return false;
         }
         else
         {
-            if (debuff.UseSkill(decet.gameObject))
+            if (debuff.UseSkill(eery.gameObject))
                 return true;
             else
                 return false;

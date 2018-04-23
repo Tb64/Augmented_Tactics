@@ -7,7 +7,7 @@ public class LargeManaTonic : UsableItem {
     public override void InitInitialize()
     {
         base.InitInitialize();
-
+        isManaItem = true;
         name = "Large Mana Tonic";
         image = "";
     }

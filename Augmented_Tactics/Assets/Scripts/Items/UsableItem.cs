@@ -6,11 +6,12 @@ public class UsableItem : Items
 {
     protected Ability itemAbility;
     public bool isHealItem;
-
+    public bool isManaItem;
 
     public virtual void InitInitialize()
     {
         isHealItem = false;
+        isManaItem = false;
     }
 
     public virtual bool UseItem(GameObject user, GameObject target)

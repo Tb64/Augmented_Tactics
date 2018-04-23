@@ -25,6 +25,7 @@ public class Enemy : Actor
     public void setWeakest(Actor weakestPlayer) { weakest = weakestPlayer; }
     protected int expGiven;
     protected List<Actor> cantTarget;
+    protected UsableItem healItem;
     protected bool targetLocked;
     public bool aided;
 
@@ -625,7 +626,7 @@ public class Enemy : Actor
         /// //////////////////////// where to add attacking
         /// </summary>
         /// <param name="currentTarget"></param>
-        public virtual bool AttemptAttack() //thinkiing of changing to attemptAction. Also covers heal
+        public virtual bool AttemptAttack() //thinking of changing to attemptAction. Also covers heal
         {
             if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
                 return false;
@@ -635,14 +636,14 @@ public class Enemy : Actor
             for (int ability = 0; ability < 4; ability++)
             {
             // Debug.Log(abilitySet[ability].SkillInRange(getCoords(), currentTarget.getCoords()));
-                if (abilitySet[ability].abilityName == "Heal" && CheckHeal() && abilitySet[ability].CanUseSkill(this.gameObject))
+                if (abilitySet[ability].canHeal && CheckHeal() && abilitySet[ability].CanUseSkill(gameObject))
                 {
                     abilitySet[ability].UseSkill(gameObject);
                     Debug.Log(this + " Healed");    
                     return true;
                 }   
                     
-                if (!(abilitySet[ability].abilityName == "Heal") && abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
+                if (!abilitySet[ability].canHeal && abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
                 {
                     bestAttack = (int)abilitySet[ability].damage;
                     choice = ability;
@@ -686,6 +687,7 @@ public class Enemy : Actor
         EnemyController.CheckTargeted(enemyID);
         attacker.GetComponent<Actor>().aggroScore++; //updating for actual function based on action / damage
     }
+
     public virtual bool CheckHeal()
     {
         if (GetHealthPercent() < 40 && GetHealthPercent() < nearest.GetHealthPercent() && !TargetInRange())
@@ -694,11 +696,32 @@ public class Enemy : Actor
             return false;
     }
 
+    protected bool GetHealItem()
+    {
+        foreach (UsableItem item in usableItems)
+        {
+            if (item.isHealItem)
+            {
+                healItem = item;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected Actor AbilityInRange(Ability ability)
+    {
+        foreach (Actor player in EnemyController.userTeam)
+            if (ability.CanUseSkill(player.gameObject))
+                return player;         
+        return null;
+    }
+
     public bool TargetInRange()
     {
         foreach(Ability ability in abilitySet)
         {
-            if (ability.abilityName != "Heal" && ability.CanUseSkill(currentTarget.gameObject))
+            if (!ability.canHeal && !ability.manaRestore && ability.CanUseSkill(currentTarget.gameObject))
                 return true;
         }
         return false;

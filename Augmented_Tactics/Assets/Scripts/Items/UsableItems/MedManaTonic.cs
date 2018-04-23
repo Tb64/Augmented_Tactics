@@ -7,6 +7,7 @@ public class MedManaTonic : UsableItem {
     public override void InitInitialize()
     {
         base.InitInitialize();
+        isManaItem = true;
         name = "Medium Mana Tonic";
         image = "";
     }

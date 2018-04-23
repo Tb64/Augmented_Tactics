@@ -7,7 +7,7 @@ public class LargePotion : UsableItem {
     public override void InitInitialize()
     {
         base.InitInitialize();
-
+        isHealItem = true;
         name = "Large Potion";
         image = "";
     }
