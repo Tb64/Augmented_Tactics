@@ -195,7 +195,7 @@ public class SkillLoader : MonoBehaviour {
                 skills[4] = "beaconofhope";
                 skills[5] = "";
                 skills[6] = "";
-                skills[7] = "shieldsoffaith";
+                skills[7] = "shieldoffaith";
                 return skills;
 
             case CharacterClasses.MageKey:
