@@ -31,13 +31,15 @@ public class SkillSelectionMenu : MonoBehaviour {
     public GameObject dummy;
     private Actor dummyActor;
 
-    private Sprite nullImage;
+    public Sprite nullImage;
 
 	// Use this for initialization
 	void Start () {
-        selectedPlayer = PlayerData.GenerateNewPlayer(CharacterClasses.BrawlerKey);
+        //nullImage = currentSkills[0].sprite;
+        if (selectedPlayer == null)
+            selectedPlayer = PlayerData.GenerateNewPlayer(CharacterClasses.BrawlerKey);
         SetPlayerData(selectedPlayer);
-        nullImage = currentSkills[0].sprite;
+        
     }
 	
 	// Update is called once per frame
@@ -52,12 +54,13 @@ public class SkillSelectionMenu : MonoBehaviour {
         GenerateUI();
         GameDataController.loadPlayerData();
         armyListUI.LoadList(GameDataController.gameData.armyList);
+        SetSelctedAllSkill(0);
     }
 
     public void UnitButtonClicked(PlayerData pdata)
     {
         selectedPlayer = pdata;
-        GenerateUI();
+        SetPlayerData(pdata);
     }
 
     void GenerateUI()
@@ -82,27 +85,36 @@ public class SkillSelectionMenu : MonoBehaviour {
             }
         }
 
-        if(selectedPlayer.Skill1 != null && selectedPlayer.Skill1.Length != 0)
+        if (selectedPlayer.Skill1 != null && selectedPlayer.Skill1.Length != 0)
         {
             skill1 = SkillLoader.LoadSkill(selectedPlayer.Skill1, dummy);
             currentSkills[0].sprite = skill1.abilityImage;
         }
+        else
+            currentSkills[0].sprite = nullImage;
         if (selectedPlayer.Skill2 != null && selectedPlayer.Skill2.Length != 0)
         {
             skill2 = SkillLoader.LoadSkill(selectedPlayer.Skill2, dummy);
             currentSkills[1].sprite = skill2.abilityImage;
+            Debug.Log("Skill2 = " + skill2.abilityName);
         }
+        else
+            currentSkills[1].sprite = nullImage;
         if (selectedPlayer.Skill3 != null && selectedPlayer.Skill3.Length != 0)
         {
             skill3 = SkillLoader.LoadSkill(selectedPlayer.Skill3, dummy);
             currentSkills[2].sprite = skill3.abilityImage;
         }
+        else
+            currentSkills[2].sprite = nullImage;
+
         if (selectedPlayer.Skill4 != null && selectedPlayer.Skill4.Length != 0)
         {
             skill4 = SkillLoader.LoadSkill(selectedPlayer.Skill4, dummy);
             currentSkills[3].sprite = skill4.abilityImage;
         }
-
+        else
+            currentSkills[3].sprite = nullImage;
         for (int index = 0; index < selectedPlayer.Level; index++)
         {
             lockedSkills[index].enabled = false;
@@ -125,8 +137,17 @@ public class SkillSelectionMenu : MonoBehaviour {
         this.allSkillSelected = input;
         selectedAllSkillMarker.rectTransform.anchoredPosition3D = new Vector3(((input - 4f) * 100f) + 50f, 0f, 0f); //allSkills[input].rectTransform.anchoredPosition3D;
         //Debug.Log(allSkills[input].rectTransform.);
+        if(abilities[input] == null)
+        {
+            this.nameText.text = "Null";
+            this.damageText.text = "";
+            this.mpText.text = "";
+            this.rangeText.text = "";
+            this.descText.text = "";
+            return;
+        }
         this.nameText.text = abilities[input].abilityName;
-        damageText.text = "Damage: " + abilities[input].damage;
+        this.damageText.text = "Damage: " + abilities[input].damage;
         this.mpText.text = "Mana: " + abilities[input].manaCost;
         this.rangeText.text = "Range: " + abilities[input].range_min + "-" + abilities[input].range_max;
         this.descText.text = abilities[input].abilityDescription;

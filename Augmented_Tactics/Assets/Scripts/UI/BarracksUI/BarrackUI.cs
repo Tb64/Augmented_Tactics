@@ -19,24 +19,29 @@ public class BarrackUI : MonoBehaviour {
     public Image[] items;
 
     private Actor dummyActor;
-    private Sprite noItem;
+    public Sprite noItem;
     private GameObject modelObj;
+
+    private PlayerData currentData;
 
     // Use this for initialization
     void Start () {
         GameDataController.loadPlayerData();
         armyUI.LoadList(GameDataController.gameData.armyList);
         dummyActor = dummy.GetComponent<Actor>();
-        noItem = skills[0].sprite;
+        //noItem = skills[0].sprite;
     }
 	
 	// Update is called once per frame
-	void Update () {
-		
-	}
+	public void UpdatePage () {
+        UnitButtonClicked(currentData);
+
+    }
+
 
     public void UnitButtonClicked(PlayerData pdata)
     {
+        currentData = pdata;
         dummyActor.LoadStatsFromData(pdata);
         UpdateSkills();
         UpdateText(pdata);
@@ -98,10 +103,17 @@ public class BarrackUI : MonoBehaviour {
     private void FireSoldier()
     {
         throw new NotImplementedException();
+
+
     }
 
     private void OnDisable()
     {
         if (modelObj != null) { Destroy(modelObj); }
+    }
+
+    public PlayerData GetPlayerData()
+    {
+        return this.currentData;
     }
 }
