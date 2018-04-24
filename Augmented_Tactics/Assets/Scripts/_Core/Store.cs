@@ -17,6 +17,7 @@ public class Store : MonoBehaviour
     GameObject StoreBackground;
     //1 for armorer, 2 for weaponsmith, 3 for generalStore
     public int storeType;
+    public GameObject inventoryActual; // variables need renaming - quick fix
     public Image storeImage;
     public Text storeText;
     private float inventorySize;
@@ -104,6 +105,7 @@ public class Store : MonoBehaviour
                 inventoryArray[index, jindex].transform.SetParent(StoreBackground.transform, false);
                 inventoryArray[index, jindex].transform.localPosition = iconPlacement;
                 inventoryArray[index, jindex].GetComponent<Item>().setStore(gameObject);
+                inventoryArray[index, jindex].GetComponent<Item>().setInventory(inventoryActual);
                 iconPlacement += new Vector3(70f, 0f, 0f);
                
 

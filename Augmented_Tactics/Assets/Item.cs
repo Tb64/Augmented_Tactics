@@ -12,6 +12,7 @@ public class Item : MonoBehaviour {
     public Weapons weapon;
     public UsableItem useItem;
     public Image storeImage;
+    public GameObject playerInventory;
     public GameObject store;
     string itemType;
 
@@ -41,6 +42,17 @@ public class Item : MonoBehaviour {
             gameObject.transform.GetChild(0).GetComponent<Image>().sprite = inventoryIcon;
         }
         slotOccupied = true;
+    }
+
+    public void buyArmor()
+    {
+        playerInventory.GetComponent<Inventory>().addEquipable(armor);
+    }
+
+
+    public void setInventory(GameObject obj)
+    {
+        playerInventory = obj;
     }
 
     public void setEquipable(Armor item)
