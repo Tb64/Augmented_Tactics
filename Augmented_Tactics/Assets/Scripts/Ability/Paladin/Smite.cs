@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Smite : Ability
 {
-    private string animTrigger = "CastAttack2Trigger";
-    const string SpiriteDir = "UI/Ability/priest/priestSkill1";
+    private string animTrigger = "Attack4Trigger";
+    const string SpiriteDir = "UI/Skill_Icon_Pack/yellow/yellow_24";
 
     public Smite(GameObject obj)
     {
@@ -16,14 +16,17 @@ public class Smite : Ability
     {
         base.Initialize(obj);
         anim = gameObject.GetComponentInChildren<Animator>();
-        range_max = 3;
+        range_max = 1;
         range_min = 0;
         dwell_time = 1.0f;
-        damage = 5f + (float)actor.getWisdom() * 1.25f;
+        damage = (float)actor.getStrength() + (float)actor.getConstitution() + (float)actor.getWisdom();
+        manaCost = 4f + actor.getLevel();
         abilityName = "Smite";
         abilityImage = Resources.Load<Sprite>(SpiriteDir);
         if (abilityImage == null)
             Debug.Log("Unable to load image");
+
+        abilityDescription = "A magic based melee attack.";
     }
 
     public override void ActionSkill(GameObject target)
@@ -38,7 +41,7 @@ public class Smite : Ability
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
         Actor targetActor = target.GetComponent<Actor>();
-        float damageCalc = damage - targetActor.getPhysicalDefense() + actor.getWeapon().RollPhysicalDamage();
+        float damageCalc = damage - targetActor.getMagicalDefense() + actor.getWeapon().RollPhysicalDamage();
         targetActor.TakeDamage(damageCalc, gameObject);
 
         DwellTime.Attack(dwell_time);

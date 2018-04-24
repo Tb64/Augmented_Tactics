@@ -5,7 +5,7 @@ using UnityEngine;
 public class Heroism : Ability
 {
     private string animTrigger = "CastAttack2Trigger";
-    const string SpiriteDir = "UI/Ability/priest/priestSkill1";
+    const string SpiriteDir = "UI/Skill_Icon_Pack/yellow/yellow_10";
 
     public Heroism(GameObject obj)
     {
@@ -19,11 +19,14 @@ public class Heroism : Ability
         range_max = 3;
         range_min = 0;
         dwell_time = 1.0f;
-        heal = 5f + (float)actor.getWisdom() * 1.25f;
+        heal = 0;
+        manaCost = 5f * actor.getLevel();
         abilityName = "Heroism";
         abilityImage = Resources.Load<Sprite>(SpiriteDir);
         if (abilityImage == null)
             Debug.Log("Unable to load image");
+
+        abilityDescription = "Grants a person the ability to counter attack.";
     }
 
     public override void ActionSkill(GameObject target)
@@ -37,9 +40,10 @@ public class Heroism : Ability
             anim.SetTrigger(animTrigger);
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
-        float damage = 10f + ((float)actor.getStrength() * 0.5f);
+        //float damage = 10f + ((float)actor.getStrength() * 0.5f);
         //Debug.Log("combo damage = " + damage + " " + actor.getStrength());
-        target.GetComponent<Actor>().HealHealth(heal);
+        //target.GetComponent<Actor>().HealHealth(heal);
+        target.GetComponent<Actor>().setCounterAttack(2);
 
         DwellTime.Attack(dwell_time);
     }

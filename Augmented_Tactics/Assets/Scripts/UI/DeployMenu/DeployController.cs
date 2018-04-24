@@ -18,6 +18,8 @@ public class DeployController : MonoBehaviour {
     private PlayerData[] deployed;
     private GameObject[] models;
 
+    public ArmyList armyListUI;
+
     private int slotSelected = 0;
 
     private float[] slotXPos = {-180f,-60f,60f,180f };
@@ -39,7 +41,7 @@ public class DeployController : MonoBehaviour {
         chrListPos = new Vector3(0f,-60f,0f);
         models = new GameObject[4];
         LoadData();
-        MakeList();
+        //MakeList();
 
     }
 	
@@ -69,6 +71,7 @@ public class DeployController : MonoBehaviour {
         //GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[3]);
 
         army = GameDataController.gameData.getArmyList();
+        armyListUI.LoadList(army);
         //GameDataController.savePlayerData();
     }
 
@@ -114,6 +117,12 @@ public class DeployController : MonoBehaviour {
         }
     }
 
+    public void ChangeSelected(PlayerData input)
+    {
+        Sprite img = Resources.Load<Sprite>(input.Icon);
+        ChangeSelected(input, img);
+    }
+
     private void SetSlot(PlayerData input, Sprite img, int slot)
     {
         deployedImage[slotSelected].sprite = img;
@@ -157,5 +166,12 @@ public class DeployController : MonoBehaviour {
         SaveDeployed();
 
 
+    }
+
+    public void UnitButtonClicked(PlayerData pdata)
+    {
+        currentSelected = pdata;
+        ChangeSelected(pdata);
+        //GenerateUI();
     }
 }

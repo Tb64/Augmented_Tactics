@@ -144,6 +144,38 @@ public class GameController : MonoBehaviour
         }
     }
 
+    void TouchEvent()
+    {
+        if (Input.touchCount == 1)
+        {
+            if(Input.GetTouch(0).phase == TouchPhase.Ended &&
+            !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            {
+                switch (currentMode)
+                {
+                    case MODE_SELECT_UNIT:
+                        SelectUnit();
+                        break;
+
+                    case MODE_SELECT_LOCATION:
+                        //SelectLocation();
+                        break;
+
+                    case MODE_SELECT_TARGET:
+                        SelectTarget();
+                        break;
+
+                    case MODE_MOVE:
+                        SelectMoveLocation();
+                        break;
+
+                    default:
+                        break;
+                }
+            }  
+        }
+    }
+
     GameObject RayCaster()
     {
         GameObject interactedObject;

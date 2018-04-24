@@ -20,11 +20,14 @@ public class Ward : Ability
         range_max = 3;
         range_min = 0;
         dwell_time = 1.0f;
-        heal = 5f + (float)actor.getWisdom() * 1.25f;
+        //heal = 5f + (float)actor.getWisdom() * 1.25f;
+        manaCost = (float)actor.getWisdom() * 5f;
         abilityName = "Ward";
         abilityImage = Resources.Load<Sprite>(SpiriteDir);
         if (abilityImage == null)
             Debug.Log("Unable to load image");
+
+        abilityDescription = "Protects a person for one melee or ranged attack during the next turn.";
     }
 
     public override void ActionSkill(GameObject target)
@@ -38,9 +41,9 @@ public class Ward : Ability
             anim.SetTrigger(animTrigger);
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
-        float damage = 10f + ((float)actor.getStrength() * 0.5f);
+        //float damage = 10f + ((float)actor.getStrength() * 0.5f);
         //Debug.Log("combo damage = " + damage + " " + actor.getStrength());
-        target.GetComponent<Actor>().HealHealth(heal);
+        target.GetComponent<Actor>().setWardCount(2);
 
         DwellTime.Attack(dwell_time);
     }
