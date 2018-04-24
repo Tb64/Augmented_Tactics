@@ -31,11 +31,13 @@ public class SkillSelectionMenu : MonoBehaviour {
     public GameObject dummy;
     private Actor dummyActor;
 
+    private Sprite nullImage;
+
 	// Use this for initialization
 	void Start () {
         selectedPlayer = PlayerData.GenerateNewPlayer(CharacterClasses.BrawlerKey);
         SetPlayerData(selectedPlayer);
-
+        nullImage = currentSkills[0].sprite;
     }
 	
 	// Update is called once per frame
@@ -61,6 +63,12 @@ public class SkillSelectionMenu : MonoBehaviour {
     void GenerateUI()
     {
         //selectedPlayer.Class;
+
+        foreach (Image img in currentSkills)
+        {
+            img.sprite = nullImage;
+        }
+
         dummyActor.LoadStatsFromData(selectedPlayer);
         string[] abilityKeys = SkillLoader.ClassSkills(selectedPlayer.Class);
         abilities = new Ability[8];
