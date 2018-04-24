@@ -33,6 +33,19 @@ public class PlayerKey {
     public const string Item3 = "Item3";
     public const string Item4 = "Item4";
 
+    public static int[] LevelCaps =
+    {
+        0, //level 0
+        300,
+        900,
+        2700,
+        6500,
+        14000,
+        23000,
+        34000,
+        48000,
+        64000
+    };
 
 
 }

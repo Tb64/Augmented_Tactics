@@ -20,27 +20,43 @@ public class SkillSelectionMenu : MonoBehaviour {
     public Image selectedAllSkillMarker;
     public Image selectedCurrentSkillMarker;
 
+    public ArmyList armyListUI;
+
     public PlayerData selectedPlayer;
 
     private int allSkillSelected;
     private int currentSkillSelected;
     private Ability skill1, skill2, skill3, skill4;
     private Ability[] abilities;
-    private GameObject dummy;
+    public GameObject dummy;
     private Actor dummyActor;
 
 	// Use this for initialization
 	void Start () {
         selectedPlayer = PlayerData.GenerateNewPlayer(CharacterClasses.BrawlerKey);
-        dummy = GameObject.FindGameObjectWithTag("Player");
-        dummyActor = dummy.GetComponent<Actor>();
-        GenerateUI();
-	}
+        SetPlayerData(selectedPlayer);
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    public void SetPlayerData(PlayerData pdata)
+    {
+        selectedPlayer = pdata;
+        dummyActor = dummy.GetComponent<Actor>();
+        GenerateUI();
+        GameDataController.loadPlayerData();
+        armyListUI.LoadList(GameDataController.gameData.armyList);
+    }
+
+    public void UnitButtonClicked(PlayerData pdata)
+    {
+        selectedPlayer = pdata;
+        GenerateUI();
+    }
 
     void GenerateUI()
     {
