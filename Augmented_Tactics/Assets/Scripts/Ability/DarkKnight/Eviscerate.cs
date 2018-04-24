@@ -75,10 +75,11 @@ public class Eviscerate : Ability
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
         StartCoroutine(target);
-        
+
         //decide if status effect is successful
         //StatusEffect status = new StatusEffect(2, (float)typeof(Actor).GetField("health_current").GetValue(user), "Bleeding", 5, "-", target.GetComponent<Actor>(),true, SM);
         //Need to add status effect
+        //StatusEffectsController.AddEffect(new Bleed(10, actor, target.GetComponent<Actor>(), target.tag == "Enemy"));
         //Will apply bleed(damager per turn, 2 turns)
         //Will remove 1 move from enemies next 2 turns
 

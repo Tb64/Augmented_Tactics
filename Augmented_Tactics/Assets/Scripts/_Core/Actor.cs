@@ -37,6 +37,7 @@ public class Actor : MonoBehaviour
     protected float move_speed;
     protected float armor_class;
     protected int counterAttack;
+    protected int wardCount;
 
     //stats
     protected int level;            //current actor's level
@@ -214,6 +215,10 @@ public class Actor : MonoBehaviour
         if(counterAttack > 0)
         {
             counterAttack--;
+        }
+        if (wardCount > 0)
+        {
+            wardCount--;
         }
         //if(report != null)
         //{
@@ -549,6 +554,12 @@ public class Actor : MonoBehaviour
     /// <param name="damage">Damage the Actor will take as a float</param>
     public virtual void TakeDamage(float damage, GameObject attacker)
     {
+        if(wardCount > 0)
+        {
+            Debug.Log("Attack warded");
+            wardCount--;
+            return;
+        }
         if (counter)
         {
             counter = false;
@@ -622,7 +633,7 @@ public class Actor : MonoBehaviour
 
     public void CounterAttack(GameObject target)
     {
-        float damage = 5f + ((float)this.strength * 0.5f);
+        float damage = ((float)this.strength * 1f);
         if (anim != null)
         {
             Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", "Counter Attack", gameObject.name, target.name));
@@ -719,6 +730,30 @@ public class Actor : MonoBehaviour
     ******************/
 
     #region SetGets
+
+    public int ExpToLevel()
+    {
+        switch (level)
+        {
+            case 1 :
+                return 300 - getExperience();
+            case 2 :
+                return 900 - getExperience();
+            case 3 :
+                return 2700 - getExperience();
+            case 4 :
+                return 6500 - getExperience();
+            case 5 :
+                return 14000 - getExperience();
+            case 6 :
+                return 23000 - getExperience();
+            case 7 :
+                return 34000- getExperience();
+            default :
+                Debug.LogError("LEVEL OUT OF RANGE" + level);
+                return -1;
+        }
+    }
 
     public bool canAct()
     {
@@ -841,6 +876,11 @@ public class Actor : MonoBehaviour
     public void setCounterAttack(int number_of_counters)
     {
         counterAttack = number_of_counters;
+    }
+
+    public void setWardCount(int input)
+    {
+        wardCount = input;
     }
 
     public float GetHealthPercent()

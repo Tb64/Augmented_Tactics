@@ -6,17 +6,28 @@ using UnityEngine;
 
 public class AfterActionReport : MonoBehaviour {
 
-    SceneManagement manager;
+    public GameObject[] playerFrame; 
+    public GameObject[] playerImage;
+    public GameObject lootObj;
     GameObject camera;
+    GameObject screen;
+    SceneManagement manager;
     Transform cameraPosition;
+
     private void Start()
     {
-        if (GameObject.Find("SceneManager") != null)
-        {
-            manager = GameObject.Find("SceneManager").GetComponent<SceneManagement>();
-        }
+        manager = GameObject.Find("SceneManager").GetComponent<SceneManagement>();
+        if (manager == null)
+            Debug.Log("Scene Manager Not Found !!!!");
+
+        GameObject screen = transform.Find("EndofBattleScreen").gameObject;
+        if (screen == null)
+            Debug.Log("End of Battle Screen Not Found !!!!");
+
         camera = GameObject.Find("CamFocus");
-       // cameraPosition = GameObject.Find("cameraLocation").transform;
+        // cameraPosition = GameObject.Find("cameraLocation").transform;
+
+        //DisplayExp();
     }
 
     public bool win()
@@ -69,78 +80,80 @@ public class AfterActionReport : MonoBehaviour {
 
     public void DisplayExp()
     {
-       
-        Text Exp1 = null;
-        Text Exp2 = null;
-        Text Exp3 = null;
-        Text Exp4 = null;
+        //load data
+        GameDataController.loadPlayerData();
+        TEMP_CharacterList.Init();
+        PlayerData data = TEMP_CharacterList.characterData[0];
 
-        if (GameObject.Find("Exp1") != null)
-        {
-            Exp1 = GameObject.Find("Exp1").gameObject.GetComponent<Text>();
-        }
-        if(GameObject.Find("Exp2") != null)
-        {
-            Exp2 = GameObject.Find("Exp2").gameObject.GetComponent<Text>();
-        }
-        if(GameObject.Find("Exp3") != null)
-        {
-            Exp3 = GameObject.Find("Exp3").gameObject.GetComponent<Text>();
-        }
-        if (GameObject.Find("Exp4") != null)
-        {
-            Exp4 = GameObject.Find("Exp4").gameObject.GetComponent<Text>();
-        }
+        if (data == null)
+            Debug.Log("Data failed to gerenate");
 
+        if (GameDataController.gameData == null)
+            Debug.Log("Data failed to make Game Date");
+        GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[0]);
+        GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[1]);
+        GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[2]);
+        GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[3]);
+        GameDataController.gameData.addPlayer(TEMP_CharacterList.characterData[0]);
+
+            
+
+        //get the amount of XP gained from enemies and divide them by numer of players
         int expTotal = 0;
 
         for (int index = 0; index < EnemyController.enemyNum; index++)
         {
             expTotal += EnemyController.enemyList[index].getExpGiven();
         }
-
-        expTotal = (int)expTotal / PlayerControlled.playerNum;
-
-        for (int index = 0; index < PlayerControlled.playerNum; index++)
+        if (PlayerControlled.playerNum != 0)
         {
-            PlayerControlled.playerList[index].setExperience(expTotal);
-        }
+            expTotal = (int)expTotal / PlayerControlled.playerNum;
 
-        GameObject[] playerArray = new GameObject[4];
-
-        if (GameObject.Find("Exp1") != null)
-        {
-            playerArray[0] = Exp1.transform.parent.gameObject;
-            Exp1.text = expTotal.ToString();
-        }
-        if (GameObject.Find("Exp2") != null)
-        {
-            playerArray[1] = Exp2.transform.parent.gameObject;
-            Exp2.text = expTotal.ToString();
-        }
-        if (GameObject.Find("Exp3") != null)
-        {
-            playerArray[2] = Exp3.transform.parent.gameObject;
-            Exp3.text = expTotal.ToString();
-        }
-        if (GameObject.Find("Exp4") != null)
-        {
-            playerArray[3] = Exp4.transform.parent.gameObject;
-            Exp4.text = expTotal.ToString();
-        }
-
-
-        if (playerArray[3] != null)
-        {
-
-            for (int index = 3; index > PlayerControlled.playerNum - 1; index--)
+            for (int index = 0; index < PlayerControlled.playerNum; index++)
             {
-                playerArray[index].gameObject.SetActive(false);
-                Debug.Log("index: " + index + "players" + PlayerControlled.playerNum);
+                PlayerControlled.playerList[index].setExperience(expTotal);
             }
-
         }
 
+        // Each first number in the array will correspond to a playerFrame (1-4)
+        Text[][] textElements = new Text[4][];
+
+        //get all text elements in the frame
+        for (int i = 0; i < 4; i++)
+        {
+            if (playerFrame[i] != null)
+                textElements[i] = playerFrame[i].GetComponentsInChildren<Text>();
+        }
+        
+        //update all frames. Loop 1 is for going through each player frame, loop 2 is for going through all text elements
+        for (int frame = 0; frame < 4; frame++)
+        {
+            //if on a frame that is more than the number of players (e.g. 3rd frame but 2 players), then disable game object
+            //else set values
+            if (frame > PlayerControlled.playerNum)
+                playerFrame[frame].SetActive(false);
+            else
+            {
+                //set slider percentage. Experience/Experience to next valu
+                playerFrame[frame].GetComponentInChildren<Slider>().value = .5f;
+
+                //set the image
+                //playerImage[frame].GetComponent<Image>().sprite = 
+
+                //set all text elements
+                foreach (Text textObj in textElements[frame])
+                {
+                    if (textObj.name == "Level")
+                        textObj.text = "Level here";
+                    else if (textObj.name == "Name")
+                        textObj.text = "Name here"; //expTotal.ToString();
+                    else if (textObj.name == "Experience")
+                        textObj.text = "Experience/here";
+                }
+            }
+        }
+        //set the money collected and load images for everything colleted
+        lootObj.GetComponentInChildren<Text>();
     }
 
     void movePlayers()
@@ -154,7 +167,6 @@ public class AfterActionReport : MonoBehaviour {
 
     public void BattleOver()
     {
-        GameObject screen = transform.Find("EndofBattleScreen").gameObject;
         GameDataController.savePlayerData(GameDataController.gameData);
 
         if (win() == true || lose() == true && screen.GetComponent<Canvas>().enabled == false)

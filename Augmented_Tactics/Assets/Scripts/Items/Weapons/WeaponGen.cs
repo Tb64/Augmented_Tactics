@@ -134,27 +134,27 @@ public class WeaponGen : MonoBehaviour {
         {
             case 0:     //str
                 bonus = int.Parse(wData[ItemKey.Weapon.StrBonus]) + 1;
-                weapon.str_bonus = (int)Random.Range(1, bonus);
+                weapon.str_bonus += (int)Random.Range(1, bonus);
                 break;
 
             case 1:     //dex
                 bonus = int.Parse(wData[ItemKey.Weapon.DexBonus]) + 1;
-                weapon.dex_bonus = (int)Random.Range(1, bonus);
+                weapon.dex_bonus += (int)Random.Range(1, bonus);
                 break;
 
             case 2:     //con
                 bonus = int.Parse(wData[ItemKey.Weapon.ConBonus]) + 1; ;
-                weapon.con_bonus = (int)Random.Range(1, bonus);
+                weapon.con_bonus += (int)Random.Range(1, bonus);
                 break;
 
             case 3:     //wis
                 bonus = int.Parse(wData[ItemKey.Weapon.WisBonus]) + 1;
-                weapon.wis_bonus = (int)Random.Range(1, bonus);
+                weapon.wis_bonus += (int)Random.Range(1, bonus);
                 break;
 
             case 4:     //int
                 bonus = int.Parse(wData[ItemKey.Weapon.IntBonus]) + 1;
-                weapon.int_bonus = (int)Random.Range(1, bonus);
+                weapon.int_bonus += (int)Random.Range(1, bonus);
                 break;
 
             case 5:     //eva

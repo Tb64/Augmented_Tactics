@@ -9,6 +9,7 @@ public class GameDataController: MonoBehaviour
     public static GameData gameData;
     private void Start()
     {
+        Application.stackTraceLogType = StackTraceLogType.ScriptOnly;
         //filePath = Application.dataPath + "/StreamingAssets\\Saves\\data.json";
         filePath = Path.Combine(Application.streamingAssetsPath, "Saves\\data.json");
         gameData = loadPlayerData();
@@ -18,8 +19,8 @@ public class GameDataController: MonoBehaviour
     public static GameData loadPlayerData()
     {
         //gameData = new GameData();
-        if (gameData == null)
-            Debug.Log("new data is null");
+        //if (gameData == null)
+        //    Debug.Log("new data is null");
         //Static Functions do not call start
         filePath = Path.Combine(Application.streamingAssetsPath, "data.json");
         //Debug.Log(filePath);

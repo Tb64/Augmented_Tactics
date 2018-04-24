@@ -144,10 +144,10 @@ public class PlayerData
         player.Mana = (player.Intelligence + player.Wisdom) * 5;
 
         if (player.DisplayName.Length == 0)
-            Debug.Log("Empty Name");
+            Debug.Log("GenerateNewPlayer Empty Name ");
 
         if (player.ClassName.Length == 0)
-            Debug.Log("Empty Class " + player.Class);
+            Debug.Log("GenerateNewPlayer Empty Class " + player.Class);
 
         return player;
     }
@@ -166,6 +166,10 @@ public class PlayerData
 
         input.UnlockSkill1 = true;
         input.Skill1 = SkillLoader.ClassSkills(input.Class)[0];
+        input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
+        input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
+        input.Prefab = CharacterClasses.PrefabPath[input.Class];
+        input.Icon = CharacterClasses.IconPath[input.Class];
     }
 
     private static void RandomStatBoost(PlayerData input)
@@ -204,52 +208,28 @@ public class PlayerData
         switch (input.Class)
         {
             case CharacterClasses.PaladinKey:
-                input.Prefab = CharacterClasses.PrefabPath[input.Class];
-                input.Icon = CharacterClasses.IconPath[input.Class];
                 input.Constitution += 2;
-                input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
-                input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
                 break;
 
             case CharacterClasses.DarkKnightKey:
-                input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.DarkKnightKey];
-                input.Icon = CharacterClasses.IconPath[CharacterClasses.DarkKnightKey];
                 input.Strength += 2;
-                input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
-                input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
                 break;
 
             case CharacterClasses.ThiefKey:
                 input.Dexterity += 2;
-                input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.ThiefKey];
-                input.Icon = CharacterClasses.IconPath[CharacterClasses.ThiefKey];
-                input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
-                input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
                 break;
 
             case CharacterClasses.BrawlerKey:
                 input.Constitution += 1;
                 input.Strength += 1;
-                input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.BrawlerKey];
-                input.Icon = CharacterClasses.IconPath[CharacterClasses.BrawlerKey];
-                input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
-                input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
                 break;
 
             case CharacterClasses.ClericKey:
                 input.Wisdom += 2;
-                input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.ClericKey];
-                input.Icon = CharacterClasses.IconPath[CharacterClasses.ClericKey];
-                input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
-                input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
                 break;
 
             case CharacterClasses.MageKey:
                 input.Intelligence += 2;
-                input.Prefab = CharacterClasses.PrefabPath[CharacterClasses.MageKey];
-                input.Icon = CharacterClasses.IconPath[CharacterClasses.MageKey];
-                input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
-                input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
                 break;
 
             default:
@@ -500,6 +480,64 @@ public class PlayerData
         Debug.LogError("Unable to save " + key + " stat");
     }
 
+
+    /// <summary>
+    /// Character stats + item bonus
+    /// </summary>
+    /// <returns></returns>
+    public int getTotalStr()
+    {
+        return Strength + armor.str_bonus + weapon.str_bonus;
+    }
+    /// <summary>
+    /// Character stats + item bonus
+    /// </summary>
+    /// <returns></returns>
+    public int getTotalDex()
+    {
+        return Dexterity + armor.dex_bonus + weapon.dex_bonus;
+    }
+    /// <summary>
+    /// Character stats + item bonus
+    /// </summary>
+    /// <returns></returns>
+    public int getTotalCon()
+    {
+        return Constitution + armor.con_bonus + weapon.con_bonus;
+    }
+    /// <summary>
+    /// Character stats + item bonus
+    /// </summary>
+    /// <returns></returns>
+    public int getTotalWis()
+    {
+        return Wisdom + armor.wis_bonus + weapon.wis_bonus;
+    }
+    /// <summary>
+    /// Character stats + item bonus
+    /// </summary>
+    /// <returns></returns>
+    public int getTotalInt()
+    {
+        return Intelligence + armor.int_bonus + weapon.int_bonus;
+    }
+    /// <summary>
+    /// Character stats + item bonus
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    public int getTotalMaxHealth()
+    {
+        return getTotalCon() * 10;
+    }
+    /// <summary>
+    /// Character stats + item bonus
+    /// </summary>
+    /// <returns></returns>
+    public int getTotalMaxMana()
+    {
+        return (getTotalWis() + getTotalInt()) * 5;
+    }
     /*public string getTraitByKey(string key)
     {
         string trait = null;
