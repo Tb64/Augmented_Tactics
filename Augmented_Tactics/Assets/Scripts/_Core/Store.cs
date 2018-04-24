@@ -19,6 +19,7 @@ public class Store : MonoBehaviour
     public int storeType;
     public GameObject inventoryActual; // variables need renaming - quick fix
     public Image storeImage;
+    public Item selectedItem;
     public Text storeText;
     private float inventorySize;
     //test
@@ -213,7 +214,6 @@ public class Store : MonoBehaviour
         if (armor.magic_def != 0)
             storeText.text += "Magic Resistance: " + armor.magic_def + "\n";
 
-
     }
 
     void displayWeapon(Weapons weapon)
@@ -233,10 +233,21 @@ public class Store : MonoBehaviour
         if (weapon.int_bonus != 0)
             storeText.text += "Intelligence Bonus: " + weapon.int_bonus + "\n";
 
-       
     }
 
-   
+    public void setSelectedItem(Item item)
+    {
+        selectedItem = item;
+    }
+
+    public void buyArmor()
+    {
+        if(selectedItem == null)
+        {
+            return;
+        }
+        inventoryActual.GetComponent<Inventory>().addEquipable(selectedItem.getArmor());
+    }
 
     void displayUsable(Item item)
     {

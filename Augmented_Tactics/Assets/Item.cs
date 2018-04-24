@@ -14,6 +14,7 @@ public class Item : MonoBehaviour {
     public Image storeImage;
     public GameObject playerInventory;
     public GameObject store;
+    
     string itemType;
 
     void start()
@@ -44,10 +45,7 @@ public class Item : MonoBehaviour {
         slotOccupied = true;
     }
 
-    public void buyArmor()
-    {
-        playerInventory.GetComponent<Inventory>().addEquipable(armor);
-    }
+
 
 
     public void setInventory(GameObject obj)
@@ -108,7 +106,8 @@ public class Item : MonoBehaviour {
     public void checkParent()
     {
         string parentName = transform.parent.name;
-    
+        store.GetComponent<Store>().setSelectedItem(this);
+
         switch (parentName)
         {
             case "InventoryBackground":
