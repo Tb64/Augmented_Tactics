@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ public class BarrackUI : MonoBehaviour {
     public EquipStatsUI weaponUI;
     public EquipStatsUI armorUI;
     public GameObject dummy;
+    public Transform modelTansform;
 
     public Text desc1;
     public Text desc2;
@@ -18,6 +20,7 @@ public class BarrackUI : MonoBehaviour {
 
     private Actor dummyActor;
     private Sprite noItem;
+    private GameObject modelObj;
 
     // Use this for initialization
     void Start () {
@@ -39,6 +42,13 @@ public class BarrackUI : MonoBehaviour {
         UpdateText(pdata);
         weaponUI.DrawStats(pdata.weapon);
         armorUI.DrawStats(pdata.armor);
+
+        if (modelObj != null) { Destroy(modelObj); }
+        GameObject model = Resources.Load<GameObject>(pdata.getStringByKey(PlayerKey.Prefab));
+        model.GetComponent<PlayerControlled>().combatOn = false;
+        modelObj = Instantiate<GameObject>(model);
+        modelObj.transform.localScale = modelTansform.lossyScale;
+        modelObj.transform.SetPositionAndRotation(modelTansform.position, modelTansform.rotation);
     }
 
     private void UpdateSkills()
@@ -77,5 +87,21 @@ public class BarrackUI : MonoBehaviour {
     private void UpdateArmor()
     {
 
+    }
+
+    public void FireSoldierPopup()
+    {
+        //make a confirmation window to fire the soldier
+        FireSoldier();
+    }
+
+    private void FireSoldier()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void OnDisable()
+    {
+        if (modelObj != null) { Destroy(modelObj); }
     }
 }

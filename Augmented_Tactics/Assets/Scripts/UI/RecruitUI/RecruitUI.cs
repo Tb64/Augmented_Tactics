@@ -8,6 +8,8 @@ public class RecruitUI : UnitDisplayButton
 
     private const float recrListDelta = -100f;
 
+
+    public Sprite defaultImage;
     public int charactersToLoad;
     public Text shards;
     public Text currentUnitsOwned;
@@ -15,40 +17,63 @@ public class RecruitUI : UnitDisplayButton
     public Image slotHighlight;
 
     public GameObject statsPanel;
-    public GameObject ListWindow;
-    public GameObject UnitDisplayObj;
-    public GameObject cameraSetViewObj;
-    public GameObject modelTansformObj;
+    public Transform modelTansform;
     public GameObject armyListObj;
+    public EquipStatsUI equipStatsUI;
+    public GameObject dummy;
+    //public GameObject ListWindow;
+    //public GameObject UnitDisplayObj;
+    //public GameObject cameraSetViewObj;
 
-    public Image[] equipmentSlots;
-    public Image[] itemSlots;
     public Image[] skillsSlots;
+    public Image[] equipmentSlots;
+    //public Image[] itemSlots;
 
-    private int slotSelected = 0;
+    //private int slotSelected = 0;
 
-    private float[] slotXPos = { -180f, -60f, 60f, 180f };
-    private Vector3 chrListPos;
+    //private float[] slotXPos = { -180f, -60f, 60f, 180f };
+    //private Vector3 chrListPos;
 
     private PlayerData currentSelected;
 
-    private List<PlayerData> army;
     private List<PlayerData> recruits;
-    private List<GameObject> recruitsInList;
+
+    private string[] initialTextValues;
+    //private List<PlayerData> army;
+    //private List<GameObject> recruitsInList;
 
     private GameObject modelObj;
 
     private void Awake()
     {
-        Application.stackTraceLogType = StackTraceLogType.ScriptOnly;
+        
     }
 
     // Use this for initialization
     void Start()
     {
-        chrListPos = new Vector3(0f, 100f, 0f);
-        GameObject obj = Instantiate<GameObject>(cameraSetViewObj);
-        recruitsInList = new List<GameObject>();
+        initialTextValues = new string[10];
+        //save the initial text values to reset everything later
+        foreach (Text textComp in statsPanel.GetComponentsInChildren<Text>())
+        {
+            if (textComp.name == "Health")
+                initialTextValues[0] = textComp.text;
+            else if (textComp.name == "Mana")
+                initialTextValues[1] = textComp.text;
+            else if (textComp.name == "Experience")
+                initialTextValues[2] = textComp.text;
+            else if (textComp.name == "Strength")
+                initialTextValues[3] = textComp.text;
+            else if (textComp.name == "Dexterity")
+                initialTextValues[4] = textComp.text;
+            else if (textComp.name == "Constitution")
+                initialTextValues[5] = textComp.text;
+            else if (textComp.name == "Intelligence")
+                initialTextValues[6] = textComp.text;
+            else if (textComp.name == "Wisdom")
+                initialTextValues[7] = textComp.text;
+
+        }
         LoadData();
         MakeList(recruits);
     }
@@ -85,6 +110,8 @@ public class RecruitUI : UnitDisplayButton
         currentSelected = input;
 
         Text[] textComponents = statsPanel.GetComponentsInChildren<Text>();
+        Actor dummyActor = dummy.GetComponent<Actor>();
+        dummyActor.LoadStatsFromData(input);
 
         //get the info for the character
         foreach (Text textComp in textComponents)
@@ -107,23 +134,21 @@ public class RecruitUI : UnitDisplayButton
                 textComp.text = "Wisdom: " + input.Wisdom;
         }
 
-        //get a string for each skill, apply an image to it
-        foreach (Image skillImg in skillsSlots)
+        for (int i = 0; i < 4; i++)
         {
-            string skillStr = input.getStringByKey(PlayerKey.Icon);
-            Debug.Log("setting an image for skills: "+ skillStr);
-            skillImg.sprite = Resources.Load<Sprite>(skillStr);
+            if (dummyActor.abilitySet[i] != null && dummyActor.abilitySet[i].abilityImage != null)
+                skillsSlots[i].sprite = dummyActor.abilitySet[i].abilityImage;
+            else
+                skillsSlots[i].sprite = defaultImage;
         }
-
        
-
         //load model into soldierview, if one is active, destory it.
         if (modelObj != null) { Destroy(modelObj); }
         GameObject model = Resources.Load<GameObject>(input.getStringByKey(PlayerKey.Prefab));
         model.GetComponent<PlayerControlled>().combatOn = false;
         modelObj = Instantiate<GameObject>(model);
-        modelObj.transform.localScale = modelTansformObj.transform.lossyScale;
-        modelObj.transform.SetPositionAndRotation(modelTansformObj.transform.position, modelTansformObj.transform.rotation);
+        modelObj.transform.localScale = modelTansform.lossyScale;
+        modelObj.transform.SetPositionAndRotation(modelTansform.position, modelTansform.rotation);
     }
 
     public void setSelcted(PlayerData input)
@@ -138,5 +163,43 @@ public class RecruitUI : UnitDisplayButton
         if (modelObj != null) { Destroy(modelObj); }
         GameDataController.gameData.addPlayer(currentSelected);
         GameDataController.savePlayerData();
+    }
+    public void WeaponClick()
+    {
+        equipStatsUI.DrawStats(currentSelected.weapon);
+    }
+    public void ArmorClick()
+    {
+        equipStatsUI.DrawStats(currentSelected.armor);
+    }
+
+    //this is to reset the recruit ui
+    private void OnDisable()
+    {
+        if (modelObj != null) { Destroy(modelObj); }
+
+        foreach (Text textComp in statsPanel.GetComponentsInChildren<Text>())
+        {
+            if (textComp.name == "Health")
+                textComp.text = initialTextValues[0];
+            else if (textComp.name == "Mana")
+                textComp.text = initialTextValues[1];
+            else if (textComp.name == "Experience")
+                textComp.text = initialTextValues[2];
+            else if (textComp.name == "Strength")
+                textComp.text = initialTextValues[3];
+            else if (textComp.name == "Dexterity")
+                textComp.text = initialTextValues[4];
+            else if (textComp.name == "Constitution")
+                textComp.text = initialTextValues[5];
+            else if (textComp.name == "Intelligence")
+                textComp.text = initialTextValues[6];
+            else if (textComp.name == "Wisdom")
+                textComp.text = initialTextValues[7];
+        }
+        foreach (Image slot in skillsSlots)
+            slot.sprite = defaultImage;
+        foreach (Image slot in equipmentSlots)
+            slot.sprite = defaultImage;
     }
 }
