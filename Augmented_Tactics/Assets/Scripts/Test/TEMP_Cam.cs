@@ -8,13 +8,17 @@ public class TEMP_Cam : MonoBehaviour
     private Rigidbody body;
 
     public float speed = 10f;
+    public float touchPanSpeed = 0.1f;
     public float angleDelta = 1f;
 
-    public float perspectiveZoomSpeed = 0.5f;        // The rate of change of the field of view in perspective mode.
+    public float perspectiveZoomSpeed = 0.00001f;        // The rate of change of the field of view in perspective mode.
     public float orthoZoomSpeed = 0.5f;        // The rate of change of the orthographic size in orthographic mode.
 
     private Camera camera;
 
+    private Vector2 touchStartPos;
+    private float touchStartTime;
+    private float startingAngle;
 
     // Use this for initialization
     void Start()
@@ -31,7 +35,9 @@ public class TEMP_Cam : MonoBehaviour
     void Update()
     {
         CameraControls();
-
+        TouchPan();
+        TouchRotate();
+        TouchPinchZoom();
     }
 
     void CameraControls()
@@ -75,8 +81,8 @@ public class TEMP_Cam : MonoBehaviour
             Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
 
             // Find the magnitude of the vector (the distance) between the touches in each frame.
-            float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
-            float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+            float prevTouchDeltaMag = (touchZeroPrevPos.normalized - touchOnePrevPos.normalized).magnitude;
+            float touchDeltaMag = (touchZero.position.normalized - touchOne.position.normalized).magnitude;
 
             // Find the difference in the distances between each frame.
             float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
@@ -93,10 +99,10 @@ public class TEMP_Cam : MonoBehaviour
             else
             {
                 // Otherwise change the field of view based on the change in distance between the touches.
-                camera.fieldOfView += deltaMagnitudeDiff * perspectiveZoomSpeed;
+                camera.fieldOfView += deltaMagnitudeDiff * perspectiveZoomSpeed * Time.deltaTime;
 
                 // Clamp the field of view to make sure it's between 0 and 180.
-                camera.fieldOfView = Mathf.Clamp(camera.fieldOfView, 0.1f, 179.9f);
+                camera.fieldOfView = Mathf.Clamp(camera.fieldOfView, 10.1f, 79.9f);
             }
         }
     }
@@ -110,6 +116,8 @@ public class TEMP_Cam : MonoBehaviour
             // Store both touches.
             Touch touchZero = Input.GetTouch(0);
             Touch touchOne = Input.GetTouch(1);
+            if(touchOne.phase == TouchPhase.Began)
+                startingAngle = Vector2.SignedAngle(touchZero.position, touchOne.position);
 
             // Find the position in the previous frame of each touch.
             //Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
@@ -118,7 +126,37 @@ public class TEMP_Cam : MonoBehaviour
             Vector2 startingVector = touchZero.position - touchOne.position;
             Vector2 endingVector = touchZero.deltaPosition - touchOne.deltaPosition;
 
-            float angleChange = Vector2.SignedAngle(startingVector, endingVector);
+            startingAngle = Vector2.SignedAngle(touchZero.position - touchZero.deltaPosition, touchOne.position - touchOne.deltaPosition);
+            float angleChange = Vector2.SignedAngle(touchZero.position, touchOne.position) - startingAngle;
+
+            body.transform.rotation = Quaternion.Euler(
+                body.transform.rotation.eulerAngles.x,
+                body.transform.rotation.eulerAngles.y + (angleChange),
+                body.transform.rotation.eulerAngles.z
+                );
+        }
+    }
+
+    void TouchPan()
+    {
+        if(Input.touchCount == 1)
+        {
+            Touch touch1 = Input.GetTouch(0);
+            if (touch1.phase == TouchPhase.Began)
+                touchStartTime = Time.time;
+
+            float dist = touch1.deltaPosition.magnitude;
+            float touchDuration = Time.time - touchStartTime;
+
+            DebugMobile.Log("dist " + dist + " touchDuration " + touchDuration);
+            if(dist >= GameController.touchDistTreshold |touchDuration >= GameController.touchHoldTreshold)
+            {
+                Vector3 movement = (touch1.deltaPosition.y * transform.forward * Time.deltaTime) + (touch1.deltaPosition.x * transform.right * Time.deltaTime);
+
+                body.velocity = movement.normalized * touchPanSpeed * dist;
+                DebugMobile.Log("body.velocity " + body.velocity);
+                //body.velocity = touch1.deltaPosition.normalized * speed;
+            }
         }
     }
 }
