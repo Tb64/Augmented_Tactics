@@ -15,6 +15,7 @@ public class Store : MonoBehaviour
     GameObject[,] inventoryArray = new GameObject[5, 5];
     GameObject backgroundImage;
     GameObject StoreBackground;
+    
     //1 for armorer, 2 for weaponsmith, 3 for generalStore
     public int storeType;
     public GameObject inventoryActual; // variables need renaming - quick fix
@@ -33,6 +34,7 @@ public class Store : MonoBehaviour
         item = Resources.Load<GameObject>("Prefabs/Item");
         StoreBackground = GameObject.Find("StoreBackground");
         inventory = GameObject.Find("StoreUI");
+
         inventoryHead = GameObject.Find("Store");
         invTransform = inventory.GetComponent<Transform>();
         updateStore();
@@ -142,6 +144,11 @@ public class Store : MonoBehaviour
         }
     }
 
+    public void exitInventory()
+    {
+        this.gameObject.SetActive(false);
+    }
+
     public Armor generateArmor()
     {
         string className = CharacterClasses.classNames[UnityEngine.Random.Range(0, CharacterClasses.classNames.Length)];
@@ -217,6 +224,10 @@ public class Store : MonoBehaviour
 
     void displayWeapon(Weapons weapon)
     {
+        storeText.text = "";
+        storeText.text += "Name: " + weapon.name + "\n";
+        storeText.text += "Cost: " + weapon.cost + "\n";
+
         if (weapon.str_bonus != 0)
             storeText.text += "Strength Bonus: " + weapon.str_bonus + "\n";
 
