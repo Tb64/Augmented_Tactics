@@ -50,9 +50,7 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
-
         updateInventory();
-
     }
 
     public void addUsable(UsableItem item)
@@ -74,12 +72,6 @@ public class Inventory : MonoBehaviour
 
     public void updateInventory()
     {
-
-        //if (backgroundImage.GetComponent<Image>() == true)
-        //    backgroundImage.SetActive(false);
-        //else
-        //    backgroundImage.GetComponent<Image>().enabled = true;
-
         if (item == null)
         {
             Debug.Log("ITEM NOT FOUND");
@@ -117,7 +109,7 @@ public class Inventory : MonoBehaviour
             iconPlacement.x = inventoryArray[0, 0].transform.localPosition.x;
             iconPlacement += new Vector3(0, -80f, 0);
         }
-
+       
 
     }
 

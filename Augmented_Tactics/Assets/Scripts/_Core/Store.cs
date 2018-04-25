@@ -34,9 +34,8 @@ public class Store : MonoBehaviour
         StoreBackground = GameObject.Find("StoreBackground");
         inventory = GameObject.Find("StoreUI");
         inventoryHead = GameObject.Find("Store");
-        //storeImage = transform.Find("Store/StoreUI/StoreImage").GetComponent<Image>();
         invTransform = inventory.GetComponent<Transform>();
-        updateInventory();
+        updateStore();
         armorgen = new ArmorGen();
         weapon = ArmorGen.ArmorGenerate(1, "Brawler", 1);
         addEquipable(weapon);
@@ -71,7 +70,7 @@ public class Store : MonoBehaviour
         }
     }
 
-    public void updateInventory()
+    public void updateStore()
     {
 
         if (item == null)
@@ -242,11 +241,30 @@ public class Store : MonoBehaviour
 
     public void buyArmor()
     {
-        if(selectedItem == null)
+        if (inventoryActual.gameObject.activeSelf == false)
+        {
+            inventoryActual.GetComponent<Inventory>().toggleInventory();
+        }
+
+        if (selectedItem == null)
         {
             return;
         }
         inventoryActual.GetComponent<Inventory>().addEquipable(selectedItem.getArmor());
+    }
+
+    public void buyWeapon()
+    {
+        if (inventoryActual.gameObject.activeSelf == false)
+        {
+            inventoryActual.GetComponent<Inventory>().toggleInventory();
+        }
+
+        if (selectedItem == null)
+        {
+            return;
+        }
+        inventoryActual.GetComponent<Inventory>().addEquipable(selectedItem.getWeapon());
     }
 
     void displayUsable(Item item)
