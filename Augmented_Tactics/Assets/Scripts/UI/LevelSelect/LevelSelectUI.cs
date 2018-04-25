@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelSelectUI : MonoBehaviour {
 
@@ -22,7 +23,10 @@ public class LevelSelectUI : MonoBehaviour {
     void Start () {
         int sceneCount = SceneManager.sceneCountInBuildSettings;
         if (sceneCount >= 2)
+        {
             buttonPrefab.GetComponent<LevelButton>().Init(2);
+            buttonPrefab.GetComponent<Button>().onClick.AddListener(buttonPrefab.GetComponent<LevelButton>().ButtonClicked);
+        }
         else
             return;
         Vector3 pos = buttonPrefab.GetComponent<RectTransform>().anchoredPosition3D;
@@ -32,6 +36,7 @@ public class LevelSelectUI : MonoBehaviour {
             pos.y -= 100;
             GameObject obj = Instantiate<GameObject>(buttonPrefab);
             obj.transform.SetParent(buttonContainer.transform, false);
+            obj.GetComponent<Button>().onClick.AddListener(obj.GetComponent<LevelButton>().ButtonClicked);
             obj.GetComponent<RectTransform>().anchoredPosition3D = pos;
             obj.GetComponent<LevelButton>().Init(index);
         }
@@ -45,9 +50,4 @@ public class LevelSelectUI : MonoBehaviour {
 	void Update () {
 		
 	}
-
-    public void LevelButtonClicked(int index)
-    {
-
-    }
 }

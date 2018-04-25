@@ -82,14 +82,15 @@ public class EquipmentUI : MonoBehaviour {
         InventoryReset();
         if (armorEquip)
         {
-            armors = gdata.armors;
+            armors = new List<Armor>();
             int index = 0;
-            foreach (Armor item in armors)
+            foreach (Armor item in gdata.armors)
             {
                 if(item.class_req == pdata.ClassName)
                 {
                     Debug.Log("Loading slot " + index + " with " + item.name);
                     inventoryImg[index].sprite = Resources.Load<Sprite>(item.image);
+                    armors.Add(item);
                     index++;
                 }
                 if (index == 25)
@@ -98,14 +99,15 @@ public class EquipmentUI : MonoBehaviour {
         }
         else
         {
-            weapons = gdata.weapons;
+            weapons = new List<Weapons>();
             int index = 0;
-            foreach (Weapons item in weapons)
+            foreach (Weapons item in gdata.weapons)
             {
                 if (item.class_req == pdata.ClassName)
                 {
                     Debug.Log("Loading slot " + index + " with " + item.name);
                     inventoryImg[index].sprite = Resources.Load<Sprite>(item.image);
+                    weapons.Add(item);
                     index++;
                 }
                 if (index == 25)

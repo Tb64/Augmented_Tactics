@@ -151,6 +151,21 @@ public class GameData
         return false;
     }
 
+    public bool removePlayer(PlayerData data)
+    {
+        int index = 0;
+        foreach (PlayerData pdata in armyList)
+        {
+            if(pdata.playerName == data.playerName)
+            {
+                armyList.RemoveAt(index);
+                return true;
+            }
+            index++;
+        }
+        return false;
+    }
+
     /* private List<PlayerData> retrieveData()
      {
          //GameDataController game = new GameDataController();

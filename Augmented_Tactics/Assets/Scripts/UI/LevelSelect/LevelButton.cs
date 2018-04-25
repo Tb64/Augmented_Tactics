@@ -8,9 +8,11 @@ public class LevelButton : MonoBehaviour {
 
     public Text buttonText;
     private int sceneIndex;
+    private string sceneName;
 
     public void ButtonClicked()
     {
+        Debug.Log("Setting: " + sceneIndex + " " + sceneName);
         SendMessageUpwards("LevelButtonClicked", sceneIndex);
     }
 
@@ -19,11 +21,13 @@ public class LevelButton : MonoBehaviour {
         if (buttonText != null)
             buttonText.text = label;
         sceneIndex = index;
+        sceneName = label;
     }
 
     public void Init(int index)
     {
         string name = SceneUtility.GetScenePathByBuildIndex(index);
+        sceneName = name;
         Init(name, index);
     }
 }

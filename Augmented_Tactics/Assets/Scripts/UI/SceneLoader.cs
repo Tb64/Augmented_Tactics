@@ -14,6 +14,11 @@ public class SceneLoader : MonoBehaviour {
         StartCoroutine(SceneLoadAsync(levelname));
     }
 
+    public void SceneLoad(int levelIndex)
+    {
+        StartCoroutine(SceneLoadAsync(levelIndex));
+    }
+
     IEnumerator SceneLoadAsync(string levelname)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(levelname);
@@ -26,6 +31,23 @@ public class SceneLoader : MonoBehaviour {
             slider.value = progress;
 
             Debug.Log("Loading " + levelname + ": " + progress);
+
+            yield return null;
+        }
+    }
+
+    IEnumerator SceneLoadAsync(int levelIndex)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(levelIndex);
+        loadingScreen.SetActive(true);
+
+        while (!operation.isDone)
+        {
+            float progress = Mathf.Clamp01(operation.progress / 0.9f);
+
+            slider.value = progress;
+
+            Debug.Log("Loading " + levelIndex + ": " + progress);
 
             yield return null;
         }

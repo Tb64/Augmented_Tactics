@@ -29,6 +29,8 @@ public class BarrackUI : MonoBehaviour {
         GameDataController.loadPlayerData();
         armyUI.LoadList(GameDataController.gameData.armyList);
         dummyActor = dummy.GetComponent<Actor>();
+        SelectDefault();
+        UpdatePage();
         //noItem = skills[0].sprite;
     }
 	
@@ -54,6 +56,13 @@ public class BarrackUI : MonoBehaviour {
         modelObj = Instantiate<GameObject>(model);
         modelObj.transform.localScale = modelTansform.lossyScale;
         modelObj.transform.SetPositionAndRotation(modelTansform.position, modelTansform.rotation);
+    }
+
+    private void SelectDefault()
+    {
+        GameDataController.loadPlayerData();
+        currentData =  GameDataController.gameData.armyList[0];
+        
     }
 
     private void UpdateSkills()
@@ -102,9 +111,14 @@ public class BarrackUI : MonoBehaviour {
 
     private void FireSoldier()
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
+        GameDataController.loadPlayerData();
+        GameDataController.gameData.removePlayer(currentData);
+        GameDataController.savePlayerData();
+        Debug.Log("Deleted " + currentData.playerName);
 
-
+        SelectDefault();
+        armyUI.LoadList(GameDataController.gameData.armyList);
     }
 
     private void OnDisable()
