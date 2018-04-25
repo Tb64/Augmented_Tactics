@@ -85,5 +85,15 @@ public class CharacterClasses : MonoBehaviour {
         }
         return -1;
     }
+
+    public string RandomClassName()
+    {
+        return classNames[RandomClassID()];
+    }
+
+    public int RandomClassID()
+    {
+        return Random.Range(0, classNames.Length);
+    }
     
 }
