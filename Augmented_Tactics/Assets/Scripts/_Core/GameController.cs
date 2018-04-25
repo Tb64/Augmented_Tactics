@@ -94,8 +94,15 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //ClickEvent();
+
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR
+        ClickEvent();
+#endif
+
+#if UNITY_ANDROID
         TouchEvent();
+#endif
+        
     }
 
     private void TurnStart()
@@ -209,9 +216,9 @@ public class GameController : MonoBehaviour
 
     GameObject RayCaster()
     {
-        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
-            return null;
 
+        if (Input.touchCount > 0 && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+            return null;
         GameObject interactedObject;
         Ray interactionRay = Camera.main.ScreenPointToRay(lastClickPosition);
         RaycastHit interactionInfo;
