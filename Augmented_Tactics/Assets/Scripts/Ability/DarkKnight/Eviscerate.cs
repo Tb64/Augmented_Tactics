@@ -7,7 +7,7 @@ public class Eviscerate : Ability
 {
 
     private MonoBehaviour mB;
-    StateMachine SM = GameObject.Find("GameController").GetComponent<StateMachine>();
+    StateMachine SM = GameObject.FindGameObjectWithTag("GameController").GetComponent<StateMachine>();
     //Damages Enemy and removes one action point from enemy
     //need to add status effect that removes one turn from enemy
     GameObject bloodEffect = Resources.Load<GameObject>("animation/effect26");

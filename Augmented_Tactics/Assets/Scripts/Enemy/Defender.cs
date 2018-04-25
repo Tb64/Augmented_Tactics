@@ -33,10 +33,14 @@ public class Defender : Enemy {
         base.OnDestroy();
         TurnBehaviour.OnEnemyOutOfMoves -= this.ResetValues;
     }
-   /* public override void EnemyInitialize() //temp until all abilities and items are done.  initialize attacks / stats based on lvl and archetype
-    {
+    /* public override void EnemyInitialize() //temp until all abilities and items are done.  initialize attacks / stats based on lvl and archetype
+     {
 
-    }*/
+     }*/
+    public override void EnemyInitialize()
+    {
+        
+    }
     public override string GetArchetype()
     {
         return "defender";
@@ -68,15 +72,19 @@ public class Defender : Enemy {
             DrawFire();
             return;
         }
-        else
+        else if(EnemyController.enemyList.Count > 1)
         {
-            aiding = EnemyController.FindWeakestEnemy();
+            aiding = EnemyController.FindWeakestEnemy(this);
             aidLocked = true;
             aiding.aided = true;
             aiding.UpdateNearest();
             currentTarget = aiding.getNearest();
             DrawFire();
             return;
+        }
+        else
+        {
+            base.EnemyActions();
         }
     }
 

@@ -112,14 +112,14 @@ public class EnemyController : MonoBehaviour
         return weakest;
     }
 
-    public static Enemy FindWeakestEnemy()
+    public static Enemy FindWeakestEnemy(Enemy self)
     {
         Enemy weakling = null;
         float lowestHealth = enemyList[0].GetHealthPercent();
         foreach (Enemy enemy in enemyList)
         {
             float playerHealth = enemy.GetHealthPercent();
-            if (playerHealth < lowestHealth)
+            if (playerHealth < lowestHealth && enemy != self)
             {
                 weakling = enemy;
                 lowestHealth = playerHealth;

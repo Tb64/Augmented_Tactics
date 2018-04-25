@@ -28,7 +28,7 @@ public class Combo : Ability {
         if (abilityImage == null)
             Debug.Log("Unable to load image");
 
-        damage = 10f + ((float)actor.getStrength() * 0.5f);
+        damage = 5f + ((float)actor.getStrength());
         int manaPercent = (int)((manaCost * 100f) / actor.getMaxMana());
         abilityDescription = "A three hit combo. Cost is a percentage that depends on the level of the brawler. \nMana: " + manaPercent + "%";
     }
@@ -67,8 +67,9 @@ public class Combo : Ability {
 
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
-        Debug.Log("combo damage = " + damage + " " + actor.getStrength());
-        target.GetComponent<Actor>().TakeDamage(damage, gameObject);
+        float totalDamage = damage + actor.getWeapon().RollPhysicalDamage() - target.GetComponent<Actor>().getPhysicalDefense();
+        Debug.Log("combo damage = " + totalDamage + " " + actor.getStrength());
+        target.GetComponent<Actor>().TakeDamage(totalDamage, gameObject);
     }
 
     private void StartCoroutine(GameObject target)

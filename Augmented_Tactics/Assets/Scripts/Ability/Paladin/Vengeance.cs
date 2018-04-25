@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Vengeance : Ability {
-    private string animTrigger = "CastAttack2Trigger";
-    const string SpiriteDir = "UI/Skill_Icon_Pack/yellow/yellow_12";
+    private string animTrigger = "Attack4Trigger";
+    const string SpiriteDir = "UI/Skill_Icon_Pack/yellow/yellow_41";
 
     public Vengeance(GameObject obj)
     {

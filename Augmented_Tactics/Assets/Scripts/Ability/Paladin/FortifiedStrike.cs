@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FortifiedStrike : Ability {
 
-    private string animTrigger = "CastAttack2Trigger";
+    private string animTrigger = "Attack4Trigger";
     const string SpiriteDir = "UI/Skill_Icon_Pack/yellow/yellow_33";
 
     public FortifiedStrike(GameObject obj)

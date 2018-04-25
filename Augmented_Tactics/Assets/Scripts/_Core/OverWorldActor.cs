@@ -33,11 +33,16 @@ public class OverWorldActor : MonoBehaviour
         rotationSpeed = 100f;
     }
 
+
+
+
+
+
     void clickToMove()
     {
         
         //playerAnim.SetFloat("Speed", playerAgent.velocity.magnitude);
-        if (Input.GetMouseButtonDown(0)) //&& !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButtonDown(0) && !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
             GetInteraction();
             

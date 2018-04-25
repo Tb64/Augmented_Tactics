@@ -71,12 +71,17 @@ public class SkillLoader : MonoBehaviour {
             //Wizard
             case "ice":
                 return new Ice(gObj);
-
             case "thunder":
                 return new Thunder(gObj);
-
             case "fireball":
                 return new FireBall(gObj);
+            case "binder":
+                return new FireBall(gObj);
+            case "arcanecomet":
+                return new FireBall(gObj);
+            case "arcanebarrier":
+                return new FireBall(gObj);
+
 
 
             //Cleric
@@ -195,7 +200,7 @@ public class SkillLoader : MonoBehaviour {
                 skills[4] = "beaconofhope";
                 skills[5] = "";
                 skills[6] = "";
-                skills[7] = "shieldsoffaith";
+                skills[7] = "shieldoffaith";
                 return skills;
 
             case CharacterClasses.MageKey:

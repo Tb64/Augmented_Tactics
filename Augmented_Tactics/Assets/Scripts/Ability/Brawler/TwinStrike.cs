@@ -48,6 +48,7 @@ public class TwinStrike : Ability
             return false;
         }
     }
+
     private void Skill(GameObject target)
     {
         StartCoroutine(target);
@@ -65,7 +66,7 @@ public class TwinStrike : Ability
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
         actor.GiveMana(manaGiven);
-        float totalDamage = damage + actor.getWeapon().RollPhysicalDamage() - target.GetComponent<Actor>().getArmor().physical_def;
+        float totalDamage = damage + actor.getWeapon().RollPhysicalDamage() - target.GetComponent<Actor>().getPhysicalDefense();
         Debug.Log("combo damage = " + totalDamage + " " + actor.getStrength());
         target.GetComponent<Actor>().TakeDamage(totalDamage, gameObject);
     }
