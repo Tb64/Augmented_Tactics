@@ -69,6 +69,7 @@ public class EnemyController : MonoBehaviour
             findOrder.Add(orderChoice.GetComponent<Enemy>());
             enemyNum++;
         }
+        findOrder = AddSpecialists(findOrder) ;
         DecideOrder(findOrder);
        /* foreach (Enemy enemy in enemyList)
         {
@@ -93,6 +94,37 @@ public class EnemyController : MonoBehaviour
         }
 
     }
+    
+    private List<Enemy> AddSpecialists(List<Enemy> current)
+    {
+         GameObject game = GameObject.FindWithTag("Decet") ;
+         if(game != null) 
+             current.Add(game.GetComponent<"Decet">()) ;
+         game = GameObject.FindWithTag("Eery");
+         if(game != null) 
+             current.Add(game.GetComponent<"Eery">()) ;
+         game = GameObject.FindWithTag("Causion");
+         if(game != null) 
+             current.Add(game.GetComponent<"Causion">()) ;
+         GameObject[] games = GameObject.FindGameObjectsWithTag("Support");
+         if(games != null) 
+              foreach(GameObject game in games) 
+                  current.Add(game.GetComponent<"Support">());
+         games = GameObject.FindObjectsWithTag("Defender");
+         if(games! = null)
+              foreach(GameObject game in games) 
+                  current.Add(game.GetComponent<"Defender">());
+         games = GameObject.FindObjectsWithTag("Tank")
+         if(games! = null)
+              foreach(GameObject game in games) 
+                  current.Add(game.GetComponent<"Tank">());
+         games = GameObject.FindObjectsWithTag("Agressive")
+         if(games! = null)
+              foreach(GameObject game in games) 
+                  current.Add(game.GetComponent<"Agressive">());
+
+         return current;
+    } 
 
     public Actor FindWeakestPlayer()
     {
