@@ -6,6 +6,8 @@ public class UsableItem : Items
 {
     protected Ability itemAbility;
 
+    public string itemDesc;
+
 
     public virtual void InitInitialize()
     {
