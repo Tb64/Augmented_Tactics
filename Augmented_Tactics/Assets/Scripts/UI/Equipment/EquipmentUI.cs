@@ -25,6 +25,7 @@ public class EquipmentUI : MonoBehaviour {
     public GameData gdata;
 
     private int currentlySelected = -1;
+    public Sprite nullImage;
 
     private List<Armor> armors;
     private List<Weapons> weapons;
@@ -32,9 +33,11 @@ public class EquipmentUI : MonoBehaviour {
     // Use this for initialization
     void Start() {
         Application.stackTraceLogType = StackTraceLogType.ScriptOnly;
-
+        //nullImage = newImg.sprite;
         gdata = GameDataController.loadPlayerData();
-        pdata = gdata.armyList[0];
+
+        if(pdata == null)
+            pdata = gdata.armyList[0];
         LoadEquipementUI(pdata, armorUI);
     }
 
@@ -45,11 +48,14 @@ public class EquipmentUI : MonoBehaviour {
     /// <param name="armorEquip">True=Armor False=Weapons</param>
     public void LoadEquipementUI(PlayerData data, bool armorEquip)
     {
+        //nullImage = newImg.sprite;
         gdata = GameDataController.loadPlayerData();
         pdata = data;
         armorUI = armorEquip;
         newText1.text = "";
         newText2.text = "";
+        newImg.sprite = nullImage;
+        equipedImg.sprite = nullImage;
         Confirm.interactable = false;
         LoadInventory(armorEquip);
         LoadPlayer(data, armorEquip);
@@ -57,7 +63,7 @@ public class EquipmentUI : MonoBehaviour {
 
     private void LoadPlayer(PlayerData data, bool armorEquip)
     {
-        if(armorEquip)
+        if (armorEquip)
         {
             equipedImg.sprite = Resources.Load<Sprite>(data.armor.image);
             equipedText1.text = ArmorToText1(data.armor);
@@ -73,16 +79,18 @@ public class EquipmentUI : MonoBehaviour {
 
     private void LoadInventory(bool armorEquip)
     {
+        InventoryReset();
         if (armorEquip)
         {
-            armors = gdata.armors;
+            armors = new List<Armor>();
             int index = 0;
-            foreach (Armor item in armors)
+            foreach (Armor item in gdata.armors)
             {
                 if(item.class_req == pdata.ClassName)
                 {
                     Debug.Log("Loading slot " + index + " with " + item.name);
                     inventoryImg[index].sprite = Resources.Load<Sprite>(item.image);
+                    armors.Add(item);
                     index++;
                 }
                 if (index == 25)
@@ -91,20 +99,29 @@ public class EquipmentUI : MonoBehaviour {
         }
         else
         {
-            weapons = gdata.weapons;
+            weapons = new List<Weapons>();
             int index = 0;
-            foreach (Weapons item in weapons)
+            foreach (Weapons item in gdata.weapons)
             {
                 if (item.class_req == pdata.ClassName)
                 {
                     Debug.Log("Loading slot " + index + " with " + item.name);
                     inventoryImg[index].sprite = Resources.Load<Sprite>(item.image);
+                    weapons.Add(item);
                     index++;
                 }
                 if (index == 25)
                     return;
 
             }
+        }
+    }
+
+    private void InventoryReset()
+    {
+        foreach (Image img in inventoryImg)
+        {
+            img.sprite = nullImage;
         }
     }
 

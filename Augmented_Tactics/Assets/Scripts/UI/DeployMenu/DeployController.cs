@@ -28,6 +28,7 @@ public class DeployController : MonoBehaviour {
     private PlayerData currentSelected;
 
     private List<PlayerData> army;
+    private int sceneLoadIndex;
 
     private void Awake()
     {
@@ -173,5 +174,10 @@ public class DeployController : MonoBehaviour {
         currentSelected = pdata;
         ChangeSelected(pdata);
         //GenerateUI();
+    }
+
+    public void SetLevel(int input)
+    {
+        sceneLoadIndex = input;
     }
 }

@@ -27,7 +27,7 @@ public class Actor : MonoBehaviour
     #region Variables
 
     public PlayerData data;
-
+    public string playerDataName;
     protected Animator anim;
     public string actorName;
     public float health_current;    // temporary for debugging purposes(should be protected)
@@ -242,6 +242,16 @@ public class Actor : MonoBehaviour
         if (GameObject.Find("Map") == null)
             return;
         map = GameObject.Find("Map").GetComponent<TileMap>();
+
+        if(weapon == null)
+        {
+            weapon = WeaponGen.WeaponGenerate(1, 0, 0);
+        }
+
+        if(armor == null)
+        {
+            armor = ArmorGen.ArmorGenerate(1, 0, 0);
+        }
 
         if (map.IsValidCoord(coords) == true)
         {
@@ -736,19 +746,19 @@ public class Actor : MonoBehaviour
         switch (level)
         {
             case 1 :
-                return 300 - getExperience();
+                return PlayerKey.LevelCaps[level] - getExperience();
             case 2 :
-                return 900 - getExperience();
+                return PlayerKey.LevelCaps[level] - getExperience();
             case 3 :
-                return 2700 - getExperience();
+                return PlayerKey.LevelCaps[level] - getExperience();
             case 4 :
-                return 6500 - getExperience();
+                return PlayerKey.LevelCaps[level] - getExperience();
             case 5 :
-                return 14000 - getExperience();
+                return PlayerKey.LevelCaps[level] - getExperience();
             case 6 :
-                return 23000 - getExperience();
+                return PlayerKey.LevelCaps[level] - getExperience();
             case 7 :
-                return 34000- getExperience();
+                return PlayerKey.LevelCaps[level] - getExperience();
             default :
                 Debug.LogError("LEVEL OUT OF RANGE" + level);
                 return -1;

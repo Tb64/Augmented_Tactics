@@ -7,8 +7,8 @@ public class Bleed : StatusEffects{
     public Bleed(float effect, Actor effector, Actor effected, bool isEnemy) : base(effect, effector, effected, isEnemy)
     {
         TurnBehaviour.OnTurnStart += this.decreaseTimeCounter;
-        effectText = "Poisoned";
-        duration = Random.Range(1, 4);
+        effectText = "Bleeding";
+        duration = Random.Range(2, 2);
         this.effect = effect;
         effectedPlayer = effected;
         effectorPlayer = effector;
