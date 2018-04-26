@@ -70,8 +70,8 @@ public class TileMap : MonoBehaviour {
         
         //selectedUnit.GetComponent<Actor>().map = this;
 
-        Actor player = GameObject.FindWithTag("Player").GetComponent<Actor>();
-        Actor enemy = GameObject.FindWithTag("Enemy").GetComponent<Actor>();
+        //Actor player = GameObject.FindWithTag("Player").GetComponent<Actor>();
+        //enemy = GameObject.FindWithTag("Enemy").GetComponent<Actor>();
 
         if (codeGenerateMap)
         {
