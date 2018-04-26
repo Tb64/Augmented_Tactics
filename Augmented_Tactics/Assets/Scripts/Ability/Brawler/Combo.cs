@@ -62,7 +62,7 @@ public class Combo : Ability {
             if (handVFX != null)
             {
                 GameObject.Instantiate<GameObject>(handVFX, actor.RightHandTransform());
-                GameObject.Instantiate<GameObject>(handVFX, actor.LeftHandTransform());
+                GameObject.Destroy( GameObject.Instantiate<GameObject>(handVFX, actor.LeftHandTransform()), dwell_time);
             }
 
             gameObject.GetComponent<Actor>().PlaySound("attack");
