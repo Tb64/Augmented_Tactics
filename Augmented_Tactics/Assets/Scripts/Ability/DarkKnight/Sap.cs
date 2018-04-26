@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class Eviscerate : Ability
+public class Sap : Ability
 {
 
     private MonoBehaviour mB;
@@ -14,9 +13,9 @@ public class Eviscerate : Ability
     Actor user;
     float BASE_DAMAGE = 10f;
     float STR_SCALER = 0.5f;
+    float mana_drain = 10f;
 
-
-    public Eviscerate(GameObject obj)
+    public Sap(GameObject obj)
     {
         Initialize(obj);
         user = obj.GetComponent<Actor>();
@@ -28,15 +27,15 @@ public class Eviscerate : Ability
         mB = GameObject.FindObjectOfType<MonoBehaviour>();
         anim = gameObject.GetComponentInChildren<Animator>();
         dwell_time = 1.0f;
-        abilityName = "eviscerate";
-        manaCost = 10;
+        abilityName = "sap";
+        manaCost = 0;
         range_max = 1;
         range_min = 0;
         damage = BASE_DAMAGE * actor.getLevel() + STR_SCALER * actor.getStrength();
         abilityImage = Resources.Load<Sprite>("UI/Ability/assassin/assassinSkill2");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
-        abilityDescription = "A devestating stab that will leave an enemy bleeding for two turns";
+        abilityDescription = "Slash the enemy, draining their mana";
         
     }
 
@@ -76,19 +75,13 @@ public class Eviscerate : Ability
         if (anim != null)
         {
             rotateAtObj(target);
-            anim.Play("Eviscerate");
+            anim.Play("Sap");
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
         StartCoroutine(target);
-
-        //decide if status effect is successful
-        //StatusEffect status = new StatusEffect(2, (float)typeof(Actor).GetField("health_current").GetValue(user), "Bleeding", 5, "-", target.GetComponent<Actor>(),true, SM);
-        //Need to add status effect
-        StatusEffectsController.AddEffect(new Bleed((damage/2), actor, target.GetComponent<Actor>(), target.tag == "Enemy"));
-        //Will apply bleed(damager per turn, 2 turns)
-        //Will remove 1 move from enemies next 2 turns
+        user.setManaCurrent(user.getManaCurrent() + mana_drain);
+        target.GetComponent<Actor>().setManaCurrent(target.GetComponent<Actor>().getManaCurrent() - mana_drain);
 
         DwellTime.Attack(dwell_time);
     }
-
 }

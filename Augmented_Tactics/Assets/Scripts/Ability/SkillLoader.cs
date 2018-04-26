@@ -68,6 +68,9 @@ public class SkillLoader : MonoBehaviour {
             case "shieldbash":
                 return new ShieldBash(gObj);
 
+            case "sap":
+                return new Sap(gObj);
+
             //Wizard
             case "ice":
                 return new Ice(gObj);
