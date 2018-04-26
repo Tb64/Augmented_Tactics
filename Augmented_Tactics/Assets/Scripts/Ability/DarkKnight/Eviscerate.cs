@@ -7,11 +7,14 @@ public class Eviscerate : Ability
 {
 
     private MonoBehaviour mB;
-    StateMachine SM = GameObject.Find("GameController").GetComponent<StateMachine>();
+    StateMachine SM = GameObject.FindGameObjectWithTag("GameController").GetComponent<StateMachine>();
     //Damages Enemy and removes one action point from enemy
     //need to add status effect that removes one turn from enemy
     GameObject bloodEffect = Resources.Load<GameObject>("animation/effect26");
     Actor user;
+    float BASE_DAMAGE = 10f;
+    float STR_SCALER = 0.5f;
+
 
     public Eviscerate(GameObject obj)
     {
@@ -26,13 +29,15 @@ public class Eviscerate : Ability
         anim = gameObject.GetComponentInChildren<Animator>();
         dwell_time = 1.0f;
         abilityName = "eviscerate";
+        manaCost = 10;
         range_max = 1;
         range_min = 0;
-        damage = 50 + actor.getStrength() * 2;
+        damage = BASE_DAMAGE * actor.getLevel() + STR_SCALER * actor.getStrength();
         abilityImage = Resources.Load<Sprite>("UI/Ability/assassin/assassinSkill2");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
-        manaCost = 0;
+        abilityDescription = "A devestating stab that will leave an enemy bleeding for two turns";
+        
     }
 
 
@@ -79,7 +84,7 @@ public class Eviscerate : Ability
         //decide if status effect is successful
         //StatusEffect status = new StatusEffect(2, (float)typeof(Actor).GetField("health_current").GetValue(user), "Bleeding", 5, "-", target.GetComponent<Actor>(),true, SM);
         //Need to add status effect
-        //StatusEffectsController.AddEffect(new Bleed(10, actor, target.GetComponent<Actor>(), target.tag == "Enemy"));
+        StatusEffectsController.AddEffect(new Bleed((damage/2), actor, target.GetComponent<Actor>(), target.tag == "Enemy"));
         //Will apply bleed(damager per turn, 2 turns)
         //Will remove 1 move from enemies next 2 turns
 

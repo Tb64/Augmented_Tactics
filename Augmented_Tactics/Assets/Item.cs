@@ -12,7 +12,9 @@ public class Item : MonoBehaviour {
     public Weapons weapon;
     public UsableItem useItem;
     public Image storeImage;
+    public GameObject playerInventory;
     public GameObject store;
+    
     string itemType;
 
     void start()
@@ -43,16 +45,25 @@ public class Item : MonoBehaviour {
         slotOccupied = true;
     }
 
+    public void setInventory(GameObject obj)
+    {
+        playerInventory = obj;
+    }
+
     public void setEquipable(Armor item)
     {
         armor = item;
         setEquipable((Equipable)item);
+        GameDataController.loadPlayerData();
+        GameDataController.gameData.armors.Add(armor);
     }
 
     public void setEquipable(Weapons item)
     {
         weapon = item;
         setEquipable((Equipable)item);
+        GameDataController.loadPlayerData();
+        GameDataController.gameData.weapons.Add(weapon);
     }
 
     public void setUsable(UsableItem item)
@@ -66,6 +77,9 @@ public class Item : MonoBehaviour {
             gameObject.transform.GetChild(0).GetComponent<Image>().sprite = inventoryIcon;
         }
         slotOccupied = true;
+
+        GameDataController.loadPlayerData();
+        GameDataController.gameData.usableItems.Add(useItem);
     }
 
     public UsableItem getUsable()
@@ -96,7 +110,8 @@ public class Item : MonoBehaviour {
     public void checkParent()
     {
         string parentName = transform.parent.name;
-    
+        store.GetComponent<Store>().setSelectedItem(this);
+
         switch (parentName)
         {
             case "InventoryBackground":
