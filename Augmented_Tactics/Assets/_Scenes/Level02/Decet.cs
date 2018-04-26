@@ -55,20 +55,20 @@ public class Decet : Tank {
 
     public override void EnemyTurnStartActions()
     {
+        base.EnemyTurnStartActions();
         FindEery();
         if (eery == null)
             Debug.LogError("Eery not Instatiating Correctly");
         if (eery.isDead() || eery.isIncapacitated())
             supportMode = true; 
         closestAggro = eery;
-        currentTarget = eery;
+        currentTarget = eery.getNearest();
         if (getManaCurrent() <= 0)
         {
             setManaCurrent(30); //bosses skip a turn and replenish mana
             setNumOfActions(0);
             return;
         }
-        currentTarget = eery;    
         if (eery.isDead())
         {
             base.EnemyTurnStartActions();

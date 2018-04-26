@@ -206,10 +206,11 @@ public class Support : Enemy {
                 position = currentTarget.getCoords() + new Vector3(0, 0, mostDistance.range_max);
             }
         }
+        Debug.Log(position);
         Vector3 movingTo = SetPosition(self,position, map); //just in case tile is occupied
         Debug.Log("Attempting to move " + self + " from " + self.getCoords() + " to " + movingTo);
         map.moveActorAsync(self.gameObject, movingTo);
-        self.setNumOfActions(1);
+        //self.setNumOfActions(1);
         return true;
     }
    /* private void StepBack()

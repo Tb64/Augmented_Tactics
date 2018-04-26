@@ -251,7 +251,10 @@ public class Tank : Enemy{
     private void FindAggroCluster()
     {
         float closest = 1000,secondClosest,thirdClosest;
-        Enemy second = null, third = null;        
+        Enemy second = null, third = null;
+        aggro = EnemyController.aggro;
+        if (aggro == null)
+            aggro = getNearest();
         foreach (Enemy enemy in EnemyController.enemyList)
         {
             if (enemy.getEnemyID() != enemyID)
@@ -335,12 +338,13 @@ public class Tank : Enemy{
 
     private bool ManaReplenish()
     {
-        foreach (UsableItem usable in usableItems)
-            if (usable.name.Equals("Large Mana Tonic") || usable.name.Equals("Medium Mana Tonic") || usable.name.Equals("Small Mana Tonic"))
-            {
-                usable.UseItem(gameObject, gameObject);
-                return true;
-            }
+        if(usableItems !=null && usableItems.Count !=0)
+            foreach (UsableItem usable in usableItems)
+                if (usable.name.Equals("Large Mana Tonic") || usable.name.Equals("Medium Mana Tonic") || usable.name.Equals("Small Mana Tonic"))
+                {
+                    usable.UseItem(gameObject, gameObject);
+                    return true;
+                }
         foreach (Ability ability in abilitySet)
             if (ability.abilityName == "Mana Replenish" && ability.CanUseSkill(gameObject))//ability has to have this name in future
             {
