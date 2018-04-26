@@ -55,16 +55,16 @@ public class StatusEffects
         //effectName = name;
         effectedPlayer = effected;
         effectorPlayer = effector;
-        effectedObject = effected.gameObject;
-        effectorObject = effector.gameObject;
+        //effectedObject = effected.gameObject;
+        //effectorObject = effector.gameObject;
         this.isEnemy = isEnemy;
-        if (currentEffects != null)
+        /*if (currentEffects != null)
             currentEffects.Add(this);
         else
         {
             currentEffects = new List<StatusEffects>();
             currentEffects.Add(this);
-        }
+        }*/
         InitialEffect();
     }
     public void decreaseTimeCounter()
@@ -96,8 +96,8 @@ public class StatusEffects
         //just a template. overload this with an undo of your effect if necessary 
     }
 
-    public static List<StatusEffects> GetAllEffects()
+    /*public static List<StatusEffects> GetAllEffects()
     {
         return currentEffects;
-    }
+    }*/
 }

@@ -47,11 +47,11 @@ public class Eery : Support {
                 sneakCoolDown = false;
         }
         Actor temp = AbilityInRange(steal);
-        if (GetHealthPercent() > 35 && temp != null && Random.Range(0,100)<20) //special cases to use sneak and steal attack. boss ability
+        /*if (GetHealthPercent() > 35 && temp != null && Random.Range(0,100)<20) //special cases to use sneak and steal attack. boss ability
         {
             steal.CanUseSkill(temp.gameObject);
             return;
-        }
+        } taking this out only for 4/26 presentation. relies on usableItem*/
 
         if(GetHealthPercent() < 35 && sneak.CanUseSkill(gameObject) && !sneakCoolDown)
         {

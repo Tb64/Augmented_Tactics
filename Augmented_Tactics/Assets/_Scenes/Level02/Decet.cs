@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Decet : Tank {
-    //Eery is a special type of tank that protects only Eery unless he dies
+    //Decet is a special type of tank that protects only Eery unless he dies
     private Enemy eery;
     
     public override void EnemyInitialize()
@@ -23,7 +23,6 @@ public class Decet : Tank {
         setDexterity(15);
         setConstitution(20);
         setIntelligence(25);
-        FindEery();
         closestAggro = eery;
     }
 
@@ -42,6 +41,7 @@ public class Decet : Tank {
 
     public override void EnemyTurnStartActions()
     {
+        FindEery();
         if (getManaCurrent() <= 0)
         {
             setManaCurrent(30); //bosses skip a turn and replenish mana

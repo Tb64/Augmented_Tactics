@@ -69,7 +69,7 @@ public class EnemyController : MonoBehaviour
             findOrder.Add(orderChoice.GetComponent<Enemy>());
             enemyNum++;
         }
-        findOrder = AddSpecialists(findOrder) ;
+        //findOrder = AddSpecialists(findOrder) ;
         DecideOrder(findOrder);
        /* foreach (Enemy enemy in enemyList)
         {
@@ -95,7 +95,7 @@ public class EnemyController : MonoBehaviour
 
     }
     
-    private List<Enemy> AddSpecialists(List<Enemy> current)
+  /*  private List<Enemy> AddSpecialists(List<Enemy> current)
     {
          GameObject game = GameObject.FindWithTag("Decet") ;
          if(game != null) 
@@ -124,7 +124,7 @@ public class EnemyController : MonoBehaviour
                   current.Add(game.GetComponent<"Agressive">());
 
          return current;
-    } 
+    } */
 
     public Actor FindWeakestPlayer()
     {
