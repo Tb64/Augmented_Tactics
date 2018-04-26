@@ -5,32 +5,46 @@ using UnityEngine;
 public class Decet : Tank {
     //Decet is a special type of tank that protects only Eery unless he dies
     private Enemy eery;
+    private bool supportMode;
     
     public override void EnemyInitialize()
     {
         base.EnemyInitialize();
+        base.Init();
+        aggroScore = 0;
+  
+        if (map == null)
+        {
+            map = GameObject.Find("Map").GetComponent<TileMap>();
+        }
+
         expGiven = 200;
         buff = new BuffDebuff(gameObject, "dexterity", "", false, getWisdom() / 2, false);
         heal = SkillLoader.LoadSkill("curewounds", gameObject);
         debuff = new BuffDebuff(gameObject, "dexterity", "defense", true, getWisdom() / 2, false);
         lastResort = SkillLoader.LoadSkill("poisonarrow", gameObject);
         name = "Lord Decet";
-        setManaCurrent(100);
-        setMaxMana(100);
-        setHealthCurrent(150);
-        setMaxHealth(150);
-        setWisdom(30);
-        setDexterity(15);
-        setConstitution(20);
-        setIntelligence(25);
-        closestAggro = eery;
+        setManaCurrent(30);
+        setMaxMana(30);
+        setHealthCurrent(40);
+        setMaxHealth(40);
+        setWisdom(10);
+        setDexterity(3);
+        setConstitution(5);
+        setIntelligence(10);
+        supportMode = false;
+        regularMode = false;
     }
 
     private void FindEery()
     {
         foreach (Enemy enemy in EnemyController.enemyList)
             if (enemy.name == "Lord Eery")
+            {
                 eery = enemy;
+                return;
+            }
+               
         Debug.LogError("No Eery character. Level Not Loaded Correctly");
     }
 
@@ -42,6 +56,12 @@ public class Decet : Tank {
     public override void EnemyTurnStartActions()
     {
         FindEery();
+        if (eery == null)
+            Debug.LogError("Eery not Instatiating Correctly");
+        if (eery.isDead() || eery.isIncapacitated())
+            supportMode = true; 
+        closestAggro = eery;
+        currentTarget = eery;
         if (getManaCurrent() <= 0)
         {
             setManaCurrent(30); //bosses skip a turn and replenish mana

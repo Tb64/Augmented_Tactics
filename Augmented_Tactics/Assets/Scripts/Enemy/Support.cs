@@ -107,7 +107,8 @@ public class Support : Enemy {
 
     public void ResetValues()
     {
-        aiding.aided = false;
+        if(aiding != null)
+            aiding.aided = false;
     }
 
     protected Actor PlayerTooClose()
@@ -157,8 +158,9 @@ public class Support : Enemy {
     protected void RunAndGun() //Default Tactic of Support if no teammate needs help
     {
         Debug.Log(this + " is Running and Gunning");
-        if (!mostDistance.SkillInRange(getCoords(),aggro.getCoords()) || distanceFromAggro - mostDistance.range_max > 10 && mostDistance.CanUseSkill(currentTarget.gameObject))
+        if (!mostDistance.SkillInRange(getCoords(),aggro.getCoords()) /*|| distanceFromAggro - mostDistance.range_max > 5 && mostDistance.CanUseSkill(currentTarget.gameObject)*/)
         {
+            Debug.Log("Finding Shweet Shpot");
             FindShweetSpot(this,currentTarget,mostDistance,map); // get closer so attack is possible, or further to stay away from enemies
             return;
         }    
@@ -174,13 +176,14 @@ public class Support : Enemy {
             EnemyActions();
             return;
         }
+        Debug.LogError("out of bounds run and gun");
     }
     public static bool FindShweetSpot(Enemy self,Actor currentTarget, Ability mostDistance, TileMap map )
     {
         Vector3 position = (self.getCoords()-currentTarget.getCoords()).normalized;
         float xDistance = position.x;
         float zDistance = position.z;
-        if (Mathf.Abs(xDistance) > mostDistance.range_max) //check which coord is keeping attack out of range and 
+        if (Mathf.Abs(xDistance) > Mathf.Abs(zDistance)) //check which coord is keeping attack out of range and 
                                                            //move just within distance to keep striking
         {
             if (xDistance < 0)
@@ -192,7 +195,7 @@ public class Support : Enemy {
                 position = currentTarget.getCoords() + new Vector3(mostDistance.range_max, 0, 0);
             }
         }
-        else if (Mathf.Abs(zDistance) > mostDistance.range_max)
+        else
         {
             if (zDistance < 0)
             {
@@ -203,11 +206,10 @@ public class Support : Enemy {
                 position = currentTarget.getCoords() + new Vector3(0, 0, mostDistance.range_max);
             }
         }
-        else
-            return false;
         Vector3 movingTo = SetPosition(self,position, map); //just in case tile is occupied
         Debug.Log("Attempting to move " + self + " from " + self.getCoords() + " to " + movingTo);
         map.moveActorAsync(self.gameObject, movingTo);
+        self.setNumOfActions(1);
         return true;
     }
    /* private void StepBack()
@@ -284,7 +286,14 @@ public class Support : Enemy {
 
     private void GetAggroDistance()
     {
-        distanceFromAggro = Vector3.Distance(getCoords(), aggro.getCoords());
+        aggro = EnemyController.aggro;
+        if (aggro != null)
+            distanceFromAggro = Vector3.Distance(getCoords(), aggro.getCoords());
+        else
+        {
+            aggro = nearest;
+            distanceFromAggro = Vector3.Distance(getCoords(), aggro.getCoords());
+        }
     }
     /*public override bool AttemptAttack()
     {

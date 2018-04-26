@@ -21,14 +21,14 @@ public class Sneak : Ability {
             Debug.Log(attacker + "is Sneaking Around");
             attacker.PlaySound("move");
             if (effect1 != null)
-                GameObject.Instantiate<GameObject>(effect1, gameObject.transform);
+                GameObject.Instantiate<GameObject>(effect1, attacker.GetTileStandingOn().gameObject.transform);
             else
                 Debug.Log("effect1 null");
-            //gameObject.GetComponent<Renderer>().enabled = false;
             //gameObject.SetActive(false);
             Vector3 temp = gameObject.transform.localScale;
-            gameObject.transform.localScale = new Vector3(-1, gameObject.transform.localScale.y, -1);
             DwellTime.Attack(dwell_time);
+            //gameObject.GetComponent<Renderer>().enabled = false;
+            gameObject.transform.localScale = new Vector3(0, temp.y,0);
             StatusEffectsController.AddEffect(new Disappear(0,attacker,null,gameObject.tag == "Enemy",effect1,temp));
         }
     }

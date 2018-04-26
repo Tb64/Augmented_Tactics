@@ -11,7 +11,7 @@ public class Disappear : StatusEffects {
     {
         TurnBehaviour.OnTurnStart += this.decreaseTimeCounter;
         effectText = "Hiding";
-        duration = 1; //placeholder until a method for determining this is decided
+        duration = 1; 
         effectorPlayer = effector;
         this.isEnemy = isEnemy;
         this.animation = animation;
@@ -26,6 +26,7 @@ public class Disappear : StatusEffects {
             GameObject.Instantiate<GameObject>(animation, effectorPlayer.gameObject.transform);
         else
             Debug.Log("effect1 null");
+        //initCoords = effectorPlayer.gameObject.transform.localScale;
         effectorPlayer.gameObject.transform.localScale = initCoords;
         Debug.Log(effectorPlayer + " is Now Visible");
     }

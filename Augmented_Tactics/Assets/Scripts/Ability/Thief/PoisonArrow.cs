@@ -52,7 +52,7 @@ public class PoisonArrow : Ability
         range_max = 7;
         range_min = 1;
         damage = 10f + actor.getDexterity() * 1.5f;
-        dwell_time = 1.0f;
+        dwell_time = 3.5f;
         abilityName = "Poison Arrow";
         abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill2");
         if (abilityImage == null)

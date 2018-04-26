@@ -69,19 +69,19 @@ public class Enemy : Actor
          type of enemy as they are created to load correct attacks*/
          
         //FOR DEMO ONLY
-        abilitySet[0] = SkillLoader.LoadSkill("quickstab", gameObject);
+        abilitySet[0] = SkillLoader.LoadSkill("basicattack", gameObject);
         abilitySet[1] = SkillLoader.LoadSkill("poisonarrow", gameObject);
-        abilitySet[2] = SkillLoader.LoadSkill("vortexarrow", gameObject);
-        abilitySet[3] = SkillLoader.LoadSkill("sneak", gameObject);
+        abilitySet[2] = SkillLoader.LoadSkill("heal", gameObject);
+        abilitySet[3] = SkillLoader.LoadSkill("combo", gameObject);
         setManaCurrent(30);
         setMaxMana(30);
         setHealthCurrent(20);
         setMaxHealth(20);
-        setWisdom(15);
-        setDexterity(25);
-        setCharisma(10);
-        setConstitution(14);
-        setIntelligence(30);
+        setWisdom(5);
+        setDexterity(5);
+        setCharisma(5);
+        setConstitution(5);
+        setIntelligence(8);
         //FOR DEMO ON:Y
 
         /*for (int i = 0; i < 4; i++)
@@ -698,6 +698,8 @@ public class Enemy : Actor
 
     protected bool GetHealItem()
     {
+        if (usableItems == null || usableItems.Count == 0)
+            return false;
         foreach (UsableItem item in usableItems)
         {
             if (item.isHealItem)

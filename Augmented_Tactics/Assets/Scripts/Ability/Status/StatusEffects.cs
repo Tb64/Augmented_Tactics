@@ -5,14 +5,14 @@ using System.Reflection;
 
 public class StatusEffects
 {
-    private static List<StatusEffects> currentEffects;
+    //private static List<StatusEffects> currentEffects;
     public int duration;
 
     public virtual void OnDestroy()
     {
         ReverseEffect();
-        if (currentEffects != null)
-            currentEffects.Remove(this);
+        /*if (currentEffects != null)
+            currentEffects.Remove(this);*/
         TurnBehaviour.OnTurnStart -= this.decreaseTimeCounter;
     }
 
@@ -92,7 +92,7 @@ public class StatusEffects
     }
     public virtual void ReverseEffect()
     {
-        TurnBehaviour.OnTurnStart -= this.decreaseTimeCounter;
+        //TurnBehaviour.OnTurnStart -= this.decreaseTimeCounter;
         //just a template. overload this with an undo of your effect if necessary 
     }
 

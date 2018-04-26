@@ -32,7 +32,12 @@ public class Eery : Support {
     {
         if (getMoves() == 0)
             return;
-
+        if(getManaCurrent() <= 0)
+        {
+            setManaCurrent(30);
+            setNumOfActions(0);
+            return;
+        }
         if(getManaCurrent() <= 0)
         {
             setManaCurrent(30);
@@ -46,20 +51,19 @@ public class Eery : Support {
             if (sneakCountDown <= 0)
                 sneakCoolDown = false;
         }
-        Actor temp = AbilityInRange(steal);
+        //Actor temp = AbilityInRange(steal);
         /*if (GetHealthPercent() > 35 && temp != null && Random.Range(0,100)<20) //special cases to use sneak and steal attack. boss ability
         {
             steal.CanUseSkill(temp.gameObject);
             return;
-        } taking this out only for 4/26 presentation. relies on usableItem*/
-
-        if(GetHealthPercent() < 35 && sneak.CanUseSkill(gameObject) && !sneakCoolDown)
+        } taking this out only for 4/26 presentation. relies on usableItem
+        if(GetHealthPercent() < .35 && sneak.CanUseSkill(gameObject) && !sneakCoolDown)
         {
             sneak.UseSkill(gameObject);
             sneakCoolDown = true;
             sneakCountDown = 4;
             return;
-        }
+        }*/ //removed for pres
 
         base.EnemyActions();
     }

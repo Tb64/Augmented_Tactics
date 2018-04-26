@@ -52,7 +52,7 @@ public class VortexArrow : Ability
         range_max = 5;
         range_min = 1;
         damage = 10f + actor.getDexterity() * 2;
-        dwell_time = 1.5f;
+        dwell_time = 3.5f;
         abilityName = "Vortex Arrow";
         abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill7");
         if (abilityImage == null)
