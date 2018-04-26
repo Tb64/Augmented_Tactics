@@ -31,4 +31,6 @@ public class OpenStore : MonoBehaviour {
         //store.GetComponentInChildren<Store>().toggleInventory();
         Debug.Log("OPENING STORE");
     }
+
+   
 }
