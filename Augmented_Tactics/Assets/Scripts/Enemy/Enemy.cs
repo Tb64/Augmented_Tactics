@@ -215,7 +215,6 @@ public class Enemy : Actor
             //{
             Debug.Log("No possible move available, switching currentTarget.");
             cantTarget.Add(currentTarget);
-            EnemyActions();
             return;
             //}
 

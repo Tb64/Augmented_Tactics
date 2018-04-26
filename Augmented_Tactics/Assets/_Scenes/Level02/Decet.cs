@@ -58,9 +58,18 @@ public class Decet : Tank {
         base.EnemyTurnStartActions();
         FindEery();
         if (eery == null)
+        {
             Debug.LogError("Eery not Instatiating Correctly");
-        if (eery.isDead() || eery.isIncapacitated())
-            supportMode = true; 
+            supportMode = true;
+        }
+            
+        if (eery != null && eery.isDead() || eery.isIncapacitated())
+            supportMode = true;
+        if (supportMode)
+        {
+            return;
+        }
+
         closestAggro = eery;
         currentTarget = eery.getNearest();
         if (getManaCurrent() <= 0)

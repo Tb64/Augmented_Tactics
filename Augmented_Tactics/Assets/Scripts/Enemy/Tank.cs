@@ -41,16 +41,16 @@ public class Tank : Enemy{
     public override void EnemyActions()
     {
 
-        if (Random.Range(0, 1000) <= 500 && GetHealthPercent() < 35 || closestAggro.GetHealthPercent() < 45 && healPossible)
+        if (Random.Range(0, 1000) <= 500 && GetHealthPercent() < .35 || closestAggro.GetHealthPercent() < .45 && healPossible)
             healMode = true;
 
         if (healMode)
         {
-            if (closestAggro.GetHealthPercent() < 45)
+            if (closestAggro.GetHealthPercent() < .45)
             {
                 if (HealSelfOrPartner(0))
                 {
-                    if (GetHealthPercent() > 45)
+                    if (GetHealthPercent() > .45)
                     {
                         healMode = false;
                         return;
@@ -163,7 +163,7 @@ public class Tank : Enemy{
                 return heal.UseSkill(closestAggro.gameObject);
             else if (GetHealItem())
             {
-                if (closestAggro.GetHealthPercent() < 45 && healItem.CanUseItem(gameObject, closestAggro.gameObject))
+                if (closestAggro.GetHealthPercent() < .45 && healItem.CanUseItem(gameObject, closestAggro.gameObject))
                     return healItem.UseItem(gameObject, closestAggro.gameObject);
                 else
                     return false;
@@ -195,11 +195,10 @@ public class Tank : Enemy{
     }
     private void GetInPosition()
     {
+        Debug.Log(closestAggro + " " + closestAggro.getCoords() + " " + currentTarget + " " + currentTarget.getCoords());
         Vector3 output = closestAggro.getCoords() - currentTarget.getCoords();
-        output = output.normalized;
-        Debug.Log(output);
         Vector3 movingTo;
-        if (Mathf.Abs(output.x) > Mathf.Abs(output.z) /*&& !cantMove.Contains(new Vector3(output.x - 3, output.y, output.z)) || !cantMove.Contains(new Vector3(output.x + 3, output.y, output.z))*/)
+        if (Mathf.Abs(output.x) > Mathf.Abs(output.z) && !cantMove.Contains(new Vector3(output.x - 3, output.y, output.z)) || !cantMove.Contains(new Vector3(output.x + 3, output.y, output.z)))
         {
             if (output.x > 0 && !cantMove.Contains(new Vector3(output.x - 3, output.y, output.z)))
                 movingTo = new Vector3(output.x-3,output.y,output.z);
@@ -213,13 +212,14 @@ public class Tank : Enemy{
             else
                 movingTo = new Vector3(output.x, output.y, output.z+3);
         }
+        Debug.Log(movingTo);
         Vector3 temp = Support.SetPosition(this, movingTo, map);
         if(temp != new Vector3(-1,-1,-1))
             movingTo = temp;
         else
         {
             cantMove.Add(temp);
-            GetInPosition();
+            //GetInPosition();
             return;
         }
         Debug.Log("Attempting to move " + this + " from " + this.getCoords() + " to " + movingTo);
@@ -240,7 +240,7 @@ public class Tank : Enemy{
             debuff.UseSkill(currentTarget.gameObject);
             return true;
         }
-        else if (closestAggro.GetHealthPercent() < 60 && heal.CanUseSkill(closestAggro.gameObject))
+        else if (closestAggro.GetHealthPercent() < .60 && heal.CanUseSkill(closestAggro.gameObject))
         {
             heal.UseSkill(closestAggro.gameObject);
             return true;

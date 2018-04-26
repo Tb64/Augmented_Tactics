@@ -288,7 +288,7 @@ public class Support : Enemy {
     private void GetAggroDistance()
     {
         aggro = EnemyController.aggro;
-        if (aggro != null)
+        if (aggro != null && !aggro.isDead() && !aggro.isIncapacitated())
             distanceFromAggro = Vector3.Distance(getCoords(), aggro.getCoords());
         else
         {
