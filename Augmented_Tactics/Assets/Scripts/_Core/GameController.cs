@@ -23,6 +23,7 @@ public class GameController : MonoBehaviour
     private static Text[] abilityText;
 
     public Image[] AbilityImages;
+    public Sprite nullImage;
     public Text[] AbilityText;
     private RangeHighlight rangeMarker;
     private RangeHighlight aoeMarker;
@@ -31,6 +32,7 @@ public class GameController : MonoBehaviour
     private static int currentAbility = 0;
     private static bool abilityMode = false;
     private static int currentMode = MODE_SELECT_UNIT;
+
 
     private void Awake()
     {
@@ -356,6 +358,10 @@ public class GameController : MonoBehaviour
             {
                 abilityImages[index].sprite = selectedUnit.abilitySet[index].abilityImage;
                 abilityText[index].text = selectedUnit.abilitySet[index].abilityName;
+            }
+            else
+            {
+
             }
             
         }

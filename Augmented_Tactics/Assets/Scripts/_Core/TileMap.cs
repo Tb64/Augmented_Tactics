@@ -626,7 +626,7 @@ public class TileMap : MonoBehaviour {
         remainingMovement -= costToEnterTile(unit.getCurrentPath()[0].coords,unit.getCurrentPath()[1].coords);
 
         unit.setRemainingMovement(remainingMovement);
-
+        Debug.Log("ADV path = " + unit.getCurrentPath()[1].coords);
         // Move to the next tile in the sequence
         //unit.tileX = (int)unit.getCurrentPath()[1].coords.x;
         //unit.tileZ = (int)unit.getCurrentPath()[1].coords.z;
