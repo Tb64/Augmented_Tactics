@@ -71,6 +71,9 @@ public class SkillLoader : MonoBehaviour {
             case "sap":
                 return new Sap(gObj);
 
+            case "bladefury":
+                return new BladeFury(gObj);
+
             //Wizard
             case "ice":
                 return new Ice(gObj);
