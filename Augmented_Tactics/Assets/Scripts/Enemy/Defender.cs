@@ -90,7 +90,7 @@ public class Defender : Enemy {
 
     public override bool CheckHeal()
     {
-        if (GetHealthPercent() <= 35 && GetHealthPercent() < nearest.GetHealthPercent() || !PlayerInRange())
+        if (GetHealthPercent() <= .35 && GetHealthPercent() < nearest.GetHealthPercent() || !PlayerInRange())
             return true;
         else
             return false;
@@ -136,7 +136,7 @@ public class Defender : Enemy {
             hit = true;
             return;
         }
-        if(GetHealthPercent() > 50)
+        if(GetHealthPercent() > .50)
         {
             Support.FindShweetSpot(this, currentTarget, strongest, map);
             return;

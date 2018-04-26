@@ -20,7 +20,7 @@ public class IceArrow : Ability
             Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, gameObject.name, target.name));
             rotateAtObj(target);
             if (effect1 != null)
-                GameObject.Instantiate<GameObject>(effect1, gameObject.transform);
+                GameObject.Destroy(GameObject.Instantiate<GameObject>(effect1, gameObject.transform),5);
             else
                 Debug.Log("effect1 null");
 
@@ -35,8 +35,10 @@ public class IceArrow : Ability
         targeta.TakeDamage(damage, target);
         if (Ability.DiceRoll(actor.getDexterity(), targeta.getDexterity()))
         {
-            StatusEffectsController.AddEffect(new Frozen(0, actor, targeta, target.tag == "Enemy"));
-            Debug.Log("{0} is frozen solid!",targeta); //issue here with animation
+            if(StatusEffectsController.AddEffect(new Frozen(0, actor, targeta, target.tag == "Enemy")))
+                Debug.Log(targeta+ " is frozen solid!"); //issue here with animation
+            else
+                Debug.Log(this + " Effect Already Exists On " + targeta);
         }
 
 
@@ -52,7 +54,7 @@ public class IceArrow : Ability
         range_max = 6;
         range_min = 1;
         damage = 10f + actor.getDexterity() * 2;
-        dwell_time = 3.5f;
+        dwell_time = 5f;
         abilityName = "Ice Arrow";
         abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill7");
         if (abilityImage == null)

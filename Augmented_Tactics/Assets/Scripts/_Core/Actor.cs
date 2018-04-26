@@ -27,7 +27,7 @@ public class Actor : MonoBehaviour
     #region Variables
 
     public PlayerData data;
-
+    public string playerDataName;
     protected Animator anim;
     public string actorName;
     public float health_current;    // temporary for debugging purposes(should be protected)
@@ -243,6 +243,16 @@ public class Actor : MonoBehaviour
             return;
         map = GameObject.Find("Map").GetComponent<TileMap>();
 
+        if(weapon == null)
+        {
+            weapon = WeaponGen.WeaponGenerate(1, 0, 0);
+        }
+
+        if(armor == null)
+        {
+            armor = ArmorGen.ArmorGenerate(1, 0, 0);
+        }
+
         if (map.IsValidCoord(coords) == true)
         {
             Debug.Log("Coords: " + coords);
@@ -451,6 +461,36 @@ public class Actor : MonoBehaviour
 
 
         return false;
+    }
+
+    public static Vector3 PosInFrontOf(Actor self, Actor target) //specifically for getting the position right in front of a person who is about to attack. fixes collision issues with arrow and more
+    {
+        Vector3 selfCoords = self.getCoords();
+        Vector3 targetCoords = target.getCoords();
+        if(selfCoords.x == targetCoords.x)
+        {
+            if(selfCoords.z > targetCoords.z)
+            {
+                return new Vector3(selfCoords.x, 0, selfCoords.z-1);
+
+            }
+            else
+            {
+                return new Vector3(selfCoords.x,0,selfCoords.z+1);
+            }
+        }
+        else
+        {
+            if (selfCoords.x > targetCoords.x)
+            {
+                return new Vector3(selfCoords.x-1, 0, selfCoords.z);
+
+            }
+            else
+            {
+                return new Vector3(selfCoords.x+1, 0, selfCoords.z);
+            }
+        }
     }
 
     /// <summary>
@@ -736,19 +776,19 @@ public class Actor : MonoBehaviour
         switch (level)
         {
             case 1 :
-                return 300 - getExperience();
+                return PlayerKey.LevelCaps[level] - getExperience();
             case 2 :
-                return 900 - getExperience();
+                return PlayerKey.LevelCaps[level] - getExperience();
             case 3 :
-                return 2700 - getExperience();
+                return PlayerKey.LevelCaps[level] - getExperience();
             case 4 :
-                return 6500 - getExperience();
+                return PlayerKey.LevelCaps[level] - getExperience();
             case 5 :
-                return 14000 - getExperience();
+                return PlayerKey.LevelCaps[level] - getExperience();
             case 6 :
-                return 23000 - getExperience();
+                return PlayerKey.LevelCaps[level] - getExperience();
             case 7 :
-                return 34000- getExperience();
+                return PlayerKey.LevelCaps[level] - getExperience();
             default :
                 Debug.LogError("LEVEL OUT OF RANGE" + level);
                 return -1;

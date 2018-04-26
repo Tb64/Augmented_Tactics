@@ -15,7 +15,7 @@ public class StatusEffectsController : MonoBehaviour
     public static List<StatusEffects> allEffects;
     public static List<Actor[]> bonded;
 
-    public static void AddEffect(StatusEffects status)
+    public static bool AddEffect(StatusEffects status)
     {
         if (!instantiated)
         {
@@ -25,8 +25,14 @@ public class StatusEffectsController : MonoBehaviour
             bonded = new List<Actor[]>();
             instantiated = true;
         }
-        if(!SameEffect(status))
+        if (!SameEffect(status))
+        {
             allEffects.Add(status);
+            return true;
+        }
+        else
+            return false;
+            
     }
 
     public static bool SameEffect(StatusEffects stat)

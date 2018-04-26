@@ -70,18 +70,18 @@ public class Enemy : Actor
          
         //FOR DEMO ONLY
         abilitySet[0] = SkillLoader.LoadSkill("basicattack", gameObject);
-        abilitySet[1] = SkillLoader.LoadSkill("poisonarrow", gameObject);
+        abilitySet[1] = SkillLoader.LoadSkill("fire", gameObject);
         abilitySet[2] = SkillLoader.LoadSkill("heal", gameObject);
         abilitySet[3] = SkillLoader.LoadSkill("combo", gameObject);
-        setManaCurrent(30);
-        setMaxMana(30);
-        setHealthCurrent(20);
-        setMaxHealth(20);
+        setManaCurrent(10);
+        setMaxMana(10);
+        setHealthCurrent(15);
+        setMaxHealth(15);
         setWisdom(5);
         setDexterity(5);
         setCharisma(5);
-        setConstitution(5);
-        setIntelligence(8);
+        setConstitution(3);
+        setIntelligence(3);
         //FOR DEMO ON:Y
 
         /*for (int i = 0; i < 4; i++)
@@ -191,6 +191,12 @@ public class Enemy : Actor
         //Debug.Log("NON-PROXIMITY");
         if (getMoves() == 0)
             return;
+
+        if (targetLocked && (currentTarget.isDead() || currentTarget.isIncapacitated()))
+        {
+            targetLocked = false;
+        }
+
         if (!targetLocked)
         {
             currentTarget = nearest;
@@ -215,7 +221,6 @@ public class Enemy : Actor
             //{
             Debug.Log("No possible move available, switching currentTarget.");
             cantTarget.Add(currentTarget);
-            EnemyActions();
             return;
             //}
 
@@ -690,7 +695,7 @@ public class Enemy : Actor
 
     public virtual bool CheckHeal()
     {
-        if (GetHealthPercent() < 40 && GetHealthPercent() < nearest.GetHealthPercent() && !TargetInRange())
+        if (GetHealthPercent() < .40 && GetHealthPercent() < nearest.GetHealthPercent() && !TargetInRange())
             return true;
         else
             return false;

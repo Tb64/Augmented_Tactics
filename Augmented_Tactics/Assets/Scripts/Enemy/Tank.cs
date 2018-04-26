@@ -13,7 +13,8 @@ public class Tank : Enemy{
     //use last resort action if all else fails
     protected List<Vector3> cantMove;
     //protected UsableItem healItem;
-    protected bool regularMode, inPosition, sameTurn,firstMove, firstDebuffed,healMode,healPossible;
+    protected bool regularMode, inPosition, sameTurn,firstMove, firstDebuffed,healMode,healPossible, buffCool, debuffCool;
+    protected int buffCount, debuffCount;
     protected Enemy closestAggro;
     protected Ability buff, debuff, heal, lastResort; //needs one buff, one debuff, heal(multiple if possible),basic attack or similar
                                                     //should be slow and attack last so allies are in position
@@ -21,6 +22,9 @@ public class Tank : Enemy{
     {
         base.Start();
         regularMode = false;
+        buffCool = false;
+        debuffCool = false;
+ 
     }
 
     public override void EnemyTurnStartActions()
@@ -36,21 +40,37 @@ public class Tank : Enemy{
         healMode = false;
         healPossible = true;
         cantMove = new List<Vector3>();
+
+        if (buffCool)
+        {
+            buffCount--;
+            if (buffCount <= 0)
+                buffCool = false;
+        }
+
+        if (debuffCool)
+        {
+            debuffCount--;
+            if (debuffCount <= 0)
+                debuffCool = false;
+        }
+
     }
 
     public override void EnemyActions()
     {
 
-        if (Random.Range(0, 1000) <= 500 && GetHealthPercent() < 35 || closestAggro.GetHealthPercent() < 45 && healPossible)
+        if (Random.Range(0, 1000) <= 500 && (GetHealthPercent() < .35 || closestAggro.GetHealthPercent() < .45 && healPossible))
             healMode = true;
 
         if (healMode)
         {
-            if (closestAggro.GetHealthPercent() < 45)
+            //Debug.Log("Here For No Reason");
+            if (closestAggro.GetHealthPercent() < .45)
             {
                 if (HealSelfOrPartner(0))
                 {
-                    if (GetHealthPercent() > 45)
+                    if (GetHealthPercent() > .45)
                     {
                         healMode = false;
                         return;
@@ -163,7 +183,7 @@ public class Tank : Enemy{
                 return heal.UseSkill(closestAggro.gameObject);
             else if (GetHealItem())
             {
-                if (closestAggro.GetHealthPercent() < 45 && healItem.CanUseItem(gameObject, closestAggro.gameObject))
+                if (closestAggro.GetHealthPercent() < .45 && healItem.CanUseItem(gameObject, closestAggro.gameObject))
                     return healItem.UseItem(gameObject, closestAggro.gameObject);
                 else
                     return false;
@@ -188,38 +208,49 @@ public class Tank : Enemy{
 
     private bool CheckInPosition()
     {
-        if (Vector3.Distance(getCoords(), closestAggro.getCoords()) <= buff.range_max)
+        if ((Vector3.Distance(getCoords(), closestAggro.getCoords()) <= buff.range_max) || SamePlane())
             return true;
         else
             return false;
     }
+
+    private bool SamePlane()
+    {
+        Vector3 myCoords = getCoords(), closeCoords = closestAggro.getCoords(), playerCoords = closestAggro.getNearest().getCoords();
+        if ((myCoords.x == closestAggro.getCoords().x && myCoords.x == playerCoords.x) || (myCoords.z == closestAggro.getCoords().z && myCoords.x == playerCoords.z))
+            return true;
+        else
+            return false;
+    }
+
     private void GetInPosition()
     {
+        Debug.Log(closestAggro + " " + closestAggro.getCoords() + " " + currentTarget + " " + currentTarget.getCoords());
+        Vector3 cAPos = closestAggro.getCoords();
         Vector3 output = closestAggro.getCoords() - currentTarget.getCoords();
-        output = output.normalized;
-        Debug.Log(output);
         Vector3 movingTo;
-        if (Mathf.Abs(output.x) > Mathf.Abs(output.z) && !cantMove.Contains(new Vector3(output.x - 3, output.y, output.z)) || !cantMove.Contains(new Vector3(output.x + 3, output.y, output.z)))
+        if (Mathf.Abs(output.x) > Mathf.Abs(output.z) && !cantMove.Contains(new Vector3(output.x - buff.range_max, output.y, output.z)) || !cantMove.Contains(new Vector3(output.x + buff.range_max, output.y, output.z)))
         {
-            if (output.x > 0 && !cantMove.Contains(new Vector3(output.x - 3, output.y, output.z)))
-                movingTo = new Vector3(output.x-3,output.y,output.z);
+            if (output.z > 0 && !cantMove.Contains(new Vector3(output.x, output.y, output.z - buff.range_max)))
+                movingTo = new Vector3(cAPos.x, 0, cAPos.z - buff.range_max);
             else
-                movingTo = new Vector3(output.x + 3, output.y, output.z);
+                movingTo = new Vector3(cAPos.x, 0, cAPos.z + buff.range_max);
         }
         else
         {
-            if (output.z > 0 && !cantMove.Contains(new Vector3(output.x, output.y, output.z - 3)))
-                movingTo = new Vector3(output.x, output.y, output.z-3);
+            if (output.x > 0 && !cantMove.Contains(new Vector3(output.x - buff.range_max, output.y, output.z)))
+                movingTo = new Vector3(cAPos.x - buff.range_max, 0, cAPos.z);
             else
-                movingTo = new Vector3(output.x, output.y, output.z+3);
+                movingTo = new Vector3(cAPos.x + buff.range_max, 0, cAPos.z);
         }
+        Debug.Log(movingTo);
         Vector3 temp = Support.SetPosition(this, movingTo, map);
         if(temp != new Vector3(-1,-1,-1))
             movingTo = temp;
         else
         {
             cantMove.Add(temp);
-            GetInPosition();
+            //GetInPosition();
             return;
         }
         Debug.Log("Attempting to move " + this + " from " + this.getCoords() + " to " + movingTo);
@@ -230,7 +261,7 @@ public class Tank : Enemy{
     }
     public virtual bool BuffOrDebuff() //I'm not 100% on this, just a basic algorithm. starting with just closest instead of AOE buff / debuff
     {
-        if (buff.CanUseSkill(closestAggro.gameObject))
+        if (buff.CanUseSkill(closestAggro.gameObject) && !buffCool)
         {
             buff.UseSkill(closestAggro.gameObject);
             return true;
@@ -240,7 +271,7 @@ public class Tank : Enemy{
             debuff.UseSkill(currentTarget.gameObject);
             return true;
         }
-        else if (closestAggro.GetHealthPercent() < 60 && heal.CanUseSkill(closestAggro.gameObject))
+        else if (closestAggro.GetHealthPercent() < .60 && heal.CanUseSkill(closestAggro.gameObject))
         {
             heal.UseSkill(closestAggro.gameObject);
             return true;
@@ -359,7 +390,7 @@ public class Tank : Enemy{
     {
         return "tank";
     }
-    private void GetAbilities()
+    private void GetAbilities() //need to add randomability loader with these parameters to make tank work
     {
         buff = abilitySet[0];
         debuff = abilitySet[1];

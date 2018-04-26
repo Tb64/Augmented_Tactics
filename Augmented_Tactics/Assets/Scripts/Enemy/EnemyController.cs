@@ -236,7 +236,11 @@ public class EnemyController : MonoBehaviour
             enemyList[currentEnemy].EnemyActions();
         }
         else
+        {
+            Debug.Log(enemyList[currentEnemy] + "Ending Turn");
             NextEnemy();
+        }
+            
     }
 
       /* private void EnemyUsedAction()

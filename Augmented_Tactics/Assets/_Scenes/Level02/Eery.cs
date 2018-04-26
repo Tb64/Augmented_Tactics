@@ -18,14 +18,14 @@ public class Eery : Support {
         sneak = SkillLoader.LoadSkill("sneak", gameObject);
         steal = SkillLoader.LoadSkill("steal", gameObject);
         name = "Lord Eery";
-        setManaCurrent(110);
-        setMaxMana(110);
-        setHealthCurrent(90);
-        setMaxHealth(90);
-        setWisdom(30);
-        setDexterity(35);
-        setConstitution(20);
-        setIntelligence(30);
+        setManaCurrent(30);
+        setMaxMana(30);
+        setHealthCurrent(30);
+        setMaxHealth(30);
+        setWisdom(8);
+        setDexterity(15);
+        setConstitution(5);
+        setIntelligence(5);
     }
 
     public override void EnemyActions()

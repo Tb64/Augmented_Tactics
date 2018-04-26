@@ -21,7 +21,7 @@ public class VortexArrow : Ability
             rotateAtObj(target);
             if (effect1 != null)
             {
-                GameObject.Destroy(GameObject.Instantiate<GameObject>(effect1, gameObject.transform), 1);
+                GameObject.Destroy(GameObject.Instantiate<GameObject>(effect1, gameObject.transform), 5);
                 //GameObject.Destroy(GameObject.Instantiate<GameObject>(effect1, gameObject.GetComponent<Actor>().getCoords(), Quaternion.RotateTowards(gameObject.transform.rotation, target.transform.rotation, 0)),1);
             }   
             else
@@ -38,8 +38,10 @@ public class VortexArrow : Ability
         targeta.TakeDamage(damage, target);
         if (Ability.DiceRoll(actor.getDexterity(), targeta.getDexterity()))
         {
-            StatusEffectsController.AddEffect(new Beaconed(actor.getDexterity() / 3, actor, targeta, target.tag == "Enemy"));
-            Debug.Log("{0} now caught in a vortex!",targeta);
+            if(StatusEffectsController.AddEffect(new Beaconed(actor.getDexterity() / 3, actor, targeta, target.tag == "Enemy")))
+                Debug.Log(targeta+ " now caught in a vortex!");
+            else
+                Debug.Log(this + " Effect Already Exists On " + targeta);
         }
         DwellTime.Attack(dwell_time);
     }

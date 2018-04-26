@@ -22,7 +22,7 @@ public class Decet : Tank {
         buff = new BuffDebuff(gameObject, "dexterity", "", false, getWisdom() / 2, false);
         heal = SkillLoader.LoadSkill("curewounds", gameObject);
         debuff = new BuffDebuff(gameObject, "dexterity", "defense", true, getWisdom() / 2, false);
-        lastResort = SkillLoader.LoadSkill("poisonarrow", gameObject);
+        lastResort = SkillLoader.LoadSkill("fire", gameObject);
         name = "Lord Decet";
         setManaCurrent(30);
         setMaxMana(30);

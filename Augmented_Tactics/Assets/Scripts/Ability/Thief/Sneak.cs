@@ -39,7 +39,7 @@ public class Sneak : Ability {
         canTargetFriendly = false;
         //can only do to self
         anim = gameObject.GetComponentInChildren<Animator>();
-        manaCost = 0;
+        manaCost = 15;
         range_max = 0;
         range_min = 0;
         damage = 0;

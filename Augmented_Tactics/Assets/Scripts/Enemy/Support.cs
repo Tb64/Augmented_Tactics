@@ -97,6 +97,11 @@ public class Support : Enemy {
             }
                 
         }
+        else
+        {
+            targetLocked = false;
+            EnemyController.ExhaustMoves(SM);
+        }
         
     }
 
@@ -124,6 +129,7 @@ public class Support : Enemy {
 
     protected void SaveFriendly()
     {
+        Debug.Log("Saving " + aiding);
         if (!aidLocked || !currentTarget.isDead() && !currentTarget.isIncapacitated())
         {
             aiding.UpdateNearest();
