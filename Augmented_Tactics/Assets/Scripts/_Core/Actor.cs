@@ -243,6 +243,16 @@ public class Actor : MonoBehaviour
             return;
         map = GameObject.Find("Map").GetComponent<TileMap>();
 
+        if(weapon == null)
+        {
+            weapon = WeaponGen.WeaponGenerate(1, 0, 0);
+        }
+
+        if(armor == null)
+        {
+            armor = ArmorGen.ArmorGenerate(1, 0, 0);
+        }
+
         if (map.IsValidCoord(coords) == true)
         {
             Debug.Log("Coords: " + coords);
