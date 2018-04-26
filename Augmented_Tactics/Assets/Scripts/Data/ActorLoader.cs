@@ -6,10 +6,17 @@ public class ActorLoader : MonoBehaviour {
 
     public int PlayerSlot;
 
-    public void Awake()
+    public void Start()
     {
         PlayerData playerData = LoadPlayerData();
+        if(playerData == null || playerData.DisplayName == null || playerData.DisplayName.Length == 0)
+        {
+            Debug.Log("Null Player Data");
+            Destroy(gameObject);
+            return;
+        }
         GameObject actorObj = Resources.Load<GameObject>(playerData.Prefab);
+        actorObj.GetComponent<PlayerControlled>().combatOn = true;
         GameObject spawned = Instantiate(actorObj);
         spawned.transform.position = transform.position;
         spawned.transform.rotation = transform.rotation;

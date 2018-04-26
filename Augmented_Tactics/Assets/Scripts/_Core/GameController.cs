@@ -65,6 +65,10 @@ public class GameController : MonoBehaviour
         }
         selectedMarker = GameObject.Find("SelectMarker");
         selectedUnitHighlight = GameObject.Find("SelectUnitMarker");
+        if (selectedUnitHighlight == null)
+            Debug.Log("selectedUnitHighlight = null");
+        if (selectedMarker == null)
+            Debug.Log("selectedMarker = null");
 
         abilityImages = AbilityImages;
         abilityText = AbilityText;

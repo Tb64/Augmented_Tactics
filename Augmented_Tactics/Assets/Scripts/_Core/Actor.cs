@@ -407,6 +407,7 @@ public class Actor : MonoBehaviour
     public bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
         float scaleDist = 1f;
+        targetPos.y = transform.position.y;
         float dist = Vector3.Distance(origin.position, targetPos);
         if (dist < 0.26f) //old dist .01
         {
