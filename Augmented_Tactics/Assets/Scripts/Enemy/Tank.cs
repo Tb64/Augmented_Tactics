@@ -199,7 +199,7 @@ public class Tank : Enemy{
         output = output.normalized;
         Debug.Log(output);
         Vector3 movingTo;
-        if (Mathf.Abs(output.x) > Mathf.Abs(output.z) /*&& !cantMove.Contains(new Vector3(output.x - 3, output.y, output.z)) || !cantMove.Contains(new Vector3(output.x + 3, output.y, output.z))*/)
+        if (Mathf.Abs(output.x) > Mathf.Abs(output.z) && !cantMove.Contains(new Vector3(output.x - 3, output.y, output.z)) || !cantMove.Contains(new Vector3(output.x + 3, output.y, output.z)))
         {
             if (output.x > 0 && !cantMove.Contains(new Vector3(output.x - 3, output.y, output.z)))
                 movingTo = new Vector3(output.x-3,output.y,output.z);
