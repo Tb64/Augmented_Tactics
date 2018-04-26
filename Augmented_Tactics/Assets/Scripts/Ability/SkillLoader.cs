@@ -68,6 +68,12 @@ public class SkillLoader : MonoBehaviour {
             case "shieldbash":
                 return new ShieldBash(gObj);
 
+            case "sap":
+                return new Sap(gObj);
+
+            case "bladefury":
+                return new BladeFury(gObj);
+
             //Wizard
             case "ice":
                 return new Ice(gObj);
@@ -171,12 +177,12 @@ public class SkillLoader : MonoBehaviour {
                 return skills;
 
             case CharacterClasses.DarkKnightKey:
-                skills[0] = "";
-                skills[1] = "";
-                skills[2] = "";
-                skills[3] = "";
-                skills[4] = "";
-                skills[5] = "";
+                skills[0] = "sap";
+                skills[1] = "shieldbash";
+                skills[2] = "disintegrate";
+                skills[3] = "eviscerate";
+                skills[4] = "bladefury";
+                skills[5] = "lifeleech";
                 skills[6] = "";
                 skills[7] = "";
                 return skills;

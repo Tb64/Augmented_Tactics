@@ -31,7 +31,7 @@ public class CharacterClasses : MonoBehaviour {
     public static string[] PrefabPath =
     {
         "PlayerClasses/DefaultUnit", //Paladin
-        "PlayerClasses/DefaultUnit", //Darkknight
+        "PlayerClasses/Dark_Knight", //Darkknight
         "PlayerClasses/Brawler", //brawler
         "PlayerClasses/Thief",  //thief
         "PlayerClasses/Mage", //Mage
@@ -84,6 +84,16 @@ public class CharacterClasses : MonoBehaviour {
                 return index;
         }
         return -1;
+    }
+
+    public string RandomClassName()
+    {
+        return classNames[RandomClassID()];
+    }
+
+    public int RandomClassID()
+    {
+        return Random.Range(0, classNames.Length);
     }
     
 }
