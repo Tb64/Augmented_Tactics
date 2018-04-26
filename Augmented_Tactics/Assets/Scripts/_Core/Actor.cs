@@ -27,7 +27,7 @@ public class Actor : MonoBehaviour
     #region Variables
 
     public PlayerData data;
-
+    public string playerDataName;
     protected Animator anim;
     public string actorName;
     public float health_current;    // temporary for debugging purposes(should be protected)
@@ -242,6 +242,16 @@ public class Actor : MonoBehaviour
         if (GameObject.Find("Map") == null)
             return;
         map = GameObject.Find("Map").GetComponent<TileMap>();
+
+        if(weapon == null)
+        {
+            weapon = WeaponGen.WeaponGenerate(1, 0, 0);
+        }
+
+        if(armor == null)
+        {
+            armor = ArmorGen.ArmorGenerate(1, 0, 0);
+        }
 
         if (map.IsValidCoord(coords) == true)
         {

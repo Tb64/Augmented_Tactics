@@ -17,12 +17,14 @@ public class GameController : MonoBehaviour
     private static Actor selectedUnit;
     private static Vector3 targetLocation;
     private static GameObject targetObject;
+    private static GameObject interactedObj;
     private static ClickableTile clickedTile;
     private static TileMap map;
     private static Image[] abilityImages;
     private static Text[] abilityText;
 
     public Image[] AbilityImages;
+    public static Sprite nullImage;
     public Text[] AbilityText;
     private RangeHighlight rangeMarker;
     private RangeHighlight aoeMarker;
@@ -32,6 +34,7 @@ public class GameController : MonoBehaviour
     private static bool abilityMode = false;
     private static int currentMode = MODE_SELECT_UNIT;
 
+
     private void Awake()
     {
         Initialize();
@@ -40,6 +43,7 @@ public class GameController : MonoBehaviour
     // Use this for initialization
     void Initialize()
     {
+        nullImage = AbilityImages[0].sprite;
         TurnBehaviour.OnTurnStart += this.TurnStart;
         TurnBehaviour.OnPlayerTurnStart += this.PlayerTurnStart;
         TurnBehaviour.OnPlayerSpawn += this.UnitSpawn;
@@ -182,16 +186,15 @@ public class GameController : MonoBehaviour
 
     GameObject RayCaster()
     {
-        GameObject interactedObject;
         Ray interactionRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit interactionInfo;
         if (Physics.Raycast(interactionRay, out interactionInfo, Mathf.Infinity))
         {
-            interactedObject = interactionInfo.collider.gameObject;
-            Debug.Log("Click event on: " + interactedObject.name);
+            interactedObj = interactionInfo.collider.gameObject;
+            Debug.Log("Click event on: " + interactedObj.name);
             if (selectedMarker != null)
-                selectedMarker.transform.position = interactedObject.transform.position;// + new Vector3(0f,2f,0f);
-            return interactedObject;
+                selectedMarker.transform.position = interactedObj.transform.position;// + new Vector3(0f,2f,0f);
+            return interactedObj;
         }
 
         return null;
@@ -359,7 +362,14 @@ public class GameController : MonoBehaviour
             if(selectedUnit.abilitySet[index] != null)
             {
                 abilityImages[index].sprite = selectedUnit.abilitySet[index].abilityImage;
-                abilityText[index].text = selectedUnit.abilitySet[index].abilityName;
+                abilityText[index].text = "" + (int)selectedUnit.abilitySet[index].manaCost;
+                abilityImages[index].GetComponent<Button>().interactable = true;
+            }
+            else
+            {
+                abilityImages[index].GetComponent<Button>().interactable = false;
+                abilityImages[index].sprite = nullImage;
+                abilityText[index].text = "";
             }
             
         }
@@ -432,7 +442,7 @@ public class GameController : MonoBehaviour
 
     public static GameObject getTargeted()
     {
-        return targetObject;
+        return interactedObj;
     }
 
     /// <summary>
