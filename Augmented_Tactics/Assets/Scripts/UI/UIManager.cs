@@ -4,10 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
-
+    private bool cancelButtonUp;
+    public Animator animator;
     private GameObject move;
     private GameObject skills;
     private GameObject end;
+    private GameObject cancel;
 
     /// <summary>
     /// These are the 4 buttons overlaying the health bar circles.
@@ -17,6 +19,7 @@ public class UIManager : MonoBehaviour {
     //must be Awake or else if a unit spawns before this activates, some select buttons may be disabled
 	void Awake ()
     {
+        cancelButtonUp = false;
         selectButtons = new Button[4];
         GameObject[] temp = GameObject.FindGameObjectsWithTag("Button");
         if (temp != null)
@@ -33,6 +36,9 @@ public class UIManager : MonoBehaviour {
                         break;
                     case "EndButton":
                         end = button;
+                        break;
+                    case "CancelActionButton":
+                        cancel = button;
                         break;
                     case "SelectButton1":
                         selectButtons[0] = button.GetComponent<Button>();
@@ -100,8 +106,15 @@ public class UIManager : MonoBehaviour {
     /// </summary>
     void disableActionsB()
     {
-        move.GetComponent<Button>().interactable = false;
-        skills.GetComponent<Button>().interactable = false;
+        if (cancel != null)
+        {
+            cancel.GetComponent<Button>().interactable = false;
+            animator.SetTrigger("HideCancel");
+        }
+        if (move != null)
+            move.GetComponent<Button>().interactable = false;
+        if (skills != null)
+            skills.GetComponent<Button>().interactable = false;
     }
 
     /// <summary>
@@ -109,10 +122,19 @@ public class UIManager : MonoBehaviour {
     /// </summary>
     void enableActionsB()
     {
+        if (cancelButtonUp)//cancel button is up but player just moved/attacked/switched character. Do cancel button trigger
+        {
+            cancelButtonUp = false;
+            animator.SetTrigger("AfterAction");
+        }
         if (GameController.getSelected().getMoves() != 0)
         {
-            move.GetComponent<Button>().interactable = true;
-            skills.GetComponent<Button>().interactable = true;
+            if (cancel != null)
+                cancel.GetComponent<Button>().interactable = true;
+            if (move != null)
+                move.GetComponent<Button>().interactable = true;
+            if (skills != null)
+                skills.GetComponent<Button>().interactable = true;
         }
     }
 
@@ -144,5 +166,10 @@ public class UIManager : MonoBehaviour {
     void OnClick3()
     {
         GameController.setUnit(3);
+    }
+
+    public bool CancelButtonUp
+    {
+        set { cancelButtonUp = value; }
     }
 }

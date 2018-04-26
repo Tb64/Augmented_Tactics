@@ -31,7 +31,7 @@ public class CharacterClasses : MonoBehaviour {
     public static string[] PrefabPath =
     {
         "PlayerClasses/DefaultUnit", //Paladin
-        "PlayerClasses/DefaultUnit", //Darkknight
+        "PlayerClasses/Dark_Knight", //Darkknight
         "PlayerClasses/Brawler", //brawler
         "PlayerClasses/Thief",  //thief
         "PlayerClasses/Mage", //Mage

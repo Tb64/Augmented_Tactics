@@ -50,9 +50,7 @@ public class Inventory : MonoBehaviour
                 }
             }
         }
-
         updateInventory();
-
     }
 
     public void addUsable(UsableItem item)
@@ -74,17 +72,12 @@ public class Inventory : MonoBehaviour
 
     public void updateInventory()
     {
-
-        //if (backgroundImage.GetComponent<Image>() == true)
-        //    backgroundImage.SetActive(false);
-        //else
-        //    backgroundImage.GetComponent<Image>().enabled = true;
-
         if (item == null)
         {
             Debug.Log("ITEM NOT FOUND");
             return;
         }
+        GameDataController.loadPlayerData();
 
         inventoryArray[0, 0] = Instantiate(item);
         inventoryArray[0, 0].transform.SetParent(inventoryBackground.transform, false);
@@ -98,6 +91,10 @@ public class Inventory : MonoBehaviour
         double numRows = Math.Ceiling(inventoryRows);
         int numItems = 5;
         float inventoryCounter = inventorySize;
+        int numOfWeapons = GameDataController.gameData.weapons.Count;
+        int numOfArmors = GameDataController.gameData.armors.Count;
+        int numOfUsables = GameDataController.gameData.usableItems.Count;
+
 
         for (int index = 0; index < numRows; index++)
         {
@@ -118,6 +115,20 @@ public class Inventory : MonoBehaviour
             iconPlacement += new Vector3(0, -80f, 0);
         }
 
+        int gameDataIndex = 0;
+
+
+        //foreach(WeaponGen in)
+        
+        //loads inventory from gamedata
+        for(int index = 0; index < 5; index++)
+        {
+            for(int jindex = 0; jindex < 5; jindex++)
+            {
+
+                inventoryArray[index, jindex].GetComponent<Item>().setEquipable(GameDataController.gameData.weapons[gameDataIndex]);
+            }
+        }
 
     }
 

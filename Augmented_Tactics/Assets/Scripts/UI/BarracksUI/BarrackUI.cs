@@ -98,10 +98,6 @@ public class BarrackUI : MonoBehaviour {
         desc2.text = descText2;
     }
 
-    private void UpdateArmor()
-    {
-
-    }
 
     public void FireSoldierPopup()
     {
