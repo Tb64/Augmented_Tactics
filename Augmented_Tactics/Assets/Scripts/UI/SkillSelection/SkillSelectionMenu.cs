@@ -16,6 +16,7 @@ public class SkillSelectionMenu : MonoBehaviour {
     public Text rangeText;
     public Text descText;
     public Text costText;
+    public Text buyText;
 
     public Image selectedAllSkillMarker;
     public Image selectedCurrentSkillMarker;
@@ -28,6 +29,7 @@ public class SkillSelectionMenu : MonoBehaviour {
     private int currentSkillSelected;
     private Ability skill1, skill2, skill3, skill4;
     private Ability[] abilities;
+    private string[] abilityKeys;
     public GameObject dummy;
     private Actor dummyActor;
 
@@ -41,11 +43,6 @@ public class SkillSelectionMenu : MonoBehaviour {
         SetPlayerData(selectedPlayer);
         
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void SetPlayerData(PlayerData pdata)
     {
@@ -63,6 +60,28 @@ public class SkillSelectionMenu : MonoBehaviour {
         SetPlayerData(pdata);
     }
 
+    public void BuyButtonClicked()
+    {
+        if (buyText.text.Contains("Level"))
+            return;
+        else if (buyText.text.Contains("Buy"))
+        {
+            UnlockSkill(allSkillSelected);
+            GameDataController.gameData.savePlayer(selectedPlayer);
+            GameDataController.savePlayerData();
+        }
+        else if (buyText.text.Contains("Set"))
+        {
+            if (IsSkillUnlocked(allSkillSelected))
+            {
+                SetSkill(abilityKeys[allSkillSelected], currentSkillSelected);
+                GameDataController.gameData.savePlayer(selectedPlayer);
+                GameDataController.savePlayerData();
+            }
+        }
+        GenerateUI();
+    }
+
     void GenerateUI()
     {
         //selectedPlayer.Class;
@@ -73,7 +92,7 @@ public class SkillSelectionMenu : MonoBehaviour {
         }
 
         dummyActor.LoadStatsFromData(selectedPlayer);
-        string[] abilityKeys = SkillLoader.ClassSkills(selectedPlayer.Class);
+        abilityKeys = SkillLoader.ClassSkills(selectedPlayer.Class);
         abilities = new Ability[8];
 
         for (int index = 0; index < 8; index++)
@@ -130,6 +149,17 @@ public class SkillSelectionMenu : MonoBehaviour {
         purchasedSkills[7].enabled = selectedPlayer.UnlockSkill8;
         //lockedSkills[0].enabled = !selectedPlayer.UnlockSkill1;
 
+        if (allSkillSelected >= selectedPlayer.Level)
+            buyText.text = "Level " + (allSkillSelected + 1);
+        else
+        {
+            if (IsSkillUnlocked(allSkillSelected))
+                buyText.text = "Set Skill";
+            else
+                buyText.text = "Buy";
+        }
+        
+
     }
 
     public void SetSelctedAllSkill(int input)
@@ -151,12 +181,101 @@ public class SkillSelectionMenu : MonoBehaviour {
         this.mpText.text = "Mana: " + abilities[input].manaCost;
         this.rangeText.text = "Range: " + abilities[input].range_min + "-" + abilities[input].range_max;
         this.descText.text = abilities[input].abilityDescription;
-
+        if (input >= selectedPlayer.Level)
+            buyText.text = "Level " + (input + 1);
+        else
+        {
+            if(IsSkillUnlocked(input))
+                buyText.text = "Set Skill";
+            else
+                buyText.text = "Buy";
+        }
+        GenerateUI();
     }
 
     public void SetCurrentSkillSelected(int input)
     {
         this.currentSkillSelected = input;
-        selectedCurrentSkillMarker.rectTransform.anchoredPosition3D = currentSkills[input].rectTransform.anchoredPosition3D;
+        selectedCurrentSkillMarker.rectTransform.anchoredPosition3D = new Vector3(((input - 2f) * 110f) + 55f, 0f, 0f);
+    }
+
+    private bool IsSkillUnlocked(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                return selectedPlayer.UnlockSkill1;
+            case 1:
+                return selectedPlayer.UnlockSkill2;
+            case 2:
+                return selectedPlayer.UnlockSkill3;
+            case 3:
+                return selectedPlayer.UnlockSkill4;
+            case 4:
+                return selectedPlayer.UnlockSkill5;
+            case 5:
+                return selectedPlayer.UnlockSkill6;
+            case 6:
+                return selectedPlayer.UnlockSkill7;
+            case 7:
+                return selectedPlayer.UnlockSkill8;
+
+            default:
+                return true;
+        }
+    }
+    private void UnlockSkill(int index)
+    {
+        switch (index)
+        {
+            case 0:
+                selectedPlayer.UnlockSkill1 = true;
+                return;
+            case 1:
+                selectedPlayer.UnlockSkill2 = true;
+                return;
+            case 2:
+                selectedPlayer.UnlockSkill3 = true;
+                return;
+            case 3:
+                selectedPlayer.UnlockSkill4 = true;
+                return;
+            case 4:
+                selectedPlayer.UnlockSkill5 = true;
+                return;
+            case 5:
+                selectedPlayer.UnlockSkill6 = true;
+                return;
+            case 6:
+                selectedPlayer.UnlockSkill7 = true;
+                return;
+            case 7:
+                selectedPlayer.UnlockSkill8 = true;
+                return;
+
+            default:
+                return;
+        }
+    }
+
+    private void SetSkill(string name, int slot)
+    {
+        switch (slot)
+        {
+            case 0:
+                selectedPlayer.Skill1 = name;
+                return;
+            case 1:
+                selectedPlayer.Skill2 = name;
+                return;
+            case 2:
+                selectedPlayer.Skill3 = name;
+                return;
+            case 3:
+                selectedPlayer.Skill4 = name;
+                return;
+            default:
+                break;
+        }
     }
 }

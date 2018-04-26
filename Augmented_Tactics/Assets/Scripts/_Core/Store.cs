@@ -15,10 +15,12 @@ public class Store : MonoBehaviour
     GameObject[,] inventoryArray = new GameObject[5, 5];
     GameObject backgroundImage;
     GameObject StoreBackground;
+    
     //1 for armorer, 2 for weaponsmith, 3 for generalStore
     public int storeType;
     public GameObject inventoryActual; // variables need renaming - quick fix
     public Image storeImage;
+    public Item selectedItem;
     public Text storeText;
     private float inventorySize;
     //test
@@ -32,10 +34,10 @@ public class Store : MonoBehaviour
         item = Resources.Load<GameObject>("Prefabs/Item");
         StoreBackground = GameObject.Find("StoreBackground");
         inventory = GameObject.Find("StoreUI");
+
         inventoryHead = GameObject.Find("Store");
-        //storeImage = transform.Find("Store/StoreUI/StoreImage").GetComponent<Image>();
         invTransform = inventory.GetComponent<Transform>();
-        updateInventory();
+        updateStore();
         armorgen = new ArmorGen();
         weapon = ArmorGen.ArmorGenerate(1, "Brawler", 1);
         addEquipable(weapon);
@@ -70,7 +72,7 @@ public class Store : MonoBehaviour
         }
     }
 
-    public void updateInventory()
+    public void updateStore()
     {
 
         if (item == null)
@@ -140,6 +142,11 @@ public class Store : MonoBehaviour
         {
             inventoryHead.transform.GetChild(0).gameObject.SetActive(true);
         }
+    }
+
+    public void exitInventory()
+    {
+        this.gameObject.SetActive(false);
     }
 
     public Armor generateArmor()
@@ -213,11 +220,14 @@ public class Store : MonoBehaviour
         if (armor.magic_def != 0)
             storeText.text += "Magic Resistance: " + armor.magic_def + "\n";
 
-
     }
 
     void displayWeapon(Weapons weapon)
     {
+        storeText.text = "";
+        storeText.text += "Name: " + weapon.name + "\n";
+        storeText.text += "Cost: " + weapon.cost + "\n";
+
         if (weapon.str_bonus != 0)
             storeText.text += "Strength Bonus: " + weapon.str_bonus + "\n";
 
@@ -233,10 +243,40 @@ public class Store : MonoBehaviour
         if (weapon.int_bonus != 0)
             storeText.text += "Intelligence Bonus: " + weapon.int_bonus + "\n";
 
-       
     }
 
-   
+    public void setSelectedItem(Item item)
+    {
+        selectedItem = item;
+    }
+
+    public void buyArmor()
+    {
+        if (inventoryActual.gameObject.activeSelf == false)
+        {
+            inventoryActual.GetComponent<Inventory>().toggleInventory();
+        }
+
+        if (selectedItem == null)
+        {
+            return;
+        }
+        inventoryActual.GetComponent<Inventory>().addEquipable(selectedItem.getArmor());
+    }
+
+    public void buyWeapon()
+    {
+        if (inventoryActual.gameObject.activeSelf == false)
+        {
+            inventoryActual.GetComponent<Inventory>().toggleInventory();
+        }
+
+        if (selectedItem == null)
+        {
+            return;
+        }
+        inventoryActual.GetComponent<Inventory>().addEquipable(selectedItem.getWeapon());
+    }
 
     void displayUsable(Item item)
     {

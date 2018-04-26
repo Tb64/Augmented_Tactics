@@ -60,12 +60,11 @@ public class Tank : Enemy{
     public override void EnemyActions()
     {
 
-        if (Random.Range(0, 1000) <= 500 && (GetHealthPercent() < .35 || closestAggro.GetHealthPercent() < .45 && healPossible))
+        if (Random.Range(0, 1000) <= 500 && GetHealthPercent() < .35 || closestAggro.GetHealthPercent() < .45 && healPossible)
             healMode = true;
 
         if (healMode)
         {
-            //Debug.Log("Here For No Reason");
             if (closestAggro.GetHealthPercent() < .45)
             {
                 if (HealSelfOrPartner(0))

@@ -24,6 +24,21 @@ public class RFX4_ReplaceModelOnCollision : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (!isCollided)
+        {
+            isCollided = true;
+            PhysicsObjects.SetActive(true);
+            var mesh = GetComponent<MeshRenderer>();
+            if (mesh != null)
+                mesh.enabled = false;
+            var rb = GetComponent<Rigidbody>();
+            rb.isKinematic = true;
+            rb.detectCollisions = false;
+        }
+    }
+
     void OnEnable()
     {
         isCollided = false;
