@@ -119,16 +119,23 @@ public class Inventory : MonoBehaviour
 
 
         //foreach(WeaponGen in)
-        
+
+     
+
         //loads inventory from gamedata
-        for(int index = 0; index < 5; index++)
+        for (int index = 0; index < 5; index++)
         {
-            for(int jindex = 0; jindex < 5; jindex++)
+            for (int jindex = 0; jindex < 5; jindex++)
             {
 
                 inventoryArray[index, jindex].GetComponent<Item>().setEquipable(GameDataController.gameData.weapons[gameDataIndex]);
             }
         }
+
+    }
+
+    public void findNextEmpty()
+    {
 
     }
 

@@ -8,9 +8,9 @@ public class Disintegrate : Ability {
     static public Disintegrate instance;
 
     //float damage = 10f;
-    StateMachine SM = GameObject.Find("GameController").GetComponent<StateMachine>();
+    //StateMachine SM = GameObject.Find("GameController").GetComponent<StateMachine>();
     GameObject bloodEffect = Resources.Load<GameObject>("animation/effect26");
-    TileMap map = GameObject.FindGameObjectWithTag("Map").GetComponent<TileMap>();
+    TileMap map;
     Actor user;
     private MonoBehaviour mB;
     private Enemy position;
@@ -24,6 +24,7 @@ public class Disintegrate : Ability {
     public override void Initialize(GameObject obj)
     {
         base.Initialize(obj);
+        map = actor.map;
         anim = gameObject.GetComponentInChildren<Animator>();
         dwell_time = 1.0f;
         abilityName = "disintegrate";
