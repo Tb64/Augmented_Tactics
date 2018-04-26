@@ -224,7 +224,7 @@ public class TileMap : MonoBehaviour {
         if (!IsValidCoord(coords))
             return false;
         //could test units movement type(walk,fly,run etc..)
-        return getTileAtCoord(coords).tileType.isWalkable && getTileAtCoord(coords).isOccupied() == false;
+        return getTileAtCoord(coords).tileType.isWalkable && !getTileAtCoord(coords).isOccupied();
     }
 
     public void GeneratePathTo(Vector3 targetCoords, GameObject actor)
@@ -505,10 +505,21 @@ public class TileMap : MonoBehaviour {
     /// <returns></returns>
     public void moveActorAsync(GameObject actor, Vector3 target)
     {
-    
-        actor.GetComponent<Actor>().PlaySound("move");
-        StartCoroutine(MoveActorThread(actor, target));
+        Actor actorObj = actor.GetComponent<Actor>();
+        if (actorObj.getCoords() == target || !UnitCanEnterTile(target))
+        {
+            Debug.Log("Move Failed: Target is invalid. " + target + " " + actor.name);
+            return;
+        }
 
+        actorObj.PlaySound("move");
+        if (actorObj.useAction())
+        {
+            actorObj.PlaySound("move");
+            StartCoroutine(MoveActorThread(actor, target));
+        }
+        else
+            Debug.Log("No actions remaining.");
         return;
     }
 
@@ -585,7 +596,7 @@ public class TileMap : MonoBehaviour {
         if (endOfMove == true) //Anything that happens at end of Actor movement
         {
             unitObj.setRemainingMovement(0); // clears remaining movement of Actor at end of move
-            unitObj.useAction();
+            //unitObj.useAction();  //moving to thread
             
             if(unitObj.canAct() == true)
             {
@@ -749,6 +760,7 @@ public class TileMap : MonoBehaviour {
         Debug.Log("Moved " + actor.name + " to " + target + " from " + currentCoords);
         SetOcc(actor, currentCoords, newCoords);
         //getTileAtCoord(unit.getCoords()).setOccupiedTrue(actor);
+        //actor.GetComponent<Actor>().useAction();
         TurnBehaviour.ActorHasJustMoved();
     }
 
