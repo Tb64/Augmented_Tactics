@@ -27,7 +27,7 @@ public class Actor : MonoBehaviour
     #region Variables
 
     public PlayerData data;
-
+    public string playerDataName;
     protected Animator anim;
     public string actorName;
     public float health_current;    // temporary for debugging purposes(should be protected)
