@@ -6,13 +6,15 @@ using System.Collections.Generic;
 using Yarn.Unity.Example;
 using Yarn.Unity;
 
-public class Cutscene5a: MonoBehaviour
+public class Cutscene5a : MonoBehaviour
 {
 
     public Animator anim;
     public Animator anim2;
     public Camera cam1;
     public Camera cam2;
+    public Camera cam3;
+    public Camera cam4;
 
     //characters
     public GameObject You;
@@ -25,9 +27,12 @@ public class Cutscene5a: MonoBehaviour
     //objects
     public GameObject Rift;
     public GameObject DirecLight;
-
+    public AudioClip tune;
+    public AudioClip tune2;
+    public AudioSource musicsource;
     public GameObject UndeadKnight;
     public GameObject UndeadKnight2;
+    public bool Donetalking = false;
 
 
     int currentline;
@@ -38,7 +43,7 @@ public class Cutscene5a: MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        
+
 
 
     }
@@ -111,6 +116,8 @@ public class Cutscene5a: MonoBehaviour
                     case 10:
                         if (Input.GetMouseButtonDown(0))
                         {
+                            cam3.enabled = true;
+                            cam1.enabled = false;
                             StopTalking("You");
                             StartTalking("JhovanRifiuti");
                             temp = currentline;
@@ -151,23 +158,24 @@ public class Cutscene5a: MonoBehaviour
                     case 17:
                         if (Input.GetMouseButtonDown(0))
                         {
-                            cam1.enabled = false;
-                            cam2.enabled = true;
-                            AdonaiBrevary.SetActive(true);
                             StartTalking("FrederickDecet");
                             StopTalking("Doogy");
-                            TurnAround("You");
-                            TurnAround("Doogy");
-                            TurnAround("JohnCausion");
                             TurnAround("JhovanRifiuti");
-                            StartTalking("FrederickDecet");
-
+                            musicsource.Stop();
                             temp = currentline;
                         }
                         break;
                     case 18:
                         if (Input.GetMouseButtonDown(0))
                         {
+                            musicsource.clip = tune;
+                            musicsource.Play();
+                            FrederickDecet.SetActive(true);
+                            cam3.enabled = false;
+                            cam2.enabled = true;
+                            TurnAround("You");
+                            TurnAround("Doogy");
+                            TurnAround("JohnCausion");
                             StopTalking("FrederickDecet");
                             StartTalking("JhovanRifiuti");
                             temp = currentline;
@@ -194,6 +202,7 @@ public class Cutscene5a: MonoBehaviour
                         {
                             StopTalking("You");
                             StartTalking("FrederickDecet");
+                            AdonaiBrevary.SetActive(true);
                             StartWalking();
                             Wait();
                             temp = currentline;
@@ -307,9 +316,10 @@ public class Cutscene5a: MonoBehaviour
                         }
                         break;
                     case 39:
-                        
+
                         if (Input.GetMouseButtonDown(0))
                         {
+                            musicsource.Stop();
                             DirecLight.SetActive(true);
                             Rift.SetActive(false);
                             DirecLight.SetActive(false);
@@ -323,6 +333,9 @@ public class Cutscene5a: MonoBehaviour
                     case 40:
                         if (Input.GetMouseButtonDown(0))
                         {
+                            musicsource.clip = tune2;
+                            musicsource.Play();
+                            TurntoAdonai();
                             StopTalking("You");
                             StartTalking("AdonaiBrevary");
                             temp = currentline;
@@ -331,6 +344,7 @@ public class Cutscene5a: MonoBehaviour
                     case 42:
                         if (Input.GetMouseButtonDown(0))
                         {
+                            PlayerTurntoAdonai();
                             StopTalking("AdonaiBrevary");
                             StartTalking("Doogy");
                             temp = currentline;
@@ -439,7 +453,7 @@ public class Cutscene5a: MonoBehaviour
                             temp = currentline;
                         }
                         break;
-                        
+
                     default:
                         break;
 
@@ -451,6 +465,29 @@ public class Cutscene5a: MonoBehaviour
     IEnumerator Wait()
     {
         yield return new WaitForSecondsRealtime(10);
+    }
+    void TurntoAdonai()
+    {
+        GameObject gub2 = Doogy;
+        GameObject gub3 = JhovanRifiuti;
+        GameObject gub4 = JohnCausion;
+
+
+        anim = gub2.GetComponent<Animator>();
+        anim.Play("lastturn");
+        anim = gub3.GetComponent<Animator>();
+        anim.Play("lastturn");
+        anim = gub4.GetComponent<Animator>();
+        anim.Play("lastturn");
+
+    }
+    void PlayerTurntoAdonai()
+    {
+        GameObject gub = You;
+
+        anim = gub.GetComponent<Animator>();
+        anim.Play("lastturn");
+
     }
 
     void SkellyAttack()
@@ -496,7 +533,7 @@ public class Cutscene5a: MonoBehaviour
         {
             gub = Doogy;
         }
-        
+
 
         anim = gub.GetComponent<Animator>();
         anim.Play(choice, -1, 0f);
@@ -539,7 +576,7 @@ public class Cutscene5a: MonoBehaviour
 
     void TurnAround(string s)
     {
-        
+
         GameObject a = You;
         string choice = "YouTurn";
 
