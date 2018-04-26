@@ -9,7 +9,7 @@ public class Sap : Ability
     StateMachine SM = GameObject.FindGameObjectWithTag("GameController").GetComponent<StateMachine>();
     //Damages Enemy and removes one action point from enemy
     //need to add status effect that removes one turn from enemy
-    GameObject bloodEffect = Resources.Load<GameObject>("animation/effect26");
+    GameObject sapEffect = Resources.Load<GameObject>("animation/Effect1_Collision");
     Actor user;
     float BASE_DAMAGE = 10f;
     float STR_SCALER = 0.5f;
@@ -64,8 +64,8 @@ public class Sap : Ability
 
     IEnumerator animDelay(GameObject target)
     {
-        yield return new WaitForSeconds(.8f);
-        GameObject effect = GameObject.Instantiate(bloodEffect, target.transform);
+        yield return new WaitForSeconds(.2f);
+        GameObject effect = GameObject.Instantiate(sapEffect, target.transform);
         target.GetComponent<Actor>().TakeDamage(damage, gameObject);
     }
 
