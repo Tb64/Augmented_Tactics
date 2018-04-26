@@ -513,7 +513,7 @@ public class TileMap : MonoBehaviour {
         }
 
         actorObj.PlaySound("move");
-        if (actorObj.useAction())
+        if (actorObj.canAct())
         {
             actorObj.PlaySound("move");
             StartCoroutine(MoveActorThread(actor, target));
@@ -590,7 +590,7 @@ public class TileMap : MonoBehaviour {
         }
 
         //move unit to next tile
-        endOfMove = unitObj.MoveController(unit.transform, TileCoordToWorldCoord(unitObj.getCoords()), unitObj.getSpeed());
+        endOfMove = unitObj.MoveController(unitObj.transform, TileCoordToWorldCoord(unitObj.getCoords()), unitObj.getSpeed());
         //Debug.Log("endOfMove: " + endOfMove);
         
         if (endOfMove == true) //Anything that happens at end of Actor movement
@@ -601,6 +601,10 @@ public class TileMap : MonoBehaviour {
             if(unitObj.canAct() == true)
             {
                 unitObj.setRemainingMovement(unitObj.getMoveDistance());
+            }
+            else
+            {
+                Debug.Log("No moves");
             }
 
             if (unitObj.getCurrentPath() == null)
@@ -655,6 +659,7 @@ public class TileMap : MonoBehaviour {
         if (unit.getCurrentPath().Count == 1)
         {
             //standing on same tile clicked on
+            Debug.Log("setting path null unit coords : " + unit.getCoords());
             unit.setPathNull();
         }
 
@@ -757,10 +762,10 @@ public class TileMap : MonoBehaviour {
 
         Vector3 newCoords = actor.GetComponent<Actor>().getCoords();
 
-        Debug.Log("Moved " + actor.name + " to " + target + " from " + currentCoords);
+        Debug.Log("Moved " + actor.name + " to " + target + " from " + currentCoords + " " + moveDone);
         SetOcc(actor, currentCoords, newCoords);
         //getTileAtCoord(unit.getCoords()).setOccupiedTrue(actor);
-        //actor.GetComponent<Actor>().useAction();
+        actor.GetComponent<Actor>().useAction();
         TurnBehaviour.ActorHasJustMoved();
     }
 
