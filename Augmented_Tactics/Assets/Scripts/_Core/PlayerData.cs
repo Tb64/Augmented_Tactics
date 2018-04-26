@@ -172,6 +172,32 @@ public class PlayerData
         input.Icon = CharacterClasses.IconPath[input.Class];
     }
 
+    public static void LevelUp(PlayerData input, bool cheater)
+    {
+        if(cheater || input.Experience >= PlayerKey.LevelCaps[input.Level])
+        {
+            if(input.Level >= 8)
+            {
+                Debug.Log("Max level " + input.playerName);
+                return;
+            }
+            input.Level++;
+            RandomStatBoost(input);
+            Debug.Log("Leveling up " + input.playerName + " cheater=" + cheater);
+        }
+        else
+        {
+            Debug.Log("Not enough EXP for level: " + input.playerName);
+            return;
+        }
+    }
+
+    public static void LevelUp(PlayerData input)
+    {
+        LevelUp(input, false);
+    }
+
+
     private static void RandomStatBoost(PlayerData input)
     {
         int randomStat;
