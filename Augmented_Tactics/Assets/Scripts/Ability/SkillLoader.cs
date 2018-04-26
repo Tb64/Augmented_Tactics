@@ -79,7 +79,7 @@ public class SkillLoader : MonoBehaviour {
                 return new FireBall(gObj);
             case "arcanecomet":
                 return new FireBall(gObj);
-            case "arcanebarrier":
+            case "magicmissle":
                 return new FireBall(gObj);
 
 
