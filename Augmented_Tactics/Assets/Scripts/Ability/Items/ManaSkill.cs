@@ -49,8 +49,11 @@ public class ManaSkill : Ability {
         anim = gameObject.GetComponentInChildren<Animator>();
         range_max = 2;
         range_min = 0;
+        manaRestore = true;
+        canTargetEnemy = false;
+        canTargetFriendly = true;
         dwell_time = 1.0f;
-        abilityName = "ManaTonic";
+        abilityName = "Mana Tonic";
         manaCost = 0;
         abilityImage = Resources.Load<Sprite>("UI/Ability/magician/magicianSkill7");
         if (abilityImage == null)

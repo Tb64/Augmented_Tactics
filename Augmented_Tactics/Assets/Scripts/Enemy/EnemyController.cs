@@ -69,6 +69,7 @@ public class EnemyController : MonoBehaviour
             findOrder.Add(orderChoice.GetComponent<Enemy>());
             enemyNum++;
         }
+        //findOrder = AddSpecialists(findOrder) ;
         DecideOrder(findOrder);
        /* foreach (Enemy enemy in enemyList)
         {
@@ -93,6 +94,37 @@ public class EnemyController : MonoBehaviour
         }
 
     }
+    
+  /*  private List<Enemy> AddSpecialists(List<Enemy> current)
+    {
+         GameObject game = GameObject.FindWithTag("Decet") ;
+         if(game != null) 
+             current.Add(game.GetComponent<"Decet">()) ;
+         game = GameObject.FindWithTag("Eery");
+         if(game != null) 
+             current.Add(game.GetComponent<"Eery">()) ;
+         game = GameObject.FindWithTag("Causion");
+         if(game != null) 
+             current.Add(game.GetComponent<"Causion">()) ;
+         GameObject[] games = GameObject.FindGameObjectsWithTag("Support");
+         if(games != null) 
+              foreach(GameObject game in games) 
+                  current.Add(game.GetComponent<"Support">());
+         games = GameObject.FindObjectsWithTag("Defender");
+         if(games! = null)
+              foreach(GameObject game in games) 
+                  current.Add(game.GetComponent<"Defender">());
+         games = GameObject.FindObjectsWithTag("Tank")
+         if(games! = null)
+              foreach(GameObject game in games) 
+                  current.Add(game.GetComponent<"Tank">());
+         games = GameObject.FindObjectsWithTag("Agressive")
+         if(games! = null)
+              foreach(GameObject game in games) 
+                  current.Add(game.GetComponent<"Agressive">());
+
+         return current;
+    } */
 
     public Actor FindWeakestPlayer()
     {
@@ -112,14 +144,14 @@ public class EnemyController : MonoBehaviour
         return weakest;
     }
 
-    public static Enemy FindWeakestEnemy()
+    public static Enemy FindWeakestEnemy(Enemy self)
     {
         Enemy weakling = null;
         float lowestHealth = enemyList[0].GetHealthPercent();
         foreach (Enemy enemy in enemyList)
         {
             float playerHealth = enemy.GetHealthPercent();
-            if (playerHealth < lowestHealth)
+            if (playerHealth < lowestHealth && enemy != self)
             {
                 weakling = enemy;
                 lowestHealth = playerHealth;
@@ -204,7 +236,11 @@ public class EnemyController : MonoBehaviour
             enemyList[currentEnemy].EnemyActions();
         }
         else
+        {
+            Debug.Log(enemyList[currentEnemy] + "Ending Turn");
             NextEnemy();
+        }
+            
     }
 
       /* private void EnemyUsedAction()
