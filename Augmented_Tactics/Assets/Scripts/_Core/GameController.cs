@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
     private static Actor selectedUnit;
     private static Vector3 targetLocation;
     private static GameObject targetObject;
-    private static GameObject interactedObj;
+    private static GameObject interactedObject;
     private static ClickableTile clickedTile;
     private static TileMap map;
     private static Image[] abilityImages;
@@ -243,16 +243,15 @@ public class GameController : MonoBehaviour
 
     GameObject RayCaster(Vector2 screenPosition)
     {
-        GameObject interactedObject;
         Ray interactionRay = Camera.main.ScreenPointToRay(screenPosition);
         RaycastHit interactionInfo;
         if (Physics.Raycast(interactionRay, out interactionInfo, Mathf.Infinity))
         {
-            interactedObj = interactionInfo.collider.gameObject;
-            Debug.Log("Click event on: " + interactedObj.name);
+            interactedObject = interactionInfo.collider.gameObject;
+            Debug.Log("Click event on: " + interactedObject.name);
             if (selectedMarker != null)
-                selectedMarker.transform.position = interactedObj.transform.position;// + new Vector3(0f,2f,0f);
-            return interactedObj;
+                selectedMarker.transform.position = interactedObject.transform.position;// + new Vector3(0f,2f,0f);
+            return interactedObject;
         }
 
         return null;
@@ -500,7 +499,7 @@ public class GameController : MonoBehaviour
 
     public static GameObject getTargeted()
     {
-        return interactedObj;
+        return interactedObject;
     }
 
     /// <summary>
