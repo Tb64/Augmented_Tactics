@@ -5,6 +5,10 @@ using System.Collections.Generic;
 
 public class RFX4_TransformMotion : MonoBehaviour
 {
+    public bool explodePos;
+    public Vector3 targetLocation;
+    public float explosionDist;
+
     public float Distance = 30;
     public float Speed = 1;
     public float Dampeen = 0;
@@ -31,6 +35,7 @@ public class RFX4_TransformMotion : MonoBehaviour
     private const float RayCastTolerance = 0.3f;
     private bool isInitialized;
     private bool dropFirstFrameForFixUnityBugWithParticles;
+    private bool hit = false;
     public event EventHandler<RFX4_CollisionInfo> CollisionEnter;
 
     void Start()
@@ -58,18 +63,24 @@ public class RFX4_TransformMotion : MonoBehaviour
         isCollided = false;
         isOutDistance = false;
         currentSpeed = Speed;
+        hit = false;
         currentDelay = 0;
         startQuaternion = t.rotation;
         t.localPosition = startPositionLocal;
         oldPos = t.TransformPoint(startPositionLocal);
         OnCollisionDeactivateBehaviour(true);
         dropFirstFrameForFixUnityBugWithParticles = true;
-      
+        //Debug.Log(LayerMask.LayerToName(CollidesWith) + " " + CollidesWith.value);
+        if (explodePos)
+            CollidesWith.value = 0;
+
+
+
     }
 
     void Update()
     {
-        if (!dropFirstFrameForFixUnityBugWithParticles)
+        if (!dropFirstFrameForFixUnityBugWithParticles && !hit)
         {
             UpdateWorldPosition();
         }
@@ -84,7 +95,10 @@ public class RFX4_TransformMotion : MonoBehaviour
 
         var frameMoveOffset = Vector3.zero;
         var frameMoveOffsetWorld = Vector3.zero;
-        if (!isCollided && !isOutDistance)
+        float distToTarget = Vector3.Distance(t.position, targetLocation);
+        if (distToTarget <= explosionDist && explodePos)
+            Explode(targetLocation);
+        else if (!isCollided && !isOutDistance)
         {
             currentSpeed = Mathf.Clamp(currentSpeed - Speed*Dampeen*Time.deltaTime, MinSpeed, Speed);
             var currentForwardVector = Vector3.forward*currentSpeed*Time.deltaTime;
@@ -124,6 +138,8 @@ public class RFX4_TransformMotion : MonoBehaviour
 
     void OnCollisionBehaviour(RaycastHit hit)
     {
+        if (!explodePos)
+            return;
         var handler = CollisionEnter;
         if (handler != null)
             handler(this, new RFX4_CollisionInfo {Hit = hit});
@@ -137,6 +153,26 @@ public class RFX4_TransformMotion : MonoBehaviour
                 RFX4_ColorHelper.ChangeObjectColorByHUE(instance, HUE);
             }
             instance.transform.LookAt(hit.point + hit.normal + hit.normal * CollisionOffset);
+            if (!CollisionEffectInWorldSpace) instance.transform.parent = transform;
+            Destroy(instance, DestroyTimeDelay);
+        }
+    }
+
+    void Explode(Vector3 location)
+    {
+        hit = true;
+        CollidedInstances.Clear();
+        var currentForwardVector = Vector3.forward * currentSpeed * Time.deltaTime;
+        Vector3 velocity = currentForwardVector * -1f; 
+        foreach (var effect in EffectsOnCollision)
+        {
+            var instance = Instantiate(effect, location + velocity.normalized * CollisionOffset, new Quaternion()) as GameObject;
+            CollidedInstances.Add(instance);
+            if (HUE > -0.9f)
+            {
+                RFX4_ColorHelper.ChangeObjectColorByHUE(instance, HUE);
+            }
+            instance.transform.LookAt(location + velocity.normalized + velocity.normalized * CollisionOffset);
             if (!CollisionEffectInWorldSpace) instance.transform.parent = transform;
             Destroy(instance, DestroyTimeDelay);
         }

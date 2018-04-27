@@ -235,6 +235,14 @@ public class Ability
 
     }
 
+    public virtual void Projectile(GameObject projectileVFX, GameObject impactVFX, Vector3 tileStart, Vector3 tileEnd)
+    {
+        // disable colider on projectile
+        projectileVFX.GetComponent<Collider>().enabled = false;
+
+
+    }
+
     /// <summary>
     /// Turns on the range marker for this skill
     /// </summary>
