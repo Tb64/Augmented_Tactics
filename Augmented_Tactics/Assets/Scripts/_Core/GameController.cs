@@ -13,11 +13,12 @@ public class GameController : MonoBehaviour
 
     public static GameObject selectedMarker;
     public static GameObject selectedUnitHighlight;
+    public static GameObject clickedTarget;
 
     private static Actor selectedUnit;
     private static Vector3 targetLocation;
     private static GameObject targetObject;
-    private static GameObject interactedObj;
+    private static GameObject interactedObject;
     private static ClickableTile clickedTile;
     private static TileMap map;
     private static Image[] abilityImages;
@@ -34,6 +35,12 @@ public class GameController : MonoBehaviour
     private static bool abilityMode = false;
     private static int currentMode = MODE_SELECT_UNIT;
 
+    private float touchStart = 0f;
+    private Vector2 touchStartPos;
+    private Vector2 lastClickPosition;
+
+    public const float touchHoldTreshold = 0.5f;
+    public static float touchDistTreshold = 10f;
 
     private void Awake()
     {
@@ -94,8 +101,15 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ClickEvent();
 
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR
+        ClickEvent();
+#endif
+
+#if UNITY_ANDROID
+        TouchEvent();
+#endif
+        
     }
 
     private void TurnStart()
@@ -125,6 +139,7 @@ public class GameController : MonoBehaviour
 
     void ClickEvent()
     {
+        lastClickPosition = Input.mousePosition;
         if (Input.GetMouseButtonDown(0) &&
             !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
         {
@@ -154,47 +169,89 @@ public class GameController : MonoBehaviour
 
     void TouchEvent()
     {
+        if (Input.touchCount > 0)// && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            // Check if finger is over a UI element
+            if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+            {
+                return;
+            }
+        }
+        //float distance;
         if (Input.touchCount == 1)
         {
-            if(Input.GetTouch(0).phase == TouchPhase.Ended &&
-            !UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            Touch touch1 = Input.GetTouch(0);
+            lastClickPosition = touch1.position;
+            if (touch1.phase == TouchPhase.Began)
+                touchStart = Time.time;
+
+            float touchDuration = Time.time - touchStart;
+
+            if (touch1.phase == TouchPhase.Ended)
             {
-                switch (currentMode)
+                if(touch1.deltaPosition.magnitude < touchDistTreshold && touchDuration < touchHoldTreshold)
                 {
-                    case MODE_SELECT_UNIT:
-                        SelectUnit();
-                        break;
+                    if (!UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+                    {
+                        switch (currentMode)
+                        {
+                            case MODE_SELECT_UNIT:
+                                SelectUnit();
+                                break;
 
-                    case MODE_SELECT_LOCATION:
-                        //SelectLocation();
-                        break;
+                            case MODE_SELECT_LOCATION:
+                                //SelectLocation();
+                                break;
 
-                    case MODE_SELECT_TARGET:
-                        SelectTarget();
-                        break;
+                            case MODE_SELECT_TARGET:
+                                SelectTarget();
+                                break;
 
-                    case MODE_MOVE:
-                        SelectMoveLocation();
-                        break;
+                            case MODE_MOVE:
+                                SelectMoveLocation();
+                                break;
 
-                    default:
-                        break;
+                            default:
+                                break;
+                        }
+                    }
                 }
-            }  
+            }
+            
         }
     }
 
     GameObject RayCaster()
     {
-        Ray interactionRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Input.touchCount > 0 && UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId))
+            return null;
+        Ray interactionRay = Camera.main.ScreenPointToRay(lastClickPosition);
         RaycastHit interactionInfo;
         if (Physics.Raycast(interactionRay, out interactionInfo, Mathf.Infinity))
         {
-            interactedObj = interactionInfo.collider.gameObject;
-            Debug.Log("Click event on: " + interactedObj.name);
+            interactedObject = interactionInfo.collider.gameObject;
+            clickedTarget = interactedObject;
+            Debug.Log("Click event on: " + interactedObject.name);
             if (selectedMarker != null)
-                selectedMarker.transform.position = interactedObj.transform.position;// + new Vector3(0f,2f,0f);
-            return interactedObj;
+                selectedMarker.transform.position = interactedObject.transform.position;// + new Vector3(0f,2f,0f);
+            return interactedObject;
+        }
+
+        return null;
+    }
+
+    GameObject RayCaster(Vector2 screenPosition)
+    {
+        Ray interactionRay = Camera.main.ScreenPointToRay(screenPosition);
+        RaycastHit interactionInfo;
+        if (Physics.Raycast(interactionRay, out interactionInfo, Mathf.Infinity))
+        {
+            interactedObject = interactionInfo.collider.gameObject;
+            Debug.Log("Click event on: " + interactedObject.name);
+            if (selectedMarker != null)
+                selectedMarker.transform.position = interactedObject.transform.position;// + new Vector3(0f,2f,0f);
+            return interactedObject;
         }
 
         return null;
@@ -442,7 +499,7 @@ public class GameController : MonoBehaviour
 
     public static GameObject getTargeted()
     {
-        return interactedObj;
+        return interactedObject;
     }
 
     /// <summary>
