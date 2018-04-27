@@ -464,6 +464,36 @@ public class Actor : MonoBehaviour
         return false;
     }
 
+    public static Vector3 PosInFrontOf(Actor self, Actor target) //specifically for getting the position right in front of a person who is about to attack. fixes collision issues with arrow and more
+    {
+        Vector3 selfCoords = self.getCoords();
+        Vector3 targetCoords = target.getCoords();
+        if(selfCoords.x == targetCoords.x)
+        {
+            if(selfCoords.z > targetCoords.z)
+            {
+                return new Vector3(selfCoords.x, 0, selfCoords.z-1);
+
+            }
+            else
+            {
+                return new Vector3(selfCoords.x,0,selfCoords.z+1);
+            }
+        }
+        else
+        {
+            if (selfCoords.x > targetCoords.x)
+            {
+                return new Vector3(selfCoords.x-1, 0, selfCoords.z);
+
+            }
+            else
+            {
+                return new Vector3(selfCoords.x+1, 0, selfCoords.z);
+            }
+        }
+    }
+
     /// <summary>
     /// Plays an audioClip attached to actor.
     /// </summary>

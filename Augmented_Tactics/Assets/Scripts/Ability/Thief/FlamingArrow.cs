@@ -19,7 +19,7 @@ public class FlamingArrow : Ability {
             Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, gameObject.name, target.name));
             rotateAtObj(target);
             if (effect1 != null)
-                GameObject.Instantiate<GameObject>(effect1, gameObject.transform);
+                GameObject.Destroy(GameObject.Instantiate<GameObject>(effect1, gameObject.transform),5);
             else
                 Debug.Log("effect1 null");
 
@@ -34,8 +34,10 @@ public class FlamingArrow : Ability {
         targeta.TakeDamage(damage, target);
         if (Ability.DiceRoll(actor.getDexterity(), targeta.getDexterity()))
         {
-            StatusEffectsController.AddEffect(new Burn(actor.getDexterity() / 2, actor, targeta, target.tag == "Enemy"));
-            Debug.Log("Burn Initiated. Stop Drop and Roll Bitch");
+            if(StatusEffectsController.AddEffect(new Burn(actor.getDexterity() / 2, actor, targeta, target.tag == "Enemy")))
+                Debug.Log("Burn Initiated. Stop Drop and Roll " + targeta);
+            else
+                Debug.Log(this + " Effect Already Exists On " + targeta);
         }
         DwellTime.Attack(dwell_time);
     }
@@ -48,7 +50,7 @@ public class FlamingArrow : Ability {
         range_max = 6;
         range_min = 1;
         damage = 10f + actor.getDexterity() * 2;
-        dwell_time = 1.5f;
+        dwell_time = 5f;
         abilityName = "Flaming Arrow";
         abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill8");
         if (abilityImage == null)

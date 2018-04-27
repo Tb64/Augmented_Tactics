@@ -28,6 +28,7 @@ public class ArrowShot : MonoBehaviour {
             Debug.Log("Arrow hit " + other.name);
             Destroy(gameObject);
         }
+        
     }
 
     // Update is called once per frame

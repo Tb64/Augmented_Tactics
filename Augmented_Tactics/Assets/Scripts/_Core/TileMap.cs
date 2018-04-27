@@ -511,6 +511,11 @@ public class TileMap : MonoBehaviour {
             Debug.Log("Move Failed: Target is invalid. " + target + " " + actor.name);
             return;
         }
+        if(actorObj.speed == 0 || actorObj.moveDistance == 0)
+        {
+            Debug.Log("!!!!! WARNING !!!!! ACTOR HAS NO SPEED OR MOVEDISTANCE!");
+            return;
+        }
 
         actorObj.PlaySound("move");
         if (actorObj.canAct())

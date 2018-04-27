@@ -11,11 +11,11 @@ public class Support : Enemy {
     //stay barely in range of best distance / strongest attack
     //stay away and out of most aggro's path
     //only use close range attacks when absolutely necessary even if stronger
-    private float distanceFromAggro;
+    protected float distanceFromAggro;
     //private Actor aggro;
-    private Enemy aiding;
-    private Ability strongest,backup, mostDistance,heal; //backup's range should ideally be in between strongest and mostDistance and require less mana
-    private bool regularMode, hasHeal,aidLocked;
+    protected Enemy aiding;
+    protected Ability strongest,backup, mostDistance,heal; //backup's range should ideally be in between strongest and mostDistance and require less mana
+    protected bool regularMode, hasHeal,aidLocked;
 
     public override void Start()
     {
@@ -24,36 +24,43 @@ public class Support : Enemy {
         TurnBehaviour.OnEnemyOutOfMoves += this.ResetValues;
         FindRanges();
     }
+
     public override void OnDestroy()
     {
         base.OnDestroy();
         TurnBehaviour.OnEnemyOutOfMoves -= this.ResetValues;
     }
+
     public override void EnemyTurnStartActions()
     {
         base.EnemyTurnStartActions();
         GetAggroDistance();
         aidLocked = false;
     }
+
     public override void EnemyActions()
     {
         if (getMoves() == 0)
             return;
+
         if (regularMode)
         {
             base.EnemyActions();
             return;
         }
+
         if (targetLocked && !currentTarget.isDead() && !currentTarget.isIncapacitated())
         {
             RunAndGun();
             return;
         }
+
         if (aidLocked)
         {
             SaveFriendly();
             return;
         }
+
         if (!targetLocked && !aidLocked)
         {
             currentTarget = PlayerTooClose();
@@ -66,10 +73,10 @@ public class Support : Enemy {
                 {
                     return;
                 }
-                else if (AttemptAttack())
+                /*else if (AttemptAttack())
                 {
                     return;
-                }
+                }*/
                 else
                 {
                     FindShweetSpot(this,currentTarget,mostDistance,map);
@@ -90,17 +97,26 @@ public class Support : Enemy {
             }
                 
         }
+        else
+        {
+            targetLocked = false;
+            EnemyController.ExhaustMoves(SM);
+        }
         
     }
+
     public override string GetArchetype()
     {
         return "support";
     }
+
     public void ResetValues()
     {
-        aiding.aided = false;
+        if(aiding != null)
+            aiding.aided = false;
     }
-    private Actor PlayerTooClose()
+
+    protected Actor PlayerTooClose()
     {
         foreach(Actor player in EnemyController.userTeam)
         {
@@ -110,8 +126,10 @@ public class Support : Enemy {
         }
         return null;
     }
-    private void SaveFriendly()
+
+    protected void SaveFriendly()
     {
+        Debug.Log("Saving " + aiding);
         if (!aidLocked || !currentTarget.isDead() && !currentTarget.isIncapacitated())
         {
             aiding.UpdateNearest();
@@ -128,7 +146,8 @@ public class Support : Enemy {
         }
             
     }
-    private bool TryStrongestAndBackup()
+
+    protected bool TryStrongestAndBackup()
     {
         if (Enemy.AttemptAbility(strongest,currentTarget))
         {
@@ -141,11 +160,13 @@ public class Support : Enemy {
         else
             return false;
     }
-    private void RunAndGun() //Default Tactic of Support if no teammate needs help
+
+    protected void RunAndGun() //Default Tactic of Support if no teammate needs help
     {
         Debug.Log(this + " is Running and Gunning");
-        if (!mostDistance.SkillInRange(getCoords(),aggro.getCoords()) || distanceFromAggro - mostDistance.range_max > 10 && mostDistance.CanUseSkill(currentTarget.gameObject))
+        if (!mostDistance.SkillInRange(getCoords(),aggro.getCoords()) /*|| distanceFromAggro - mostDistance.range_max > 5 && mostDistance.CanUseSkill(currentTarget.gameObject)*/)
         {
+            Debug.Log("Finding Shweet Shpot");
             FindShweetSpot(this,currentTarget,mostDistance,map); // get closer so attack is possible, or further to stay away from enemies
             return;
         }    
@@ -161,13 +182,14 @@ public class Support : Enemy {
             EnemyActions();
             return;
         }
+        Debug.LogError("out of bounds run and gun");
     }
     public static bool FindShweetSpot(Enemy self,Actor currentTarget, Ability mostDistance, TileMap map )
     {
         Vector3 position = (self.getCoords()-currentTarget.getCoords()).normalized;
         float xDistance = position.x;
         float zDistance = position.z;
-        if (Mathf.Abs(xDistance) > mostDistance.range_max) //check which coord is keeping attack out of range and 
+        if (Mathf.Abs(xDistance) > Mathf.Abs(zDistance)) //check which coord is keeping attack out of range and 
                                                            //move just within distance to keep striking
         {
             if (xDistance < 0)
@@ -179,7 +201,7 @@ public class Support : Enemy {
                 position = currentTarget.getCoords() + new Vector3(mostDistance.range_max, 0, 0);
             }
         }
-        else if (Mathf.Abs(zDistance) > mostDistance.range_max)
+        else
         {
             if (zDistance < 0)
             {
@@ -190,11 +212,11 @@ public class Support : Enemy {
                 position = currentTarget.getCoords() + new Vector3(0, 0, mostDistance.range_max);
             }
         }
-        else
-            return false;
+        Debug.Log(position);
         Vector3 movingTo = SetPosition(self,position, map); //just in case tile is occupied
         Debug.Log("Attempting to move " + self + " from " + self.getCoords() + " to " + movingTo);
         map.moveActorAsync(self.gameObject, movingTo);
+        //self.setNumOfActions(1);
         return true;
     }
    /* private void StepBack()
@@ -222,7 +244,8 @@ public class Support : Enemy {
         else
             return PosCloseTo(self,pos,map);
     }
-    private void FindRanges()
+
+    protected void FindRanges()
     {
         float bestRange = 0, mostRange=0;
  
@@ -239,7 +262,7 @@ public class Support : Enemy {
                 bestRange = ability.range_max;
                 strongest = ability;
             }
-            if (ability.abilityName == "Heal")
+            if (ability.canHeal)
             {
                 hasHeal = true;
                 heal = ability;
@@ -260,7 +283,7 @@ public class Support : Enemy {
         }
     }
 
-    private Enemy CheckSupport()
+    protected Enemy CheckSupport()
     {
         if (!EnemyController.targeted)
             return null;
@@ -270,7 +293,14 @@ public class Support : Enemy {
 
     private void GetAggroDistance()
     {
-        distanceFromAggro = Vector3.Distance(getCoords(), aggro.getCoords());
+        aggro = EnemyController.aggro;
+        if (aggro != null && !aggro.isDead() && !aggro.isIncapacitated())
+            distanceFromAggro = Vector3.Distance(getCoords(), aggro.getCoords());
+        else
+        {
+            aggro = nearest;
+            distanceFromAggro = Vector3.Distance(getCoords(), aggro.getCoords());
+        }
     }
     /*public override bool AttemptAttack()
     {
