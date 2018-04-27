@@ -7,15 +7,16 @@ public class LottoPotion : UsableItem {
     public override void InitInitialize()
     {
         base.InitInitialize();
-
+        isHealItem = true;
         name = "Lotto Potion";
         image = "";
     }
 
-    public override void UseItem(GameObject user, GameObject target)
+    public override bool UseItem(GameObject user, GameObject target)
     {
-        base.UseItem(user, target);
-        itemAbility = new PotionSkill(user, 1, true);
-        itemAbility.UseSkill(target);
+        itemAbility = new PotionSkill(user,1, true);
+        if (!base.UseItem(user, target))
+            return false;
+        return itemAbility.UseSkill(target);
     }
 }

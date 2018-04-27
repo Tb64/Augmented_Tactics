@@ -166,6 +166,9 @@ public class PlayerData
 
         input.UnlockSkill1 = true;
         input.Skill1 = SkillLoader.ClassSkills(input.Class)[0];
+        input.Skill2 = SkillLoader.ClassSkills(input.Class)[0];
+        input.Skill3 = SkillLoader.ClassSkills(input.Class)[0];
+        input.Skill4 = SkillLoader.ClassSkills(input.Class)[0];
         input.weapon = WeaponGen.WeaponGenerate(1, input.Class, 0);
         input.armor = ArmorGen.ArmorGenerate(1, input.Class, 0);
         input.Prefab = CharacterClasses.PrefabPath[input.Class];

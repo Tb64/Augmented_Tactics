@@ -40,7 +40,21 @@ public class ItemLoader : MonoBehaviour {
             default:
                 Debug.LogError(itemID + " not in item list above^^^");
                 return null;
-
         }
     }
+
+    public static string[] ItemKeys =
+    {
+        "ataymirror",
+        "destinybinder",
+        "doubleedgedsword",
+        "heavyshield",
+        "largemanatonic",
+        "largepotion",
+        "medpotion",
+        "smallpotion",
+        "lottopotion",
+        "panacea",
+        "unguent"
+    };
 }

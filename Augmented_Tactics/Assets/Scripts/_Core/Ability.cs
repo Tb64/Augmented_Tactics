@@ -26,6 +26,7 @@ public class Ability
     protected bool canTargetTile;
     protected bool canTargetFriendly;
     protected bool canTargetEnemy;
+    public bool canHeal, manaRestore;
     protected bool isAOE;
     protected Vector3[] rangeMarkerPos;
 
@@ -35,7 +36,8 @@ public class Ability
         canTargetFriendly   = true;
         canTargetEnemy      = true;
         isAOE = false;
-
+        canHeal = false;
+        manaRestore = false;
         rangeMarkerPos = null;
         gameObject = obj;
         actor = obj.GetComponent<Actor>();

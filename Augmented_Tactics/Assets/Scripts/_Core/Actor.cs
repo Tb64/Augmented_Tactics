@@ -27,7 +27,7 @@ public class Actor : MonoBehaviour
     #region Variables
 
     public PlayerData data;
-
+    public string playerDataName;
     protected Animator anim;
     public string actorName;
     public float health_current;    // temporary for debugging purposes(should be protected)
@@ -417,6 +417,7 @@ public class Actor : MonoBehaviour
     public bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
         float scaleDist = 1f;
+        //targetPos.y = transform.position.y;
         float dist = Vector3.Distance(origin.position, targetPos);
         if (dist < 0.26f) //old dist .01
         {
@@ -461,6 +462,36 @@ public class Actor : MonoBehaviour
 
 
         return false;
+    }
+
+    public static Vector3 PosInFrontOf(Actor self, Actor target) //specifically for getting the position right in front of a person who is about to attack. fixes collision issues with arrow and more
+    {
+        Vector3 selfCoords = self.getCoords();
+        Vector3 targetCoords = target.getCoords();
+        if(selfCoords.x == targetCoords.x)
+        {
+            if(selfCoords.z > targetCoords.z)
+            {
+                return new Vector3(selfCoords.x, 0, selfCoords.z-1);
+
+            }
+            else
+            {
+                return new Vector3(selfCoords.x,0,selfCoords.z+1);
+            }
+        }
+        else
+        {
+            if (selfCoords.x > targetCoords.x)
+            {
+                return new Vector3(selfCoords.x-1, 0, selfCoords.z);
+
+            }
+            else
+            {
+                return new Vector3(selfCoords.x+1, 0, selfCoords.z);
+            }
+        }
     }
 
     /// <summary>

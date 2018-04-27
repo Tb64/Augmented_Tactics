@@ -25,6 +25,7 @@ public class Enemy : Actor
     public void setWeakest(Actor weakestPlayer) { weakest = weakestPlayer; }
     protected int expGiven;
     protected List<Actor> cantTarget;
+    protected UsableItem healItem;
     protected bool targetLocked;
     public bool aided;
 
@@ -68,19 +69,19 @@ public class Enemy : Actor
          type of enemy as they are created to load correct attacks*/
          
         //FOR DEMO ONLY
-        abilitySet[0] = SkillLoader.LoadSkill("quickstab", gameObject);
-        abilitySet[1] = SkillLoader.LoadSkill("poisonarrow", gameObject);
-        abilitySet[2] = SkillLoader.LoadSkill("vortexarrow", gameObject);
-        abilitySet[3] = SkillLoader.LoadSkill("sneak", gameObject);
-        setManaCurrent(30);
-        setMaxMana(30);
-        setHealthCurrent(20);
-        setMaxHealth(20);
-        setWisdom(15);
-        setDexterity(25);
-        setCharisma(10);
-        setConstitution(14);
-        setIntelligence(30);
+        abilitySet[0] = SkillLoader.LoadSkill("basicattack", gameObject);
+        abilitySet[1] = SkillLoader.LoadSkill("fire", gameObject);
+        abilitySet[2] = SkillLoader.LoadSkill("heal", gameObject);
+        abilitySet[3] = SkillLoader.LoadSkill("combo", gameObject);
+        setManaCurrent(10);
+        setMaxMana(10);
+        setHealthCurrent(15);
+        setMaxHealth(15);
+        setWisdom(5);
+        setDexterity(5);
+        setCharisma(5);
+        setConstitution(3);
+        setIntelligence(3);
         //FOR DEMO ON:Y
 
         /*for (int i = 0; i < 4; i++)
@@ -120,7 +121,7 @@ public class Enemy : Actor
         }
         //base.EnemyTurnStart();
         //map.selectedUnit = gameObject;
-        nearest = findNearestPlayer();
+        nearest = FindNearestPlayer();
         weakest = findWeakestPlayer();
         //Debug.Log(weakest);
         enemyPosition = getCoords();
@@ -190,6 +191,12 @@ public class Enemy : Actor
         //Debug.Log("NON-PROXIMITY");
         if (getMoves() == 0)
             return;
+
+        if (targetLocked && (currentTarget.isDead() || currentTarget.isIncapacitated()))
+        {
+            targetLocked = false;
+        }
+
         if (!targetLocked)
         {
             currentTarget = nearest;
@@ -214,7 +221,6 @@ public class Enemy : Actor
             //{
             Debug.Log("No possible move available, switching currentTarget.");
             cantTarget.Add(currentTarget);
-            EnemyActions();
             return;
             //}
 
@@ -260,12 +266,32 @@ public class Enemy : Actor
     //        Debug.LogError("stupid code");
     //    }
     //}
-
-    protected Actor findNearestPlayer()
+    protected Enemy FindNearestEnemy()
+    {
+        Enemy nearest = null;
+        float currentNearest = 10000000;
+        foreach (Enemy user in EnemyController.enemyList)
+        {
+            enemyPosition = getCoords();
+            if (user == null)
+            {
+                Debug.LogError("null user");
+                return null;
+            }
+            playerPosition = user.getCoords();
+            float distanceFromPlayer = Vector3.Distance(playerPosition, enemyPosition);
+            if (distanceFromPlayer < currentNearest && !user.isDead())
+            {
+                nearest = user;
+                currentNearest = distanceFromPlayer;
+            }
+        }
+        return nearest;
+    }
+    protected Actor FindNearestPlayer()
     {
         Actor nearest = null;
         float currentNearest = 10000000;
-        //Actor[] userTeam = EnemyController.userTeam;
         foreach (Actor user in EnemyController.userTeam)
         {
             enemyPosition = getCoords();
@@ -288,7 +314,7 @@ public class Enemy : Actor
 
     public void UpdateNearest()
     {
-        findNearestPlayer();
+        FindNearestPlayer();
         distanceToNearest = Vector3.Distance(playerPosition, enemyPosition);
     }
     public Actor findWeakestPlayer()
@@ -605,7 +631,7 @@ public class Enemy : Actor
         /// //////////////////////// where to add attacking
         /// </summary>
         /// <param name="currentTarget"></param>
-        public virtual bool AttemptAttack() //thinkiing of changing to attemptAction. Also covers heal
+        public virtual bool AttemptAttack() //thinking of changing to attemptAction. Also covers heal
         {
             if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
                 return false;
@@ -615,14 +641,14 @@ public class Enemy : Actor
             for (int ability = 0; ability < 4; ability++)
             {
             // Debug.Log(abilitySet[ability].SkillInRange(getCoords(), currentTarget.getCoords()));
-                if (abilitySet[ability].abilityName == "Heal" && CheckHeal() && abilitySet[ability].CanUseSkill(this.gameObject))
+                if (abilitySet[ability].canHeal && CheckHeal() && abilitySet[ability].CanUseSkill(gameObject))
                 {
                     abilitySet[ability].UseSkill(gameObject);
                     Debug.Log(this + " Healed");    
                     return true;
                 }   
                     
-                if (!(abilitySet[ability].abilityName == "Heal") && abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
+                if (!abilitySet[ability].canHeal && abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
                 {
                     bestAttack = (int)abilitySet[ability].damage;
                     choice = ability;
@@ -666,19 +692,43 @@ public class Enemy : Actor
         EnemyController.CheckTargeted(enemyID);
         attacker.GetComponent<Actor>().aggroScore++; //updating for actual function based on action / damage
     }
+
     public virtual bool CheckHeal()
     {
-        if (GetHealthPercent() < 40 && GetHealthPercent() < nearest.GetHealthPercent() && !TargetInRange())
+        if (GetHealthPercent() < .40 && GetHealthPercent() < nearest.GetHealthPercent() && !TargetInRange())
             return true;
         else
             return false;
+    }
+
+    protected bool GetHealItem()
+    {
+        if (usableItems == null || usableItems.Count == 0)
+            return false;
+        foreach (UsableItem item in usableItems)
+        {
+            if (item.isHealItem)
+            {
+                healItem = item;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected Actor AbilityInRange(Ability ability)
+    {
+        foreach (Actor player in EnemyController.userTeam)
+            if (ability.CanUseSkill(player.gameObject))
+                return player;         
+        return null;
     }
 
     public bool TargetInRange()
     {
         foreach(Ability ability in abilitySet)
         {
-            if (ability.abilityName != "Heal" && ability.CanUseSkill(currentTarget.gameObject))
+            if (!ability.canHeal && !ability.manaRestore && ability.CanUseSkill(currentTarget.gameObject))
                 return true;
         }
         return false;
