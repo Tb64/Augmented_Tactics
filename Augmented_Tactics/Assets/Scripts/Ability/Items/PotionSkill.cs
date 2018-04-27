@@ -24,8 +24,11 @@ public class PotionSkill : Ability {
     public override void Initialize(GameObject obj)
     {
         base.Initialize(obj);
+        canTargetFriendly = true;
+        canTargetEnemy = false;
+        canHeal = true;
         anim = gameObject.GetComponentInChildren<Animator>();
-        range_max = 1;
+        range_max = 2;
         range_min = 0;
         dwell_time = 1.0f;
         abilityName = "Potion";

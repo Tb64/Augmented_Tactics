@@ -74,7 +74,7 @@ public class FinalBoss : Enemy {
             HealGuards();
             return;
         }
-        if (GetHealthPercent() < 40)
+        if (GetHealthPercent() < .40)
             abilitySet[1].UseSkill(gameObject);
 
         //if (UseMoves())
@@ -160,7 +160,7 @@ public class FinalBoss : Enemy {
         threatened = false;
         foreach (Enemy enemy in EnemyController.enemyList)
         {
-            if (enemy.GetHealthPercent() < 35 && Vector3.Distance(getCoords(), enemy.getCoords()) < abilitySet[1].range_max)
+            if (enemy.GetHealthPercent() < .35 && Vector3.Distance(getCoords(), enemy.getCoords()) < abilitySet[1].range_max)
             {
                 healList.Add(enemy);
                 healing = true;
