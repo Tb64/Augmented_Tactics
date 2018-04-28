@@ -237,6 +237,11 @@ public class Ability
 
     }
 
+
+    /// <summary>
+    /// Sets the projectile before shot.
+    /// </summary>
+    /// <param name="input"></param>
     public virtual void InitializeProjectile(GameObject input)
     {
         KFX_Settings settings = input.GetComponent<KFX_Settings>();
@@ -250,6 +255,11 @@ public class Ability
         settings.explosionDist = gameObject.transform.lossyScale.y * 0.1f;
     }
 
+    /// <summary>
+    /// Used if you have to set projectile during shot
+    /// </summary>
+    /// <param name="input"></param>
+    /// <param name="target"></param>
     public virtual void InitializeProjectile(GameObject input, GameObject target)
     {
         KFX_Settings settings = input.GetComponent<KFX_Settings>();
@@ -264,6 +274,11 @@ public class Ability
         settings.targetLocation = target.transform.position;
     }
 
+    /// <summary>
+    /// Sets a projectile's target and then spawns in the projectile looking at the target.
+    /// </summary>
+    /// <param name="projectileVFX">GameObject Effect</param>
+    /// <param name="target">Target GameObject</param>
     public virtual void Projectile(GameObject projectileVFX, GameObject target)
     {
         projectileVFX.transform.position = gameObject.transform.position;
