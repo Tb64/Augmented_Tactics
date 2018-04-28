@@ -20,14 +20,15 @@ public class PoisonArrow : Ability
             Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, gameObject.name, target.name));
             rotateAtObj(target);
             if (effect1 != null)
-                GameObject.Destroy(GameObject.Instantiate<GameObject>(effect1, gameObject.transform),5);
+                Projectile(effect1, target);
             else
                 Debug.Log("effect1 null");
 
             if (effect2 != null)
             {
-                effect2.GetComponent<ArrowShot>().SetTarget(target.name);
-                GameObject.Destroy(GameObject.Instantiate<GameObject>(effect2, Actor.PosInFrontOf(actor, targeta), gameObject.transform.rotation), 3);
+                //effect2.GetComponent<ArrowShot>().SetTarget(target.name);
+                Projectile(effect2, target);
+                //GameObject.Destroy(GameObject.Instantiate<GameObject>(effect2, Actor.PosInFrontOf(actor, targeta), gameObject.transform.rotation), 3);
             }      
             else
                 Debug.Log("effect2 null");
