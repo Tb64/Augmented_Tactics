@@ -23,6 +23,8 @@ public class SelectionBar : MonoBehaviour {
     private GameObject targetObj;
     private Sprite noAbility;
 
+    private Actor selected;
+
     // Use this for initialization
     void Start () {
         selectedObj = selectedPortait.transform.parent.gameObject;
@@ -39,7 +41,7 @@ public class SelectionBar : MonoBehaviour {
 
     private void UpdateSelected()
     {
-        Actor selected = GameController.getSelected();
+        selected = GameController.getSelected();
 
         if (selected == null)
             return;
@@ -62,8 +64,9 @@ public class SelectionBar : MonoBehaviour {
             targetObj.SetActive(false);
             return;
         }
-
-        if(target.tag == "Enemy" || target.tag == "Player")
+        else if (selected.gameObject == target)
+            return;
+        else if(target.tag == "Enemy" || target.tag == "Player")
         {
             targetObj.SetActive(true);
             Actor targetActor = target.GetComponent<Actor>();
@@ -73,7 +76,10 @@ public class SelectionBar : MonoBehaviour {
             targetMPText.text = (int)targetActor.getManaCurrent() + "/" + (int)targetActor.getMaxMana();
             targetMPSlider.value = targetActor.GetManaPercent();
         }
-
+        else
+        {
+            targetObj.SetActive(false);
+        }
     }
 
     private void UpdateAbilityIcon(Actor selected)
