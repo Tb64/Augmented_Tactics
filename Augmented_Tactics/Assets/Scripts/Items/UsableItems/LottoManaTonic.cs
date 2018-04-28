@@ -7,15 +7,16 @@ public class LottoManaTonic : UsableItem {
     public override void InitInitialize()
     {
         base.InitInitialize();
-
+        isManaItem = true;
         name = "Lotto Mana Tonic";
         image = "";
     }
 
-    public override void UseItem(GameObject user, GameObject target)
+    public override bool UseItem(GameObject user, GameObject target)
     {
-        base.UseItem(user, target);
-        itemAbility = new ManaSkill(user, 1, true);
-        itemAbility.UseSkill(target);
+        itemAbility = new ManaSkill(user,1, true);
+        if (!base.UseItem(user, target))
+            return false;
+        return itemAbility.UseSkill(target);
     }
 }

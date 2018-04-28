@@ -21,6 +21,7 @@ public class QuickStab : Ability {
             Vector3 initCoords = attacker.getCoords();
             map.moveActorAsync(attacker, Enemy.PosCloseTo(attacker, targeta.getCoords(), map));
             rotateAtObj(target);
+            DwellTime.Attack(dwell_time);
             anim.SetTrigger("MeleeAttack");
             gameObject.GetComponent<Actor>().PlaySound("attack");
             map.moveActorAsync(attacker, initCoords);
@@ -35,7 +36,7 @@ public class QuickStab : Ability {
     {
         base.Initialize(obj);
         anim = gameObject.GetComponentInChildren<Animator>();
-        manaCost = 10;
+        manaCost = 0;
         range_max = 5;
         range_min = 0;
         damage = 10f + actor.getStrength() * 1.5f;

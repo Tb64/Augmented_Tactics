@@ -22,7 +22,7 @@ public class Fire : Ability
         anim = gameObject.GetComponentInChildren<Animator>();
         range_max = 3;
         range_min = 1;
-        manaCost = 10;
+        manaCost = 1;
         dwell_time = 1.0f;
         abilityName = "Fire";
         abilityImage = Resources.Load<Sprite>("UI/Ability/Fire");
@@ -46,7 +46,7 @@ public class Fire : Ability
 
                 //animate fire attack
                 if (effect != null)
-                    GameObject.Instantiate(effect, gameObject.transform);
+                    Projectile(effect, target);
 
                 actor.PlaySound("attack");
             }

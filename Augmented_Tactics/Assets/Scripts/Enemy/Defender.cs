@@ -33,10 +33,14 @@ public class Defender : Enemy {
         base.OnDestroy();
         TurnBehaviour.OnEnemyOutOfMoves -= this.ResetValues;
     }
-   /* public override void EnemyInitialize() //temp until all abilities and items are done.  initialize attacks / stats based on lvl and archetype
-    {
+    /* public override void EnemyInitialize() //temp until all abilities and items are done.  initialize attacks / stats based on lvl and archetype
+     {
 
-    }*/
+     }*/
+    public override void EnemyInitialize()
+    {
+        
+    }
     public override string GetArchetype()
     {
         return "defender";
@@ -68,9 +72,9 @@ public class Defender : Enemy {
             DrawFire();
             return;
         }
-        else
+        else if(EnemyController.enemyList.Count > 1)
         {
-            aiding = EnemyController.FindWeakestEnemy();
+            aiding = EnemyController.FindWeakestEnemy(this);
             aidLocked = true;
             aiding.aided = true;
             aiding.UpdateNearest();
@@ -78,11 +82,15 @@ public class Defender : Enemy {
             DrawFire();
             return;
         }
+        else
+        {
+            base.EnemyActions();
+        }
     }
 
     public override bool CheckHeal()
     {
-        if (GetHealthPercent() <= 35 && GetHealthPercent() < nearest.GetHealthPercent() || !PlayerInRange())
+        if (GetHealthPercent() <= .35 && GetHealthPercent() < nearest.GetHealthPercent() || !PlayerInRange())
             return true;
         else
             return false;
@@ -128,7 +136,7 @@ public class Defender : Enemy {
             hit = true;
             return;
         }
-        if(GetHealthPercent() > 50)
+        if(GetHealthPercent() > .50)
         {
             Support.FindShweetSpot(this, currentTarget, strongest, map);
             return;
@@ -143,19 +151,39 @@ public class Defender : Enemy {
 
     private void FindShweetSpot() //lure attacker to other area after successful attack / aggro gain
     {
-        if (CheckHeal()) //add heal of person defending
+        if (aiding.CheckHeal() && Vector3.Distance(getCoords(),aiding.getCoords())<3) //add heal of person defending
         {
+            if (GetHealItem())
+            {
+                healItem.UseItem(gameObject, aiding.gameObject);
+                return;
+            }
+
+            if (heal.CanUseSkill(aiding.gameObject))
+            {
+                heal.UseSkill(aiding.gameObject);
+                return;
+            }
+        }
+        if (CheckHeal() || aiding.CheckHeal()) //add heal of person defending
+        {
+            if (GetHealItem())
+            {
+                healItem.UseItem(gameObject, gameObject);
+                return;
+            }
+
             if (heal.CanUseSkill(gameObject))
             {
                 heal.UseSkill(gameObject);
                 return;
             }  
         }
-        if (!AggroInRange())
+        /*if (!AggroInRange())
         {
             if (AttemptAttack())
                 return;    
-        }
+        }*/
         Vector3 stayAway = currentTarget.getCoords();
         Vector3 output = aiding.getCoords() - currentTarget.getCoords();
         //stayAway = stayAway.normalized;
