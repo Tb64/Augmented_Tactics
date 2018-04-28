@@ -74,5 +74,4 @@ public class Projectile : MonoBehaviour {
         Destroy(projectileObj, 5f);
     }
 
-
 }
