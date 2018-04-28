@@ -32,6 +32,7 @@ public class CureStatus: Ability
                 {
                     Debug.Log("Removing status " + stat + " from " + actor);
                     StatusEffectsController.RemoveEffect(stat);
+                    actor.aggroScore += 10;
                 }
             Debug.Log("Removed all status effects from " + actor);
         }
@@ -45,6 +46,7 @@ public class CureStatus: Ability
                 int remove = Random.Range(0, status.Count - 1);
                 Debug.Log("Removing status " + status[remove] + " from " + actor);
                 status.Remove(status[remove]);
+                actor.aggroScore += 10;
             }
         }
         DwellTime.Attack(dwell_time);

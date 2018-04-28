@@ -32,6 +32,7 @@ public class BuffWisdom : StatusEffects
     public override void InitialEffect()
     {
         BuffDebuff.SwapEffect(buff, effectorPlayer, effectedPlayer, effect, "wisdom");
+        effectorPlayer.aggroScore += (int)(effect * duration);
     }
 
     public override void ReverseEffect()

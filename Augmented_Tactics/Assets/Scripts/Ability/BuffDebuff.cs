@@ -5,6 +5,7 @@ using UnityEngine;
 public class BuffDebuff : Ability {
 
     private string type, type2;
+    private int numTurns;
     private bool price,item;
     private float effect;
     public BuffDebuff(GameObject obj, string type,string type2, bool sacrifice, float effect,bool item)
