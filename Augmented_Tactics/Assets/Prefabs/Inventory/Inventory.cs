@@ -85,12 +85,14 @@ public class Inventory : MonoBehaviour
         float initialY = inventoryArray[0, 0].transform.localPosition.y;
         inventoryArray[0, 0].transform.localPosition = new Vector3(initialX + 25f, initialY - 30f, 0);
         Vector3 iconPlacement = inventoryArray[0, 0].transform.localPosition;
+        inventoryArray[0, 0].SetActive(false);
         //iconPlacement += new Vector3(50f, 0f, 0f);
 
         float inventoryRows = (inventorySize / 5f);
         double numRows = Math.Ceiling(inventoryRows);
         int numItems = 5;
         float inventoryCounter = inventorySize;
+        GameDataController.loadPlayerData();
         int numOfWeapons = GameDataController.gameData.weapons.Count;
         int numOfArmors = GameDataController.gameData.armors.Count;
         int numOfUsables = GameDataController.gameData.usableItems.Count;
@@ -108,6 +110,7 @@ public class Inventory : MonoBehaviour
                 inventoryArray[index, jindex] = Instantiate(item);
                 inventoryArray[index, jindex].transform.SetParent(inventoryBackground.transform, false);
                 inventoryArray[index, jindex].transform.localPosition = iconPlacement;
+                inventoryArray[index, jindex].GetComponent<Item>().slotType = false;
                 iconPlacement += new Vector3(70f, 0f, 0f);
                 inventoryCounter--;
             }
@@ -118,19 +121,21 @@ public class Inventory : MonoBehaviour
         int gameDataIndex = 0;
 
 
-        //foreach(WeaponGen in)
+        GameDataController.loadPlayerData();
 
-     
-
-        //loads inventory from gamedata
-        for (int index = 0; index < 5; index++)
+        //loads armor and weapons
+        for (int index = 0; index < numOfArmors; index++)
         {
-            for (int jindex = 0; jindex < 5; jindex++)
-            {
-
-                inventoryArray[index, jindex].GetComponent<Item>().setEquipable(GameDataController.gameData.weapons[gameDataIndex]);
-            }
+            addEquipable(GameDataController.gameData.armors[index]);
         }
+
+        for (int index = 0; index < numOfWeapons; index++)
+        {
+            addEquipable(GameDataController.gameData.weapons[index]);
+        }
+
+
+
 
     }
 
