@@ -5,14 +5,14 @@ using System.Reflection;
 
 public class StatusEffects
 {
-    private static List<StatusEffects> currentEffects;
+    //private static List<StatusEffects> currentEffects;
     public int duration;
 
     public virtual void OnDestroy()
     {
         ReverseEffect();
-        if (currentEffects != null)
-            currentEffects.Remove(this);
+        /*if (currentEffects != null)
+            currentEffects.Remove(this);*/
         TurnBehaviour.OnTurnStart -= this.decreaseTimeCounter;
     }
 
@@ -55,16 +55,16 @@ public class StatusEffects
         //effectName = name;
         effectedPlayer = effected;
         effectorPlayer = effector;
-        effectedObject = effected.gameObject;
-        effectorObject = effector.gameObject;
+        //effectedObject = effected.gameObject;
+        //effectorObject = effector.gameObject;
         this.isEnemy = isEnemy;
-        if (currentEffects != null)
+        /*if (currentEffects != null)
             currentEffects.Add(this);
         else
         {
             currentEffects = new List<StatusEffects>();
             currentEffects.Add(this);
-        }
+        }*/
         InitialEffect();
     }
     public void decreaseTimeCounter()
@@ -92,12 +92,12 @@ public class StatusEffects
     }
     public virtual void ReverseEffect()
     {
-        TurnBehaviour.OnTurnStart -= this.decreaseTimeCounter;
+        //TurnBehaviour.OnTurnStart -= this.decreaseTimeCounter;
         //just a template. overload this with an undo of your effect if necessary 
     }
 
-    public static List<StatusEffects> GetAllEffects()
+    /*public static List<StatusEffects> GetAllEffects()
     {
         return currentEffects;
-    }
+    }*/
 }

@@ -26,6 +26,7 @@ public class Ability
     protected bool canTargetTile;
     protected bool canTargetFriendly;
     protected bool canTargetEnemy;
+    public bool canHeal, manaRestore;
     protected bool isAOE;
     protected Vector3[] rangeMarkerPos;
 
@@ -35,7 +36,8 @@ public class Ability
         canTargetFriendly   = true;
         canTargetEnemy      = true;
         isAOE = false;
-
+        canHeal = false;
+        manaRestore = false;
         rangeMarkerPos = null;
         gameObject = obj;
         actor = obj.GetComponent<Actor>();
@@ -232,6 +234,50 @@ public class Ability
 
     public virtual void ActionSkill(GameObject[] targets)
     {
+
+    }
+
+    public virtual void InitializeProjectile(GameObject input)
+    {
+        KFX_Settings settings = input.GetComponent<KFX_Settings>();
+        if (settings == null)
+        {
+            input.AddComponent(typeof(KFX_Settings));
+            settings = input.GetComponent<KFX_Settings>();
+        }
+
+        settings.explodePos = true;
+        settings.explosionDist = gameObject.transform.lossyScale.y * 0.1f;
+    }
+
+    public virtual void InitializeProjectile(GameObject input, GameObject target)
+    {
+        KFX_Settings settings = input.GetComponent<KFX_Settings>();
+        if (settings == null)
+        {
+            input.AddComponent(typeof(KFX_Settings));
+            settings = input.GetComponent<KFX_Settings>();
+        }
+
+        settings.explodePos = true;
+        settings.explosionDist = gameObject.transform.lossyScale.y * 0.1f;
+        settings.targetLocation = target.transform.position;
+    }
+
+    public virtual void Projectile(GameObject projectileVFX, GameObject target)
+    {
+        projectileVFX.transform.position = gameObject.transform.position;
+        KFX_Settings settings = projectileVFX.GetComponent<KFX_Settings>();
+        if (settings == null)
+            InitializeProjectile(projectileVFX, target);
+        else
+            settings.targetLocation = target.transform.position;
+
+        GameObject vfx = GameObject.Instantiate(projectileVFX);
+
+        //vfx.transform.position = gameObject.transform.position;
+        vfx.transform.LookAt(target.transform.position);
+        GameObject.Destroy(vfx, 5f);
 
     }
 

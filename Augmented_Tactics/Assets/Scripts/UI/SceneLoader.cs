@@ -11,11 +11,13 @@ public class SceneLoader : MonoBehaviour {
 
     public void SceneLoad(string levelname)
     {
+        loadingScreen.SetActive(true);
         StartCoroutine(SceneLoadAsync(levelname));
     }
 
     public void SceneLoad(int levelIndex)
     {
+        loadingScreen.SetActive(true);
         StartCoroutine(SceneLoadAsync(levelIndex));
     }
 

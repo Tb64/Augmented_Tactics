@@ -42,7 +42,7 @@ public class Vengeance : Ability {
             anim.SetTrigger(animTrigger);
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
-        float damageCalc = (damage * (1f - actor.GetHealthPercent())) - targetActor.getPhysicalDefense() + actor.getWeapon().RollPhysicalDamage();
+        float damageCalc = (damage * (2f - actor.GetHealthPercent())) - targetActor.getPhysicalDefense() + actor.getWeapon().RollPhysicalDamage();
         targetActor.TakeDamage(damageCalc, gameObject);
 
         DwellTime.Attack(dwell_time);

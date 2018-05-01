@@ -70,8 +70,8 @@ public class TileMap : MonoBehaviour {
         
         //selectedUnit.GetComponent<Actor>().map = this;
 
-        Actor player = GameObject.FindWithTag("Player").GetComponent<Actor>();
-        Actor enemy = GameObject.FindWithTag("Enemy").GetComponent<Actor>();
+        //Actor player = GameObject.FindWithTag("Player").GetComponent<Actor>();
+        //enemy = GameObject.FindWithTag("Enemy").GetComponent<Actor>();
 
         if (codeGenerateMap)
         {
@@ -224,7 +224,7 @@ public class TileMap : MonoBehaviour {
         if (!IsValidCoord(coords))
             return false;
         //could test units movement type(walk,fly,run etc..)
-        return getTileAtCoord(coords).tileType.isWalkable && getTileAtCoord(coords).isOccupied() == false;
+        return getTileAtCoord(coords).tileType.isWalkable && !getTileAtCoord(coords).isOccupied();
     }
 
     public void GeneratePathTo(Vector3 targetCoords, GameObject actor)
@@ -505,10 +505,26 @@ public class TileMap : MonoBehaviour {
     /// <returns></returns>
     public void moveActorAsync(GameObject actor, Vector3 target)
     {
-    
-        actor.GetComponent<Actor>().PlaySound("move");
-        StartCoroutine(MoveActorThread(actor, target));
+        Actor actorObj = actor.GetComponent<Actor>();
+        if (actorObj.getCoords() == target || !UnitCanEnterTile(target))
+        {
+            Debug.Log("Move Failed: Target is invalid. " + target + " " + actor.name);
+            return;
+        }
+        if(actorObj.speed == 0 || actorObj.moveDistance == 0)
+        {
+            Debug.Log("!!!!! WARNING !!!!! ACTOR HAS NO SPEED OR MOVEDISTANCE!");
+            return;
+        }
 
+        actorObj.PlaySound("move");
+        if (actorObj.canAct())
+        {
+            actorObj.PlaySound("move");
+            StartCoroutine(MoveActorThread(actor, target));
+        }
+        else
+            Debug.Log("No actions remaining.");
         return;
     }
 
@@ -579,17 +595,21 @@ public class TileMap : MonoBehaviour {
         }
 
         //move unit to next tile
-        endOfMove = unitObj.MoveController(unit.transform, TileCoordToWorldCoord(unitObj.getCoords()), unitObj.getSpeed());
+        endOfMove = unitObj.MoveController(unitObj.transform, TileCoordToWorldCoord(unitObj.getCoords()), unitObj.getSpeed());
         //Debug.Log("endOfMove: " + endOfMove);
         
         if (endOfMove == true) //Anything that happens at end of Actor movement
         {
             unitObj.setRemainingMovement(0); // clears remaining movement of Actor at end of move
-            unitObj.useAction();
+            //unitObj.useAction();  //moving to thread
             
             if(unitObj.canAct() == true)
             {
                 unitObj.setRemainingMovement(unitObj.getMoveDistance());
+            }
+            else
+            {
+                Debug.Log("No moves");
             }
 
             if (unitObj.getCurrentPath() == null)
@@ -626,7 +646,7 @@ public class TileMap : MonoBehaviour {
         remainingMovement -= costToEnterTile(unit.getCurrentPath()[0].coords,unit.getCurrentPath()[1].coords);
 
         unit.setRemainingMovement(remainingMovement);
-
+        Debug.Log("ADV path = " + unit.getCurrentPath()[1].coords);
         // Move to the next tile in the sequence
         //unit.tileX = (int)unit.getCurrentPath()[1].coords.x;
         //unit.tileZ = (int)unit.getCurrentPath()[1].coords.z;
@@ -644,6 +664,7 @@ public class TileMap : MonoBehaviour {
         if (unit.getCurrentPath().Count == 1)
         {
             //standing on same tile clicked on
+            Debug.Log("setting path null unit coords : " + unit.getCoords());
             unit.setPathNull();
         }
 
@@ -746,9 +767,10 @@ public class TileMap : MonoBehaviour {
 
         Vector3 newCoords = actor.GetComponent<Actor>().getCoords();
 
-        Debug.Log("Moved " + actor.name + " to " + target + " from " + currentCoords);
+        Debug.Log("Moved " + actor.name + " to " + target + " from " + currentCoords + " " + moveDone);
         SetOcc(actor, currentCoords, newCoords);
         //getTileAtCoord(unit.getCoords()).setOccupiedTrue(actor);
+        actor.GetComponent<Actor>().useAction();
         TurnBehaviour.ActorHasJustMoved();
     }
 

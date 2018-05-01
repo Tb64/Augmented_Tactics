@@ -11,10 +11,11 @@ public class HeavyShield : UsableItem {
         image = "UI/RPG_inventory_icons/shield" ;
     }
 
-    public override void UseItem(GameObject user, GameObject target)
+    public override bool UseItem(GameObject user, GameObject target)
     {
-        base.UseItem(user, target);
-        itemAbility = new BuffDebuff(user,"defense","dexterity",true,10,true);
-        itemAbility.UseSkill(target);
+        itemAbility = new BuffDebuff(user, "defense", "dexterity", true, 10, true);
+        if (!base.UseItem(user, target))
+            return false;
+        return itemAbility.UseSkill(target);
     }
 }
