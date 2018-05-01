@@ -71,7 +71,7 @@ public class Disintegrate : Ability {
         yield return new WaitForSeconds(1f);
         anim.gameObject.SetActive(true);
         //gameObject.GetComponentInChildren<MeshRenderer>().enabled = true;
-       
+        Debug.Log("Starting disintegrate");
         
         GameObject.Instantiate(bloodEffect, gameObject.transform);
         if (anim != null)
@@ -92,8 +92,9 @@ public class Disintegrate : Ability {
         map.SetOcc(gameObject, currentLoc, Enemy.PosCloseTo(position,target.GetComponent<Actor>().getCoords(), map));
         
         StartCoroutine(target);
-        //gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
         anim.gameObject.SetActive(false);
+        //gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
+
         gameObject.GetComponent<Actor>().setCoords(Enemy.PosCloseTo(position,target.GetComponent<Actor>().getCoords(),map));
         
         DwellTime.Attack(dwell_time);
