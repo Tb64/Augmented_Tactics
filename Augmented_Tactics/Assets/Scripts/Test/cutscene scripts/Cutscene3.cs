@@ -15,6 +15,8 @@ public class Cutscene3 : MonoBehaviour {
     public Camera cam2;
     public Camera cam3;
 
+    public ExampleDialogueUI diagscript;
+
     //characters
     public GameObject You;
     public GameObject Doogy;
@@ -188,8 +190,17 @@ public class Cutscene3 : MonoBehaviour {
                             StopTalking("You");
                             StartTalking("Doogy");
                             temp = currentline;
+                            diagscript.DialogueComplete();
                         }
                         break;
+                    case 21:
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            StopTalking("Doogy");
+                            temp = currentline;
+                        }
+                        break;
+
 
                     default:
                         break;

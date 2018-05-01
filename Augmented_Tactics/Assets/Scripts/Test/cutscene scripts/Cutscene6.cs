@@ -26,7 +26,7 @@ public class Cutscene6 : MonoBehaviour {
     public GameObject JhovanRifiuti;
     public GameObject EnlilDecet;
     public GameObject JasonMalas;
-    
+    public ExampleDialogueUI diagscript;
 
 
     int currentline;
@@ -400,6 +400,14 @@ public class Cutscene6 : MonoBehaviour {
                             cam8.enabled = false;
                             StopTalking("Doogy");
                             StartTalking("JasonMalas");
+                            temp = currentline;
+                        }
+                        break;
+                    case 57:
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            StopTalking("JasonMalas");
+                            diagscript.DialogueComplete();
                             temp = currentline;
                         }
                         break;

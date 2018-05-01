@@ -15,6 +15,7 @@ public class Cutscene5a : MonoBehaviour
     public Camera cam2;
     public Camera cam3;
     public Camera cam4;
+    public ExampleDialogueUI diagscript;
 
     //characters
     public GameObject You;
@@ -451,6 +452,7 @@ public class Cutscene5a : MonoBehaviour
                         {
                             StopTalking("AdonaiBrevary");
                             temp = currentline;
+                            diagscript.DialogueComplete();
                         }
                         break;
 
