@@ -7,40 +7,57 @@ public class ItemLoader : MonoBehaviour {
 	public static UsableItem LoadItem(string itemID)
     {
         itemID = itemID.ToLower();
+        UsableItem item = new UsableItem();
         switch (itemID)
         {
             case "ataymirror":
-                return new AtayMirror();
+                item = new AtayMirror();
+                break;
             case "destinybinder":
-                return new DestinyBnider();
+                item = new DestinyBnider();
+                break;
             case "doubleedgedsword":
-                return new DoublleEdgedSword();
+                item = new DoublleEdgedSword();
+                break;
             case "heavyshield":
-                return new HeavyShield();
+                item = new HeavyShield();
+                break;
             case "largemanatonic":
-                return new LargeManaTonic();
+                item = new LargeManaTonic();
+                break;
             case "medmanatonic":
-                return new MedManaTonic();
+                item = new MedManaTonic();
+                break;
             case "smallmanatonic":
-                return new SmallManaTonic();
+                item = new SmallManaTonic();
+                break;
             case "lottomanatonic":
-                return new LottoManaTonic();
+                item = new LottoManaTonic();
+                break;
             case "largepotion":
-                return new LargePotion();
+                item = new LargePotion();
+                break;
             case "medpotion":
-                return new MedPotion();
+                item = new MedPotion();
+                break;
             case "smallpotion":
-                return new SmallPotion();
+                item = new SmallPotion();
+                break;
             case "lottopotion":
-                return new LottoPotion();
+                item = new LottoPotion();
+                break;
             case "panacea":
-                return new Panacea();
+                item = new Panacea();
+                break;
             case "unguent":
-                return new Unguent();
+                item = new Unguent();
+                break;
             default:
                 Debug.LogError(itemID + " not in item list above^^^");
                 return null;
         }
+        item.itemKey = itemID;
+        return item;
     }
 
     public static string[] ItemKeys =
