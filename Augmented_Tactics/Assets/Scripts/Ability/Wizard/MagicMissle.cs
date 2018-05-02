@@ -6,7 +6,7 @@ public class MagicMissle : Ability {
 
     private MonoBehaviour mB;
     StateMachine SM = GameObject.FindGameObjectWithTag("GameController").GetComponent<StateMachine>();
-    GameObject missleEffect = Resources.Load<GameObject>("animation/effect1");
+    GameObject missleEffect = Resources.Load<GameObject>("animation/Effect1_Optimized");
     Actor user;
 
     public MagicMissle(GameObject obj)
@@ -25,7 +25,7 @@ public class MagicMissle : Ability {
         range_max = 5;
         range_min = 0;
         damage = 10 + actor.getMaxMana() * 2;
-        abilityImage = Resources.Load<Sprite>("UI/Ability/magician/magicianSkill2.png");
+        abilityImage = Resources.Load<Sprite>("UI/Ability/magician/magicianSkill2");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
         manaCost = 10;
@@ -90,7 +90,7 @@ public class MagicMissle : Ability {
             rotateAtObj(target);
             //anim.SetTrigger("MeleeAttack");
 
-            //anim.SetTrigger("Missle");
+            anim.SetTrigger("Missle");
             //gameObject.GetComponent<Actor>().PlaySound("attack");
         }
 

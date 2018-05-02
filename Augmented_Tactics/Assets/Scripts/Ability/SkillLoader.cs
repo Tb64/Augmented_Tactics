@@ -86,7 +86,7 @@ public class SkillLoader : MonoBehaviour {
             case "arcanecomet":
                 return new FireBall(gObj);
             case "magicmissle":
-                return new FireBall(gObj);
+                return new MagicMissle(gObj);
 
 
 
