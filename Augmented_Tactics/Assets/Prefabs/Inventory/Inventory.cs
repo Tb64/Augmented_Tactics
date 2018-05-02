@@ -134,6 +134,11 @@ public class Inventory : MonoBehaviour
             addEquipable(GameDataController.gameData.weapons[index]);
         }
 
+        for (int index = 0; index < numOfUsables; index++)
+        {
+            addUsable(GameDataController.gameData.usableItems[index]);
+        }
+
 
 
 
