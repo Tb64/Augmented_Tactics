@@ -18,6 +18,11 @@ public class Frozen : StatusEffects {
         anim = effected.gameObject.GetComponentInChildren<Animator>();
     }
 
+    public override void InitialEffect()
+    {
+        effectorPlayer.aggroScore += (int) 10* duration;
+    }
+
     public override void InduceEffect()
     {
         if (effect1 != null)

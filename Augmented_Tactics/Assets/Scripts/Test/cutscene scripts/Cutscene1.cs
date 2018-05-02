@@ -20,7 +20,7 @@ public class Cutscene1 : MonoBehaviour
     public Camera cam1;
     public Camera cam2;
     public Camera cam3;
-
+    public ExampleDialogueUI diagscript;
 
     int currentline;
     int temp = -1;
@@ -121,6 +121,7 @@ public class Cutscene1 : MonoBehaviour
                             StopTalking("You");
                             EndSceneAnims();
                             temp = currentline;
+                            diagscript.DialogueComplete();
                         }
                         break;
 

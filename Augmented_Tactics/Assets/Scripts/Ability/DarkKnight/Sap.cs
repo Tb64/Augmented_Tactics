@@ -6,7 +6,7 @@ public class Sap : Ability
 {
 
     private MonoBehaviour mB;
-    StateMachine SM = GameObject.FindGameObjectWithTag("GameController").GetComponent<StateMachine>();
+    //StateMachine SM = GameObject.FindGameObjectWithTag("GameController").GetComponent<StateMachine>();
     //Damages Enemy and removes one action point from enemy
     //need to add status effect that removes one turn from enemy
     GameObject sapEffect = Resources.Load<GameObject>("animation/Effect1_Collision");
