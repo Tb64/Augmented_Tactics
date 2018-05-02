@@ -268,15 +268,17 @@ public class Ability
     {
         projectileVFX.transform.position = gameObject.transform.position;
         KFX_Settings settings = projectileVFX.GetComponent<KFX_Settings>();
+
         if (settings == null)
             InitializeProjectile(projectileVFX, target);
         else
             settings.targetLocation = target.transform.position;
 
+        projectileVFX.transform.LookAt(target.transform);
         GameObject vfx = GameObject.Instantiate(projectileVFX);
 
         //vfx.transform.position = gameObject.transform.position;
-        vfx.transform.LookAt(target.transform.position);
+        vfx.transform.LookAt(target.transform);
         GameObject.Destroy(vfx, 5f);
 
     }

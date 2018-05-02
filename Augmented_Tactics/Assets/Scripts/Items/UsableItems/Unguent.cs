@@ -9,7 +9,7 @@ public class Unguent : UsableItem {
         base.InitInitialize();
 
         name = "Small Mana Tonic";
-        image = "";
+        image = "UI/RPG_inventory_icons/book";
     }
 
     public override bool UseItem(GameObject user, GameObject target)

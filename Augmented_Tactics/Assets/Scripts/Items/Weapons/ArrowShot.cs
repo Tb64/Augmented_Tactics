@@ -8,12 +8,13 @@ public class ArrowShot : MonoBehaviour {
     public Vector3 targetLocation;
     public float explosionDist;
 
-    GameObject impactVFX;
+    public GameObject impactVFX;
+    private float oldDist;
 
     // Use this for initialization
     void Start () {
         Rigidbody rbody = GetComponent<Rigidbody>();
-
+        oldDist = float.MaxValue;
         if (rbody == null)
             return;
         GetKFXsettings();
@@ -24,19 +25,32 @@ public class ArrowShot : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         float dist = Vector3.Distance(transform.position, targetLocation);
+        transform.LookAt(targetLocation);
+        //Debug.Log("Arrow target" + targetLocation);
 
-        if(dist < explosionDist)
+        if(dist < explosionDist || oldDist < dist)
         {
             if (impactVFX != null)
             {
-                impactVFX.transform.position = transform.position;
+                impactVFX.transform.position = targetLocation;
+                impactVFX.transform.LookAt(targetLocation + transform.up * 10f);
                 GameObject vfx = Instantiate<GameObject>(impactVFX);
                 Destroy(vfx, 2f);
             }
             Destroy(gameObject);
         }
-		
-	}
+        oldDist = dist;
+
+
+    }
+
+    private void Impact()
+    {
+        impactVFX.transform.position = transform.position;
+        impactVFX.transform.LookAt(transform.position + transform.up);
+        GameObject vfx = Instantiate<GameObject>(impactVFX);
+        Destroy(vfx, 2f);
+    }
 
     private void GetKFXsettings()
     {

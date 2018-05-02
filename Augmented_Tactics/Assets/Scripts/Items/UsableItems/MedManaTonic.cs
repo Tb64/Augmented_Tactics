@@ -9,7 +9,7 @@ public class MedManaTonic : UsableItem {
         base.InitInitialize();
         isManaItem = true;
         name = "Medium Mana Tonic";
-        image = "";
+        image = "UI/RPG_inventory_icons/mp";
     }
 
     public override bool UseItem(GameObject user, GameObject target)

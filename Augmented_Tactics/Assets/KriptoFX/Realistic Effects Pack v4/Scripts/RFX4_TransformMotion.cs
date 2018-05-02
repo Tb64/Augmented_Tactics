@@ -34,6 +34,7 @@ public class RFX4_TransformMotion : MonoBehaviour
     private Quaternion startQuaternion;
     private float currentSpeed;
     private float currentDelay;
+    private float oldDist;
     private const float RayCastTolerance = 0.3f;
     private bool isInitialized;
     private bool dropFirstFrameForFixUnityBugWithParticles;
@@ -66,6 +67,7 @@ public class RFX4_TransformMotion : MonoBehaviour
     private void Initialize()
     {
         GetSettings();
+        oldDist = float.MaxValue;
         isCollided = false;
         isOutDistance = false;
         currentSpeed = Speed;
@@ -112,8 +114,10 @@ public class RFX4_TransformMotion : MonoBehaviour
         if(explodePos && !isCollided)
         {
             float distToTarget = Vector3.Distance(t.position, targetLocation);
-            if (distToTarget <= explosionDist && !isCollided)
+            if ((distToTarget <= explosionDist || oldDist < distToTarget) && !isCollided)
                 Explode(targetLocation);
+
+            oldDist = distToTarget;
         }
 
         if (!isCollided && !isOutDistance)
@@ -183,8 +187,8 @@ public class RFX4_TransformMotion : MonoBehaviour
         Debug.Log("Impact: " + name + " " + transform.position);
         CollidedInstances.Clear();
         var currentForwardVector = Vector3.forward * currentSpeed * Time.deltaTime;
-        Vector3 velocity = currentForwardVector * -1f;
-        velocity = t.transform.up;
+        //Vector3 velocity = currentForwardVector * -1f;
+        Vector3 velocity = t.transform.up;
         foreach (var effect in EffectsOnCollision)
         {
             var instance = Instantiate(effect, location + velocity.normalized * CollisionOffset, new Quaternion()) as GameObject;
