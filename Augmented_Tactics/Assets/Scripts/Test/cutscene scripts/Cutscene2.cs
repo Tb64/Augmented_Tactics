@@ -18,6 +18,7 @@ public class Cutscene2 : MonoBehaviour
 
     public GameObject FrederickDecet;
     public GameObject JohnCausion;
+    public ExampleDialogueUI diagscript;
 
     // Use this for initialization
     void Start()
@@ -122,6 +123,7 @@ public class Cutscene2 : MonoBehaviour
                             StopTalking("FrederickDecet");
                             Debug.Log("END");
                             temp = currentline;
+                            diagscript.DialogueComplete();
                         }
                         break;
                     
