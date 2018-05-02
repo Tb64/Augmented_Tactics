@@ -625,6 +625,7 @@ public class Actor : MonoBehaviour
         damageNumber(damage, new Color(255, 0, 0, 1));
 
         health_current -= damage;
+        attacker.GetComponent<Actor>().aggroScore += (int)damage;
         Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
         if (gameObject.GetComponentInChildren<HealthBar>() != null)
         {
@@ -665,9 +666,10 @@ public class Actor : MonoBehaviour
     /// Gives mana to the actor,
     /// </summary>
     /// <param name="mana"></param>
-    public void GiveMana(float mana)
+    public void GiveMana(float mana, Actor healer) //added actor hear for aggro purposes
     {
         mana_current += mana;
+        healer.aggroScore += (int)Math.Floor((int)mana/1.5);
         if (mana_current >= mana_max)
             mana_current = mana_max;
     }
@@ -708,6 +710,7 @@ public class Actor : MonoBehaviour
     public virtual void HealHealth(float heal)
     {
         health_current += heal;
+        aggroScore += (int)Math.Floor((int)heal/1.5);
         if (health_current > health_max)
         {
             health_current = health_max;

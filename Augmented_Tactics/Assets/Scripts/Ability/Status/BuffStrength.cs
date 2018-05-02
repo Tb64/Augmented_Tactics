@@ -31,6 +31,7 @@ public class BuffStrength : StatusEffects {
     public override void InitialEffect()
     {
         BuffDebuff.SwapEffect(buff, effectorPlayer, effectedPlayer, effect, "strength");
+        effectorPlayer.aggroScore += (int)(effect * duration);
     }
 
     public override void ReverseEffect()
