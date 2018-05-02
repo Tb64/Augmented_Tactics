@@ -6,11 +6,12 @@ public class PoisonArrow : Ability
 {
 
     private string animTrigger = "Arrow";
-    private GameObject effect1 = Resources.Load<GameObject>("Effects/Effect12_Optimized"), effect2 = Resources.Load<GameObject>("Effects/ArrowShot");
+    private GameObject effect1 = Resources.Load<GameObject>("Effects/CollisionEffects/Effect12_Explosion"), effect2 = Resources.Load<GameObject>("Effects/ArrowShot");
 
     public PoisonArrow(GameObject obj)
     {
         Initialize(obj);
+        effect2.GetComponent<ArrowShot>().impactVFX = effect1;
     }
     public override void ActionSkill(GameObject target)
     {
@@ -19,10 +20,10 @@ public class PoisonArrow : Ability
         {
             Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, gameObject.name, target.name));
             rotateAtObj(target);
-            if (effect1 != null)
-                Projectile(effect1, target);
-            else
-                Debug.Log("effect1 null");
+            //if (effect1 != null)
+            //    Projectile(effect1, target);
+            //else
+            //    Debug.Log("effect1 null");
 
             if (effect2 != null)
             {
