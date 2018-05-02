@@ -6,9 +6,7 @@ public class MagicMissle : Ability {
 
     private MonoBehaviour mB;
     StateMachine SM = GameObject.FindGameObjectWithTag("GameController").GetComponent<StateMachine>();
-    //Damages Enemy and removes one action point from enemy
-    //need to add status effect that removes one turn from enemy
-    GameObject missleEffect = Resources.Load<GameObject>("animation/effect13");
+    GameObject missleEffect = Resources.Load<GameObject>("animation/effect1");
     Actor user;
 
     public MagicMissle(GameObject obj)
@@ -27,7 +25,7 @@ public class MagicMissle : Ability {
         range_max = 5;
         range_min = 0;
         damage = 10 + actor.getMaxMana() * 2;
-        abilityImage = Resources.Load<Sprite>("UI/Ability/magician/magicianSkill2");
+        abilityImage = Resources.Load<Sprite>("UI/Ability/magician/magicianSkill2.png");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
         manaCost = 10;
@@ -40,15 +38,16 @@ public class MagicMissle : Ability {
 
         GameObject effect = GameObject.Instantiate(missleEffect, target.GetComponent<Actor>().getCoords()
             + new Vector3(0, .5f, 0), Quaternion.identity);
-
+        /*
         Transform coreDistance = effect.transform.Find("Core_Distance");
         Transform wavesDistance = coreDistance.transform.Find("Waves_Distance");
 
         //calculates distance between player and target, then multiplies x coord to scale particles correctly
-        float distance = Vector3.Distance(target.GetComponent<Actor>().getCoords(), gameObject.transform.position);
+       
         coreDistance.transform.localScale = new Vector3(.1f * distance, 1, 1);
-        wavesDistance.transform.localScale = new Vector3(.1f * distance, 1, 1);
+        wavesDistance.transform.localScale = new Vector3(.1f * distance, 1, 1);*/
 
+        float distance = Vector3.Distance(target.GetComponent<Actor>().getCoords(), gameObject.transform.position);
         //Turns the animation towards the player
         effect.transform.LookAt(gameObject.transform.position + new Vector3(0, .5f, 0));
 
@@ -81,6 +80,7 @@ public class MagicMissle : Ability {
         yield return new WaitForSeconds(.8f);
         //GameObject effect = GameObject.Instantiate(bloodEffect, target.transform);
         //target.GetComponent<Actor>().TakeDamage(damage, gameObject);
+        target.GetComponent<Actor>().TakeDamage(damage, gameObject);
     }
 
     private void Skill(GameObject target)
@@ -90,7 +90,7 @@ public class MagicMissle : Ability {
             rotateAtObj(target);
             //anim.SetTrigger("MeleeAttack");
 
-            anim.SetTrigger("Leech");
+            //anim.SetTrigger("Missle");
             //gameObject.GetComponent<Actor>().PlaySound("attack");
         }
 
