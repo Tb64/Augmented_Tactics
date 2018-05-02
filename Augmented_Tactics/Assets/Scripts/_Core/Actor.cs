@@ -636,11 +636,14 @@ public class Actor : MonoBehaviour
             OnDeath();
             return;
         }
-        
+
+
+
+     
         anim.SetTrigger(animDmg);
-        //justin set damage string array here
         PlaySound("damage");
-        //Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
+  
+        
     }
 
     /// <summary>
@@ -717,14 +720,26 @@ public class Actor : MonoBehaviour
             gameObject.GetComponentInChildren<HealthBar>().updateHealth(GetHealthPercent());
         }
         damageNumber(heal, new Color(0, 255, 0, 1));
+
+        if(incapacitated == true && health_current > 0)
+        {
+            incapacitated = false;
+        }
+
     }
 
     public virtual void OnDeath()
     {
+        if(incapacitated == false)
+        {
+            anim.SetTrigger(animDeath);
+            PlaySound("death");
+        }
+        
+
         incapacitated = true;
         Debug.Log(this + " has died");
-        anim.SetTrigger(animDeath);
-        PlaySound("death");
+        
         //for Destiny binder attacks /items
         if (bonded)
         {
