@@ -8,9 +8,9 @@ public class Disintegrate : Ability {
     static public Disintegrate instance;
 
     //float damage = 10f;
-    StateMachine SM = GameObject.Find("GameController").GetComponent<StateMachine>();
+    //StateMachine SM = GameObject.Find("GameController").GetComponent<StateMachine>();
     GameObject bloodEffect = Resources.Load<GameObject>("animation/effect26");
-    TileMap map = GameObject.FindGameObjectWithTag("Map").GetComponent<TileMap>();
+    TileMap map;
     Actor user;
     private MonoBehaviour mB;
     private Enemy position;
@@ -24,6 +24,7 @@ public class Disintegrate : Ability {
     public override void Initialize(GameObject obj)
     {
         base.Initialize(obj);
+        map = actor.map;
         anim = gameObject.GetComponentInChildren<Animator>();
         dwell_time = 1.0f;
         abilityName = "disintegrate";
@@ -70,7 +71,7 @@ public class Disintegrate : Ability {
         yield return new WaitForSeconds(1f);
         anim.gameObject.SetActive(true);
         //gameObject.GetComponentInChildren<MeshRenderer>().enabled = true;
-       
+        Debug.Log("Starting disintegrate");
         
         GameObject.Instantiate(bloodEffect, gameObject.transform);
         if (anim != null)
@@ -91,8 +92,9 @@ public class Disintegrate : Ability {
         map.SetOcc(gameObject, currentLoc, Enemy.PosCloseTo(position,target.GetComponent<Actor>().getCoords(), map));
         
         StartCoroutine(target);
-        //gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
         anim.gameObject.SetActive(false);
+        //gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
+
         gameObject.GetComponent<Actor>().setCoords(Enemy.PosCloseTo(position,target.GetComponent<Actor>().getCoords(),map));
         
         DwellTime.Attack(dwell_time);

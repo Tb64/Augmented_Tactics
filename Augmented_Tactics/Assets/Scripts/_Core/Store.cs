@@ -108,6 +108,7 @@ public class Store : MonoBehaviour
                 inventoryArray[index, jindex].transform.localPosition = iconPlacement;
                 inventoryArray[index, jindex].GetComponent<Item>().setStore(gameObject);
                 inventoryArray[index, jindex].GetComponent<Item>().setInventory(inventoryActual);
+                inventoryArray[index, jindex].GetComponent<Item>().slotType = true;
                 iconPlacement += new Vector3(70f, 0f, 0f);
                
 
