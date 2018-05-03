@@ -15,7 +15,7 @@ public class ItemDetails : MonoBehaviour {
         string details = "";
         details += item.name + "\n\n";
         details += item.itemDesc + "\n";
-        details += item.cost + "\n";
+        details += "Cost: " + item.cost + "\n";
 
         desc.text = details;
     }
