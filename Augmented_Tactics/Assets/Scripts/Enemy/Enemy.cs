@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /*****************
 Enemy
@@ -34,8 +35,8 @@ public class Enemy : Actor
     // Use this for initialization
     new public virtual void Start()
     {
+        LoadPlayer();
         EnemyInitialize();
-
         //team set to Actors instead of GameObjects  
     }
     public override void OnDestroy()
@@ -67,29 +68,17 @@ public class Enemy : Actor
         /*updating for using varied attacks
          update for specific character needs to be added to every
          type of enemy as they are created to load correct attacks*/
-         
-        //FOR DEMO ONLY
-        abilitySet[0] = SkillLoader.LoadSkill("basicattack", gameObject);
-        abilitySet[1] = SkillLoader.LoadSkill("fire", gameObject);
-        abilitySet[2] = SkillLoader.LoadSkill("heal", gameObject);
-        abilitySet[3] = SkillLoader.LoadSkill("combo", gameObject);
-        setManaCurrent(10);
-        setMaxMana(10);
-        setHealthCurrent(15);
-        setMaxHealth(15);
-        setWisdom(5);
-        setDexterity(5);
-        setCharisma(5);
-        setConstitution(3);
-        setIntelligence(3);
-        //FOR DEMO ON:Y
-
-        /*for (int i = 0; i < 4; i++)
+        if(GetArchetype() == "regular")
         {
-            abilitySet[i] = new BasicAttack(gameObject);
-        }*/
+            if (!LoadAbilities())
+            {
+                Debug.LogError("Unable to Randomize Abilities");
+                return;
+            }
+        }
+
     }
-    
+
 
     // Update is called once per frame
     void Update()
@@ -172,7 +161,7 @@ public class Enemy : Actor
         base.OnDeath();
         //added for defense classes. They will automatically protect an incapacitated teammate
         //aggressives are the priority, and the highest level aggressive gets even more priority
-        if(this.GetArchetype() == "aggressive" && EnemyController.CheckTargetChange(getEnemyID()))
+        if (this.GetArchetype() == "aggressive" && EnemyController.CheckTargetChange(getEnemyID()))
         {
             EnemyController.targeted = true;
             EnemyController.target = this;
@@ -183,7 +172,7 @@ public class Enemy : Actor
             EnemyController.targeted = true;
             EnemyController.target = this;
         }
-        
+
     }
 
     public virtual void EnemyActions()
@@ -205,7 +194,7 @@ public class Enemy : Actor
             //Debug.Log("Found Target = " + currentTarget.name + " at " + currentTarget.transform.position + currentTarget.getCoords());
             //currentTarget = currentTarget;
         }
- 
+
         if (currentTarget == null)
         {
             Debug.LogError("no player team");
@@ -213,7 +202,7 @@ public class Enemy : Actor
         }
         if (AttemptAttack())
             return;
-        Vector3 movingTo = PosCloseTo(this,currentTarget.getCoords(), map);
+        Vector3 movingTo = PosCloseTo(this, currentTarget.getCoords(), map);
         if (movingTo == new Vector3(-1, -1, -1))
         {
             // movingTo = PosCloseTo(currentTarget.getCoords());
@@ -227,7 +216,7 @@ public class Enemy : Actor
         }
         Debug.Log("Attempting to move " + this + " from " + this.getCoords() + " to " + movingTo);
         map.moveActorAsync(gameObject, movingTo);
-        
+
         //Debug.Log("Move Complete\t" + currentTarget);
 
     }
@@ -522,7 +511,7 @@ public class Enemy : Actor
              Debug.Log("first enemy " + EnemyController.enemyList[EnemyController.currentEnemy].getCoords());
          return output;
      }*/
-    public static Vector3 PosCloseTo(Actor self,Vector3 mapPos, TileMap map)
+    public static Vector3 PosCloseTo(Actor self, Vector3 mapPos, TileMap map)
     {
         Vector3 output = self.getCoords() - mapPos;
         output = output.normalized;
@@ -541,7 +530,7 @@ public class Enemy : Actor
                     Debug.Log("rightup");
                     return temp;
                 }
-                    
+
             }
             else
             {
@@ -557,7 +546,7 @@ public class Enemy : Actor
                     Debug.Log("rightdown");
                     return temp;
                 }
-                    
+
             }
         }
         else
@@ -595,14 +584,14 @@ public class Enemy : Actor
 
     public static Vector3 PosCloseTo(string directions, Vector3 pos, TileMap map)
     {
-        if(directions == "rightup")
-           return checkDirections(pos + new Vector3(1f, 0f, 0f), pos + new Vector3(0f, 0f, 1f), map);
+        if (directions == "rightup")
+            return checkDirections(pos + new Vector3(1f, 0f, 0f), pos + new Vector3(0f, 0f, 1f), map);
         else if (directions == "rightdown")
             return checkDirections(pos + new Vector3(1f, 0f, 0f), pos + new Vector3(0f, 0f, -1f), map);
         else if (directions == "leftup")
             return checkDirections(pos + new Vector3(-1f, 0f, 0f), pos + new Vector3(0f, 0f, 1f), map);
         else
-            return checkDirections(pos + new Vector3(-1f, 0f, 0f), pos + new Vector3(0f, 0f, -1f),map);
+            return checkDirections(pos + new Vector3(-1f, 0f, 0f), pos + new Vector3(0f, 0f, -1f), map);
     }
 
     public static Vector3 checkDirections(Vector3 firstDir, Vector3 secDir, TileMap map)
@@ -612,68 +601,290 @@ public class Enemy : Actor
         else if (map.UnitCanEnterTile(secDir))
             return secDir;
         else
-            return new Vector3(-1,-1,-1); //no move available
+            return new Vector3(-1, -1, -1); //no move available
     }
-        /*private void EnemyUsedAction()
+    /*private void EnemyUsedAction()
+    {
+        if (SM.checkTurn())
+            return;
+        //Debug.Log("USED ACTION WORKING");
+        if (EnemyController.enemyList[EnemyController.currentEnemy].getMoves() == 0)
         {
-            if (SM.checkTurn())
-                return;
-            //Debug.Log("USED ACTION WORKING");
-            if (EnemyController.enemyList[EnemyController.currentEnemy].getMoves() == 0)
-            {
-                Debug.Log("Enemy " + EnemyController.currentEnemy + " out of moves");
-                EnemyController.NextEnemy(SM);
-                return;
-            }
-            EnemyController.ExhaustMoves();
-        }*/
-        /// <summary>
-        /// //////////////////////// where to add attacking
-        /// </summary>
-        /// <param name="currentTarget"></param>
-        public virtual bool AttemptAttack() //thinking of changing to attemptAction. Also covers heal
+            Debug.Log("Enemy " + EnemyController.currentEnemy + " out of moves");
+            EnemyController.NextEnemy(SM);
+            return;
+        }
+        EnemyController.ExhaustMoves();
+    }*/
+    /// <summary>
+    /// //////////////////////// where to add attacking
+    /// </summary>
+    /// <param name="currentTarget"></param>
+    public virtual bool AttemptAttack() //thinking of changing to attemptAction. Also covers heal
+    {
+        if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
+            return false;
+        Debug.Log(this + " Attempting attack on " + currentTarget + " at " + currentTarget.getCoords());
+        int bestAttack = 0, choice = 0;
+        bool chosen = false;
+        for (int ability = 0; ability < 4; ability++)
         {
-            if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
-                return false;
-            Debug.Log(this + " Attempting attack on " + currentTarget + " at " + currentTarget.getCoords());
-            int bestAttack = 0, choice = 0;
-            bool chosen = false;
-            for (int ability = 0; ability < 4; ability++)
-            {
             // Debug.Log(abilitySet[ability].SkillInRange(getCoords(), currentTarget.getCoords()));
-                if (abilitySet[ability].canHeal && CheckHeal() && abilitySet[ability].CanUseSkill(gameObject))
-                {
-                    abilitySet[ability].UseSkill(gameObject);
-                    Debug.Log(this + " Healed");    
-                    return true;
-                }   
-                    
-                if (!abilitySet[ability].canHeal && abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
-                {
-                    bestAttack = (int)abilitySet[ability].damage;
-                    choice = ability;
-                    chosen = true;
-                }
-            }
-            //float dist = Vector3.Distance(getCoords(), currentTarget.getCoords());
-            //if (!(dist <= 1.5))
-            //  return;
-            //Debug.Log("currentTarget = " + currentTarget.gameObject + " skill = " + abilitySet[0].abilityName + " range = " + dist);
-            if (chosen)
+            if (abilitySet[ability].canHeal && CheckHeal() && abilitySet[ability].CanUseSkill(gameObject))
             {
-                Debug.Log(this + " using skill: " + abilitySet[choice] + " on " + currentTarget);
-                abilitySet[choice].UseSkill(currentTarget.gameObject); //test
-                // testing statusEffect
-               // Burn burn = new Burn(getWisdom(),this, currentTarget,false);
-               // TurnBehaviour.EnemyHasJustAttacked();
+                abilitySet[ability].UseSkill(gameObject);
+                Debug.Log(this + " Healed");
                 return true;
             }
-            else
+
+            if (!abilitySet[ability].canHeal && abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
             {
-                Debug.Log("No Possible Attacks");
-                return false;
+                bestAttack = (int)abilitySet[ability].damage;
+                choice = ability;
+                chosen = true;
             }
+        }
+        
+        if (chosen)
+        {
+            Debug.Log(this + " using skill: " + abilitySet[choice] + " on " + currentTarget);
+            abilitySet[choice].UseSkill(currentTarget.gameObject); 
+            return true;
+        }
+        else
+        {
+            Debug.Log("No Possible Attacks");
+            return false;
+        }
     }
+
+    protected bool LoadPlayer()
+    {
+
+        string scene = SceneManager.GetActiveScene().name;
+        scene = scene.ToLower();
+        switch (scene)
+        {
+            case "battle1":
+                if (Random.Range(0, 1000) < 350)
+                {
+                    if (Random.Range(0, 1000) < 500)
+                    {
+                        LoadThief();
+                    }
+                    else
+                    {
+                        LoadBrawler();
+                    }
+                }
+                else
+                {
+                    LoadRegular();
+                }
+                break;
+
+            case "battle2":
+                if (Random.Range(0, 1000) < 350)
+                {
+                    if (Random.Range(0, 1000) < 500)
+                    {
+                        LoadThief();
+                    }
+                    else
+                    {
+                        LoadPaladin();
+                    }
+                }
+                else
+                {
+                    LoadRegular();
+                }
+                break;
+
+            case "battle3":
+                if (Random.Range(0, 1000) < 350)
+                {
+                    if (Random.Range(0, 1000) < 500)
+                    {
+                        LoadThief();
+                    }
+                    else
+                    {
+                        LoadPaladin();
+                    }
+                }
+                else
+                {
+                    LoadRegular();
+                }
+                break;
+
+            case "battle4":
+                if (Random.Range(0, 1000) < 500)
+                {
+                    int random = Random.Range(0, 1000);
+                    if (random < 333)
+                    {
+                        LoadWizard();
+                    }
+                    else if(random >=333 && random <666)
+                    {
+                        LoadPaladin();
+                    }
+                    else
+                    {
+                        LoadCleric();
+                    }
+                }
+                else
+                {
+                    LoadRegular();
+                }
+                break;
+
+            case "battle5":
+                if (Random.Range(0, 1000) < 400)
+                {
+                    int random = Random.Range(0, 1000);
+                    if (random < 333)
+                    {
+                        LoadBrawler();
+                    }
+                    else if (random >= 333 && random < 666)
+                    {
+                        LoadPaladin();
+                    }
+                    else
+                    {
+                        LoadWizard();
+                    }
+                }
+                else
+                {
+                    LoadRegular();
+                }
+                break;
+
+            case "battle6":
+                if (Random.Range(0, 1000) < 350)
+                {
+                    if (Random.Range(0, 1000) < 500)
+                    {
+                        LoadWizard();
+                    }
+                    else
+                    {
+                        LoadDarkKnight();
+                    }
+                }
+                else
+                {
+                    LoadRegular();
+                }
+                break;
+
+            case "battle7": 
+                if (Random.Range(0, 1000) < 400)
+                {
+                    int random = Random.Range(0, 1000);
+                    if (random < 200)
+                    {
+                        LoadBrawler();
+                    }
+                    else if (random >= 200 && random < 400)
+                    {
+                        LoadPaladin();
+                    }
+                    else if(random >= 400 && random < 600)
+                    {
+                        LoadWizard();
+                    }
+                    else if (random >= 600 && random < 800)
+                    {
+                        LoadThief();
+                    }
+                    else
+                    {
+                        LoadDarkKnight();
+                    }
+                }
+                else
+                {
+                    LoadRegular();
+                }
+                break;
+        }
+        bool properly = true;
+        foreach (Ability ability in abilitySet)
+            if (ability == null)
+                properly = false;
+        if (properly)
+            return true;
+        else
+            return false;
+    }
+
+    public void LoadRegular()
+    {
+        abilitySet[0] = new BasicAttack(this.gameObject);
+        abilitySet[1] = new Fire(this.gameObject);
+        string[] possibles = { "heal", "curewounds", "twinstrike", "quickstab", "sap", "gutpunch", "poisonarrow", "eviscerate", "vengeance", "lifeleech" };
+        int first = Random.Range(0, 8);
+        abilitySet[2] = SkillLoader.LoadSkill(possibles[first], this.gameObject);
+        int second = Random.Range(0, 8);
+        if (second == first)
+        {
+            if (second == 8)
+                second--;
+            else
+                second++;
+        }
+        abilitySet[3] = SkillLoader.LoadSkill(possibles[second], this.gameObject);
+    }
+
+    public void LoadBrawler()
+    {
+        this.gameObject.AddComponent<Aggressive>();
+        this.gameObject.GetComponent<Aggressive>().type = "brawler";
+        GameObject.Destroy(this);
+    }
+
+    public void LoadThief()
+    {
+        this.gameObject.AddComponent<Support>();
+        this.gameObject.GetComponent<Support>().type = "thief";
+        GameObject.Destroy(this);
+    }
+
+    public void LoadCleric()
+    {
+        this.gameObject.AddComponent<Defender>();
+        this.gameObject.GetComponent<Defender>().type = "cleric";
+        GameObject.Destroy(this);
+    }
+
+    public void LoadDarkKnight()
+    {
+        this.gameObject.AddComponent<Aggressive>();
+        this.gameObject.GetComponent<Aggressive>().type = "darkknight";
+        GameObject.Destroy(this);
+    }
+
+    public void LoadPaladin()
+    {
+        this.gameObject.AddComponent<Tank>();
+        this.gameObject.GetComponent<Tank>().type = "paladin";
+        GameObject.Destroy(this);
+    }
+
+    public void LoadWizard()
+    {
+        this.gameObject.AddComponent<Aggressive>();
+        this.gameObject.GetComponent<Aggressive>().type = "wizard";
+        GameObject.Destroy(this);
+    }
+
+
 
     protected static bool AttemptAbility(Ability strongest, Actor currentTarget)
     {

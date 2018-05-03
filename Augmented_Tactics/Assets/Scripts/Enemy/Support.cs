@@ -16,12 +16,18 @@ public class Support : Enemy {
     protected Enemy aiding;
     protected Ability strongest,backup, mostDistance,heal; //backup's range should ideally be in between strongest and mostDistance and require less mana
     protected bool regularMode, hasHeal,aidLocked;
-
+    public string type;
+    public Support(string type)
+    {
+        this.type = type;
+    }
     public override void Start()
     {
-        base.Start();
+        //base.Start();
+        EnemyInitialize();
         hasHeal = false;
         TurnBehaviour.OnEnemyOutOfMoves += this.ResetValues;
+        GetAbilities();
         FindRanges();
     }
 
@@ -301,6 +307,11 @@ public class Support : Enemy {
             aggro = nearest;
             distanceFromAggro = Vector3.Distance(getCoords(), aggro.getCoords());
         }
+    }
+
+    public void GetAbilities()
+    {
+
     }
     /*public override bool AttemptAttack()
     {

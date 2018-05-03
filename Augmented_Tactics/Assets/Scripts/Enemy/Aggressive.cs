@@ -11,9 +11,15 @@ public class Aggressive : Enemy {
     //stay out of range of support characters
     private bool regularMode, getRange, inRange;
     private Ability strongest, backup, range, buff; //aggressive must have each type of attack. including something to buff attack power or defense
-	public override void Start ()
+    public string type;
+    public Aggressive(string type)
     {
-        base.Start();
+        this.type = type;
+    }
+    public override void Start ()
+    {
+        //base.Start();
+        EnemyInitialize();
         GetAbilities();
         regularMode = false;
 	}
@@ -119,6 +125,7 @@ public class Aggressive : Enemy {
     
     private void GetAbilities()
     {
+        //add which types
         float bestRange = 0, mostRange = 0;
         buff = abilitySet[3]; // Testing for a buff seems tedious so by default let the buff for an aggressive be in the last slot
         foreach (Ability ability in abilitySet)

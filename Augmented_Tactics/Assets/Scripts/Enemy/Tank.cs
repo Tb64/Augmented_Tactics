@@ -11,6 +11,11 @@ public class Tank : Enemy{
     //buff defense on health low
     //else: buff offense
     //use last resort action if all else fails
+    public Tank(string type)
+    {
+        this.type = type;
+    }
+    public string type;
     protected List<Vector3> cantMove;
     //protected UsableItem healItem;
     protected bool regularMode, inPosition, sameTurn,firstMove, firstDebuffed,healMode,healPossible, buffCool, debuffCool;
@@ -20,11 +25,11 @@ public class Tank : Enemy{
                                                     //should be slow and attack last so allies are in position
     public override void Start()
     {
-        base.Start();
+        //base.Start();
+        EnemyInitialize();
         regularMode = false;
         buffCool = false;
         debuffCool = false;
- 
     }
 
     public override void EnemyTurnStartActions()

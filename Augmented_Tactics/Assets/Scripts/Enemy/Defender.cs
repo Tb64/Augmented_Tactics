@@ -17,11 +17,17 @@ public class Defender : Enemy {
     private bool aidLocked, hit;
     private Ability strongest, mostDistance,lastResort, heal;
     private Enemy aiding;
-
-	// Use this for initialization
-	public override void Start ()
+    public string type;
+    public Defender(string type)
     {
-        base.Start();
+        this.type = type;
+    }
+    // Use this for initialization
+    public override void Start ()
+    {
+        //base.Start();
+        EnemyInitialize();
+        GetAbilities();
         TurnBehaviour.OnEnemyOutOfMoves += this.ResetValues;
         FindRanges();
         //add buffs
@@ -295,6 +301,11 @@ public class Defender : Enemy {
             }
         }
         return false;
+    }
+
+    public void GetAbilities()
+    {
+
     }
 
     public void ResetValues()
