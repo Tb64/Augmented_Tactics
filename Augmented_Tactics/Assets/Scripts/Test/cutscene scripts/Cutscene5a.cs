@@ -67,7 +67,7 @@ public class Cutscene5a : MonoBehaviour
                         temp = currentline;
                         break;
                     case 1:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("JhovanRifiuti");
                             StartTalking("JohnCausion");
@@ -75,7 +75,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 2:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("JohnCausion");
                             StartTalking("You");
@@ -83,7 +83,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 4:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("You");
                             StartTalking("Doogy");
@@ -91,7 +91,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 5:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("Doogy");
                             StartTalking("You");
@@ -99,7 +99,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 6:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("You");
                             StartTalking("Doogy");
@@ -107,7 +107,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 8:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("Doogy");
                             StartTalking("You");
@@ -115,7 +115,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 10:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             cam3.enabled = true;
                             cam1.enabled = false;
@@ -125,7 +125,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 11:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("JhovanRifiuti");
                             StartTalking("You");
@@ -133,7 +133,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 12:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("You");
                             StartTalking("Doogy");
@@ -141,7 +141,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 14:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("Doogy");
                             StartTalking("You");
@@ -149,7 +149,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 15:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("You");
                             StartTalking("Doogy");
@@ -157,7 +157,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 17:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StartTalking("FrederickDecet");
                             StopTalking("Doogy");
@@ -167,7 +167,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 18:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             musicsource.clip = tune;
                             musicsource.Play();
@@ -183,7 +183,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 19:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("JhovanRifiuti");
                             StartTalking("FrederickDecet");
@@ -191,7 +191,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 20:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("FrederickDecet");
                             StartTalking("You");
@@ -199,7 +199,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 21:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("You");
                             StartTalking("FrederickDecet");
@@ -210,7 +210,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 22:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("FrederickDecet");
                             StartTalking("AdonaiBrevary");
@@ -219,7 +219,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 23:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("AdonaiBrevary");
                             StartTalking("FrederickDecet");
@@ -227,7 +227,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 24:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("FrederickDecet");
                             StartTalking("AdonaiBrevary");
@@ -235,7 +235,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 25:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("AdonaiBrevary");
                             StartTalking("FrederickDecet");
@@ -243,7 +243,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 27:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("FrederickDecet");
                             StartTalking("AdonaiBrevary");
@@ -251,7 +251,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 29:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("AdonaiBrevary");
                             StartTalking("FrederickDecet");
@@ -259,7 +259,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 30:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("FrederickDecet");
                             StartTalking("You");
@@ -267,7 +267,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 32:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("You");
                             StartTalking("AdonaiBrevary");
@@ -275,7 +275,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 34:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("AdonaiBrevary");
                             Rift.SetActive(true);
@@ -285,14 +285,14 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 35:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StartTalking("AdonaiBrevary");
                             temp = currentline;
                         }
                         break;
                     case 36:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("AdonaiBrevary");
                             StartTalking("FrederickDecet");
@@ -300,7 +300,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 37:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("FrederickDecet");
                             StartTalking("You");
@@ -308,7 +308,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 38:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("You");
                             StartTalking("FrederickDecet");
@@ -317,8 +317,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 39:
-
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             musicsource.Stop();
                             DirecLight.SetActive(true);
@@ -332,7 +331,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 40:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             musicsource.clip = tune2;
                             musicsource.Play();
@@ -343,7 +342,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 42:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             PlayerTurntoAdonai();
                             StopTalking("AdonaiBrevary");
@@ -352,7 +351,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 43:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("Doogy");
                             StartTalking("You");
@@ -360,7 +359,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 44:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("You");
                             StartTalking("JhovanRifiuti");
@@ -368,7 +367,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 46:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("JhovanRifiuti");
                             StartTalking("AdonaiBrevary");
@@ -376,7 +375,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 48:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("AdonaiBrevary");
                             StartTalking("JhovanRifiuti");
@@ -384,7 +383,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 49:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("JhovanRifiuti");
                             StartTalking("You");
@@ -393,14 +392,14 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 50:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("Doogy");
                             temp = currentline;
                         }
                         break;
                     case 51:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("You");
                             StartTalking("Doogy");
@@ -408,7 +407,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 52:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("Doogy");
                             StartTalking("JohnCausion");
@@ -416,7 +415,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 53:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("JohnCausion");
                             StartTalking("JhovanRifiuti");
@@ -424,7 +423,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 54:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("JhovanRifiuti");
                             StartTalking("JohnCausion");
@@ -432,7 +431,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 56:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("JohnCausion");
                             StartTalking("Doogy");
@@ -440,7 +439,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 58:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("Doogy");
                             StartTalking("AdonaiBrevary");
@@ -448,7 +447,7 @@ public class Cutscene5a : MonoBehaviour
                         }
                         break;
                     case 60:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("AdonaiBrevary");
                             temp = currentline;
