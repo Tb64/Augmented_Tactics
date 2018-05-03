@@ -9,13 +9,14 @@ public class Panacea : UsableItem {
         base.InitInitialize();
 
         name = "Small Mana Tonic";
-        image = "";
+        image = "UI/RPG_inventory_icons/book";
     }
 
-    public override void UseItem(GameObject user, GameObject target)
+    public override bool UseItem(GameObject user, GameObject target)
     {
-        base.UseItem(user, target);
         itemAbility = new CureStatus(user, 1);
-        itemAbility.UseSkill(target);
+        if (!base.UseItem(user, target))
+            return false;
+        return itemAbility.UseSkill(target);
     }
 }

@@ -7,14 +7,17 @@ public class MedManaTonic : UsableItem {
     public override void InitInitialize()
     {
         base.InitInitialize();
+        isManaItem = true;
         name = "Medium Mana Tonic";
-        image = "";
+        image = "UI/RPG_inventory_icons/mp";
     }
 
-    public override void UseItem(GameObject user, GameObject target)
+    public override bool UseItem(GameObject user, GameObject target)
     {
-        base.UseItem(user, target);
         itemAbility = new ManaSkill(user, 2, false);
+        if (!base.UseItem(user, target))
+            return false;
         itemAbility.UseSkill(target);
+        return true;
     }
 }

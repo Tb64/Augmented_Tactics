@@ -417,6 +417,7 @@ public class Actor : MonoBehaviour
     public bool MoveController(Transform origin, Vector3 targetPos, float speed)
     {
         float scaleDist = 1f;
+        //targetPos.y = transform.position.y;   //possible AR solution
         float dist = Vector3.Distance(origin.position, targetPos);
         if (dist < 0.26f) //old dist .01
         {
@@ -461,6 +462,36 @@ public class Actor : MonoBehaviour
 
 
         return false;
+    }
+
+    public static Vector3 PosInFrontOf(Actor self, Actor target) //specifically for getting the position right in front of a person who is about to attack. fixes collision issues with arrow and more
+    {
+        Vector3 selfCoords = self.getCoords();
+        Vector3 targetCoords = target.getCoords();
+        if(selfCoords.x == targetCoords.x)
+        {
+            if(selfCoords.z > targetCoords.z)
+            {
+                return new Vector3(selfCoords.x, 0, selfCoords.z-1);
+
+            }
+            else
+            {
+                return new Vector3(selfCoords.x,0,selfCoords.z+1);
+            }
+        }
+        else
+        {
+            if (selfCoords.x > targetCoords.x)
+            {
+                return new Vector3(selfCoords.x-1, 0, selfCoords.z);
+
+            }
+            else
+            {
+                return new Vector3(selfCoords.x+1, 0, selfCoords.z);
+            }
+        }
     }
 
     /// <summary>
@@ -594,6 +625,7 @@ public class Actor : MonoBehaviour
         damageNumber(damage, new Color(255, 0, 0, 1));
 
         health_current -= damage;
+        attacker.GetComponent<Actor>().aggroScore += (int)damage;
         Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
         if (gameObject.GetComponentInChildren<HealthBar>() != null)
         {
@@ -605,11 +637,14 @@ public class Actor : MonoBehaviour
             OnDeath();
             return;
         }
-        
+
+
+
+     
         anim.SetTrigger(animDmg);
-        //justin set damage string array here
         PlaySound("damage");
-        //Debug.Log(name + " has taken " + damage + " Current Health = " + health_current);
+  
+        
     }
 
     /// <summary>
@@ -634,9 +669,10 @@ public class Actor : MonoBehaviour
     /// Gives mana to the actor,
     /// </summary>
     /// <param name="mana"></param>
-    public void GiveMana(float mana)
+    public void GiveMana(float mana, Actor healer) //added actor hear for aggro purposes
     {
         mana_current += mana;
+        healer.aggroScore += (int)Math.Floor((int)mana/1.5);
         if (mana_current >= mana_max)
             mana_current = mana_max;
     }
@@ -677,6 +713,7 @@ public class Actor : MonoBehaviour
     public virtual void HealHealth(float heal)
     {
         health_current += heal;
+        aggroScore += (int)Math.Floor((int)heal/1.5);
         if (health_current > health_max)
         {
             health_current = health_max;
@@ -686,14 +723,26 @@ public class Actor : MonoBehaviour
             gameObject.GetComponentInChildren<HealthBar>().updateHealth(GetHealthPercent());
         }
         damageNumber(heal, new Color(0, 255, 0, 1));
+
+        if(incapacitated == true && health_current > 0)
+        {
+            incapacitated = false;
+        }
+
     }
 
     public virtual void OnDeath()
     {
+        if(incapacitated == false)
+        {
+            anim.SetTrigger(animDeath);
+            PlaySound("death");
+        }
+        
+
         incapacitated = true;
         Debug.Log(this + " has died");
-        anim.SetTrigger(animDeath);
-        PlaySound("death");
+        
         //for Destiny binder attacks /items
         if (bonded)
         {

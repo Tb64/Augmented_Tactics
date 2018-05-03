@@ -166,14 +166,14 @@ public class SkillLoader : MonoBehaviour {
                 return skills;
 
             case CharacterClasses.ThiefKey:
-                skills[0] = "";
-                skills[1] = "";
-                skills[2] = "";
-                skills[3] = "";
-                skills[4] = "";
-                skills[5] = "";
-                skills[6] = "";
-                skills[7] = "";
+                skills[0] = "arrow";
+                skills[1] = "flamingarrow";
+                skills[2] = "steal"; //quickstab should be unlocked somewhere around here. made too many attacks
+                skills[3] = "icearrow";
+                skills[4] = "poisonarrow"; 
+                skills[5] = "sneak";
+                skills[6] = "vortexarrow";
+                skills[7] = "multiarrow";
                 return skills;
 
             case CharacterClasses.DarkKnightKey:
