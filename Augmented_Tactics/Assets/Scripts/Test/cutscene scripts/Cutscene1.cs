@@ -55,7 +55,7 @@ public class Cutscene1 : MonoBehaviour
                         temp = currentline;
                         break;
                     case 2:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("Lord Abaddon");
                             StartTalking("Grandfather");
@@ -63,7 +63,7 @@ public class Cutscene1 : MonoBehaviour
                         }
                         break;
                     case 5:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("Grandfather");
                             StartTalking("Lord Abaddon");
@@ -71,7 +71,7 @@ public class Cutscene1 : MonoBehaviour
                         }
                         break;
                     case 6:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("Lord Abaddon");
                             StartTalking("Grandfather");
@@ -79,7 +79,7 @@ public class Cutscene1 : MonoBehaviour
                         }
                         break;
                     case 9:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("Grandfather");
                             StartTalking("Lord Abaddon");
@@ -87,7 +87,7 @@ public class Cutscene1 : MonoBehaviour
                         }
                         break;
                     case 10:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("Lord Abaddon");
                             StartTalking("Grandfather");
@@ -96,7 +96,7 @@ public class Cutscene1 : MonoBehaviour
                         }
                         break;
                     case 11:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("Grandfather");
                             StartTalking("Lord Abaddon");
@@ -104,7 +104,7 @@ public class Cutscene1 : MonoBehaviour
                         }
                         break;
                     case 12:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             cam2.enabled = false;
                             cam3.enabled = true;
@@ -115,8 +115,8 @@ public class Cutscene1 : MonoBehaviour
                         }
                         break;
                     case 14:
-                        if (Input.GetMouseButtonDown(0))
-                        {   
+                        if (Input.anyKey)
+                        {
 
                             StopTalking("You");
                             EndSceneAnims();

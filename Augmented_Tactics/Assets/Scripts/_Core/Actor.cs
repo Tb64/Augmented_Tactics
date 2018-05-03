@@ -336,9 +336,9 @@ public class Actor : MonoBehaviour
         if (this.level == 0)
             this.level = 1;
 
-        this.health_max = this.constitution * 10f;
+        this.health_max = data.getTotalMaxHealth();
         this.health_current = this.health_max;
-        this.mana_max = this.intelligence * 5f + this.wisdom * 5f;
+        this.mana_max = data.getTotalMaxMana();
         this.mana_current = this.mana_max;
     }
 
@@ -350,11 +350,11 @@ public class Actor : MonoBehaviour
         this.weapon = pdata.weapon;
         this.armor = pdata.armor;
 
-        this.strength       = pdata.Strength + weapon.str_bonus + armor.str_bonus;
-        this.dexterity      = pdata.Dexterity + weapon.dex_bonus + armor.dex_bonus;
-        this.constitution   = pdata.Constitution + weapon.con_bonus + armor.con_bonus;
-        this.wisdom         = pdata.Wisdom + weapon.wis_bonus + armor.wis_bonus;
-        this.intelligence   = pdata.Intelligence + weapon.int_bonus + armor.int_bonus;
+        this.strength       = pdata.getTotalStr();
+        this.dexterity      = pdata.getTotalDex()
+        this.constitution   = pdata.getTotalCon();
+        this.wisdom         = pdata.getTotalWis();
+        this.intelligence   = pdata.getTotalInt();
 
         this.level          = pdata.Level;
         this.actorName      = pdata.DisplayName;

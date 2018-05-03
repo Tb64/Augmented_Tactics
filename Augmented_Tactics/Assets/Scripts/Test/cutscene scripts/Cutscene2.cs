@@ -10,6 +10,7 @@ public class Cutscene2 : MonoBehaviour
 {
     public bool exitedTrig = false;
     public bool charactersStopped = false;
+    public bool sceneDone = false;
     
     public Animator anim;
     int currentline;
@@ -46,7 +47,7 @@ public class Cutscene2 : MonoBehaviour
                         temp = currentline;
                         break;
                     case 2:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("JohnCausion");
                             StartTalking("FrederickDecet");
@@ -54,7 +55,7 @@ public class Cutscene2 : MonoBehaviour
                         }
                         break;
                     case 4:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("FrederickDecet");
                             StartTalking("JohnCausion");
@@ -62,7 +63,7 @@ public class Cutscene2 : MonoBehaviour
                         }
                         break;
                     case 6:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("JohnCausion");
                             StartTalking("FrederickDecet");
@@ -70,7 +71,7 @@ public class Cutscene2 : MonoBehaviour
                         }
                         break;
                     case 8:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("FrederickDecet");
                             StartTalking("JohnCausion");
@@ -78,7 +79,7 @@ public class Cutscene2 : MonoBehaviour
                         }
                         break;
                     case 10:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("JohnCausion");
                             StartTalking("FrederickDecet");
@@ -86,7 +87,7 @@ public class Cutscene2 : MonoBehaviour
                         }
                         break;
                     case 11:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("FrederickDecet");
                             StartTalking("JohnCausion");
@@ -94,7 +95,7 @@ public class Cutscene2 : MonoBehaviour
                         }
                         break;
                     case 12:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("JohnCausion");
                             StartTalking("FrederickDecet");
@@ -102,7 +103,7 @@ public class Cutscene2 : MonoBehaviour
                         }
                         break;
                     case 13:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("FrederickDecet");
                             StartTalking("JohnCausion");
@@ -110,7 +111,7 @@ public class Cutscene2 : MonoBehaviour
                         }
                         break;
                     case 14:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("JohnCausion");
                             StartTalking("FrederickDecet");
@@ -118,12 +119,13 @@ public class Cutscene2 : MonoBehaviour
                         }
                         break;
                     case 15:
-                        if (Input.GetMouseButtonDown(0))
+                        if (Input.anyKey)
                         {
                             StopTalking("FrederickDecet");
                             Debug.Log("END");
                             temp = currentline;
                             diagscript.DialogueComplete();
+                            sceneDone = true;
                         }
                         break;
                     
