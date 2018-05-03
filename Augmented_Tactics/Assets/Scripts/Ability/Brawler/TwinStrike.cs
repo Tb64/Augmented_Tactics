@@ -65,7 +65,7 @@ public class TwinStrike : Ability
             
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
-        actor.GiveMana(manaGiven);
+        actor.GiveMana(manaGiven,gameObject.GetComponent<Actor>()); // not sure if thats how it should be. the person who gave the mana should be sent for aggro
         float totalDamage = damage + actor.getWeapon().RollPhysicalDamage() - target.GetComponent<Actor>().getPhysicalDefense();
         Debug.Log("combo damage = " + totalDamage + " " + actor.getStrength());
         target.GetComponent<Actor>().TakeDamage(totalDamage, gameObject);

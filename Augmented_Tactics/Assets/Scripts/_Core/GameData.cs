@@ -19,6 +19,12 @@ public class GameData
     public List<Armor> armors = new List<Armor>();
     public List<Weapons> weapons = new List<Weapons>();
 
+    public int barracksLevel;
+    public int recruitmentLevel;
+    public int armorStoreLevel;
+    public int itemStoreLevel;
+    public int weaponStoreLevel;
+
     public bool loaded = false;
     public GameData()
     {

@@ -6,6 +6,8 @@ using UnityEngine;
 public class Item : MonoBehaviour {
 
 	private bool slotOccupied;
+    // 0 inventory, 1 store
+    public bool slotType;
     public Sprite inventoryIcon;
     public Equipable equipItem;
     public Armor armor;
@@ -14,6 +16,7 @@ public class Item : MonoBehaviour {
     public Image storeImage;
     public GameObject playerInventory;
     public GameObject store;
+    
     
     string itemType;
 
@@ -107,16 +110,16 @@ public class Item : MonoBehaviour {
         return slotOccupied;
     }
 
-    public void checkParent()
+    public void checkType()
     {
-        string parentName = transform.parent.name;
-        store.GetComponent<Store>().setSelectedItem(this);
+        //string parentName = transform.parent.name;
+        //store.GetComponent<Store>().setSelectedItem(this);
 
-        switch (parentName)
+        switch (slotType)
         {
-            case "InventoryBackground":
+            case false:
                 break;
-            case "StoreBackground":
+            case true:
                 displayStore();
                 break;
         }

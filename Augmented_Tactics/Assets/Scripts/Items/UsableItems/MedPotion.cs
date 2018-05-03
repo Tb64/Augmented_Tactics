@@ -9,7 +9,7 @@ public class MedPotion : UsableItem {
         base.InitInitialize();
         isHealItem = true;
         name = "Potion";
-        image = "";
+        image = "UI/RPG_inventory_icons/hp";
     }
 
     public override bool UseItem(GameObject user, GameObject target)

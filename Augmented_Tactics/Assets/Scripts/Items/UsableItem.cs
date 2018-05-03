@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class UsableItem : Items
 {
     protected Ability itemAbility;
     public bool isHealItem;
     public bool isManaItem;
+    public string itemKey;
     public string itemDesc;
 
 

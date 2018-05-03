@@ -9,7 +9,7 @@ public class LargePotion : UsableItem {
         base.InitInitialize();
         isHealItem = true;
         name = "Large Potion";
-        image = "";
+        image = "UI/RPG_inventory_icons/hp";
     }
 
     public override bool UseItem(GameObject user, GameObject target)
