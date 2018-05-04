@@ -170,12 +170,13 @@ public class AfterActionReport : MonoBehaviour {
         for (int index = 0; index < squad.Length; index++)
         {
             frames[index].LoadData(squad[index], expGained);
+            GiveExp(squad[index]);
         }
 
 
     }
 
-    public void GiveExp()
+    public void GiveExp(PlayerData data)
     {
 
     }
@@ -183,6 +184,17 @@ public class AfterActionReport : MonoBehaviour {
     public void GiveLoot()
     {
 
+    }
+
+    public void GiveMoney()
+    {
+        int scaler = EnemyController.enemyNum - PlayerControlled.playerNum;
+        int bonus;
+        if (scaler > 0)
+            bonus = scaler * 100;
+        else
+            bonus = 0;
+        int totalMoney = bonus + ExpCalc() * PlayerControlled.playerNum;
     }
 
     private int ExpCalc()
