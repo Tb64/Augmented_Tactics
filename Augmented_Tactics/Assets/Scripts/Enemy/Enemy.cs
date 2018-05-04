@@ -11,6 +11,7 @@ This is the parent class of all enemies
 public class Enemy : Actor
 {
     protected int enemyID;
+    protected string archetype;
     protected Actor nearest, weakest, aggro;
     protected Vector3 playerPosition, enemyPosition;
     public float distanceToNearest;
@@ -68,14 +69,10 @@ public class Enemy : Actor
         /*updating for using varied attacks
          update for specific character needs to be added to every
          type of enemy as they are created to load correct attacks*/
-        if(GetArchetype() == "regular")
+       /* if(GetArchetype() == "regular")
         {
-            if (!LoadAbilities())
-            {
-                Debug.LogError("Unable to Randomize Abilities");
-                return;
-            }
-        }
+            LoadPlayer();
+        }*/
 
     }
 
@@ -153,7 +150,7 @@ public class Enemy : Actor
 
     public virtual string GetArchetype()
     {
-        return "regular";
+        return archetype;
     }
 
     public override void OnDeath()
@@ -658,7 +655,7 @@ public class Enemy : Actor
         }
     }
 
-    protected bool LoadPlayer()
+    protected void LoadPlayer()
     {
 
         string scene = SceneManager.GetActiveScene().name;
@@ -813,15 +810,11 @@ public class Enemy : Actor
                     LoadRegular();
                 }
                 break;
+
+            default:
+                Debug.Log("Level " + scene + " MUST be added to this switch^^^");
+                break;
         }
-        bool properly = true;
-        foreach (Ability ability in abilitySet)
-            if (ability == null)
-                properly = false;
-        if (properly)
-            return true;
-        else
-            return false;
     }
 
     public void LoadRegular()

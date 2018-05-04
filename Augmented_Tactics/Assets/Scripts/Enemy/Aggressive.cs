@@ -9,13 +9,22 @@ public class Aggressive : Enemy {
     //attack player with most aggro with strongest attack
     //stay near tank for buffing / debuffing
     //stay out of range of support characters
+
     private bool regularMode, getRange, inRange;
     private Ability strongest, backup, range, buff; //aggressive must have each type of attack. including something to buff attack power or defense
     public string type;
+
     public Aggressive(string type)
     {
         this.type = type;
+
     }
+
+    public Aggressive()
+    {
+
+    }
+
     public override void Start ()
     {
         //base.Start();

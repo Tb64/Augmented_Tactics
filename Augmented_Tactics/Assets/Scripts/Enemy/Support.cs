@@ -17,10 +17,17 @@ public class Support : Enemy {
     protected Ability strongest,backup, mostDistance,heal; //backup's range should ideally be in between strongest and mostDistance and require less mana
     protected bool regularMode, hasHeal,aidLocked;
     public string type;
+
     public Support(string type)
     {
         this.type = type;
     }
+
+    public Support()
+    {
+
+    }
+
     public override void Start()
     {
         //base.Start();

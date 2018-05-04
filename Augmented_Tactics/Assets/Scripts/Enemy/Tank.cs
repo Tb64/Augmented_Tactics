@@ -15,6 +15,11 @@ public class Tank : Enemy{
     {
         this.type = type;
     }
+
+    public Tank()
+    {
+        //used for bosses who don't have types for attack grabbing
+    }
     public string type;
     protected List<Vector3> cantMove;
     //protected UsableItem healItem;
