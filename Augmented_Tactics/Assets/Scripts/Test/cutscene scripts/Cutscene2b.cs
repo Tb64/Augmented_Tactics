@@ -17,6 +17,7 @@ public class Cutscene2b : MonoBehaviour {
     public Camera cam2;
     public Camera cam3;
     public bool sceneDone;
+    public bool wasCalled = false;
 
     public ExampleDialogueUI diagscript;
     public PlayableDirector timelinecontroller;
@@ -31,6 +32,7 @@ public class Cutscene2b : MonoBehaviour {
     public bool diagstarted = true;
     public bool walking = false;
     public bool charactersStopped = false;
+    
 
     // Use this for initialization
     void Start()
@@ -104,8 +106,6 @@ public class Cutscene2b : MonoBehaviour {
                     case 6:
                         if (Input.anyKey)
                         {
-                            //disable input
-                            diagscript.DialogueComplete();
                             cam1.enabled = false;
                             cam3.enabled = true;
                             Play();
@@ -117,61 +117,16 @@ public class Cutscene2b : MonoBehaviour {
                     case 7:
                         if (Input.anyKey)
                         {
-                            StopTalking("LordAbaddon");
-                            StartTalking("FrederickDecet");
-                            temp = currentline;
+                            
                         }
                         break;
                     case 8:
                         if (Input.anyKey)
                         {
-                            StopTalking("FrederickDecet");
-                            StartTalking("LordAbaddon");
-                            temp = currentline;
-                        }
-                        break;
-                    case 10:
-                        if (Input.anyKey)
-                        {
-                            StopTalking("LordAbaddon");
-                            StartTalking("FrederickDecet");
-                            temp = currentline;
-                        }
-                        break;
-                    case 11:
-                        if (Input.anyKey)
-                        {
-                            StopTalking("FrederickDecet");
-                            StartTalking("LordAbaddon");
-                            temp = currentline;
-                        }
-                        break;
-                    case 15:
-                        if (Input.anyKey)
-                        {
-                            StopTalking("LordAbaddon");
-                            StartTalking("FrederickDecet");
-                            temp = currentline;
-                        }
-                        break;
-                    case 16:
-                        if (Input.anyKey)
-                        {
-                            StopTalking("FrederickDecet");
-                            StartTalking("LordAbaddon");
-                            temp = currentline;
-                        }
-                        break;
-                    case 17:
-                        if (Input.anyKey)
-                        {
-                            StopTalking("LordAbaddon");
-                            StartTalking("FrederickDecet");
-                            temp = currentline;
                             diagscript.DialogueComplete();
-                            sceneDone = true;
                         }
                         break;
+                        
 
                     default:
                         break;
@@ -242,30 +197,7 @@ public class Cutscene2b : MonoBehaviour {
         anim.Play("Idle", -1, 0f);
     }
 
-    void StartWalking()
-    {
-        //GameObject gub = You;
-        //GameObject gub2 = Doogy;
-
-        // anim = gub.GetComponent<Animator>();
-        // anim.Play("Walkfast", -1, 0f);
-
-        //anim = gub2.GetComponent<Animator>();
-        //anim.Play("Walkfast", -1, 0f);
-
-    }
-
-    public void StopWalking()
-    {
-        // GameObject gub4 = You;
-        //GameObject gub5 = Doogy;
-        // anim = gub4.GetComponent<Animator>();
-        // anim.Play("Idle", -1, 0f);
-        // anim = gub5.GetComponent<Animator>();
-        // anim.Play("Idle", -1, 0f);
-        //exitedTrig = false;
-        //charactersStopped = true;
-    }
+    
     public void TurnAround()
     {
         GameObject gub = Herald;
@@ -288,9 +220,7 @@ public class Cutscene2b : MonoBehaviour {
     {
         timelinecontroller.Play();
     }
-
-
-
+    
 
 
 }

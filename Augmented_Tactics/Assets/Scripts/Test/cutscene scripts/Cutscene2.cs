@@ -10,7 +10,6 @@ public class Cutscene2 : MonoBehaviour
 {
     public bool exitedTrig = false;
     public bool charactersStopped = false;
-    public bool sceneDone = false;
     
     public Animator anim;
     int currentline;
@@ -122,10 +121,9 @@ public class Cutscene2 : MonoBehaviour
                         if (Input.anyKey)
                         {
                             StopTalking("FrederickDecet");
-                            Debug.Log("END");
-                            temp = currentline;
                             diagscript.DialogueComplete();
-                            sceneDone = true;
+                            temp = currentline;
+                            
                         }
                         break;
                     
@@ -200,6 +198,7 @@ public class Cutscene2 : MonoBehaviour
         exitedTrig = false;
         charactersStopped = true;
     }
+
     
 
 }

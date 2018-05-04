@@ -205,7 +205,12 @@ namespace Yarn.Unity.Example {
         public override IEnumerator DialogueComplete ()
         {
             Debug.Log ("Complete!");
-
+            linecount = 0;
+            GameObject obj = GameObject.Find("Switcher");
+            if (obj != null)
+            {
+                obj.GetComponent<Switcher>().NextObjectLoad();
+            }
             // Hide the dialogue interface.
             if (dialogueContainer != null)
                 dialogueContainer.SetActive(false);
