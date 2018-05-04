@@ -11,7 +11,7 @@ public class Tank : Enemy{
     //buff defense on health low
     //else: buff offense
     //use last resort action if all else fails
-    public Tank(string type)
+    /*public Tank(string type)
     {
         this.type = type;
     }
@@ -19,7 +19,7 @@ public class Tank : Enemy{
     public Tank()
     {
         //used for bosses who don't have types for attack grabbing
-    }
+    }*/
     public string type;
     protected List<Vector3> cantMove;
     //protected UsableItem healItem;

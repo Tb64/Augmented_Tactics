@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Aggressive : Enemy {
+
     //priority: stay in attack mode and go for closest or most aggressive dps / support characters
     //identify type of player by behavior. 
     //contemporary: check for aggressive healing / buffing
@@ -14,7 +15,7 @@ public class Aggressive : Enemy {
     private Ability strongest, backup, range, buff; //aggressive must have each type of attack. including something to buff attack power or defense
     public string type;
 
-    public Aggressive(string type)
+    /*public Aggressive(string type)
     {
         this.type = type;
 
@@ -23,13 +24,14 @@ public class Aggressive : Enemy {
     public Aggressive()
     {
 
-    }
+    }*/
 
     public override void Start ()
     {
         //base.Start();
         EnemyInitialize();
         GetAbilities();
+        SetAbilities();
         regularMode = false;
 	}
 
@@ -131,8 +133,46 @@ public class Aggressive : Enemy {
             }
         }
     }
-    
+
     private void GetAbilities()
+    {
+        abilitySet[0] = new BasicAttack(gameObject);
+        if (Random.Range(0, 1) == 0)
+            abilitySet[1] = new Fire(gameObject);
+        else
+            abilitySet[1] = new Heal(gameObject);
+        if (type == "brawler")
+        {
+            abilitySet[2] = new TwinStrike(gameObject);
+            string[] possibles = SkillLoader.ClassSkills(2);
+            abilitySet[3] = SkillLoader.LoadSkill(possibles[Random.Range(1, 7)], gameObject);
+        }
+        else if(type == "darkknight")
+        {
+            GetSkills(1);
+        }
+        else if(type == "wizard")
+        {
+            GetSkills(4);
+        }
+    }
+
+    private void GetSkills(int id)
+    {
+        int first = Random.Range(0, 7), second = Random.Range(0, 7);
+        string[] possibles = SkillLoader.ClassSkills(id);
+        abilitySet[2] = SkillLoader.LoadSkill(possibles[first], gameObject);
+        if (second == first)
+        {
+            if (Random.Range(0, 1) == 0)
+                second++;
+            else
+                second--;
+        }
+        abilitySet[3] = SkillLoader.LoadSkill(possibles[second], gameObject);
+    }
+    
+    private void SetAbilities()
     {
         //add which types
         float bestRange = 0, mostRange = 0;

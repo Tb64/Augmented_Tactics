@@ -18,7 +18,7 @@ public class Support : Enemy {
     protected bool regularMode, hasHeal,aidLocked;
     public string type;
 
-    public Support(string type)
+    /*public Support(string type)
     {
         this.type = type;
     }
@@ -26,7 +26,7 @@ public class Support : Enemy {
     public Support()
     {
 
-    }
+    }*/
 
     public override void Start()
     {

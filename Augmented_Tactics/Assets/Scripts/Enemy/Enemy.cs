@@ -837,43 +837,43 @@ public class Enemy : Actor
 
     public void LoadBrawler()
     {
-        this.gameObject.AddComponent<Aggressive>();
-        this.gameObject.GetComponent<Aggressive>().type = "brawler";
+        gameObject.AddComponent<Aggressive>();
+        gameObject.GetComponent<Aggressive>().type = "brawler";
         GameObject.Destroy(this);
     }
 
     public void LoadThief()
     {
-        this.gameObject.AddComponent<Support>();
-        this.gameObject.GetComponent<Support>().type = "thief";
+        gameObject.AddComponent<Support>();
+        gameObject.GetComponent<Support>().type = "thief";
         GameObject.Destroy(this);
     }
 
     public void LoadCleric()
     {
-        this.gameObject.AddComponent<Defender>();
-        this.gameObject.GetComponent<Defender>().type = "cleric";
+        gameObject.AddComponent<Defender>();
+        gameObject.GetComponent<Defender>().type = "cleric";
         GameObject.Destroy(this);
     }
 
     public void LoadDarkKnight()
     {
-        this.gameObject.AddComponent<Aggressive>();
-        this.gameObject.GetComponent<Aggressive>().type = "darkknight";
+        gameObject.AddComponent<Aggressive>();
+        gameObject.GetComponent<Aggressive>().type = "darkknight";
         GameObject.Destroy(this);
     }
 
     public void LoadPaladin()
     {
-        this.gameObject.AddComponent<Tank>();
-        this.gameObject.GetComponent<Tank>().type = "paladin";
+        gameObject.AddComponent<Tank>();
+        gameObject.GetComponent<Tank>().type = "paladin";
         GameObject.Destroy(this);
     }
 
     public void LoadWizard()
     {
-        this.gameObject.AddComponent<Aggressive>();
-        this.gameObject.GetComponent<Aggressive>().type = "wizard";
+        gameObject.AddComponent<Aggressive>();
+        gameObject.GetComponent<Aggressive>().type = "wizard";
         GameObject.Destroy(this);
     }
 

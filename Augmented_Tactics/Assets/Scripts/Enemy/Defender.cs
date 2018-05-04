@@ -19,7 +19,7 @@ public class Defender : Enemy {
     private Enemy aiding;
     public string type;
 
-    public Defender(string type)
+    /*public Defender(string type)
     {
         this.type = type;
     }
@@ -27,7 +27,7 @@ public class Defender : Enemy {
     public Defender()
     {
 
-    }
+    }*/
     // Use this for initialization
     public override void Start ()
     {
