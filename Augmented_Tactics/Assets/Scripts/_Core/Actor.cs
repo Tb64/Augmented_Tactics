@@ -351,7 +351,7 @@ public class Actor : MonoBehaviour
         this.armor = pdata.armor;
 
         this.strength       = pdata.getTotalStr();
-        this.dexterity      = pdata.getTotalDex()
+        this.dexterity = pdata.getTotalDex();
         this.constitution   = pdata.getTotalCon();
         this.wisdom         = pdata.getTotalWis();
         this.intelligence   = pdata.getTotalInt();
