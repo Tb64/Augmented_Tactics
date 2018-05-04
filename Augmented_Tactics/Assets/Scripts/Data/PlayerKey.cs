@@ -33,6 +33,9 @@ public class PlayerKey {
     public const string Item3 = "Item3";
     public const string Item4 = "Item4";
 
+
+    public const int MAX_LEVEL = 8;
+
     public static int[] LevelCaps =
     {
         0, //level 0

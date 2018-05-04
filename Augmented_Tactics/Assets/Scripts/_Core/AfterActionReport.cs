@@ -6,20 +6,17 @@ using UnityEngine;
 
 public class AfterActionReport : MonoBehaviour {
 
+    public PlayerFrame[] frames;
     public GameObject[] playerFrame; 
-    public GameObject[] playerImage;
+    public Image[] playerImage;
     public GameObject lootObj;
     GameObject camera;
     GameObject screen;
-    SceneManagement manager;
     Transform cameraPosition;
 
     private void Start()
     {
-        manager = GameObject.Find("SceneManager").GetComponent<SceneManagement>();
-        if (manager == null)
-            Debug.Log("Scene Manager Not Found !!!!");
-
+        DrawExp();
         GameObject screen = transform.Find("EndofBattleScreen").gameObject;
         if (screen == null)
             Debug.Log("End of Battle Screen Not Found !!!!");
@@ -75,7 +72,7 @@ public class AfterActionReport : MonoBehaviour {
     public void Continue()
     {
         Time.timeScale = 1;
-        manager.LoadHub();
+        SceneManagement.LoadHub();
     }
 
     public void DisplayExp()
@@ -164,6 +161,48 @@ public class AfterActionReport : MonoBehaviour {
 
     }
 
+    public void DrawExp()
+    {
+        GameDataController.loadPlayerData();
+        PlayerData[] squad = GameDataController.gameData.currentTeam;
+        int expGained = ExpCalc();
+
+        for (int index = 0; index < squad.Length; index++)
+        {
+            frames[index].LoadData(squad[index], expGained);
+        }
+
+
+    }
+
+    public void GiveExp()
+    {
+
+    }
+
+    public void GiveLoot()
+    {
+
+    }
+
+    private int ExpCalc()
+    {
+        int expTotal = 0;
+        for (int index = 0; index < EnemyController.enemyNum; index++)
+        {
+            expTotal += EnemyController.enemyList[index].getExpGiven();
+        }
+        if (PlayerControlled.playerNum != 0)
+        {
+            expTotal = (int)expTotal / PlayerControlled.playerNum;
+
+            for (int index = 0; index < PlayerControlled.playerNum; index++)
+            {
+                PlayerControlled.playerList[index].setExperience(expTotal);
+            }
+        }
+        return expTotal;
+    }
 
     public void BattleOver()
     {
@@ -172,11 +211,10 @@ public class AfterActionReport : MonoBehaviour {
         if (win() == true || lose() == true && screen.GetComponent<Canvas>().enabled == false)
         {
             screen.GetComponent<Canvas>().enabled = true;
-            DisplayExp();
+            //DisplayExp();
             Time.timeScale = 0;
 
             movePlayers();
-
         }
     }
 }
