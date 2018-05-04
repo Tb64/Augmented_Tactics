@@ -24,7 +24,11 @@ public class ItemStore : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        gdata = GameDataController.loadPlayerData();
         items = new List<UsableItem>();
+        UsableItem potion = ItemLoader.LoadItem("smallpotion");
+        potion.InitInitialize();
+        items.Add(potion);
         for (int index = 0; index < 5; index++)
         {
             UsableItem newitem = UsableItemGen.RandomItem();
@@ -33,6 +37,7 @@ public class ItemStore : MonoBehaviour {
         }
 
         inventory.UpdateInventory(items);
+        UpdateDetails(0);
 	}
 
     public void UpdateInventory()
@@ -43,6 +48,24 @@ public class ItemStore : MonoBehaviour {
     public void UpdateDetails(int index)
     {
         currentlySelected = index;
-        details.LoadItem(items[index]);
+        if (index >= 0 || index <= items.Count)
+            details.LoadItem(items[index]);
+        else
+            Debug.Log("Index is out of range");
+    }
+
+    public void BuyCurrentItem()
+    {
+        if (currentlySelected < 0 || currentlySelected >= items.Count)
+        {
+            Debug.Log("Index is out of range");
+            return;
+        }
+
+        GameDataController.loadPlayerData();
+
+        GameDataController.gameData.usableItems.Add(items[currentlySelected]);
+
+        GameDataController.savePlayerData();
     }
 }

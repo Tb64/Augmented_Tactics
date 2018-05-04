@@ -57,6 +57,7 @@ public class ItemLoader : MonoBehaviour {
                 return null;
         }
         item.itemKey = itemID;
+        item.InitInitialize();
         return item;
     }
 

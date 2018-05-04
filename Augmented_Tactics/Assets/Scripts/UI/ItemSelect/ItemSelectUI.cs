@@ -5,15 +5,13 @@ using UnityEngine.UI;
 
 public class ItemSelectUI : MonoBehaviour
 {
+    public ItemInventory inventory;
+    public ItemDetails details;
+    //public Button Confirm;
+    //public Button BackPage;
+    //public Button NextPage;
 
-    public Image newImg;
-    public Text newText1;
-    public Text newText2;
-    public Image[] inventoryImg;
-
-    public Button Confirm;
-    public Button BackPage;
-    public Button NextPage;
+    public Image[] currentEquiped;
 
     public Sprite nullImage;
 
@@ -26,7 +24,6 @@ public class ItemSelectUI : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        gdata = GameDataController.loadPlayerData();
 
     }
 
@@ -36,15 +33,15 @@ public class ItemSelectUI : MonoBehaviour
 
     }
 
-    private void LoadInventory()
+    private void LoadInventory(PlayerData data)
     {
         InventoryReset();
-        items = new List<UsableItem>();
-        int index = 0;
-        foreach (UsableItem item in gdata.usableItems)
+        gdata = GameDataController.loadPlayerData();
+        inventory.UpdateInventory(gdata.usableItems);
+
+        foreach (Image img in currentEquiped)
         {
 
-            index++;
         }
 
     }
