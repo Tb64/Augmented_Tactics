@@ -139,9 +139,9 @@ public class PlayerData
         PlayerBaseLine(player);
         RandomStatBoost(player);
 
-        player.Health = player.Constitution * 10;
+        player.Health = CalcHealthMax(player);
 
-        player.Mana = (player.Intelligence + player.Wisdom) * 5;
+        player.Mana = CalcManaMax(player);
 
         if (player.DisplayName.Length == 0)
             Debug.Log("GenerateNewPlayer Empty Name ");
@@ -557,7 +557,7 @@ public class PlayerData
     /// <returns></returns>
     public int getTotalMaxHealth()
     {
-        return getTotalCon() * 10;
+        return CalcHealthMax(getTotalCon(), Level);
     }
     /// <summary>
     /// Character stats + item bonus
@@ -565,8 +565,57 @@ public class PlayerData
     /// <returns></returns>
     public int getTotalMaxMana()
     {
-        return (getTotalWis() + getTotalInt()) * 5;
+        return CalcManaMax(getTotalInt(), getTotalWis(), Level);
     }
+	
+	/// <summary>
+    /// Character stats, no items bonus
+    /// </summary>
+    /// <returns></returns>
+	public static int CalcHealthMax(int con, int level)
+	{
+		return (con + level) * 10;
+	}
+	/// <summary>
+    /// Character stats, no items bonus
+    /// </summary>
+    /// <returns></returns>
+	public static int CalcHealthMax(PlayerData input)
+	{
+		return CalcHealthMax(input.Constitution, input.Level);
+	}
+	/// <summary>
+    /// Character stats, no items bonus
+    /// </summary>
+    /// <returns></returns>
+	public int CalcHealthMax()
+	{
+		return CalcHealthMax(Constitution, Level);
+	}
+	/// <summary>
+    /// Character stats, no items bonus
+    /// </summary>
+    /// <returns></returns>
+	public static int CalcManaMax(int intel, int wis, int level)
+	{
+		return (level + wis + level) * 5;
+	}
+	/// <summary>
+    /// Character stats, no items bonus
+    /// </summary>
+    /// <returns></returns>
+	public static int CalcManaMax(PlayerData input)
+	{
+		return CalcManaMax(input.Wisdom, input.Intelligence, input.Level);
+	}
+	/// <summary>
+    /// Character stats, no items bonus
+    /// </summary>
+    /// <returns></returns>
+	public int CalcManaMax()
+	{
+		return CalcManaMax(Wisdom, Intelligence, Level);
+	}
     /*public string getTraitByKey(string key)
     {
         string trait = null;
