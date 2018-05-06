@@ -655,6 +655,39 @@ public class Enemy : Actor
         }
     }
 
+    protected bool CheckManaReplenish(Ability ability)
+    {
+        if (getManaCurrent() >= ability.manaCost)
+            return true;
+        else
+        {
+            if (!ManaReplenish())
+                return false;
+            else
+                return true;
+        }
+
+    }
+
+    protected bool ManaReplenish()
+    {
+        if (usableItems != null && usableItems.Count != 0)
+            foreach (UsableItem usable in usableItems)
+                if (usable.isManaItem)
+                {
+                    usable.UseItem(gameObject, gameObject);
+                    return true;
+                }
+        foreach (Ability ability in abilitySet)
+            if (ability.manaRestore)//ability has to have this name in future
+            {
+                ability.UseSkill(gameObject);
+                return true;
+            }
+        return false;
+
+    }
+
     protected void LoadPlayer()
     {
 

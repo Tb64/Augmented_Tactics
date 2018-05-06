@@ -14,9 +14,9 @@ public class Defender : Enemy {
     //elseif(aggressive on team): find aggressive and go karowak on everyone's ass
     //else attampt strongest attack then move in the direction of the tank to draw fire
     //if no tank draw fire away from targeted / weakest
-    private bool aidLocked, hit;
-    private Ability strongest, mostDistance,lastResort, heal;
-    private Enemy aiding;
+    protected bool aidLocked, hit;
+    protected Ability strongest, mostDistance,lastResort, heal;
+    protected Enemy aiding;
     public string type;
 
     /*public Defender(string type)
@@ -37,7 +37,7 @@ public class Defender : Enemy {
         TurnBehaviour.OnEnemyOutOfMoves += this.ResetValues;
         FindRanges();
         //add buffs
-        heal = GetHeal();
+       // heal = GetHeal();
     }
 
     public override void OnDestroy()
@@ -53,10 +53,7 @@ public class Defender : Enemy {
     {
         
     }
-    public override string GetArchetype()
-    {
-        return "defender";
-    }
+    
 
     public override void EnemyTurnStartActions()
     {
@@ -107,16 +104,16 @@ public class Defender : Enemy {
         else
             return false;
     }
-    private Ability GetHeal()
+    /*protected Ability GetHeal()
     {
         foreach (Ability ability in abilitySet)
-            if (ability.abilityName == "Heal")
+            if (ability.canHeal)
                 return ability;
         Debug.LogError("Defender Loaded With No Heal Ability");
         return null;
-    }
+    }*/
 
-    private void FindRanges()
+    protected void FindRanges()
     {
         float bestRange = 0, mostRange = 0;
 
@@ -135,7 +132,7 @@ public class Defender : Enemy {
         }
     }
 
-    private void DrawFire() //attempt to use best or any attack and run like hell in opposite direction of aiding enemy
+    protected void DrawFire() //attempt to use best or any attack and run like hell in opposite direction of aiding enemy
     {
         if (hit)
         {
@@ -161,7 +158,7 @@ public class Defender : Enemy {
             
     }
 
-    private void FindShweetSpot() //lure attacker to other area after successful attack / aggro gain
+    protected void FindShweetSpot() //lure attacker to other area after successful attack / aggro gain
     {
         if (aiding.CheckHeal() && Vector3.Distance(getCoords(),aiding.getCoords())<3) //add heal of person defending
         {
@@ -177,7 +174,21 @@ public class Defender : Enemy {
                 return;
             }
         }
-        if (CheckHeal() || aiding.CheckHeal()) //add heal of person defending
+        if (aiding.CheckHeal()) 
+        {
+            if (GetHealItem())
+            {
+                healItem.UseItem(gameObject, aiding.gameObject);
+                return;
+            }
+
+            if (heal.CanUseSkill(aiding.gameObject))
+            {
+                heal.UseSkill(aiding.gameObject);
+                return;
+            }  
+        }
+        else if (CheckHeal())
         {
             if (GetHealItem())
             {
@@ -189,7 +200,7 @@ public class Defender : Enemy {
             {
                 heal.UseSkill(gameObject);
                 return;
-            }  
+            }
         }
         /*if (!AggroInRange())
         {
@@ -212,7 +223,7 @@ public class Defender : Enemy {
         Debug.Log("Attempting to move " + this + " from " + this.getCoords() + " to " + movingTo);
         map.moveActorAsync(gameObject, movingTo);
     }
-    private bool AggroInRange()
+    protected bool AggroInRange()
     {
         foreach(Ability ability in aggro.abilitySet)
         {
@@ -221,7 +232,7 @@ public class Defender : Enemy {
         }
         return false;
     }
-    private bool PlayerInRange()
+    protected bool PlayerInRange()
     {
         foreach (Ability ability in nearest.abilitySet)
         {
@@ -256,7 +267,7 @@ public class Defender : Enemy {
         }
        
     }
-    private bool CheckStrategy(string type)
+    protected bool CheckStrategy(string type)
     {
         aiding = null;
         foreach (Enemy enemy in EnemyController.enemyList)
@@ -311,7 +322,8 @@ public class Defender : Enemy {
 
     public void GetAbilities()
     {
-
+        if (Random.Range(0, 1) == 0)
+        heal 
     }
 
     public void ResetValues()

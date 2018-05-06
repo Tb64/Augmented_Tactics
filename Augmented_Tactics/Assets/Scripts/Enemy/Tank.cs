@@ -35,6 +35,7 @@ public class Tank : Enemy{
         regularMode = false;
         buffCool = false;
         debuffCool = false;
+        archetype = "tank";
     }
 
     public override void EnemyTurnStartActions()
@@ -133,7 +134,7 @@ public class Tank : Enemy{
         {
             inPosition = false;
         }
-        if (regularMode && sameTurn && CheckManaReplenish())
+        if (regularMode && sameTurn && CheckManaReplenish(buff))
             regularMode = false;
         if (regularMode)
         {
@@ -166,7 +167,7 @@ public class Tank : Enemy{
             }
             else
             {
-                if(getManaCurrent() <= buff.manaCost && getManaCurrent()<= debuff.manaCost && !CheckManaReplenish())
+                if(getManaCurrent() <= buff.manaCost && getManaCurrent()<= debuff.manaCost && !CheckManaReplenish(buff))
                 {
                     regularMode = true;
                     sameTurn = true;
@@ -362,42 +363,11 @@ public class Tank : Enemy{
         else
             return false;
     }
-    private bool CheckManaReplenish()
-    {
-        if (getManaCurrent() >= buff.manaCost)
-            return true;
-        else
-        {
-            if (!ManaReplenish())
-                return false;
-            else
-                return true;
-        }
-            
-    }
-
-    private bool ManaReplenish()
-    {
-        if(usableItems !=null && usableItems.Count !=0)
-            foreach (UsableItem usable in usableItems)
-                if (usable.name.Equals("Large Mana Tonic") || usable.name.Equals("Medium Mana Tonic") || usable.name.Equals("Small Mana Tonic"))
-                {
-                    usable.UseItem(gameObject, gameObject);
-                    return true;
-                }
-        foreach (Ability ability in abilitySet)
-            if (ability.abilityName == "Mana Replenish" && ability.CanUseSkill(gameObject))//ability has to have this name in future
-            {
-                ability.UseSkill(gameObject);
-                return true;
-            }   
-        return false;
-                
-    }
+    
 
     public override string GetArchetype()
     {
-        return "tank";
+        return archetype;
     }
     private void GetAbilities() //need to add randomability loader with these parameters to make tank work
     {

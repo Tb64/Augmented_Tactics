@@ -14,8 +14,8 @@ public class Support : Enemy {
     protected float distanceFromAggro;
     //private Actor aggro;
     protected Enemy aiding;
-    protected Ability strongest,backup, mostDistance,heal; //backup's range should ideally be in between strongest and mostDistance and require less mana
-    protected bool regularMode, hasHeal,aidLocked;
+    protected Ability strongest,backup, mostDistance,heal,arrow; //backup's range should ideally be in between strongest and mostDistance and require less mana
+    protected bool regularMode, hasHeal,aidLocked,arrowMode;
     public string type;
 
     /*public Support(string type)
@@ -56,11 +56,23 @@ public class Support : Enemy {
         if (getMoves() == 0)
             return;
 
-        if (regularMode)
+        if (arrowMode)
+        {
+            if (ManaReplenish())
+            {
+                arrowMode = false;
+                Ability temp = arrow;
+                arrow = mostDistance;
+                mostDistance = temp;
+            }
+                
+        }
+
+        /*if (regularMode)
         {
             base.EnemyActions();
             return;
-        }
+        }*/
 
         if (targetLocked && !currentTarget.isDead() && !currentTarget.isIncapacitated())
         {
@@ -116,11 +128,6 @@ public class Support : Enemy {
             EnemyController.ExhaustMoves(SM);
         }
         
-    }
-
-    public override string GetArchetype()
-    {
-        return "support";
     }
 
     public void ResetValues()
@@ -190,8 +197,12 @@ public class Support : Enemy {
         }
         else if (mostDistance.manaCost > getManaCurrent())
         {
-            Debug.Log("Mana Low. Switching to Regular Mode");
-            regularMode = true;
+            Debug.Log("Mana Low. Switching to Arrow Mode");
+            arrowMode = true;
+            Ability temp = mostDistance;
+            mostDistance = arrow;
+            arrow = temp;
+            //regularMode = true;
             EnemyActions();
             return;
         }
@@ -318,7 +329,23 @@ public class Support : Enemy {
 
     public void GetAbilities()
     {
-
+        string[] possibles = SkillLoader.ClassSkills(3);
+        arrow = abilitySet[0] = new Arrow(gameObject);
+        if (Random.Range(0, 10) < 7)
+            abilitySet[1] = new Steal(gameObject);
+        else
+            abilitySet[1] = new Heal(gameObject);
+        int first = Random.Range(1, 7), second = Random.Range(1, 7);
+        abilitySet[2] = SkillLoader.LoadSkill(possibles[first], gameObject);
+        if (first == second)
+        {
+            if (first != 7)
+                abilitySet[3] = SkillLoader.LoadSkill(possibles[second + 1], gameObject);
+            else
+                abilitySet[3] = SkillLoader.LoadSkill(possibles[second - 1], gameObject);
+        }
+        else
+            abilitySet[3] = SkillLoader.LoadSkill(possibles[second], gameObject);
     }
     /*public override bool AttemptAttack()
     {

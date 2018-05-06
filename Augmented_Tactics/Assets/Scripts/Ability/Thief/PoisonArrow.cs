@@ -56,7 +56,7 @@ public class PoisonArrow : Ability
     {
         base.Initialize(obj);
         anim = gameObject.GetComponentInChildren<Animator>();
-        manaCost = 0;
+        manaCost = 15;
         range_max = 7;
         range_min = 1;
         damage = 10f + actor.getDexterity() * 1.5f;

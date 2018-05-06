@@ -4,45 +4,47 @@ using UnityEngine;
 
 public class Arrow : Ability
 {
-    float damage = 15f;
+    private string animTrigger = "Arrow";
+    private GameObject effect1 = Resources.Load<GameObject>("Effects/ArrowShot");
+
+    public Arrow(GameObject obj)
+    {
+        Initialize(obj);
+    }
 
     public override void Initialize(GameObject obj)
     {
         base.Initialize(obj);
 
-        damage = actor.getIntelligence();
+        damage = actor.getDexterity();
 
         anim = gameObject.GetComponentInChildren<Animator>();
-        range_max = 15;
+        range_max = 7;
         range_min = 1;
-        manaCost = 3;
-        dwell_time = 1.0f;
+        manaCost = 0;
+        dwell_time = 3.0f;
         abilityName = "Arrow";
         abilityImage = Resources.Load<Sprite>("UI/Ability/Arrow");
     }
 
-    public override bool UseSkill(GameObject target)
+    public override void ActionSkill(GameObject target)
     {
-        if (!base.UseSkill(target))
+        Actor targeta = target.GetComponent<Actor>();
+        if (anim != null)
         {
-            return false;
-        }
-
-        if (target.tag == "Player" || target.tag == "Enemy")
-        {
-            if (anim != null)
+            Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, gameObject.name, target.name));
+            rotateAtObj(target);
+            if (effect1 != null)
             {
-                rotateAtObj(target);
-                anim.SetTrigger("MagicAttack");
-
-                //animate arrow attack
-
-                actor.PlaySound("attack");
+                Projectile(effect1, target);
             }
-            target.GetComponent<Actor>().TakeDamage(damage, gameObject);
-            return true;
+            else
+                Debug.LogError("effect1 null");
+            anim.SetTrigger(animTrigger);
+            anim.SetInteger("Weapon", 7);
+            gameObject.GetComponent<Actor>().PlaySound("attack");
         }
-
-        return false;
+        DwellTime.Attack(dwell_time);
+        targeta.TakeDamage(damage, target);
     }
 }
