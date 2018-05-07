@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class BuffDefense : StatusEffects {
 
-    public bool buff;
+    public bool buff, physical;
     //private GameObject effect1 = Resources.Load<GameObject>("Effects/Effect9"); add glow
 
-    public BuffDefense(float effect, Actor effector, Actor effected, bool isEnemy, bool buff) : base(effect, effector, effected, isEnemy)
+    public BuffDefense(float effect, Actor effector, Actor effected, bool isEnemy, bool buff,bool physical) : base(effect, effector, effected, isEnemy)
     {
         if (buff)
         {
@@ -21,7 +21,8 @@ public class BuffDefense : StatusEffects {
         }
         this.effect = effect;
         TurnBehaviour.OnTurnStart += this.decreaseTimeCounter;
-        duration = 2;
+        duration = Random.Range(1,3);
+        this.physical = physical;
         effectedPlayer = effected;
         effectorPlayer = effector;
         this.isEnemy = isEnemy;
@@ -30,8 +31,16 @@ public class BuffDefense : StatusEffects {
 
     public override void InitialEffect()
     {
-        BuffDebuff.SwapEffect(buff, effectorPlayer, effectedPlayer, effect, "defense");
-        effectorPlayer.aggroScore += (int)(effect * duration);
+        if(physical)
+            BuffDebuff.SwapEffect(buff, effectorPlayer, effectedPlayer, effect, "physicaldefense");
+        else
+            BuffDebuff.SwapEffect(buff, effectorPlayer, effectedPlayer, effect, "magicdefense");
+        effectorPlayer.aggroScore += (int)effect;
+    }
+
+    public override void InduceEffect()
+    {
+        effectorPlayer.aggroScore += (int)effect;
     }
 
     public override void ReverseEffect()

@@ -36,6 +36,7 @@ public class Support : Enemy {
         TurnBehaviour.OnEnemyOutOfMoves += this.ResetValues;
         GetAbilities();
         FindRanges();
+        archetype = "support";
     }
 
     public override void OnDestroy()

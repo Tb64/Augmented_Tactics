@@ -33,6 +33,7 @@ public class Aggressive : Enemy {
         GetAbilities();
         SetAbilities();
         regularMode = false;
+        archetype = "aggressive";
 	}
 
     public override void EnemyInitialize() //temp. changing soon w/ attacks and items etc
