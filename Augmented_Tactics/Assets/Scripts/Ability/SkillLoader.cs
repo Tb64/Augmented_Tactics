@@ -84,9 +84,11 @@ public class SkillLoader : MonoBehaviour {
             case "binder":
                 return new FireBall(gObj);
             case "arcanecomet":
-                return new FireBall(gObj);
+                return new ArcaneComet(gObj);
             case "magicmissle":
                 return new MagicMissle(gObj);
+            case "lucidity":
+                return new Lucidity(gObj);
 
 
 

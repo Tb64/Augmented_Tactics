@@ -16,19 +16,43 @@ public class Fire : Ability
     public override void Initialize(GameObject obj)
     {
         base.Initialize(obj);
-
-        damage = actor.getIntelligence()/3;
-
         anim = gameObject.GetComponentInChildren<Animator>();
+        damage = actor.getIntelligence()/3;
+        dwell_time = 1.0f;        
         range_max = 3;
         range_min = 1;
-        manaCost = 1;
-        dwell_time = 1.0f;
+        manaCost = 20;
+        
         abilityName = "Fire";
         abilityImage = Resources.Load<Sprite>("UI/Ability/Fire");
         effect = Resources.Load<GameObject>("Effects/Effect23");
     }
 
+    public override void ActionSkill(GameObject target)
+    {
+        if (anim != null)
+        {
+            rotateAtObj(target);
+
+            anim.SetTrigger("Missle");
+            if (effect != null)
+                Projectile(effect, target);
+            gameObject.GetComponent<Actor>().PlaySound("attack");
+
+            Actor targeta = target.GetComponent<Actor>();
+            if (Ability.DiceRoll(actor.getDexterity(), targeta.getDexterity()))
+            {
+                StatusEffectsController.AddEffect(new Burn(actor.getDexterity() / 3, actor, targeta, target.tag == "Enemy"));
+                Debug.Log("Burn Initiated. Stop Drop and Roll Bitch");
+            }
+
+        }
+
+        DwellTime.Attack(dwell_time);
+
+    }
+
+    /*
     public override bool UseSkill(GameObject target)
     {
         if(!base.UseSkill(target))
@@ -62,5 +86,5 @@ public class Fire : Ability
         }
 
         return false;
-    }
+    }*/
 }

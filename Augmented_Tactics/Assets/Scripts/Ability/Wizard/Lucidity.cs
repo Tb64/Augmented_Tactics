@@ -2,50 +2,51 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArcaneComet : Ability {
+public class Lucidity : Ability
+{
 
-    GameObject cometEffect;
+    GameObject lucidityEffect;
     GameObject worldEffect;
+    Actor user;
 
-    public ArcaneComet(GameObject obj)
+    public Lucidity(GameObject obj)
     {
+        user = obj.GetComponent<Actor>();
         Initialize(obj);
     }
 
     public override void Initialize(GameObject obj)
     {
         base.Initialize(obj);
-        //isAOE = true;
+        manaRestore = true;
         anim = gameObject.GetComponentInChildren<Animator>();
-        dwell_time = 1.5f;
-        abilityName = "arcanecomet";
-        range_max = 5;
-        range_min = 1;
-        damage = 20 + actor.getIntelligence();
+        dwell_time = 1f;
+        abilityName = "lucidity";
+        range_max = 0;
+        range_min = 0;
+        damage = 0;
         abilityImage = Resources.Load<Sprite>("UI/Ability/magician/magicianSkill2");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
-        manaCost = 50;
-        cometEffect = Resources.Load<GameObject>("animation/MageComet");
+        manaCost = 0;
+        lucidityEffect = Resources.Load<GameObject>("animation/MageLucidity2");
     }
 
     public override void ActionSkill(GameObject target)
     {
-
-        rotateAtObj(target);
         if (anim != null)
         {
-            anim.SetTrigger("Missle");
+            anim.SetTrigger("Lucidity");
             //gameObject.GetComponent<Actor>().PlaySound("attack");
         }
 
-        Debug.Log("Coords I have: " + target.GetComponent<Actor>().getCoords());
+        user.GiveMana(20, user);
 
-        if (cometEffect != null)
-            worldEffect = GameObject.Instantiate(cometEffect, target.GetComponent<Actor>().getCoords()
+        //need to delete it afterwards
+        if(lucidityEffect!=null)
+            worldEffect = GameObject.Instantiate(lucidityEffect, target.GetComponent<Actor>().getCoords()
             + new Vector3(0, .5f, 0), Quaternion.identity);
 
         DwellTime.Attack(dwell_time);
-
     }
 }
