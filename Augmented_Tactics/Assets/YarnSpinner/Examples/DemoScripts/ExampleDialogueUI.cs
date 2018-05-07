@@ -200,6 +200,11 @@ namespace Yarn.Unity.Example {
         {
             return linecount;
         }
+       
+        static public void ResetLineCount()
+        {
+            linecount = 0;
+        }
 
         /// Called when the dialogue system has finished running.
         public override IEnumerator DialogueComplete ()

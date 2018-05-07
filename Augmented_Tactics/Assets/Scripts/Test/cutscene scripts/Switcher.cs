@@ -1,6 +1,11 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
+using System.Text;
 using System.Collections.Generic;
-using UnityEngine;
+using Yarn.Unity.Example;
+using Yarn.Unity;
+using UnityEngine.Playables;
 
 public class Switcher : MonoBehaviour {
     public GameObject[] objects;
@@ -12,6 +17,7 @@ public class Switcher : MonoBehaviour {
 	
 	public void NextObjectLoad()
     {
+        ExampleDialogueUI.ResetLineCount();
         index++;
         if(index == 3)
         {

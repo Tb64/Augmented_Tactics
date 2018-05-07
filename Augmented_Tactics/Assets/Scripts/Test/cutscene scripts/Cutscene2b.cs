@@ -128,6 +128,8 @@ public class Cutscene2b : MonoBehaviour {
                         break;
                         
 
+
+
                     default:
                         break;
 
@@ -200,20 +202,23 @@ public class Cutscene2b : MonoBehaviour {
     
     public void TurnAround()
     {
-        GameObject gub = Herald;
+        GameObject fub = Eery;
 
-        anim = gub.GetComponent<Animator>();
+        anim = fub.GetComponent<Animator>();
         anim.Play("turn", -1, 0f);
 
-        gub = Eery;
+        fub = FrederickDecet;
 
-        anim = gub.GetComponent<Animator>();
-        anim.Play("turn", -1, 0f);
-
-        gub = FrederickDecet;
-
-        anim = gub.GetComponent<Animator>();
+        anim = fub.GetComponent<Animator>();
         anim.Play("Walk", -1, 0f);
+
+        fub = Herald;
+        anim = fub.GetComponent<Animator>();
+        anim.Play("Walk", -1, 0f);
+
+
+        fub.transform.Rotate(new Vector3(0, -150, 0));
+
     }
 
     public void Play()
