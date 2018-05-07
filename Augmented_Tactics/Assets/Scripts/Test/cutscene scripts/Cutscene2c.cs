@@ -14,6 +14,7 @@ public class Cutscene2c : MonoBehaviour {
     public Camera cam1;
     public Camera cam2;
     public Camera cam3;
+    public Camera cam4;
 
     public ExampleDialogueUI diagscript;
 
@@ -87,9 +88,19 @@ public class Cutscene2c : MonoBehaviour {
                             temp = currentline;
                         }
                         break;
+                    case 6:
+                        if (Input.anyKey)
+                        {
+                            cam2.enabled = false;
+                            cam4.enabled = true;
+                            temp = currentline;
+                        }
+                        break;
                     case 9:
                         if (Input.anyKey)
                         {
+                            cam2.enabled = true;
+                            cam4.enabled = false;
                             StopTalking("LordAbaddon");
                             StartTalking("FrederickDecet");
                             temp = currentline;
