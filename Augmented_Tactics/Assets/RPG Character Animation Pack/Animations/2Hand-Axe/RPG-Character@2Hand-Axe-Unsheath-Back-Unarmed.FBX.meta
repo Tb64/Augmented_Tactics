@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: a8900af1485b335408e0f7de37c9d394
-timeCreated: 1462869763
-licenseType: Store
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: B_Head
     100002: B_L_Calf
@@ -126,10 +124,13 @@ ModelImporter:
     7400000: 2Hand-Axe-Unsheath-Back-Unarmed
     9500000: //RootNode
     13700000: RPG-Character-Mesh
+    2186277476908879412: ImportLogs
+  externalObjects: {}
   materials:
     importMaterials: 0
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -143,25 +144,27 @@ ModelImporter:
       might lower retargeting quality:\nNote: Activate translation DOF on avatar to
       improve retargeting quality.\n\t'B_Spine2' is inbetween humanoid transforms
       and has rotation animation that will be discarded.\n"
-    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tRightLowerLeg
-      average position error 0.4 mm and maximum position error 1.0 mm at time 0:13
-      (43.3%) Frame 13\n\tLeftUpperArm average position error 23.9 mm and maximum
-      position error 38.7 mm at time 0:28 (93.3%) Frame 28\n\tLeftLowerArm average
-      position error 12.4 mm and maximum position error 20.5 mm at time 0:27 (90.0%)
-      Frame 27\n\tLeftHand average position error 4.5 mm and maximum position error
-      16.0 mm at time 0:27 (90.0%) Frame 27\n\tRightUpperArm average position error
-      23.4 mm and maximum position error 31.5 mm at time 0: 6 (20.0%) Frame 6\n\tRightLowerArm
-      average position error 13.4 mm and maximum position error 20.2 mm at time 0:
-      5 (16.7%) Frame 5\n\tRightHand average position error 9.1 mm and maximum position
-      error 22.2 mm at time 0: 4 (13.3%) Frame 4\n\tHead average position error 65.4
-      mm and maximum position error 93.0 mm at time 0:27 (90.0%) Frame 27\n"
+    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftUpperArm
+      average position error 25.3 mm and maximum position error 41.1 mm at time 0:27
+      (90.0%) Frame 27\n\tLeftLowerArm average position error 14.0 mm and maximum
+      position error 24.2 mm at time 0:26 (86.7%) Frame 26\n\tLeftHand average position
+      error 7.1 mm and maximum position error 22.4 mm at time 0:26 (86.7%) Frame 26\n\tRightUpperArm
+      average position error 25.0 mm and maximum position error 35.3 mm at time 0:26
+      (86.7%) Frame 26\n\tRightLowerArm average position error 14.4 mm and maximum
+      position error 25.7 mm at time 0:26 (86.7%) Frame 26\n\tRightHand average position
+      error 10.8 mm and maximum position error 25.4 mm at time 0:26 (86.7%) Frame
+      26\n\tHead average position error 69.6 mm and maximum position error 104.6 mm
+      at time 0:26 (86.7%) Frame 26\n"
     animationDoRetargetingWarnings: 1
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
       name: 2Hand-Axe-Unsheath-Back-Unarmed
@@ -204,13 +207,18 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -220,6 +228,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 2
     tangentImportMode: 2
+    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 1
   humanDescription:

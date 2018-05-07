@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: 5cbe9e29aeade4347bbd9e6b1c751eef
-timeCreated: 1461604777
-licenseType: Store
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: B_L_Hand
     100002: B_L_Forearm
@@ -243,10 +241,13 @@ ModelImporter:
     11100000: //RootNode
     13700000: Soldier_Mesh
     13700002: RPG-Character-Mesh
+    2186277476908879412: ImportLogs
+  externalObjects: {}
   materials:
     importMaterials: 0
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -264,21 +265,24 @@ ModelImporter:
     animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftUpperArm
       average position error 18.4 mm and maximum position error 40.9 mm at time 0:
       3 (11.5%) Frame 3\n\tLeftLowerArm average position error 15.4 mm and maximum
-      position error 39.1 mm at time 0: 3 (11.5%) Frame 3\n\tLeftHand average position
-      error 14.1 mm and maximum position error 37.9 mm at time 0: 2 (7.7%) Frame 2\n\tRightUpperArm
+      position error 39.2 mm at time 0: 3 (11.5%) Frame 3\n\tLeftHand average position
+      error 14.2 mm and maximum position error 37.9 mm at time 0: 2 (7.7%) Frame 2\n\tRightUpperArm
       average position error 15.8 mm and maximum position error 43.9 mm at time 0:
-      2 (7.7%) Frame 2\n\tRightLowerArm average position error 14.6 mm and maximum
-      position error 43.3 mm at time 0: 2 (7.7%) Frame 2\n\tRightHand average position
-      error 13.2 mm and maximum position error 41.4 mm at time 0: 2 (7.7%) Frame 2\n\tHead
+      2 (7.7%) Frame 2\n\tRightLowerArm average position error 14.7 mm and maximum
+      position error 43.4 mm at time 0: 2 (7.7%) Frame 2\n\tRightHand average position
+      error 13.2 mm and maximum position error 41.5 mm at time 0: 2 (7.7%) Frame 2\n\tHead
       average position error 30.5 mm and maximum position error 82.3 mm at time 0:
       0 (0.0%) Frame 0\n"
     animationDoRetargetingWarnings: 1
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
       name: 2Hand-Spear-Roll-Backward
@@ -424,13 +428,18 @@ ModelImporter:
     globalScale: 0.01
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -440,6 +449,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 2
     tangentImportMode: 2
+    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 1
   humanDescription:
