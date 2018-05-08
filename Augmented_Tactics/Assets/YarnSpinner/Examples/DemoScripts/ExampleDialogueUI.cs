@@ -50,6 +50,7 @@ namespace Yarn.Unity.Example {
         static public int linecount = 0;
         /// The UI element that displays lines
         public Text lineText;
+        public bool disabled = false;
 
         /// A UI element that appears after lines have finished appearing
         public GameObject continuePrompt;
@@ -88,35 +89,44 @@ namespace Yarn.Unity.Example {
         }
 
         /// Show a line of dialogue, gradually
-        public override IEnumerator RunLine (Yarn.Line line)
+        public override IEnumerator RunLine(Yarn.Line line)
         {
             // Show the text
-            lineText.gameObject.SetActive (true);
+            lineText.gameObject.SetActive(true);
 
             if (textSpeed > 0.0f) {
                 // Display the line one character at a time
-                var stringBuilder = new StringBuilder ();
+                var stringBuilder = new StringBuilder();
 
                 foreach (char c in line.text) {
-                    stringBuilder.Append (c);
-                    lineText.text = stringBuilder.ToString ();
-                    yield return new WaitForSeconds (textSpeed);
+
+
+
+                    stringBuilder.Append(c);
+                    lineText.text = stringBuilder.ToString();
+                    if (c == ' ')
+                    {
+                        yield return new WaitForSeconds(textSpeed);
+                    }
                 }
             } else {
                 // Display the line immediately if textSpeed == 0
                 lineText.text = line.text;
-                
+
             }
             linecount++;
             Debug.Log("line count" + linecount);
             // Show the 'press any key' prompt when done, if we have one
             if (continuePrompt != null)
-                continuePrompt.SetActive (true);
+                continuePrompt.SetActive(true);
 
             // Wait for any user input
-            while (Input.anyKeyDown == false) {
-                yield return null;
-            }
+                while (Input.anyKeyDown == false) {
+
+                    yield return null;
+                }
+            
+            
 
             // Hide the text and prompt
             lineText.gameObject.SetActive (false);
@@ -210,12 +220,7 @@ namespace Yarn.Unity.Example {
         public override IEnumerator DialogueComplete ()
         {
             Debug.Log ("Complete!");
-            linecount = 0;
-            GameObject obj = GameObject.Find("Switcher");
-            if (obj != null)
-            {
-                obj.GetComponent<Switcher>().NextObjectLoad();
-            }
+            
             // Hide the dialogue interface.
             if (dialogueContainer != null)
                 dialogueContainer.SetActive(false);
@@ -226,6 +231,14 @@ namespace Yarn.Unity.Example {
             }
 
             yield break;
+        }
+        public void SetDisable()
+        {
+            disabled = true;
+        }
+        public void ResetDisable()
+        {
+            disabled = false;
         }
 
     }

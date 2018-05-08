@@ -123,7 +123,7 @@ public class Cutscene2 : MonoBehaviour
                             StopTalking("FrederickDecet");
                             diagscript.DialogueComplete();
                             temp = currentline;
-                            
+                            EndScene();
                         }
                         break;
                     
@@ -135,11 +135,16 @@ public class Cutscene2 : MonoBehaviour
             }
         }
         
-
-
     }
 
-
+    public void EndScene()
+    {
+        GameObject obj = GameObject.Find("Switcher");
+        if (obj != null)
+        {
+            obj.GetComponent<Switcher>().NextObjectLoad();
+        }
+    }
     void StartTalking(string s)
     {
         GameObject gub = JohnCausion;

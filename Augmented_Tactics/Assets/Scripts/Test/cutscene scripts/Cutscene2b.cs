@@ -114,19 +114,16 @@ public class Cutscene2b : MonoBehaviour {
                             temp = currentline;
                         }
                         break;
-                    case 7:
-                        if (Input.anyKey)
-                        {
-                            
-                        }
-                        break;
                     case 8:
                         if (Input.anyKey)
                         {
-                            diagscript.DialogueComplete();
+                            EndScene();
+                            temp = currentline;
                         }
                         break;
-                        
+
+
+
 
 
 
@@ -139,6 +136,14 @@ public class Cutscene2b : MonoBehaviour {
         }
     }
 
+    public void EndScene()
+    {
+        GameObject obj = GameObject.Find("Switcher");
+        if (obj != null)
+        {
+            obj.GetComponent<Switcher>().NextObjectLoad();
+        }
+    }
     public void Idle()
     {
 
@@ -205,7 +210,8 @@ public class Cutscene2b : MonoBehaviour {
         GameObject fub = Eery;
 
         anim = fub.GetComponent<Animator>();
-        anim.Play("turn", -1, 0f);
+        fub.transform.Rotate(new Vector3(0,180, 0));
+        anim.Play("Walk", -1, 0f);
 
         fub = FrederickDecet;
 
@@ -213,11 +219,11 @@ public class Cutscene2b : MonoBehaviour {
         anim.Play("Walk", -1, 0f);
 
         fub = Herald;
+        fub.transform.Rotate(new Vector3(0, 180, 0));
         anim = fub.GetComponent<Animator>();
         anim.Play("Walk", -1, 0f);
 
-
-        fub.transform.Rotate(new Vector3(0, -150, 0));
+        
 
     }
 
