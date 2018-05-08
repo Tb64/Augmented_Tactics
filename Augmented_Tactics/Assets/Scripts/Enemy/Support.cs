@@ -30,13 +30,18 @@ public class Support : Enemy {
 
     public override void Start()
     {
-        //base.Start();
-        EnemyInitialize();
+        
+    }
+
+    public override void EnemyInitialize()
+    {
+        archetype = "support";
+        base.EnemyInitialize();
         hasHeal = false;
         TurnBehaviour.OnEnemyOutOfMoves += this.ResetValues;
         GetAbilities();
         FindRanges();
-        archetype = "support";
+        
     }
 
     public override void OnDestroy()
@@ -306,6 +311,7 @@ public class Support : Enemy {
                 }
             }
         }
+        Debug.LogError("support abilities set" + " " + abilitySet[3]);
     }
 
     protected Enemy CheckSupport()

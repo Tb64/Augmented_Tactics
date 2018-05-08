@@ -21,12 +21,19 @@ public class Tank : Enemy{
                                                     //should be slow and attack last so allies are in position
     public override void Start()
     {
-        //base.Start();
-        EnemyInitialize();
+       
+        
+    }
+
+    public override void EnemyInitialize()
+    {
+        archetype = "tank";
+        base.EnemyInitialize();
+        GetAbilities();
+        SetAbilities();
         regularMode = false;
         buffCool = false;
         debuffCool = false;
-        archetype = "tank";
     }
 
     public override void EnemyTurnStartActions()
@@ -367,6 +374,7 @@ public class Tank : Enemy{
         debuff = abilitySet[1];
         heal = abilitySet[2];
         lastResort = abilitySet[3];
+        Debug.LogError("tank abilities set" + " " + abilitySet[3]);
     }
 
     protected void GetAbilities()

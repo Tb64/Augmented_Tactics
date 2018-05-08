@@ -11,7 +11,7 @@ This is the parent class of all enemies
 public class Enemy : Actor
 {
     protected int enemyID;
-    protected string archetype;
+    protected string archetype, type;
     protected Actor nearest, weakest, aggro;
     protected Vector3 playerPosition, enemyPosition;
     public float distanceToNearest;
@@ -36,8 +36,10 @@ public class Enemy : Actor
     // Use this for initialization
     new public virtual void Start()
     {
-        LoadPlayer();
-        EnemyInitialize();
+        /*LoadPlayer();
+        if(archetype == "regular")
+            EnemyInitialize();*/
+        
         //team set to Actors instead of GameObjects  
     }
     public override void OnDestroy()
@@ -52,20 +54,22 @@ public class Enemy : Actor
     public virtual void EnemyInitialize()
     {
         base.Init();
-        expGiven = 10;
+        expGiven = GetExpGiven();
         aggroScore = 0;
         //TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStartActions;
         //TurnBehaviour.OnUnitMoved += this.EnemyMoved;
         //TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
         //TurnBehaviour.OnEnemyUnitAttack += this.EnemyUsedAction;
-
+        //Debug.LogError(archetype);
+        if(archetype != "regular")
+            abilitySet = new Ability[4];
 
         if (map == null)
         {
             map = GameObject.Find("Map").GetComponent<TileMap>();
         }
 
-        abilitySet = new Ability[4];
+        
         /*updating for using varied attacks
          update for specific character needs to be added to every
          type of enemy as they are created to load correct attacks*/
@@ -98,7 +102,7 @@ public class Enemy : Actor
     {
         cantTarget = new List<Actor>();
         targetLocked = false;
-        Debug.Log("Enemy " + enemyID + " turn started");
+        Debug.Log("Enemy " + enemyID + " "+ gameObject+ " turn started");
         aggro = EnemyController.aggro;
         if (GetHealthPercent() == 0f)
         {
@@ -322,31 +326,6 @@ public class Enemy : Actor
         return weakest;
     }
 
-    /*public bool reactToProximity(float distanceToNearest)
-    {
-       // Debug.Log(distanceToNearest);
-        if (distanceToNearest <= 1.5)
-        {
-            Debug.Log("Attempting Attack");
-            if (attemptAttack(nearest))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else if (GetHealthPercent() < nearest.GetHealthPercent() && distanceToNearest < moveDistance)
-        {
-            Debug.Log("Healing");
-            HealHealth(100);    // just a filler #
-            return true;
-        }
-        else
-            return false;
-    }*/
-
     protected void findTarget()
     {
         //Debug.Log(currentTarget.coords);
@@ -382,27 +361,6 @@ public class Enemy : Actor
         }
     }
 
-    /*private bool moveEnemy()
-    {
-        if (currentTarget == null)
-            return false;
-        Vector3 movingTo = PosCloseTo(currentTarget.getCoords());
-        if (movingTo == new Vector3(-1, -1, -1))
-        {
-            movingTo = PosCloseTo(currentTarget.getCoords());
-            if (movingTo == new Vector3(-1, -1, -1))
-                return false;
-        }
-        bool isFinshed = map.moveActor(gameObject, movingTo);
-        //Debug.Log(currentTarget.name+" "+ " " + getMapPosition() + movingTo);
-        //after moving, if enemy is in range attack
-        //Debug.Log("Dist = " + Vector3.Distance(enemyPosition, playerPosition) + " " + getMapPosition() + movingTo);
-        //if (Vector3.Distance(enemyPosition, playerPosition) <= 1)
-        //    Attack(currentTarget);
-        //NextTurn();
-        return isFinshed;
-    }
-    */
 
 
     /// <summary>
@@ -410,104 +368,6 @@ public class Enemy : Actor
     /// </summary>
     /// <param name="mapPos">The map/tile position of occupied tile</param>
     /// <returns>Returns closest map/tile position to mapPos, that is not mapPos</returns>
-    /* {
-         Vector3 output = getCoords() - mapPos;
-         output = output.normalized;
-         float absX = Mathf.Abs(output.x), absZ = Mathf.Abs(output.z);
-
-         if (absX > absZ) //attempts to get to the closest available tile then checks all other close pos'
-         {
-             // if (output.x > 0)
-             if (absX < mapPos.x)
-             {
-                 output = new Vector3(1f, 0f, 0f);
-                 if (!map.UnitCanEnterTile(mapPos + output))
-                 {
-                     if (absZ < mapPos.z)
-                     {
-                         output = new Vector3(0f, 0f, 1f);
-                         if (!map.UnitCanEnterTile(mapPos + output))
-                         {
-                             output = new Vector3(0f, 0f, -1f);
-                             if (!map.UnitCanEnterTile(mapPos + output))
-                             {
-                                 output = new Vector3(-1f, 0f, 0f);
-                             }
-                         }
-                     }
-                 }
-             }
-             else
-             {
-                 output = new Vector3(-1f, 0f, 0f);
-                 if (!map.UnitCanEnterTile(mapPos + output))
-                 {
-                     if (absZ < mapPos.z)
-                     {
-                         output = new Vector3(0f, 0f, 1f);
-                         if (!map.UnitCanEnterTile(mapPos + output))
-                         {
-                             output = new Vector3(0f, 0f, -1f);
-                             if (!map.UnitCanEnterTile(mapPos + output))
-                             {
-                                 output = new Vector3(1f, 0f, 0f);
-                             }
-                         }
-                     }
-                 }
-             }
-         }
-         else
-         {
-             //closer to Z
-             if (absZ < mapPos.z)
-             {
-                 output = new Vector3(0f, 0f, 1f);
-                 if (!map.UnitCanEnterTile(mapPos + output))
-                 {
-                     if (absX < mapPos.x)
-                     {
-                         output = new Vector3(1f, 0f, 0f);
-                         if (!map.UnitCanEnterTile(mapPos + output))
-                         {
-                             output = new Vector3(-1f, 0f, 0f);
-                             if (!map.UnitCanEnterTile(mapPos + output))
-                             {
-                                 output = new Vector3(0f, 0f, -1f);
-                             }
-                         }
-                     }
-                 }
-             }
-             else
-             {
-                 output = new Vector3(0f, 0f, -1f);
-                 if (!map.UnitCanEnterTile(mapPos + output))
-                 {
-                     if (absX < mapPos.x)
-                     {
-                         output = new Vector3(1f, 0f, 0f);
-                         if (!map.UnitCanEnterTile(mapPos + output))
-                         {
-                             output = new Vector3(-1f, 0f, 0f);
-                             if (!map.UnitCanEnterTile(mapPos + output))
-                             {
-                                 output = new Vector3(0f, 0f, 1f);
-                             }
-                         }
-                     }
-                 }
-             }
-         }
-
-         //Debug.Log("Delta "+ output + mapPos);
-         output = mapPos + output;
-         Debug.Log("Delta " + output);
-         //Debug.Log(map.getTileAtCoord(output).isOccupied());
-         if (EnemyController.currentEnemy > 0)
-             Debug.Log("first enemy " + EnemyController.enemyList[EnemyController.currentEnemy].getCoords());
-         return output;
-     }*/
     public static Vector3 PosCloseTo(Actor self, Vector3 mapPos, TileMap map)
     {
         Vector3 output = self.getCoords() - mapPos;
@@ -624,9 +484,13 @@ public class Enemy : Actor
         Debug.Log(this + " Attempting attack on " + currentTarget + " at " + currentTarget.getCoords());
         int bestAttack = 0, choice = 0;
         bool chosen = false;
+        //Debug.Log(abilitySet[2]);
+        //Debug.Log(archetype);
         for (int ability = 0; ability < 4; ability++)
         {
             // Debug.Log(abilitySet[ability].SkillInRange(getCoords(), currentTarget.getCoords()));
+            //Debug.Log(ability);
+            //Debug.Log(abilitySet[ability]);
             if (abilitySet[ability].canHeal && CheckHeal() && abilitySet[ability].CanUseSkill(gameObject))
             {
                 abilitySet[ability].UseSkill(gameObject);
@@ -688,66 +552,71 @@ public class Enemy : Actor
 
     }
 
-    protected void LoadPlayer()
+    public Enemy LoadPlayer()
     {
-
+        abilitySet = new Ability[4];
+        for (int x = 0; x < 4; x++)
+            abilitySet[x] = new BasicAttack(gameObject);
         string scene = SceneManager.GetActiveScene().name;
         scene = scene.ToLower();
         switch (scene)
         {
-            case "battle1":
+            case "templete": //need to change back to battle1 after testing
                 if (Random.Range(0, 1000) < 350)
                 {
                     if (Random.Range(0, 1000) < 500)
                     {
-                        LoadThief();
+                        
+                        return LoadThief();
                     }
                     else
                     {
-                        LoadBrawler();
+
+                        return LoadBrawler();
                     }
                 }
                 else
                 {
-                    LoadRegular();
+                    //Debug.LogError("Loaded Regular");
+                    return LoadRegular();
                 }
-                break;
+          
 
             case "battle2":
                 if (Random.Range(0, 1000) < 350)
                 {
                     if (Random.Range(0, 1000) < 500)
                     {
-                        LoadThief();
+                        return LoadThief();
                     }
                     else
                     {
-                        LoadPaladin();
+                        return LoadPaladin();
                     }
                 }
                 else
                 {
-                    LoadRegular();
+                    return LoadRegular();
                 }
-                break;
+                
 
             case "battle3":
                 if (Random.Range(0, 1000) < 350)
                 {
                     if (Random.Range(0, 1000) < 500)
                     {
-                        LoadThief();
+                        return LoadThief();
                     }
                     else
                     {
-                        LoadPaladin();
+                        return LoadPaladin();
                     }
                 }
                 else
                 {
-                    LoadRegular();
+                    return LoadRegular();
                 }
-                break;
+                
 
             case "battle4":
                 if (Random.Range(0, 1000) < 500)
@@ -755,22 +624,22 @@ public class Enemy : Actor
                     int random = Random.Range(0, 1000);
                     if (random < 333)
                     {
-                        LoadWizard();
+                        return LoadWizard();
                     }
                     else if(random >=333 && random <666)
                     {
-                        LoadPaladin();
+                        return LoadPaladin();
                     }
                     else
                     {
-                        LoadCleric();
+                        return LoadCleric();
                     }
                 }
                 else
                 {
-                    LoadRegular();
+                    return LoadRegular();
                 }
-                break;
+                
 
             case "battle5":
                 if (Random.Range(0, 1000) < 400)
@@ -778,40 +647,40 @@ public class Enemy : Actor
                     int random = Random.Range(0, 1000);
                     if (random < 333)
                     {
-                        LoadBrawler();
+                        return LoadBrawler();
                     }
                     else if (random >= 333 && random < 666)
                     {
-                        LoadPaladin();
+                        return LoadPaladin();
                     }
                     else
                     {
-                        LoadWizard();
+                        return LoadWizard();
                     }
                 }
                 else
                 {
-                    LoadRegular();
+                    return LoadRegular();
                 }
-                break;
+                
 
             case "battle6":
                 if (Random.Range(0, 1000) < 350)
                 {
                     if (Random.Range(0, 1000) < 500)
                     {
-                        LoadWizard();
+                        return LoadWizard();
                     }
                     else
                     {
-                        LoadDarkKnight();
+                        return LoadDarkKnight();
                     }
                 }
                 else
                 {
-                    LoadRegular();
+                    return LoadRegular();
                 }
-                break;
+               
 
             case "battle7": 
                 if (Random.Range(0, 1000) < 400)
@@ -819,95 +688,111 @@ public class Enemy : Actor
                     int random = Random.Range(0, 1000);
                     if (random < 200)
                     {
-                        LoadBrawler();
+                        return LoadBrawler();
                     }
                     else if (random >= 200 && random < 400)
                     {
-                        LoadPaladin();
+                        return LoadPaladin();
                     }
                     else if(random >= 400 && random < 600)
                     {
-                        LoadWizard();
+                        return LoadWizard();
                     }
                     else if (random >= 600 && random < 800)
                     {
-                        LoadThief();
+                        return LoadThief();
                     }
                     else
                     {
-                        LoadDarkKnight();
+                        return LoadDarkKnight();
                     }
                 }
                 else
                 {
-                    LoadRegular();
+                    return LoadRegular();
                 }
-                break;
 
             default:
-                Debug.Log("Level " + scene + " MUST be added to this switch^^^");
-                break;
+                Debug.LogError("Level " + scene + " MUST be added to this switch^^^");
+                return null;
         }
     }
 
-    public void LoadRegular()
+    public Enemy LoadRegular()
     {
+        archetype = "regular";
+        //Debug.LogError("archetype set to " + archetype);
+        abilitySet = new Ability[4];
         abilitySet[0] = new BasicAttack(this.gameObject);
         abilitySet[1] = new Fire(this.gameObject);
-        string[] possibles = { "heal", "curewounds", "twinstrike", "quickstab", "sap", "gutpunch", "poisonarrow", "eviscerate", "vengeance", "lifeleech" };
-        int first = Random.Range(0, 8);
+        string[] possibles = { "heal", "curewounds", "quickstab", "sap", "gutpunch", "poisonarrow", "eviscerate", "vengeance", "lifeleech" };
+        int first = Random.Range(0, possibles.Length-1);
         abilitySet[2] = SkillLoader.LoadSkill(possibles[first], this.gameObject);
-        int second = Random.Range(0, 8);
+        int second = Random.Range(0, possibles.Length-1);
         if (second == first)
         {
-            if (second == 8)
+            if (second == possibles.Length-1)
                 second--;
             else
                 second++;
         }
         abilitySet[3] = SkillLoader.LoadSkill(possibles[second], this.gameObject);
+        //Debug.LogError(abilitySet[3]);
+        return this;
     }
 
-    public void LoadBrawler()
+    public Enemy LoadBrawler()
     {
         gameObject.AddComponent<Aggressive>();
-        gameObject.GetComponent<Aggressive>().type = "brawler";
+        Enemy newType = gameObject.GetComponent<Aggressive>();
+        newType.type = "brawler";
         GameObject.Destroy(this);
+        return newType;
     }
 
-    public void LoadThief()
+    public Enemy LoadThief()
     {
         gameObject.AddComponent<Support>();
-        gameObject.GetComponent<Support>().type = "thief";
+        Enemy newType = gameObject.GetComponent<Support>();
+        newType.type = "thief";
         GameObject.Destroy(this);
+        return newType;
     }
 
-    public void LoadCleric()
+    public Enemy LoadCleric()
     {
         gameObject.AddComponent<Defender>();
-        gameObject.GetComponent<Defender>().type = "cleric";
+        Enemy newType = gameObject.GetComponent<Defender>();
+        newType.type = "cleric";
         GameObject.Destroy(this);
+        return newType;
     }
 
-    public void LoadDarkKnight()
+    public Enemy LoadDarkKnight()
     {
         gameObject.AddComponent<Aggressive>();
-        gameObject.GetComponent<Aggressive>().type = "darkknight";
+        Enemy newType = gameObject.GetComponent<Aggressive>();
+        newType.type = "darkknight";
         GameObject.Destroy(this);
+        return newType;
     }
 
-    public void LoadPaladin()
+    public Enemy LoadPaladin()
     {
         gameObject.AddComponent<Tank>();
-        gameObject.GetComponent<Tank>().type = "paladin";
+        Enemy newType = gameObject.GetComponent<Tank>();
+        newType.type = "paladin";
         GameObject.Destroy(this);
+        return newType;
     }
 
-    public void LoadWizard()
+    public Enemy LoadWizard()
     {
         gameObject.AddComponent<Aggressive>();
-        gameObject.GetComponent<Aggressive>().type = "wizard";
+        Enemy newType = gameObject.GetComponent<Aggressive>();
+        newType.type = "wizard";
         GameObject.Destroy(this);
+        return newType;
     }
 
 
@@ -971,9 +856,74 @@ public class Enemy : Actor
         return false;
     }
 
-    public int getExpGiven()
+    public int GetExpGiven()
     {
-        return expGiven;
+        switch (getLevel())
+        {
+            case 1:
+                if (GetArchetype() == "regular")
+                    return 25;
+                else if (GetArchetype() == "defender")
+                    return 50;
+                else
+                    return 75;
+
+            case 2:
+                if (GetArchetype() == "regular")
+                    return 50;
+                else if (GetArchetype() == "defender")
+                    return 100;
+                else
+                    return 150;
+            case 3:
+                if (GetArchetype() == "regular")
+                    return 75;
+                else if (GetArchetype() == "defender")
+                    return 150;
+                else
+                    return 225;
+
+            case 4:
+                if (GetArchetype() == "regular")
+                    return 125;
+                else if (GetArchetype() == "defender")
+                    return 250;
+                else
+                    return 375;
+
+            case 5:
+                if (GetArchetype() == "regular")
+                    return 250;
+                else if (GetArchetype() == "defender")
+                    return 500;
+                else
+                    return 750;
+
+            case 6:
+                if (GetArchetype() == "regular")
+                    return 300;
+                else if (GetArchetype() == "defender")
+                    return 600;
+                else
+                    return 900;
+
+            case 7:
+                if (GetArchetype() == "regular")
+                    return 350;
+                else if (GetArchetype() == "defender")
+                    return 750;
+                else
+                    return 1100;
+
+            default:
+                if (GetArchetype() == "regular")
+                    return 450;
+                else if (GetArchetype() == "defender")
+                    return 900;
+                else
+                    return 1400;
+
+        }
     }
 
     public int GetID()

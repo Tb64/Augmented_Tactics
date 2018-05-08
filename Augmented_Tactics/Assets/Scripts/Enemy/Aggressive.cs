@@ -28,17 +28,19 @@ public class Aggressive : Enemy {
 
     public override void Start ()
     {
-        //base.Start();
-        EnemyInitialize();
-        GetAbilities();
-        SetAbilities();
-        regularMode = false;
-        archetype = "aggressive";
+        
+        
 	}
 
     public override void EnemyInitialize() //temp. changing soon w/ attacks and items etc
     {
+        archetype = "aggressive";
+        //base.Start();
         base.EnemyInitialize();
+        GetAbilities();
+        SetAbilities();
+        regularMode = false;
+        
     }
 
     public override void EnemyTurnStartActions()
@@ -137,6 +139,7 @@ public class Aggressive : Enemy {
 
     private void GetAbilities()
     {
+        abilitySet = new Ability[4];
         abilitySet[0] = new BasicAttack(gameObject);
         if (Random.Range(0, 1) == 0)
             abilitySet[1] = new Fire(gameObject);
@@ -156,28 +159,24 @@ public class Aggressive : Enemy {
         {
             GetSkills(4);
         }
+        Debug.LogError("aggressive ability " + abilitySet[0]);
     }
 
     private void GetSkills(int id)
     {
-        int first = Random.Range(0, 7), second = Random.Range(0, 7);
+        int first = Random.Range(0, 7), second = Random.Range(0, 1);
         string[] possibles = SkillLoader.ClassSkills(id);
         abilitySet[2] = SkillLoader.LoadSkill(possibles[first], gameObject);
-        if (second == first)
-        {
-            if (Random.Range(0, 1) == 0)
-                second++;
-            else
-                second--;
-        }
-        abilitySet[3] = SkillLoader.LoadSkill(possibles[second], gameObject);
+        
+        string[] possible = { "attack","physicaldefense"};
+        abilitySet[3] = buff = new BuffDebuff(gameObject, possible[second], null, false, true, getWisdom(), false);
     }
     
     private void SetAbilities()
     {
         //add which types
         float bestRange = 0, mostRange = 0;
-        buff = abilitySet[3]; // Testing for a buff seems tedious so by default let the buff for an aggressive be in the last slot
+        //buff = abilitySet[3]; // Testing for a buff seems tedious so by default let the buff for an aggressive be in the last slot
         foreach (Ability ability in abilitySet)
         {
             if (ability.range_max > mostRange)
@@ -205,6 +204,7 @@ public class Aggressive : Enemy {
                 }
             }
         }
+        Debug.LogError("aggressive abilities set" + " " + abilitySet[3]);
     }
 
 

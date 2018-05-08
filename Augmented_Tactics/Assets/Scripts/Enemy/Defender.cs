@@ -31,14 +31,20 @@ public class Defender : Enemy {
     // Use this for initialization
     public override void Start ()
     {
+       
+        
+    }
+
+    public override void EnemyInitialize()
+    {
+        archetype = "defender";
         //base.Start();
-        EnemyInitialize();
+        base.EnemyInitialize();
         GetAbilities();
         TurnBehaviour.OnEnemyOutOfMoves += this.ResetValues;
         //FindRanges();
         //add buffs
         // heal = GetHeal();
-        archetype = "defender";
     }
 
     public override void OnDestroy()
@@ -353,6 +359,8 @@ public class Defender : Enemy {
             abilitySet[3] = lastResort = new SpikeGrowth(gameObject);
         else
             abilitySet[3] = lastResort = new ShieldOfFaith(gameObject);
+
+        Debug.LogError("defender abilities set" + " " + abilitySet[3]);
     }
 
     public void ResetValues()
