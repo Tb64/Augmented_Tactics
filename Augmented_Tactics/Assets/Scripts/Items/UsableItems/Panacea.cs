@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Panacea : UsableItem {
 
+    //cures all status effects
     public override void InitInitialize()
     {
         base.InitInitialize();

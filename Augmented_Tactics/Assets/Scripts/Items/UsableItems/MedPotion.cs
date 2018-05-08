@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MedPotion : UsableItem {
 
+    //Heals health of effected actor
     public override void InitInitialize()
     {
         base.InitInitialize();

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LargeManaTonic : UsableItem {
 
+    //recovers mana of effected player
     public override void InitInitialize()
     {
         base.InitInitialize();
