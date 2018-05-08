@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: eeb6f7e9aed4cee479af1f01def136f0
-timeCreated: 1461766139
-licenseType: Store
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: B_L_Hand
     100002: B_L_Forearm
@@ -247,10 +245,13 @@ ModelImporter:
     11100000: //RootNode
     13700000: Soldier_Mesh
     13700002: RPG-Character-Mesh
+    2186277476908879412: ImportLogs
+  externalObjects: {}
   materials:
     importMaterials: 0
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -262,27 +263,29 @@ ModelImporter:
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar to
-      improve retargeting quality.\n\t'B_Spine' has translation animation that will
-      be discarded.\n\t'B_Spine2' is inbetween humanoid transforms and has rotation
-      animation that will be discarded.\n"
+      improve retargeting quality.\n\t'B_Spine2' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n"
     animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftUpperArm
-      average position error 6.5 mm and maximum position error 8.0 mm at time 0: 0
-      (0.0%) Frame 0\n\tLeftLowerArm average position error 4.1 mm and maximum position
-      error 6.5 mm at time 0:24 (100.0%) Frame 24\n\tLeftHand average position error
-      3.2 mm and maximum position error 5.5 mm at time 0:12 (50.0%) Frame 12\n\tRightUpperArm
-      average position error 6.5 mm and maximum position error 8.0 mm at time 0: 1
-      (4.2%) Frame 1\n\tRightLowerArm average position error 4.5 mm and maximum position
-      error 6.5 mm at time 0:12 (50.0%) Frame 12\n\tRightHand average position error
-      3.5 mm and maximum position error 5.9 mm at time 0:24 (100.0%) Frame 24\n\tHead
-      average position error 15.3 mm and maximum position error 16.3 mm at time 0:
-      1 (4.2%) Frame 1\n"
+      average position error 31.9 mm and maximum position error 40.0 mm at time 0:24
+      (100.0%) Frame 24\n\tLeftLowerArm average position error 24.2 mm and maximum
+      position error 34.2 mm at time 0: 0 (0.0%) Frame 0\n\tLeftHand average position
+      error 20.1 mm and maximum position error 31.4 mm at time 0: 0 (0.0%) Frame 0\n\tRightUpperArm
+      average position error 14.6 mm and maximum position error 22.4 mm at time 0:12
+      (50.0%) Frame 12\n\tRightLowerArm average position error 7.5 mm and maximum
+      position error 11.3 mm at time 0:12 (50.0%) Frame 12\n\tRightHand average position
+      error 1.6 mm and maximum position error 2.8 mm at time 0:10 (41.7%) Frame 10\n\tHead
+      average position error 61.6 mm and maximum position error 80.1 mm at time 0:24
+      (100.0%) Frame 24\n"
     animationDoRetargetingWarnings: 1
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
       name: Shield-Walk-Injured
@@ -442,13 +445,18 @@ ModelImporter:
     globalScale: 0.01
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -458,6 +466,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 2
     tangentImportMode: 2
+    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 1
   humanDescription:
