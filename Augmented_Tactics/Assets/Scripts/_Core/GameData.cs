@@ -29,7 +29,7 @@ public class GameData
     public GameData()
     {
 
-        Debug.Log("Generating New GameDat");
+        //Debug.Log("Generating New GameDat");
         armyList = new List<PlayerData>();
         //generateArmy();
 

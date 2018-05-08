@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: 05e46819571248a41b7145ad5f63883a
-timeCreated: 1461591807
-licenseType: Store
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: B_L_Hand
     100002: B_L_Forearm
@@ -243,10 +241,13 @@ ModelImporter:
     11100000: //RootNode
     13700000: Soldier_Mesh
     13700002: RPG-Character-Mesh
+    2186277476908879412: ImportLogs
+  externalObjects: {}
   materials:
     importMaterials: 0
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -261,25 +262,30 @@ ModelImporter:
       improve retargeting quality.\n\t'B_Spine' has translation animation that will
       be discarded.\n\t'B_Spine2' is inbetween humanoid transforms and has rotation
       animation that will be discarded.\n"
-    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tRightLowerLeg
-      average position error 2.3 mm and maximum position error 10.8 mm at time 0:23
-      (88.5%) Frame 23\n\tLeftUpperArm average position error 25.5 mm and maximum
-      position error 40.6 mm at time 0: 8 (30.8%) Frame 8\n\tLeftLowerArm average
-      position error 18.9 mm and maximum position error 42.1 mm at time 0: 8 (30.8%)
-      Frame 8\n\tLeftHand average position error 17.0 mm and maximum position error
-      43.3 mm at time 0: 8 (30.8%) Frame 8\n\tRightUpperArm average position error
-      20.8 mm and maximum position error 40.5 mm at time 0: 8 (30.8%) Frame 8\n\tRightLowerArm
-      average position error 16.6 mm and maximum position error 41.5 mm at time 0:
-      8 (30.8%) Frame 8\n\tRightHand average position error 17.3 mm and maximum position
-      error 43.5 mm at time 0: 8 (30.8%) Frame 8\n\tHead average position error 47.0
-      mm and maximum position error 88.3 mm at time 0:23 (88.5%) Frame 23\n"
+    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftLowerLeg
+      average position error 0.3 mm and maximum position error 1.9 mm at time 0:20
+      (76.9%) Frame 20\n\tRightLowerLeg average position error 2.6 mm and maximum
+      position error 10.8 mm at time 0:21 (80.8%) Frame 21\n\tLeftUpperArm average
+      position error 27.9 mm and maximum position error 40.5 mm at time 0: 6 (23.1%)
+      Frame 6\n\tLeftLowerArm average position error 20.2 mm and maximum position
+      error 42.0 mm at time 0: 6 (23.1%) Frame 6\n\tLeftHand average position error
+      17.6 mm and maximum position error 43.3 mm at time 0: 6 (23.1%) Frame 6\n\tRightUpperArm
+      average position error 22.7 mm and maximum position error 40.3 mm at time 0:
+      6 (23.1%) Frame 6\n\tRightLowerArm average position error 17.8 mm and maximum
+      position error 41.4 mm at time 0: 6 (23.1%) Frame 6\n\tRightHand average position
+      error 18.1 mm and maximum position error 43.5 mm at time 0: 6 (23.1%) Frame
+      6\n\tHead average position error 52.5 mm and maximum position error 90.6 mm
+      at time 0:21 (80.8%) Frame 21\n"
     animationDoRetargetingWarnings: 1
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
       name: 2Hand-Axe-Roll-Right
@@ -425,13 +431,18 @@ ModelImporter:
     globalScale: 0.01
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -441,6 +452,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 2
     tangentImportMode: 2
+    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 1
   humanDescription:

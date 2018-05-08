@@ -24,7 +24,7 @@ public class Vengeance : Ability {
         abilityImage = Resources.Load<Sprite>(SpiriteDir);
         if (abilityImage == null)
             Debug.Log("Unable to load image");
-
+        
         abilityDescription = "An attack that receives bonus damage for the amount of health lost.";
 
 

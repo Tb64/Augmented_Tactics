@@ -24,7 +24,8 @@ public class ItemSelectUI : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        gdata = GameDataController.loadPlayerData();
+        inventory.UpdateInventory(gdata.usableItems);
     }
 
     // Update is called once per frame

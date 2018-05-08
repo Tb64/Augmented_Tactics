@@ -51,6 +51,9 @@ public class SkillLoader : MonoBehaviour {
             case "counter":
                 return new Counter(gObj);
 
+            case "shockwave":
+                return new Shockwave(gObj);
+
             //Knight
 
             case "eviscerate":
@@ -133,6 +136,8 @@ public class SkillLoader : MonoBehaviour {
                 return new DivineFavor(gObj);
             case "heroism":
                 return new Heroism(gObj);
+            case "rallycry":
+                return new RallyCry(gObj);
             case "fortifiedstrike":
                 return new FortifiedStrike(gObj);
 
@@ -161,7 +166,7 @@ public class SkillLoader : MonoBehaviour {
                 skills[3] = "counter";
                 skills[4] = "gutpunch";
                 skills[5] = "cyclonekick";
-                skills[6] = "";
+                skills[6] = "shockwave";
                 skills[7] = "howlingfist";
                 return skills;
 
@@ -194,7 +199,7 @@ public class SkillLoader : MonoBehaviour {
                 skills[3] = "heroism";
                 skills[4] = "smite";
                 skills[5] = "fortifiedstrike";
-                skills[6] = "";
+                skills[6] = "rallycry";
                 skills[7] = "ward";
                 return skills;
 
