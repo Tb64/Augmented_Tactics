@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: 83a290534acc18d41aec8c09a4083213
-timeCreated: 1488789563
-licenseType: Store
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: B_Head
     100002: B_L_Calf
@@ -121,10 +119,13 @@ ModelImporter:
     7400000: Pickup
     9500000: //RootNode
     13700000: RPG-Character-Mesh
+    2186277476908879412: ImportLogs
+  externalObjects: {}
   materials:
     importMaterials: 0
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -139,23 +140,26 @@ ModelImporter:
       improve retargeting quality.\n\t'B_Spine2' is inbetween humanoid transforms
       and has rotation animation that will be discarded.\n"
     animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftUpperArm
-      average position error 41.1 mm and maximum position error 62.1 mm at time 0:11
-      (30.6%) Frame 11\n\tLeftLowerArm average position error 32.7 mm and maximum
-      position error 58.3 mm at time 0:12 (33.3%) Frame 12\n\tLeftHand average position
-      error 29.8 mm and maximum position error 60.6 mm at time 0:12 (33.3%) Frame
-      12\n\tRightUpperArm average position error 34.2 mm and maximum position error
+      average position error 36.6 mm and maximum position error 62.1 mm at time 0:11
+      (30.6%) Frame 11\n\tLeftLowerArm average position error 30.1 mm and maximum
+      position error 62.7 mm at time 0:12 (33.3%) Frame 12\n\tLeftHand average position
+      error 26.3 mm and maximum position error 61.7 mm at time 0:12 (33.3%) Frame
+      12\n\tRightUpperArm average position error 30.0 mm and maximum position error
       54.2 mm at time 0:11 (30.6%) Frame 11\n\tRightLowerArm average position error
-      15.3 mm and maximum position error 23.1 mm at time 0: 8 (22.2%) Frame 8\n\tRightHand
-      average position error 19.5 mm and maximum position error 35.5 mm at time 0:
-      6 (16.7%) Frame 6\n\tHead average position error 103.6 mm and maximum position
+      16.7 mm and maximum position error 31.6 mm at time 0:11 (30.6%) Frame 11\n\tRightHand
+      average position error 10.3 mm and maximum position error 26.8 mm at time 0:
+      6 (16.7%) Frame 6\n\tHead average position error 91.9 mm and maximum position
       error 161.2 mm at time 0:11 (30.6%) Frame 11\n"
     animationDoRetargetingWarnings: 1
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
       name: Pickup
@@ -308,13 +312,18 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -324,6 +333,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 2
     tangentImportMode: 2
+    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 1
   humanDescription:

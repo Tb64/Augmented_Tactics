@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: 8eadfdff15b87a546bb4908fee494da0
-timeCreated: 1461676750
-licenseType: Store
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: B_L_Hand
     100002: B_L_Forearm
@@ -243,10 +241,13 @@ ModelImporter:
     11100000: //RootNode
     13700000: Soldier_Mesh
     13700002: RPG-Character-Mesh
+    2186277476908879412: ImportLogs
+  externalObjects: {}
   materials:
     importMaterials: 0
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -262,23 +263,26 @@ ModelImporter:
       be discarded.\n\t'B_Spine2' is inbetween humanoid transforms and has rotation
       animation that will be discarded.\n"
     animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tLeftUpperArm
-      average position error 39.0 mm and maximum position error 63.3 mm at time 0:
-      7 (26.9%) Frame 7\n\tLeftLowerArm average position error 34.7 mm and maximum
-      position error 62.8 mm at time 0: 7 (26.9%) Frame 7\n\tLeftHand average position
-      error 34.7 mm and maximum position error 62.9 mm at time 0: 7 (26.9%) Frame
-      7\n\tRightUpperArm average position error 35.0 mm and maximum position error
-      61.6 mm at time 0: 8 (30.8%) Frame 8\n\tRightLowerArm average position error
-      29.7 mm and maximum position error 62.2 mm at time 0: 7 (26.9%) Frame 7\n\tRightHand
-      average position error 27.3 mm and maximum position error 62.0 mm at time 0:
-      7 (26.9%) Frame 7\n\tHead average position error 59.6 mm and maximum position
-      error 92.6 mm at time 0:22 (84.6%) Frame 22\n"
+      average position error 38.3 mm and maximum position error 63.8 mm at time 0:
+      6 (23.1%) Frame 6\n\tLeftLowerArm average position error 34.1 mm and maximum
+      position error 63.3 mm at time 0: 6 (23.1%) Frame 6\n\tLeftHand average position
+      error 34.1 mm and maximum position error 63.4 mm at time 0: 6 (23.1%) Frame
+      6\n\tRightUpperArm average position error 34.4 mm and maximum position error
+      62.1 mm at time 0: 7 (26.9%) Frame 7\n\tRightLowerArm average position error
+      29.4 mm and maximum position error 62.5 mm at time 0: 6 (23.1%) Frame 6\n\tRightHand
+      average position error 27.4 mm and maximum position error 62.4 mm at time 0:
+      6 (23.1%) Frame 6\n\tHead average position error 58.3 mm and maximum position
+      error 91.8 mm at time 0:22 (84.6%) Frame 22\n"
     animationDoRetargetingWarnings: 1
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
       name: Staff-Roll-Left
@@ -424,13 +428,18 @@ ModelImporter:
     globalScale: 0.01
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -440,6 +449,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 2
     tangentImportMode: 2
+    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 1
   humanDescription:

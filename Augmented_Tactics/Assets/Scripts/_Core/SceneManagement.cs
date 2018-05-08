@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneManagement : MonoBehaviour {
 
-    public void LoadHub()
+    public static void LoadHub()
     {//loads main hub
         SceneManager.LoadSceneAsync("castle_hub");
     }
