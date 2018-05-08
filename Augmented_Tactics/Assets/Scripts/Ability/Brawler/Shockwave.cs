@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Shockwave : Ability {
     private string animTrigger = "CastAttack2Trigger";
+    private string effectDir = "";
+    private GameObject effect;
     const string SpiriteDir = "UI/Skill_Icon_Pack/yellow/yellow_10";
 
     public Shockwave(GameObject obj)
@@ -20,12 +22,15 @@ public class Shockwave : Ability {
         dwell_time = 1.0f;
         heal = 0;
         manaCost = 5f * actor.getLevel();
-        abilityName = "Heroism";
+        abilityName = "Shockwave";
         abilityImage = Resources.Load<Sprite>(SpiriteDir);
+        actor.UseMana(actor.getManaCurrent());
         if (abilityImage == null)
             Debug.Log("Unable to load image");
+        damage = ((float)actor.getWisdom()) + ((float)actor.getStrength());
+        int manaPercent = (int)((manaCost * 100f) / actor.getMaxMana());
+        abilityDescription = "A ranged attack that uses strength and wisdom. Cost is a percentage that depends on the level of the brawler. \nMana: " + manaPercent + "%";
 
-        abilityDescription = "Grants a person the ability to counter attack.";
     }
 
     public override void ActionSkill(GameObject target)
@@ -42,7 +47,8 @@ public class Shockwave : Ability {
         //float damage = 10f + ((float)actor.getStrength() * 0.5f);
         //Debug.Log("combo damage = " + damage + " " + actor.getStrength());
         //target.GetComponent<Actor>().HealHealth(heal);
-        target.GetComponent<Actor>().setCounterAttack(2);
+        float totalDamage = damage + actor.getWeapon().RollPhysicalDamage() - target.GetComponent<Actor>().getPhysicalDefense();
+        Debug.Log("combo damage = " + totalDamage + " " + actor.getStrength());
 
         DwellTime.Attack(dwell_time);
     }
