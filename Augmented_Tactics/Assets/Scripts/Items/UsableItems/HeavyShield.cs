@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class HeavyShield : UsableItem {
 
+    //item that buffs defense and debuffs dexterity for the effected player
+
     public override void InitInitialize()
     {
         base.InitInitialize();
@@ -13,7 +15,7 @@ public class HeavyShield : UsableItem {
 
     public override bool UseItem(GameObject user, GameObject target)
     {
-        itemAbility = new BuffDebuff(user, "defense", "dexterity", true, 10, true);
+        itemAbility = new BuffDebuff(user, "defense", "dexterity", true,true, 10, true);
         if (!base.UseItem(user, target))
             return false;
         return itemAbility.UseSkill(target);

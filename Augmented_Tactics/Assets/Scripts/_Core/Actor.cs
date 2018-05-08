@@ -325,7 +325,7 @@ public class Actor : MonoBehaviour
 
         if (data != null)
             LoadStatsFromData(data);
-
+        
         InitStats();
 
     }
@@ -333,14 +333,18 @@ public class Actor : MonoBehaviour
     private void InitStats()
     {
         //load stats here
+        if (gameObject.tag != "Enemy")
+        {
 
-        if (this.level == 0)
-            this.level = 1;
+
+            if (this.level == 0)
+                this.level = 1;
 
         this.health_max = data.getTotalMaxHealth();
         this.health_current = this.health_max;
         this.mana_max = data.getTotalMaxMana();
         this.mana_current = this.mana_max;
+        }
     }
 
     public void LoadStatsFromData(PlayerData pdata)

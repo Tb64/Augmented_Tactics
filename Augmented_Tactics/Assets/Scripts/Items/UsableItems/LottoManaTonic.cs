@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LottoManaTonic : UsableItem {
 
+    //randomly recovers mana of effected player for 5 turns
     public override void InitInitialize()
     {
         base.InitInitialize();
