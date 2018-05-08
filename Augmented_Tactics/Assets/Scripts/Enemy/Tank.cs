@@ -28,7 +28,8 @@ public class Tank : Enemy{
     public override void EnemyInitialize()
     {
         archetype = "tank";
-        base.EnemyInitialize();
+        if(!boss)
+            base.EnemyInitialize();
         GetAbilities();
         SetAbilities();
         regularMode = false;
@@ -68,6 +69,9 @@ public class Tank : Enemy{
 
     public override void EnemyActions()
     {
+
+        if (getMoves() == 0)
+            return;
 
         if (Random.Range(0, 1000) <= 500 && GetHealthPercent() < .35 || closestAggro.GetHealthPercent() < .45 && healPossible)
             healMode = true;
@@ -121,6 +125,7 @@ public class Tank : Enemy{
             else
             {
                 setNumOfActions(0);
+                TurnBehaviour.EnemyTurnFinished();
                 return;
             }
         }
@@ -173,7 +178,9 @@ public class Tank : Enemy{
                 }
                 else
                 {
+                    Debug.LogError("settings actions to 0");
                     setNumOfActions(0);
+                    TurnBehaviour.EnemyTurnFinished();
                     return;
                 }
                 
@@ -374,7 +381,7 @@ public class Tank : Enemy{
         debuff = abilitySet[1];
         heal = abilitySet[2];
         lastResort = abilitySet[3];
-        Debug.LogError("tank abilities set" + " " + abilitySet[3]);
+        //Debug.LogError("tank abilities set" + " " + abilitySet[3]);
     }
 
     protected void GetAbilities()

@@ -29,7 +29,7 @@ public class Enemy : Actor
     protected List<Actor> cantTarget;
     protected UsableItem healItem;
     protected bool targetLocked;
-    public bool aided;
+    public bool aided,boss;
 
     public Actor currentTarget;
     // Use this for initialization
@@ -582,7 +582,7 @@ public class Enemy : Actor
                 }
           
 
-            case "battle2":
+            case "level02":
                 if (Random.Range(0, 1000) < 350)
                 {
                     if (Random.Range(0, 1000) < 500)

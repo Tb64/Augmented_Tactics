@@ -513,7 +513,7 @@ public class TileMap : MonoBehaviour {
         }
         if(actorObj.speed == 0 || actorObj.moveDistance == 0)
         {
-            Debug.Log("!!!!! WARNING !!!!! ACTOR HAS NO SPEED OR MOVEDISTANCE!");
+            Debug.Log("!!!!! WARNING !!!!! ACTOR " + actorObj + " HAS NO SPEED OR MOVEDISTANCE!");
             return;
         }
 

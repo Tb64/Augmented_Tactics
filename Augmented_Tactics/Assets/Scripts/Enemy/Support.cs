@@ -30,13 +30,14 @@ public class Support : Enemy {
 
     public override void Start()
     {
-        
+       // boss = false;
     }
 
     public override void EnemyInitialize()
     {
         archetype = "support";
-        base.EnemyInitialize();
+        if (!boss)
+            base.EnemyInitialize();
         hasHeal = false;
         TurnBehaviour.OnEnemyOutOfMoves += this.ResetValues;
         GetAbilities();
@@ -91,7 +92,7 @@ public class Support : Enemy {
             SaveFriendly();
             return;
         }
-
+        Debug.Log(targetLocked + " " + aidLocked);
         if (!targetLocked && !aidLocked)
         {
             currentTarget = PlayerTooClose();
@@ -189,10 +190,13 @@ public class Support : Enemy {
 
     protected void RunAndGun() //Default Tactic of Support if no teammate needs help
     {
-        Debug.Log(this + " is Running and Gunning");
+        if (getMoves() == 0)
+            return;
+        Debug.Log(this + " is Running and Gunning "+ getMoves());
         if (!mostDistance.SkillInRange(getCoords(),aggro.getCoords()) /*|| distanceFromAggro - mostDistance.range_max > 5 && mostDistance.CanUseSkill(currentTarget.gameObject)*/)
         {
             Debug.Log("Finding Shweet Shpot");
+            Debug.Log(map);
             FindShweetSpot(this,currentTarget,mostDistance,map); // get closer so attack is possible, or further to stay away from enemies
             return;
         }    
@@ -311,7 +315,7 @@ public class Support : Enemy {
                 }
             }
         }
-        Debug.LogError("support abilities set" + " " + abilitySet[3]);
+        //Debug.LogError("support abilities set" + " " + abilitySet[3]);
     }
 
     protected Enemy CheckSupport()
