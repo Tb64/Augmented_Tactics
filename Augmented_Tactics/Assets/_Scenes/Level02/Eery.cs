@@ -10,7 +10,15 @@ public class Eery : Support {
   
     public override void EnemyInitialize()
     {
+        boss = true;
         base.EnemyInitialize();
+        base.Init();
+        aggroScore = 0;
+
+        if (map == null)
+        {
+            map = GameObject.Find("Map").GetComponent<TileMap>();
+        }
         hasHeal = false;
         sneakCoolDown = false;
         expGiven = 1000;
@@ -31,18 +39,14 @@ public class Eery : Support {
 
     public override void EnemyActions()
     {
+        Debug.Log("Eery Moves: " + getMoves());
         if (getMoves() == 0)
             return;
         if(getManaCurrent() <= 0)
         {
             setManaCurrent(30);
             setNumOfActions(0);
-            return;
-        }
-        if(getManaCurrent() <= 0)
-        {
-            setManaCurrent(30);
-            setNumOfActions(0);
+            TurnBehaviour.EnemyTurnFinished();
             return;
         }
 

@@ -28,7 +28,7 @@ public class Aggressive : Enemy {
 
     public override void Start ()
     {
-        
+        //boss = false;
         
 	}
 
@@ -36,7 +36,8 @@ public class Aggressive : Enemy {
     {
         archetype = "aggressive";
         //base.Start();
-        base.EnemyInitialize();
+        if (!boss)
+            base.EnemyInitialize();
         GetAbilities();
         SetAbilities();
         regularMode = false;
@@ -51,6 +52,8 @@ public class Aggressive : Enemy {
     }
     public override void EnemyActions()
     {
+        if (getMoves() == 0)
+            return;
         if (regularMode && CheckManaReplenish())
             regularMode = false;
         if (regularMode)

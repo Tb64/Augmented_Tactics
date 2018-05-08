@@ -31,7 +31,7 @@ public class Defender : Enemy {
     // Use this for initialization
     public override void Start ()
     {
-       
+      //  boss = false;
         
     }
 
@@ -39,7 +39,8 @@ public class Defender : Enemy {
     {
         archetype = "defender";
         //base.Start();
-        base.EnemyInitialize();
+        if (!boss)
+            base.EnemyInitialize();
         GetAbilities();
         TurnBehaviour.OnEnemyOutOfMoves += this.ResetValues;
         //FindRanges();

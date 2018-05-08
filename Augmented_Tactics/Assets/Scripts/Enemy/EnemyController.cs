@@ -62,6 +62,7 @@ public class EnemyController : MonoBehaviour
         SM = GameObject.FindWithTag("GameController").GetComponent<StateMachine>();
         if (enemyList == null)
             enemyList = new List<Enemy>();
+        //Debug.LogError("Nulling EnemyList");
         GameObject[] tempEnemyTeam = GameObject.FindGameObjectsWithTag("Enemy");
         List<GameObject> findOrder = new List<GameObject>();
         foreach (GameObject orderChoice in tempEnemyTeam)
@@ -71,6 +72,7 @@ public class EnemyController : MonoBehaviour
         }
         //findOrder = AddSpecialists(findOrder) ;
         DecideOrder(findOrder);
+       // Debug.Log("EnemyList Count: " + enemyList.Count);
        /* foreach (Enemy enemy in enemyList)
         {
            // enemyList[enemyNum] = enemy.GetComponent<Enemy>();
@@ -190,6 +192,7 @@ public class EnemyController : MonoBehaviour
             enemyList[x].setEnemyId(x);
             Debug.Log("Enemy added: " + enemyList[x].getEnemyID() + ") " + enemyList[x]);
         }
+       // Debug.LogError(enemyList[0]);
     }
 
     public void EnemyTurnStart()
@@ -218,6 +221,7 @@ public class EnemyController : MonoBehaviour
     private void EnemyAction()
     {
         //Debug.Log("called " + EnemyController.enemyNum + " " + currentEnemy);
+       // Debug.Log(enemyList[0]);
         if (enemyList == null || currentEnemy >= EnemyController.enemyNum || enemyList[currentEnemy] == null)
         {
             Debug.Log("No more enemies");
