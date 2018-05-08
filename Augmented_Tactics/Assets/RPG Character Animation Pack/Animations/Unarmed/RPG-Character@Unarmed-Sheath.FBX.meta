@@ -1,9 +1,7 @@
 fileFormatVersion: 2
 guid: 70f1841474540264c96597c43c09b46c
-timeCreated: 1488789563
-licenseType: Store
 ModelImporter:
-  serializedVersion: 19
+  serializedVersion: 22
   fileIDToRecycleName:
     100000: B_Head
     100002: B_L_Calf
@@ -121,10 +119,13 @@ ModelImporter:
     7400000: Unarmed-Sheath
     9500000: //RootNode
     13700000: RPG-Character-Mesh
+    2186277476908879412: ImportLogs
+  externalObjects: {}
   materials:
     importMaterials: 0
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -136,27 +137,31 @@ ModelImporter:
     animationImportErrors: 
     animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
       might lower retargeting quality:\nNote: Activate translation DOF on avatar to
-      improve retargeting quality.\n\t'B_Spine2' is inbetween humanoid transforms
-      and has rotation animation that will be discarded.\n"
+      improve retargeting quality.\n\t'B_Spine' has translation animation that will
+      be discarded.\n\t'B_Spine2' is inbetween humanoid transforms and has rotation
+      animation that will be discarded.\n"
     animationRetargetingWarnings: "\nRetargeting quality report for clip 'Take 001':\n\tRightLowerLeg
-      average position error 0.5 mm and maximum position error 2.1 mm at time 0:17
-      (85.0%) Frame 17\n\tLeftUpperArm average position error 7.9 mm and maximum position
+      average position error 0.6 mm and maximum position error 3.9 mm at time 0:17
+      (85.0%) Frame 17\n\tLeftUpperArm average position error 7.1 mm and maximum position
       error 16.1 mm at time 0: 0 (0.0%) Frame 0\n\tLeftLowerArm average position error
-      6.0 mm and maximum position error 15.9 mm at time 0: 0 (0.0%) Frame 0\n\tLeftHand
-      average position error 4.8 mm and maximum position error 16.1 mm at time 0:
-      0 (0.0%) Frame 0\n\tRightUpperArm average position error 6.1 mm and maximum
+      5.6 mm and maximum position error 15.9 mm at time 0: 0 (0.0%) Frame 0\n\tLeftHand
+      average position error 5.1 mm and maximum position error 16.1 mm at time 0:
+      0 (0.0%) Frame 0\n\tRightUpperArm average position error 5.3 mm and maximum
       position error 14.9 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm average
       position error 3.1 mm and maximum position error 6.1 mm at time 0: 0 (0.0%)
-      Frame 0\n\tRightHand average position error 2.2 mm and maximum position error
-      10.1 mm at time 0: 0 (0.0%) Frame 0\n\tHead average position error 18.8 mm and
+      Frame 0\n\tRightHand average position error 4.0 mm and maximum position error
+      10.1 mm at time 0: 0 (0.0%) Frame 0\n\tHead average position error 17.1 mm and
       maximum position error 41.7 mm at time 0: 0 (0.0%) Frame 0\n"
     animationDoRetargetingWarnings: 1
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
       name: Unarmed-Sheath
@@ -309,13 +314,18 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
     optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
@@ -325,6 +335,7 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 2
     tangentImportMode: 2
+    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 1
   humanDescription:
