@@ -30,7 +30,7 @@ public class CharacterClasses : MonoBehaviour {
 
     public static string[] PrefabPath =
     {
-        "PlayerClasses/DefaultUnit", //Paladin
+        "PlayerClasses/Paladin", //Paladin
         "PlayerClasses/Dark_Knight", //Darkknight
         "PlayerClasses/Brawler", //brawler
         "PlayerClasses/Thief",  //thief
@@ -40,12 +40,12 @@ public class CharacterClasses : MonoBehaviour {
 
     public static string[] IconPath = 
     {
-        "UI/Ability/priest/priestSkill7", //Paladin
-        "UI/Ability/priest/priestSkill5", //Darkknight
-        "UI/Ability/warrior/warriorSkill7", //brawler
-        "UI/Ability/assassin/assassinSkill4",  //thief
-        "UI/Ability/magician/magicianSkill5", //Mage
-        "UI/Ability/priest/priestSkill1"  //cleric
+        "UI/Classes/Paladin", //Paladin
+        "UI/Classes/DarkKnight", //Darkknight
+        "UI/Classes/Brawler", //brawler
+        "UI/Classes/Thief",  //thief
+        "UI/Classes/Mage", //Mage
+        "UI/Classes/Cleric"  //cleric
     };
 
     public static string KeyToString(int key)
