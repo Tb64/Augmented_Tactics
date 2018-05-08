@@ -48,8 +48,6 @@ public class Cutscene1 : MonoBehaviour
                 switch (currentline)
                 {
                     case 0:
-                        cam1.enabled = false;
-                        cam2.enabled = true;
                         
                         StartTalking("Lord Abaddon");
                         temp = currentline;
@@ -121,7 +119,6 @@ public class Cutscene1 : MonoBehaviour
                             StopTalking("You");
                             EndSceneAnims();
                             temp = currentline;
-                            diagscript.DialogueComplete();
                         }
                         break;
 

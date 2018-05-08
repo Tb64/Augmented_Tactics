@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LottoPotion : UsableItem {
 
+    //Randomly heals health of effected actor
     public override void InitInitialize()
     {
         base.InitInitialize();

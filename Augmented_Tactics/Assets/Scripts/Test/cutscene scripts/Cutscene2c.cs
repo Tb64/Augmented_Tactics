@@ -14,7 +14,7 @@ public class Cutscene2c : MonoBehaviour {
     public Camera cam1;
     public Camera cam2;
     public Camera cam3;
-    public bool sceneDone;
+    public Camera cam4;
 
     public ExampleDialogueUI diagscript;
 
@@ -23,6 +23,7 @@ public class Cutscene2c : MonoBehaviour {
     public GameObject Eery;
     public GameObject FrederickDecet;
     public GameObject Herald;
+    public GameObject Hunter;
 
     int currentline;
     int temp = -1;
@@ -87,9 +88,19 @@ public class Cutscene2c : MonoBehaviour {
                             temp = currentline;
                         }
                         break;
+                    case 6:
+                        if (Input.anyKey)
+                        {
+                            cam2.enabled = false;
+                            cam4.enabled = true;
+                            temp = currentline;
+                        }
+                        break;
                     case 9:
                         if (Input.anyKey)
                         {
+                            cam2.enabled = true;
+                            cam4.enabled = false;
                             StopTalking("LordAbaddon");
                             StartTalking("FrederickDecet");
                             temp = currentline;
@@ -111,8 +122,15 @@ public class Cutscene2c : MonoBehaviour {
                             StopTalking("LordAbaddon");
                             StartTalking("FrederickDecet");
                             temp = currentline;
+                        }
+                        break;
+                    case 12:
+                        if (Input.anyKey)
+                        {
+                            StopTalking("FrederickDecet");
                             diagscript.DialogueComplete();
-                            sceneDone = true;
+                            temp = currentline;
+                            EndScene();
                         }
                         break;
 
@@ -124,22 +142,33 @@ public class Cutscene2c : MonoBehaviour {
             }
         }
     }
-
+    public void EndScene()
+    {
+        GameObject obj = GameObject.Find("Switcher");
+        if (obj != null)
+        {
+            obj.GetComponent<Switcher>().NextObjectLoad();
+        }
+    }
     public void Idle()
     {
+        GameObject gub = LordAbaddon;
+        anim = gub.GetComponent<Animator>();
+        anim.Play("Idle", -1, 0f);
 
-        GameObject gub = FrederickDecet;
+        gub = Hunter;
+        anim = gub.GetComponent<Animator>();
+        anim.Play("Idle", -1, 0f);
 
+        gub = FrederickDecet;
         anim = gub.GetComponent<Animator>();
         anim.Play("Idle", -1, 0f);
 
         gub = Herald;
-
         anim = gub.GetComponent<Animator>();
         anim.Play("Idle", -1, 0f);
 
         gub = Eery;
-
         anim = gub.GetComponent<Animator>();
         anim.Play("Idle", -1, 0f);
 
@@ -186,32 +215,6 @@ public class Cutscene2c : MonoBehaviour {
         anim.Play("Idle", -1, 0f);
     }
 
-    void StartWalking()
-    {
-        //GameObject gub = You;
-        //GameObject gub2 = Doogy;
-
-        // anim = gub.GetComponent<Animator>();
-        // anim.Play("Walkfast", -1, 0f);
-
-        //anim = gub2.GetComponent<Animator>();
-        //anim.Play("Walkfast", -1, 0f);
-
-    }
-
-    public void StopWalking()
-    {
-        // GameObject gub4 = You;
-        //GameObject gub5 = Doogy;
-        // anim = gub4.GetComponent<Animator>();
-        // anim.Play("Idle", -1, 0f);
-        // anim = gub5.GetComponent<Animator>();
-        // anim.Play("Idle", -1, 0f);
-        //exitedTrig = false;
-        //charactersStopped = true;
-    }
-
-    
 
 
 

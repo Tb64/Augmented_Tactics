@@ -100,7 +100,7 @@ public class AfterActionReport : MonoBehaviour {
 
         for (int index = 0; index < EnemyController.enemyNum; index++)
         {
-            expTotal += EnemyController.enemyList[index].getExpGiven();
+            expTotal += EnemyController.enemyList[index].GetExpGiven();
         }
         if (PlayerControlled.playerNum != 0)
         {
@@ -202,7 +202,7 @@ public class AfterActionReport : MonoBehaviour {
         int expTotal = 0;
         for (int index = 0; index < EnemyController.enemyNum; index++)
         {
-            expTotal += EnemyController.enemyList[index].getExpGiven();
+            //expTotal += EnemyController.enemyList[index].getExpGiven();
         }
         if (PlayerControlled.playerNum != 0)
         {

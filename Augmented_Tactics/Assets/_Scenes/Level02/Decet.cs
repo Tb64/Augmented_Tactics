@@ -19,9 +19,9 @@ public class Decet : Tank {
         }
 
         expGiven = 200;
-        buff = new BuffDebuff(gameObject, "dexterity", "", false, getWisdom() / 2, false);
+        buff = new BuffDebuff(gameObject, "dexterity", "", false,true, getWisdom(), false);
         heal = SkillLoader.LoadSkill("curewounds", gameObject);
-        debuff = new BuffDebuff(gameObject, "dexterity", "defense", true, getWisdom() / 2, false);
+        debuff = new BuffDebuff(gameObject, "dexterity", "defense", true,true, getWisdom(), false);
         lastResort = SkillLoader.LoadSkill("fire", gameObject);
         name = "Lord Decet";
         setManaCurrent(30);
