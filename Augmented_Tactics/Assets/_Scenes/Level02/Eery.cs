@@ -7,6 +7,7 @@ public class Eery : Support {
     private Ability sneak, steal;
     private bool sneakCoolDown;
     private int sneakCountDown;
+  
     public override void EnemyInitialize()
     {
         base.EnemyInitialize();

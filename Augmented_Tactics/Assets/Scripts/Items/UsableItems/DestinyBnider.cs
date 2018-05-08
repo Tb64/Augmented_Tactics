@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DestinyBnider : UsableItem {
 
+    //item that immediately incapacitates the effected target when the user dies
+
     public override void InitInitialize()
     {
         base.InitInitialize();
