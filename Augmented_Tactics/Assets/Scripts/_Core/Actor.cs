@@ -79,6 +79,7 @@ public class Actor : MonoBehaviour
     public StateMachine SM;
     private AfterActionReport report;
     private Animator playerAnim;
+    public Sprite icon;
     protected RangeHighlight rangeMarker;
     private bool incapacitated;
     private bool dead;
@@ -349,6 +350,8 @@ public class Actor : MonoBehaviour
         data = pdata;
         this.weapon = pdata.weapon;
         this.armor = pdata.armor;
+        if(pdata.Icon.Length != 0)
+            this.icon = Resources.Load<Sprite>(pdata.Icon);
 
         this.strength       = pdata.getTotalStr();
         this.dexterity = pdata.getTotalDex();
