@@ -16,7 +16,7 @@ public class AfterActionReport : MonoBehaviour {
 
     private void Start()
     {
-        DrawExp();
+        //DrawExp();
         GameObject screen = transform.Find("EndofBattleScreen").gameObject;
         if (screen == null)
             Debug.Log("End of Battle Screen Not Found !!!!");

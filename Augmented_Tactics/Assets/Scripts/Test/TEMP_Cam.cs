@@ -11,7 +11,7 @@ public class TEMP_Cam : MonoBehaviour
     public float touchPanSpeed = 0.1f;
     public float angleDelta = 1f;
     public float mouseRotateScale = 10f;
-    public float mousePanSpeed = 1000f;
+    private float mousePanSpeed = 1f;
 
     public float perspectiveZoomSpeed = 1f;        // The rate of change of the field of view in perspective mode.
     public float orthoZoomSpeed = 0.5f;        // The rate of change of the orthographic size in orthographic mode.
