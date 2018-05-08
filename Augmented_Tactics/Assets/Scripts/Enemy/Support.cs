@@ -92,7 +92,7 @@ public class Support : Enemy {
             SaveFriendly();
             return;
         }
-        Debug.Log(targetLocked + " " + aidLocked);
+       // Debug.Log(targetLocked + " " + aidLocked);
         if (!targetLocked && !aidLocked)
         {
             currentTarget = PlayerTooClose();
@@ -193,7 +193,7 @@ public class Support : Enemy {
         if (getMoves() == 0)
             return;
         Debug.Log(this + " is Running and Gunning "+ getMoves());
-        if (!mostDistance.SkillInRange(getCoords(),aggro.getCoords()) /*|| distanceFromAggro - mostDistance.range_max > 5 && mostDistance.CanUseSkill(currentTarget.gameObject)*/)
+        if (!mostDistance.SkillInRange(gameObject,currentTarget.gameObject) /*|| distanceFromAggro - mostDistance.range_max > 5 && mostDistance.CanUseSkill(currentTarget.gameObject)*/)
         {
             Debug.Log("Finding Shweet Shpot");
             Debug.Log(map);
@@ -216,7 +216,7 @@ public class Support : Enemy {
             EnemyActions();
             return;
         }
-        Debug.LogError("out of bounds run and gun");
+        Debug.LogError(mostDistance.SkillInRange(getCoords(), currentTarget.getCoords())+ " "+ mostDistance.range_max);
     }
     public static bool FindShweetSpot(Enemy self,Actor currentTarget, Ability mostDistance, TileMap map )
     {

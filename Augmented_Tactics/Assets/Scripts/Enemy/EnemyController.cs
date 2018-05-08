@@ -72,7 +72,7 @@ public class EnemyController : MonoBehaviour
         }
         //findOrder = AddSpecialists(findOrder) ;
         DecideOrder(findOrder);
-        Debug.Log("EnemyList Count: " + enemyList.Count);
+       // Debug.Log("EnemyList Count: " + enemyList.Count);
        /* foreach (Enemy enemy in enemyList)
         {
            // enemyList[enemyNum] = enemy.GetComponent<Enemy>();
@@ -221,7 +221,7 @@ public class EnemyController : MonoBehaviour
     private void EnemyAction()
     {
         //Debug.Log("called " + EnemyController.enemyNum + " " + currentEnemy);
-        Debug.Log(enemyList[0]);
+       // Debug.Log(enemyList[0]);
         if (enemyList == null || currentEnemy >= EnemyController.enemyNum || enemyList[currentEnemy] == null)
         {
             Debug.Log("No more enemies");
