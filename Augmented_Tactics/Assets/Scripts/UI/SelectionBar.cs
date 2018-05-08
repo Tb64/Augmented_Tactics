@@ -46,6 +46,9 @@ public class SelectionBar : MonoBehaviour {
         if (selected == null)
             return;
 
+        if(selected.icon != null)
+            selectedPortait.sprite = selected.icon;
+
         selectedHPText.text = (int)selected.GetHealthCurrent() + "/" + (int)selected.GetHeathMax();
         selectedHPSlider.value = selected.GetHealthPercent();
 

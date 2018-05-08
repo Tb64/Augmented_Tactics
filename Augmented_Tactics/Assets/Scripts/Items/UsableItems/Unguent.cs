@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Unguent : UsableItem {
 
+    //removes one random statuseffect from user
     public override void InitInitialize()
     {
         base.InitInitialize();
