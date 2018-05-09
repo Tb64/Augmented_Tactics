@@ -32,7 +32,7 @@ public class Sap : Ability
         range_max = 1;
         range_min = 0;
         damage = BASE_DAMAGE * actor.getLevel() + STR_SCALER * actor.getStrength();
-        abilityImage = Resources.Load<Sprite>("UI/Ability/assassin/assassinSkill2");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/violet/violet_28");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
         abilityDescription = "Slash the enemy, draining their mana";
@@ -66,7 +66,7 @@ public class Sap : Ability
     {
         yield return new WaitForSeconds(.2f);
         GameObject effect = GameObject.Instantiate(sapEffect, target.transform);
-        target.GetComponent<Actor>().TakeDamage(damage, gameObject);
+        target.GetComponent<Actor>().TakeDamage(CalcPhysicalDamage(damage, target), gameObject);
     }
 
 

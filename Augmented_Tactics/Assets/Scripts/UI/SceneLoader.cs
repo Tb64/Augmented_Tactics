@@ -23,6 +23,7 @@ public class SceneLoader : MonoBehaviour {
 
     IEnumerator SceneLoadAsync(string levelname)
     {
+        loadingScreen.SetActive(true);
         AsyncOperation operation = SceneManager.LoadSceneAsync(levelname);
         loadingScreen.SetActive(true);
 
@@ -40,6 +41,7 @@ public class SceneLoader : MonoBehaviour {
 
     IEnumerator SceneLoadAsync(int levelIndex)
     {
+        loadingScreen.SetActive(true);
         AsyncOperation operation = SceneManager.LoadSceneAsync(levelIndex);
         loadingScreen.SetActive(true);
 

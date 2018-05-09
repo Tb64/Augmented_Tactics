@@ -33,7 +33,7 @@ public class BladeFury : Ability {
         range_max = 1;
         range_min = 0;
         damage = BASE_DAMAGE * actor.getLevel() + STR_SCALER * actor.getStrength();
-        abilityImage = Resources.Load<Sprite>("UI/Ability/assassin/assassinSkill2");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/red/red_36");
         
         if (abilityImage == null)
             Debug.Log("Unable to load image");

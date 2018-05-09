@@ -22,7 +22,7 @@ public class SpikeGrowth : Ability
         heal = 5f + (float)actor.getWisdom() * 1.25f;
         abilityName = "Spike Growth";
         //handVFX = Resources.Load<GameObject>("Effects/HandEffects/Effect13_Hand_Optimized");
-        abilityImage = Resources.Load<Sprite>("UI/Ability/priest/priestSkill2");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/green/green_17");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
     }

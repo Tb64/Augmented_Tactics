@@ -5,7 +5,7 @@ using UnityEngine;
 public class Steal : Ability {
 
     private GameObject effect1 = Resources.Load<GameObject>("Assets/KriptoFX/Realistic Effects Pack v4/Prefabs/Effects/Effect2");
-    TileMap map =  GameObject.Find("Map").GetComponent<TileMap>();
+    TileMap map;// =  GameObject.Find("Map").GetComponent<TileMap>();
     public Steal(GameObject obj)
     {
         Initialize(obj);
@@ -24,7 +24,7 @@ public class Steal : Ability {
             else
                 Debug.Log("effect1 null");
             gameObject.GetComponent<Renderer>().enabled = false;
-            DwellTime.Attack(.3f);
+            //DwellTime.Attack(.3f);
             Vector3 initCoords = attacker.getCoords();
             attacker.setCoords(Enemy.PosCloseTo(attacker, targeta.getCoords(), map));
             if (effect1 != null)
@@ -44,7 +44,7 @@ public class Steal : Ability {
             else
                 Debug.Log("effect1 null");
             gameObject.GetComponent<Renderer>().enabled = false;
-            DwellTime.Attack(.3f);
+            //DwellTime.Attack(.3f);
             attacker.setCoords(initCoords);
             if (effect1 != null)
                 GameObject.Instantiate<GameObject>(effect1, gameObject.transform);
@@ -64,6 +64,7 @@ public class Steal : Ability {
         range_max = 7;
         range_min = 0;
         damage = 0;
+        map = actor.map;
         //dwell_time = 3.0f;
         abilityName = "Steal";
         abilityImage = Resources.Load<Sprite>("UI/Ability/assassin/assassinSkill6");

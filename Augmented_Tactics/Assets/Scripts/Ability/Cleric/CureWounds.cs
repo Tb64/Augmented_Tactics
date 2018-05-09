@@ -6,6 +6,7 @@ public class CureWounds : Ability
 {
     private string animTrigger = "CastAttack2Trigger";
     private GameObject handVFX;
+    private GameObject effect;
 
     public CureWounds(GameObject obj)
     {
@@ -22,8 +23,9 @@ public class CureWounds : Ability
         canHeal = true;
         heal = 5f + (float)actor.getWisdom() * 1.25f;
         abilityName = "Cure Wounds";
-        handVFX = Resources.Load<GameObject>("Effects/HandEffects/Effect13_Hand_Optimized");
-        abilityImage = Resources.Load<Sprite>("UI/Ability/priest/priestSkill1");
+        handVFX = Resources.Load<GameObject>("Effects/HandEffects/Effect7_Hand_Optimized");
+        effect = Resources.Load<GameObject>("Effects/Effect21_Optimized");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/green/green_16");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
     }
@@ -39,10 +41,15 @@ public class CureWounds : Ability
                 GameObject.Instantiate<GameObject>(handVFX, actor.RightHandTransform());
             else
                 Debug.Log("handVFX null");
+
+            if (effect != null)
+                GameObject.Instantiate<GameObject>(effect, target.transform);
+            else
+                Debug.Log("effect null");
             anim.SetTrigger(animTrigger);
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
-        float damage = 10f + ((float)actor.getStrength() * 0.5f);
+        //float damage = 10f + ((float)actor.getStrength() * 0.5f);
         //Debug.Log("combo damage = " + damage + " " + actor.getStrength());
         target.GetComponent<Actor>().HealHealth(heal);
 

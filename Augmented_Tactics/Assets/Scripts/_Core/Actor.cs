@@ -605,6 +605,7 @@ public class Actor : MonoBehaviour
     /// <param name="damage">Damage the Actor will take as a float</param>
     public virtual void TakeDamage(float damage, GameObject attacker)
     {
+        damage = (int)damage;
         if (wardCount > 0)
         {
             Debug.Log("Attack warded");
@@ -714,6 +715,7 @@ public class Actor : MonoBehaviour
         TextMesh instance = Instantiate(text);
         instance.transform.SetParent(transform);
         instance.transform.LookAt(GameObject.FindWithTag("MainCamera").transform);
+        instance.transform.rotation = Quaternion.Euler(instance.transform.rotation.eulerAngles.x + 90f, instance.transform.rotation.eulerAngles.y, instance.transform.rotation.eulerAngles.z);
         instance.transform.position = transform.position + new Vector3(UnityEngine.Random.Range(-.2f, .2f), 2, 0);
         instance.color = color;
         instance.gameObject.GetComponent<Rigidbody>().velocity = transform.up;
@@ -722,6 +724,7 @@ public class Actor : MonoBehaviour
 
     public virtual void HealHealth(float heal)
     {
+        heal = (int)heal;
         health_current += heal;
         aggroScore += (int)Math.Floor((int)heal / 1.5);
         if (health_current > health_max)

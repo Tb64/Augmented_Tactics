@@ -17,7 +17,7 @@ public class Fire : Ability
     {
         base.Initialize(obj);
         anim = gameObject.GetComponentInChildren<Animator>();
-        damage = 10 + actor.getWeapon().RollMagicDamage() + (actor.getIntelligence()==0? 0 : actor.getIntelligence()/3);
+        damage = 10 + (actor.getIntelligence()==0? 0 : actor.getIntelligence()/3);
         dwell_time = 1.0f;        
         range_max = 3;
         range_min = 1;
@@ -47,7 +47,7 @@ public class Fire : Ability
             }*/
 
         }
-
+        target.GetComponent<Actor>().TakeDamage(CalcMagicDamage(damage,target),gameObject);
         DwellTime.Attack(dwell_time);
 
     }

@@ -35,7 +35,7 @@ public class VortexArrow : Ability
             anim.SetInteger("Weapon", 7);
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
-        targeta.TakeDamage(damage, target);
+        targeta.TakeDamage(CalcPhysicalDamage(damage, target), gameObject);
         if (Ability.DiceRoll(actor.getDexterity(), targeta.getDexterity()))
         {
             if(StatusEffectsController.AddEffect(new Beaconed(actor.getDexterity() / 3, actor, targeta, target.tag == "Enemy")))
@@ -56,7 +56,7 @@ public class VortexArrow : Ability
         damage = 10f + actor.getDexterity() * 2;
         dwell_time = 3.5f;
         abilityName = "Vortex Arrow";
-        abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill7");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/violet/violet_18");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
     }
