@@ -6,8 +6,17 @@ public class OpenStore : MonoBehaviour {
 
     public GameObject store;
     public GameObject storeUI;
+    public bool cheat;
+    private int counter;
+
+    private void Start()
+    {
+        cheat = false;
+    }
+
     GameObject RayCaster()
     {
+
         GameObject interactedObject;
         Ray interactionRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit interactionInfo;
@@ -28,9 +37,19 @@ public class OpenStore : MonoBehaviour {
             storeUI.SetActive(true);
         }
 
+        counter++;
+
+
+
         //store.GetComponentInChildren<Store>().toggleInventory();
         Debug.Log("OPENING STORE");
     }
 
-   
+ 
+    public void checkCheat()
+    {
+        counter = 0;
+
+    }
+
 }

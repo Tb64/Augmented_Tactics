@@ -104,6 +104,8 @@ public class SkillLoader : MonoBehaviour {
                 return new SpikeGrowth(gObj);
             case "shieldoffaith":
                 return new ShieldOfFaith(gObj);
+            case "healingwinds":
+                return new HealingWinds(gObj);
 
             //Thief
             case "arrow":

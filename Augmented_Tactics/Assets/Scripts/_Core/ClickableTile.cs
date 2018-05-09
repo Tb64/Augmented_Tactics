@@ -47,12 +47,6 @@ public class ClickableTile : MonoBehaviour {
         }
     }
 
-
-    private void Update()
-    {
-     
-    }
-
     /// <summary>
     /// Will return GameObject occupuying the tiles. Only returns gameobject if tile
     /// is currently occupied
