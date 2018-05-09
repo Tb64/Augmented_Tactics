@@ -30,6 +30,7 @@ public class Enemy : Actor
     protected UsableItem healItem;
     protected bool targetLocked;
     public bool aided, boss, loaded;
+    public static bool loadRegulars;
 
     public Actor currentTarget;
     // Use this for initialization
@@ -176,11 +177,11 @@ public class Enemy : Actor
 
     }
 
-    public virtual void EnemyActions()
+    public virtual bool EnemyActions()
     {
         //Debug.Log("NON-PROXIMITY");
         if (getMoves() == 0)
-            return;
+            return false;
 
         if (targetLocked && (currentTarget.isDead() || currentTarget.isIncapacitated()))
         {
@@ -199,10 +200,10 @@ public class Enemy : Actor
         if (currentTarget == null)
         {
             Debug.LogError("no player team");
-            return;
+            return false;
         }
         if (AttemptAttack())
-            return;
+            return true;
         Vector3 movingTo = PosCloseTo(this, currentTarget.getCoords(), map);
         if (movingTo == new Vector3(-1, -1, -1))
         {
@@ -211,13 +212,12 @@ public class Enemy : Actor
             //{
             Debug.Log("No possible move available, switching currentTarget.");
             cantTarget.Add(currentTarget);
-            return;
+            return false;
             //}
-
         }
         Debug.Log("Attempting to move " + this + " from " + this.getCoords() + " to " + movingTo);
         map.moveActorAsync(gameObject, movingTo);
-
+        return true;
         //Debug.Log("Move Complete\t" + currentTarget);
 
     }
@@ -557,6 +557,10 @@ public class Enemy : Actor
         abilitySet = new Ability[4];
         for (int x = 0; x < 4; x++)
             abilitySet[x] = new BasicAttack(gameObject);
+        if (loadRegulars)
+        {
+            return LoadRegular();
+        }
         string scene = SceneManager.GetActiveScene().name;
         scene = scene.ToLower();
         switch (scene)
@@ -774,8 +778,8 @@ public class Enemy : Actor
         GameObject enemyObj = Resources.Load<GameObject>(CharacterClasses.EnemyPrefabPath[2]);
         GameObject spawned = Instantiate(enemyObj);
         Support newEnemy = spawned.AddComponent<Support>();
-        newEnemy.setMoveDistance(7);
-        newEnemy.setSpeed(3);
+        newEnemy.setMoveDistance(3);
+        newEnemy.setSpeed(1);
         newEnemy.type = "thief";
         newEnemy.loaded = true;
         spawned.transform.position = transform.position;
@@ -792,8 +796,8 @@ public class Enemy : Actor
         GameObject enemyObj = Resources.Load<GameObject>(CharacterClasses.EnemyPrefabPath[1]);
         GameObject spawned = Instantiate(enemyObj);
         Defender newEnemy = spawned.AddComponent<Defender>();
-        newEnemy.setMoveDistance(7);
-        newEnemy.setSpeed(3);
+        newEnemy.setMoveDistance(4);
+        newEnemy.setSpeed(1);
         newEnemy.type = "cleric";
         newEnemy.loaded = true;
         spawned.transform.position = transform.position;
@@ -810,8 +814,8 @@ public class Enemy : Actor
         GameObject enemyObj = Resources.Load<GameObject>(CharacterClasses.EnemyPrefabPath[0]);
         GameObject spawned = Instantiate(enemyObj);
         Aggressive newEnemy = spawned.AddComponent<Aggressive>();
-        newEnemy.setMoveDistance(7);
-        newEnemy.setSpeed(3);
+        newEnemy.setMoveDistance(4);
+        newEnemy.setSpeed(1);
         newEnemy.type = "darkknight";
         newEnemy.loaded = true;
         spawned.transform.position = transform.position;
@@ -828,8 +832,8 @@ public class Enemy : Actor
         GameObject enemyObj = Resources.Load<GameObject>(CharacterClasses.EnemyPrefabPath[1]);
         GameObject spawned = Instantiate(enemyObj);
         Tank newEnemy = spawned.AddComponent<Tank>();
-        newEnemy.setMoveDistance(7);
-        newEnemy.setSpeed(3);
+        newEnemy.setMoveDistance(4);
+        newEnemy.setSpeed(1);
         newEnemy.type = "paladin";
         newEnemy.loaded = true;
         spawned.transform.position = transform.position;
@@ -846,8 +850,8 @@ public class Enemy : Actor
         GameObject enemyObj = Resources.Load<GameObject>(CharacterClasses.EnemyPrefabPath[1]);
         GameObject spawned = Instantiate(enemyObj);
         Aggressive newEnemy = spawned.AddComponent<Aggressive>();
-        newEnemy.setMoveDistance(7);
-        newEnemy.setSpeed(3);
+        newEnemy.setMoveDistance(4);
+        newEnemy.setSpeed(1);
         newEnemy.type = "wizard";
         newEnemy.loaded = true;
         spawned.transform.position = transform.position;

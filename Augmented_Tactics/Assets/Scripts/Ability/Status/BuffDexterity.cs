@@ -9,6 +9,7 @@ public class BuffDexterity : StatusEffects {
 
     public BuffDexterity(float effect, Actor effector, Actor effected, bool isEnemy, bool buff) : base(effect, effector, effected, isEnemy)
     {
+       // Debug.Log("Dext Buff " + buff);
         if (buff)
         {
             this.buff = true;
@@ -27,13 +28,14 @@ public class BuffDexterity : StatusEffects {
         effectorPlayer = effector;
         this.isEnemy = isEnemy;
         anim = effected.gameObject.GetComponentInChildren<Animator>();
+        //Debug.Log(buff);
+        BuffDebuff.SwapEffect(buff, effectorPlayer, effectedPlayer, effect, "dexterity");
+        effectorPlayer.aggroScore += (int)(effect * duration);
     }
 
     public override void InitialEffect()
     {
-        Debug.Log(buff);
-        BuffDebuff.SwapEffect(buff, effectorPlayer, effectedPlayer, effect, "dexterity");
-        effectorPlayer.aggroScore += (int)(effect * duration);
+       
     }
 
     public override void ReverseEffect()

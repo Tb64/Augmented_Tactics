@@ -44,6 +44,7 @@ public class EnemyController : MonoBehaviour
     #region primaryActions
     public void EnemyInitialize()
     {
+        Enemy.loadRegulars = true; //this is to load only regular class
         enemyNum = 0;
         //enemyCount = 2;
         TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStart;
@@ -276,7 +277,12 @@ public class EnemyController : MonoBehaviour
         //Debug.Log("Actually moved to " + enemyList[currentEnemy].getCoords());
         if (enemyList[currentEnemy].getMoves() > 0)
         {
-            enemyList[currentEnemy].EnemyActions();
+            if (!enemyList[currentEnemy].EnemyActions())
+            {
+                Debug.Log("Potential Failure here");
+                ExhaustMoves(SM);
+            }
+                
         }
         else
         {

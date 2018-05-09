@@ -53,7 +53,7 @@ public class BuffDebuff : Ability {
                 StatusEffectsController.AddEffect(new BuffStrength(effect, actor, targeta, target.tag == "Enemy", true));
                 break;
             case "dexterity":
-                Debug.Log("Buff Still True");
+               // Debug.Log("Buff Still True");
                 StatusEffectsController.AddEffect(new BuffDexterity(effect, actor, targeta, target.tag == "Enemy", true));
                 break;
             case "wisdom":

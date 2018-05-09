@@ -42,17 +42,17 @@ public class Eery : Support {
         return true;
     }
 
-    public override void EnemyActions()
+    public override bool EnemyActions()
     {
         Debug.Log("Eery Moves: " + getMoves());
         if (getMoves() == 0)
-            return;
+            return false;
         if(getManaCurrent() <= 0)
         {
             setManaCurrent(30);
             setNumOfActions(0);
-            TurnBehaviour.EnemyTurnFinished();
-            return;
+            //TurnBehaviour.EnemyTurnFinished();
+            return false;
         }
 
         if (sneakCoolDown)
@@ -75,7 +75,7 @@ public class Eery : Support {
             return;
         }*/ //removed for pres
 
-        base.EnemyActions();
+       return base.EnemyActions();
     }
 
     public override void EnemyTurnStartActions()
