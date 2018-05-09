@@ -186,7 +186,7 @@ public class EnemyController : MonoBehaviour
         int counter = 0;
         foreach (GameObject enemy in enemies)
         {
-            Enemy cEnemy = enemy.GetComponentInChildren<Enemy>();
+            Enemy cEnemy = enemy.GetComponent<Enemy>();
             if (!cEnemy.IsBoss())
             {
                 newClass.Add(cEnemy.LoadPlayer());
