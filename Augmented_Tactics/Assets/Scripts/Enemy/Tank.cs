@@ -70,11 +70,11 @@ public class Tank : Enemy{
 
     }
 
-    public override void EnemyActions()
+    public override bool EnemyActions()
     {
 
         if (getMoves() == 0)
-            return;
+            return false;
 
         if (Random.Range(0, 1000) <= 500 && GetHealthPercent() < .35 || closestAggro.GetHealthPercent() < .45 && healPossible)
             healMode = true;
@@ -88,10 +88,10 @@ public class Tank : Enemy{
                     if (GetHealthPercent() > .45)
                     {
                         healMode = false;
-                        return;
+                        return false;
                     }
                     else
-                        return;
+                        return true;
                 }
                 else
                     healPossible = false;
@@ -101,13 +101,13 @@ public class Tank : Enemy{
                 if (HealSelfOrPartner(1))
                 {
                     healMode = false;
-                    return;
+                    return true;
                 }
                 else
                 {
                     healMode = false;
                     healPossible = false;
-                    return;
+                    return false;
                 }
             }       
         }
@@ -117,21 +117,22 @@ public class Tank : Enemy{
         {
             if (lastResort.CanUseSkill(nearest.gameObject))
             {
-                lastResort.UseSkill(nearest.gameObject);
-                return;
+                return lastResort.UseSkill(nearest.gameObject);
+                
             }
             else if (debuff.CanUseSkill(nearest.gameObject))
             {
-                debuff.UseSkill(nearest.gameObject);
-                return;
+                return debuff.UseSkill(nearest.gameObject);
+                
             }
             else
             {
                 setNumOfActions(0);
-                TurnBehaviour.EnemyTurnFinished();
-                return;
+                //TurnBehaviour.EnemyTurnFinished();
+                return false;
             }
         }
+
         if (inPosition && CheckInPosition())
         {
             inPosition = true;
@@ -140,17 +141,19 @@ public class Tank : Enemy{
         {
             inPosition = false;
         }
+
         if (regularMode && sameTurn && CheckManaReplenish(buff))
             regularMode = false;
+
         if (regularMode)
         {
-            base.EnemyActions();
-            return;
+            return base.EnemyActions();
+            
         }
+
         if (!inPosition)
         {
-            GetInPosition();
-            return;
+            return GetInPosition();
         }   
         else if (BuffOrDebuff())
         {
@@ -160,7 +163,7 @@ public class Tank : Enemy{
                 firstDebuffed = true;
                 firstMove = false;
             }
-            return;
+            return true;
         }
         else
         {
@@ -170,7 +173,7 @@ public class Tank : Enemy{
                 {
                     firstMove = false;
                 }
-                return;
+                return true;
             }
             else
             {
@@ -179,16 +182,15 @@ public class Tank : Enemy{
                     regularMode = true;
                     //Debug.LogError("Tank Regular Mode");
                     sameTurn = true;
-                    Debug.Log("Possible Cause of Crash");
+                    //Debug.Log("Possible Cause of Crash");
                     //EnemyController.ExhaustMoves(SM);
-                    return;
+                    return false ;
                 }
                 else
                 {
                     Debug.Log("settings actions to 0");
                     setNumOfActions(0);
-                    TurnBehaviour.EnemyTurnFinished();
-                    return;
+                    return false;
                 }
                 
             }
@@ -250,10 +252,10 @@ public class Tank : Enemy{
             return false;
     }
 
-    protected void GetInPosition()
+    protected bool GetInPosition()
     {
         if (getMoves() == 0)
-            return;
+            return false;
         Debug.Log(closestAggro + " " + closestAggro.getCoords() + " " + currentTarget + " " + currentTarget.getCoords());
         Vector3 cAPos = closestAggro.getCoords();
         Vector3 output = closestAggro.getCoords() - currentTarget.getCoords();
@@ -272,7 +274,7 @@ public class Tank : Enemy{
             else
                 movingTo = new Vector3(cAPos.x + buff.range_max, 0, cAPos.z);
         }
-        Debug.Log(movingTo);
+        Debug.Log(movingTo+ " Moves: "+getMoves());
         Vector3 temp = Support.SetPosition(this, movingTo, map);
         if(temp != new Vector3(-1,-1,-1))
             movingTo = temp;
@@ -280,16 +282,22 @@ public class Tank : Enemy{
         {
             cantMove.Add(temp);
             //GetInPosition();
-            return;
+            return false;
         }
+        if (getMoves() == 0)
+            return false;
         Debug.Log("Attempting to move " + this + " from " + this.getCoords() + " to " + movingTo);
+        
         map.moveActorAsync(gameObject, movingTo);
         if (firstMove)
             firstMove = false;
         inPosition = true;
+        return true;
     }
+
     public virtual bool BuffOrDebuff() //I'm not 100% on this, just a basic algorithm. starting with just closest instead of AOE buff / debuff
     {
+        Debug.Log(getMoves());
         if (buff.CanUseSkill(closestAggro.gameObject) && !buffCool)
         {
             buff.UseSkill(closestAggro.gameObject);

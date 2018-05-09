@@ -28,9 +28,9 @@ public class Decet : Tank {
         setDexterity(3);
         setConstitution(5);
         setIntelligence(10);
-        buff = new BuffDebuff(gameObject, "dexterity", "", false, true, getWisdom(), false);
+        buff = new BuffDebuff(gameObject, "dexterity", null, false, true, getWisdom(), false);
         heal = SkillLoader.LoadSkill("curewounds", gameObject);
-        debuff = new BuffDebuff(gameObject, "dexterity", "defense", true, true, getWisdom(), false);
+        debuff = new BuffDebuff(gameObject, "dexterity", "physicaldefense", true, true, getWisdom(), false);
         lastResort = SkillLoader.LoadSkill("fire", gameObject);
         supportMode = false;
         regularMode = false;
@@ -53,9 +53,9 @@ public class Decet : Tank {
         Debug.LogError("No Eery character. Level Not Loaded Correctly");
     }
 
-    public override void EnemyActions()
+    public override bool EnemyActions()
     {
-        base.EnemyActions();
+        return base.EnemyActions();
     }
 
     public override void EnemyTurnStartActions()
@@ -81,12 +81,12 @@ public class Decet : Tank {
         {
             setManaCurrent(30); //bosses skip a turn and replenish mana
             setNumOfActions(0);
-            TurnBehaviour.EnemyTurnFinished();
+            //TurnBehaviour.EnemyTurnFinished();
             return;
         }
         if (eery.isDead())
         {
-            base.EnemyTurnStartActions();
+            //base.EnemyTurnStartActions();
             regularMode = false;
         }
         inPosition = false;

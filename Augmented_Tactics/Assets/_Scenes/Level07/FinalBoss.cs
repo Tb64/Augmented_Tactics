@@ -38,18 +38,19 @@ public class FinalBoss : Enemy {
         threatened = false;
     }
 
-    public override void EnemyActions()
+    public override bool EnemyActions()
     {
         if (getManaCurrent() <= 0)
         {
             setManaCurrent(50);
             setNumOfActions(0);
+            return false;
             //boss can recover mana but it ends his turn. Thinking about ending the entire enemy turn here
         }
             
         //all of the bools return true only a move is wasted
         if (getMoves() == 0)
-            return;
+            return false;
 
         if (firstrun)
         {
@@ -59,8 +60,7 @@ public class FinalBoss : Enemy {
 
         if (threatened)
         {
-            HitThreats();
-            return;
+            return HitThreats();
         }
 
         if (firstheal)
@@ -71,18 +71,18 @@ public class FinalBoss : Enemy {
 
         if (healing)
         {
-            HealGuards();
-            return;
+            return HealGuards();
         }
         if (GetHealthPercent() < .40)
-            abilitySet[1].UseSkill(gameObject);
+            return abilitySet[1].UseSkill(gameObject);
 
         //if (UseMoves())
         //    return;
         //else
         // {
-        abilitySet[2].UseSkill(this.gameObject); //all else has either passed or failed so counter as a last resort counter
-        setNumOfActions(0); //no more moves after counter
+        setNumOfActions(1); //no more moves after counter
+        return abilitySet[2].UseSkill(this.gameObject); //all else has either passed or failed so counter as a last resort counter
+        
         //}*/
             
         
@@ -130,29 +130,29 @@ public class FinalBoss : Enemy {
         }
     }
 
-    private void HitThreats()//hit each person on previously made hit-list. updating for using correct attack against player
+    private bool HitThreats()//hit each person on previously made hit-list. updating for using correct attack against player
     {
-        abilitySet[0].UseSkill(attackList[0].gameObject);
+        bool hit = abilitySet[0].UseSkill(attackList[0].gameObject);
         attackList.Remove(attackList[0]);
         if (attackList.Count == 0)
         {
             threatened = false;
             Debug.Log("No Longer Threatened, Aggressive Mode Off");
+            return true;
         }
-            
+        return hit;    
     }
 
-    private void HealGuards() // heals allies that are close enough and need it including self
+    private bool HealGuards() // heals allies that are close enough and need it including self
     {
-        abilitySet[1].UseSkill(healList[0].gameObject);
+        bool healed = abilitySet[1].UseSkill(healList[0].gameObject);
         healList.Remove(healList[0]);
         if (healList.Count == 0)
         {
             healing = false;
             Debug.Log("No Longer Healing, Aggressive Mode Off");
         }
-
-
+        return healed;
     }
 
     private bool CheckGuards()

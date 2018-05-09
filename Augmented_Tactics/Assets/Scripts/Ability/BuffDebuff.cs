@@ -25,7 +25,7 @@ public class BuffDebuff : Ability {
 
         if (price)
         {
-            Debug.Log(targeta + "'s "+type+ " Will Be Buffed At A Price");
+            Debug.Log(targeta + "'s "+type+ " Will Be Buffed At The Expense of " +type2);
             Buff(targeta,target,type);
             Debuff(targeta,target,type2);
         }
@@ -46,7 +46,7 @@ public class BuffDebuff : Ability {
             case "physicaldefense":
                 StatusEffectsController.AddEffect(new BuffDefense(effect, actor, targeta, target.tag == "Enemy", true,true));
                 break;
-            case "magicdefense":
+            case "magicaldefense":
                 StatusEffectsController.AddEffect(new BuffDefense(effect, actor, targeta, target.tag == "Enemy", true,false));
                 break;
             case "magicaldefense":
@@ -56,6 +56,7 @@ public class BuffDebuff : Ability {
                 StatusEffectsController.AddEffect(new BuffStrength(effect, actor, targeta, target.tag == "Enemy", true));
                 break;
             case "dexterity":
+               // Debug.Log("Buff Still True");
                 StatusEffectsController.AddEffect(new BuffDexterity(effect, actor, targeta, target.tag == "Enemy", true));
                 break;
             case "wisdom":
@@ -67,7 +68,7 @@ public class BuffDebuff : Ability {
         }
 
     }
-
+    
     private void Debuff(Actor targeta, GameObject target, string type)
     {
         switch (type)
