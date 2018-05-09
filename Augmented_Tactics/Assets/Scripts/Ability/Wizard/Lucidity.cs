@@ -25,7 +25,7 @@ public class Lucidity : Ability
         range_max = 0;
         range_min = 0;
         damage = 0;
-        abilityImage = Resources.Load<Sprite>("UI/Ability/magician/magicianSkill2");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/blue/blue_01");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
         manaCost = 0;
@@ -40,7 +40,7 @@ public class Lucidity : Ability
             //gameObject.GetComponent<Actor>().PlaySound("attack");
         }
 
-        user.GiveMana(20, user);
+        user.GiveMana(25 + actor.getWeapon().RollMagicDamage(), user);
 
         //need to delete it afterwards
         if(lucidityEffect!=null)

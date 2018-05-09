@@ -127,7 +127,8 @@ public class HealthBarUIManager : MonoBehaviour {
                 if (healthBarObj != null)
                 {
                     healthBarObj[numPlayers].SetActive(true);
-                    //healthCircleImg = PlayerControlled.playerList[numPlayers]
+                    if(PlayerControlled.playerList[numPlayers].icon != null)
+                        healthCircleImg[numPlayers].sprite = PlayerControlled.playerList[numPlayers].icon;
                 }
                 numPlayers++;
             }
@@ -137,6 +138,8 @@ public class HealthBarUIManager : MonoBehaviour {
                 {
                     healthBarObj[numPlayers].SetActive(true);
                     healthCircleImg[numPlayers].color = dimCircleColor; //dim the bar of the unit not selected
+                    if (PlayerControlled.playerList[numPlayers].icon != null)
+                        healthCircleImg[numPlayers].sprite = PlayerControlled.playerList[numPlayers].icon;
                 }
                 numPlayers++;
             }
