@@ -4,9 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Ice : Ability {
-
-    float damage = 20f;
-
+    
     public Ice(GameObject obj)
     {
         Initialize(obj);
