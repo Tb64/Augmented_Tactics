@@ -7,11 +7,11 @@ public class TEMP_Cam : MonoBehaviour
 
     private Rigidbody body;
 
-    public float speed = 10f;
+    private float speed = 500f;
     public float touchPanSpeed = 0.1f;
     public float angleDelta = 1f;
-    public float mouseRotateScale = 10f;
-    private float mousePanSpeed = 1f;
+    private float mouseRotateScale = 1f;
+    private float mousePanSpeed = 0.5f;
 
     public float perspectiveZoomSpeed = 1f;        // The rate of change of the field of view in perspective mode.
     public float orthoZoomSpeed = 0.5f;        // The rate of change of the orthographic size in orthographic mode.
@@ -26,15 +26,22 @@ public class TEMP_Cam : MonoBehaviour
     private float startingAngle;
     private Vector2 clickStart;
 
+    private TileMap map;
+
     // Use this for initialization
     void Start()
     {
         body = GetComponent<Rigidbody>();
-        speed = speed * 100f;
         angleDelta = angleDelta * 50f;
         
         camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-
+        GameObject mapObj = GameObject.FindGameObjectWithTag("Map");
+        if(mapObj != null && mapCenter == null)
+        {
+            mapCenter = mapObj.GetComponent<TileMap>().GetMiddleTransform();
+            Debug.Log(mapCenter.position);
+        }
+        Debug.Log("map center " + mapCenter.position);
     }
 
     // Update is called once per frame
@@ -66,7 +73,7 @@ public class TEMP_Cam : MonoBehaviour
 
             Vector3 movement = (vert * transform.forward * Time.deltaTime) + (hori * transform.right * Time.deltaTime);
 
-            body.velocity = VelocityCheck(movement * speed);
+            MoveBody(movement * speed);
         }
 
         if (Input.GetKey(KeyCode.Q))
@@ -141,7 +148,7 @@ public class TEMP_Cam : MonoBehaviour
             Vector3 movement = (delta.y * transform.forward * Time.deltaTime) + (delta.x * transform.right * Time.deltaTime);
             movement = movement.normalized * mousePanSpeed * delta.magnitude * -1f;
             //Debug.Log(delta.magnitude + " " + movement);
-            body.velocity = VelocityCheck(movement);
+            MoveBody(movement);
             //body.velocity = movement;
             clickStart = Input.mousePosition;
         }
@@ -261,7 +268,7 @@ public class TEMP_Cam : MonoBehaviour
             {
                 Vector3 movement = (touch1.deltaPosition.y * transform.forward * Time.deltaTime) + (touch1.deltaPosition.x * transform.right * Time.deltaTime);
 
-                body.velocity = VelocityCheck(movement.normalized * touchPanSpeed * dist * -1f);
+                MoveBody(movement.normalized * touchPanSpeed * dist * -1f);
                 //DebugMobile.Log("body.velocity " + body.velocity);
                 //body.velocity = touch1.deltaPosition.normalized * speed;
             }
@@ -270,11 +277,22 @@ public class TEMP_Cam : MonoBehaviour
 
     Vector3 VelocityCheck(Vector3 input)
     {
-        float dist = Vector3.Distance(transform.position + input, mapCenter.position);
+        if (mapCenter == null)
+            return input;
+        float distOld = Vector3.Distance(transform.position, mapCenter.position);
+        float dist = Vector3.Distance(transform.position + input.normalized, mapCenter.position);
+        //Debug.Log(dist);
+        if (dist < distOld)
+            return input;
         if (dist >= cameraDist)
             return new Vector3(0f,0f,0f);
         else
             return input;
+    }
+
+    void MoveBody(Vector3 input)
+    {
+        body.velocity = VelocityCheck(input);
     }
 }
 
