@@ -270,9 +270,14 @@ public class TEMP_Cam : MonoBehaviour
 
     Vector3 VelocityCheck(Vector3 input)
     {
-        float dist = Vector3.Distance(transform.position + input, mapCenter.position);
-        if (dist >= cameraDist)
-            return new Vector3(0f,0f,0f);
+        if(mapCenter != null)
+        {
+            float dist = Vector3.Distance(transform.position + input, mapCenter.position);
+            if (dist >= cameraDist)
+                return new Vector3(0f, 0f, 0f);
+            else
+                return input;
+        }
         else
             return input;
     }

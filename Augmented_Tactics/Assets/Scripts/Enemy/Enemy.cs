@@ -682,7 +682,7 @@ public class Enemy : Actor
                 }
                
 
-            case "battle7": 
+            default: 
                 if (Random.Range(0, 1000) < 400)
                 {
                     int random = Random.Range(0, 1000);
@@ -711,10 +711,6 @@ public class Enemy : Actor
                 {
                     return LoadRegular();
                 }
-
-            default:
-                Debug.LogError("Level " + scene + " MUST be added to this switch^^^");
-                return null;
         }
     }
 
@@ -741,8 +737,17 @@ public class Enemy : Actor
         return this;
     }
 
+    public static GameObject LoadEnemyObject(string type,GameObject replacing, bool spawning)
+    {
+        switch (type)
+        {
+            case ""
+        }
+    }
+
     public Enemy LoadBrawler()
     {
+        
         gameObject.AddComponent<Aggressive>();
         Enemy newType = gameObject.GetComponent<Aggressive>();
         newType.type = "brawler";

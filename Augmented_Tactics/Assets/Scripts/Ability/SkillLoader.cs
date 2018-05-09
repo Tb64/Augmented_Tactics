@@ -106,6 +106,8 @@ public class SkillLoader : MonoBehaviour {
                 return new ShieldOfFaith(gObj);
 
             //Thief
+            case "arrow":
+                return new Arrow(gObj);
             case "flamingarrow":
                 return new FlamingArrow(gObj);
             case "vortexarrow":
