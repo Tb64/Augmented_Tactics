@@ -42,7 +42,7 @@ public class HealingWord : Ability {
             anim.SetTrigger(animTrigger);
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
-        float damage = 10f + ((float)actor.getStrength() * 0.5f);
+        //float damage = 10f + ((float)actor.getStrength() * 0.5f);
         //Debug.Log("combo damage = " + damage + " " + actor.getStrength());
         //target.GetComponent<Actor>().HealHealth(heal);
         statuseffect = new HealOverTime(heal, actor, target.GetComponent<Actor>(), false);

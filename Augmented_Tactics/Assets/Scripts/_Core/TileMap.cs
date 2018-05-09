@@ -831,5 +831,13 @@ public class TileMap : MonoBehaviour {
         ClickableTile tile = map[(int)mapPos.x,(int)mapPos.y,(int)mapPos.z];
         return tile;
     }
+
+    public Transform GetMiddleTransform()
+    {
+        int midZ = mapSizeZ / 2;
+        int midX = mapSizeX / 2;
+        Vector3 coords = new Vector3(midX, 0f, midZ);
+        return getTileAtCoord(coords).transform;
+    }
     #endregion
 }
