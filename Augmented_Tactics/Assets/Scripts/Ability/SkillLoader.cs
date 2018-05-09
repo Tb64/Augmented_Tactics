@@ -212,14 +212,14 @@ public class SkillLoader : MonoBehaviour {
                 return skills;
 
             case CharacterClasses.MageKey:
-                skills[0] = "";
-                skills[1] = "";
-                skills[2] = "";
+                skills[0] = "magicmissle";
+                skills[1] = "lucidity";
+                skills[2] = "fire";
                 skills[3] = "";
                 skills[4] = "";
                 skills[5] = "";
                 skills[6] = "";
-                skills[7] = "";
+                skills[7] = "arcanecomet";
                 return skills;
 
 

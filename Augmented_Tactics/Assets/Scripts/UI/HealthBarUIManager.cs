@@ -124,8 +124,11 @@ public class HealthBarUIManager : MonoBehaviour {
             {
                 init();
                 ranAlready = true;
-                if(healthBarObj!=null)
+                if (healthBarObj != null)
+                {
                     healthBarObj[numPlayers].SetActive(true);
+                    //healthCircleImg = PlayerControlled.playerList[numPlayers]
+                }
                 numPlayers++;
             }
             else

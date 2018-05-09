@@ -22,7 +22,7 @@ public class FireBall : Ability
         abilityName = "fireball";
         range_max = 7;
         range_min = 0;
-        damage = 50 + actor.getIntelligence() * 2;
+        damage = actor.getIntelligence() * 2;
         abilityImage = Resources.Load<Sprite>("UI/Ability/assassinSkill10");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
