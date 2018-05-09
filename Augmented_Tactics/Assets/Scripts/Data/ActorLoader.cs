@@ -11,7 +11,7 @@ public class ActorLoader : MonoBehaviour {
         PlayerData playerData = LoadPlayerData();
         if(playerData == null || playerData.DisplayName == null || playerData.DisplayName.Length == 0)
         {
-            Debug.Log("Null Player Data");
+            DebugMobile.Log("Null Player Data");
             Destroy(gameObject);
             return;
         }
