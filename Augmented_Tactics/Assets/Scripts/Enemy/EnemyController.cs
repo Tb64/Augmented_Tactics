@@ -188,6 +188,11 @@ public class EnemyController : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             Enemy cEnemy = enemy.GetComponent<Enemy>();
+           /* if(cEnemy == null) //should only happen for bosses
+            {
+                Debug.Log("Boss Instatiated " + enemy);
+                cEnemy = enemy.GetComponent<Boss>().script;
+            } */
             if (!cEnemy.IsBoss())
             {
                 newClass.Add(cEnemy.LoadPlayer());

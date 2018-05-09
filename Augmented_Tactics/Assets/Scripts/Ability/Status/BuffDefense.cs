@@ -11,31 +11,32 @@ public class BuffDefense : StatusEffects {
     {
         if (buff)
         {
-            buff = true;
+            this.buff = true;
             effectText = "Defensive Buff";
         }
         else
         {
-            buff = false;
+            this.buff = false;
             effectText = "Defensive Debuff";
         }
         this.effect = effect;
         TurnBehaviour.OnTurnStart += this.decreaseTimeCounter;
-        duration = Random.Range(1,3);
+        duration = 2;
         this.physical = physical;
         effectedPlayer = effected;
         effectorPlayer = effector;
         this.isEnemy = isEnemy;
         anim = effected.gameObject.GetComponentInChildren<Animator>();
+        if (physical)
+            BuffDebuff.SwapEffect(buff, effectorPlayer, effectedPlayer, effect, "physicaldefense");
+        else
+            BuffDebuff.SwapEffect(buff, effectorPlayer, effectedPlayer, effect, "magicaldefense");
+        effectorPlayer.aggroScore += (int)effect;
     }
 
     public override void InitialEffect()
     {
-        if(physical)
-            BuffDebuff.SwapEffect(buff, effectorPlayer, effectedPlayer, effect, "physicaldefense");
-        else
-            BuffDebuff.SwapEffect(buff, effectorPlayer, effectedPlayer, effect, "magicdefense");
-        effectorPlayer.aggroScore += (int)effect;
+        
     }
 
     public override void InduceEffect()
@@ -46,6 +47,10 @@ public class BuffDefense : StatusEffects {
     public override void ReverseEffect()
     {
         base.ReverseEffect();
-        BuffDebuff.SwapEffect(!buff, effectorPlayer, effectedPlayer, effect, "defense");
+        Debug.Log("Reversing " + effectorPlayer + "'s buff/debuff");
+        if (physical)
+            BuffDebuff.SwapEffect(!buff, effectorPlayer, effectedPlayer, effect, "physicaldefense");
+        else
+            BuffDebuff.SwapEffect(!buff, effectorPlayer, effectedPlayer, effect, "magicaldefense");
     }
 }

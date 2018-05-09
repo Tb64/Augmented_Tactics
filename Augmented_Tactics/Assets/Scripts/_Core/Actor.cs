@@ -323,10 +323,14 @@ public class Actor : MonoBehaviour
         //map.getMapArray()[tileX, tileZ].occupied = true;
         //Debug.Log(map.getMapArray()[tileX, tileZ].occupied);
 
-        if (data != null)
-            LoadStatsFromData(data);
+        if(gameObject.tag != "Enemy")
+        {
+            if (data != null)
+                LoadStatsFromData(data);
 
-        InitStats();
+            InitStats();
+        }
+       
 
     }
 

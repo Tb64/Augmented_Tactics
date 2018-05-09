@@ -45,7 +45,7 @@ public class QuickStab : Ability {
         damage = 10f + actor.getStrength() * 1.5f;
         dwell_time = 2f;
         abilityName = "Quick Stab";
-        abilityImage = Resources.Load<Sprite>("UI/Ability/archer/assassinSkill6");
+        abilityImage = Resources.Load<Sprite>("UI/Ability/assassin/assassinSkill6");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
     }

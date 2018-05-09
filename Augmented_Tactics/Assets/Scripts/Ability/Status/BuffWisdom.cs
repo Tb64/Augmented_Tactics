@@ -27,12 +27,13 @@ public class BuffWisdom : StatusEffects
         effectorPlayer = effector;
         this.isEnemy = isEnemy;
         anim = effected.gameObject.GetComponentInChildren<Animator>();
+        BuffDebuff.SwapEffect(buff, effectorPlayer, effectedPlayer, effect, "wisdom");
+        effectorPlayer.aggroScore += (int)(effect * duration);
     }
 
     public override void InitialEffect()
     {
-        BuffDebuff.SwapEffect(buff, effectorPlayer, effectedPlayer, effect, "wisdom");
-        effectorPlayer.aggroScore += (int)(effect * duration);
+        
     }
 
     public override void ReverseEffect()
