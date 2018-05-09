@@ -89,7 +89,7 @@ public class GameDataController: MonoBehaviour
         }
         else
         {
-            File.Create(filePath);
+            File.Create(filePath).Dispose();
             string jsonData = JsonUtility.ToJson(gameData);
             File.WriteAllText(filePath, jsonData);
             return true;
