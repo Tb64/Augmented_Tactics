@@ -6,6 +6,7 @@ public class Smite : Ability
 {
     private string animTrigger = "Attack4Trigger";
     const string SpiriteDir = "UI/Skill_Icon_Pack/yellow/yellow_24";
+    private GameObject handVFX;
 
     public Smite(GameObject obj)
     {
@@ -22,6 +23,7 @@ public class Smite : Ability
         damage = (float)actor.getStrength() + (float)actor.getConstitution() + (float)actor.getWisdom();
         manaCost = 4f + actor.getLevel();
         abilityName = "Smite";
+        handVFX = Resources.Load<GameObject>("Effects/HandEffects/Effect4_Hand_Optimized");
         abilityImage = Resources.Load<Sprite>(SpiriteDir);
         if (abilityImage == null)
             Debug.Log("Unable to load image");
@@ -36,6 +38,11 @@ public class Smite : Ability
         {
             Debug.Log(string.Format("Using Skill {0}. Attacker={1} Defender={2}", abilityName, gameObject.name, target.name));
             rotateAtObj(target);
+
+            if (handVFX != null)
+            {
+                GameObject.Destroy(GameObject.Instantiate<GameObject>(handVFX, actor.RightHandTransform()), dwell_time);
+            }
 
             anim.SetTrigger(animTrigger);
             gameObject.GetComponent<Actor>().PlaySound("attack");

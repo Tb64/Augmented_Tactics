@@ -213,7 +213,7 @@ public class SkillLoader : MonoBehaviour {
                 skills[0] = "curewounds";
                 skills[1] = "healingword";
                 skills[2] = "spikegrowth";
-                skills[3] = "";
+                skills[3] = "healingwinds";
                 skills[4] = "beaconofhope";
                 skills[5] = "";
                 skills[6] = "";
@@ -227,8 +227,8 @@ public class SkillLoader : MonoBehaviour {
                 skills[3] = "";
                 skills[4] = "";
                 skills[5] = "";
-                skills[6] = "";
-                skills[7] = "arcanecomet";
+                skills[6] = "arcanecomet";
+                skills[7] = "";
                 return skills;
 
 

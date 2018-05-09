@@ -31,7 +31,7 @@ public class Disintegrate : Ability {
         range_max = 4;
         range_min = 0;
         damage = 10 + actor.getStrength() * 2;
-        abilityImage = Resources.Load<Sprite>("UI/Ability/warriorSkill3");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/red/red_33");
         mB = GameObject.FindObjectOfType<MonoBehaviour>();
         position = GameObject.FindObjectOfType<Enemy>();
 

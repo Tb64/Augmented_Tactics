@@ -168,6 +168,7 @@ public class AfterActionReport : MonoBehaviour {
 
         for (int index = 0; index < squad.Length; index++)
         {
+            Debug.Log("Drawing Frame for" + squad[index].DisplayName);
             frames[index].LoadData(squad[index], expGained);
             GiveExp(squad[index]);
         }
@@ -221,7 +222,8 @@ public class AfterActionReport : MonoBehaviour {
         {
             screen.SetActive(true);// = true;
             GameDataController.savePlayerData();
-            DisplayExp();
+            //DisplayExp();
+            DrawExp();
             Time.timeScale = 0;
         }
     }

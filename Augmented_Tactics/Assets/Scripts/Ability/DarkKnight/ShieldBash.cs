@@ -21,7 +21,7 @@ public class ShieldBash : Ability {
         range_max = 1;
         range_min = 0;
         damage = 20 + actor.getStrength() * 2;
-        abilityImage = Resources.Load<Sprite>("UI/Ability/assassinSkill10");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/blue/blue_20");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
         manaCost = 0;

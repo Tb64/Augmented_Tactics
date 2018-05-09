@@ -6,6 +6,7 @@ public class HealingWord : Ability {
 
     private string animTrigger = "CastAttack1Trigger";
     private GameObject handVFX;
+    private GameObject effect;
     private HealOverTime statuseffect;
 
     public HealingWord(GameObject obj)
@@ -21,10 +22,12 @@ public class HealingWord : Ability {
         range_max = 3;
         range_min = 0;
         dwell_time = 1.0f;
+        manaCost = actor.getWisdom();
         heal = 5f + (float)actor.getWisdom() * 1.25f;
         abilityName = "HealingWord";
         handVFX = Resources.Load<GameObject>("Effects/HandEffects/Effect13_Hand_Optimized");
-        abilityImage = Resources.Load<Sprite>("UI/Ability/priest/priestSkill1");
+        effect = Resources.Load<GameObject>("Effects/Effect21_Optimized");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/green/green_20");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
     }
@@ -39,6 +42,10 @@ public class HealingWord : Ability {
                 GameObject.Instantiate<GameObject>(handVFX, actor.RightHandTransform());
             else
                 Debug.Log("handVFX null");
+            if (effect != null)
+                GameObject.Instantiate<GameObject>(effect, target.transform);
+            else
+                Debug.Log("effect null");
             anim.SetTrigger(animTrigger);
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }

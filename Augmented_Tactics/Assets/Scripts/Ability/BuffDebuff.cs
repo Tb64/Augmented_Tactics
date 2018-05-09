@@ -46,7 +46,7 @@ public class BuffDebuff : Ability {
             case "physicaldefense":
                 StatusEffectsController.AddEffect(new BuffDefense(effect, actor, targeta, target.tag == "Enemy", true,true));
                 break;
-            case "magicaldefense":
+            case "magicdefense":
                 StatusEffectsController.AddEffect(new BuffDefense(effect, actor, targeta, target.tag == "Enemy", true,false));
                 break;
             case "magicaldefense":

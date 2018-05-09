@@ -11,12 +11,16 @@ public class LevelSelectUI : MonoBehaviour {
 
     public static string[] levelDisplayNames =
     {
-        "",
-        "",
-        "",
-        "",
-        "",
-        ""
+        "Main Menu",
+        "Foward Operating Base",
+        "Wedding Day",
+        "Locked",
+        "Locked",
+        "Locked",
+        "Locked",
+        "Locked",
+        "Locked",
+        "Locked"
     };
 
     // Use this for initialization
@@ -24,7 +28,7 @@ public class LevelSelectUI : MonoBehaviour {
         int sceneCount = SceneManager.sceneCountInBuildSettings;
         if (sceneCount >= 2)
         {
-            buttonPrefab.GetComponent<LevelButton>().Init(2);
+            buttonPrefab.GetComponent<LevelButton>().Init(levelDisplayNames[2], 2);
             buttonPrefab.GetComponent<Button>().onClick.AddListener(buttonPrefab.GetComponent<LevelButton>().ButtonClicked);
         }
         else
@@ -38,7 +42,7 @@ public class LevelSelectUI : MonoBehaviour {
             obj.transform.SetParent(buttonContainer.transform, false);
             obj.GetComponent<Button>().onClick.AddListener(obj.GetComponent<LevelButton>().ButtonClicked);
             obj.GetComponent<RectTransform>().anchoredPosition3D = pos;
-            obj.GetComponent<LevelButton>().Init(index);
+            obj.GetComponent<LevelButton>().Init(levelDisplayNames[index],index);
         }
         RectTransform rect = buttonContainer.GetComponent<RectTransform>();
         //rect.rect.height = (sceneCount - 2) * 100;

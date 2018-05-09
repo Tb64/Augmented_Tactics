@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class QuickStab : Ability {
 
-    TileMap map = GameObject.FindWithTag("Map").GetComponent<TileMap>();
+    TileMap map;// = GameObject.FindWithTag("Map").GetComponent<TileMap>();
     public QuickStab(GameObject obj)
     {
         Initialize(obj);
@@ -23,7 +23,7 @@ public class QuickStab : Ability {
             Vector3 initCoords = attacker.getCoords();
             map.moveActorAsync(attacker, Enemy.PosCloseTo(attacker, targeta.getCoords(), map));
             rotateAtObj(target);
-            DwellTime.Attack(dwell_time);
+            //DwellTime.Attack(dwell_time);
             anim.SetTrigger("MeleeAttack");
             gameObject.GetComponent<Actor>().PlaySound("attack");
             map.moveActorAsync(attacker, initCoords);
@@ -31,7 +31,7 @@ public class QuickStab : Ability {
             attacker.setNumOfActions(0);
 
         }
-        target.GetComponent<Actor>().TakeDamage(damage, gameObject);
+        target.GetComponent<Actor>().TakeDamage(CalcPhysicalDamage(damage, target), gameObject);
         DwellTime.Attack(dwell_time);
     }
 
@@ -43,9 +43,10 @@ public class QuickStab : Ability {
         range_max = 5;
         range_min = 0;
         damage = 10f + actor.getStrength() * 1.5f;
+        map = actor.map;
         dwell_time = 2f;
         abilityName = "Quick Stab";
-        abilityImage = Resources.Load<Sprite>("UI/Ability/archer/assassinSkill6");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/gray/gray_06");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
     }

@@ -32,7 +32,7 @@ public class IceArrow : Ability
             anim.SetInteger("Weapon", 7);
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
-        targeta.TakeDamage(damage, target);
+        targeta.TakeDamage(CalcPhysicalDamage(damage, target), gameObject);
         if (Ability.DiceRoll(actor.getDexterity(), targeta.getDexterity()))
         {
             if(StatusEffectsController.AddEffect(new Frozen(0, actor, targeta, target.tag == "Enemy")))
@@ -56,7 +56,7 @@ public class IceArrow : Ability
         damage = 10f + actor.getDexterity() * 2;
         dwell_time = 5f;
         abilityName = "Ice Arrow";
-        abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill7");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/blue/blue_09");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
     }
