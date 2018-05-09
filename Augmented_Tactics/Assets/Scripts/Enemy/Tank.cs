@@ -28,10 +28,13 @@ public class Tank : Enemy{
     public override void EnemyInitialize()
     {
         archetype = "tank";
-        if(!boss)
+        if (!boss)
+        {
             base.EnemyInitialize();
-        GetAbilities();
-        SetAbilities();
+            GetAbilities();
+            SetAbilities();
+        }
+            
         regularMode = false;
         buffCool = false;
         debuffCool = false;
@@ -153,6 +156,7 @@ public class Tank : Enemy{
         {
             if (firstMove)
             {
+                Debug.Log("Buffing or Debuffing");
                 firstDebuffed = true;
                 firstMove = false;
             }
@@ -173,7 +177,10 @@ public class Tank : Enemy{
                 if(getManaCurrent() <= buff.manaCost && getManaCurrent()<= debuff.manaCost && !CheckManaReplenish(buff))
                 {
                     regularMode = true;
+                    //Debug.LogError("Tank Regular Mode");
                     sameTurn = true;
+                    Debug.Log("Possible Cause of Crash");
+                    //EnemyController.ExhaustMoves(SM);
                     return;
                 }
                 else
@@ -240,6 +247,8 @@ public class Tank : Enemy{
 
     protected void GetInPosition()
     {
+        if (getMoves() == 0)
+            return;
         Debug.Log(closestAggro + " " + closestAggro.getCoords() + " " + currentTarget + " " + currentTarget.getCoords());
         Vector3 cAPos = closestAggro.getCoords();
         Vector3 output = closestAggro.getCoords() - currentTarget.getCoords();

@@ -29,7 +29,7 @@ public class Enemy : Actor
     protected List<Actor> cantTarget;
     protected UsableItem healItem;
     protected bool targetLocked;
-    public bool aided,boss;
+    public bool aided, boss, loaded;
 
     public Actor currentTarget;
     // Use this for initialization
@@ -97,7 +97,7 @@ public class Enemy : Actor
             //map.drawDebugLines();
         }
     }*/
-
+    
     public virtual void EnemyTurnStartActions()
     {
         cantTarget = new List<Actor>();
@@ -561,7 +561,7 @@ public class Enemy : Actor
         scene = scene.ToLower();
         switch (scene)
         {
-            case "templete": //need to change back to battle1 after testing
+            case "battle1": //need to change back to battle1 after testing
                 if (Random.Range(0, 1000) < 350)
                 {
                     if (Random.Range(0, 1000) < 500)
@@ -682,7 +682,7 @@ public class Enemy : Actor
                 }
                
 
-            case "battle7": 
+            default: 
                 if (Random.Range(0, 1000) < 400)
                 {
                     int random = Random.Range(0, 1000);
@@ -711,17 +711,24 @@ public class Enemy : Actor
                 {
                     return LoadRegular();
                 }
-
-            default:
-                //cause all the test levels to crash
-                Debug.Log("Level " + scene + " MUST be added to this switch^^^");
-                return null;
         }
+    }
+
+    protected PlayerData SetDifficulty(PlayerData level,int playerLevel)
+    {
+        for(int x = playerLevel-2; x > 0; x--)
+        {
+            PlayerData.LevelUp(level);
+        }
+        return level;
     }
 
     public Enemy LoadRegular()
     {
         archetype = "regular";
+        PlayerData level = PlayerData.GenerateNewPlayer(CharacterClasses.BrawlerKey);
+        level = SetDifficulty(level, EnemyController.playerLevel);
+        LoadStatsFromData(level);
         //Debug.LogError("archetype set to " + archetype);
         abilitySet = new Ability[4];
         abilitySet[0] = new BasicAttack(this.gameObject);
@@ -742,58 +749,114 @@ public class Enemy : Actor
         return this;
     }
 
+
     public Enemy LoadBrawler()
     {
-        gameObject.AddComponent<Aggressive>();
-        Enemy newType = gameObject.GetComponent<Aggressive>();
-        newType.type = "brawler";
-        GameObject.Destroy(this);
-        return newType;
+        GameObject enemyObj = Resources.Load<GameObject>(CharacterClasses.EnemyPrefabPath[0]);
+        GameObject spawned = Instantiate(enemyObj);
+        //Destroy(spawned.GetComponent<Enemy>()); // might be trouble
+        Aggressive newEnemy= spawned.AddComponent<Aggressive>();
+        newEnemy.setMoveDistance(7);
+        newEnemy.setSpeed(3);
+        newEnemy.loaded = true;
+        newEnemy.type = "brawler";
+        spawned.transform.position = transform.position;
+        spawned.transform.rotation = transform.rotation;
+        PlayerData level = PlayerData.GenerateNewPlayer(CharacterClasses.BrawlerKey);
+        level = SetDifficulty(level, EnemyController.playerLevel);
+        newEnemy.LoadStatsFromData(level);
+        Destroy(gameObject);
+        return newEnemy;
     }
 
     public Enemy LoadThief()
     {
-        gameObject.AddComponent<Support>();
-        Enemy newType = gameObject.GetComponent<Support>();
-        newType.type = "thief";
-        GameObject.Destroy(this);
-        return newType;
+        GameObject enemyObj = Resources.Load<GameObject>(CharacterClasses.EnemyPrefabPath[2]);
+        GameObject spawned = Instantiate(enemyObj);
+        Support newEnemy = spawned.AddComponent<Support>();
+        newEnemy.setMoveDistance(7);
+        newEnemy.setSpeed(3);
+        newEnemy.type = "thief";
+        newEnemy.loaded = true;
+        spawned.transform.position = transform.position;
+        spawned.transform.rotation = transform.rotation;
+        PlayerData level = PlayerData.GenerateNewPlayer(CharacterClasses.ThiefKey);
+        level = SetDifficulty(level, EnemyController.playerLevel);
+        LoadStatsFromData(level);
+        Destroy(gameObject);
+        return newEnemy;
     }
 
     public Enemy LoadCleric()
     {
-        gameObject.AddComponent<Defender>();
-        Enemy newType = gameObject.GetComponent<Defender>();
-        newType.type = "cleric";
-        GameObject.Destroy(this);
-        return newType;
+        GameObject enemyObj = Resources.Load<GameObject>(CharacterClasses.EnemyPrefabPath[1]);
+        GameObject spawned = Instantiate(enemyObj);
+        Defender newEnemy = spawned.AddComponent<Defender>();
+        newEnemy.setMoveDistance(7);
+        newEnemy.setSpeed(3);
+        newEnemy.type = "cleric";
+        newEnemy.loaded = true;
+        spawned.transform.position = transform.position;
+        spawned.transform.rotation = transform.rotation;
+        PlayerData level = PlayerData.GenerateNewPlayer(CharacterClasses.ClericKey);
+        level = SetDifficulty(level, EnemyController.playerLevel);
+        newEnemy.LoadStatsFromData(level);
+        Destroy(gameObject);
+        return newEnemy;
     }
 
     public Enemy LoadDarkKnight()
     {
-        gameObject.AddComponent<Aggressive>();
-        Enemy newType = gameObject.GetComponent<Aggressive>();
-        newType.type = "darkknight";
-        GameObject.Destroy(this);
-        return newType;
+        GameObject enemyObj = Resources.Load<GameObject>(CharacterClasses.EnemyPrefabPath[0]);
+        GameObject spawned = Instantiate(enemyObj);
+        Aggressive newEnemy = spawned.AddComponent<Aggressive>();
+        newEnemy.setMoveDistance(7);
+        newEnemy.setSpeed(3);
+        newEnemy.type = "darkknight";
+        newEnemy.loaded = true;
+        spawned.transform.position = transform.position;
+        spawned.transform.rotation = transform.rotation;
+        PlayerData level = PlayerData.GenerateNewPlayer(CharacterClasses.DarkKnightKey);
+        level = SetDifficulty(level, EnemyController.playerLevel);
+        newEnemy.LoadStatsFromData(level);
+        Destroy(gameObject);
+        return newEnemy;
     }
 
     public Enemy LoadPaladin()
     {
-        gameObject.AddComponent<Tank>();
-        Enemy newType = gameObject.GetComponent<Tank>();
-        newType.type = "paladin";
-        GameObject.Destroy(this);
-        return newType;
+        GameObject enemyObj = Resources.Load<GameObject>(CharacterClasses.EnemyPrefabPath[1]);
+        GameObject spawned = Instantiate(enemyObj);
+        Tank newEnemy = spawned.AddComponent<Tank>();
+        newEnemy.setMoveDistance(7);
+        newEnemy.setSpeed(3);
+        newEnemy.type = "paladin";
+        newEnemy.loaded = true;
+        spawned.transform.position = transform.position;
+        spawned.transform.rotation = transform.rotation;
+        PlayerData level = PlayerData.GenerateNewPlayer(CharacterClasses.PaladinKey);
+        level = SetDifficulty(level, EnemyController.playerLevel);
+        newEnemy.LoadStatsFromData(level);
+        Destroy(gameObject);
+        return newEnemy;
     }
 
     public Enemy LoadWizard()
     {
-        gameObject.AddComponent<Aggressive>();
-        Enemy newType = gameObject.GetComponent<Aggressive>();
-        newType.type = "wizard";
-        GameObject.Destroy(this);
-        return newType;
+        GameObject enemyObj = Resources.Load<GameObject>(CharacterClasses.EnemyPrefabPath[1]);
+        GameObject spawned = Instantiate(enemyObj);
+        Aggressive newEnemy = spawned.AddComponent<Aggressive>();
+        newEnemy.setMoveDistance(7);
+        newEnemy.setSpeed(3);
+        newEnemy.type = "wizard";
+        newEnemy.loaded = true;
+        spawned.transform.position = transform.position;
+        spawned.transform.rotation = transform.rotation;
+        PlayerData level = PlayerData.GenerateNewPlayer(CharacterClasses.MageKey);
+        level = SetDifficulty(level, EnemyController.playerLevel);
+        newEnemy.LoadStatsFromData(level);
+        Destroy(gameObject);
+        return newEnemy;
     }
 
 
@@ -925,6 +988,11 @@ public class Enemy : Actor
                     return 1400;
 
         }
+    }
+
+    public virtual bool IsBoss()
+    {
+        return false;
     }
 
     public int GetID()
