@@ -6,6 +6,7 @@ public class BeaconOfHope : AOE
 {
     private string animTrigger = "CastAttack1Trigger";
     private GameObject handVFX;
+    private GameObject effect;
 
     public BeaconOfHope(GameObject obj)
     {
@@ -26,7 +27,8 @@ public class BeaconOfHope : AOE
         manaCost = actor.getLevel() * 10 + 20;
         abilityName = "Beacon Of Hope";
         handVFX = Resources.Load<GameObject>("Effects/HandEffects/Effect13_Hand_Optimized");
-        abilityImage = Resources.Load<Sprite>("UI/Ability/priest/priestSkill7");
+        effect = Resources.Load<GameObject>("Effects/Effect21_Optimized");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/yellow/yellow_43");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
 
@@ -59,7 +61,13 @@ public class BeaconOfHope : AOE
         for (int i = 0; i < listIterActor; i++)
         {
             if (listOfActorsAffected[i] != null)
+            {
                 listOfActorsAffected[i].HealHealth(heal);
+                if (effect != null)
+                    GameObject.Instantiate<GameObject>(effect, listOfActorsAffected[i].transform);
+                else
+                    Debug.Log("effect null");
+            }
         }
 
         DwellTime.Attack(dwell_time);

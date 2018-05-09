@@ -5,7 +5,7 @@ using UnityEngine;
 public class Aid : Ability
 {
     private string animTrigger = "CastAttack2Trigger";
-    const string SpiriteDir = "UI/Ability/priest/priestSkill1";
+    const string SpiriteDir = "UI/Skill_Icon_Pack/green/green_20";
     GameObject teleportEffect = Resources.Load<GameObject>("animation/Effect6_Collision");
     GameObject healEffect = Resources.Load<GameObject>("animation/Effect8Paladin");
     TileMap map;
@@ -27,6 +27,7 @@ public class Aid : Ability
         range_max = 4;
         range_min = 0;
         dwell_time = 3.0f;
+        manaCost = actor.getLevel() * 2;
         heal = 5f + (float)actor.getWisdom() * 1.25f;
         abilityName = "Aid";
         abilityImage = Resources.Load<Sprite>(SpiriteDir);

@@ -29,7 +29,7 @@ public class UnholyLightning : Ability {
         range_min = 0;
         damage = actor.getStrength() * 2;
         manaCost = 40;
-
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/gray/gray_15");
         beam1 = unholyLightning.transform.Find("Trail1").GetComponent<RFX4_ParticleTrail>();
         beam2 = unholyLightning.transform.Find("Trail2").GetComponent<RFX4_ParticleTrail>();
         beam3 = unholyLightning.transform.Find("Trail3").GetComponent<RFX4_ParticleTrail>();

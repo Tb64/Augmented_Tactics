@@ -26,8 +26,10 @@ public class LevelButton : MonoBehaviour {
 
     public void Init(int index)
     {
-        string name = SceneUtility.GetScenePathByBuildIndex(index);
+        //string path = SceneUtility.GetScenePathByBuildIndex(index);
+        string name = SceneManager.GetSceneByBuildIndex(index).name;
         sceneName = name;
         Init(name, index);
     }
+
 }

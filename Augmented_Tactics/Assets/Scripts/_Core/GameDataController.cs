@@ -11,10 +11,15 @@ public class GameDataController: MonoBehaviour
     {
         Application.stackTraceLogType = StackTraceLogType.ScriptOnly;
         //filePath = Application.dataPath + "/StreamingAssets\\Saves\\data.json";
-        filePath = Path.Combine(Application.persistentDataPath, "saveData.json");
+        filePath = GetPath();
         gameData = loadPlayerData();
         if(gameData != null)
             ShardController.setShards(gameData.Shards);
+    }
+
+    private static string GetPath()
+    {
+        return Path.Combine(Application.persistentDataPath, "saveData.json");
     }
     public static GameData loadPlayerData()
     {
@@ -22,7 +27,7 @@ public class GameDataController: MonoBehaviour
         //if (gameData == null)
         //    Debug.Log("new data is null");
         //Static Functions do not call start
-        filePath = Path.Combine(Application.streamingAssetsPath, "data.json");
+        filePath = GetPath();
         //Debug.Log(filePath);
         if (File.Exists(filePath))
         {
@@ -44,8 +49,8 @@ public class GameDataController: MonoBehaviour
     public static bool savePlayerData(GameData gameData)
     {
         //Static Functions do not call start
-        filePath = Path.Combine(Application.streamingAssetsPath, "data.json");
-        //Debug.Log(GameDataController.filePath);
+        filePath = GetPath();
+        Debug.Log("saving to " + filePath);
         if (filePath == null)
         {
             Debug.LogError("Can't Find Game Data");
@@ -59,7 +64,7 @@ public class GameDataController: MonoBehaviour
         }
         else
         {
-            File.Create(GameDataController.filePath);
+            File.Create(GameDataController.filePath).Dispose();
             string jsonData = JsonUtility.ToJson(gameData);
             File.WriteAllText(GameDataController.filePath, jsonData);
             return true;
@@ -69,7 +74,7 @@ public class GameDataController: MonoBehaviour
     public static bool savePlayerData()
     {
         //Static Functions do not call start
-        filePath = Path.Combine(Application.streamingAssetsPath, "data.json");
+        filePath = GetPath();
         //Debug.Log(GameDataController.filePath);
         if (filePath == null)
         {

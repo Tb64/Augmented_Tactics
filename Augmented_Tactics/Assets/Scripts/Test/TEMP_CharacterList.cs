@@ -102,4 +102,53 @@ public class TEMP_CharacterList : MonoBehaviour {
     void Update () {
 		
 	}
+
+    public static void MakeParty()
+    {
+        PlayerData data1 = PlayerData.GenerateNewPlayer(CharacterClasses.BrawlerKey);
+        data1.Skill1 = "twinstrike";
+        data1.Skill2 = "combo";
+        data1.Skill3 = "dragonkick";
+        data1.Skill4 = "shockwave";
+        PlayerData data2 = PlayerData.GenerateNewPlayer(CharacterClasses.ClericKey);
+        data2.Skill1 = "curewounds";
+        data2.Skill2 = "healingword";
+        data2.Skill3 = "beaconofhope";
+        data2.Skill4 = "healingwinds";
+        PlayerData data3 = PlayerData.GenerateNewPlayer(CharacterClasses.DarkKnightKey);
+        data3.Skill1 = "sap";
+        data3.Skill2 = "disintegrate";
+        data3.Skill3 = "eviscerate";
+        data3.Skill4 = "lifeleech";
+        PlayerData data4 = PlayerData.GenerateNewPlayer(CharacterClasses.PaladinKey);
+        data4.Skill1 = "vengeance";
+        data4.Skill2 = "smite";
+        data4.Skill3 = "aid";
+        data2.Skill4 = "fortifiedstrike";
+        PlayerData data5 = PlayerData.GenerateNewPlayer(CharacterClasses.ThiefKey);
+        data5.Skill1 = "arrow";
+        data5.Skill2 = "poisonarrow";
+        data5.Skill3 = "flamingarrow";
+        data5.Skill4 = "quickstab";
+        PlayerData data6 = PlayerData.GenerateNewPlayer(CharacterClasses.MageKey);
+        data6.Skill1 = "ice";
+        data6.Skill2 = "thunder";
+        data6.Skill3 = "magicmissle";
+        data6.Skill4 = "fire";
+        LevelUpMax(data1);
+        LevelUpMax(data2);
+        LevelUpMax(data3);
+        LevelUpMax(data4);
+        LevelUpMax(data5);
+        LevelUpMax(data6);
+
+    }
+
+    public static void LevelUpMax(PlayerData input)
+    {
+        for (int index = 0; index < 8; index++)
+        {
+            PlayerData.LevelUp(input, true);
+        }
+    }
 }

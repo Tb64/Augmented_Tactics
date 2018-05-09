@@ -33,7 +33,7 @@ public class Eviscerate : Ability
         range_max = 1;
         range_min = 0;
         damage = BASE_DAMAGE * actor.getLevel() + STR_SCALER * actor.getStrength();
-        abilityImage = Resources.Load<Sprite>("UI/Ability/assassin/assassinSkill2");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/red/red_15");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
         abilityDescription = "A devestating stab that will leave an enemy bleeding for two turns";

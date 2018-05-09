@@ -24,7 +24,7 @@ public class Arrow : Ability
         manaCost = 0;
         dwell_time = 3.0f;
         abilityName = "Arrow";
-        abilityImage = Resources.Load<Sprite>("UI/Ability/Arrow");
+        abilityImage = Resources.Load<Sprite>("UI/WeaponAndArmorIconPack/black/arrows/ar_b_03");
     }
 
     public override void ActionSkill(GameObject target)
@@ -45,6 +45,6 @@ public class Arrow : Ability
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
         DwellTime.Attack(dwell_time);
-        targeta.TakeDamage(damage, target);
+        targeta.TakeDamage(CalcPhysicalDamage(damage, target), gameObject);
     }
 }

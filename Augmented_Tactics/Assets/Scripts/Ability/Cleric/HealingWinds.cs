@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class HealingWinds : AOE {
     private string animTrigger = "Attack4Trigger";
-    const string SpiriteDir = "UI/Skill_Icon_Pack/yellow/yellow_41";
+    const string SpiriteDir = "UI/Skill_Icon_Pack/green/green_11";
+    private GameObject effect;
     private HealOverTime statuseffect;
 
     public HealingWinds(GameObject obj)
@@ -19,12 +20,14 @@ public class HealingWinds : AOE {
         anim = gameObject.GetComponentInChildren<Animator>();
         AOESizeMin = 0;
         AOESizeMax = 1;
-        range_max = 1;
+        range_max = 3;
         range_min = 0;
         dwell_time = 1.0f;
+        manaCost = actor.getWisdom() * 3;
         damage = actor.getConstitution() + actor.getStrength();
         //heal = 5f + (float)actor.getWisdom() * 1.25f;
-        abilityName = "Vengeance";
+        abilityName = "Healing Winds";
+        effect = Resources.Load<GameObject>("Effects/Effect21_Optimized");
         abilityImage = Resources.Load<Sprite>(SpiriteDir);
         if (abilityImage == null)
             Debug.Log("Unable to load image");
@@ -47,7 +50,13 @@ public class HealingWinds : AOE {
         for (int i = 0; i < listIterActor; i++)
         {
             if (listOfActorsAffected[i] != null)
+            {
                 statuseffect = new HealOverTime(heal, actor, listOfActorsAffected[i].GetComponent<Actor>(), false);
+                if (effect != null)
+                    GameObject.Instantiate<GameObject>(effect, listOfActorsAffected[i].transform);
+                else
+                    Debug.Log("effect null");
+            }
         }
 
         DwellTime.Attack(dwell_time);

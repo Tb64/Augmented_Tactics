@@ -21,6 +21,11 @@ public class EnemyController : MonoBehaviour
     //public Actor getWeakest() { return weakest; }
     //public void setWeakest(Actor weakestPlayer) { weakest = weakestPlayer; }
     // Use this for initialization
+    private void Awake()
+    {
+        TurnBehaviour.OnPlayerSpawn += this.FindPlayerTeam;
+    }
+
     void Start()
     {
         EnemyInitialize();
@@ -32,6 +37,18 @@ public class EnemyController : MonoBehaviour
 
     }
 
+    void FindPlayerTeam()
+    {
+        userTeam = PlayerControlled.playerList;
+        foreach (Actor user in userTeam)
+        {
+            if(user != null)
+                Debug.Log("User Team: " + user.name);
+            else
+                Debug.Log("User Team: empty!");
+        }
+    }
+
     public void OnDestroy()
     {
         TurnBehaviour.OnActorFinishedMove -= this.ExhaustMoves;
@@ -40,6 +57,7 @@ public class EnemyController : MonoBehaviour
         TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStart;
         //TurnBehaviour.OnUnitMoved -= this.EnemyMoveFinished;
         TurnBehaviour.OnEnemyOutOfMoves -= this.EnemyMoveFinished;
+        TurnBehaviour.OnPlayerSpawn -= this.FindPlayerTeam;
     }
     #region primaryActions
     public void EnemyInitialize()
@@ -52,6 +70,7 @@ public class EnemyController : MonoBehaviour
         TurnBehaviour.OnActorAttacked += this.ExhaustMoves;
         //TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
         TurnBehaviour.OnEnemyOutOfMoves += this.EnemyMoveFinished;
+        
 
         if (map == null)
         {

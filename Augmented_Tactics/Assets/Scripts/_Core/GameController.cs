@@ -419,7 +419,11 @@ public class GameController : MonoBehaviour
             if(selectedUnit.abilitySet[index] != null)
             {
                 abilityImages[index].sprite = selectedUnit.abilitySet[index].abilityImage;
-                abilityText[index].text = "" + (int)selectedUnit.abilitySet[index].manaCost;
+                int manaCost = (int)selectedUnit.abilitySet[index].manaCost;
+                if (manaCost == 0)
+                    abilityText[index].text = "";
+                else
+                    abilityText[index].text = "" + (int)selectedUnit.abilitySet[index].manaCost;
                 abilityImages[index].GetComponent<Button>().interactable = true;
             }
             else
