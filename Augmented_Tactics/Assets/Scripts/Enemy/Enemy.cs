@@ -713,7 +713,8 @@ public class Enemy : Actor
                 }
 
             default:
-                Debug.LogError("Level " + scene + " MUST be added to this switch^^^");
+                //cause all the test levels to crash
+                Debug.Log("Level " + scene + " MUST be added to this switch^^^");
                 return null;
         }
     }
