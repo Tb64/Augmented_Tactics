@@ -134,6 +134,7 @@ public class Support : Enemy {
             targetLocked = false;
             //EnemyController.ExhaustMoves(SM); //probably caused crash
             Debug.Log("Probably the trap");
+            this.EnemyActions();
         }
         
     }

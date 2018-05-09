@@ -28,9 +28,9 @@ public class Decet : Tank {
         setDexterity(3);
         setConstitution(5);
         setIntelligence(10);
-        buff = new BuffDebuff(gameObject, "dexterity", "", false, true, getWisdom(), false);
+        buff = new BuffDebuff(gameObject, "dexterity", null, false, true, getWisdom(), false);
         heal = SkillLoader.LoadSkill("curewounds", gameObject);
-        debuff = new BuffDebuff(gameObject, "dexterity", "defense", true, true, getWisdom(), false);
+        debuff = new BuffDebuff(gameObject, "dexterity", "physicaldefense", true, true, getWisdom(), false);
         lastResort = SkillLoader.LoadSkill("fire", gameObject);
         supportMode = false;
         regularMode = false;

@@ -31,6 +31,7 @@ public class BuffDexterity : StatusEffects {
 
     public override void InitialEffect()
     {
+        Debug.Log(buff);
         BuffDebuff.SwapEffect(buff, effectorPlayer, effectedPlayer, effect, "dexterity");
         effectorPlayer.aggroScore += (int)(effect * duration);
     }

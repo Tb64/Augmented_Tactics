@@ -274,7 +274,7 @@ public class EnemyController : MonoBehaviour
             return;
         enemyList[currentEnemy].UpdateNearest();
         //Debug.Log("Actually moved to " + enemyList[currentEnemy].getCoords());
-        if (enemyList[currentEnemy].getMoves() != 0)
+        if (enemyList[currentEnemy].getMoves() > 0)
         {
             enemyList[currentEnemy].EnemyActions();
         }

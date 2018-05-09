@@ -288,9 +288,6 @@ public class TEMP_Cam : MonoBehaviour
                 return new Vector3(0f, 0f, 0f);
             else
                 return input;
-        }
-        else
-            return input;
     }
 
     void MoveBody(Vector3 input)

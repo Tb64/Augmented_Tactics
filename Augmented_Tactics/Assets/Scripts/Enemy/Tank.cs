@@ -132,6 +132,7 @@ public class Tank : Enemy{
                 return;
             }
         }
+
         if (inPosition && CheckInPosition())
         {
             inPosition = true;
@@ -140,13 +141,16 @@ public class Tank : Enemy{
         {
             inPosition = false;
         }
+
         if (regularMode && sameTurn && CheckManaReplenish(buff))
             regularMode = false;
+
         if (regularMode)
         {
             base.EnemyActions();
             return;
         }
+
         if (!inPosition)
         {
             GetInPosition();
@@ -179,7 +183,8 @@ public class Tank : Enemy{
                     regularMode = true;
                     //Debug.LogError("Tank Regular Mode");
                     sameTurn = true;
-                    Debug.Log("Possible Cause of Crash");
+                    //Debug.Log("Possible Cause of Crash");
+                    this.EnemyActions();
                     //EnemyController.ExhaustMoves(SM);
                     return;
                 }
@@ -283,8 +288,10 @@ public class Tank : Enemy{
             firstMove = false;
         inPosition = true;
     }
+
     public virtual bool BuffOrDebuff() //I'm not 100% on this, just a basic algorithm. starting with just closest instead of AOE buff / debuff
     {
+        Debug.Log(getMoves());
         if (buff.CanUseSkill(closestAggro.gameObject) && !buffCool)
         {
             buff.UseSkill(closestAggro.gameObject);

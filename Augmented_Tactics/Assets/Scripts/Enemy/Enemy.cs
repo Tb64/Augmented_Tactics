@@ -733,7 +733,7 @@ public class Enemy : Actor
         abilitySet = new Ability[4];
         abilitySet[0] = new BasicAttack(this.gameObject);
         abilitySet[1] = new Fire(this.gameObject);
-        string[] possibles = { "heal", "curewounds", "quickstab", "sap", "gutpunch", "poisonarrow", "eviscerate", "vengeance", "lifeleech" };
+        string[] possibles = { "heal", "curewounds", "sap", "gutpunch", "poisonarrow", "eviscerate", "vengeance", "lifeleech" };
         int first = Random.Range(0, possibles.Length-1);
         abilitySet[2] = SkillLoader.LoadSkill(possibles[first], this.gameObject);
         int second = Random.Range(0, possibles.Length-1);
