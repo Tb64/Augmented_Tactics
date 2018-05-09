@@ -37,6 +37,7 @@ public class DeployCharacterButton : MonoBehaviour {
 
     public void ChangeSelected()
     {
+        
         controller.ChangeSelected(data, image.sprite);
     }
 

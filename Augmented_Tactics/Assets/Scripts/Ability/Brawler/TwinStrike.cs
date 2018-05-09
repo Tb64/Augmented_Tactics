@@ -25,7 +25,7 @@ public class TwinStrike : Ability
         manaGiven = actor.getMaxMana() / actor.getLevel();
         damage = actor.getLevel() + actor.getStrength();
         abilityName = "Twin Strikes";
-        abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill1");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/blue/blue_11");
 
         actor.UseMana(actor.getManaCurrent());
 
