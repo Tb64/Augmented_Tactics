@@ -167,6 +167,12 @@ public class SkillSelectionMenu : MonoBehaviour {
         this.allSkillSelected = input;
         selectedAllSkillMarker.rectTransform.anchoredPosition3D = new Vector3(((input - 4f) * 100f) + 50f, 0f, 0f); //allSkills[input].rectTransform.anchoredPosition3D;
         //Debug.Log(allSkills[input].rectTransform.);
+
+        if(abilities == null)
+        {
+            Debug.Log("Abilities are null!!!");
+            return;
+        }
         if(abilities[input] == null)
         {
             this.nameText.text = "Null";

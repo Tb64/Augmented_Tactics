@@ -284,10 +284,12 @@ public class TEMP_Cam : MonoBehaviour
         //Debug.Log(dist);
         if (dist < distOld)
             return input;
-            if (dist >= cameraDist)
-                return new Vector3(0f, 0f, 0f);
-            else
-                return input;
+
+        if (dist >= cameraDist)
+            return new Vector3(0f, 0f, 0f);
+        else
+            return input;
+
     }
 
     void MoveBody(Vector3 input)
