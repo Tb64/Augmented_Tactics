@@ -37,6 +37,11 @@ public class Eery : Support {
         setIntelligence(5);
     }
 
+    public override bool IsBoss()
+    {
+        return true;
+    }
+
     public override void EnemyActions()
     {
         Debug.Log("Eery Moves: " + getMoves());

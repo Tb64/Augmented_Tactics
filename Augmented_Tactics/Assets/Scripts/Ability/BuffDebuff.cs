@@ -26,20 +26,20 @@ public class BuffDebuff : Ability {
         if (price)
         {
             Debug.Log(targeta + "'s "+type+ " Will Be Buffed At A Price");
-            Buff(targeta,target);
-            Debuff(targeta,target);
+            Buff(targeta,target,type);
+            Debuff(targeta,target,type2);
         }
         else
         {
             if (buff)
-                Buff(targeta, target);
+                Buff(targeta, target,type);
             else
-                Debuff(targeta, target);
+                Debuff(targeta, target,type);
         }
         DwellTime.Attack(dwell_time);
 }
 
-    private void Buff(Actor targeta, GameObject target)
+    private void Buff(Actor targeta, GameObject target,string type)
     {
         switch (type)
         {
@@ -65,7 +65,7 @@ public class BuffDebuff : Ability {
 
     }
 
-    private void Debuff(Actor targeta, GameObject target)
+    private void Debuff(Actor targeta, GameObject target, string type)
     {
         switch (type)
         {
@@ -188,7 +188,7 @@ public class BuffDebuff : Ability {
 
     public static string[] GetStatCalls()
     {
-        string[] stats = { "pysicaldefense", "maicaldefense", "strength", "dexterity", "wisdom" };
+        string[] stats = { "physicaldefense", "magicaldefense", "strength", "dexterity", "wisdom" };
         return stats;
     }
 }

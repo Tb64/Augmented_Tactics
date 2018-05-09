@@ -9,7 +9,6 @@ public class Decet : Tank {
     
     public override void EnemyInitialize()
     {
-        boss = true;
         base.EnemyInitialize();
         base.Init();
         aggroScore = 0;
@@ -35,6 +34,11 @@ public class Decet : Tank {
         lastResort = SkillLoader.LoadSkill("fire", gameObject);
         supportMode = false;
         regularMode = false;
+    }
+
+    public override bool IsBoss()
+    {
+        return true;
     }
 
     private void FindEery()

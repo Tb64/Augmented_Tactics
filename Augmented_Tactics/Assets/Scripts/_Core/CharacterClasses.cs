@@ -40,10 +40,10 @@ public class CharacterClasses : MonoBehaviour {
 
     public static string[] EnemyPrefabPath =
    {
-        "UI/Classes/SKELETON_KNIGHT",
-        "UI/Classes/SKELETON_MAGE",
-        "UI/Classes/SKELETON_RANGE",
-        "UI/Classes/SKELETON_UNARMED"
+        "EnemyClasses/SKELETON_KNIGHT", //aggressive index 0
+        "EnemyClasses/SKELETON_MAGE", //tank index 1
+        "EnemyClasses/SKELETON_RANGE", //thief index 2/ support
+        "EnemyClasses/SKELETON_UNARMED" // defender attempted index 3
     };
 
     public static string[] IconPath = 
