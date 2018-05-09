@@ -19,10 +19,6 @@ public class Decet : Tank {
         }
 
         expGiven = 200;
-        buff = new BuffDebuff(gameObject, "dexterity", "", false,true, getWisdom(), false);
-        heal = SkillLoader.LoadSkill("curewounds", gameObject);
-        debuff = new BuffDebuff(gameObject, "dexterity", "defense", true,true, getWisdom(), false);
-        lastResort = SkillLoader.LoadSkill("fire", gameObject);
         name = "Lord Decet";
         setManaCurrent(30);
         setMaxMana(30);
@@ -32,8 +28,17 @@ public class Decet : Tank {
         setDexterity(3);
         setConstitution(5);
         setIntelligence(10);
+        buff = new BuffDebuff(gameObject, "dexterity", "", false, true, getWisdom(), false);
+        heal = SkillLoader.LoadSkill("curewounds", gameObject);
+        debuff = new BuffDebuff(gameObject, "dexterity", "defense", true, true, getWisdom(), false);
+        lastResort = SkillLoader.LoadSkill("fire", gameObject);
         supportMode = false;
         regularMode = false;
+    }
+
+    public override bool IsBoss()
+    {
+        return true;
     }
 
     private void FindEery()
@@ -76,6 +81,7 @@ public class Decet : Tank {
         {
             setManaCurrent(30); //bosses skip a turn and replenish mana
             setNumOfActions(0);
+            TurnBehaviour.EnemyTurnFinished();
             return;
         }
         if (eery.isDead())

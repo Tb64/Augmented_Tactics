@@ -38,6 +38,14 @@ public class CharacterClasses : MonoBehaviour {
         "PlayerClasses/Cleric" //cleric
     };
 
+    public static string[] EnemyPrefabPath =
+   {
+        "EnemyClasses/SKELETON_KNIGHT", //aggressive index 0
+        "EnemyClasses/SKELETON_MAGE", //tank index 1
+        "EnemyClasses/SKELETON_RANGE", //thief index 2/ support
+        "EnemyClasses/SKELETON_UNARMED" // defender attempted index 3
+    };
+
     public static string[] IconPath = 
     {
         "UI/Classes/Paladin", //Paladin

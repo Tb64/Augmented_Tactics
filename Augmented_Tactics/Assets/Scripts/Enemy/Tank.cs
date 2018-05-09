@@ -28,9 +28,13 @@ public class Tank : Enemy{
     public override void EnemyInitialize()
     {
         archetype = "tank";
-        base.EnemyInitialize();
-        GetAbilities();
-        SetAbilities();
+        if (!boss)
+        {
+            base.EnemyInitialize();
+            GetAbilities();
+            SetAbilities();
+        }
+            
         regularMode = false;
         buffCool = false;
         debuffCool = false;
@@ -68,6 +72,9 @@ public class Tank : Enemy{
 
     public override void EnemyActions()
     {
+
+        if (getMoves() == 0)
+            return;
 
         if (Random.Range(0, 1000) <= 500 && GetHealthPercent() < .35 || closestAggro.GetHealthPercent() < .45 && healPossible)
             healMode = true;
@@ -121,6 +128,7 @@ public class Tank : Enemy{
             else
             {
                 setNumOfActions(0);
+                TurnBehaviour.EnemyTurnFinished();
                 return;
             }
         }
@@ -148,6 +156,7 @@ public class Tank : Enemy{
         {
             if (firstMove)
             {
+                Debug.Log("Buffing or Debuffing");
                 firstDebuffed = true;
                 firstMove = false;
             }
@@ -168,12 +177,17 @@ public class Tank : Enemy{
                 if(getManaCurrent() <= buff.manaCost && getManaCurrent()<= debuff.manaCost && !CheckManaReplenish(buff))
                 {
                     regularMode = true;
+                    //Debug.LogError("Tank Regular Mode");
                     sameTurn = true;
+                    Debug.Log("Possible Cause of Crash");
+                    //EnemyController.ExhaustMoves(SM);
                     return;
                 }
                 else
                 {
+                    Debug.LogError("settings actions to 0");
                     setNumOfActions(0);
+                    TurnBehaviour.EnemyTurnFinished();
                     return;
                 }
                 
@@ -233,6 +247,8 @@ public class Tank : Enemy{
 
     protected void GetInPosition()
     {
+        if (getMoves() == 0)
+            return;
         Debug.Log(closestAggro + " " + closestAggro.getCoords() + " " + currentTarget + " " + currentTarget.getCoords());
         Vector3 cAPos = closestAggro.getCoords();
         Vector3 output = closestAggro.getCoords() - currentTarget.getCoords();
@@ -374,7 +390,7 @@ public class Tank : Enemy{
         debuff = abilitySet[1];
         heal = abilitySet[2];
         lastResort = abilitySet[3];
-        Debug.LogError("tank abilities set" + " " + abilitySet[3]);
+        //Debug.LogError("tank abilities set" + " " + abilitySet[3]);
     }
 
     protected void GetAbilities()

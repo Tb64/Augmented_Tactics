@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    public static int playerLevel;
+    GameData gameData;
     public StateMachine SM;
     public TileMap map;
     private static int enemyCount; //number of foes
@@ -62,6 +64,22 @@ public class EnemyController : MonoBehaviour
         SM = GameObject.FindWithTag("GameController").GetComponent<StateMachine>();
         if (enemyList == null)
             enemyList = new List<Enemy>();
+        //Debug.LogError("Nulling EnemyList");
+        gameData = GameDataController.loadPlayerData();
+        PlayerData[] playerTeam = gameData.currentTeam;
+        playerLevel = 0;
+        int numOfPlayers = 0;
+        foreach (PlayerData playerData in playerTeam)
+        {
+            if (playerData == null || playerData.DisplayName == null || playerData.DisplayName.Length == 0)
+            {
+                Debug.Log("Null Player Data");
+            }
+            else
+                playerLevel += playerData.PlayerLevel;
+            numOfPlayers++;
+        }
+        playerLevel = (int)Mathf.Floor(playerLevel / numOfPlayers); //used to get enemy 3 levels lower than actor
         GameObject[] tempEnemyTeam = GameObject.FindGameObjectsWithTag("Enemy");
         List<GameObject> findOrder = new List<GameObject>();
         foreach (GameObject orderChoice in tempEnemyTeam)
@@ -71,6 +89,7 @@ public class EnemyController : MonoBehaviour
         }
         //findOrder = AddSpecialists(findOrder) ;
         DecideOrder(findOrder);
+       // Debug.Log("EnemyList Count: " + enemyList.Count);
        /* foreach (Enemy enemy in enemyList)
         {
            // enemyList[enemyNum] = enemy.GetComponent<Enemy>();
@@ -167,9 +186,21 @@ public class EnemyController : MonoBehaviour
         int counter = 0;
         foreach (GameObject enemy in enemies)
         {
-            newClass.Add(enemy.GetComponent<Enemy>().LoadPlayer());
-            newClass[counter].EnemyInitialize();
-            counter++;
+            Enemy cEnemy = enemy.GetComponentInChildren<Enemy>();
+            if (!cEnemy.IsBoss())
+            {
+                newClass.Add(cEnemy.LoadPlayer());
+                newClass[counter].EnemyInitialize();
+                counter++;
+            }
+            else
+            {
+                newClass.Add(cEnemy);
+                newClass[counter].EnemyInitialize();
+                counter++;
+            }
+                
+           
         }
             
 
@@ -190,6 +221,7 @@ public class EnemyController : MonoBehaviour
             enemyList[x].setEnemyId(x);
             Debug.Log("Enemy added: " + enemyList[x].getEnemyID() + ") " + enemyList[x]);
         }
+       // Debug.LogError(enemyList[0]);
     }
 
     public void EnemyTurnStart()
@@ -218,6 +250,7 @@ public class EnemyController : MonoBehaviour
     private void EnemyAction()
     {
         //Debug.Log("called " + EnemyController.enemyNum + " " + currentEnemy);
+       // Debug.Log(enemyList[0]);
         if (enemyList == null || currentEnemy >= EnemyController.enemyNum || enemyList[currentEnemy] == null)
         {
             Debug.Log("No more enemies");

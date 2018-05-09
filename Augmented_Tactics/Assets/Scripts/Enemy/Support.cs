@@ -30,13 +30,14 @@ public class Support : Enemy {
 
     public override void Start()
     {
-        
+       // boss = false;
     }
 
     public override void EnemyInitialize()
     {
         archetype = "support";
-        base.EnemyInitialize();
+        if (!boss)
+            base.EnemyInitialize();
         hasHeal = false;
         TurnBehaviour.OnEnemyOutOfMoves += this.ResetValues;
         GetAbilities();
@@ -91,7 +92,7 @@ public class Support : Enemy {
             SaveFriendly();
             return;
         }
-
+       // Debug.Log(targetLocked + " " + aidLocked);
         if (!targetLocked && !aidLocked)
         {
             currentTarget = PlayerTooClose();
@@ -131,7 +132,8 @@ public class Support : Enemy {
         else
         {
             targetLocked = false;
-            EnemyController.ExhaustMoves(SM);
+            //EnemyController.ExhaustMoves(SM); //probably caused crash
+            Debug.Log("Probably the trap");
         }
         
     }
@@ -189,10 +191,13 @@ public class Support : Enemy {
 
     protected void RunAndGun() //Default Tactic of Support if no teammate needs help
     {
-        Debug.Log(this + " is Running and Gunning");
-        if (!mostDistance.SkillInRange(getCoords(),aggro.getCoords()) /*|| distanceFromAggro - mostDistance.range_max > 5 && mostDistance.CanUseSkill(currentTarget.gameObject)*/)
+        if (getMoves() == 0)
+            return;
+        Debug.Log(this + " is Running and Gunning "+ getMoves());
+        if (!mostDistance.SkillInRange(gameObject,currentTarget.gameObject) /*|| distanceFromAggro - mostDistance.range_max > 5 && mostDistance.CanUseSkill(currentTarget.gameObject)*/)
         {
             Debug.Log("Finding Shweet Shpot");
+            Debug.Log(map);
             FindShweetSpot(this,currentTarget,mostDistance,map); // get closer so attack is possible, or further to stay away from enemies
             return;
         }    
@@ -212,7 +217,11 @@ public class Support : Enemy {
             EnemyActions();
             return;
         }
-        Debug.LogError("out of bounds run and gun");
+        else
+        {
+            Debug.LogError(getMoves());
+            TurnBehaviour.EnemyTurnFinished();
+        }
     }
     public static bool FindShweetSpot(Enemy self,Actor currentTarget, Ability mostDistance, TileMap map )
     {
@@ -311,7 +320,7 @@ public class Support : Enemy {
                 }
             }
         }
-        Debug.LogError("support abilities set" + " " + abilitySet[3]);
+        //Debug.LogError("support abilities set" + " " + abilitySet[3]);
     }
 
     protected Enemy CheckSupport()
@@ -336,6 +345,7 @@ public class Support : Enemy {
 
     public void GetAbilities()
     {
+        abilitySet = new Ability[4];
         string[] possibles = SkillLoader.ClassSkills(3);
         arrow = abilitySet[0] = new Arrow(gameObject);
         if (Random.Range(0, 10) < 7)
