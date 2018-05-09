@@ -79,6 +79,7 @@ public class Actor : MonoBehaviour
     public StateMachine SM;
     private AfterActionReport report;
     private Animator playerAnim;
+    public Sprite icon;
     protected RangeHighlight rangeMarker;
     private bool incapacitated;
     private bool dead;
@@ -324,7 +325,7 @@ public class Actor : MonoBehaviour
 
         if (data != null)
             LoadStatsFromData(data);
-
+        
         InitStats();
 
     }
@@ -332,14 +333,18 @@ public class Actor : MonoBehaviour
     private void InitStats()
     {
         //load stats here
+        if (gameObject.tag != "Enemy")
+        {
 
-        if (this.level == 0)
-            this.level = 1;
+
+            if (this.level == 0)
+                this.level = 1;
 
         this.health_max = data.getTotalMaxHealth();
         this.health_current = this.health_max;
         this.mana_max = data.getTotalMaxMana();
         this.mana_current = this.mana_max;
+        }
     }
 
     public void LoadStatsFromData(PlayerData pdata)
@@ -349,6 +354,8 @@ public class Actor : MonoBehaviour
         data = pdata;
         this.weapon = pdata.weapon;
         this.armor = pdata.armor;
+        if(pdata.Icon.Length != 0)
+            this.icon = Resources.Load<Sprite>(pdata.Icon);
 
         this.strength       = pdata.getTotalStr();
         this.dexterity = pdata.getTotalDex();

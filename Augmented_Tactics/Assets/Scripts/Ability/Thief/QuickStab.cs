@@ -17,6 +17,8 @@ public class QuickStab : Ability {
         {
             Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, gameObject.name, target.name));
             int temp = attacker.getMoves();
+            float temp2 = attacker.getRemainingMovement();
+            attacker.setNumOfActions(10);
             attacker.remainingMovement = 100;
             Vector3 initCoords = attacker.getCoords();
             map.moveActorAsync(attacker, Enemy.PosCloseTo(attacker, targeta.getCoords(), map));
@@ -25,7 +27,8 @@ public class QuickStab : Ability {
             anim.SetTrigger("MeleeAttack");
             gameObject.GetComponent<Actor>().PlaySound("attack");
             map.moveActorAsync(attacker, initCoords);
-            attacker.remainingMovement = temp;
+            attacker.remainingMovement = temp2;
+            attacker.setNumOfActions(0);
 
         }
         target.GetComponent<Actor>().TakeDamage(damage, gameObject);

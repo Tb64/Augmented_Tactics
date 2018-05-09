@@ -6,14 +6,15 @@ public class BuffDebuff : Ability {
 
     private string type, type2;
     private int numTurns;
-    private bool price,item;
+    private bool price,item, buff;
     private float effect;
-    public BuffDebuff(GameObject obj, string type,string type2, bool sacrifice, float effect,bool item)
+    public BuffDebuff(GameObject obj, string type,string type2, bool sacrifice, bool buff, float effect,bool item)
     {
         this.type = type;
         this.type2 = type2; 
         this.effect = effect;
         this.item = item;
+        this.buff = buff;
         price = sacrifice;
         Initialize(obj);
     }
@@ -30,7 +31,10 @@ public class BuffDebuff : Ability {
         }
         else
         {
-            Buff(targeta,target);
+            if (buff)
+                Buff(targeta, target);
+            else
+                Debuff(targeta, target);
         }
         DwellTime.Attack(dwell_time);
 }
@@ -39,10 +43,12 @@ public class BuffDebuff : Ability {
     {
         switch (type)
         {
-            case "defense":
-                StatusEffectsController.AddEffect(new BuffDefense(effect, actor, targeta, target.tag == "Enemy", true));
+            case "physicaldefense":
+                StatusEffectsController.AddEffect(new BuffDefense(effect, actor, targeta, target.tag == "Enemy", true,true));
                 break;
-
+            case "magicdefense":
+                StatusEffectsController.AddEffect(new BuffDefense(effect, actor, targeta, target.tag == "Enemy", true,false));
+                break;
             case "strength":
                 StatusEffectsController.AddEffect(new BuffStrength(effect, actor, targeta, target.tag == "Enemy", true));
                 break;
@@ -63,10 +69,12 @@ public class BuffDebuff : Ability {
     {
         switch (type)
         {
-            case "defense":
-                StatusEffectsController.AddEffect(new BuffDefense(effect, actor, targeta, target.tag == "Enemy", false));
+            case "physicaldefense":
+                StatusEffectsController.AddEffect(new BuffDefense(effect, actor, targeta, target.tag == "Enemy", false,true));
                 break;
-
+            case "magicdefense":
+                StatusEffectsController.AddEffect(new BuffDefense(effect, actor, targeta, target.tag == "Enemy", false, false));
+                break;
             case "strength":
                 StatusEffectsController.AddEffect(new BuffStrength(effect, actor, targeta, target.tag == "Enemy", false));
                 break;
@@ -104,7 +112,7 @@ public class BuffDebuff : Ability {
         type = type.ToLower();
         switch (type)
         {
-            case "defense":
+            case "physicaldefense":
                 if (buff)
                 {
                     Debug.Log(effectorPlayer + " Buffing " + effectedPlayer + "'s Defense by " + effect);
@@ -115,6 +123,20 @@ public class BuffDebuff : Ability {
                 {
                     Debug.Log(effectorPlayer + " Debuffing " + effectedPlayer + "'s Defense by " + effect);
                     effectedPlayer.setPhysicalDefense(effectedPlayer.getPhysicalDefense() - (int)effect);
+                    break;
+                }
+
+            case "magicaldefense":
+                if (buff)
+                {
+                    Debug.Log(effectorPlayer + " Buffing " + effectedPlayer + "'s Magic Defense by " + effect);
+                    effectedPlayer.setMagicalDefense(effectedPlayer.getMagicalDefense() + (int)effect);
+                    break;
+                }
+                else
+                {
+                    Debug.Log(effectorPlayer + " Debuffing " + effectedPlayer + "'s Magic Defense by " + effect);
+                    effectedPlayer.setMagicalDefense(effectedPlayer.getMagicalDefense() - (int)effect);
                     break;
                 }
 
@@ -145,7 +167,28 @@ public class BuffDebuff : Ability {
                     effectedPlayer.setDexterity(effectedPlayer.getDexterity() - (int)effect);
                     break;
                 }
+
+            case "wisdom":
+                if (buff)
+                {
+                    Debug.Log(effectorPlayer + " Buffing " + effectedPlayer + "'s Wisdom by " + (int)effect);
+                    effectedPlayer.setWisdom(effectedPlayer.getWisdom() + (int)effect);
+                    break;
+                }
+                else
+                {
+                    Debug.Log(effectorPlayer + " Debuffing " + effectedPlayer + "'s Wisdom by " + (int)effect);
+                    effectedPlayer.setWisdom(effectedPlayer.getWisdom() - (int)effect);
+                    break;
+                }
+
         }
         
+    }
+
+    public static string[] GetStatCalls()
+    {
+        string[] stats = { "pysicaldefense", "maicaldefense", "strength", "dexterity", "wisdom" };
+        return stats;
     }
 }

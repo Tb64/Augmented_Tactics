@@ -62,15 +62,17 @@ public class EnemyController : MonoBehaviour
         SM = GameObject.FindWithTag("GameController").GetComponent<StateMachine>();
         if (enemyList == null)
             enemyList = new List<Enemy>();
+        //Debug.LogError("Nulling EnemyList");
         GameObject[] tempEnemyTeam = GameObject.FindGameObjectsWithTag("Enemy");
-        List<Enemy> findOrder = new List<Enemy>();
+        List<GameObject> findOrder = new List<GameObject>();
         foreach (GameObject orderChoice in tempEnemyTeam)
         {
-            findOrder.Add(orderChoice.GetComponent<Enemy>());
+            findOrder.Add(orderChoice);
             enemyNum++;
         }
         //findOrder = AddSpecialists(findOrder) ;
         DecideOrder(findOrder);
+       // Debug.Log("EnemyList Count: " + enemyList.Count);
        /* foreach (Enemy enemy in enemyList)
         {
            // enemyList[enemyNum] = enemy.GetComponent<Enemy>();
@@ -160,26 +162,37 @@ public class EnemyController : MonoBehaviour
         return weakling;
     }
 
-    private void DecideOrder(List<Enemy> enemies) //decide which order the enemies attack based on dexterity and
+    private void DecideOrder(List<GameObject> enemies) //decide which order the enemies attack based on dexterity and
                                                  //initialize in order
     {
-        for(int x = 0; x < enemyNum; x++)
+        List<Enemy> newClass = new List<Enemy>();
+        int counter = 0;
+        foreach (GameObject enemy in enemies)
+        {
+            newClass.Add(enemy.GetComponent<Enemy>().LoadPlayer());
+            newClass[counter].EnemyInitialize();
+            counter++;
+        }
+            
+
+        for (int x = 0; x < enemyNum; x++)
         {
             int highest = -1, chosen = 0;
-            for (int y = 0; y < enemies.Count; y++)
+            for (int y = 0; y < newClass.Count; y++)
             {
-               if(enemies[y].getDexterity() > highest)
+               if(newClass[y].getDexterity() > highest)
                 {
-                    highest = enemies[y].getDexterity();
+                    highest = newClass[y].getDexterity();
                     chosen = y;
                 }
             }
-            enemyList.Add(enemies[chosen]);
-            enemies.Remove(enemies[chosen]);
-            enemyList[x].EnemyInitialize();
+            enemyList.Add(newClass[chosen]);
+            newClass.Remove(newClass[chosen]);
+            //enemyList[x].EnemyInitialize();
             enemyList[x].setEnemyId(x);
             Debug.Log("Enemy added: " + enemyList[x].getEnemyID() + ") " + enemyList[x]);
         }
+       // Debug.LogError(enemyList[0]);
     }
 
     public void EnemyTurnStart()
@@ -208,6 +221,7 @@ public class EnemyController : MonoBehaviour
     private void EnemyAction()
     {
         //Debug.Log("called " + EnemyController.enemyNum + " " + currentEnemy);
+       // Debug.Log(enemyList[0]);
         if (enemyList == null || currentEnemy >= EnemyController.enemyNum || enemyList[currentEnemy] == null)
         {
             Debug.Log("No more enemies");

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /*****************
 Enemy
@@ -10,6 +11,7 @@ This is the parent class of all enemies
 public class Enemy : Actor
 {
     protected int enemyID;
+    protected string archetype, type;
     protected Actor nearest, weakest, aggro;
     protected Vector3 playerPosition, enemyPosition;
     public float distanceToNearest;
@@ -27,15 +29,17 @@ public class Enemy : Actor
     protected List<Actor> cantTarget;
     protected UsableItem healItem;
     protected bool targetLocked;
-    public bool aided;
+    public bool aided,boss;
 
     public Actor currentTarget;
     // Use this for initialization
     // Use this for initialization
     new public virtual void Start()
     {
-        EnemyInitialize();
-
+        /*LoadPlayer();
+        if(archetype == "regular")
+            EnemyInitialize();*/
+        
         //team set to Actors instead of GameObjects  
     }
     public override void OnDestroy()
@@ -50,46 +54,32 @@ public class Enemy : Actor
     public virtual void EnemyInitialize()
     {
         base.Init();
-        expGiven = 10;
+        expGiven = GetExpGiven();
         aggroScore = 0;
         //TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStartActions;
         //TurnBehaviour.OnUnitMoved += this.EnemyMoved;
         //TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
         //TurnBehaviour.OnEnemyUnitAttack += this.EnemyUsedAction;
-
+        //Debug.LogError(archetype);
+        if(archetype != "regular")
+            abilitySet = new Ability[4];
 
         if (map == null)
         {
             map = GameObject.Find("Map").GetComponent<TileMap>();
         }
 
-        abilitySet = new Ability[4];
+        
         /*updating for using varied attacks
          update for specific character needs to be added to every
          type of enemy as they are created to load correct attacks*/
-         
-        //FOR DEMO ONLY
-        abilitySet[0] = SkillLoader.LoadSkill("basicattack", gameObject);
-        abilitySet[1] = SkillLoader.LoadSkill("fire", gameObject);
-        abilitySet[2] = SkillLoader.LoadSkill("heal", gameObject);
-        abilitySet[3] = SkillLoader.LoadSkill("combo", gameObject);
-        setManaCurrent(10);
-        setMaxMana(10);
-        setHealthCurrent(15);
-        setMaxHealth(15);
-        setWisdom(5);
-        setDexterity(5);
-        setCharisma(5);
-        setConstitution(3);
-        setIntelligence(3);
-        //FOR DEMO ON:Y
-
-        /*for (int i = 0; i < 4; i++)
+       /* if(GetArchetype() == "regular")
         {
-            abilitySet[i] = new BasicAttack(gameObject);
+            LoadPlayer();
         }*/
+
     }
-    
+
 
     // Update is called once per frame
     void Update()
@@ -112,7 +102,7 @@ public class Enemy : Actor
     {
         cantTarget = new List<Actor>();
         targetLocked = false;
-        Debug.Log("Enemy " + enemyID + " turn started");
+        Debug.Log("Enemy " + enemyID + " "+ gameObject+ " turn started");
         aggro = EnemyController.aggro;
         if (GetHealthPercent() == 0f)
         {
@@ -164,7 +154,7 @@ public class Enemy : Actor
 
     public virtual string GetArchetype()
     {
-        return "regular";
+        return archetype;
     }
 
     public override void OnDeath()
@@ -172,7 +162,7 @@ public class Enemy : Actor
         base.OnDeath();
         //added for defense classes. They will automatically protect an incapacitated teammate
         //aggressives are the priority, and the highest level aggressive gets even more priority
-        if(this.GetArchetype() == "aggressive" && EnemyController.CheckTargetChange(getEnemyID()))
+        if (this.GetArchetype() == "aggressive" && EnemyController.CheckTargetChange(getEnemyID()))
         {
             EnemyController.targeted = true;
             EnemyController.target = this;
@@ -183,7 +173,7 @@ public class Enemy : Actor
             EnemyController.targeted = true;
             EnemyController.target = this;
         }
-        
+
     }
 
     public virtual void EnemyActions()
@@ -205,7 +195,7 @@ public class Enemy : Actor
             //Debug.Log("Found Target = " + currentTarget.name + " at " + currentTarget.transform.position + currentTarget.getCoords());
             //currentTarget = currentTarget;
         }
- 
+
         if (currentTarget == null)
         {
             Debug.LogError("no player team");
@@ -213,7 +203,7 @@ public class Enemy : Actor
         }
         if (AttemptAttack())
             return;
-        Vector3 movingTo = PosCloseTo(this,currentTarget.getCoords(), map);
+        Vector3 movingTo = PosCloseTo(this, currentTarget.getCoords(), map);
         if (movingTo == new Vector3(-1, -1, -1))
         {
             // movingTo = PosCloseTo(currentTarget.getCoords());
@@ -227,7 +217,7 @@ public class Enemy : Actor
         }
         Debug.Log("Attempting to move " + this + " from " + this.getCoords() + " to " + movingTo);
         map.moveActorAsync(gameObject, movingTo);
-        
+
         //Debug.Log("Move Complete\t" + currentTarget);
 
     }
@@ -336,31 +326,6 @@ public class Enemy : Actor
         return weakest;
     }
 
-    /*public bool reactToProximity(float distanceToNearest)
-    {
-       // Debug.Log(distanceToNearest);
-        if (distanceToNearest <= 1.5)
-        {
-            Debug.Log("Attempting Attack");
-            if (attemptAttack(nearest))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else if (GetHealthPercent() < nearest.GetHealthPercent() && distanceToNearest < moveDistance)
-        {
-            Debug.Log("Healing");
-            HealHealth(100);    // just a filler #
-            return true;
-        }
-        else
-            return false;
-    }*/
-
     protected void findTarget()
     {
         //Debug.Log(currentTarget.coords);
@@ -396,27 +361,6 @@ public class Enemy : Actor
         }
     }
 
-    /*private bool moveEnemy()
-    {
-        if (currentTarget == null)
-            return false;
-        Vector3 movingTo = PosCloseTo(currentTarget.getCoords());
-        if (movingTo == new Vector3(-1, -1, -1))
-        {
-            movingTo = PosCloseTo(currentTarget.getCoords());
-            if (movingTo == new Vector3(-1, -1, -1))
-                return false;
-        }
-        bool isFinshed = map.moveActor(gameObject, movingTo);
-        //Debug.Log(currentTarget.name+" "+ " " + getMapPosition() + movingTo);
-        //after moving, if enemy is in range attack
-        //Debug.Log("Dist = " + Vector3.Distance(enemyPosition, playerPosition) + " " + getMapPosition() + movingTo);
-        //if (Vector3.Distance(enemyPosition, playerPosition) <= 1)
-        //    Attack(currentTarget);
-        //NextTurn();
-        return isFinshed;
-    }
-    */
 
 
     /// <summary>
@@ -424,105 +368,7 @@ public class Enemy : Actor
     /// </summary>
     /// <param name="mapPos">The map/tile position of occupied tile</param>
     /// <returns>Returns closest map/tile position to mapPos, that is not mapPos</returns>
-    /* {
-         Vector3 output = getCoords() - mapPos;
-         output = output.normalized;
-         float absX = Mathf.Abs(output.x), absZ = Mathf.Abs(output.z);
-
-         if (absX > absZ) //attempts to get to the closest available tile then checks all other close pos'
-         {
-             // if (output.x > 0)
-             if (absX < mapPos.x)
-             {
-                 output = new Vector3(1f, 0f, 0f);
-                 if (!map.UnitCanEnterTile(mapPos + output))
-                 {
-                     if (absZ < mapPos.z)
-                     {
-                         output = new Vector3(0f, 0f, 1f);
-                         if (!map.UnitCanEnterTile(mapPos + output))
-                         {
-                             output = new Vector3(0f, 0f, -1f);
-                             if (!map.UnitCanEnterTile(mapPos + output))
-                             {
-                                 output = new Vector3(-1f, 0f, 0f);
-                             }
-                         }
-                     }
-                 }
-             }
-             else
-             {
-                 output = new Vector3(-1f, 0f, 0f);
-                 if (!map.UnitCanEnterTile(mapPos + output))
-                 {
-                     if (absZ < mapPos.z)
-                     {
-                         output = new Vector3(0f, 0f, 1f);
-                         if (!map.UnitCanEnterTile(mapPos + output))
-                         {
-                             output = new Vector3(0f, 0f, -1f);
-                             if (!map.UnitCanEnterTile(mapPos + output))
-                             {
-                                 output = new Vector3(1f, 0f, 0f);
-                             }
-                         }
-                     }
-                 }
-             }
-         }
-         else
-         {
-             //closer to Z
-             if (absZ < mapPos.z)
-             {
-                 output = new Vector3(0f, 0f, 1f);
-                 if (!map.UnitCanEnterTile(mapPos + output))
-                 {
-                     if (absX < mapPos.x)
-                     {
-                         output = new Vector3(1f, 0f, 0f);
-                         if (!map.UnitCanEnterTile(mapPos + output))
-                         {
-                             output = new Vector3(-1f, 0f, 0f);
-                             if (!map.UnitCanEnterTile(mapPos + output))
-                             {
-                                 output = new Vector3(0f, 0f, -1f);
-                             }
-                         }
-                     }
-                 }
-             }
-             else
-             {
-                 output = new Vector3(0f, 0f, -1f);
-                 if (!map.UnitCanEnterTile(mapPos + output))
-                 {
-                     if (absX < mapPos.x)
-                     {
-                         output = new Vector3(1f, 0f, 0f);
-                         if (!map.UnitCanEnterTile(mapPos + output))
-                         {
-                             output = new Vector3(-1f, 0f, 0f);
-                             if (!map.UnitCanEnterTile(mapPos + output))
-                             {
-                                 output = new Vector3(0f, 0f, 1f);
-                             }
-                         }
-                     }
-                 }
-             }
-         }
-
-         //Debug.Log("Delta "+ output + mapPos);
-         output = mapPos + output;
-         Debug.Log("Delta " + output);
-         //Debug.Log(map.getTileAtCoord(output).isOccupied());
-         if (EnemyController.currentEnemy > 0)
-             Debug.Log("first enemy " + EnemyController.enemyList[EnemyController.currentEnemy].getCoords());
-         return output;
-     }*/
-    public static Vector3 PosCloseTo(Actor self,Vector3 mapPos, TileMap map)
+    public static Vector3 PosCloseTo(Actor self, Vector3 mapPos, TileMap map)
     {
         Vector3 output = self.getCoords() - mapPos;
         output = output.normalized;
@@ -541,7 +387,7 @@ public class Enemy : Actor
                     Debug.Log("rightup");
                     return temp;
                 }
-                    
+
             }
             else
             {
@@ -557,7 +403,7 @@ public class Enemy : Actor
                     Debug.Log("rightdown");
                     return temp;
                 }
-                    
+
             }
         }
         else
@@ -595,14 +441,14 @@ public class Enemy : Actor
 
     public static Vector3 PosCloseTo(string directions, Vector3 pos, TileMap map)
     {
-        if(directions == "rightup")
-           return checkDirections(pos + new Vector3(1f, 0f, 0f), pos + new Vector3(0f, 0f, 1f), map);
+        if (directions == "rightup")
+            return checkDirections(pos + new Vector3(1f, 0f, 0f), pos + new Vector3(0f, 0f, 1f), map);
         else if (directions == "rightdown")
             return checkDirections(pos + new Vector3(1f, 0f, 0f), pos + new Vector3(0f, 0f, -1f), map);
         else if (directions == "leftup")
             return checkDirections(pos + new Vector3(-1f, 0f, 0f), pos + new Vector3(0f, 0f, 1f), map);
         else
-            return checkDirections(pos + new Vector3(-1f, 0f, 0f), pos + new Vector3(0f, 0f, -1f),map);
+            return checkDirections(pos + new Vector3(-1f, 0f, 0f), pos + new Vector3(0f, 0f, -1f), map);
     }
 
     public static Vector3 checkDirections(Vector3 firstDir, Vector3 secDir, TileMap map)
@@ -612,68 +458,344 @@ public class Enemy : Actor
         else if (map.UnitCanEnterTile(secDir))
             return secDir;
         else
-            return new Vector3(-1,-1,-1); //no move available
+            return new Vector3(-1, -1, -1); //no move available
     }
-        /*private void EnemyUsedAction()
+    /*private void EnemyUsedAction()
+    {
+        if (SM.checkTurn())
+            return;
+        //Debug.Log("USED ACTION WORKING");
+        if (EnemyController.enemyList[EnemyController.currentEnemy].getMoves() == 0)
         {
-            if (SM.checkTurn())
-                return;
-            //Debug.Log("USED ACTION WORKING");
-            if (EnemyController.enemyList[EnemyController.currentEnemy].getMoves() == 0)
-            {
-                Debug.Log("Enemy " + EnemyController.currentEnemy + " out of moves");
-                EnemyController.NextEnemy(SM);
-                return;
-            }
-            EnemyController.ExhaustMoves();
-        }*/
-        /// <summary>
-        /// //////////////////////// where to add attacking
-        /// </summary>
-        /// <param name="currentTarget"></param>
-        public virtual bool AttemptAttack() //thinking of changing to attemptAction. Also covers heal
+            Debug.Log("Enemy " + EnemyController.currentEnemy + " out of moves");
+            EnemyController.NextEnemy(SM);
+            return;
+        }
+        EnemyController.ExhaustMoves();
+    }*/
+    /// <summary>
+    /// //////////////////////// where to add attacking
+    /// </summary>
+    /// <param name="currentTarget"></param>
+    public virtual bool AttemptAttack() //thinking of changing to attemptAction. Also covers heal
+    {
+        if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
+            return false;
+        Debug.Log(this + " Attempting attack on " + currentTarget + " at " + currentTarget.getCoords());
+        int bestAttack = 0, choice = 0;
+        bool chosen = false;
+        //Debug.Log(abilitySet[2]);
+        //Debug.Log(archetype);
+        for (int ability = 0; ability < 4; ability++)
         {
-            if (SM.checkTurn() || EnemyController.currentEnemy != enemyID)
-                return false;
-            Debug.Log(this + " Attempting attack on " + currentTarget + " at " + currentTarget.getCoords());
-            int bestAttack = 0, choice = 0;
-            bool chosen = false;
-            for (int ability = 0; ability < 4; ability++)
-            {
             // Debug.Log(abilitySet[ability].SkillInRange(getCoords(), currentTarget.getCoords()));
-                if (abilitySet[ability].canHeal && CheckHeal() && abilitySet[ability].CanUseSkill(gameObject))
-                {
-                    abilitySet[ability].UseSkill(gameObject);
-                    Debug.Log(this + " Healed");    
-                    return true;
-                }   
-                    
-                if (!abilitySet[ability].canHeal && abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
-                {
-                    bestAttack = (int)abilitySet[ability].damage;
-                    choice = ability;
-                    chosen = true;
-                }
-            }
-            //float dist = Vector3.Distance(getCoords(), currentTarget.getCoords());
-            //if (!(dist <= 1.5))
-            //  return;
-            //Debug.Log("currentTarget = " + currentTarget.gameObject + " skill = " + abilitySet[0].abilityName + " range = " + dist);
-            if (chosen)
+            //Debug.Log(ability);
+            //Debug.Log(abilitySet[ability]);
+            if (abilitySet[ability].canHeal && CheckHeal() && abilitySet[ability].CanUseSkill(gameObject))
             {
-                Debug.Log(this + " using skill: " + abilitySet[choice] + " on " + currentTarget);
-                abilitySet[choice].UseSkill(currentTarget.gameObject); //test
-                // testing statusEffect
-               // Burn burn = new Burn(getWisdom(),this, currentTarget,false);
-               // TurnBehaviour.EnemyHasJustAttacked();
+                abilitySet[ability].UseSkill(gameObject);
+                Debug.Log(this + " Healed");
                 return true;
             }
-            else
+
+            if (!abilitySet[ability].canHeal && abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
             {
-                Debug.Log("No Possible Attacks");
-                return false;
+                bestAttack = (int)abilitySet[ability].damage;
+                choice = ability;
+                chosen = true;
             }
+        }
+        
+        if (chosen)
+        {
+            Debug.Log(this + " using skill: " + abilitySet[choice] + " on " + currentTarget);
+            abilitySet[choice].UseSkill(currentTarget.gameObject); 
+            return true;
+        }
+        else
+        {
+            Debug.Log("No Possible Attacks");
+            return false;
+        }
     }
+
+    protected bool CheckManaReplenish(Ability ability)
+    {
+        if (getManaCurrent() >= ability.manaCost)
+            return true;
+        else
+        {
+            if (!ManaReplenish())
+                return false;
+            else
+                return true;
+        }
+
+    }
+
+    protected bool ManaReplenish()
+    {
+        if (usableItems != null && usableItems.Count != 0)
+            foreach (UsableItem usable in usableItems)
+                if (usable.isManaItem)
+                {
+                    usable.UseItem(gameObject, gameObject);
+                    return true;
+                }
+        foreach (Ability ability in abilitySet)
+            if (ability.manaRestore)//ability has to have this name in future
+            {
+                ability.UseSkill(gameObject);
+                return true;
+            }
+        return false;
+
+    }
+
+    public Enemy LoadPlayer()
+    {
+        abilitySet = new Ability[4];
+        for (int x = 0; x < 4; x++)
+            abilitySet[x] = new BasicAttack(gameObject);
+        string scene = SceneManager.GetActiveScene().name;
+        scene = scene.ToLower();
+        switch (scene)
+        {
+            case "templete": //need to change back to battle1 after testing
+                if (Random.Range(0, 1000) < 350)
+                {
+                    if (Random.Range(0, 1000) < 500)
+                    {
+                        
+                        return LoadThief();
+                    }
+                    else
+                    {
+
+                        return LoadBrawler();
+                    }
+                }
+                else
+                {
+                    //Debug.LogError("Loaded Regular");
+                    return LoadRegular();
+                }
+          
+
+            case "level02":
+                if (Random.Range(0, 1000) < 350)
+                {
+                    if (Random.Range(0, 1000) < 500)
+                    {
+                        return LoadThief();
+                    }
+                    else
+                    {
+                        return LoadPaladin();
+                    }
+                }
+                else
+                {
+                    return LoadRegular();
+                }
+                
+
+            case "battle3":
+                if (Random.Range(0, 1000) < 350)
+                {
+                    if (Random.Range(0, 1000) < 500)
+                    {
+                        return LoadThief();
+                    }
+                    else
+                    {
+                        return LoadPaladin();
+                    }
+                }
+                else
+                {
+                    return LoadRegular();
+                }
+                
+
+            case "battle4":
+                if (Random.Range(0, 1000) < 500)
+                {
+                    int random = Random.Range(0, 1000);
+                    if (random < 333)
+                    {
+                        return LoadWizard();
+                    }
+                    else if(random >=333 && random <666)
+                    {
+                        return LoadPaladin();
+                    }
+                    else
+                    {
+                        return LoadCleric();
+                    }
+                }
+                else
+                {
+                    return LoadRegular();
+                }
+                
+
+            case "battle5":
+                if (Random.Range(0, 1000) < 400)
+                {
+                    int random = Random.Range(0, 1000);
+                    if (random < 333)
+                    {
+                        return LoadBrawler();
+                    }
+                    else if (random >= 333 && random < 666)
+                    {
+                        return LoadPaladin();
+                    }
+                    else
+                    {
+                        return LoadWizard();
+                    }
+                }
+                else
+                {
+                    return LoadRegular();
+                }
+                
+
+            case "battle6":
+                if (Random.Range(0, 1000) < 350)
+                {
+                    if (Random.Range(0, 1000) < 500)
+                    {
+                        return LoadWizard();
+                    }
+                    else
+                    {
+                        return LoadDarkKnight();
+                    }
+                }
+                else
+                {
+                    return LoadRegular();
+                }
+               
+
+            case "battle7": 
+                if (Random.Range(0, 1000) < 400)
+                {
+                    int random = Random.Range(0, 1000);
+                    if (random < 200)
+                    {
+                        return LoadBrawler();
+                    }
+                    else if (random >= 200 && random < 400)
+                    {
+                        return LoadPaladin();
+                    }
+                    else if(random >= 400 && random < 600)
+                    {
+                        return LoadWizard();
+                    }
+                    else if (random >= 600 && random < 800)
+                    {
+                        return LoadThief();
+                    }
+                    else
+                    {
+                        return LoadDarkKnight();
+                    }
+                }
+                else
+                {
+                    return LoadRegular();
+                }
+
+            default:
+                Debug.LogError("Level " + scene + " MUST be added to this switch^^^");
+                return null;
+        }
+    }
+
+    public Enemy LoadRegular()
+    {
+        archetype = "regular";
+        //Debug.LogError("archetype set to " + archetype);
+        abilitySet = new Ability[4];
+        abilitySet[0] = new BasicAttack(this.gameObject);
+        abilitySet[1] = new Fire(this.gameObject);
+        string[] possibles = { "heal", "curewounds", "quickstab", "sap", "gutpunch", "poisonarrow", "eviscerate", "vengeance", "lifeleech" };
+        int first = Random.Range(0, possibles.Length-1);
+        abilitySet[2] = SkillLoader.LoadSkill(possibles[first], this.gameObject);
+        int second = Random.Range(0, possibles.Length-1);
+        if (second == first)
+        {
+            if (second == possibles.Length-1)
+                second--;
+            else
+                second++;
+        }
+        abilitySet[3] = SkillLoader.LoadSkill(possibles[second], this.gameObject);
+        //Debug.LogError(abilitySet[3]);
+        return this;
+    }
+
+    public Enemy LoadBrawler()
+    {
+        gameObject.AddComponent<Aggressive>();
+        Enemy newType = gameObject.GetComponent<Aggressive>();
+        newType.type = "brawler";
+        GameObject.Destroy(this);
+        return newType;
+    }
+
+    public Enemy LoadThief()
+    {
+        gameObject.AddComponent<Support>();
+        Enemy newType = gameObject.GetComponent<Support>();
+        newType.type = "thief";
+        GameObject.Destroy(this);
+        return newType;
+    }
+
+    public Enemy LoadCleric()
+    {
+        gameObject.AddComponent<Defender>();
+        Enemy newType = gameObject.GetComponent<Defender>();
+        newType.type = "cleric";
+        GameObject.Destroy(this);
+        return newType;
+    }
+
+    public Enemy LoadDarkKnight()
+    {
+        gameObject.AddComponent<Aggressive>();
+        Enemy newType = gameObject.GetComponent<Aggressive>();
+        newType.type = "darkknight";
+        GameObject.Destroy(this);
+        return newType;
+    }
+
+    public Enemy LoadPaladin()
+    {
+        gameObject.AddComponent<Tank>();
+        Enemy newType = gameObject.GetComponent<Tank>();
+        newType.type = "paladin";
+        GameObject.Destroy(this);
+        return newType;
+    }
+
+    public Enemy LoadWizard()
+    {
+        gameObject.AddComponent<Aggressive>();
+        Enemy newType = gameObject.GetComponent<Aggressive>();
+        newType.type = "wizard";
+        GameObject.Destroy(this);
+        return newType;
+    }
+
+
 
     protected static bool AttemptAbility(Ability strongest, Actor currentTarget)
     {
@@ -734,9 +856,74 @@ public class Enemy : Actor
         return false;
     }
 
-    public int getExpGiven()
+    public int GetExpGiven()
     {
-        return expGiven;
+        switch (getLevel())
+        {
+            case 1:
+                if (GetArchetype() == "regular")
+                    return 25;
+                else if (GetArchetype() == "defender")
+                    return 50;
+                else
+                    return 75;
+
+            case 2:
+                if (GetArchetype() == "regular")
+                    return 50;
+                else if (GetArchetype() == "defender")
+                    return 100;
+                else
+                    return 150;
+            case 3:
+                if (GetArchetype() == "regular")
+                    return 75;
+                else if (GetArchetype() == "defender")
+                    return 150;
+                else
+                    return 225;
+
+            case 4:
+                if (GetArchetype() == "regular")
+                    return 125;
+                else if (GetArchetype() == "defender")
+                    return 250;
+                else
+                    return 375;
+
+            case 5:
+                if (GetArchetype() == "regular")
+                    return 250;
+                else if (GetArchetype() == "defender")
+                    return 500;
+                else
+                    return 750;
+
+            case 6:
+                if (GetArchetype() == "regular")
+                    return 300;
+                else if (GetArchetype() == "defender")
+                    return 600;
+                else
+                    return 900;
+
+            case 7:
+                if (GetArchetype() == "regular")
+                    return 350;
+                else if (GetArchetype() == "defender")
+                    return 750;
+                else
+                    return 1100;
+
+            default:
+                if (GetArchetype() == "regular")
+                    return 450;
+                else if (GetArchetype() == "defender")
+                    return 900;
+                else
+                    return 1400;
+
+        }
     }
 
     public int GetID()

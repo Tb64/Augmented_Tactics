@@ -3,24 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Aggressive : Enemy {
+
     //priority: stay in attack mode and go for closest or most aggressive dps / support characters
     //identify type of player by behavior. 
     //contemporary: check for aggressive healing / buffing
     //attack player with most aggro with strongest attack
     //stay near tank for buffing / debuffing
     //stay out of range of support characters
+
     private bool regularMode, getRange, inRange;
     private Ability strongest, backup, range, buff; //aggressive must have each type of attack. including something to buff attack power or defense
-	public override void Start ()
+    public string type;
+
+    /*public Aggressive(string type)
     {
-        base.Start();
-        GetAbilities();
-        regularMode = false;
+        this.type = type;
+
+    }
+
+    public Aggressive()
+    {
+
+    }*/
+
+    public override void Start ()
+    {
+        //boss = false;
+        
 	}
 
     public override void EnemyInitialize() //temp. changing soon w/ attacks and items etc
     {
-        base.EnemyInitialize();
+        archetype = "aggressive";
+        //base.Start();
+        if (!boss)
+            base.EnemyInitialize();
+        GetAbilities();
+        SetAbilities();
+        regularMode = false;
+        
     }
 
     public override void EnemyTurnStartActions()
@@ -31,6 +52,8 @@ public class Aggressive : Enemy {
     }
     public override void EnemyActions()
     {
+        if (getMoves() == 0)
+            return;
         if (regularMode && CheckManaReplenish())
             regularMode = false;
         if (regularMode)
@@ -116,11 +139,47 @@ public class Aggressive : Enemy {
             }
         }
     }
-    
+
     private void GetAbilities()
     {
+        abilitySet = new Ability[4];
+        abilitySet[0] = new BasicAttack(gameObject);
+        if (Random.Range(0, 1) == 0)
+            abilitySet[1] = new Fire(gameObject);
+        else
+            abilitySet[1] = new Heal(gameObject);
+        if (type == "brawler")
+        {
+            abilitySet[2] = new TwinStrike(gameObject);
+            string[] possibles = SkillLoader.ClassSkills(2);
+            abilitySet[3] = SkillLoader.LoadSkill(possibles[Random.Range(1, 7)], gameObject);
+        }
+        else if(type == "darkknight")
+        {
+            GetSkills(1);
+        }
+        else if(type == "wizard")
+        {
+            GetSkills(4);
+        }
+        Debug.LogError("aggressive ability " + abilitySet[0]);
+    }
+
+    private void GetSkills(int id)
+    {
+        int first = Random.Range(0, 7), second = Random.Range(0, 1);
+        string[] possibles = SkillLoader.ClassSkills(id);
+        abilitySet[2] = SkillLoader.LoadSkill(possibles[first], gameObject);
+        
+        string[] possible = { "attack","physicaldefense"};
+        abilitySet[3] = buff = new BuffDebuff(gameObject, possible[second], null, false, true, getWisdom(), false);
+    }
+    
+    private void SetAbilities()
+    {
+        //add which types
         float bestRange = 0, mostRange = 0;
-        buff = abilitySet[3]; // Testing for a buff seems tedious so by default let the buff for an aggressive be in the last slot
+        //buff = abilitySet[3]; // Testing for a buff seems tedious so by default let the buff for an aggressive be in the last slot
         foreach (Ability ability in abilitySet)
         {
             if (ability.range_max > mostRange)
@@ -148,6 +207,7 @@ public class Aggressive : Enemy {
                 }
             }
         }
+        Debug.LogError("aggressive abilities set" + " " + abilitySet[3]);
     }
 
 

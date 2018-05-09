@@ -19,6 +19,7 @@ public class CureWounds : Ability
         range_max = 3;
         range_min = 0;
         dwell_time = 1.0f;
+        canHeal = true;
         heal = 5f + (float)actor.getWisdom() * 1.25f;
         abilityName = "Cure Wounds";
         handVFX = Resources.Load<GameObject>("Effects/HandEffects/Effect13_Hand_Optimized");
