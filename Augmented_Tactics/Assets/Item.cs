@@ -16,8 +16,7 @@ public class Item : MonoBehaviour {
     public Image storeImage;
     public GameObject playerInventory;
     public GameObject store;
-    
-    
+    public GameObject statsUI;
     string itemType;
 
     void start()
@@ -38,7 +37,7 @@ public class Item : MonoBehaviour {
     public void setEquipable(Equipable item)
     {
         equipItem = item;
-        setItemType("Equipable");
+        //setItemType("Equipable");
         inventoryIcon = Resources.Load<Sprite>(item.image);
 
         if (inventoryIcon != null)
@@ -55,6 +54,7 @@ public class Item : MonoBehaviour {
 
     public void setEquipable(Armor item)
     {
+        setItemType("Armor");
         armor = item;
         setEquipable((Equipable)item);
         GameDataController.loadPlayerData();
@@ -110,6 +110,16 @@ public class Item : MonoBehaviour {
         return slotOccupied;
     }
 
+    public void showItem()
+    {
+
+        if(itemType == "Armor")
+        {
+            statsUI.GetComponent<EquipStatsUI>().DrawStats(armor);
+        }
+
+    }
+
     public void checkType()
     {
         //string parentName = transform.parent.name;
@@ -118,12 +128,13 @@ public class Item : MonoBehaviour {
         switch (slotType)
         {
             case false:
+                showItem();
                 break;
+
             case true:
                 displayStore();
                 break;
         }
-
     }
 
     public void displayStore()
