@@ -26,7 +26,7 @@ public class TileMap : MonoBehaviour {
     Nodes[,,] graph;
     
     public int mapSizeX = 16;
-    public int mapSizeY = 1;
+    public int mapSizeY = 0;
     public int mapSizeZ = 16;
     #endregion
     // Use this for initialization
