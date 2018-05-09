@@ -32,7 +32,7 @@ public class EquipmentUI : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        Application.stackTraceLogType = StackTraceLogType.ScriptOnly;
+        //Application.stackTraceLogType = StackTraceLogType.ScriptOnly;
         //nullImage = newImg.sprite;
         gdata = GameDataController.loadPlayerData();
 

@@ -513,7 +513,7 @@ public class TileMap : MonoBehaviour {
         }
         if(actorObj.speed == 0 || actorObj.moveDistance == 0)
         {
-            Debug.Log("!!!!! WARNING !!!!! ACTOR HAS NO SPEED OR MOVEDISTANCE!");
+            Debug.Log("!!!!! WARNING !!!!! ACTOR " + actorObj + " HAS NO SPEED OR MOVEDISTANCE!");
             return;
         }
 
@@ -830,6 +830,14 @@ public class TileMap : MonoBehaviour {
     {
         ClickableTile tile = map[(int)mapPos.x,(int)mapPos.y,(int)mapPos.z];
         return tile;
+    }
+
+    public Transform GetMiddleTransform()
+    {
+        int midZ = mapSizeZ / 2;
+        int midX = mapSizeX / 2;
+        Vector3 coords = new Vector3(midX, 0f, midZ);
+        return getTileAtCoord(coords).transform;
     }
     #endregion
 }

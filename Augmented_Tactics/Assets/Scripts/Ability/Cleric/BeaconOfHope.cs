@@ -29,6 +29,8 @@ public class BeaconOfHope : AOE
         abilityImage = Resources.Load<Sprite>("UI/Ability/priest/priestSkill7");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
+
+        abilityDescription = "Area of effect heal based on wisdom. \nHeal = " + heal;
     }
 
     public override bool UseSkill(GameObject target)

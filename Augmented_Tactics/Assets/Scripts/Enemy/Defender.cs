@@ -14,18 +14,38 @@ public class Defender : Enemy {
     //elseif(aggressive on team): find aggressive and go karowak on everyone's ass
     //else attampt strongest attack then move in the direction of the tank to draw fire
     //if no tank draw fire away from targeted / weakest
-    private bool aidLocked, hit;
-    private Ability strongest, mostDistance,lastResort, heal;
-    private Enemy aiding;
+    protected bool aidLocked, hit;
+    protected Ability strongest, mostDistance,lastResort, heal;
+    protected Enemy aiding;
+    public string type;
 
-	// Use this for initialization
-	public override void Start ()
+    /*public Defender(string type)
     {
-        base.Start();
+        this.type = type;
+    }
+
+    public Defender()
+    {
+
+    }*/
+    // Use this for initialization
+    public override void Start ()
+    {
+      //  boss = false;
+        
+    }
+
+    public override void EnemyInitialize()
+    {
+        archetype = "defender";
+        //base.Start();
+        if (!boss)
+            base.EnemyInitialize();
+        GetAbilities();
         TurnBehaviour.OnEnemyOutOfMoves += this.ResetValues;
-        FindRanges();
+        //FindRanges();
         //add buffs
-        heal = GetHeal();
+        // heal = GetHeal();
     }
 
     public override void OnDestroy()
@@ -37,14 +57,11 @@ public class Defender : Enemy {
      {
 
      }*/
-    public override void EnemyInitialize()
+    /*public override void EnemyInitialize()
     {
         
-    }
-    public override string GetArchetype()
-    {
-        return "defender";
-    }
+    }*/
+    
 
     public override void EnemyTurnStartActions()
     {
@@ -74,6 +91,18 @@ public class Defender : Enemy {
         }
         else if(EnemyController.enemyList.Count > 1)
         {
+            if (lastResort.CanUseSkill(FindNearestEnemy().gameObject))
+            {
+                lastResort.UseSkill(FindNearestEnemy().gameObject);
+                return;
+            }
+
+            if (lastResort.CanUseSkill(gameObject))
+            {
+                lastResort.UseSkill(gameObject);
+                return;
+            }
+
             aiding = EnemyController.FindWeakestEnemy(this);
             aidLocked = true;
             aiding.aided = true;
@@ -82,6 +111,7 @@ public class Defender : Enemy {
             DrawFire();
             return;
         }
+        
         else
         {
             base.EnemyActions();
@@ -95,16 +125,16 @@ public class Defender : Enemy {
         else
             return false;
     }
-    private Ability GetHeal()
+    /*protected Ability GetHeal()
     {
         foreach (Ability ability in abilitySet)
-            if (ability.abilityName == "Heal")
+            if (ability.canHeal)
                 return ability;
         Debug.LogError("Defender Loaded With No Heal Ability");
         return null;
-    }
+    }*/
 
-    private void FindRanges()
+    protected void FindRanges()
     {
         float bestRange = 0, mostRange = 0;
 
@@ -123,7 +153,7 @@ public class Defender : Enemy {
         }
     }
 
-    private void DrawFire() //attempt to use best or any attack and run like hell in opposite direction of aiding enemy
+    protected void DrawFire() //attempt to use best or any attack and run like hell in opposite direction of aiding enemy
     {
         if (hit)
         {
@@ -131,12 +161,19 @@ public class Defender : Enemy {
             return;
         }
 
-        if (AttemptAttack())
+        if (AttemptAbility(strongest,currentTarget))
         {
             hit = true;
             return;
         }
-        if(GetHealthPercent() > .50)
+
+        if (AttemptAbility(mostDistance, currentTarget))
+        {
+            hit = true;
+            return;
+        }
+
+        if (GetHealthPercent() > .50 && strongest.manaCost < getManaCurrent())
         {
             Support.FindShweetSpot(this, currentTarget, strongest, map);
             return;
@@ -149,9 +186,9 @@ public class Defender : Enemy {
             
     }
 
-    private void FindShweetSpot() //lure attacker to other area after successful attack / aggro gain
+    protected void FindShweetSpot() //lure attacker to other area after successful attack / aggro gain
     {
-        if (aiding.CheckHeal() && Vector3.Distance(getCoords(),aiding.getCoords())<3) //add heal of person defending
+        if (aiding.CheckHeal() && Vector3.Distance(getCoords(),aiding.getCoords())<3) 
         {
             if (GetHealItem())
             {
@@ -165,7 +202,21 @@ public class Defender : Enemy {
                 return;
             }
         }
-        if (CheckHeal() || aiding.CheckHeal()) //add heal of person defending
+        if (aiding.CheckHeal()) 
+        {
+            if (GetHealItem())
+            {
+                healItem.UseItem(gameObject, aiding.gameObject);
+                return;
+            }
+
+            if (heal.CanUseSkill(aiding.gameObject))
+            {
+                heal.UseSkill(aiding.gameObject);
+                return;
+            }  
+        }
+        else if (CheckHeal())
         {
             if (GetHealItem())
             {
@@ -177,13 +228,13 @@ public class Defender : Enemy {
             {
                 heal.UseSkill(gameObject);
                 return;
-            }  
+            }
         }
-        /*if (!AggroInRange())
+        else if (!AggroInRange())
         {
             if (AttemptAttack())
-                return;    
-        }*/
+                return; 
+        }
         Vector3 stayAway = currentTarget.getCoords();
         Vector3 output = aiding.getCoords() - currentTarget.getCoords();
         //stayAway = stayAway.normalized;
@@ -200,7 +251,7 @@ public class Defender : Enemy {
         Debug.Log("Attempting to move " + this + " from " + this.getCoords() + " to " + movingTo);
         map.moveActorAsync(gameObject, movingTo);
     }
-    private bool AggroInRange()
+    protected bool AggroInRange()
     {
         foreach(Ability ability in aggro.abilitySet)
         {
@@ -209,7 +260,7 @@ public class Defender : Enemy {
         }
         return false;
     }
-    private bool PlayerInRange()
+    protected bool PlayerInRange()
     {
         foreach (Ability ability in nearest.abilitySet)
         {
@@ -244,7 +295,7 @@ public class Defender : Enemy {
         }
        
     }
-    private bool CheckStrategy(string type)
+    protected bool CheckStrategy(string type)
     {
         aiding = null;
         foreach (Enemy enemy in EnemyController.enemyList)
@@ -295,6 +346,22 @@ public class Defender : Enemy {
             }
         }
         return false;
+    }
+
+    public void GetAbilities()
+    {
+        abilitySet[0] = strongest = new BasicAttack(gameObject);
+        abilitySet[1] = mostDistance = new Arrow(gameObject);
+        if (Random.Range(0, 1) == 0)
+            abilitySet[2] = heal = new CureWounds(gameObject);
+        else
+            abilitySet[2] = heal = new HealingWord(gameObject);
+        if (Random.Range(0, 1) == 0)
+            abilitySet[3] = lastResort = new SpikeGrowth(gameObject);
+        else
+            abilitySet[3] = lastResort = new ShieldOfFaith(gameObject);
+
+        Debug.LogError("defender abilities set" + " " + abilitySet[3]);
     }
 
     public void ResetValues()

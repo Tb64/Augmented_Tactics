@@ -14,15 +14,35 @@ public class Support : Enemy {
     protected float distanceFromAggro;
     //private Actor aggro;
     protected Enemy aiding;
-    protected Ability strongest,backup, mostDistance,heal; //backup's range should ideally be in between strongest and mostDistance and require less mana
-    protected bool regularMode, hasHeal,aidLocked;
+    protected Ability strongest,backup, mostDistance,heal,arrow; //backup's range should ideally be in between strongest and mostDistance and require less mana
+    protected bool regularMode, hasHeal,aidLocked,arrowMode;
+    public string type;
+
+    /*public Support(string type)
+    {
+        this.type = type;
+    }
+
+    public Support()
+    {
+
+    }*/
 
     public override void Start()
     {
-        base.Start();
+       // boss = false;
+    }
+
+    public override void EnemyInitialize()
+    {
+        archetype = "support";
+        if (!boss)
+            base.EnemyInitialize();
         hasHeal = false;
         TurnBehaviour.OnEnemyOutOfMoves += this.ResetValues;
+        GetAbilities();
         FindRanges();
+        
     }
 
     public override void OnDestroy()
@@ -43,11 +63,23 @@ public class Support : Enemy {
         if (getMoves() == 0)
             return;
 
-        if (regularMode)
+        if (arrowMode)
+        {
+            if (ManaReplenish())
+            {
+                arrowMode = false;
+                Ability temp = arrow;
+                arrow = mostDistance;
+                mostDistance = temp;
+            }
+                
+        }
+
+        /*if (regularMode)
         {
             base.EnemyActions();
             return;
-        }
+        }*/
 
         if (targetLocked && !currentTarget.isDead() && !currentTarget.isIncapacitated())
         {
@@ -60,7 +92,7 @@ public class Support : Enemy {
             SaveFriendly();
             return;
         }
-
+       // Debug.Log(targetLocked + " " + aidLocked);
         if (!targetLocked && !aidLocked)
         {
             currentTarget = PlayerTooClose();
@@ -103,11 +135,6 @@ public class Support : Enemy {
             EnemyController.ExhaustMoves(SM);
         }
         
-    }
-
-    public override string GetArchetype()
-    {
-        return "support";
     }
 
     public void ResetValues()
@@ -163,10 +190,13 @@ public class Support : Enemy {
 
     protected void RunAndGun() //Default Tactic of Support if no teammate needs help
     {
-        Debug.Log(this + " is Running and Gunning");
-        if (!mostDistance.SkillInRange(getCoords(),aggro.getCoords()) /*|| distanceFromAggro - mostDistance.range_max > 5 && mostDistance.CanUseSkill(currentTarget.gameObject)*/)
+        if (getMoves() == 0)
+            return;
+        Debug.Log(this + " is Running and Gunning "+ getMoves());
+        if (!mostDistance.SkillInRange(gameObject,currentTarget.gameObject) /*|| distanceFromAggro - mostDistance.range_max > 5 && mostDistance.CanUseSkill(currentTarget.gameObject)*/)
         {
             Debug.Log("Finding Shweet Shpot");
+            Debug.Log(map);
             FindShweetSpot(this,currentTarget,mostDistance,map); // get closer so attack is possible, or further to stay away from enemies
             return;
         }    
@@ -177,12 +207,16 @@ public class Support : Enemy {
         }
         else if (mostDistance.manaCost > getManaCurrent())
         {
-            Debug.Log("Mana Low. Switching to Regular Mode");
-            regularMode = true;
+            Debug.Log("Mana Low. Switching to Arrow Mode");
+            arrowMode = true;
+            Ability temp = mostDistance;
+            mostDistance = arrow;
+            arrow = temp;
+            //regularMode = true;
             EnemyActions();
             return;
         }
-        Debug.LogError("out of bounds run and gun");
+        Debug.LogError(mostDistance.SkillInRange(getCoords(), currentTarget.getCoords())+ " "+ mostDistance.range_max);
     }
     public static bool FindShweetSpot(Enemy self,Actor currentTarget, Ability mostDistance, TileMap map )
     {
@@ -281,6 +315,7 @@ public class Support : Enemy {
                 }
             }
         }
+        //Debug.LogError("support abilities set" + " " + abilitySet[3]);
     }
 
     protected Enemy CheckSupport()
@@ -301,6 +336,27 @@ public class Support : Enemy {
             aggro = nearest;
             distanceFromAggro = Vector3.Distance(getCoords(), aggro.getCoords());
         }
+    }
+
+    public void GetAbilities()
+    {
+        string[] possibles = SkillLoader.ClassSkills(3);
+        arrow = abilitySet[0] = new Arrow(gameObject);
+        if (Random.Range(0, 10) < 7)
+            abilitySet[1] = new Steal(gameObject);
+        else
+            abilitySet[1] = new Heal(gameObject);
+        int first = Random.Range(1, 7), second = Random.Range(1, 7);
+        abilitySet[2] = SkillLoader.LoadSkill(possibles[first], gameObject);
+        if (first == second)
+        {
+            if (first != 7)
+                abilitySet[3] = SkillLoader.LoadSkill(possibles[second + 1], gameObject);
+            else
+                abilitySet[3] = SkillLoader.LoadSkill(possibles[second - 1], gameObject);
+        }
+        else
+            abilitySet[3] = SkillLoader.LoadSkill(possibles[second], gameObject);
     }
     /*public override bool AttemptAttack()
     {

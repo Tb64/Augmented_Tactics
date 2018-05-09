@@ -11,6 +11,7 @@ public class Tank : Enemy{
     //buff defense on health low
     //else: buff offense
     //use last resort action if all else fails
+    public string type;
     protected List<Vector3> cantMove;
     //protected UsableItem healItem;
     protected bool regularMode, inPosition, sameTurn,firstMove, firstDebuffed,healMode,healPossible, buffCool, debuffCool;
@@ -20,11 +21,20 @@ public class Tank : Enemy{
                                                     //should be slow and attack last so allies are in position
     public override void Start()
     {
-        base.Start();
+       
+        
+    }
+
+    public override void EnemyInitialize()
+    {
+        archetype = "tank";
+        if(!boss)
+            base.EnemyInitialize();
+        GetAbilities();
+        SetAbilities();
         regularMode = false;
         buffCool = false;
         debuffCool = false;
- 
     }
 
     public override void EnemyTurnStartActions()
@@ -59,6 +69,9 @@ public class Tank : Enemy{
 
     public override void EnemyActions()
     {
+
+        if (getMoves() == 0)
+            return;
 
         if (Random.Range(0, 1000) <= 500 && GetHealthPercent() < .35 || closestAggro.GetHealthPercent() < .45 && healPossible)
             healMode = true;
@@ -112,6 +125,7 @@ public class Tank : Enemy{
             else
             {
                 setNumOfActions(0);
+                TurnBehaviour.EnemyTurnFinished();
                 return;
             }
         }
@@ -123,7 +137,7 @@ public class Tank : Enemy{
         {
             inPosition = false;
         }
-        if (regularMode && sameTurn && CheckManaReplenish())
+        if (regularMode && sameTurn && CheckManaReplenish(buff))
             regularMode = false;
         if (regularMode)
         {
@@ -156,7 +170,7 @@ public class Tank : Enemy{
             }
             else
             {
-                if(getManaCurrent() <= buff.manaCost && getManaCurrent()<= debuff.manaCost && !CheckManaReplenish())
+                if(getManaCurrent() <= buff.manaCost && getManaCurrent()<= debuff.manaCost && !CheckManaReplenish(buff))
                 {
                     regularMode = true;
                     sameTurn = true;
@@ -164,7 +178,9 @@ public class Tank : Enemy{
                 }
                 else
                 {
+                    Debug.LogError("settings actions to 0");
                     setNumOfActions(0);
+                    TurnBehaviour.EnemyTurnFinished();
                     return;
                 }
                 
@@ -174,7 +190,7 @@ public class Tank : Enemy{
 
     }
 
-    private bool HealSelfOrPartner(int choice)
+    protected bool HealSelfOrPartner(int choice)
     {
         if (choice == 0)
         {
@@ -205,7 +221,7 @@ public class Tank : Enemy{
         return false;
     }
 
-    private bool CheckInPosition()
+    protected bool CheckInPosition()
     {
         if ((Vector3.Distance(getCoords(), closestAggro.getCoords()) <= buff.range_max) || SamePlane())
             return true;
@@ -213,7 +229,7 @@ public class Tank : Enemy{
             return false;
     }
 
-    private bool SamePlane()
+    protected bool SamePlane()
     {
         Vector3 myCoords = getCoords(), closeCoords = closestAggro.getCoords(), playerCoords = closestAggro.getNearest().getCoords();
         if ((myCoords.x == closestAggro.getCoords().x && myCoords.x == playerCoords.x) || (myCoords.z == closestAggro.getCoords().z && myCoords.x == playerCoords.z))
@@ -222,7 +238,7 @@ public class Tank : Enemy{
             return false;
     }
 
-    private void GetInPosition()
+    protected void GetInPosition()
     {
         Debug.Log(closestAggro + " " + closestAggro.getCoords() + " " + currentTarget + " " + currentTarget.getCoords());
         Vector3 cAPos = closestAggro.getCoords();
@@ -278,7 +294,7 @@ public class Tank : Enemy{
         else
             return false;
     }
-    private void FindAggroCluster()
+    protected void FindAggroCluster()
     {
         float closest = 1000,secondClosest,thirdClosest;
         Enemy second = null, third = null;
@@ -337,7 +353,7 @@ public class Tank : Enemy{
         targetLocked = true;
         
     }
-    private bool CheckTeamStrat() // see if searching for clusters is possible
+    protected bool CheckTeamStrat() // see if searching for clusters is possible
     {
         if(EnemyController.enemyList.Count < 4)
             return false;
@@ -352,48 +368,45 @@ public class Tank : Enemy{
         else
             return false;
     }
-    private bool CheckManaReplenish()
-    {
-        if (getManaCurrent() >= buff.manaCost)
-            return true;
-        else
-        {
-            if (!ManaReplenish())
-                return false;
-            else
-                return true;
-        }
-            
-    }
-
-    private bool ManaReplenish()
-    {
-        if(usableItems !=null && usableItems.Count !=0)
-            foreach (UsableItem usable in usableItems)
-                if (usable.name.Equals("Large Mana Tonic") || usable.name.Equals("Medium Mana Tonic") || usable.name.Equals("Small Mana Tonic"))
-                {
-                    usable.UseItem(gameObject, gameObject);
-                    return true;
-                }
-        foreach (Ability ability in abilitySet)
-            if (ability.abilityName == "Mana Replenish" && ability.CanUseSkill(gameObject))//ability has to have this name in future
-            {
-                ability.UseSkill(gameObject);
-                return true;
-            }   
-        return false;
-                
-    }
+    
 
     public override string GetArchetype()
     {
-        return "tank";
+        return archetype;
     }
-    private void GetAbilities() //need to add randomability loader with these parameters to make tank work
+
+    protected void SetAbilities() 
     {
         buff = abilitySet[0];
         debuff = abilitySet[1];
         heal = abilitySet[2];
         lastResort = abilitySet[3];
+        //Debug.LogError("tank abilities set" + " " + abilitySet[3]);
+    }
+
+    protected void GetAbilities()
+    {
+        string[] possibles = BuffDebuff.GetStatCalls();
+        int first = Random.Range(0, possibles.Length),second = Random.Range(0, possibles.Length);
+        if (second == first && first != 0)
+            second = first - 1;
+        else if (second == first)
+            second = first +1;
+        if (Random.Range(0, 100) < 20)
+            abilitySet[0] = new BuffDebuff(gameObject, possibles[first], possibles[second], true,true,getWisdom(), false);
+        else
+            abilitySet[0] = new BuffDebuff(gameObject, possibles[first], null, false, true, getWisdom(), false);
+
+        if (Random.Range(0, 100) < 20)
+            abilitySet[1] = new BuffDebuff(gameObject, possibles[second], possibles[first], true,false, getWisdom(), false);
+        else
+            abilitySet[1] = new BuffDebuff(gameObject, possibles[second], null, false, false, getWisdom(), false);
+
+        abilitySet[2] = new DivineFavor(gameObject);
+
+        if (Random.Range(0, 1) == 0)
+            abilitySet[3] = new Vengeance(gameObject);
+        else
+            abilitySet[3] = new Smite(gameObject);
     }
 }

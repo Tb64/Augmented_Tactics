@@ -51,6 +51,9 @@ public class SkillLoader : MonoBehaviour {
             case "counter":
                 return new Counter(gObj);
 
+            case "shockwave":
+                return new Shockwave(gObj);
+
             //Knight
 
             case "eviscerate":
@@ -103,6 +106,8 @@ public class SkillLoader : MonoBehaviour {
                 return new SpikeGrowth(gObj);
             case "shieldoffaith":
                 return new ShieldOfFaith(gObj);
+            case "healingwinds":
+                return new HealingWinds(gObj);
 
             //Thief
             case "flamingarrow":
@@ -135,6 +140,8 @@ public class SkillLoader : MonoBehaviour {
                 return new DivineFavor(gObj);
             case "heroism":
                 return new Heroism(gObj);
+            case "rallycry":
+                return new RallyCry(gObj);
             case "fortifiedstrike":
                 return new FortifiedStrike(gObj);
 
@@ -163,17 +170,17 @@ public class SkillLoader : MonoBehaviour {
                 skills[3] = "counter";
                 skills[4] = "gutpunch";
                 skills[5] = "cyclonekick";
-                skills[6] = "";
+                skills[6] = "shockwave";
                 skills[7] = "howlingfist";
                 return skills;
 
             case CharacterClasses.ThiefKey:
-                skills[0] = "arrow";
-                skills[1] = "flamingarrow";
-                skills[2] = "steal"; //quickstab should be unlocked somewhere around here. made too many attacks
-                skills[3] = "icearrow";
-                skills[4] = "poisonarrow"; 
-                skills[5] = "sneak";
+                skills[0] = "arrow"; //probably scrapping quickstab. making 0 mana arrow
+                skills[1] = "steal";
+                skills[2] = "flamingarrow";
+                skills[3] = "icearrow"; 
+                skills[4] = "quickstab"; 
+                skills[5] = "poisonarrow";
                 skills[6] = "vortexarrow";
                 skills[7] = "multiarrow";
                 return skills;
@@ -196,7 +203,7 @@ public class SkillLoader : MonoBehaviour {
                 skills[3] = "heroism";
                 skills[4] = "smite";
                 skills[5] = "fortifiedstrike";
-                skills[6] = "";
+                skills[6] = "rallycry";
                 skills[7] = "ward";
                 return skills;
 
