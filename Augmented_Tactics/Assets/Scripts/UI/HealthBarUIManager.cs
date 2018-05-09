@@ -27,7 +27,7 @@ public class HealthBarUIManager : MonoBehaviour {
         TurnBehaviour.OnActorFinishedMove += updateActions;
         TurnBehaviour.OnActorAttacked += updateActions;
         TurnBehaviour.OnPlayerTurnStart += onPlayerTurnStart;
-        TurnBehaviour.OnActorAttacked += OnActorAttacked;
+        TurnBehaviour.OnActorAttacked += UpdateAll;
         TurnBehaviour.OnNewSelectedUnit += OnNewSelectedUnit;
         //TurnBehaviour.OnUnitDestroy
     }
@@ -38,7 +38,7 @@ public class HealthBarUIManager : MonoBehaviour {
         TurnBehaviour.OnActorFinishedMove -= updateActions;
         TurnBehaviour.OnActorAttacked -= updateActions;
         TurnBehaviour.OnPlayerTurnStart -= onPlayerTurnStart;
-        TurnBehaviour.OnActorAttacked -= OnActorAttacked;
+        TurnBehaviour.OnActorAttacked -= UpdateAll;
         TurnBehaviour.OnNewSelectedUnit -= OnNewSelectedUnit;
         onPlayerTurnStart();        
         numPlayers = 0;
@@ -74,12 +74,15 @@ public class HealthBarUIManager : MonoBehaviour {
     {
         for (int i = 0; i < numPlayers; i++)
         {
-            playerManaImg[i].fillAmount = PlayerControlled.playerList[i].GetManaPercent();
+            if (PlayerControlled.playerList[i].getMaxMana() == 0 || PlayerControlled.playerList[i].getManaCurrent() == 0)
+                playerManaImg[i].fillAmount = 0f;
+            else
+                playerManaImg[i].fillAmount = PlayerControlled.playerList[i].GetManaPercent();
         }
     }
 
     //updates mana after a player attacks, loads a status effect image if one is active
-    public static void OnActorAttacked()
+    public static void UpdateAll()
     {
         updateHealth();
         updateMana();
@@ -121,8 +124,12 @@ public class HealthBarUIManager : MonoBehaviour {
             {
                 init();
                 ranAlready = true;
-                if(healthBarObj!=null)
+                if (healthBarObj != null)
+                {
                     healthBarObj[numPlayers].SetActive(true);
+                    if(PlayerControlled.playerList[numPlayers].icon != null)
+                        healthCircleImg[numPlayers].sprite = PlayerControlled.playerList[numPlayers].icon;
+                }
                 numPlayers++;
             }
             else
@@ -131,9 +138,12 @@ public class HealthBarUIManager : MonoBehaviour {
                 {
                     healthBarObj[numPlayers].SetActive(true);
                     healthCircleImg[numPlayers].color = dimCircleColor; //dim the bar of the unit not selected
+                    if (PlayerControlled.playerList[numPlayers].icon != null)
+                        healthCircleImg[numPlayers].sprite = PlayerControlled.playerList[numPlayers].icon;
                 }
                 numPlayers++;
             }
+        UpdateAll();
     }
 
     //organizes bars to into correct arrays and variables

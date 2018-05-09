@@ -188,7 +188,7 @@ public class Tank : Enemy{
                 }
                 else
                 {
-                    Debug.LogError("settings actions to 0");
+                    Debug.Log("settings actions to 0");
                     setNumOfActions(0);
                     return false;
                 }
@@ -240,6 +240,11 @@ public class Tank : Enemy{
 
     protected bool SamePlane()
     {
+        if(closestAggro == null)
+        {
+            Debug.Log("!! Closest aggro is null");
+            return false;
+        }
         Vector3 myCoords = getCoords(), closeCoords = closestAggro.getCoords(), playerCoords = closestAggro.getNearest().getCoords();
         if ((myCoords.x == closestAggro.getCoords().x && myCoords.x == playerCoords.x) || (myCoords.z == closestAggro.getCoords().z && myCoords.x == playerCoords.z))
             return true;
