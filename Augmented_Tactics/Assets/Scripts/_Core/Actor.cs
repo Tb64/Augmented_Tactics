@@ -31,7 +31,7 @@ public class Actor : MonoBehaviour
     protected Animator anim;
     public string actorName;
     public float health_current;    // temporary for debugging purposes(should be protected)
-    protected float health_max; 
+    protected float health_max;
     protected float mana_current;
     protected float mana_max;
     protected float move_speed;
@@ -73,7 +73,7 @@ public class Actor : MonoBehaviour
     public int moveDistance;
     public float remainingMovement;
     public int numOfActions;
-    
+
     //Misc vars
     public static int numberOfActors = 0;
     public StateMachine SM;
@@ -100,18 +100,18 @@ public class Actor : MonoBehaviour
 
     //STANCES
     //UNARMED = 0,
-	//TWOHANDSWORD = 1,
-	//TWOHANDSPEAR = 2,
-	//TWOHANDAXE = 3,
-	//TWOHANDBOW = 4,
-	//TWOHANDCROSSBOW = 5,
-	//STAFF = 6,
-	//ARMED/1Handed = 7,
-	//RELAX = 8,
-	//RIFLE = 9,
-	//TWOHANDCLUB = 10,
-	//SHIELD = 11,
-	//ARMEDSHIELD = 12
+    //TWOHANDSWORD = 1,
+    //TWOHANDSPEAR = 2,
+    //TWOHANDAXE = 3,
+    //TWOHANDBOW = 4,
+    //TWOHANDCROSSBOW = 5,
+    //STAFF = 6,
+    //ARMED/1Handed = 7,
+    //RELAX = 8,
+    //RIFLE = 9,
+    //TWOHANDCLUB = 10,
+    //SHIELD = 11,
+    //ARMEDSHIELD = 12
     public int AnimStance = 7;
 
     //WEAPONS
@@ -176,7 +176,7 @@ public class Actor : MonoBehaviour
         TurnBehaviour.OnTurnStart += this.ActorTurnStart;
         TurnBehaviour.OnActorFinishedMove += this.ActorMoved;
     }
-    
+
     public virtual void Update()
     {
         if (playerAgent != null)
@@ -199,21 +199,21 @@ public class Actor : MonoBehaviour
         remainingMovement = moveDistance;
 
         //Dont want actor making moves if incapacitaded/dead
-        if(incapacitated == true || dead == true)
+        if (incapacitated == true || dead == true)
             setNumOfActions(0);
         else
             setNumOfActions(2);
 
-        if(incapacitated == true && deathTimer < 6)
+        if (incapacitated == true && deathTimer < 6)
         {
             deathTimer++;
             Debug.Log("Death Timer : " + deathTimer);
         }
-        if(deathTimer == 6)
+        if (deathTimer == 6)
         {
             gameObject.SetActive(false);
         }
-        if(counterAttack > 0)
+        if (counterAttack > 0)
         {
             counterAttack--;
         }
@@ -244,12 +244,12 @@ public class Actor : MonoBehaviour
             return;
         map = GameObject.Find("Map").GetComponent<TileMap>();
 
-        if(weapon == null)
+        if (weapon == null)
         {
             weapon = WeaponGen.WeaponGenerate(1, 0, 0);
         }
 
-        if(armor == null)
+        if (armor == null)
         {
             armor = ArmorGen.ArmorGenerate(1, 0, 0);
         }
@@ -265,7 +265,7 @@ public class Actor : MonoBehaviour
         {
             report = GameObject.Find("SceneManager").GetComponent<AfterActionReport>();
         }
-        
+
         incapacitated = false; //determines whether actor is knocked out
         dead = false;          //perma death
 
@@ -277,7 +277,7 @@ public class Actor : MonoBehaviour
         health_current = health_max;
         remainingMovement = moveDistance;
         numOfActions = 2;
-        
+
 
         anim = GetComponentInChildren<Animator>();
 
@@ -325,7 +325,7 @@ public class Actor : MonoBehaviour
 
         if (data != null)
             LoadStatsFromData(data);
-        
+
         InitStats();
 
     }
@@ -333,18 +333,17 @@ public class Actor : MonoBehaviour
     private void InitStats()
     {
         //load stats here
-        if (gameObject.tag != "Enemy")
-        {
+        if (data == null)
+            return;
 
-
-            if (this.level == 0)
-                this.level = 1;
+        if (this.level == 0)
+            this.level = 1;
 
         this.health_max = data.getTotalMaxHealth();
         this.health_current = this.health_max;
         this.mana_max = data.getTotalMaxMana();
         this.mana_current = this.mana_max;
-        }
+
     }
 
     public void LoadStatsFromData(PlayerData pdata)
@@ -354,22 +353,22 @@ public class Actor : MonoBehaviour
         data = pdata;
         this.weapon = pdata.weapon;
         this.armor = pdata.armor;
-        if(pdata.Icon.Length != 0)
+        if (pdata.Icon.Length != 0)
             this.icon = Resources.Load<Sprite>(pdata.Icon);
 
-        this.strength       = pdata.getTotalStr();
+        this.strength = pdata.getTotalStr();
         this.dexterity = pdata.getTotalDex();
-        this.constitution   = pdata.getTotalCon();
-        this.wisdom         = pdata.getTotalWis();
-        this.intelligence   = pdata.getTotalInt();
+        this.constitution = pdata.getTotalCon();
+        this.wisdom = pdata.getTotalWis();
+        this.intelligence = pdata.getTotalInt();
 
-        this.level          = pdata.Level;
-        this.actorName      = pdata.DisplayName;
+        this.level = pdata.Level;
+        this.actorName = pdata.DisplayName;
 
-        this.moveDistance   = pdata.Speed;
+        this.moveDistance = pdata.Speed;
 
-        this.mDefense       = armor.magic_def;
-        this.pDefense       = armor.physical_def;
+        this.mDefense = armor.magic_def;
+        this.pDefense = armor.physical_def;
 
         InitStats();
 
@@ -407,12 +406,12 @@ public class Actor : MonoBehaviour
     //Player Spawn Event - Put any actions you want done upon player spawn in here
     public void OnUnitSpawn()
     {
-        
-        
-       
+
+
+
 
     }
-    
+
 
     /// <summary>
     /// Controls the physical and animation of moving the actor.  Does not generate path.
@@ -447,7 +446,7 @@ public class Actor : MonoBehaviour
         {
             //Debug.Log("dist = " + dist + " target position = " + targetPos);
             playerAgent.destination = targetPos;
-            
+
         }
         else
         {
@@ -475,28 +474,28 @@ public class Actor : MonoBehaviour
     {
         Vector3 selfCoords = self.getCoords();
         Vector3 targetCoords = target.getCoords();
-        if(selfCoords.x == targetCoords.x)
+        if (selfCoords.x == targetCoords.x)
         {
-            if(selfCoords.z > targetCoords.z)
+            if (selfCoords.z > targetCoords.z)
             {
-                return new Vector3(selfCoords.x, 0, selfCoords.z-1);
+                return new Vector3(selfCoords.x, 0, selfCoords.z - 1);
 
             }
             else
             {
-                return new Vector3(selfCoords.x,0,selfCoords.z+1);
+                return new Vector3(selfCoords.x, 0, selfCoords.z + 1);
             }
         }
         else
         {
             if (selfCoords.x > targetCoords.x)
             {
-                return new Vector3(selfCoords.x-1, 0, selfCoords.z);
+                return new Vector3(selfCoords.x - 1, 0, selfCoords.z);
 
             }
             else
             {
-                return new Vector3(selfCoords.x+1, 0, selfCoords.z);
+                return new Vector3(selfCoords.x + 1, 0, selfCoords.z);
             }
         }
     }
@@ -538,9 +537,9 @@ public class Actor : MonoBehaviour
             case "attack":
                 audio.clip = soundFx.Attack;
 
-               //justin audio stuff - ignore
-               //audio.clip = soundFx.PlayerAttackSounds[n-1];
-              
+                //justin audio stuff - ignore
+                //audio.clip = soundFx.PlayerAttackSounds[n-1];
+
                 break;
             case "damage":
                 audio.clip = soundFx.Damage;
@@ -580,7 +579,7 @@ public class Actor : MonoBehaviour
             {
                 //move our player to the point
                 playerAgent.destination = interactionInfo.point;
-                
+
             }
         }
     }
@@ -602,7 +601,7 @@ public class Actor : MonoBehaviour
     /// <param name="damage">Damage the Actor will take as a float</param>
     public virtual void TakeDamage(float damage, GameObject attacker)
     {
-        if(wardCount > 0)
+        if (wardCount > 0)
         {
             Debug.Log("Attack warded");
             wardCount--;
@@ -616,7 +615,7 @@ public class Actor : MonoBehaviour
         }
         rotateAtObj(attacker);
         float dist = Vector3.Distance(getCoords(), attacker.GetComponent<Actor>().getCoords());
-        if (counterAttack > 0  && dist <= 1f)
+        if (counterAttack > 0 && dist <= 1f)
         {
             Debug.Log("Attempting Counter Attack. " + dist);
             CounterAttack(attacker);
@@ -647,11 +646,11 @@ public class Actor : MonoBehaviour
 
 
 
-     
+
         anim.SetTrigger(animDmg);
         PlaySound("damage");
-  
-        
+
+
     }
 
     /// <summary>
@@ -663,7 +662,7 @@ public class Actor : MonoBehaviour
     {
         if (cost == 0)
             return true;
-        if(this.mana_current >= cost)
+        if (this.mana_current >= cost)
         {
             this.mana_current -= cost;
             return true;
@@ -679,7 +678,7 @@ public class Actor : MonoBehaviour
     public void GiveMana(float mana, Actor healer) //added actor hear for aggro purposes
     {
         mana_current += mana;
-        healer.aggroScore += (int)Math.Floor((int)mana/1.5);
+        healer.aggroScore += (int)Math.Floor((int)mana / 1.5);
         if (mana_current >= mana_max)
             mana_current = mana_max;
     }
@@ -720,7 +719,7 @@ public class Actor : MonoBehaviour
     public virtual void HealHealth(float heal)
     {
         health_current += heal;
-        aggroScore += (int)Math.Floor((int)heal/1.5);
+        aggroScore += (int)Math.Floor((int)heal / 1.5);
         if (health_current > health_max)
         {
             health_current = health_max;
@@ -731,7 +730,7 @@ public class Actor : MonoBehaviour
         }
         damageNumber(heal, new Color(0, 255, 0, 1));
 
-        if(incapacitated == true && health_current > 0)
+        if (incapacitated == true && health_current > 0)
         {
             incapacitated = false;
             anim.SetTrigger("Revive1Trigger");
@@ -741,28 +740,28 @@ public class Actor : MonoBehaviour
 
     public virtual void OnDeath()
     {
-        if(incapacitated == false)
+        if (incapacitated == false)
         {
             anim.SetTrigger(animDeath);
             PlaySound("death");
         }
-        
+
 
         incapacitated = true;
         Debug.Log(this + " has died");
-        
+
         //for Destiny binder attacks /items
         if (bonded)
         {
-            foreach(Actor[] couple in StatusEffectsController.bonded)
+            foreach (Actor[] couple in StatusEffectsController.bonded)
             {
-                if(couple[0] == this)
+                if (couple[0] == this)
                 {
                     Debug.Log(couple[1] + " is fated to die with " + this);
                     couple[1].setHealthCurrent(0);
                     couple[1].OnDeath();
                 }
-                else if(couple[1] == this)
+                else if (couple[1] == this)
                 {
                     Debug.Log(couple[0] + " is fated to die with " + this);
                     couple[0].setHealthCurrent(0);
@@ -791,7 +790,7 @@ public class Actor : MonoBehaviour
         return true;
     }
     #endregion
-    
+
     /******************
     *  Set/Gets
     ******************/
@@ -802,21 +801,21 @@ public class Actor : MonoBehaviour
     {
         switch (level)
         {
-            case 1 :
+            case 1:
                 return PlayerKey.LevelCaps[level] - getExperience();
-            case 2 :
+            case 2:
                 return PlayerKey.LevelCaps[level] - getExperience();
-            case 3 :
+            case 3:
                 return PlayerKey.LevelCaps[level] - getExperience();
-            case 4 :
+            case 4:
                 return PlayerKey.LevelCaps[level] - getExperience();
-            case 5 :
+            case 5:
                 return PlayerKey.LevelCaps[level] - getExperience();
-            case 6 :
+            case 6:
                 return PlayerKey.LevelCaps[level] - getExperience();
-            case 7 :
+            case 7:
                 return PlayerKey.LevelCaps[level] - getExperience();
-            default :
+            default:
                 Debug.LogError("LEVEL OUT OF RANGE" + level);
                 return -1;
         }
@@ -824,7 +823,7 @@ public class Actor : MonoBehaviour
 
     public bool canAct()
     {
-        if(numOfActions > 0)
+        if (numOfActions > 0)
         {
             return true;
         }
@@ -833,7 +832,7 @@ public class Actor : MonoBehaviour
 
     public bool useAction()
     {
-        if(numOfActions <= 0)
+        if (numOfActions <= 0)
         {
             numOfActions = 0;
             return false;
@@ -899,7 +898,7 @@ public class Actor : MonoBehaviour
     {
         return dead;
     }
-    
+
     public float getSpeed()
     {
         return speed;
@@ -1016,7 +1015,7 @@ public class Actor : MonoBehaviour
     {
         return this.mDefense;
     }
-    
+
     public int getNumofActors()
     {
         return numberOfActors;
@@ -1054,7 +1053,7 @@ public class Actor : MonoBehaviour
         return TurnBehaviour.IsPlayerTurn();
     }
     //justin added ^
-    
+
     //=======Stat Set/Gets===========//
 
     public void setMaxHealth(int health)
@@ -1107,10 +1106,10 @@ public class Actor : MonoBehaviour
     {
         intelligence = intel;
     }
-    
+
     public int getIntelligence()
     {
-        return intelligence; 
+        return intelligence;
     }
 
     public void setWisdom(int wis)
