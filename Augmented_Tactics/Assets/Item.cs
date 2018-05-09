@@ -114,12 +114,8 @@ public class Item : MonoBehaviour {
 
     public void showItem()
     {
-
-        if(equipType == "Armor")
-        {
-            statsUI.GetComponent<EquipStatsUI>().DrawStats(armor);
-        }
-
+        //statsUI.GetComponent<EquipStatsUI>().DrawStats(armor);
+        SendMessageUpwards("DrawStats", armor);
     }
 
     public void checkType()
@@ -130,6 +126,7 @@ public class Item : MonoBehaviour {
         switch (slotType)
         {
             case false:
+                Debug.Log("drawing item");
                 showItem();
                 break;
 
@@ -143,7 +140,7 @@ public class Item : MonoBehaviour {
     {
         if(store != null)
         {
-            Debug.Log("TEST");
+            
             store.GetComponent<Store>().populateStore(this);
         }
 
