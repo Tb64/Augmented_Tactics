@@ -72,10 +72,12 @@ public class AOE : Ability
             {
                 start = target.GetComponent<Actor>().GetTileStandingOn().getCoords();
             }
-            else
+            else if (target.tag == "Tile")
             {
                 start = target.GetComponent<ClickableTile>().getCoords(); ;
             }
+            else
+                return;
 
             AOERange(start);
         } 
