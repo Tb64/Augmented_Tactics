@@ -24,7 +24,7 @@ public class Counter : Ability {
         manaCost = manaCost * 1;
         dwell_time = 1.0f;
         abilityName = "Counter";
-        abilityImage = Resources.Load<Sprite>("UI/Ability/warrior/warriorSkill5");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/blue/blue_12");
         actor.UseMana(actor.getManaCurrent());
         int manaPercent = (int)((manaCost * 100f) / actor.getMaxMana());
 

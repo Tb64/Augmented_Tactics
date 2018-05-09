@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class Shockwave : Ability {
     private string animTrigger = "CastAttack2Trigger";
-    private string effectDir = "";
+    private string effectDir = "Effects/Effect18";
     private GameObject effect;
-    const string SpiriteDir = "UI/Skill_Icon_Pack/yellow/yellow_10";
 
     public Shockwave(GameObject obj)
     {
@@ -21,9 +20,13 @@ public class Shockwave : Ability {
         range_min = 0;
         dwell_time = 1.0f;
         heal = 0;
-        manaCost = 5f * actor.getLevel();
+        manaCost = actor.getMaxMana() / actor.getLevel();
+        manaCost = manaCost * 1;
+        manaCost = 0;
+        effect = Resources.Load<GameObject>(effectDir);
+
         abilityName = "Shockwave";
-        abilityImage = Resources.Load<Sprite>(SpiriteDir);
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/blue/blue_24");
         actor.UseMana(actor.getManaCurrent());
         if (abilityImage == null)
             Debug.Log("Unable to load image");
@@ -40,7 +43,8 @@ public class Shockwave : Ability {
         {
             Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, gameObject.name, target.name));
             rotateAtObj(target);
-
+            if (effect != null)
+                Projectile(effect, target);
             anim.SetTrigger(animTrigger);
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }

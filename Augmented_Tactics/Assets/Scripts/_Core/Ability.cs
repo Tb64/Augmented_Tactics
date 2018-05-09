@@ -350,6 +350,28 @@ public class Ability
         return true;
     }
 
+    /// <summary>
+    /// Adds physical weapon to damage and removes targets physical defense to damage
+    /// </summary>
+    /// <param name="damage">The damage before weapon/defense stats</param>
+    /// <param name="target">the target that will take damage</param>
+    /// <returns></returns>
+    public float CalcPhysicalDamage(float damage, GameObject target)
+    {
+        return (int)(damage + actor.getWeapon().RollPhysicalDamage() - target.GetComponent<Actor>().getPhysicalDefense());
+    }
+
+    /// <summary>
+    /// Adds magic weapon to damage and removes targets magic defense to damage
+    /// </summary>
+    /// <param name="damage">The damage before weapon/defense stats</param>
+    /// <param name="target">the target that will take damage</param>
+    /// <returns></returns>
+    public float CalcMagicDamage(float damage, GameObject target)
+    {
+        return (int)(damage + actor.getWeapon().RollMagicDamage() - target.GetComponent<Actor>().getMagicalDefense());
+    }
+
     //////////////////
     //  Set/Get     //
     //////////////////
