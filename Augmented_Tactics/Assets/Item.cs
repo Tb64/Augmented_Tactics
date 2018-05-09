@@ -17,6 +17,7 @@ public class Item : MonoBehaviour {
     public GameObject playerInventory;
     public GameObject store;
     public GameObject statsUI;
+    public string equipType;
     string itemType;
 
     void start()
@@ -54,7 +55,8 @@ public class Item : MonoBehaviour {
 
     public void setEquipable(Armor item)
     {
-        setItemType("Armor");
+        setItemType("Equipable");
+        equipType = "Armor";
         armor = item;
         setEquipable((Equipable)item);
         GameDataController.loadPlayerData();
@@ -113,7 +115,7 @@ public class Item : MonoBehaviour {
     public void showItem()
     {
 
-        if(itemType == "Armor")
+        if(equipType == "Armor")
         {
             statsUI.GetComponent<EquipStatsUI>().DrawStats(armor);
         }
@@ -145,7 +147,6 @@ public class Item : MonoBehaviour {
             store.GetComponent<Store>().populateStore(this);
         }
 
-        
     }
 
     public string getItemType()
