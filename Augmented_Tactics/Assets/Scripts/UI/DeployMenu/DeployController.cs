@@ -122,6 +122,7 @@ public class DeployController : MonoBehaviour {
     {
         Sprite img = Resources.Load<Sprite>(input.Icon);
         ChangeSelected(input, img);
+        SaveDeployed();
     }
 
     private void SetSlot(PlayerData input, Sprite img, int slot)

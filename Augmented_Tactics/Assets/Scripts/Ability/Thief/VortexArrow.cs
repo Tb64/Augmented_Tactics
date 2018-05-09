@@ -32,7 +32,6 @@ public class VortexArrow : Ability
             else
                 Debug.Log("effect2 null");
             anim.SetTrigger(animTrigger);
-            anim.SetInteger("Weapon", 7);
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
         targeta.TakeDamage(CalcPhysicalDamage(damage, target), gameObject);

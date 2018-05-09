@@ -30,7 +30,7 @@ public class ActorLoader : MonoBehaviour {
         GameDataController.loadPlayerData();
         if(PlayerSlot < 0 || PlayerSlot >= GameDataController.gameData.currentTeam.Length)
         {
-            Debug.Log("PlayerSlot is out of range");
+            DebugMobile.Log("PlayerSlot is out of range");
             return null;
         }
         return GameDataController.gameData.currentTeam[PlayerSlot];

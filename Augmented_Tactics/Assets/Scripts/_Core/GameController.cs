@@ -483,8 +483,10 @@ public class GameController : MonoBehaviour
     {
         currentMode = MODE_MOVE;
         BothMarkersOff();
-        if(selectedUnit != null && rangeMarker != null)
-            rangeMarker.Move_Marker_On(selectedUnit.getCoords(), selectedUnit.moveDistance); 
+        if (selectedUnit != null && rangeMarker != null)
+            rangeMarker.Move_Marker_On(selectedUnit.getCoords(), selectedUnit.moveDistance);
+        else
+            DebugMobile.Log("Null on set Move");
     }
 
     public static Actor getSelected()
