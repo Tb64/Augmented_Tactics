@@ -132,7 +132,8 @@ public class Support : Enemy {
         else
         {
             targetLocked = false;
-            EnemyController.ExhaustMoves(SM);
+            //EnemyController.ExhaustMoves(SM); //probably caused crash
+            Debug.Log("Probably the trap");
         }
         
     }
@@ -216,7 +217,11 @@ public class Support : Enemy {
             EnemyActions();
             return;
         }
-        Debug.LogError(mostDistance.SkillInRange(getCoords(), currentTarget.getCoords())+ " "+ mostDistance.range_max);
+        else
+        {
+            Debug.LogError(getMoves());
+            TurnBehaviour.EnemyTurnFinished();
+        }
     }
     public static bool FindShweetSpot(Enemy self,Actor currentTarget, Ability mostDistance, TileMap map )
     {
@@ -340,6 +345,7 @@ public class Support : Enemy {
 
     public void GetAbilities()
     {
+        abilitySet = new Ability[4];
         string[] possibles = SkillLoader.ClassSkills(3);
         arrow = abilitySet[0] = new Arrow(gameObject);
         if (Random.Range(0, 10) < 7)

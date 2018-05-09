@@ -19,7 +19,7 @@ public class GutPunch : Ability
         range_min = 0;
         dwell_time = 1.0f;
         abilityName = "Gut Punch";
-        abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill1");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/yellow/yellow_10");
         handVFX = Resources.Load<GameObject>("Effects/HandEffects/Effect13_Hand_Optimized");
 
         actor.UseMana(actor.getManaCurrent());

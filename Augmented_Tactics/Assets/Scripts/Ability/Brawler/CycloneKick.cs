@@ -31,7 +31,7 @@ public class CycloneKick : AOE {
         manaCost = actor.getMaxMana() / actor.getLevel();
         manaCost = manaCost * 4;
         abilityName = "Cyclone Kick";
-        abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill1");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/blue/blue_17");
         actor.UseMana(actor.getManaCurrent());
 
         if (abilityImage == null)

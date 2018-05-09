@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    public static int playerLevel;
+    GameData gameData;
     public StateMachine SM;
     public TileMap map;
     private static int enemyCount; //number of foes
@@ -63,6 +65,21 @@ public class EnemyController : MonoBehaviour
         if (enemyList == null)
             enemyList = new List<Enemy>();
         //Debug.LogError("Nulling EnemyList");
+        gameData = GameDataController.loadPlayerData();
+        PlayerData[] playerTeam = gameData.currentTeam;
+        playerLevel = 0;
+        int numOfPlayers = 0;
+        foreach (PlayerData playerData in playerTeam)
+        {
+            if (playerData == null || playerData.DisplayName == null || playerData.DisplayName.Length == 0)
+            {
+                Debug.Log("Null Player Data");
+            }
+            else
+                playerLevel += playerData.PlayerLevel;
+            numOfPlayers++;
+        }
+        playerLevel = (int)Mathf.Floor(playerLevel / numOfPlayers); //used to get enemy 3 levels lower than actor
         GameObject[] tempEnemyTeam = GameObject.FindGameObjectsWithTag("Enemy");
         List<GameObject> findOrder = new List<GameObject>();
         foreach (GameObject orderChoice in tempEnemyTeam)
@@ -169,9 +186,21 @@ public class EnemyController : MonoBehaviour
         int counter = 0;
         foreach (GameObject enemy in enemies)
         {
-            newClass.Add(enemy.GetComponent<Enemy>().LoadPlayer());
-            newClass[counter].EnemyInitialize();
-            counter++;
+            Enemy cEnemy = enemy.GetComponent<Enemy>();
+            if (!cEnemy.IsBoss())
+            {
+                newClass.Add(cEnemy.LoadPlayer());
+                newClass[counter].EnemyInitialize();
+                counter++;
+            }
+            else
+            {
+                newClass.Add(cEnemy);
+                newClass[counter].EnemyInitialize();
+                counter++;
+            }
+                
+           
         }
             
 

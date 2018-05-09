@@ -10,21 +10,27 @@ public class AfterActionReport : MonoBehaviour {
     public GameObject[] playerFrame; 
     public Image[] playerImage;
     public GameObject lootObj;
-    GameObject camera;
-    GameObject screen;
+    //GameObject camera;
+    public GameObject screen;
     Transform cameraPosition;
 
     private void Start()
     {
         //DrawExp();
-        GameObject screen = transform.Find("EndofBattleScreen").gameObject;
+        screen.SetActive(false);
         if (screen == null)
             Debug.Log("End of Battle Screen Not Found !!!!");
 
-        camera = GameObject.Find("CamFocus");
+        //camera = GameObject.Find("CamFocus");
+        TurnBehaviour.OnTurnStart += this.BattleOver;
         // cameraPosition = GameObject.Find("cameraLocation").transform;
 
         //DisplayExp();
+    }
+
+    private void OnDestroy()
+    {
+        TurnBehaviour.OnTurnStart -= this.BattleOver;
     }
 
     public bool win()
@@ -153,13 +159,6 @@ public class AfterActionReport : MonoBehaviour {
         lootObj.GetComponentInChildren<Text>();
     }
 
-    void movePlayers()
-    {
-        camera.transform.position = cameraPosition.position;
-        //PlayerControlled.playerObjs[0].transform
-
-
-    }
 
     public void DrawExp()
     {
@@ -218,15 +217,12 @@ public class AfterActionReport : MonoBehaviour {
 
     public void BattleOver()
     {
-        GameDataController.savePlayerData(GameDataController.gameData);
-
         if (win() == true || lose() == true && screen.GetComponent<Canvas>().enabled == false)
         {
-            screen.GetComponent<Canvas>().enabled = true;
-            //DisplayExp();
+            screen.SetActive(true);// = true;
+            GameDataController.savePlayerData();
+            DisplayExp();
             Time.timeScale = 0;
-
-            movePlayers();
         }
     }
 }

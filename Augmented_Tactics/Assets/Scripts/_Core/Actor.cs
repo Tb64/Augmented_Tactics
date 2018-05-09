@@ -734,6 +734,7 @@ public class Actor : MonoBehaviour
         if(incapacitated == true && health_current > 0)
         {
             incapacitated = false;
+            anim.SetTrigger("Revive1Trigger");
         }
 
     }

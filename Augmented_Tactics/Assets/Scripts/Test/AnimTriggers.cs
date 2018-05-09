@@ -24,6 +24,7 @@ public class AnimTriggers : MonoBehaviour {
 
     public void FootR()
     {
+        Debug.Log("foot trigger");
     }
 
     public void FootL()
