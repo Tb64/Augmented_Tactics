@@ -23,6 +23,8 @@ public class GameDataController: MonoBehaviour
     }
     public static GameData loadPlayerData()
     {
+        if (gameData != null)
+            return gameData;
         //gameData = new GameData();
         //if (gameData == null)
         //    Debug.Log("new data is null");
