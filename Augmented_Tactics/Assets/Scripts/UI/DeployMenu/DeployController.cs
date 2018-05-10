@@ -159,6 +159,10 @@ public class DeployController : MonoBehaviour {
         for (int index = 0; index < 4; index++)
         {
             GameDataController.gameData.currentTeam[index] = this.deployed[index];
+            if (this.deployed[index] != null)
+                DebugMobile.Log("Saving " + index + "| " + GameDataController.gameData.currentTeam[index].playerName);
+            else
+                DebugMobile.Log("Saving " + index + "| NULL");
         }
         GameDataController.savePlayerData();
     }
