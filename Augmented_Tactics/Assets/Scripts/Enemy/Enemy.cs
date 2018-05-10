@@ -55,30 +55,40 @@ public class Enemy : Actor
     public virtual void EnemyInitialize()
     {
         base.Init();
+        //Debug.LogError(archetype + " " + abilitySet[3]);
         expGiven = GetExpGiven();
         aggroScore = 0;
         //TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStartActions;
         //TurnBehaviour.OnUnitMoved += this.EnemyMoved;
         //TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
         //TurnBehaviour.OnEnemyUnitAttack += this.EnemyUsedAction;
-        //Debug.LogError(archetype);
+        
+
         if(archetype != "regular")
             abilitySet = new Ability[4];
+
+        if(!IsBoss())
+        {
+            mana_max = (wisdom+intelligence)*5;
+            setManaCurrent(mana_max);
+            health_max = (wisdom + intelligence + level) * 5;
+            health_current = health_max;
+        }
 
         if (map == null)
         {
             map = GameObject.Find("Map").GetComponent<TileMap>();
         }
 
-        
+
         /*updating for using varied attacks
          update for specific character needs to be added to every
          type of enemy as they are created to load correct attacks*/
-       /* if(GetArchetype() == "regular")
-        {
-            LoadPlayer();
-        }*/
-
+        /* if(GetArchetype() == "regular")
+         {
+             LoadPlayer();
+         }*/
+        //Debug.Log(abilitySet[3]);
     }
 
 
@@ -490,7 +500,7 @@ public class Enemy : Actor
         {
             // Debug.Log(abilitySet[ability].SkillInRange(getCoords(), currentTarget.getCoords()));
             //Debug.Log(ability);
-            //Debug.Log(abilitySet[ability]);
+            Debug.Log(abilitySet[ability]);
             if (abilitySet[ability].canHeal && CheckHeal() && abilitySet[ability].CanUseSkill(gameObject))
             {
                 abilitySet[ability].UseSkill(gameObject);
@@ -722,7 +732,7 @@ public class Enemy : Actor
     {
         for(int x = playerLevel-2; x > 0; x--)
         {
-            PlayerData.LevelUp(level);
+            PlayerData.LevelUp(level,true);
         }
         return level;
     }
@@ -731,7 +741,8 @@ public class Enemy : Actor
     {
         archetype = "regular";
         PlayerData level = PlayerData.GenerateNewPlayer(CharacterClasses.BrawlerKey);
-        level = SetDifficulty(level, EnemyController.playerLevel);
+        Debug.Log("Player avg Lvl: " + EnemyController.playerLevel);
+        level = SetDifficulty(level, /*EnemyController.playerLevel*/3);
         LoadStatsFromData(level);
         //Debug.LogError("archetype set to " + archetype);
         abilitySet = new Ability[4];
@@ -749,7 +760,7 @@ public class Enemy : Actor
                 second++;
         }
         abilitySet[3] = SkillLoader.LoadSkill(possibles[second], this.gameObject);
-        //Debug.LogError(abilitySet[3]);
+        //Debug.Log("loaded Regular Abilities " + abilitySet[3]);
         return this;
     }
 

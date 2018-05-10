@@ -16,7 +16,7 @@ public class Support : Enemy {
     protected Enemy aiding;
     protected Ability strongest,backup, mostDistance,heal,arrow; //backup's range should ideally be in between strongest and mostDistance and require less mana
     protected bool regularMode, hasHeal,aidLocked,arrowMode;
-    public string type;
+    //public string type;
 
     /*public Support(string type)
     {
@@ -36,13 +36,14 @@ public class Support : Enemy {
     public override void EnemyInitialize()
     {
         archetype = "support";
-        if (!boss)
-            base.EnemyInitialize();
         hasHeal = false;
-        TurnBehaviour.OnEnemyOutOfMoves += this.ResetValues;
-        GetAbilities();
-        FindRanges();
-        
+        if (!boss)
+        {
+            base.EnemyInitialize();
+            GetAbilities();
+            FindRanges();
+        }
+        TurnBehaviour.OnEnemyOutOfMoves += this.ResetValues; 
     }
 
     public override void OnDestroy()
