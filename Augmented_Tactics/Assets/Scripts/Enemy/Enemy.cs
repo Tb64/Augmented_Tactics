@@ -303,7 +303,7 @@ public class Enemy : Actor
             playerPosition = user.getCoords();
             float distanceFromPlayer = Vector3.Distance(playerPosition, enemyPosition);
             //Debug.Log("Dist = " + distanceFromPlayer + " " + enemyPosition + playerPosition);
-            if (distanceFromPlayer < currentNearest && !user.isDead())
+            if (distanceFromPlayer < currentNearest && !user.isDead() && !user.isIncapacitated())
             {
                 nearest = user;
                 currentNearest = distanceFromPlayer;
