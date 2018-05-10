@@ -880,6 +880,8 @@ public class Enemy : Actor
     {
         if (strongest == null)
             return false;
+        if (currentTarget == null)
+            return false;
         if (strongest.CanUseSkill(currentTarget.gameObject))
         {
             strongest.UseSkill(currentTarget.gameObject);
