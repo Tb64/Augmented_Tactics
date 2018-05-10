@@ -6,7 +6,7 @@ public class VortexArrow : Ability
 {
 
     private string animTrigger = "Arrow";
-    private GameObject effect1 = Resources.Load<GameObject>("Effects/Effect6_optimized"), effect2 = Resources.Load<GameObject>("Effects/ArrowShot");
+    private GameObject effect1 = Resources.Load<GameObject>("Effects/CollisionEffects/Effect6_Collision"), effect2 = Resources.Load<GameObject>("Effects/ArrowShot");
 
     public VortexArrow(GameObject obj)
     {
@@ -19,16 +19,12 @@ public class VortexArrow : Ability
         {
             Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, gameObject.name, target.name));
             rotateAtObj(target);
-            if (effect1 != null)
-            {
-                GameObject.Destroy(GameObject.Instantiate<GameObject>(effect1, gameObject.transform), 5);
-                //GameObject.Destroy(GameObject.Instantiate<GameObject>(effect1, gameObject.GetComponent<Actor>().getCoords(), Quaternion.RotateTowards(gameObject.transform.rotation, target.transform.rotation, 0)),1);
-            }   
-            else
-                Debug.Log("effect1 null");
-
             if (effect2 != null)
-                GameObject.Instantiate<GameObject>(effect2, gameObject.transform);
+            {
+                //effect2.GetComponent<ArrowShot>().SetTarget(target.name);
+                Projectile(effect2, target);
+                //GameObject.Destroy(GameObject.Instantiate<GameObject>(effect2, Actor.PosInFrontOf(actor, targeta), gameObject.transform.rotation), 3);
+            }
             else
                 Debug.Log("effect2 null");
             anim.SetTrigger(animTrigger);
@@ -48,6 +44,7 @@ public class VortexArrow : Ability
     public override void Initialize(GameObject obj)
     {
         base.Initialize(obj);
+        effect2.GetComponent<ArrowShot>().impactVFX = effect1;
         anim = gameObject.GetComponentInChildren<Animator>();
         manaCost = 10;
         range_max = 5;

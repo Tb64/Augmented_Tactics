@@ -7,7 +7,7 @@ public class PoisonArrow : Ability
 
     private string animTrigger = "Arrow";
     private GameObject effect1 = Resources.Load<GameObject>("Effects/CollisionEffects/Effect12_Explosion"), effect2 = Resources.Load<GameObject>("Effects/ArrowShot");
-
+     
     public PoisonArrow(GameObject obj)
     {
         Initialize(obj);

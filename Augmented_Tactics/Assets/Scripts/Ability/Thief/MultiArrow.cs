@@ -24,9 +24,10 @@ public class MultiArrow : Ability {
             {
                 Debug.Log(attacker + "Bulls Eyed " + target);
                 if (effect1 != null)
-                    GameObject.Instantiate<GameObject>(effect1, gameObject.transform);
-                else
-                    Debug.Log("effect1 null");
+                {
+                    Projectile(effect1, target);
+                }
+                Debug.Log("effect1 null");
                 target.GetComponent<Actor>().TakeDamage(CalcPhysicalDamage(damage, target), gameObject);
             }
         }
