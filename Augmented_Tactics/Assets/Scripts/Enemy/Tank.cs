@@ -11,7 +11,7 @@ public class Tank : Enemy{
     //buff defense on health low
     //else: buff offense
     //use last resort action if all else fails
-    public string type;
+    //public string type;
     protected List<Vector3> cantMove;
     //protected UsableItem healItem;
     protected bool regularMode, inPosition, sameTurn,firstMove, firstDebuffed,healMode,healPossible, buffCool, debuffCool;
@@ -232,7 +232,7 @@ public class Tank : Enemy{
 
     protected bool CheckInPosition()
     {
-        if ((Vector3.Distance(getCoords(), closestAggro.getCoords()) <= buff.range_max) || SamePlane())
+        if (buff.SkillInRange(gameObject, closestAggro.gameObject))
             return true;
         else
             return false;
@@ -256,7 +256,7 @@ public class Tank : Enemy{
     {
         if (getMoves() == 0)
             return false;
-        Debug.Log(closestAggro + " " + closestAggro.getCoords() + " " + currentTarget + " " + currentTarget.getCoords());
+        //Debug.Log(closestAggro + " " + closestAggro.getCoords() + " " + currentTarget + " " + currentTarget.getCoords());
         Vector3 cAPos = closestAggro.getCoords();
         Vector3 output = closestAggro.getCoords() - currentTarget.getCoords();
         Vector3 movingTo;

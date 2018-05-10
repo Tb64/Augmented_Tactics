@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Eery : Support {
 
-    private Ability sneak, steal;
-    private bool sneakCoolDown;
-    private int sneakCountDown;
-  
+    public Ability sneak, steal;
+    public bool sneakCoolDown;
+    public int sneakCountDown;
+
+    public override void Start()
+    {
+        gameObject.GetComponent<Boss>().script = this;
+    }
+
     public override void EnemyInitialize()
     {
         boss = true;
@@ -22,10 +27,11 @@ public class Eery : Support {
         hasHeal = false;
         sneakCoolDown = false;
         expGiven = 1000;
-        strongest = SkillLoader.LoadSkill("vortexarrow", gameObject);
-        mostDistance = backup = SkillLoader.LoadSkill("poisonarrow", gameObject);
-        sneak = SkillLoader.LoadSkill("sneak", gameObject);
-        steal = SkillLoader.LoadSkill("steal", gameObject);
+        abilitySet = new Ability[4];
+        strongest = abilitySet[0] = SkillLoader.LoadSkill("flamingarrow", gameObject);
+        mostDistance = backup = abilitySet[1]= SkillLoader.LoadSkill("poisonarrow", gameObject);
+        sneak = abilitySet[2] = SkillLoader.LoadSkill("sneak", gameObject);
+        steal = abilitySet[3] = SkillLoader.LoadSkill("steal", gameObject);
         name = "Lord Eery";
         setManaCurrent(30);
         setMaxMana(30);

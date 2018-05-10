@@ -6,7 +6,12 @@ public class Decet : Tank {
     //Decet is a special type of tank that protects only Eery unless he dies
     private Enemy eery;
     private bool supportMode;
-    
+
+    public override void Start()
+    {
+        gameObject.GetComponent<Boss>().script = this;
+    }
+
     public override void EnemyInitialize()
     {
         base.EnemyInitialize();
