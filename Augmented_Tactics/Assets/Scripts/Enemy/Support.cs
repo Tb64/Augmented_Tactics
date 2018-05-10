@@ -172,12 +172,9 @@ public class Support : Enemy {
     protected bool SaveFriendly()
     {
         Debug.Log("Saving " + aiding);
-        if (!aidLocked || !currentTarget.isDead() && !currentTarget.isIncapacitated())
-        {
-            aiding.UpdateNearest();
-            currentTarget = aiding.getNearest();
-            aidLocked = true;
-        }
+        aiding.UpdateNearest();
+        currentTarget = aiding.getNearest();
+        aidLocked = true;
         if (TryStrongestAndBackup())
         {
             return true;
