@@ -10,7 +10,7 @@ public class Eery : Support {
 
     public override void Start()
     {
-        gameObject.GetComponent<Boss>().script = this;
+        //gameObject.GetComponent<Boss>().script = this;
     }
 
     public override void EnemyInitialize()
@@ -56,6 +56,7 @@ public class Eery : Support {
         if(getManaCurrent() <= 0)
         {
             setManaCurrent(30);
+            Debug.Log("Eery Recovering Mana Skipping Turn");
             setNumOfActions(0);
             //TurnBehaviour.EnemyTurnFinished();
             return false;

@@ -9,7 +9,7 @@ public class Decet : Tank {
 
     public override void Start()
     {
-        gameObject.GetComponent<Boss>().script = this;
+        //gameObject.GetComponent<Boss>().script = this;
     }
 
     public override void EnemyInitialize()
