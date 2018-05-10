@@ -23,6 +23,8 @@ public class GameDataController: MonoBehaviour
     }
     public static GameData loadPlayerData()
     {
+        if (gameData != null)
+            return gameData;
         //gameData = new GameData();
         //if (gameData == null)
         //    Debug.Log("new data is null");
@@ -89,7 +91,7 @@ public class GameDataController: MonoBehaviour
         }
         else
         {
-            File.Create(filePath);
+            File.Create(filePath).Dispose();
             string jsonData = JsonUtility.ToJson(gameData);
             File.WriteAllText(filePath, jsonData);
             return true;

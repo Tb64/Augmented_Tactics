@@ -34,7 +34,6 @@ public class PoisonArrow : Ability
             else
                 Debug.Log("effect2 null");
             anim.SetTrigger(animTrigger);
-            anim.SetInteger("Weapon", 7);
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
         DwellTime.Attack(dwell_time);
