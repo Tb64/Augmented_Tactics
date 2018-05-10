@@ -188,6 +188,7 @@ public class Support : Enemy {
 
     protected bool TryStrongestAndBackup()
     {
+        Debug.Log(currentTarget + " " + strongest);
         if (Enemy.AttemptAbility(strongest,currentTarget))
         {
             return true;
