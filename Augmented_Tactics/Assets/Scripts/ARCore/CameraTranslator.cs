@@ -11,8 +11,16 @@ public class CameraTranslator : MonoBehaviour {
 
     private Vector3 startingDelta;
 
-	// Use this for initialization
-	void Start () {
+    private void Awake()
+    {
+        int AREnabled = PlayerPrefs.GetInt("AREnabled", 0);
+        if (AREnabled == 0)
+            Destroy(gameObject);
+    }
+
+
+    // Use this for initialization
+    void Start () {
         startingDelta = viewCam.transform.localPosition;
         if(arCam == null)
         {

@@ -8,6 +8,7 @@ public class OptionsMenu : MonoBehaviour {
     public Slider slider;
     public Button cancelButton;
     public Button deleteSaveButton;
+    public Toggle arToggle;
 
     private float previousVolume;
     private static string key = "volume";
@@ -19,6 +20,11 @@ public class OptionsMenu : MonoBehaviour {
             previousVolume = 0.5f;
         else
             previousVolume = PlayerPrefs.GetFloat(key);
+
+        if (PlayerPrefs.GetInt("AREnabled", 0) == 0)
+            arToggle.isOn = false;
+        else
+            arToggle.isOn = true;
     }
 
     private void Start()
@@ -38,6 +44,14 @@ public class OptionsMenu : MonoBehaviour {
     {
         PlayerPrefs.SetFloat(key, slider.value);
         AudioListener.volume = slider.value;
+    }
+
+    public void ToggleAR()
+    {
+        if (arToggle.isOn)
+            PlayerPrefs.SetInt("AREnabled", 1);
+        else
+            PlayerPrefs.SetInt("AREnabled", 0);
     }
 
     void Cancel()
