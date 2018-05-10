@@ -878,6 +878,8 @@ public class Enemy : Actor
 
     protected static bool AttemptAbility(Ability strongest, Actor currentTarget)
     {
+        if (strongest == null)
+            return false;
         if (strongest.CanUseSkill(currentTarget.gameObject))
         {
             strongest.UseSkill(currentTarget.gameObject);

@@ -220,6 +220,12 @@ public class Support : Enemy {
         }
         else if (mostDistance.manaCost > getManaCurrent())
         {
+            if (IsBoss())
+            {
+                Debug.Log(this + "low on mana, ending turn");
+                setNumOfActions(0);
+                return false;
+            }
             Debug.Log("Mana Low. Switching to Arrow Mode");
             arrowMode = true;
             Ability temp = mostDistance;

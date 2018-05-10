@@ -6,7 +6,7 @@ public class IceArrow : Ability
 {
 
     private string animTrigger = "Arrow";
-    private GameObject effect1 = Resources.Load<GameObject>("Effects/Effect9"), effect2 = Resources.Load<GameObject>("Effects/ArrowShot");
+    private GameObject effect1 = Resources.Load<GameObject>("Effects/CollisionEffects/IceCrystal"), effect2 = Resources.Load<GameObject>("Effects/ArrowShot");
 
     public IceArrow(GameObject obj)
     {
@@ -19,13 +19,12 @@ public class IceArrow : Ability
         {
             Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, gameObject.name, target.name));
             rotateAtObj(target);
-            if (effect1 != null)
-                GameObject.Destroy(GameObject.Instantiate<GameObject>(effect1, gameObject.transform),5);
-            else
-                Debug.Log("effect1 null");
-
             if (effect2 != null)
-                GameObject.Instantiate<GameObject>(effect2, gameObject.transform);
+            {
+                //effect2.GetComponent<ArrowShot>().SetTarget(target.name);
+                Projectile(effect2, target);
+                //GameObject.Destroy(GameObject.Instantiate<GameObject>(effect2, Actor.PosInFrontOf(actor, targeta), gameObject.transform.rotation), 3);
+            }
             else
                 Debug.Log("effect2 null");
             anim.SetTrigger(animTrigger);
@@ -56,6 +55,7 @@ public class IceArrow : Ability
         dwell_time = 5f;
         abilityName = "Ice Arrow";
         abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/blue/blue_09");
+        effect2.GetComponent<ArrowShot>().impactVFX = effect1;
         if (abilityImage == null)
             Debug.Log("Unable to load image");
     }
