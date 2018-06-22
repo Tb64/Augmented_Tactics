@@ -52,7 +52,8 @@ public class Shockwave : Ability {
         //Debug.Log("combo damage = " + damage + " " + actor.getStrength());
         //target.GetComponent<Actor>().HealHealth(heal);
         float totalDamage = damage + actor.getWeapon().RollPhysicalDamage() - target.GetComponent<Actor>().getPhysicalDefense();
-        Debug.Log("combo damage = " + totalDamage + " " + actor.getStrength());
+        target.GetComponent<Actor>().TakeDamage(totalDamage, gameObject);
+        Debug.Log("Shockwave damage = " + totalDamage + " " + actor.getStrength());
 
         DwellTime.Attack(dwell_time);
     }

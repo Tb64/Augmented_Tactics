@@ -19,7 +19,7 @@ public class Switcher : MonoBehaviour {
     {
         ExampleDialogueUI.ResetLineCount();
         index++;
-        if(objects[index].name == "Level2TestPrefab")
+        if(index == objects.Length - 1)
         {
             GameObject obj = GameObject.Find("Skip Canvas");
             obj.SetActive(false);

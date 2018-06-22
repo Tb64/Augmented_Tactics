@@ -275,22 +275,29 @@ public class PlayerData
 
     private static string RandomName()
     {
-        string filePath = Application.streamingAssetsPath + "/armyNames.txt";
-        //Debug.Log(filePath);
-        if (File.Exists(filePath))
-        {
-            string[] nameData = File.ReadAllLines(filePath);
+        TextAsset fileData = Resources.Load<TextAsset>("GameData/armyNames");
+        string rawText = fileData.text;
+        string[] nameData = rawText.Split('\n');
 
-            int randomIndex = (int)Random.Range(0,nameData.Length);
+        int randomIndex = (int)Random.Range(0, nameData.Length);
 
-            return nameData[randomIndex];
+        return nameData[randomIndex];
+        //string filePath = Application.streamingAssetsPath + "/armyNames.txt";
+        ////Debug.Log(filePath);
+        //if (File.Exists(filePath))
+        //{
+        //    string[] nameData = File.ReadAllLines(filePath);
 
-        }
-        else
-        {
-            Debug.Log("Can't Find Name Data at " + filePath);
-            return "";
-        }
+        //    int randomIndex = (int)Random.Range(0,nameData.Length);
+
+        //    return nameData[randomIndex];
+
+        //}
+        //else
+        //{
+        //    Debug.Log("Can't Find Name Data at " + filePath);
+        //    return "";
+        //}
     }
 
     public float getStatByKey(string key)

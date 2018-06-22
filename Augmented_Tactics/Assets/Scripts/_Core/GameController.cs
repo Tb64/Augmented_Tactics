@@ -419,7 +419,11 @@ public class GameController : MonoBehaviour
             if(selectedUnit.abilitySet[index] != null)
             {
                 abilityImages[index].sprite = selectedUnit.abilitySet[index].abilityImage;
-                abilityText[index].text = "" + (int)selectedUnit.abilitySet[index].manaCost;
+                int manaCost = (int)selectedUnit.abilitySet[index].manaCost;
+                if (manaCost == 0)
+                    abilityText[index].text = "";
+                else
+                    abilityText[index].text = "" + (int)selectedUnit.abilitySet[index].manaCost;
                 abilityImages[index].GetComponent<Button>().interactable = true;
             }
             else
@@ -479,8 +483,10 @@ public class GameController : MonoBehaviour
     {
         currentMode = MODE_MOVE;
         BothMarkersOff();
-        if(selectedUnit != null && rangeMarker != null)
-            rangeMarker.Move_Marker_On(selectedUnit.getCoords(), selectedUnit.moveDistance); 
+        if (selectedUnit != null && rangeMarker != null)
+            rangeMarker.Move_Marker_On(selectedUnit.getCoords(), selectedUnit.moveDistance);
+        else
+            DebugMobile.Log("Null on set Move");
     }
 
     public static Actor getSelected()

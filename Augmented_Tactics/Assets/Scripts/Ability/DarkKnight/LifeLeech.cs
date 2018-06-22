@@ -6,7 +6,7 @@ public class LifeLeech : Ability
 {
    
     Actor user;
-    GameObject leech = Resources.Load<GameObject>("animation/Effect8_Optimized");
+    GameObject leech;
     private MonoBehaviour mB;
     
 
@@ -19,14 +19,15 @@ public class LifeLeech : Ability
     public override void Initialize(GameObject obj)
     {
         base.Initialize(obj);
-        mB = GameObject.FindObjectOfType<MonoBehaviour>();
+        mB = monoBehaviour;
         anim = gameObject.GetComponentInChildren<Animator>();
         dwell_time = 3.5f;
         abilityName = "lifeleech";
         range_max = 5;
         range_min = 0;
         damage = 10 + actor.getStrength() * 2;
-        abilityImage = Resources.Load<Sprite>("UI/Ability/assassin/assassinSkill5");
+        leech = Resources.Load<GameObject>("animation/Effect8_Optimized");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/red/red_21");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
         manaCost = 20;

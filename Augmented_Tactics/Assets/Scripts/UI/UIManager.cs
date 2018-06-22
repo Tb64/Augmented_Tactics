@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
     private bool cancelButtonUp;
-    public Animator animator;
+    public Animator anim;
     private GameObject move;
     private GameObject skills;
     private GameObject end;
     private GameObject cancel;
+    private GameObject blocker;
 
     /// <summary>
     /// These are the 4 buttons overlaying the health bar circles.
@@ -56,9 +57,16 @@ public class UIManager : MonoBehaviour {
                         selectButtons[3] = button.GetComponent<Button>();
                         selectButtons[3].onClick.AddListener(OnClick3);
                         break;
+                    case "Blocker":
+                        blocker = button;
+                        break;
                 }
             }
         }
+
+        anim = this.GetComponent<Animator>();        
+        if (blocker != null)
+            blocker.SetActive(false);
 
         //disable while moving, on enemy turn start, and if default unit is out of actions. Try to enable when switching
         //to new unit
@@ -79,6 +87,10 @@ public class UIManager : MonoBehaviour {
         TurnBehaviour.OnPlayerTurnStart += enableEndturn;
         TurnBehaviour.OnPlayerAttack += enableEndturn;
         TurnBehaviour.OnPlayerJustMoved += enableEndturn;
+
+        //displayers notificaions when the turns change
+        TurnBehaviour.OnPlayerTurnEnd += displayEnemyTurnNotice;
+        TurnBehaviour.OnPlayerTurnStart += displayPlayerTurnNotice;
     }
 
     private void OnDestroy()
@@ -99,6 +111,10 @@ public class UIManager : MonoBehaviour {
         TurnBehaviour.OnPlayerTurnStart -= enableEndturn;
         TurnBehaviour.OnPlayerAttack -= enableEndturn;
         TurnBehaviour.OnPlayerJustMoved -= enableEndturn;
+
+
+        TurnBehaviour.OnPlayerTurnEnd -= displayEnemyTurnNotice;
+        TurnBehaviour.OnPlayerTurnStart -= displayPlayerTurnNotice;
     }
 
     /// <summary>
@@ -106,6 +122,7 @@ public class UIManager : MonoBehaviour {
     /// </summary>
     void disableActionsB()
     {
+        /*
         if (cancel != null)
         {
             cancel.GetComponent<Button>().interactable = false;
@@ -114,7 +131,9 @@ public class UIManager : MonoBehaviour {
         if (move != null)
             move.GetComponent<Button>().interactable = false;
         if (skills != null)
-            skills.GetComponent<Button>().interactable = false;
+            skills.GetComponent<Button>().interactable = false;*/
+        if (blocker != null)
+            blocker.SetActive(true);
     }
 
     /// <summary>
@@ -122,6 +141,7 @@ public class UIManager : MonoBehaviour {
     /// </summary>
     void enableActionsB()
     {
+        /*
         if (cancelButtonUp)//cancel button is up but player just moved/attacked/switched character. Do cancel button trigger
         {
             cancelButtonUp = false;
@@ -135,7 +155,9 @@ public class UIManager : MonoBehaviour {
                 move.GetComponent<Button>().interactable = true;
             if (skills != null)
                 skills.GetComponent<Button>().interactable = true;
-        }
+        }*/
+        if (blocker != null)
+            blocker.SetActive(false);
     }
 
     void disableEndTurn()
@@ -146,6 +168,16 @@ public class UIManager : MonoBehaviour {
     void enableEndturn()
     {
         end.GetComponent<Button>().interactable = true;
+    }
+
+    void displayEnemyTurnNotice()
+    {
+    }
+
+    void displayPlayerTurnNotice()
+    {
+        if (anim != null)
+            anim.SetTrigger("PlayerTurn");
     }
 
     void OnClick0()

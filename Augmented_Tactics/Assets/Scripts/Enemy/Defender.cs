@@ -70,37 +70,32 @@ public class Defender : Enemy {
         hit = false;
     }
 
-    public override void EnemyActions()
+    public override bool EnemyActions()
     {
         if (getMoves() == 0)
-            return;
+            return false;
         if (aidLocked)
         {
-            DrawFire();
-            return;
+            return DrawFire();
         }
         if (CheckDefense())
         {
-            DrawFire();
-            return;
+            return DrawFire();
         }
         else if (CheckStrategy("aggressive"))
         {
-            DrawFire();
-            return;
+            return DrawFire();
         }
         else if(EnemyController.enemyList.Count > 1)
         {
             if (lastResort.CanUseSkill(FindNearestEnemy().gameObject))
             {
-                lastResort.UseSkill(FindNearestEnemy().gameObject);
-                return;
+                return lastResort.UseSkill(FindNearestEnemy().gameObject);
             }
 
             if (lastResort.CanUseSkill(gameObject))
             {
-                lastResort.UseSkill(gameObject);
-                return;
+                return lastResort.UseSkill(gameObject);
             }
 
             aiding = EnemyController.FindWeakestEnemy(this);
@@ -108,13 +103,11 @@ public class Defender : Enemy {
             aiding.aided = true;
             aiding.UpdateNearest();
             currentTarget = aiding.getNearest();
-            DrawFire();
-            return;
-        }
-        
+            return DrawFire();
+        } 
         else
         {
-            base.EnemyActions();
+            return base.EnemyActions();
         }
     }
 
@@ -153,87 +146,66 @@ public class Defender : Enemy {
         }
     }
 
-    protected void DrawFire() //attempt to use best or any attack and run like hell in opposite direction of aiding enemy
+    protected bool DrawFire() //attempt to use best or any attack and run like hell in opposite direction of aiding enemy
     {
         if (hit)
         {
-            FindShweetSpot();
-            return;
+            return FindShweetSpot();
         }
 
         if (AttemptAbility(strongest,currentTarget))
         {
-            hit = true;
-            return;
+            return hit = true;
         }
 
         if (AttemptAbility(mostDistance, currentTarget))
         {
-            hit = true;
-            return;
+            return hit = true;
         }
 
         if (GetHealthPercent() > .50 && strongest.manaCost < getManaCurrent())
         {
-            Support.FindShweetSpot(this, currentTarget, strongest, map);
-            return;
+            return Support.FindShweetSpot(this, currentTarget, strongest, map);
         }
         else
         {
-            Support.FindShweetSpot(this, currentTarget, mostDistance, map);
-            return;
+            return Support.FindShweetSpot(this, currentTarget, mostDistance, map);
         }
             
     }
 
-    protected void FindShweetSpot() //lure attacker to other area after successful attack / aggro gain
+    protected bool FindShweetSpot() //lure attacker to other area after successful attack / aggro gain
     {
+        if (getMoves() == 0)
+            return false;
         if (aiding.CheckHeal() && Vector3.Distance(getCoords(),aiding.getCoords())<3) 
         {
             if (GetHealItem())
             {
-                healItem.UseItem(gameObject, aiding.gameObject);
-                return;
+                return healItem.UseItem(gameObject, aiding.gameObject);
             }
 
             if (heal.CanUseSkill(aiding.gameObject))
             {
-                heal.UseSkill(aiding.gameObject);
-                return;
+                return heal.UseSkill(aiding.gameObject);
             }
-        }
-        if (aiding.CheckHeal()) 
-        {
-            if (GetHealItem())
-            {
-                healItem.UseItem(gameObject, aiding.gameObject);
-                return;
-            }
-
-            if (heal.CanUseSkill(aiding.gameObject))
-            {
-                heal.UseSkill(aiding.gameObject);
-                return;
-            }  
         }
         else if (CheckHeal())
         {
             if (GetHealItem())
             {
-                healItem.UseItem(gameObject, gameObject);
-                return;
+                return healItem.UseItem(gameObject, gameObject);
             }
 
             if (heal.CanUseSkill(gameObject))
             {
-                heal.UseSkill(gameObject);
-                return;
+                return heal.UseSkill(gameObject);
             }
         }
         else if (!AggroInRange())
         {
             if (AttemptAttack())
-                return; 
+                return true; 
         }
         Vector3 stayAway = currentTarget.getCoords();
         Vector3 output = aiding.getCoords() - currentTarget.getCoords();
@@ -250,6 +222,7 @@ public class Defender : Enemy {
         }
         Debug.Log("Attempting to move " + this + " from " + this.getCoords() + " to " + movingTo);
         map.moveActorAsync(gameObject, movingTo);
+        return true;
     }
     protected bool AggroInRange()
     {

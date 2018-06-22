@@ -21,6 +21,11 @@ public class EnemyController : MonoBehaviour
     //public Actor getWeakest() { return weakest; }
     //public void setWeakest(Actor weakestPlayer) { weakest = weakestPlayer; }
     // Use this for initialization
+    private void Awake()
+    {
+        TurnBehaviour.OnPlayerSpawn += this.FindPlayerTeam;
+    }
+
     void Start()
     {
         EnemyInitialize();
@@ -32,6 +37,18 @@ public class EnemyController : MonoBehaviour
 
     }
 
+    void FindPlayerTeam()
+    {
+        userTeam = PlayerControlled.playerList;
+        foreach (Actor user in userTeam)
+        {
+            if(user != null)
+                Debug.Log("User Team: " + user.name);
+            else
+                Debug.Log("User Team: empty!");
+        }
+    }
+
     public void OnDestroy()
     {
         TurnBehaviour.OnActorFinishedMove -= this.ExhaustMoves;
@@ -40,10 +57,12 @@ public class EnemyController : MonoBehaviour
         TurnBehaviour.OnEnemyTurnStart -= this.EnemyTurnStart;
         //TurnBehaviour.OnUnitMoved -= this.EnemyMoveFinished;
         TurnBehaviour.OnEnemyOutOfMoves -= this.EnemyMoveFinished;
+        TurnBehaviour.OnPlayerSpawn -= this.FindPlayerTeam;
     }
     #region primaryActions
     public void EnemyInitialize()
     {
+        Enemy.loadRegulars = true; //this is to load only regular class
         enemyNum = 0;
         //enemyCount = 2;
         TurnBehaviour.OnEnemyTurnStart += this.EnemyTurnStart;
@@ -51,6 +70,7 @@ public class EnemyController : MonoBehaviour
         TurnBehaviour.OnActorAttacked += this.ExhaustMoves;
         //TurnBehaviour.OnUnitMoved += this.EnemyUsedAction;
         TurnBehaviour.OnEnemyOutOfMoves += this.EnemyMoveFinished;
+        
 
         if (map == null)
         {
@@ -187,6 +207,11 @@ public class EnemyController : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             Enemy cEnemy = enemy.GetComponent<Enemy>();
+           /* if(cEnemy == null) //should only happen for bosses
+            {
+                Debug.Log("Boss Instatiated " + enemy);
+                cEnemy = enemy.GetComponent<Boss>().script;
+            } */
             if (!cEnemy.IsBoss())
             {
                 newClass.Add(cEnemy.LoadPlayer());
@@ -274,9 +299,14 @@ public class EnemyController : MonoBehaviour
             return;
         enemyList[currentEnemy].UpdateNearest();
         //Debug.Log("Actually moved to " + enemyList[currentEnemy].getCoords());
-        if (enemyList[currentEnemy].getMoves() != 0)
+        if (enemyList[currentEnemy].getMoves() > 0)
         {
-            enemyList[currentEnemy].EnemyActions();
+            if (!enemyList[currentEnemy].EnemyActions())
+            {
+                Debug.Log("Potential Failure here");
+                ExhaustMoves(SM);
+            }
+                
         }
         else
         {

@@ -5,7 +5,7 @@ using UnityEngine;
 public class FlamingArrow : Ability {
 
     private string animTrigger = "Arrow";
-    private GameObject effect1 = Resources.Load<GameObject>("Effects/Effect23"), effect2 = Resources.Load<GameObject>("Effects/ArrowShot");
+    private GameObject effect1 = Resources.Load<GameObject>("Effects/CollisionEffects/Effect23_Explosion"), effect2 = Resources.Load<GameObject>("Effects/ArrowShot");
 
     public FlamingArrow(GameObject obj)
     {
@@ -18,20 +18,18 @@ public class FlamingArrow : Ability {
         {
             Debug.Log(string.Format("Using Skill {0}.  Attacker={1} Defender={2}", abilityName, gameObject.name, target.name));
             rotateAtObj(target);
-            if (effect1 != null)
-                GameObject.Destroy(GameObject.Instantiate<GameObject>(effect1, gameObject.transform),5);
-            else
-                Debug.Log("effect1 null");
-
             if (effect2 != null)
-                GameObject.Instantiate<GameObject>(effect2, gameObject.transform);
+            {
+                //effect2.GetComponent<ArrowShot>().SetTarget(target.name);
+                Projectile(effect2, target);
+                //GameObject.Destroy(GameObject.Instantiate<GameObject>(effect2, Actor.PosInFrontOf(actor, targeta), gameObject.transform.rotation), 3);
+            }
             else
                 Debug.Log("effect2 null");
             anim.SetTrigger(animTrigger);
-            anim.SetInteger("Weapon", 7);
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
-        targeta.TakeDamage(damage, target);
+        targeta.TakeDamage(CalcPhysicalDamage(damage, target), gameObject);
         if (Ability.DiceRoll(actor.getDexterity(), targeta.getDexterity()))
         {
             if(StatusEffectsController.AddEffect(new Burn(actor.getDexterity() / 2, actor, targeta, target.tag == "Enemy")))
@@ -51,8 +49,9 @@ public class FlamingArrow : Ability {
         range_min = 1;
         damage = 10f + actor.getDexterity() * 2;
         dwell_time = 5f;
+        effect2.GetComponent<ArrowShot>().impactVFX = effect1;
         abilityName = "Flaming Arrow";
-        abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill8");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/red/red_13");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
     }

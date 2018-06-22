@@ -16,7 +16,7 @@ public class Support : Enemy {
     protected Enemy aiding;
     protected Ability strongest,backup, mostDistance,heal,arrow; //backup's range should ideally be in between strongest and mostDistance and require less mana
     protected bool regularMode, hasHeal,aidLocked,arrowMode;
-    public string type;
+    //public string type;
 
     /*public Support(string type)
     {
@@ -36,13 +36,14 @@ public class Support : Enemy {
     public override void EnemyInitialize()
     {
         archetype = "support";
-        if (!boss)
-            base.EnemyInitialize();
         hasHeal = false;
-        TurnBehaviour.OnEnemyOutOfMoves += this.ResetValues;
-        GetAbilities();
-        FindRanges();
-        
+        if (!boss)
+        {
+            base.EnemyInitialize();
+            GetAbilities();
+            FindRanges();
+        }
+        TurnBehaviour.OnEnemyOutOfMoves += this.ResetValues; 
     }
 
     public override void OnDestroy()
@@ -58,10 +59,10 @@ public class Support : Enemy {
         aidLocked = false;
     }
 
-    public override void EnemyActions()
+    public override bool EnemyActions()
     {
         if (getMoves() == 0)
-            return;
+            return false;
 
         if (arrowMode)
         {
@@ -83,14 +84,12 @@ public class Support : Enemy {
 
         if (targetLocked && !currentTarget.isDead() && !currentTarget.isIncapacitated())
         {
-            RunAndGun();
-            return;
+            return RunAndGun();
         }
 
         if (aidLocked)
         {
-            SaveFriendly();
-            return;
+            return SaveFriendly();
         }
        // Debug.Log(targetLocked + " " + aidLocked);
         if (!targetLocked && !aidLocked)
@@ -99,11 +98,11 @@ public class Support : Enemy {
             if (currentTarget != null)
             {
                 targetLocked = true;
-                if (CheckHeal())
-                    return;
+                if (CheckHeal() && HealSelf())
+                    return true;
                 else if (TryStrongestAndBackup())
                 {
-                    return;
+                    return true;
                 }
                 /*else if (AttemptAttack())
                 {
@@ -111,8 +110,7 @@ public class Support : Enemy {
                 }*/
                 else
                 {
-                    FindShweetSpot(this,currentTarget,mostDistance,map);
-                    return;
+                    return FindShweetSpot(this,currentTarget,mostDistance,map);
                 }
             }
             aiding = CheckSupport();
@@ -120,12 +118,12 @@ public class Support : Enemy {
             {
                 currentTarget = aggro;
                 targetLocked = true;
-                RunAndGun();
+                return RunAndGun();
             }
             else
             {
                 aiding.aided = true;
-                SaveFriendly();
+                return SaveFriendly();
             }
                 
         }
@@ -134,11 +132,27 @@ public class Support : Enemy {
             targetLocked = false;
             //EnemyController.ExhaustMoves(SM); //probably caused crash
             Debug.Log("Probably the trap");
+            return false;
         }
         
     }
 
-    public void ResetValues()
+    protected bool HealSelf()
+    {
+        if (heal.CanUseSkill(gameObject))
+            return heal.UseSkill(gameObject);
+        else if (GetHealItem())
+        {
+            if (healItem.CanUseItem(gameObject,gameObject))
+                return healItem.UseItem(gameObject, gameObject);
+            else
+                return false;
+        }
+        else
+            return false;
+        }
+
+        public void ResetValues()
     {
         if(aiding != null)
             aiding.aided = false;
@@ -155,28 +169,26 @@ public class Support : Enemy {
         return null;
     }
 
-    protected void SaveFriendly()
+    protected bool SaveFriendly()
     {
         Debug.Log("Saving " + aiding);
-        if (!aidLocked || !currentTarget.isDead() && !currentTarget.isIncapacitated())
-        {
-            aiding.UpdateNearest();
-            currentTarget = aiding.getNearest();
-            aidLocked = true;
-        }
+        aiding.UpdateNearest();
+        currentTarget = aiding.getNearest();
+        aidLocked = true;
         if (TryStrongestAndBackup())
         {
-            return;
+            return true;
         }
         else
         {
-            RunAndGun();
+            return RunAndGun();
         }
             
     }
 
     protected bool TryStrongestAndBackup()
     {
+        Debug.Log(currentTarget + " " + strongest);
         if (Enemy.AttemptAbility(strongest,currentTarget))
         {
             return true;
@@ -189,42 +201,48 @@ public class Support : Enemy {
             return false;
     }
 
-    protected void RunAndGun() //Default Tactic of Support if no teammate needs help
+    protected bool RunAndGun() //Default Tactic of Support if no teammate needs help
     {
         if (getMoves() == 0)
-            return;
+            return false;
         Debug.Log(this + " is Running and Gunning "+ getMoves());
         if (!mostDistance.SkillInRange(gameObject,currentTarget.gameObject) /*|| distanceFromAggro - mostDistance.range_max > 5 && mostDistance.CanUseSkill(currentTarget.gameObject)*/)
         {
             Debug.Log("Finding Shweet Shpot");
-            Debug.Log(map);
-            FindShweetSpot(this,currentTarget,mostDistance,map); // get closer so attack is possible, or further to stay away from enemies
-            return;
+            //Debug.Log(map);
+            return FindShweetSpot(this,currentTarget,mostDistance,map); // get closer so attack is possible, or further to stay away from enemies
         }    
         else if (mostDistance.CanUseSkill(currentTarget.gameObject))
         {
-            mostDistance.UseSkill(currentTarget.gameObject);
-            return;
+            return mostDistance.UseSkill(currentTarget.gameObject);
         }
         else if (mostDistance.manaCost > getManaCurrent())
         {
+            if (IsBoss())
+            {
+                Debug.Log(this + "low on mana, ending turn");
+                setNumOfActions(0);
+                return false;
+            }
             Debug.Log("Mana Low. Switching to Arrow Mode");
             arrowMode = true;
             Ability temp = mostDistance;
             mostDistance = arrow;
             arrow = temp;
             //regularMode = true;
-            EnemyActions();
-            return;
+            return false;
         }
         else
         {
             Debug.LogError(getMoves());
-            TurnBehaviour.EnemyTurnFinished();
+            return false;
+            //TurnBehaviour.EnemyTurnFinished();
         }
     }
     public static bool FindShweetSpot(Enemy self,Actor currentTarget, Ability mostDistance, TileMap map )
     {
+        if (self.getMoves() == 0)
+            return false;
         Vector3 position = (self.getCoords()-currentTarget.getCoords()).normalized;
         float xDistance = position.x;
         float zDistance = position.z;
@@ -253,7 +271,7 @@ public class Support : Enemy {
         }
         Debug.Log(position);
         Vector3 movingTo = SetPosition(self,position, map); //just in case tile is occupied
-        Debug.Log("Attempting to move " + self + " from " + self.getCoords() + " to " + movingTo);
+        Debug.Log("Attempting to move " + self + " from " + self.getCoords() + " to " + movingTo + " with " +self.getMoves()+ " actions");
         map.moveActorAsync(self.gameObject, movingTo);
         //self.setNumOfActions(1);
         return true;

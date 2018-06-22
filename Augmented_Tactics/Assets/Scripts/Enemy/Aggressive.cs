@@ -50,46 +50,40 @@ public class Aggressive : Enemy {
         getRange = false;
         inRange = false;
     }
-    public override void EnemyActions()
+    public override bool EnemyActions()
     {
         if (getMoves() == 0)
-            return;
+            return false;
         if (regularMode && CheckManaReplenish())
             regularMode = false;
         if (regularMode)
         {
-            base.EnemyActions();
-            return;
+            return base.EnemyActions();
         }
-        if (getMoves() == 0)
-            return;
         if (getRange)
         {
-            Support.FindShweetSpot(this, aggro, strongest, map);
-            return;
+            return Support.FindShweetSpot(this, aggro, strongest, map);
         }
         if (inRange)
         {
             if (AttemptAbility(strongest, aggro))
-                return;
+                return true;
             else if (AttemptAbility(backup, aggro))
-                return;
+                return true;
             else
             {
                 Debug.LogError("Issue With Algorithm. Attack Should Not Fail");
-                return;
+                return false;
             }
                 
         }
         if (EnemyController.aggroAggressive)
         {
-            EmployStrategy(aggro);
-            return;
+            return EmployStrategy(aggro);
         }
         else
         {
-            EmployStrategy(nearest);
-            return;
+            return EmployStrategy(nearest);
         }
     }
 
@@ -101,16 +95,16 @@ public class Aggressive : Enemy {
             return false;
     }
 
-    private void EmployStrategy(Actor aggro)
+    private bool EmployStrategy(Actor aggro)
     {
         if (strongest.CanUseSkill(aggro.gameObject) && getMoves() > 1)
         {
-            if (AttemptAbility(buff, aggro))
-                return;
+            if (AttemptAbility(buff, this))
+                return true;
         }
         if (AttemptAbility(strongest, aggro))
         {
-            return;
+            return true;
         }
         else if (strongest.manaCost > getManaCurrent())
         {
@@ -118,25 +112,19 @@ public class Aggressive : Enemy {
             //if: use
             //else: revert to basic
             regularMode = true;
-            return;
+            return false;
         }
         else
         {
-            if (strongest.range_max > 2) //don't want to be in range of direct attack
-            {
                 if (strongest.range_max < Vector3.Distance(getCoords(), aggro.getCoords()) - moveDistance)
                 {
-                    Support.FindShweetSpot(this, aggro, strongest, map);
-                    getRange = true;
-                    return;
+                    inRange = false;
+                    return Support.FindShweetSpot(this, aggro, strongest, map);
                 }
                 else //You're now in range. R.I.P.
                 {
-                    Support.FindShweetSpot(this, aggro, strongest, map);
-                    inRange = true;
-                    return;
+                    return inRange = Support.FindShweetSpot(this, aggro, strongest, map);   
                 }
-            }
         }
     }
 

@@ -7,7 +7,7 @@ public class PoisonArrow : Ability
 
     private string animTrigger = "Arrow";
     private GameObject effect1 = Resources.Load<GameObject>("Effects/CollisionEffects/Effect12_Explosion"), effect2 = Resources.Load<GameObject>("Effects/ArrowShot");
-
+     
     public PoisonArrow(GameObject obj)
     {
         Initialize(obj);
@@ -34,11 +34,10 @@ public class PoisonArrow : Ability
             else
                 Debug.Log("effect2 null");
             anim.SetTrigger(animTrigger);
-            anim.SetInteger("Weapon", 7);
             gameObject.GetComponent<Actor>().PlaySound("attack");
         }
         DwellTime.Attack(dwell_time);
-        targeta.TakeDamage(damage, target);
+        targeta.TakeDamage(CalcPhysicalDamage(damage, target), gameObject);
         if (Ability.DiceRoll(actor.getDexterity(), targeta.getDexterity()))
         {
             if(StatusEffectsController.AddEffect(new Poisoned(actor.getDexterity() / 4, actor, targeta, target.tag == "Enemy")))
@@ -62,7 +61,7 @@ public class PoisonArrow : Ability
         damage = 10f + actor.getDexterity() * 1.5f;
         dwell_time = 3f;
         abilityName = "Poison Arrow";
-        abilityImage = Resources.Load<Sprite>("UI/Ability/archer/archerSkill2");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/green/green_01");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
     }

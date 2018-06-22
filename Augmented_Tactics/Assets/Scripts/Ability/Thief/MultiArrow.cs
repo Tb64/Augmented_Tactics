@@ -24,10 +24,11 @@ public class MultiArrow : Ability {
             {
                 Debug.Log(attacker + "Bulls Eyed " + target);
                 if (effect1 != null)
-                    GameObject.Instantiate<GameObject>(effect1, gameObject.transform);
-                else
-                    Debug.Log("effect1 null");
-                target.GetComponent<Actor>().TakeDamage(damage, target);
+                {
+                    Projectile(effect1, target);
+                }
+                Debug.Log("effect1 null");
+                target.GetComponent<Actor>().TakeDamage(CalcPhysicalDamage(damage, target), gameObject);
             }
         }
         DwellTime.Attack(dwell_time);
@@ -44,7 +45,7 @@ public class MultiArrow : Ability {
         range_min = 0;
         damage = 10f + obj.GetComponent<Actor>().getDexterity();
         abilityName = "Multi Arrow";
-        abilityImage = Resources.Load<Sprite>("UI/Ability/assassin/archerSkill9");
+        abilityImage = Resources.Load<Sprite>("UI/Skill_Icon_Pack/green/green_05");
         if (abilityImage == null)
             Debug.Log("Unable to load image");
     }

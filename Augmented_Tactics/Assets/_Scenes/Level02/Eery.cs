@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class Eery : Support {
 
-    private Ability sneak, steal;
-    private bool sneakCoolDown;
-    private int sneakCountDown;
-  
+    public Ability sneak, steal;
+    public bool sneakCoolDown;
+    public int sneakCountDown;
+
+    public override void Start()
+    {
+        //gameObject.GetComponent<Boss>().script = this;
+    }
+
     public override void EnemyInitialize()
     {
         boss = true;
@@ -22,10 +27,11 @@ public class Eery : Support {
         hasHeal = false;
         sneakCoolDown = false;
         expGiven = 1000;
-        strongest = SkillLoader.LoadSkill("vortexarrow", gameObject);
-        mostDistance = backup = SkillLoader.LoadSkill("poisonarrow", gameObject);
-        sneak = SkillLoader.LoadSkill("sneak", gameObject);
-        steal = SkillLoader.LoadSkill("steal", gameObject);
+        abilitySet = new Ability[4];
+        strongest = abilitySet[0] = SkillLoader.LoadSkill("flamingarrow", gameObject);
+        mostDistance = backup = abilitySet[1]= SkillLoader.LoadSkill("poisonarrow", gameObject);
+        sneak = abilitySet[2] = SkillLoader.LoadSkill("sneak", gameObject);
+        steal = abilitySet[3] = SkillLoader.LoadSkill("steal", gameObject);
         name = "Lord Eery";
         setManaCurrent(30);
         setMaxMana(30);
@@ -42,17 +48,18 @@ public class Eery : Support {
         return true;
     }
 
-    public override void EnemyActions()
+    public override bool EnemyActions()
     {
         Debug.Log("Eery Moves: " + getMoves());
         if (getMoves() == 0)
-            return;
+            return false;
         if(getManaCurrent() <= 0)
         {
             setManaCurrent(30);
+            Debug.Log("Eery Recovering Mana Skipping Turn");
             setNumOfActions(0);
-            TurnBehaviour.EnemyTurnFinished();
-            return;
+            //TurnBehaviour.EnemyTurnFinished();
+            return false;
         }
 
         if (sneakCoolDown)
@@ -75,7 +82,7 @@ public class Eery : Support {
             return;
         }*/ //removed for pres
 
-        base.EnemyActions();
+       return base.EnemyActions();
     }
 
     public override void EnemyTurnStartActions()
