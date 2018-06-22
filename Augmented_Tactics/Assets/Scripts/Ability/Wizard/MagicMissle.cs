@@ -38,7 +38,8 @@ public class MagicMissle : Ability {
         }
         if (missleEffect != null)
             Projectile(missleEffect, target);
-
+        target.GetComponent<Actor>().TakeDamage(CalcMagicDamage(damage, target), gameObject);
+        
         DwellTime.Attack(dwell_time);
 
     }
