@@ -289,10 +289,21 @@ public class EnemyController : MonoBehaviour
         ExhaustMoves(SM);
     }
 
+    public static int GetAllMoves()
+    {
+        int total = 0;
+        foreach(Enemy enemy in enemyList)
+        {
+            total += enemy.getMoves();
+        }
+        return total;
+    }
+
     public void ExhaustMoves()
     {
         ExhaustMoves(SM);
     }
+
     public static void ExhaustMoves(StateMachine SM)
     {
         if (currentEnemy >= enemyNum || SM.checkTurn())
@@ -305,15 +316,13 @@ public class EnemyController : MonoBehaviour
             {
                 Debug.Log("Potential Failure here");
                 ExhaustMoves(SM);
-            }
-                
+            }    
         }
         else
         {
             Debug.Log(enemyList[currentEnemy] + "Ending Turn");
             NextEnemy();
-        }
-            
+        }    
     }
 
       /* private void EnemyUsedAction()
