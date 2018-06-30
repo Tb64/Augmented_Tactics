@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//old version dont use
 public class FireBall : Ability
 {
     GameObject fireBall = Resources.Load<GameObject>("animation/effect15");
