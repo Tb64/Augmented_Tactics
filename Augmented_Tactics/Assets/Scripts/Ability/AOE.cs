@@ -27,6 +27,7 @@ public class AOE : Ability
     /// This array contains all of the actors hit by the AOE. Held as Actor. If you need to check later to see if it's an enemy or player you can use the xx.gameObject.tag method to return the Actor's tag.
     /// </summary>
     protected Actor[] listOfActorsAffected;
+    public Actor[] GetAffectedActors() { return listOfActorsAffected; }
 
     /// <summary>
     /// This array contains all the tiles hit by the AOE. Held as ClickableTile.
@@ -155,4 +156,8 @@ public class AOE : Ability
         }
     }
     
+    //for enemy
+    public int GetAOESizeMin(){ return AOESizeMin; }
+    public int GetAOESizeMax() { return AOESizeMax; }
+
 }
