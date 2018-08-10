@@ -75,21 +75,13 @@ public class UIManager : MonoBehaviour {
         TurnBehaviour.OnPlayerBeginsAttack += disableActionsB;
         
         TurnBehaviour.OnPlayerAttack += enableActionsB; //this is when attack ends
-        TurnBehaviour.OnActorFinishedMove += enableActionsB;
+        TurnBehaviour.OnPlayerJustMoved += enableActionsB;
         TurnBehaviour.OnPlayerTurnStart += enableActionsB;
-        TurnBehaviour.OnNewSelectedUnit += enableActionsB;
-
-        //disables end turn when is enemy turn, attacking, moving, or using item
-        TurnBehaviour.OnPlayerTurnEnd += disableEndTurn;
-        TurnBehaviour.OnPlayerBeginsAttack += disableEndTurn;
-        TurnBehaviour.OnPlayerStartMove += disableEndTurn;
-
-        TurnBehaviour.OnPlayerTurnStart += enableEndturn;
-        TurnBehaviour.OnPlayerAttack += enableEndturn;
-        TurnBehaviour.OnPlayerJustMoved += enableEndturn;
-
+        //TurnBehaviour.OnNewSelectedUnit += enableActionsB; this will make it possible to select stuff while 
+        
+        TurnBehaviour.OnPlayerTurnEnd += hideUI;
+        TurnBehaviour.OnPlayerTurnStart += showUI;
         //displayers notificaions when the turns change
-        TurnBehaviour.OnPlayerTurnEnd += displayEnemyTurnNotice;
         TurnBehaviour.OnPlayerTurnStart += displayPlayerTurnNotice;
     }
 
@@ -102,18 +94,10 @@ public class UIManager : MonoBehaviour {
         TurnBehaviour.OnPlayerAttack -= enableActionsB;
         TurnBehaviour.OnActorFinishedMove -= enableActionsB;
         TurnBehaviour.OnPlayerTurnStart -= enableActionsB;
-        TurnBehaviour.OnNewSelectedUnit -= enableActionsB;
+        //TurnBehaviour.OnNewSelectedUnit -= enableActionsB;
 
-        TurnBehaviour.OnPlayerTurnEnd -= disableEndTurn;
-        TurnBehaviour.OnPlayerBeginsAttack -= disableEndTurn;
-        TurnBehaviour.OnPlayerStartMove -= disableEndTurn;
-
-        TurnBehaviour.OnPlayerTurnStart -= enableEndturn;
-        TurnBehaviour.OnPlayerAttack -= enableEndturn;
-        TurnBehaviour.OnPlayerJustMoved -= enableEndturn;
-
-
-        TurnBehaviour.OnPlayerTurnEnd -= displayEnemyTurnNotice;
+        TurnBehaviour.OnPlayerTurnEnd -= hideUI;
+        TurnBehaviour.OnPlayerTurnStart -= showUI;
         TurnBehaviour.OnPlayerTurnStart -= displayPlayerTurnNotice;
     }
 
@@ -132,8 +116,11 @@ public class UIManager : MonoBehaviour {
             move.GetComponent<Button>().interactable = false;
         if (skills != null)
             skills.GetComponent<Button>().interactable = false;*/
+
         if (blocker != null)
             blocker.SetActive(true);
+        //disables end turn when is enemy turn, attacking, moving, or using item
+        disableEndTurn();
     }
 
     /// <summary>
@@ -156,8 +143,10 @@ public class UIManager : MonoBehaviour {
             if (skills != null)
                 skills.GetComponent<Button>().interactable = true;
         }*/
+
         if (blocker != null)
             blocker.SetActive(false);
+        enableEndturn();
     }
 
     void disableEndTurn()
@@ -170,8 +159,16 @@ public class UIManager : MonoBehaviour {
         end.GetComponent<Button>().interactable = true;
     }
 
-    void displayEnemyTurnNotice()
+    void hideUI()
     {
+        if (anim != null)
+            anim.SetTrigger("MoveSelected");
+    }
+
+    void showUI()
+    {
+        if (anim != null)
+            anim.SetTrigger("AfterAction");
     }
 
     void displayPlayerTurnNotice()

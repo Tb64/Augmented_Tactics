@@ -15,6 +15,8 @@ public class Enemy : Actor
     protected Actor nearest, weakest, aggro;
     protected Vector3 playerPosition, enemyPosition;
     public float distanceToNearest;
+    public int inspectorLevel;
+    private bool levelSet;
     public Actor getNearest() { return nearest; }
     public void setNearest(Actor nearestPlayer) { nearest = nearestPlayer; }
     public Vector3 getPlayerPosition() { return playerPosition; }
@@ -55,6 +57,7 @@ public class Enemy : Actor
     public virtual void EnemyInitialize()
     {
         base.Init();
+       
         //Debug.LogError(archetype + " " + abilitySet[3]);
         expGiven = GetExpGiven();
         aggroScore = 0;
@@ -564,6 +567,14 @@ public class Enemy : Actor
 
     public Enemy LoadPlayer()
     {
+        if (inspectorLevel != 0)
+        {
+            levelSet = true;
+        }
+        else
+        {
+            levelSet = false;
+        }
         abilitySet = new Ability[4];
         for (int x = 0; x < 4; x++)
             abilitySet[x] = new BasicAttack(gameObject);
@@ -730,10 +741,12 @@ public class Enemy : Actor
 
     protected PlayerData SetDifficulty(PlayerData level,int playerLevel)
     {
-        for(int x = playerLevel-2; x > 0; x--)
+        for(int x = playerLevel; x > 0; x--)
         {
             PlayerData.LevelUp(level,true);
         }
+       // Debug.Log(level.getPlayerName() + " insstatiated at level " + level.Level);
+     //   Debug.Log("Level Should Be " + inspectorLevel);
         return level;
     }
 
@@ -742,7 +755,10 @@ public class Enemy : Actor
         archetype = "regular";
         PlayerData level = PlayerData.GenerateNewPlayer(CharacterClasses.BrawlerKey);
         Debug.Log("Player avg Lvl: " + EnemyController.playerLevel);
-        level = SetDifficulty(level, /*EnemyController.playerLevel*/3);
+        if (levelSet)
+            level = SetDifficulty(level, inspectorLevel);
+        else
+            level = SetDifficulty(level, EnemyController.playerLevel);
         LoadStatsFromData(level);
         //Debug.LogError("archetype set to " + archetype);
         abilitySet = new Ability[4];
@@ -874,8 +890,6 @@ public class Enemy : Actor
         return newEnemy;
     }
 
-
-
     protected static bool AttemptAbility(Ability strongest, Actor currentTarget)
     {
         /*if (strongest == null)
@@ -889,6 +903,72 @@ public class Enemy : Actor
         }
         else
             return false;
+    }
+
+    public bool UseAOE(AOE aoe, Vector3 target)
+    {
+        if (aoe.CanUseSkill(map.getTileAtCoord(target).gameObject))
+        {
+            return aoe.UseSkill(map.getTileAtCoord(target).gameObject);
+        }
+        else
+        {
+            Debug.LogError("All Checks Should Occur Before This Point. Attack Failed");
+            return false;
+        }
+    }
+
+    public Vector3 ShouldUseAOE(AOE aoe)
+    {
+        /*Concept: Check from min to max range for a cluster of more than one enemy to be affected by attack. Return false if that isn't the case */
+        Vector3[] directions = {getCoords() + new Vector3(aoe.range_min, 0, 0), getCoords() - new Vector3(aoe.range_min, 0, 0), getCoords() + new Vector3(0, 0, aoe.range_min), getCoords() - new Vector3(0, 0, aoe.range_min)};
+        //List<Actor> targets = new List<Actor>();
+        //bool selected = false;
+        for (int tile = (int)directions[0].x; tile < aoe.range_max+directions[0].x; tile++)
+        {
+            Vector3 current = getCoords() + new Vector3(tile, 0, 0);
+            aoe.AOERange(current);
+            Actor[] targets = aoe.GetAffectedActors();
+            if (targets.Length > 1)
+            {
+                return current;
+            }
+        }
+
+        for (int tile = (int)directions[1].x; tile > aoe.range_max-directions[1].x; tile--)
+        {
+            Vector3 current = getCoords() - new Vector3(tile, 0, 0);
+            aoe.AOERange(current);
+            Actor[] targets = aoe.GetAffectedActors();
+            if (targets.Length > 1)
+            {
+                return current;
+            }
+        }
+
+        for (int tile = (int)directions[2].z; tile < aoe.range_max+directions[2].z; tile++)
+        {
+            Vector3 current = getCoords() + new Vector3(0, 0, tile);
+            aoe.AOERange(current);
+            Actor[] targets = aoe.GetAffectedActors();
+            if (targets.Length > 1)
+            {
+                return current;
+            }
+        }
+
+        for (int tile = (int)directions[3].z; tile < aoe.range_max - directions[3].z; tile--)
+        {
+            Vector3 current = getCoords() - new Vector3(0, 0, tile);
+            aoe.AOERange(current);
+            Actor[] targets = aoe.GetAffectedActors();
+            if (targets.Length > 1)
+            {
+                return current;
+            }
+        }
+
+        return new Vector3(-1,-1,-1);
     }
 
     public override void TakeDamage(float damage, GameObject attacker)
