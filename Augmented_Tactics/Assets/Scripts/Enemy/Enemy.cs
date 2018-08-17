@@ -970,6 +970,31 @@ public class Enemy : Actor
 
         return new Vector3(-1,-1,-1);
     }
+    
+    public bool CanUseAOE(AOE aoe)
+    {
+        /*use player as epicenter. for each of the directionals (up down left right 4 diagonals) count out min range
+        tiles away. For each tile until max range, use said tile as the center of a square that is max range * max range
+        stop searching and return true only if 2 or more players are found in one square*/
+        Vector3 coords = getCoords();
+        Vector3[] directionals = {(coords + new Vector3(-1,0,1)), (coords + new Vector3(0,0,1)), (coords + new Vector3(1,0,1)),
+        (coords + new Vector3(-1,0,0)),(coords + new Vector3(1,0,0)),(coords + new Vector3(-1,0,-1)), (coords + new Vector3(0,0,-1)),
+        (coords + new Vector3(1,0,-1))};
+        DirectionalCheck(aoe,directionals[0],-1,+1,'b');
+        DirectionalCheck(aoe,directionals[1],0,+1,'z');
+        DirectionalCheck(aoe,directionals[2],+1,+1,'b');
+        DirectionalCheck(aoe,directionals[3],-1,0,'x');
+        DirectionalCheck(aoe,directionals[4],+1,0,'x');
+        DirectionalCheck(aoe,directionals[5],-1,-1,'b');
+        DirectionalCheck(aoe,directionals[6],0,-1,'z');
+        DirectionalCheck(aoe,directionals[7],+1,-1,'b');
+    }
+
+    private bool DirectionalCheck(AOE aoe, Vector3 tile, int dir0,int dir1,char axis){
+    //(dir is +-1 to show which way to go. axis is x, z, or b for both
+        
+    
+    }
 
     public override void TakeDamage(float damage, GameObject attacker)
     {
