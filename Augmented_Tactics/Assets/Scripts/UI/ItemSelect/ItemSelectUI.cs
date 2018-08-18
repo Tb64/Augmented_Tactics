@@ -13,15 +13,20 @@ public class ItemSelectUI : MonoBehaviour
 
     public Image[] currentEquiped;
 
+    public Image markerInvetory;
+    public Image markerOnHand;
+
     public Sprite nullImage;
     public Sprite redButtonImage;
     public Sprite greenButtonImage;
 
     public PlayerData pdata;
+    private GameData gdata;
     private List<UsableItem> items;
     private int currentlySelected = -1;
-    private GameData gdata;
     private int onHandItemCount;
+    private Vector3 markerInvetoryStartingPosition;
+    private Vector3 markerOnHandStartingPosition;
 
     // Use this for initialization
     void Start()
@@ -30,12 +35,11 @@ public class ItemSelectUI : MonoBehaviour
         gdata = GameDataController.loadPlayerData();
         pdata = gdata.armyList[0];
         LoadInventory(pdata);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        markerInvetoryStartingPosition = markerInvetory.rectTransform.position;
+        markerOnHandStartingPosition = markerOnHand.rectTransform.position;
+        markerOnHand.gameObject.SetActive(false);
+        markerInvetory.gameObject.SetActive(false);
+        Move.interactable = false;
     }
 
     private void LoadInventory(PlayerData data)
@@ -44,7 +48,8 @@ public class ItemSelectUI : MonoBehaviour
         gdata = GameDataController.loadPlayerData();
         items = gdata.usableItems;
         inventory.UpdateInventory(items);
-        
+
+
         if (data.Item1 != "") currentEquiped[onHandItemCount++].sprite = Resources.Load<Sprite>(data.Item1);
         if (data.Item2 != "") currentEquiped[onHandItemCount++].sprite = Resources.Load<Sprite>(data.Item2);
         if (data.Item3 != "") currentEquiped[onHandItemCount++].sprite = Resources.Load<Sprite>(data.Item3);
@@ -61,6 +66,7 @@ public class ItemSelectUI : MonoBehaviour
         //if the current selected is >=25 then show the red unequip button, unless the string is empty
         currentlySelected = input;
         Move.interactable = true;
+        SetCurrentSkillSelected(input);
 
         if (currentlySelected < 25)
         {
@@ -145,15 +151,34 @@ public class ItemSelectUI : MonoBehaviour
                 pdata.Item4 = "";
             }
         }
-        GameDataController.savePlayerData(gdata);
-        /*if(gdata.)
-        data.Item1 = items[currentlySelected].itemKey;*/
+
+        InventoryReset();
+    }
+
+    public void SetCurrentSkillSelected(int input)
+    {
+        if (input < 25)
+        {
+            markerOnHand.gameObject.SetActive(false);
+            markerInvetory.gameObject.SetActive(true);
+            markerInvetory.rectTransform.position = markerInvetoryStartingPosition + new Vector3( ((input % 5 -2) * 110f), ((input / 5 - 2) * 110f), 0f);
+        }
+        else
+        {
+            markerOnHand.gameObject.SetActive(true);
+            markerInvetory.gameObject.SetActive(false);
+            markerOnHand.rectTransform.position = markerOnHandStartingPosition + new Vector3(((input % 25) * 110f), 0f, 0f);
+        }
+        
     }
 
     private void InventoryReset()
     {
         inventory.ResetUI();
+    }    
+
+    public void SaveData()
+    {        
+        GameDataController.savePlayerData(gdata);
     }
-
-
 }
