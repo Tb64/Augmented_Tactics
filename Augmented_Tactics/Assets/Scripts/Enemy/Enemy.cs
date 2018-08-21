@@ -990,9 +990,10 @@ public class Enemy : Actor
         DirectionalCheck(aoe,directionals[7],+1,-1,'b');
     }
 
-    private bool DirectionalCheck(AOE aoe, Vector3 tile, int dir0,int dir1,char axis){
-    //(dir is +-1 to show which way to go. axis is x, z, or b for both
-        
+    private int DirectionalCheck(AOE aoe, Vector3 tile, int dir0,int dir1,char axis){
+        //(dir is +-1 to show positive or negative direction-. axis is x, z, or b for both
+        int found = 0;
+        return found;
     
     }
 
