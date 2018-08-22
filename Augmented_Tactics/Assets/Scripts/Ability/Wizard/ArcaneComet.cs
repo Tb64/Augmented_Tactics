@@ -41,15 +41,20 @@ public class ArcaneComet : AOE {
             //gameObject.GetComponent<Actor>().PlaySound("attack");
         }
 
+        //check if clicked on tile. If not then it was clicked on an actor and need to get it's coords
         if (cometEffect != null)
-            worldEffect = GameObject.Instantiate(cometEffect, target.GetComponent<ClickableTile>().getCoords()
-            + new Vector3(0, .5f, 0), Quaternion.identity);
+            if (target.GetComponent<ClickableTile>() != null)        
+                worldEffect = GameObject.Instantiate(cometEffect, target.GetComponent<ClickableTile>().getCoords()
+                + new Vector3(0, .5f, 0), Quaternion.identity);
+            else
+                worldEffect = GameObject.Instantiate(cometEffect, target.GetComponent<Actor>().getCoords()
+                + new Vector3(0, .5f, 0), Quaternion.identity);
 
         DwellTime.Attack(dwell_time);
         for (int i = 0; i < listIterActor; i++)
         {
             if (listOfActorsAffected[i] != null)
-                listOfActorsAffected[i].TakeDamage(damage, gameObject);
+                listOfActorsAffected[i].TakeDamage(CalcMagicDamage(damage, target), gameObject);
         }
 
     }

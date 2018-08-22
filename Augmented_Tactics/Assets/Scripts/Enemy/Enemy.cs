@@ -890,8 +890,6 @@ public class Enemy : Actor
         return newEnemy;
     }
 
-
-
     protected static bool AttemptAbility(Ability strongest, Actor currentTarget)
     {
         /*if (strongest == null)
@@ -905,6 +903,72 @@ public class Enemy : Actor
         }
         else
             return false;
+    }
+
+    public bool UseAOE(AOE aoe, Vector3 target)
+    {
+        if (aoe.CanUseSkill(map.getTileAtCoord(target).gameObject))
+        {
+            return aoe.UseSkill(map.getTileAtCoord(target).gameObject);
+        }
+        else
+        {
+            Debug.LogError("All Checks Should Occur Before This Point. Attack Failed");
+            return false;
+        }
+    }
+
+    public Vector3 ShouldUseAOE(AOE aoe)
+    {
+        /*Concept: Check from min to max range for a cluster of more than one enemy to be affected by attack. Return false if that isn't the case */
+        Vector3[] directions = {getCoords() + new Vector3(aoe.range_min, 0, 0), getCoords() - new Vector3(aoe.range_min, 0, 0), getCoords() + new Vector3(0, 0, aoe.range_min), getCoords() - new Vector3(0, 0, aoe.range_min)};
+        //List<Actor> targets = new List<Actor>();
+        //bool selected = false;
+        for (int tile = (int)directions[0].x; tile < aoe.range_max+directions[0].x; tile++)
+        {
+            Vector3 current = getCoords() + new Vector3(tile, 0, 0);
+            aoe.AOERange(current);
+            Actor[] targets = aoe.GetAffectedActors();
+            if (targets.Length > 1)
+            {
+                return current;
+            }
+        }
+
+        for (int tile = (int)directions[1].x; tile > aoe.range_max-directions[1].x; tile--)
+        {
+            Vector3 current = getCoords() - new Vector3(tile, 0, 0);
+            aoe.AOERange(current);
+            Actor[] targets = aoe.GetAffectedActors();
+            if (targets.Length > 1)
+            {
+                return current;
+            }
+        }
+
+        for (int tile = (int)directions[2].z; tile < aoe.range_max+directions[2].z; tile++)
+        {
+            Vector3 current = getCoords() + new Vector3(0, 0, tile);
+            aoe.AOERange(current);
+            Actor[] targets = aoe.GetAffectedActors();
+            if (targets.Length > 1)
+            {
+                return current;
+            }
+        }
+
+        for (int tile = (int)directions[3].z; tile < aoe.range_max - directions[3].z; tile--)
+        {
+            Vector3 current = getCoords() - new Vector3(0, 0, tile);
+            aoe.AOERange(current);
+            Actor[] targets = aoe.GetAffectedActors();
+            if (targets.Length > 1)
+            {
+                return current;
+            }
+        }
+
+        return new Vector3(-1,-1,-1);
     }
 
     public override void TakeDamage(float damage, GameObject attacker)
