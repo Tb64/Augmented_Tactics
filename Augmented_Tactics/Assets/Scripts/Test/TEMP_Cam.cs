@@ -57,6 +57,11 @@ public class TEMP_Cam : MonoBehaviour
         CameraControls();
 
 #endif
+
+        if(Input.anyKeyDown == false || Input.touchCount == 0)
+        {
+            body.velocity = body.velocity * 0f;
+        }
     }
 
     void CameraControls()
