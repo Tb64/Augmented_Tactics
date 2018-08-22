@@ -15,6 +15,8 @@ public class Enemy : Actor
     protected Actor nearest, weakest, aggro;
     protected Vector3 playerPosition, enemyPosition;
     public float distanceToNearest;
+    public int inspectorLevel;
+    private bool levelSet;
     public Actor getNearest() { return nearest; }
     public void setNearest(Actor nearestPlayer) { nearest = nearestPlayer; }
     public Vector3 getPlayerPosition() { return playerPosition; }
@@ -55,6 +57,7 @@ public class Enemy : Actor
     public virtual void EnemyInitialize()
     {
         base.Init();
+       
         //Debug.LogError(archetype + " " + abilitySet[3]);
         expGiven = GetExpGiven();
         aggroScore = 0;
@@ -564,6 +567,14 @@ public class Enemy : Actor
 
     public Enemy LoadPlayer()
     {
+        if (inspectorLevel != 0)
+        {
+            levelSet = true;
+        }
+        else
+        {
+            levelSet = false;
+        }
         abilitySet = new Ability[4];
         for (int x = 0; x < 4; x++)
             abilitySet[x] = new BasicAttack(gameObject);
@@ -730,10 +741,12 @@ public class Enemy : Actor
 
     protected PlayerData SetDifficulty(PlayerData level,int playerLevel)
     {
-        for(int x = playerLevel-2; x > 0; x--)
+        for(int x = playerLevel; x > 0; x--)
         {
             PlayerData.LevelUp(level,true);
         }
+       // Debug.Log(level.getPlayerName() + " insstatiated at level " + level.Level);
+     //   Debug.Log("Level Should Be " + inspectorLevel);
         return level;
     }
 
@@ -742,7 +755,10 @@ public class Enemy : Actor
         archetype = "regular";
         PlayerData level = PlayerData.GenerateNewPlayer(CharacterClasses.BrawlerKey);
         Debug.Log("Player avg Lvl: " + EnemyController.playerLevel);
-        level = SetDifficulty(level, /*EnemyController.playerLevel*/3);
+        if (levelSet)
+            level = SetDifficulty(level, inspectorLevel);
+        else
+            level = SetDifficulty(level, EnemyController.playerLevel);
         LoadStatsFromData(level);
         //Debug.LogError("archetype set to " + archetype);
         abilitySet = new Ability[4];
@@ -878,10 +894,10 @@ public class Enemy : Actor
 
     protected static bool AttemptAbility(Ability strongest, Actor currentTarget)
     {
-        if (strongest == null)
+        /*if (strongest == null)
             return false;
         if (currentTarget == null)
-            return false;
+            return false;*/
         if (strongest.CanUseSkill(currentTarget.gameObject))
         {
             strongest.UseSkill(currentTarget.gameObject);
