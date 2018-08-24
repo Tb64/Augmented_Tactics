@@ -503,7 +503,7 @@ public class Enemy : Actor
         {
             // Debug.Log(abilitySet[ability].SkillInRange(getCoords(), currentTarget.getCoords()));
             //Debug.Log(ability);
-            Debug.Log(abilitySet[ability]);
+           // Debug.Log(abilitySet[ability]);
             if (abilitySet[ability].canHeal && CheckHeal() && abilitySet[ability].CanUseSkill(gameObject))
             {
                 abilitySet[ability].UseSkill(gameObject);
@@ -511,11 +511,20 @@ public class Enemy : Actor
                 return true;
             }
 
-            if (!abilitySet[ability].canHeal && abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
+            if (!abilitySet[ability].canHeal && !abilitySet[ability].isAOEAttack() && abilitySet[ability].damage > bestAttack && abilitySet[ability].CanUseSkill(currentTarget.gameObject))
             {
                 bestAttack = (int)abilitySet[ability].damage;
                 choice = ability;
                 chosen = true;
+            }
+
+            if (abilitySet[ability].isAOEAttack())
+            {
+                Vector3 aoeTarget = TargetAOE((AOE)abilitySet[ability]);
+                if (aoeTarget != new Vector3(-1, -1, -1) && abilitySet[ability].CanUseSkill(map.getTileAtCoord(aoeTarget).gameObject))
+                {
+                    return UseAOE((AOE)abilitySet[ability], aoeTarget);
+                }
             }
         }
         
@@ -918,9 +927,10 @@ public class Enemy : Actor
         }
     }
 
-    public Vector3 ShouldUseAOE(AOE aoe)
+
+    /*public Vector3 TargeAOE(AOE aoe)
     {
-        /*Concept: Check from min to max range for a cluster of more than one enemy to be affected by attack. Return false if that isn't the case */
+        /*Concept: Check from min to max range for a cluster of more than one enemy to be affected by attack. Return false if that isn't the case 
         Vector3[] directions = {getCoords() + new Vector3(aoe.range_min, 0, 0), getCoords() - new Vector3(aoe.range_min, 0, 0), getCoords() + new Vector3(0, 0, aoe.range_min), getCoords() - new Vector3(0, 0, aoe.range_min)};
         //List<Actor> targets = new List<Actor>();
         //bool selected = false;
@@ -969,13 +979,76 @@ public class Enemy : Actor
         }
 
         return new Vector3(-1,-1,-1);
+    }*/
+    
+    public Vector3 TargetAOE(AOE aoe)
+    {
+        /*use player as epicenter. for each of the directionals (up down left right 4 diagonals) count out min range
+        tiles away. For each tile until max range, use said tile as the center of a square that is max range * max range
+        stop searching and return true only if 2 or more players are found in one square*/
+        Vector3 coords = getCoords();
+        Vector3[] directionals = {(coords + new Vector3(-aoe.range_min,0,aoe.range_min)), (coords + new Vector3(0,0,aoe.range_min)), (coords + new Vector3(aoe.range_min,0,aoe.range_min)),
+        (coords + new Vector3(-aoe.range_min,0,0)),(coords + new Vector3(aoe.range_min,0,0)),(coords + new Vector3(-aoe.range_min,0,-aoe.range_min)), (coords + new Vector3(0,0,-aoe.range_min)),
+        (coords + new Vector3(aoe.range_min,0,-aoe.range_min))};
+        Vector3 tempTarget = DirectionalCheck(aoe, directionals[0], -1, +1);
+        if (tempTarget != new Vector3(-1, -1, -1))
+            return tempTarget;
+        tempTarget = DirectionalCheck(aoe, directionals[1], 0, +1);
+        if (tempTarget != new Vector3(-1, -1, -1))
+            return tempTarget;
+        tempTarget = DirectionalCheck(aoe, directionals[2], +1, +1);
+        if (tempTarget != new Vector3(-1, -1, -1))
+            return tempTarget;
+        tempTarget = DirectionalCheck(aoe, directionals[3], -1, 0);
+        if (tempTarget != new Vector3(-1, -1, -1))
+            return tempTarget;
+        tempTarget = DirectionalCheck(aoe, directionals[4], +1, 0);
+        if (tempTarget != new Vector3(-1, -1, -1))
+            return tempTarget;
+        tempTarget = DirectionalCheck(aoe, directionals[5], -1, -1);
+        if (tempTarget != new Vector3(-1, -1, -1))
+            return tempTarget;
+        tempTarget = DirectionalCheck(aoe, directionals[6], 0, -1);
+        if (tempTarget != new Vector3(-1, -1, -1))
+            return tempTarget;
+        tempTarget = DirectionalCheck(aoe, directionals[7], +1, -1);
+        if (tempTarget != new Vector3(-1,-1,-1))
+            return tempTarget;
+        return tempTarget;
+    }
+
+    private Vector3 DirectionalCheck(AOE aoe, Vector3 tile, int dir0,int dir1){
+        //(dir is +-1 to show positive or negative direction-.   
+        for (int tiles = aoe.range_min; tiles < aoe.range_max; tiles++) 
+        {
+            // if(SquareSearch(tile,aoe)>1)
+            //   return true;
+
+            aoe.AOERange(tile);
+            Actor[] effected = aoe.GetAffectedActors();
+            if (effected.Length > 1)
+                return tile;
+            if (dir1 == 0 )
+            {//move along the x axis
+                tile += new Vector3(dir0, 0, 0);
+            }
+            else if(dir0 == 0)
+            {//search along the z axis
+                tile += new Vector3(0, 0, dir1);
+            }
+            else
+            {//both
+                tile += new Vector3(dir0, 0, dir1);
+            }
+        }
+        return new Vector3(-1,-1,-1);
     }
 
     public override void TakeDamage(float damage, GameObject attacker)
     {
         base.TakeDamage(damage, attacker);
         EnemyController.CheckTargeted(enemyID);
-        attacker.GetComponent<Actor>().aggroScore++; //updating for actual function based on action / damage
+        attacker.GetComponent<Actor>().aggroScore+=(int)damage;
     }
 
     public virtual bool CheckHeal()
